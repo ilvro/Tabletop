@@ -105,17 +105,11 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 ### 3.1. Pendências Imediatas (Fechamento e Consolidação do MVP)
 
 1. **Pacote de Transporte de Cenas e Assets:**
-   - *Planejado:* Exportação e importação de cenas completas acompanhadas de seus respectivos arquivos de assets (imagens e GLBs) em um arquivo empacotado ou manifesto de pasta.
-   - *Status atual:* O salvamento persiste apenas no disco local dentro da pasta `data/`. Para mover um projeto entre computadores, é necessário copiar manualmente o diretório de dados inteiro.
+   - *Planejado:* Exportação e importação de cenas completas acompanhadas de seus respectivos arquivos de assets (imagens e GLBs) em um arquivo empacotado (.zip ou manifesto).
+   - *Status atual:* O upload e ingestão individual de arquivos (imagens e GLBs) já funciona nativamente na aba Assets. O salvamento persiste no disco local dentro da pasta `data/`. O pacote de transporte visa apenas facilitar empacotar e desempacotar uma cena com seus assets em um arquivo único para migração entre máquinas diferentes sem copiar pastas manualmente.
 2. **Interface Gráfica para Gestão de Mapas (`MapDocument`):**
    - *Planejado:* Uma UI desacoplada para salvar apenas a geometria estrutural de um local (o "Mapa") e poder criar múltiplas "Cenas" a partir dele com diferentes iluminações, móveis e tokens.
    - *Status atual:* A API do backend já implementa o modelo de mapas, mas a interface do usuário está focada exclusivamente na manipulação de cenas completas.
-3. **Piloto Presencial e Validação com Usuário:**
-   - *Planejado:* Exercício cronometrado de criação de cenário a partir do vazio em até 10 minutos pelo mestre, avaliando agilidade de criação e facilidade de manipulação.
-   - *Status atual:* Os fluxos foram testados tecnicamente via Chromium e testes de integração, mas falta a sessão de validação prática no hardware real do usuário.
-4. **Benchmark de Desempenho com Áudio Concorrente:**
-   - *Planejado:* Medição de taxa de quadros (FPS), uso de CPU/GPU e consumo de memória em um notebook intermediário executando o Tabletop (duas janelas abertas) concomitantemente com o sistema de som (Jukebox) reproduzindo trilhas de fundo.
-   - *Status atual:* O ambiente foi testado com renderização de software (SwiftShader) em ambiente headless; falta o ensaio no dispositivo final.
 
 ---
 
@@ -201,9 +195,8 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 | **Histórico e Undo/Redo** | `ARCHITECTURE.md` §7 | **Concluído** | `src/state/scene-store.js` |
 | **Persistência, Conflito 409 e Backups** | `ARCHITECTURE.md` §9 | **Concluído** | `server/app.js`, `src/data/api.js` |
 | **Rascunho e Recuperação Local** | `ARCHITECTURE.md` §9 | **Concluído** (IndexedDB) | `src/data/drafts.js` |
-| **Pacote de Transporte de Arquivos** | `ROADMAP.md` §3.1 | **Pendente** | Previsto para fechamento do MVP |
+| **Pacote de Transporte de Arquivos** | `ROADMAP.md` §3.1 | **Opcional / Pendente** | Exportação empacotada de cena + assets em arquivo único |
 | **Interface Dedicada para Mapas** | `ARCHITECTURE.md` §6.3 | **Pendente** | Backend pronto, falta UI de gestão |
-| **Validação Presencial e Benchmark** | `ROADMAP.md` §3.3 | **Pendente** | Necessita teste em hardware real |
 | **Pisos Poligonais e Janelas** | `MAP_AUTHORING.md` §7.4 | **Pendente** | Previsto para V2 |
 | **Paredes Anguladas e Múltiplos Andares**| `MAP_AUTHORING.md` §8 | **Pendente** | Previsto para V2 |
 | **Auto-Decoration e Prefabs Avançados** | `MAP_AUTHORING.md` §10-12 | **Pendente** | Previsto para V2 |
@@ -220,7 +213,6 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 
 Para manter a ordem de implementação técnica eficiente e alinhada ao cronograma:
 
-1. **Completar o Transporte do MVP:** Desenvolver a funcionalidade de exportar/importar um arquivo contendo o documento da cena e todos os assets referenciados por ela, permitindo transportar a mesa entre dispositivos com segurança.
-2. **Interface para Biblioteca de Mapas:** Adicionar na barra lateral a alternância entre Cenas e Mapas base, viabilizando reaproveitar a mesma planta baixa para múltiplos momentos de jogo.
-3. **Sessão Prática de Validação (Playtest do Mestre):** Montar uma sala real utilizando o sistema atual no computador de mesa conectado a um projetor/segunda tela, avaliando o tempo de construção e a legibilidade à distância.
-4. **Entrada nas Estruturas de V2:** Iniciar a implementação das janelas com recorte paramétrico e dos múltiplos andares/plataformas.
+1. **Interface para Biblioteca de Mapas (`MapDocument`):** Adicionar na barra lateral a alternância entre Cenas e Mapas base, viabilizando reaproveitar a mesma planta baixa estrutural para múltiplos momentos e variações de jogo.
+2. **Pacote de Transporte (Opcional):** Se desejado, implementar exportação/importação em `.zip` de cena + assets para facilitar envio entre diferentes computadores sem cópia manual de pastas.
+3. **Entrada nas Estruturas de V2:** Iniciar a implementação das janelas com recorte paramétrico e dos múltiplos andares/plataformas.
