@@ -6,6 +6,10 @@
 
 ---
 
+**Usabilidade da construção:** controles agrupados por tarefa, blocos recolhíveis em ordem alfabética, pincéis no topo do inspetor, ajustes com opções e instruções por operação e fixação em grupo pelo menu de contexto, preservando Shift+seleção. [TESTAR_CONSTRUCAO.md](TESTAR_CONSTRUCAO.md) traz passos e resultados esperados para cada teste.
+
+**Refinamento do terreno:** atalho T, tamanho com [ / ], pincéis circular/quadrado, dureza e encaixe na malha, acabamento suave/facetado, edição de resolução com reamostragem e até oito camadas de cor pintáveis (pintar/apagar, recolorir, opacidade, visibilidade e ordem). Máscaras e alturas persistem e participam do histórico.
+
 **Atualização estrutural de V2:** terreno esculpido, pisos com furos, paredes de contorno compartilhadas, junções anguladas/T, andares/camadas, acessos associados e sockets de parede/teto estão implementados. Polish inclui materiais, orientação, passagem, decoração de canto e luzes. [STRUCTURAL_EVOLUTION.md](STRUCTURAL_EVOLUTION.md) documenta controles e limites.
 
 **Atualização da Fase 3:** construção com pisos poligonais/elevados, janelas posicionadas por clique e arraste com recorte sincronizado, escadas/rampas paramétricas, apoios explícitos em móveis, ocultação/bloqueio herdados de pastas, receitas de escritório/reunião/depósito, regeneração que preserva ajustes/exclusões e seleção múltipla com polish já estão implementados. [PHASE_3.md](PHASE_3.md) documenta uso, schema 2, validação e limites. O restante de V2 continua pendente; LAN e integrações não foram antecipadas.
@@ -106,13 +110,13 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Modal de recuperação no carregamento caso o navegador feche inesperadamente ou falhe a gravação no disco.
 
 ### 2.8. Testes Automatizados e Qualidade
-- **68 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição.
-- **Quatro testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxos da Fase 3 e da evolução estrutural pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor. Chromium headless com WebGL por software; não representa benchmark no notebook/projetor.
+- **80 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição.
+- **Cinco testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxos da Fase 3 e da evolução estrutural pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor. Chromium headless com WebGL por software; não representa benchmark no notebook/projetor.
 
 ---
 
 ### 2.9. Evolução Estrutural e Polish (`STRUCTURAL_EVOLUTION.md`)
-- **Terreno:** heightmap editável com pincéis de elevar/rebaixar/suavizar/nivelar, círculo de raio, ajuste numérico e apoios sincronizados aos triângulos da malha. Cada traço é uma operação cancelável de histórico.
+- **Terreno:** heightmap editável com pincéis de elevar/rebaixar/suavizar/nivelar, formato/dureza, camadas de cor, ajuste numérico e apoios sincronizados aos triângulos da malha. Cada traço é uma operação cancelável de histórico.
 - **Recortes e paredes:** furos físicos em pisos retangulares/poligonais; prévia de paredes de contorno com reutilização de segmentos colineares completos/parciais; junções anguladas por mitras limitadas e terminações em T.
 - **Andares e camadas:** nome/altura/visibilidade/bloqueio, adoção da construção existente, cópia de construção com novos IDs, movimento mundial sem deslocamento duplicado e isolamento temporário no editor. Escadas/rampas acompanham andares associados.
 - **Ancoragem estrutural:** props/luzes em sockets locais de paredes ou na face inferior de pisos superiores, com transporte/deleção dos dependentes e edição numérica.

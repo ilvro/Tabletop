@@ -1,3 +1,4 @@
+import { reveal } from './controls.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { access, mkdtemp, rm } from 'node:fs/promises';
@@ -51,7 +52,7 @@ test('rascunhos de duas abas sobrevivem a conflito/reload e copiar preserva ediÃ
   browser = await chromium.launch({ executablePath, headless: true, args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
   const context = await browser.newContext({ viewport: { width: 1600, height: 1000 } });
   const errors = [];
-  const action = (page, name) => page.locator(`[data-action="${name}"]`).first().click();
+  const action = async (page, name) => (await reveal(page.locator(`[data-action="${name}"]`).first())).click();
   const snapshot = (page) => page.evaluate(() => window.__tabletop.snapshot());
   const renameScene = async (page, name) => { await page.locator('#scene-name').fill(name); await page.locator('#scene-name').press('Tab'); };
   const createPage = async () => {

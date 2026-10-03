@@ -1,3 +1,4 @@
+import { reveal } from './controls.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, rm, mkdir, readFile } from 'node:fs/promises';
@@ -16,10 +17,10 @@ test('structural authoring: sculpt/cancel, holes, shared walls, levels, anchors,
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(`http://127.0.0.1:${server.address().port}/?diagnostics`); await page.waitForFunction(() => !!window.__tabletop);
   const snapshot = () => page.evaluate(() => window.__tabletop.snapshot());
-  const action = name => page.locator(`[data-action="${name}"]`).first().click();
+  const action = async name => (await reveal(page.locator(`[data-action="${name}"]`).first())).click();
   const tab = name => page.locator(`[data-tab="${name}"]`).click();
-  async function field(name, value) { const input = page.locator(`[data-field="${name}"]`); await input.fill(String(value)); await input.press('Tab'); }
-  async function select(key) { await tab('scene'); await page.locator(`[data-select="${key}"]`).click(); await tab('build'); }
+  async function field(name, value) { const input = page.locator(`[data-field="${name}"]`); await reveal(input); await input.fill(String(value)); await input.press('Tab'); }
+  async function select(key, additive = false) { await tab('scene'); await page.locator(`[data-select="${key}"]`).click({ modifiers: additive ? ['Shift'] : [] }); await tab('build'); }
   async function point(position) { const p = await page.evaluate(value => window.__tabletop.project(value), position); assert.ok(p.visible, `Visible world point ${position}`); return p; }
   async function click(position) { const p = await point(position); await page.mouse.click(p.x,p.y); }
   async function stroke(start, end, cancel = false) {
@@ -27,12 +28,20 @@ test('structural authoring: sculpt/cancel, holes, shared walls, levels, anchors,
     await page.mouse.move(a.x,a.y); await page.mouse.down(); await page.mouse.move(b.x,b.y, { steps: 8 });
     if (cancel) await page.keyboard.press('Escape'); await page.mouse.up();
   }
+  assert.equal(await page.locator('[data-build-section="terrain"]').getAttribute('open'), null);
+  await page.locator('[data-build-section="terrain"] > summary').click();
+  assert.ok(await page.locator('[data-action="terrain-add"]').isVisible());
   await field('terrain-new-width', 10); await field('terrain-new-length', 10); await field('terrain-new-segments', 16); await action('terrain-add'); await action('top');
   let doc = await snapshot(); const terrain = Object.values(doc.layout.entities).find(e => e.kind === 'terrain'); assert.ok(terrain);
+  assert.ok(await page.locator('[data-field="brush-mode"]').isVisible());
+  assert.equal(await page.locator('[data-field="brush-target"]').count(), 0);
+  await page.locator('[data-field="brush-mode"]').selectOption('flatten');
+  assert.ok(await page.locator('[data-field="brush-target"]').isVisible());
+  await page.locator('[data-field="brush-mode"]').selectOption('raise');
   const before = await snapshot(); await action('terrain-sculpt'); await stroke([-1,0,0],[1,0,0]);
   const sculpted = await snapshot(); assert.ok(sculpted.layout.entities[terrain.id].heights.some(h => h > 0));
   await action('undo'); assert.deepEqual(await snapshot(), before); await action('redo'); assert.deepEqual(await snapshot(), sculpted);
-  await action('terrain-sculpt'); await stroke([-1,0,2],[1,0,2],true); assert.deepEqual(await snapshot(), sculpted);
+  await action('terrain-stop'); await action('terrain-sculpt'); await stroke([-1,0,2],[1,0,2],true); assert.deepEqual(await snapshot(), sculpted);
   await field('terrain-cell', 144); await field('terrain-height', 2); assert.equal((await snapshot()).layout.entities[terrain.id].heights[144],2);
   // Creating the first level can adopt existing geometry at its reference height.
   await action('level-add'); doc = await snapshot(); const ground = Object.values(doc.layout.levels)[0]; assert.equal(doc.layout.entities[terrain.id].levelId, ground.id);
@@ -52,19 +61,32 @@ test('structural authoring: sculpt/cancel, holes, shared walls, levels, anchors,
   // A layer can be edited and made visible without changing audience.
   await action('layer-add'); doc = await snapshot(); const layer = Object.values(doc.layout.layers)[0]; await field(`layer-name-${layer.id}`,'Decoração');
   // Material proposals remain transient and preserve geometry when accepted.
-  await select(upperFloor.id); await page.locator('[data-field="polish-mode"]').selectOption('material'); await page.locator('[data-field="polish-palette"]').selectOption('worn');
+  await select(upperFloor.id); await (await reveal(page.locator('[data-field="polish-mode"]'))).selectOption('material'); await (await reveal(page.locator('[data-field="polish-palette"]'))).selectOption('worn');
   const beforeMaterial = await snapshot(); await action('polish-preview'); await action('cancel-proposal'); assert.deepEqual(await snapshot(),beforeMaterial);
   await action('polish-preview'); await action('accept-proposal'); assert.deepEqual((await snapshot()).layout.entities[upperFloor.id].holes, upperFloor.holes);
   await action('undo'); assert.deepEqual(await snapshot(),beforeMaterial); await action('redo');
   // Auto-associated access reaches the upper floor even with a selected lower support.
-  await page.locator('[data-field="active-level"]').selectOption(ground.id); await page.locator('[data-field="active-surface"]').selectOption(floor.id);
+  await (await reveal(page.locator('[data-field="active-level"]'))).selectOption(ground.id); await (await reveal(page.locator('[data-field="active-surface"]'))).selectOption(floor.id);
   await select(floor.id); await action('top'); await action('frame'); await action('stairs-place'); await click([2,0,0]);
   doc = await snapshot(); const stairs = Object.values(doc.layout.entities).find(e => e.kind === 'stairs'); assert.equal(stairs.fromLevelId,ground.id); assert.equal(stairs.toLevelId,upper.id); assert.equal(stairs.height,4);
   await field(`level-elevation-${upper.id}`,5); assert.equal((await snapshot()).layout.entities[stairs.id].height,5);
   // Place a real catalog prop and bind it to a wall socket.
   await tab('assets'); await page.locator('[data-asset="builtin-lamp"]').click(); await action('top'); await click([2,0,1]);
   doc = await snapshot(); const lamp = Object.values(doc.layout.entities).find(e => e.kind === 'prop'); assert.ok(lamp);
-  await page.locator('[data-field="object-anchor"]').selectOption(`wall:${wall.id}`); assert.equal((await snapshot()).layout.entities[lamp.id].anchor.hostId,wall.id);
+  // Right click preserves Shift selection and offers the expected attachment workflow.
+  await tab('build'); await action('light-place'); await click([2,0,-1]);
+  const pointLight = Object.values((await snapshot()).look.lights).find(e => e.type === 'point'); assert.ok(pointLight);
+  await select(lamp.id); await select(pointLight.id, true); await select(wall.id, true);
+  await tab('scene'); await page.locator(`[data-select="${wall.id}"]`).click({ button: 'right' });
+  assert.equal(await page.locator('.tree-entry.selected').count(), 3);
+  await page.getByRole('button', { name: 'Fixar / ancorar…', exact: true }).click();
+  assert.equal(await page.locator('[data-field="anchor-host"]').inputValue(), wall.id);
+  const beforeAnchoring = await snapshot(); await action('anchor-preview'); await action('cancel-proposal'); assert.deepEqual(await snapshot(), beforeAnchoring);
+  await action('anchor-preview'); await action('accept-proposal');
+  doc = await snapshot(); assert.equal(doc.layout.entities[lamp.id].anchor.hostId, wall.id); assert.equal(doc.look.lights[pointLight.id].anchor.hostId, wall.id);
+  await action('undo'); assert.deepEqual(await snapshot(), beforeAnchoring); await action('redo');
+  await select(lamp.id);
+  await (await reveal(page.locator('[data-field="object-anchor"]'))).selectOption(`wall:${wall.id}`); assert.equal((await snapshot()).layout.entities[lamp.id].anchor.hostId,wall.id);
   await field('anchor-1',2); assert.equal((await snapshot()).layout.entities[lamp.id].anchor.offset[1],2);
   await select(wall.id); await field('position-0', wall.transform.position[0] + 1); assert.ok((await snapshot()).layout.entities[lamp.id].transform.position[0] !== doc.layout.entities[lamp.id].transform.position[0]);
   await page.locator('#scene-name').fill('Evolução estrutural'); await page.locator('#scene-name').press('Tab'); await action('save'); await page.waitForFunction(() => window.__tabletop.snapshot().revision === 1);

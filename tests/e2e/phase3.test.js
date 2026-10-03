@@ -1,3 +1,4 @@
+import { reveal } from './controls.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { access, mkdtemp, mkdir, rm, readFile } from 'node:fs/promises';
@@ -22,9 +23,9 @@ test('fase 3: estruturas, regeneração preservada, seleção múltipla, polish 
     await page.goto(`${origin}/?diagnostics`); await page.waitForFunction(() => !!window.__tabletop);
   }
   const snapshot = () => page.evaluate(() => window.__tabletop.snapshot());
-  const action = name => page.locator(`[data-action="${name}"]`).first().click();
+  const action = async name => (await reveal(page.locator(`[data-action="${name}"]`).first())).click();
   const tab = name => page.locator(`[data-tab="${name}"]`).click();
-  async function field(name, value) { const node = page.locator(`[data-field="${name}"]`); await node.fill(String(value)); await node.press('Tab'); }
+  async function field(name, value) { const node = page.locator(`[data-field="${name}"]`); await reveal(node); await node.fill(String(value)); await node.press('Tab'); }
   async function select(key, additive = false) { await tab('scene'); await page.locator(`[data-select="${key}"]`).click({ modifiers: additive ? ['Shift'] : [] }); }
   async function clickWorld(position) {
     const p = await page.evaluate(value => window.__tabletop.project(value), position); assert.ok(p.visible, `Point ${position} must be visible`);
@@ -33,7 +34,7 @@ test('fase 3: estruturas, regeneração preservada, seleção múltipla, polish 
   await open(); await field('room-width', 8); await field('room-length', 7);
   await page.locator('#quick-form [type="submit"]').click(); await action('accept-proposal');
   let doc = await snapshot(); const floor = Object.values(doc.layout.entities).find(e => e.kind === 'floor');
-  await page.locator('[data-field="smart-template"]').selectOption('meeting');
+  await (await reveal(page.locator('[data-field="smart-template"]'))).selectOption('meeting');
   await action('smart-preview');
   assert.equal(Object.keys((await snapshot()).layout.compositions).length, 0, 'preview is read-only');
   await action('accept-proposal');
@@ -45,7 +46,7 @@ test('fase 3: estruturas, regeneração preservada, seleção múltipla, polish 
   await tab('build'); await field('smart-seed', 42); await action('smart-preview');
   await action('accept-proposal');
   doc = await snapshot(); assert.deepEqual(doc.layout.entities[chairId], manual); assert.equal(doc.layout.entities[deletedId], undefined);
-  await page.locator('[data-field="smart-restoreDeleted"]').check(); await action('smart-preview'); await action('accept-proposal');
+  await (await reveal(page.locator('[data-field="smart-restoreDeleted"]'))).check(); await action('smart-preview'); await action('accept-proposal');
   assert.ok((await snapshot()).layout.entities[deletedId]);
   // The hosted window remains independently editable in the wall.
   const wall = Object.values(doc.layout.entities).find(e => e.kind === 'wall' && e.name === 'Parede sul');
@@ -61,14 +62,14 @@ test('fase 3: estruturas, regeneração preservada, seleção múltipla, polish 
   assert.ok(Math.abs(movedWindow.offset - window.offset - .7) < .04); assert.ok(Math.abs(movedWindow.sill - window.sill - .3) < .04);
   await action('undo'); assert.deepEqual((await snapshot()).layout.entities[window.id], window);
   await action('redo'); assert.deepEqual((await snapshot()).layout.entities[window.id], movedWindow);
-  await page.locator('[data-field="style"]').selectOption('bars'); await field('sill', 1.1);
+  await (await reveal(page.locator('[data-field="style"]'))).selectOption('bars'); await field('sill', 1.1);
   assert.equal((await snapshot()).layout.entities[window.id].style, 'bars');
   // Shift selection feeds a preview, whose cancellation cannot change positions.
   const ids = ['table.chair.1','table.chair.2','table.chair.3'].map(key => recipe.slots[key].id);
   await select(ids[0]); await select(ids[1], true); await select(ids[2], true);
   assert.equal(await page.locator('[data-field="polish-mode"]').count(), 1);
   const beforePolish = await snapshot();
-  await page.locator('[data-field="polish-axis"]').selectOption('z'); await action('polish-preview'); await action('cancel-proposal');
+  await (await reveal(page.locator('[data-field="polish-axis"]'))).selectOption('z'); await action('polish-preview'); await action('cancel-proposal');
   assert.deepEqual(await snapshot(), beforePolish);
   await action('polish-preview'); await action('accept-proposal');
   doc = await snapshot(); assert.ok(ids.every(key => doc.layout.entities[key].transform.position[2] === manual.transform.position[2]));
@@ -88,22 +89,22 @@ test('fase 3: estruturas, regeneração preservada, seleção múltipla, polish 
   assert.equal(await page.locator('[data-action="polygon-finish"]').count(), 0, 'cancel resets the drawing controls');
   assert.equal(Object.values((await snapshot()).layout.entities).filter(e => e.vertices).length, 2);
   await select(polygon.id); await tab('build');
-  await page.locator('#token-name').fill('No mezanino'); await action('token-place'); await clickWorld([1,1.5,1]);
+  await (await reveal(page.locator('#token-name'))).fill('No mezanino'); await action('token-place'); await clickWorld([1,1.5,1]);
   doc = await snapshot(); const token = Object.values(doc.tokens)[0]; assert.equal(token.surfaceId, polygon.id); assert.equal(token.transform.position[1], 1.5);
   // Selecting the support prevents a higher overlapping surface from stealing placement.
   const deskId = recipe.slots['table.main'].id;
-  await page.locator('[data-field="active-surface"]').selectOption(deskId);
+  await (await reveal(page.locator('[data-field="active-surface"]'))).selectOption(deskId);
   const desk = doc.layout.entities[deskId]; await action('token-place'); await clickWorld([desk.transform.position[0],.82,desk.transform.position[2]]);
   doc = await snapshot(); const supported = Object.values(doc.tokens).find(item => item.surfaceId === deskId); assert.ok(supported);
   assert.ok(Math.abs(supported.transform.position[1] - .82) < .05);
   // Accesses are placed through visible construction controls and are editable supports.
-  await page.locator('[data-field="active-surface"]').selectOption(floor.id);
+  await (await reveal(page.locator('[data-field="active-surface"]'))).selectOption(floor.id);
   await action('stairs-place'); await clickWorld([3,0,0]); await field('steps', 6); await field('height', 2);
   doc = await snapshot(); const stairs = Object.values(doc.layout.entities).find(e => e.kind === 'stairs'); assert.ok(stairs); assert.equal(stairs.steps, 6); assert.equal(stairs.height, 2);
   await action('ramp-place'); await clickWorld([-3,0,0]); await field('height', 1.2); await field('object-yaw', 90);
   doc = await snapshot(); const ramp = Object.values(doc.layout.entities).find(e => e.kind === 'ramp'); assert.ok(ramp); assert.equal(ramp.height, 1.2);
-  await page.locator('[data-field="active-surface"]').selectOption(ramp.id);
-  await page.locator('#token-name').fill('Na rampa'); await action('token-place'); await clickWorld([ramp.transform.position[0], .6, ramp.transform.position[2]]);
+  await (await reveal(page.locator('[data-field="active-surface"]'))).selectOption(ramp.id);
+  await (await reveal(page.locator('#token-name'))).fill('Na rampa'); await action('token-place'); await clickWorld([ramp.transform.position[0], .6, ramp.transform.position[2]]);
   doc = await snapshot(); const rampToken = Object.values(doc.tokens).find(e => e.surfaceId === ramp.id); assert.ok(rampToken); assert.ok(rampToken.transform.position[1] > 0 && rampToken.transform.position[1] <= 1.2);
   // Hide/show the room and inherit the lock in its child inspector.
   await select(floor.id); await page.locator(`[data-group-visible="${floor.groupId}"]`).click();

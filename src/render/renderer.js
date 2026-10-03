@@ -5,7 +5,7 @@ import { snapPosition, yawFromQuaternion } from '../domain/coords.js';
 import { isLocked, isVisible, isSupport, isAccess, supportHeightAt, constrainOpening } from '../domain/geometry.js';
 import { createAssetCache, disposeObject, standardMaterial } from './asset-cache.js';
 import { applyTransform, readTransform, tagEntity, createFloor, createTerrain, createAccess, createWall, createDoor, createWindow, createToken, applyMaterialOverrides } from './scene-objects.js';
-import { sculptTerrain } from '../authoring/terrain.js';
+import { sculptTerrain, paintTerrain, terrainBrushOutline } from '../authoring/terrain.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
@@ -655,8 +655,9 @@ export function createViewport(container, {
     if (tool === 'terrain') {
       const hit = pick(event), record = records.get(hit?.object.userData.entityId);
       if (record?.kind !== 'terrain' || record.id !== selectedId || isLocked(sceneDocument, record)) { pointer = null; report('Selecione o terreno e pinte sobre ele.'); return; }
-      pointer.terrain = structuredClone(record); pointer.terrainBefore = record; pointer.lastStamp = hit.point.toArray();
-      controls.enabled = false; canvas.setPointerCapture(event.pointerId); stampTerrain(hit.point.toArray());
+      pointer.terrain = structuredClone(record); pointer.terrainBefore = record; pointer.terrainBrush = { ...terrainBrush }; pointer.lastStamp = hit.point.toArray();
+      try { stampTerrain(hit.point.toArray()); } catch (error) { pointer = null; report(error); return; }
+      controls.enabled = false; canvas.setPointerCapture(event.pointerId);
     } else if (tool === 'room') {
       const support = supportPoint(event);
       if (!support) { pointer = null; return; }
@@ -698,10 +699,7 @@ export function createViewport(container, {
         rayFromEvent(event); const hit = raycaster.intersectObject(object, true).find(h => h.face?.normal.y > 0);
         brushLine.visible = Boolean(hit);
         if (hit) {
-          const points = Array.from({ length: 49 }, (_, i) => {
-            const a = i / 48 * Math.PI * 2, point = [hit.point.x + Math.cos(a) * terrainBrush.radius, 0, hit.point.z + Math.sin(a) * terrainBrush.radius];
-            point[1] = supportHeightAt(record, point) + .03; return new THREE.Vector3(...point);
-          });
+          const points = terrainBrushOutline(record, hit.point.toArray(), pointer?.terrainBrush ?? terrainBrush).map(point => { point[1] = supportHeightAt(record, point) + .03; return new THREE.Vector3(...point); });
           brushLine.geometry.dispose(); brushLine.geometry = new THREE.BufferGeometry().setFromPoints(points);
         }
         invalidate();
@@ -713,7 +711,7 @@ export function createViewport(container, {
       const hits = (() => { rayFromEvent(event); return raycaster.intersectObject(objects.get(pointer.terrain.id), true); })();
       const hit = hits.find(h => h.face?.normal.y > 0); if (!hit) return;
       const point = hit.point.toArray(), previous = pointer.lastStamp;
-      const distance = Math.hypot(point[0] - previous[0], point[2] - previous[2]), spacing = Math.max(.05, terrainBrush.radius / 4);
+      const distance = Math.hypot(point[0] - previous[0], point[2] - previous[2]), spacing = Math.max(.05, pointer.terrainBrush.radius / 4);
       if (distance >= spacing) {
         const steps = Math.min(64, Math.ceil(distance / spacing));
         for (let i = 1; i <= steps; i++) stampTerrain(previous.map((v, axis) => v + (point[axis] - v) * i / steps), false);
@@ -766,7 +764,7 @@ export function createViewport(container, {
     if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
     if (gesture.terrain) {
       const version = generation;
-      try { onTerrainStroke(gesture.terrain.id, gesture.terrain.heights); } catch (error) { report(error); }
+      try { onTerrainStroke(gesture.terrain.id, ['paint','erase'].includes(gesture.terrainBrush.mode) ? { paintLayers: gesture.terrain.paintLayers } : { heights: gesture.terrain.heights }); } catch (error) { report(error); }
       if (version === generation) setDocument(sceneDocument);
     } else if (gesture.roomStart) {
       clearGroup(preview);
@@ -812,8 +810,11 @@ export function createViewport(container, {
     const object = createTerrain(record); content.add(object); objects.set(record.id, object); object.visible = visibleRecord(record); content.updateMatrixWorld(true); invalidate(true);
   }
   function stampTerrain(position, render = true) {
-    pointer.terrain.heights = sculptTerrain(pointer.terrain, position, terrainBrush); if (render) replaceTerrain(pointer.terrain);
-    hint.textContent = `Pincel ${terrainBrush.radius} m · solte para aplicar · Esc cancela`; hint.style.display = '';
+    const brush = pointer.terrainBrush;
+    if (['paint','erase'].includes(brush.mode)) pointer.terrain.paintLayers = paintTerrain(pointer.terrain, position, brush);
+    else pointer.terrain.heights = sculptTerrain(pointer.terrain, position, brush);
+    if (render) replaceTerrain(pointer.terrain);
+    hint.textContent = `Pincel ${brush.radius} m · solte para aplicar · Esc cancela`; hint.style.display = '';
   }
   function cancelGesture() {
     if (transform.dragging) { gizmoCancelled = true; transform.reset(); transform.pointerUp(null); }

@@ -2,19 +2,25 @@
 
 Entregue em 3 de outubro de 2026. Este incremento acrescenta relevo, recortes, paredes de contorno, andares/camadas e ancoragem, além das operações locais de polish. Tudo é materializado no documento e participa de undo/redo, salvamento, mapas reutilizáveis e projeção pública.
 
+Para testar pela interface, siga [Roteiro de construção e ajustes](TESTAR_CONSTRUCAO.md), com passos e resultados esperados. A aba Construir agora agrupa os controles por tarefa em blocos recolhíveis ordenados alfabeticamente.
+
 ## Terreno
 
 Em **Construir → Terreno e relevo**, escolha largura/comprimento em metros e resolução de 2 a 64 divisões por eixo. **Criar terreno** cria uma superfície independente dos pisos do prédio.
 
-Selecione o terreno, ajuste raio/força e ative o pincel no inspetor. Há **Elevar**, **Rebaixar**, **Suavizar** e **Nivelar**. A altura de nivelamento é Y mundial; as alturas da malha são locais ao Y do terreno. O círculo mostra a área do pincel. Arrastar produz uma prévia; soltar aplica um único comando. **Esc** cancela o traço e **Q** volta à seleção. O inspetor também permite editar uma altura pelo índice do vértice, ordenado por linhas de Z e depois X.
+Selecione o terreno, ajuste raio/força e ative o pincel com **T** ou pelo botão no inspetor. **T** alterna entre pincel e seleção; **[**/**]** mudam seu tamanho. Há **Elevar**, **Rebaixar**, **Suavizar** e **Nivelar**. A altura de nivelamento é Y mundial; as alturas da malha são locais ao Y do terreno. O contorno circular ou quadrado mostra a área do pincel. Arrastar produz uma prévia; soltar aplica um único comando. **Esc** cancela o traço e **Q** volta à seleção. O inspetor também permite editar uma altura pelo índice do vértice, ordenado por linhas de Z e depois X.
 
 Tokens, objetos com apoio explícito, decoração sobre móveis e luzes acompanham o relevo confirmado. O cálculo de altura usa os mesmos dois triângulos de cada célula que a malha renderizada. Ao salvar, persistem as alturas, sem regeneração a partir do pincel.
 
-O terreno é um heightmap limitado a 65 × 65 vértices: permite colinas, vales e montanhas com uma altura por posição XZ. Cavernas, saliências, erosão, importação de imagens de altura e streaming não fazem parte deste incremento. Pontes e pisos sobrepostos continuam entidades independentes. A resolução é escolhida na criação; alterar largura/comprimento mantém a malha existente.
+O terreno é um heightmap limitado a 65 × 65 vértices: permite colinas, vales e montanhas com uma altura por posição XZ. Cavernas, saliências, erosão, importação de imagens de altura e streaming não fazem parte deste incremento. Pontes e pisos sobrepostos continuam entidades independentes. A resolução pode ser alterada depois com reamostragem de alturas e máscaras de pintura; reduzir a resolução pode perder detalhes e é desfeito por Ctrl+Z. Alterar largura/comprimento mantém a malha existente.
+
+Os pincéis oferecem formato circular/quadrado, dureza de 0 a 100% e encaixe nos vértices da malha. Dureza máxima aplica força uniforme na área, permitindo platôs quadrados com **Nivelar**. O contorno do cursor usa o mesmo centro encaixado e orientação local do traço. **Facetas marcadas** muda a iluminação das faces, preservando a geometria de apoio.
+
+O terreno oferece até oito `paintLayers`, cada uma com ID, nome, cor, opacidade, visibilidade e máscara por vértice. **Pintar** aumenta a cobertura da camada selecionada; **Apagar** diminui e revela as camadas inferiores. Alterar a cor não altera a máscara. A pintura não desloca apoios nem altera alturas; cancelamento, histórico, duplicação e persistência preservam as máscaras. Terrenos antigos sem camadas continuam com sua cor de material. A camada inicial **Grama** cobre todo o terreno novo, e novas camadas começam vazias. Cores são interpoladas entre vértices, sem texturas externas ou vegetação automática.
 
 ## Pisos recortados e paredes
 
-Selecione um piso retangular ou poligonal e use **Construir → Recortar piso**. Desenhe o contorno interno e conclua com **Enter**. O desenho usa a altura do piso e converte os pontos para suas coordenadas locais, incluindo pisos rotacionados. Furos aparecem no inspetor para edição numérica e remoção. Há até 16 furos de até 64 vértices; eles devem ficar estritamente dentro do piso, sem tocar ou cruzar os demais contornos. O recorte é físico, útil para poços, pátios e vãos de escada. As receitas de mobiliário respeitam essas regiões sem apoio.
+Selecione um piso retangular ou poligonal e use **Recortar piso · vão de escada / pátio** no inspetor (também em **Construir → Pisos, paredes e acessos**). Desenhe o contorno interno e conclua com **Enter**. O desenho usa a altura do piso e converte os pontos para suas coordenadas locais, incluindo pisos rotacionados. Furos aparecem no inspetor para edição numérica e remoção. Há até 16 furos de até 64 vértices; eles devem ficar estritamente dentro do piso, sem tocar ou cruzar os demais contornos. O recorte é físico, útil para poços, pátios e vãos de escada. As receitas de mobiliário respeitam essas regiões sem apoio.
 
 **Paredes do contorno** apresenta uma proposta para os segmentos do contorno externo. O gerador reaproveita intervalos colineares existentes, inclusive compartilhamento parcial entre cômodos, preservando IDs, portas e janelas. Divergências de altura/espessura e paredes protegidas aparecem no relatório. Aceitar é uma transação. Paredes compartilhadas registram `floorIds`; não são dependentes exclusivos de um dos pisos. Excluir um piso remove seu vínculo e conserva a parede compartilhada. Mover o andar movimenta suas estruturas; mover um piso isolado não redesenha automaticamente os limites compartilhados.
 
@@ -30,15 +36,15 @@ Escadas e rampas associam automaticamente origem/destino quando há níveis comp
 
 **Isolar no editor** é um filtro temporário e não muda o documento ou a audiência dos jogadores. Acessos que conectam o nível isolado permanecem acessíveis. **Visível/Oculto** persiste e afeta a apresentação. Andares e camadas podem bloquear edição; para remover sua organização, **Desvincular** mantém os objetos e suas posições. Camadas são semânticas, independentes das pastas; uma camada “Tetos” pode reunir os pisos superiores que se deseja ocultar. Segredos continuam controlados por audiência, separadamente da vista de trabalho.
 
-## Sockets
+## Fixação em parede / teto
 
-Props e luzes locais oferecem **Ancoragem → Socket**. Um socket de parede recebe X/Y/Z locais; **Teto sob piso** usa a face inferior do piso superior, descontando sua espessura. A ancoragem substitui o apoio explícito, acompanha posição/rotação do host e pode ser editada numericamente ou removida sem deslocar o objeto. Excluir o host remove seus dependentes no mesmo histórico; undo restaura tudo. Bloqueios do host protegem a ancoragem.
+Props e luzes locais oferecem **Fixar em parede / teto → Fixar em**. Um socket de parede recebe X/Y/Z locais; **Teto sob piso** usa a face inferior do piso superior, descontando sua espessura. A ancoragem substitui o apoio explícito, acompanha posição/rotação do host e pode ser editada numericamente ou removida sem deslocar o objeto. Excluir o host remove seus dependentes no mesmo histórico; undo restaura tudo. Bloqueios do host protegem a ancoragem.
 
 Este incremento oferece sockets estruturais de parede/teto. Um editor de sockets por asset, categorias de compatibilidade e ingestão de anchors do catálogo continuam na ampliação da biblioteca.
 
 ## Polish e ajustes finos
 
-O inspetor mostra polish para seleção simples ou múltipla (**Shift+clique**). As operações geram uma prévia com contagem, itens preservados, motivos e conflitos. **Cancelar** conserva o documento; **Aceitar** aplica um passo de histórico e rejeita propostas obsoletas.
+O inspetor mostra **Alinhar e ajustar objetos**, com somente as opções relevantes e instruções para cada operação, para seleção simples ou múltipla (**Shift+clique**). As operações geram uma prévia com contagem, itens preservados, motivos e conflitos. **Cancelar** conserva o documento; **Aceitar** aplica um passo de histórico e rejeita propostas obsoletas.
 
 | Operação | Comportamento |
 | --- | --- |
@@ -55,8 +61,10 @@ As novas operações preservam itens bloqueados e ancorados, registrando o motiv
 
 ## Contrato e validação
 
-O schema 2 passa a aceitar campos opcionais; documentos antigos continuam carregando sem migração destrutiva. `layout.levels` contém ID/nome/elevação/visibilidade/bloqueio/audiência; `layout.layers` usa os mesmos campos sem elevação. Entidades, tokens e luzes podem referenciar `levelId` e `layerId`. Acessos têm `fromLevelId`/`toLevelId`, pisos podem ter `holes`, paredes têm `floorIds`, terreno tem dimensões/`segments`/`heights` e props/luzes podem ter `anchor: { hostId, socket, offset }`.
+O schema 2 passa a aceitar campos opcionais; documentos antigos continuam carregando sem migração destrutiva. `layout.levels` contém ID/nome/elevação/visibilidade/bloqueio/audiência; `layout.layers` usa os mesmos campos sem elevação. Entidades, tokens e luzes podem referenciar `levelId` e `layerId`. Acessos têm `fromLevelId`/`toLevelId`, pisos podem ter `holes`, paredes têm `floorIds`, terreno tem dimensões/`segments`/`heights`, `flatShading` opcional e `paintLayers` opcionais (`id`, `name`, `color`, `opacity`, `visible`, `weights`) e props/luzes podem ter `anchor: { hostId, socket, offset }`.
 
 Validação rejeita referências ausentes, ciclos de apoio/ancoragem, alturas não finitas, malhas incompatíveis, furos inválidos e acessos que não respeitam os níveis. A duplicação de documento remapeia também os novos IDs/referências. A projeção filtra andares/camadas secretos ou ocultos e dependentes, e limpa vínculos com objetos removidos.
 
-Verificação: **68 testes unitários/de integração**, incluindo raycasts na geometria real, e **quatro testes E2E**. O novo fluxo percorre escultura/cancelamento, ajuste numérico, recorte, contorno repetido, cópia/altura/isolamento de andar, acesso associado, ancoragem, material, save/reload e apresentação. Há também teste de persistência após reinício do servidor e duplicação. Capturas ficam em `test-results/structural-evolution.png` e `test-results/structural-presentation.png`. WebGL por software no Chromium não representa benchmark no notebook/projetor.
+Verificação: **80 testes unitários/de integração**, incluindo raycasts na geometria real, e **cinco testes E2E**. O novo fluxo percorre escultura/cancelamento, ajuste numérico, recorte, contorno repetido, cópia/altura/isolamento de andar, acesso associado, ancoragem, material, save/reload, apresentação e pintura de neve com rastros de grama. Há também teste de persistência após reinício do servidor e duplicação. Capturas ficam em `test-results/structural-evolution.png`, `test-results/structural-presentation.png` e `test-results/terrain-paint.png`. WebGL por software no Chromium não representa benchmark no notebook/projetor.
+
+A fixação em grupo está disponível em **Shift+seleção → botão direito → Fixar / ancorar…**. Escolha a parede/piso-teto, revise a prévia e aceite. A seleção é preservada no menu da cena e da árvore. A operação é uma única transação, conserva objetos bloqueados e coloca objetos/luzes junto à face mais próxima da parede ou abaixo do piso. A prévia corresponde às posições aceitas. **Alinhar e ajustar…** no mesmo menu abre as operações de composição.

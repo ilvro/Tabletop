@@ -41,7 +41,8 @@ export function createEntity(kind, options = {}) {
     const segments = options.segments ?? 32;
     if (!Number.isInteger(segments) || segments < 2 || segments > 64) throw new ValidationError('O terreno aceita de 2 a 64 divisões por eixo.');
     return { ...common, transform: transform(options), width: options.width ?? 20, length: options.length ?? 20,
-      segments, heights: clone(options.heights ?? Array((segments + 1) ** 2).fill(0)), material: material('#71805a', options.material) };
+      segments, heights: clone(options.heights ?? Array((segments + 1) ** 2).fill(0)), material: material('#71805a', options.material),
+      flatShading: options.flatShading ?? false, paintLayers: clone(options.paintLayers ?? [{ id: id(), name: 'Grama', color: options.material?.color ?? '#71805a', opacity: 1, visible: true, weights: Array((segments + 1) ** 2).fill(1) }]) };
   }
   if (kind === 'wall') return { ...common, transform: transform(options),
     length: options.length ?? 4, height: options.height ?? 2.6, thickness: options.thickness ?? 0.18,

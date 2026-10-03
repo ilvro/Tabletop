@@ -111,7 +111,7 @@ No v1, `transform` descreve posição do pivot, quaternion e escala em coordenad
 
 ### 6.2. Layout e entidades
 
-O contrato atual inclui pisos com `vertices`/`holes`, terreno por `segments`/`heights`, paredes com `floorIds`, `layout.levels`/`layout.layers` e associações opcionais `levelId`/`layerId`. Escadas/rampas usam `fromLevelId`/`toLevelId`; props/luzes podem ter `anchor: {hostId, socket, offset}`. Transforms permanecem mundiais. Detalhes e limites: [STRUCTURAL_EVOLUTION.md](STRUCTURAL_EVOLUTION.md).
+O contrato atual inclui pisos com `vertices`/`holes`, terreno por `segments`/`heights`, `flatShading` opcional e até oito `paintLayers` opcionais (cor/opacidade/visibilidade e máscara por vértice), paredes com `floorIds`, `layout.levels`/`layout.layers` e associações opcionais `levelId`/`layerId`. Escadas/rampas usam `fromLevelId`/`toLevelId`; props/luzes podem ter `anchor: {hostId, socket, offset}`. Transforms permanecem mundiais. Detalhes e limites: [STRUCTURAL_EVOLUTION.md](STRUCTURAL_EVOLUTION.md).
 
 | Estrutura | Campos mínimos e semântica |
 | --- | --- |

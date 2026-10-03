@@ -1,3 +1,4 @@
+import { reveal } from './controls.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, rm, readFile, access } from 'node:fs/promises';
@@ -42,8 +43,8 @@ test('autoria real, apresentação, assets e fidelidade após reabrir navegador/
   page.on('pageerror', (error) => errors.push(error.message));
   page.on('dialog', (dialog) => dialog.accept());
   const snapshot = () => page.evaluate(() => window.__tabletop.snapshot());
-  async function field(name, value) { const node = page.locator(`[data-field="${name}"]`); await node.fill(String(value)); await node.press('Tab'); }
-  const action = (name) => page.locator(`[data-action="${name}"]`).first().click();
+  async function field(name, value) { const node = page.locator(`[data-field="${name}"]`); await reveal(node); await node.fill(String(value)); await node.press('Tab'); }
+  const action = async (name) => (await reveal(page.locator(`[data-action="${name}"]`).first())).click();
   async function point(position) { return page.evaluate((value) => window.__tabletop.project(value), position); }
   async function clickWorld(position) { const projected = await point(position); assert.ok(projected.visible); await page.mouse.click(projected.x, projected.y); }
   async function select(id) { await page.locator('[data-tab="scene"]').click(); await page.locator(`[data-select="${id}"]`).click(); }
@@ -54,13 +55,13 @@ test('autoria real, apresentação, assets e fidelidade após reabrir navegador/
   await page.waitForFunction(() => !!window.__tabletop);
   assert.equal(Object.keys((await snapshot()).layout.entities).length, 0);
   // Reject the optional suggestions and cancel the preview: it must not mutate state.
-  await page.locator('[data-field="room-door"]').uncheck();
-  await page.locator('[data-field="room-lighting"]').uncheck();
+  await (await reveal(page.locator('[data-field="room-door"]'))).uncheck();
+  await (await reveal(page.locator('[data-field="room-lighting"]'))).uncheck();
   await page.locator('#quick-form [type="submit"]').click();
   assert.equal(Object.keys((await snapshot()).layout.entities).length, 0);
   await action('cancel-proposal');
-  await page.locator('[data-field="room-door"]').check();
-  await page.locator('[data-field="room-lighting"]').check();
+  await (await reveal(page.locator('[data-field="room-door"]'))).check();
+  await (await reveal(page.locator('[data-field="room-lighting"]'))).check();
   // Draw the accepted room through actual pointer events.
   await action('top'); await action('room-draw');
   const start = await point([-3, 0, -2]), end = await point([3, 0, 3]);
@@ -84,7 +85,7 @@ test('autoria real, apresentação, assets e fidelidade após reabrir navegador/
   await select(floor.id); await field('object-yaw', 15); await field('object-yaw', 0);
   assert.ok(Object.values((await snapshot()).layout.entities).filter((e) => e.kind === 'wall').every((e) => e.surfaceId === floor.id));
   await page.locator('[data-tab="build"]').click();
-  await page.locator('#token-name').fill('Helena'); await action('token-place');
+  await (await reveal(page.locator('#token-name'))).fill('Helena'); await action('token-place');
   await clickWorld([1.5, 0, .5]); await waitCounts(6, 1);
   let token = Object.values((await snapshot()).tokens)[0];
   assert.equal((await snapshot()).actors[token.actorId].name, 'Helena');
@@ -110,13 +111,13 @@ test('autoria real, apresentação, assets e fidelidade após reabrir navegador/
   await action('undo'); await waitCounts(6, 2);
   await action('redo'); await waitCounts(6, 1);
   // With snapping disabled, placement must preserve the requested position.
-  await page.locator('[data-tab="build"]').click(); await page.locator('[data-field="grid-snap"]').uncheck();
+  await page.locator('[data-tab="build"]').click(); await (await reveal(page.locator('[data-field="grid-snap"]'))).uncheck();
   await action('token-place'); await clickWorld([.27, 0, -1.18]); await waitCounts(6, 2);
   const free = Object.values((await snapshot()).tokens).find((item) => item.id !== token.id);
   assert.ok(Math.abs(free.transform.position[0] - .27) < .02);
   assert.ok(Math.abs(free.transform.position[2] + 1.18) < .02);
   await action('object-delete'); await waitCounts(6, 1);
-  await page.locator('[data-field="grid-snap"]').check();
+  await (await reveal(page.locator('[data-field="grid-snap"]'))).check();
   // Built-in furniture is real catalog data; its files are separate from documents.
   for (const [assetId, position] of [['builtin-desk', [-1.5, 0, -.5]], ['builtin-chair', [-1.5, 0, .5]], ['builtin-cabinet', [2, 0, -1]], ['builtin-rug', [0, 0, .5]], ['builtin-lamp', [-2, 0, 2]]]) {
     await page.locator('[data-tab="assets"]').click(); await page.locator(`[data-asset="${assetId}"]`).click(); await clickWorld(position);

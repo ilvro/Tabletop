@@ -95,7 +95,7 @@ function entity(value, path, document) {
   const { entities, groups } = document.layout;
   const fields = {
     floor: ['transform', 'width', 'length', 'thickness', 'material', 'vertices', 'holes'],
-    terrain: ['transform', 'width', 'length', 'segments', 'heights', 'material'],
+    terrain: ['transform', 'width', 'length', 'segments', 'heights', 'material', 'paintLayers', 'flatShading'],
     wall: ['transform', 'length', 'height', 'thickness', 'material', 'floorIds'],
     door: ['wallId', 'offset', 'width', 'height', 'sill', 'hinge', 'initialAngle', 'material'],
     window: ['wallId', 'offset', 'width', 'height', 'sill', 'style', 'material'],
@@ -125,6 +125,19 @@ function entity(value, path, document) {
     number(value.segments, `${path}.segments`, 2, 64); fail(Number.isInteger(value.segments), 'Resolução deve ser inteira.', path);
     fail(Array.isArray(value.heights) && value.heights.length === (value.segments + 1) ** 2, 'Heightmap com tamanho incompatível.', path);
     value.heights.forEach((height, i) => number(height, `${path}.heights[${i}]`, -1000, 1000));
+    if (value.flatShading !== undefined) bool(value.flatShading, `${path}.flatShading`);
+    if (value.paintLayers !== undefined) {
+      fail(Array.isArray(value.paintLayers) && value.paintLayers.length <= 8, 'O terreno aceita até 8 camadas de cor.', path);
+      fail(new Set(value.paintLayers.map(layer => layer?.id)).size === value.paintLayers.length, 'IDs de camadas de cor devem ser únicos.', path);
+      value.paintLayers.forEach((layer, index) => {
+        const lp = `${path}.paintLayers[${index}]`;
+        keys(layer, ['id','name','color','opacity','visible','weights'], lp);
+        identifier(layer.id, `${lp}.id`); text(layer.name, `${lp}.name`); color(layer.color, `${lp}.color`); number(layer.opacity, `${lp}.opacity`, 0, 1); bool(layer.visible, `${lp}.visible`);
+        fail(Array.isArray(layer.weights) && layer.weights.length === value.heights.length, 'Máscara de pintura com tamanho incompatível.', lp);
+        layer.weights.forEach((weight, i) => number(weight, `${lp}.weights[${i}]`, 0, 1));
+      });
+    }
+
   }
   if (value.floorIds !== undefined) {
     fail(document.schemaVersion === 2, 'Paredes compartilhadas exigem schema 2.', path);

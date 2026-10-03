@@ -53,7 +53,19 @@ export function createTerrain(entity) {
     indices.push(a, c, b, b, c, d);
   }
   const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3)); geometry.setIndex(indices); geometry.computeVertexNormals();
-  const group = new THREE.Group(), mesh = new THREE.Mesh(geometry, standardMaterial(entity.material));
+  const material = standardMaterial({ ...entity.material, color: entity.paintLayers?.length ? '#ffffff' : entity.material.color });
+  material.flatShading = entity.flatShading ?? false;
+  if (entity.paintLayers?.length) {
+    const base = new THREE.Color(entity.material.color), layers = entity.paintLayers.filter(layer => layer.visible).map(layer => ({ ...layer, tint: new THREE.Color(layer.color) }));
+    const colors = [];
+    for (let i = 0; i < entity.heights.length; i++) {
+      const tint = base.clone();
+      for (const layer of layers) tint.lerp(layer.tint, layer.weights[i] * layer.opacity);
+      colors.push(tint.r, tint.g, tint.b);
+    }
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3)); material.vertexColors = true;
+  }
+  const group = new THREE.Group(), mesh = new THREE.Mesh(geometry, material);
   mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.materialSlot = 'base'; group.add(mesh);
   applyTransform(group, entity.transform); return tagEntity(group, entity.id);
 }
