@@ -195,15 +195,26 @@ export function createViewport(container, {
 
   function entityRecord(id) { return records.get(id); }
   function footprintFor(record, quaternion = record?.transform?.rotation) {
-    if (!record || !sceneDocument?.tokens?.[record.id]) return undefined;
-    const footprint = [...record.footprint];
+    if (!record) return undefined;
+    const footprint = record.footprint ? [...record.footprint] : (sceneDocument?.tokens?.[record.id]?.footprint ? [...sceneDocument.tokens[record.id].footprint] : undefined);
+    if (!footprint) return undefined;
     const yaw = ((yawFromQuaternion(quaternion ?? [0, 0, 0, 1]) % 180) + 180) % 180;
     if (Math.abs(yaw - 90) < 1e-4) footprint.reverse();
     return footprint;
   }
   function snapObject(object) {
     if (tool !== 'move' || altHeld || !sceneDocument?.layout?.grid?.snap) return;
-    object.position.fromArray(snapPosition(object.position.toArray(), sceneDocument.layout.grid, footprintFor(entityRecord(selectedId), object.quaternion.toArray())));
+    const footprint = footprintFor(entityRecord(selectedId), object.quaternion.toArray());
+    const snapped = snapPosition(object.position.toArray(), sceneDocument.layout.grid, footprint);
+    const axis = transform.axis;
+    if (axis === 'X') {
+      object.position.x = snapped[0];
+    } else if (axis === 'Z') {
+      object.position.z = snapped[2];
+    } else if (axis === 'XZ' || axis === 'XYZ' || !axis) {
+      object.position.x = snapped[0];
+      object.position.z = snapped[2];
+    }
   }
   function updateSelection() {
     transform.detach();
@@ -467,7 +478,7 @@ export function createViewport(container, {
     rayFromEvent(event);
     const floors = [...objects].filter(([id]) => records.get(id)?.kind === 'floor').map(([, object]) => object);
     const hit = raycaster.intersectObjects(floors, true).find((intersection) => intersection.face?.normal.y > 0.5 && visibleInHierarchy(intersection.object));
-    if (hit && planeY === 0) return { position: hit.point.toArray(), surfaceId: hit.object.userData.entityId };
+    if (hit && Math.abs(planeY) < 1e-4) return { position: hit.point.toArray(), surfaceId: hit.object.userData.entityId };
     plane.constant = -planeY;
     const point = raycaster.ray.intersectPlane(plane, new THREE.Vector3());
     return point ? { position: point.toArray(), surfaceId: null } : null;
@@ -581,6 +592,24 @@ export function createViewport(container, {
   }
   function onKeyUp(event) { altHeld = event.altKey; }
   function onContextMenu(event) { event.preventDefault(); }
+  function syncGizmoPlane(event) {
+    if (presentation || !transform.enabled || !transform.object) return;
+    const pointerPos = transform._getPointer ? transform._getPointer(event) : null;
+    if (pointerPos) {
+      transform.pointerHover(pointerPos);
+      gizmo.updateMatrixWorld(true);
+    }
+  }
+  canvas.addEventListener('pointerdown', (event) => {
+    if (event.button === 0) syncGizmoPlane(event);
+  }, { capture: true });
+  canvas.addEventListener('pointermove', (event) => {
+    if (!pointer && !transform.dragging && transform.enabled && transform.object && !presentation) {
+      const prevAxis = transform.axis;
+      syncGizmoPlane(event);
+      if (transform.axis !== prevAxis) invalidate();
+    }
+  }, { passive: true });
   canvas.addEventListener('pointerdown', onPointerDown);
   canvas.addEventListener('pointermove', onPointerMove);
   canvas.addEventListener('pointerup', onPointerUp);

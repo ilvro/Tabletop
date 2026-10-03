@@ -38,14 +38,14 @@ export async function startApplication() {
       </aside>
       <main class="workspace">
         <div id="viewport" aria-label="Viewport 3D"></div>
-        <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (W)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (E)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (R)" aria-label="Escala"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
+        <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (W)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (R)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (S)" aria-label="Escala"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
         <div id="welcome" class="welcome-card"><span class="eyebrow">UMA CENA COMEÇA COM UM ESPAÇO</span><h1>Sua próxima história<br/>começa aqui.</h1><p>Desenhe uma sala, escolha a luz e traga seus personagens para a mesa.</p>${button('room-draw', 'Desenhar minha primeira sala', 'room', 'primary')}<small>Ou use as medidas no painel Construir.</small></div>
         <div id="proposal-bar" class="proposal-bar" hidden></div>
         <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}</div><span id="gesture-hint" class="gesture-hint">Botão direito: orbitar · Meio: mover câmera · Scroll: zoom</span></div>
         <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
       </main>
       <aside class="inspector"><div class="panel-heading"><span class="eyebrow">PROPRIEDADES</span>${icon('scale', 16)}</div><div id="inspector-content"></div></aside>
-      <footer class="statusbar"><span id="scene-summary">Preparando sua mesa…</span><span><kbd>Q</kbd> Selecionar <kbd>W</kbd> Mover <kbd>E</kbd> Girar <kbd>R</kbd> Escala <kbd>F</kbd> Enquadrar</span></footer>
+      <footer class="statusbar"><span id="scene-summary">Preparando sua mesa…</span><span><kbd>Q</kbd> Selecionar <kbd>W</kbd> Mover <kbd>R</kbd> Girar <kbd>S</kbd> Escala <kbd>F</kbd> Enquadrar</span></footer>
     </div>
     <div id="presentation-controls" hidden><span id="presentation-name"></span>${button('present', 'Voltar à edição', 'close', 'quiet')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet')}</div>
     <dialog id="documents-dialog"><div class="dialog-header"><div><span class="eyebrow">NO SEU COMPUTADOR</span><h2>Cenas salvas</h2></div>${button('close-dialog', '', 'close', 'icon-button', 'aria-label="Fechar"')}</div><div id="documents-list"></div></dialog>
@@ -450,7 +450,7 @@ export async function startApplication() {
       if (event.key.toLowerCase() === 'd') { event.preventDefault(); act('object-duplicate'); }
       return;
     }
-    const keys = { q: 'select', w: 'move', e: 'rotate', r: 'scale' };
+    const keys = { q: 'select', w: 'move', r: 'rotate', s: 'scale' };
     if (keys[event.key.toLowerCase()]) setTool(keys[event.key.toLowerCase()]);
     if (event.key.toLowerCase() === 'f') act('frame');
     if (event.key === 'Delete' || event.key === 'Backspace') act('object-delete');
