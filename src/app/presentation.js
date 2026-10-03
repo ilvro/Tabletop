@@ -29,6 +29,12 @@ export function projectPresentation(document) {
   }
   const actorIds = new Set(Object.values(copy.tokens).map((token) => token.actorId));
   copy.actors = Object.fromEntries(Object.entries(copy.actors).filter(([id]) => actorIds.has(id)));
+  for (const actor of Object.values(copy.actors)) {
+    const usesDefaultAsset = Object.values(copy.tokens).some((token) => token.actorId === actor.id &&
+      !Object.hasOwn(token.visualOverride ?? {}, 'assetRef'));
+    // A public disguise must not disclose the actor's unused canonical portrait.
+    if (!usesDefaultAsset) actor.assetRef = null;
+  }
   copy.layout.groups = {};
   copy.layout.areas = {};
   for (const entity of Object.values(entities)) entity.groupId = null;
@@ -38,12 +44,18 @@ export function projectPresentation(document) {
   copy.cameraPresets = {};
   copy.audioCue = null;
   copy.sourceMap = null;
+  copy.sourceEnvironment = null;
   return copy;
 }
 
 export function presentationAssets(document, assets) {
-  const ids = new Set(Object.values(document.layout.entities).map((entity) => entity.assetRef?.id));
-  for (const actor of Object.values(document.actors)) if (actor.assetRef) ids.add(actor.assetRef.id);
-  for (const token of Object.values(document.tokens)) if (token.visualOverride?.assetRef) ids.add(token.visualOverride.assetRef.id);
-  return assets.filter((asset) => ids.has(asset.id));
+  const references = new Set();
+  const include = (reference) => { if (reference) references.add(`${reference.id}@${reference.revision}`); };
+  for (const entity of Object.values(document.layout.entities)) include(entity.assetRef);
+  for (const token of Object.values(document.tokens)) {
+    const reference = Object.hasOwn(token.visualOverride ?? {}, 'assetRef') ?
+      token.visualOverride.assetRef : document.actors[token.actorId]?.assetRef;
+    include(reference);
+  }
+  return assets.filter((asset) => references.has(`${asset.id}@${asset.revision}`));
 }

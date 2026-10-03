@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, writeFile, readFile, readdir, rename, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { spawn } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { createApp } from '../server/app.js';
 import { createScene, createMap, createEntity, createToken, createLight } from '../src/domain/documents.js';
 
@@ -44,7 +46,7 @@ async function fixture(t, options = {}) {
     try { value = JSON.parse(text); } catch { value = text; }
     return { status: response.status, value, headers: response.headers };
   };
-  return { request, start, stop, dataDir, publicDir, distDir };
+  return { request, start, stop, dataDir, publicDir, distDir, get origin() { return baseURL; } };
 }
 
 function smallRoom() {
@@ -254,4 +256,26 @@ test('asset ingestion accepts a static GLB and rejects external dependencies, un
   assert.equal((await f.request('/api/tabletop/assets', { method: 'POST', raw: png, headers: { 'Content-Type': 'text/plain' } })).status, 415);
   assert.equal((await f.request('/api/tabletop/assets', { method: 'POST', raw: Buffer.alloc(1024 * 1024 + 1), headers: { 'Content-Type': 'image/png' } })).status, 413);
   assert.equal((await f.request('/api/tabletop/assets')).value.length, 2);
+});
+
+test('development launcher refuses to reuse an existing backend on its configured port', async (t) => {
+  const f = await fixture(t);
+  const project = fileURLToPath(new URL('..', import.meta.url));
+  const child = spawn(process.execPath, ['scripts/dev.js'], {
+    cwd: project,
+    env: { ...process.env, TABLETOP_PORT: new URL(f.origin).port, TABLETOP_HOST: '127.0.0.1', TABLETOP_DATA_DIR: path.join(f.dataDir, 'other-instance') },
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  let output = '';
+  child.stdout.on('data', (chunk) => { output += chunk; });
+  child.stderr.on('data', (chunk) => { output += chunk; });
+  const exitCode = await new Promise((resolve, reject) => {
+    const timer = setTimeout(() => { child.kill('SIGTERM'); reject(new Error('Dev launcher did not stop after detecting the occupied backend port.')); }, 8000);
+    child.once('error', (error) => { clearTimeout(timer); reject(error); });
+    child.once('exit', (code) => { clearTimeout(timer); resolve(code); });
+  });
+  assert.equal(exitCode, 1);
+  assert.match(output, /outra instância/);
+  assert.ok(!output.includes('VITE v'));
+  assert.equal((await f.request('/api/tabletop/health')).status, 200);
 });

@@ -19,10 +19,11 @@ export function createViewport(container, {
   canvas.tabIndex = 0;
   let renderer;
   try {
-    if (!canvas.getContext('webgl2')) throw new Error('WebGL 2 não está disponível. Ative a aceleração gráfica e abra em um navegador compatível.');
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    const context = canvas.getContext('webgl2', { antialias: true, alpha: false, powerPreference: 'high-performance' });
+    if (!context) throw new Error('WebGL 2 não está disponível. Ative a aceleração gráfica e abra em um navegador compatível.');
+    renderer = new THREE.WebGLRenderer({ canvas, context, antialias: true, alpha: false });
   } catch (error) {
-    onError(error.message);
+    onError(error);
     throw error;
   }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
@@ -90,7 +91,7 @@ export function createViewport(container, {
   transform.setSize(0.82);
   scene.add(gizmo);
 
-  function report(message) { if (!destroyed) onError(message); }
+  function report(message) { if (!destroyed) onError(message instanceof Error ? message : new Error(message)); }
   function invalidate(shadows = false) {
     if (destroyed) return;
     if (shadows) renderer.shadowMap.needsUpdate = true;
@@ -196,8 +197,8 @@ export function createViewport(container, {
   function footprintFor(record, quaternion = record?.transform?.rotation) {
     if (!record || !sceneDocument?.tokens?.[record.id]) return undefined;
     const footprint = [...record.footprint];
-    const yaw = Math.round(yawFromQuaternion(quaternion ?? [0, 0, 0, 1]) / 90);
-    if (Math.abs(yaw) % 2 === 1) footprint.reverse();
+    const yaw = ((yawFromQuaternion(quaternion ?? [0, 0, 0, 1]) % 180) + 180) % 180;
+    if (Math.abs(yaw - 90) < 1e-4) footprint.reverse();
     return footprint;
   }
   function snapObject(object) {
@@ -237,7 +238,7 @@ export function createViewport(container, {
   transform.addEventListener('dragging-changed', (event) => { controls.enabled = !event.value; if (event.value) gizmoCancelled = false; invalidate(); });
   transform.addEventListener('objectChange', () => { if (transform.object) snapObject(transform.object); invalidate(true); });
   transform.addEventListener('mouseUp', () => {
-    if (transform.object && selectedId && !gizmoCancelled) commitTransform(selectedId, transform.object, !altHeld);
+    if (transform.object && selectedId && !gizmoCancelled) commitTransform(selectedId, transform.object, Boolean(sceneDocument?.layout.grid.snap && !altHeld));
     controls.enabled = true;
   });
 
@@ -363,7 +364,7 @@ export function createViewport(container, {
     objects.clear();
     records.clear();
     createGrid(next?.layout?.grid);
-    if (!next) { invalidate(true); return; }
+    if (!next) { cache.prune([]); invalidate(true); return; }
     const look = next.look ?? next.defaultLook;
     scene.background.set(look.background);
     ground.material.color.set(look.fill?.groundColor ?? '#283934');
@@ -550,11 +551,11 @@ export function createViewport(container, {
         if (room.width >= 1 && room.length >= 1) onRoomDraw(room);
         else report('Desenhe uma sala com pelo menos 1 m de largura e comprimento.');
       }
-    } else if (gesture.object && gesture.moved) commitTransform(gesture.entityId, gesture.object, !event.altKey);
+    } else if (gesture.object && gesture.moved) commitTransform(gesture.entityId, gesture.object, Boolean(sceneDocument?.layout.grid.snap && !event.altKey));
     else if (!gesture.moved && !transform.dragging) {
       if (tool === 'place') {
         const support = supportPoint(event);
-        if (support) onPlace({ ...support, snap: !event.altKey });
+        if (support) onPlace({ ...support, snap: Boolean(sceneDocument?.layout.grid.snap && !event.altKey) });
       } else if (tool !== 'room') onSelect(pick(event)?.object.userData.entityId ?? null);
     }
     invalidate();
@@ -592,8 +593,15 @@ export function createViewport(container, {
   return {
     setDocument,
     setAssets(next) {
-      assets = new Map(values(next?.assets ?? next).map((record) => [`${record.id}@${record.revision ?? 1}`, record]));
-      if (sceneDocument) setDocument(sceneDocument);
+      const replacement = new Map(values(next?.assets ?? next).map((record) => [`${record.id}@${record.revision ?? 1}`, record]));
+      const changed = replacement.size !== assets.size || [...replacement].some(([key, record]) => JSON.stringify(record) !== JSON.stringify(assets.get(key)));
+      assets = replacement;
+      if (changed && sceneDocument) {
+        // Snapshot delivery calls setAssets then setDocument. Avoid rebuilding the old
+        // scene with the new catalog, which would report temporarily missing assets.
+        const version = generation;
+        queueMicrotask(() => { if (!destroyed && version === generation) setDocument(sceneDocument); });
+      }
     },
     setSelection(id) { selectedId = id; updateSelection(); },
     setTool(mode) { cancelGesture(); tool = mode; canvas.style.cursor = mode === 'place' || mode === 'room' ? 'crosshair' : 'default'; updateSelection(); },

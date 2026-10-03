@@ -1,4 +1,4 @@
-import { createScene, createEntity, createToken, createLight, clone, id, validateDocument } from '../domain/documents.js';
+import { createScene, createEntity, createToken, createLight, clone, id, validateDocument, duplicateDocument } from '../domain/documents.js';
 import { quaternionFromYaw, yawFromQuaternion } from '../domain/coords.js';
 import { ENVIRONMENTS } from '../domain/environments.js';
 import { createSceneStore } from '../state/scene-store.js';
@@ -15,6 +15,10 @@ const colorField = (field, label, value) => `<label class="field color-field"><s
 const checkField = (field, label, checked) => `<label class="check"><input type="checkbox" data-field="${field}" ${checked ? 'checked' : ''}/><span>${label}</span></label>`;
 const contentJSON = (doc) => { const { revision, createdAt, updatedAt, ...body } = doc; return JSON.stringify(body); };
 const entryName = (doc, entry) => doc.actors[entry.actorId]?.name ?? entry.name;
+const lastScene = {
+  read() { try { return localStorage.getItem('tabletop-last-scene'); } catch { return null; } },
+  write(value) { try { localStorage.setItem('tabletop-last-scene', value); } catch { /* Optional preference, independent of a confirmed disk write. */ } },
+};
 
 export async function startApplication() {
   const root = document.getElementById('app');
@@ -24,7 +28,7 @@ export async function startApplication() {
     <div class="app-shell">
       <header class="app-header">
         <a class="brand" href="/" aria-label="Tabletop"><span class="brand-mark">T</span><span>TABLETOP<small>CRIAR. PREPARAR. APRESENTAR.</small></span></a>
-        <div class="document-heading"><span class="eyebrow">SUA MESA / CENA</span><input id="scene-name" aria-label="Nome da cena" maxlength="256" /></div>
+        <div class="document-heading"><span class="eyebrow">SUA MESA / CENA</span><input id="scene-name" aria-label="Nome da cena" maxlength="256" disabled /></div>
         <div class="header-actions"><span id="save-status" role="status" class="save-status"></span>${button('new', 'Nova', 'plus', 'quiet')}${button('open', 'Abrir', 'folder', 'quiet')}${button('present', 'Apresentar', 'display', 'quiet')}${button('save', 'Salvar', 'save', 'primary', 'id="save-scene"')}</div>
       </header>
       <aside class="sidebar">
@@ -52,6 +56,8 @@ export async function startApplication() {
   let proposal = null, placing = null, saving = false, isPresentation = false, cutaway = true;
   let workingCamera = null, publishedCamera = null, recovery = null, draftTimer, noticeTimer;
   let draftQueue = Promise.resolve(), draftWarningShown = false;
+  let openTicket = 0;
+  let initialized = false;
   let roomOptions = { width: 6, length: 5, height: 2.6, center: [0, 0, 0], door: true, lighting: true };
   const store = createSceneStore(createScene('Minha primeira cena'));
   const sessionId = id();
@@ -123,7 +129,8 @@ export async function startApplication() {
     clearTimeout(draftTimer);
     if (recovery) return;
     const doc = clone(store.document), dirty = store.dirty;
-    draftQueue = draftQueue.catch(() => {}).then(() => dirty ? drafts.write(doc) : drafts.clear()).catch((error) => {
+    const meaningful = store.editVersion > 0 || doc.revision > 0;
+    draftQueue = draftQueue.catch(() => {}).then(() => dirty && meaningful ? drafts.write(doc) : drafts.clear()).catch((error) => {
       if (!draftWarningShown) { draftWarningShown = true; notify(`A recuperação automática não está disponível: ${error.message}. Salve no servidor.`, true); }
     });
   }
@@ -145,7 +152,7 @@ export async function startApplication() {
       panel.innerHTML = `<div class="section-intro"><span class="eyebrow">BIBLIOTECA</span><h2>Detalhes dão vida.</h2><p class="muted">Escolha um objeto e clique no chão para colocá-lo.</p></div><input id="asset-search" type="search" aria-label="Buscar assets" placeholder="Buscar na biblioteca…" /><div id="asset-cards" class="asset-grid"></div>${button('asset-import', 'Importar imagem ou GLB', 'upload', 'wide accent-outline')}<p class="microcopy">Arquivos ficam guardados no servidor local, separados da cena.</p>`;
       renderAssetCards();
     } else {
-      panel.innerHTML = `<section><span class="eyebrow">AMBIENTE</span><h2>A luz conta a história.</h2><p class="muted">Um ponto de partida. Ajuste cada fonte como quiser.</p><div class="environment-options">${ENVIRONMENTS.map((preset) => `<button data-environment="${preset.id}" class="environment-card ${store.document.sourceEnvironment?.id === preset.id ? 'active' : ''}"><span class="environment-swatch ${preset.id}"></span><span><strong>${esc(preset.name)}</strong><small>${esc(preset.description || '')}</small></span>${icon('chevron', 14)}</button>`).join('')}</div>${colorField('background', 'Fundo', store.document.look.background)}${numberField('fill-intensity', 'Preenchimento', store.document.look.fill.intensity, { min: 0, step: .1 })}${colorField('fill-color', 'Cor do preenchimento', store.document.look.fill.skyColor)}</section><section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">ELEMENTOS DA CENA</span><div id="scene-tree"></div></section>`;
+      panel.innerHTML = `<section><span class="eyebrow">AMBIENTE</span><h2>A luz conta a história.</h2><p class="muted">Um ponto de partida. Ajuste cada fonte como quiser.</p><div class="environment-options">${ENVIRONMENTS.map((preset) => `<button data-environment="${preset.id}" class="environment-card ${store.document.sourceEnvironment?.id === preset.id ? 'active' : ''}"><span class="environment-swatch ${preset.id}"></span><span><strong>${esc(preset.name)}</strong><small>${esc(preset.description || '')}</small></span>${icon('chevron', 14)}</button>`).join('')}</div>${colorField('background', 'Fundo', store.document.look.background)}${numberField('fill-intensity', 'Preenchimento', store.document.look.fill.intensity, { min: 0, step: .1 })}${colorField('fill-color', 'Cor do preenchimento', store.document.look.fill.skyColor)}</section><section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><span class="eyebrow">ELEMENTOS DA CENA</span><div id="scene-tree"></div></section>`;
       renderSceneTreeIfVisible();
     }
   }
@@ -213,8 +220,9 @@ export async function startApplication() {
       const receipt = sentDocument.revision === 0 ? await repository.create(sentDocument) : await repository.save(sentDocument);
       if (store.document.id !== sentDocument.id) return false;
       store.markSaved(receipt, sentVersion);
-      localStorage.setItem('tabletop-last-scene', receipt.id);
-      await refreshSaved(); flushDraft(); notify(store.dirty ? 'Versão salva. Há alterações posteriores ainda locais.' : 'Cena salva no computador.'); return true;
+      lastScene.write(receipt.id);
+      flushDraft(); notify(store.dirty ? 'Versão salva. Há alterações posteriores ainda locais.' : 'Cena salva no computador.');
+      await refreshSaved().catch(() => notify('Cena salva. A lista de cenas não pôde ser atualizada agora.', true)); return true;
     } catch (error) {
       const conflict = error instanceof ApiError && error.status === 409;
       notify(conflict ? 'Esta cena mudou em outra janela. Seu trabalho está no rascunho. Abra a versão salva ou salve como uma nova cena.' : `Não foi possível salvar: ${error.message}`, true, true);
@@ -222,10 +230,30 @@ export async function startApplication() {
     } finally { saving = false; updateView({ type: 'saved' }); }
   }
   function canSwitch() { return !saving && (!store.dirty || confirm('Há alterações locais. Continuar sem salvar no servidor?')); }
+  async function duplicateScene() {
+    if (saving) return;
+    const sourceId = store.document.id, sourceVersion = store.editVersion;
+    const copy = duplicateDocument(store.document, { name: `${store.document.name} — cópia` });
+    saving = true; updateView({ type: 'saved' });
+    try {
+      // Duplicate the working document, including edits pending after a conflict.
+      const receipt = await repository.create(copy);
+      if (store.document.id === sourceId && store.editVersion === sourceVersion) {
+        selection = null; clearProposal(); store.replace(receipt);
+        lastScene.write(receipt.id);
+        flushDraft(); notify('Cópia independente salva. Você está editando a nova cena.');
+      } else notify('Cópia salva. Suas alterações posteriores continuam na cena atual.');
+      await refreshSaved().catch(() => notify('Cópia salva. A lista de cenas não pôde ser atualizada agora.', true));
+    } finally { saving = false; updateView({ type: 'saved' }); }
+  }
   async function openScene(sceneId) {
     if (!canSwitch()) return;
-    const doc = await repository.read(sceneId); selection = null; clearProposal(); setTool('select');
-    store.replace(doc); localStorage.setItem('tabletop-last-scene', doc.id); viewport.frameScene();
+    const ticket = ++openTicket, sourceId = store.document.id, sourceVersion = store.editVersion;
+    const doc = await repository.read(sceneId);
+    if (ticket !== openTicket) return;
+    if (store.document.id !== sourceId || store.editVersion !== sourceVersion) { notify('A cena atual mudou durante o carregamento. Suas alterações foram preservadas; abra novamente quando estiver pronto.', true); return; }
+    selection = null; clearProposal(); setTool('select');
+    store.replace(doc); lastScene.write(doc.id); viewport.frameScene();
     const camera = Object.values(doc.cameraPresets)[0]; if (camera) viewport.setCamera(camera);
     document.getElementById('documents-dialog').close();
   }
@@ -243,7 +271,16 @@ export async function startApplication() {
         const image = await createImageBitmap(file); image.close();
       } else {
         const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
-        const model = await new GLTFLoader().parseAsync(await file.arrayBuffer(), '');
+        const bytes = await file.arrayBuffer();
+        // Refuse external dependencies before the loader can issue any requests.
+        const view = new DataView(bytes);
+        if (bytes.byteLength < 20 || view.getUint32(0, true) !== 0x46546c67 || view.getUint32(4, true) !== 2 || view.getUint32(8, true) !== bytes.byteLength || view.getUint32(16, true) !== 0x4e4f534a) throw new Error('Use um arquivo GLB 2.0 válido.');
+        const jsonLength = view.getUint32(12, true);
+        if (20 + jsonLength > bytes.byteLength) throw new Error('GLB incompleto.');
+        const json = JSON.parse(new TextDecoder().decode(new Uint8Array(bytes, 20, jsonLength)).trim());
+        if ([...(json.buffers || []), ...(json.images || [])].some((entry) => entry.uri !== undefined)) throw new Error('O GLB deve conter todos os recursos internamente, sem URLs externas.');
+        if ((json.extensionsUsed || []).some((extension) => !['KHR_materials_unlit', 'KHR_materials_variants'].includes(extension))) throw new Error('Este slice aceita GLB estático sem compressão ou extensões adicionais.');
+        const model = await new GLTFLoader().parseAsync(bytes, '');
         model.scene.traverse((node) => {
           node.geometry?.dispose();
           const materials = Array.isArray(node.material) ? node.material : [node.material];
@@ -274,7 +311,14 @@ export async function startApplication() {
     else if (field.startsWith('position-')) {
       const position = [...(record.transform?.position ?? record.position)]; position[Number(field.slice(-1))] = value;
       patch = type === 'light' ? { position } : { transform: { position } };
-    } else if (field === 'object-yaw') patch = type === 'light' ? { rotation: quaternionFromYaw(value) } : { transform: { rotation: quaternionFromYaw(value) } };
+    } else if (field === 'object-yaw') {
+      if (type === 'light') {
+        const [x, y, z, w] = record.rotation;
+        const half = (value - yawFromQuaternion(record.rotation)) * Math.PI / 360;
+        const s = Math.sin(half), c = Math.cos(half);
+        patch.rotation = [c * x + s * z, c * y + s * w, c * z - s * x, c * w - s * y];
+      } else patch.transform = { rotation: quaternionFromYaw(value) };
+    }
     else if (field.startsWith('scale-')) { const scale = [...record.transform.scale]; scale[Number(field.slice(-1))] = value; patch.transform = { scale }; }
     else if (field.startsWith('footprint-')) { const footprint = [...record.footprint]; footprint[Number(field.slice(-1))] = value; patch.footprint = footprint; }
     else if (field === 'token-color') actorPatch = { color: value };
@@ -288,8 +332,10 @@ export async function startApplication() {
   }
 
   async function act(action) {
+    if (!initialized) return;
     switch (action) {
       case 'save': return saveScene();
+      case 'duplicate-scene': return duplicateScene();
       case 'new': if (canSwitch()) { selection = null; clearProposal(); store.replace(createScene('Nova cena'), { saved: false }); setTool('select'); viewport.frameScene(); } break;
       case 'open': return openDialog();
       case 'close-dialog': document.getElementById('documents-dialog').close(); break;
@@ -326,7 +372,8 @@ export async function startApplication() {
       case 'publish-camera': publishedCamera = viewport.getCamera(); broadcast(); notify('Câmera publicada na segunda tela.'); break;
       case 'presentation-window': {
         publishedCamera ??= viewport.getCamera();
-        const opened = window.open(`/?presentation=${sessionId}`, `tabletop-${sessionId}`);
+        const diagnostics = new URLSearchParams(location.search).has('diagnostics') ? '&diagnostics' : '';
+        const opened = window.open(`/?presentation=${sessionId}${diagnostics}`, `tabletop-${sessionId}`);
         if (!opened) notify('A janela foi bloqueada. Permita pop-ups para abrir a segunda tela.', true);
         else broadcast(); break;
       }
@@ -340,15 +387,17 @@ export async function startApplication() {
       case 'asset-import': document.getElementById('asset-file').click(); break;
       case 'restore-draft': {
         const doc = recovery.document, matching = savedScenes.find((scene) => scene.id === doc.id);
+        await drafts.dismiss(recovery);
         recovery = null;
         if (matching && matching.revision !== doc.revision) notify('O disco possui outra revisão. Rascunho restaurado com sua base original; salve como nova cena para preservar as duas versões.', true, true);
         store.replace(doc, { saved: false }); viewport.frameScene(); document.getElementById('recovery-dialog').close(); flushDraft(); break;
       }
-      case 'discard-draft': recovery = null; await drafts.clear(); document.getElementById('recovery-dialog').close(); updateView({ type: 'saved' }); break;
+      case 'discard-draft': await drafts.dismiss(recovery); recovery = null; await drafts.clear(); document.getElementById('recovery-dialog').close(); updateView({ type: 'saved' }); break;
     }
     if (action.startsWith('tool-')) setTool(action.slice(5));
   }
   root.addEventListener('click', (event) => {
+    if (!initialized) return;
     const node = event.target.closest('button'); if (!node) return;
     if (node.dataset.action) { Promise.resolve(act(node.dataset.action)).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.tab) { tab = node.dataset.tab; renderSidebar(); return; }
@@ -363,12 +412,21 @@ export async function startApplication() {
     if (node.dataset.cameraDelete) { execute('camera.remove', { id: node.dataset.cameraDelete }); return; }
     if (node.dataset.open) { openScene(node.dataset.open).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.deleteScene) {
+      if (saving) { notify('Aguarde o salvamento antes de excluir uma cena.'); return; }
       const scene = savedScenes.find((item) => item.id === node.dataset.deleteScene);
       if (!confirm(`Excluir a cena salva “${scene.name}”?`)) return;
-      repository.remove(scene).then(async () => { if (store.document.id === scene.id) store.replace(createScene('Nova cena'), { saved: false }); await openDialog(); }).catch((error) => notify(error.message, true));
+      const version = store.editVersion;
+      repository.remove(scene).then(async () => {
+        if (store.document.id === scene.id) {
+          if (store.editVersion === version) store.replace(createScene('Nova cena'), { saved: false });
+          else { store.replace(duplicateDocument(store.document, { name: store.document.name }), { saved: false }); notify('Cena salva excluída. As alterações posteriores foram mantidas como uma nova cena.'); }
+        }
+        await openDialog();
+      }).catch((error) => notify(error.message, true));
     }
   });
   root.addEventListener('change', (event) => {
+    if (!initialized) return;
     if (event.target.id === 'asset-file') { importAsset(event.target.files[0]); event.target.value = ''; }
     else if (event.target.dataset.field) changeField(event.target);
     else if (event.target.id === 'scene-name') execute('scene.rename', { name: event.target.value });
@@ -381,6 +439,7 @@ export async function startApplication() {
     }
   });
   window.addEventListener('keydown', (event) => {
+    if (!initialized) return;
     if (event.target.closest('input,select,textarea') || document.querySelector('dialog[open]')) return;
     if (event.key === 'Escape') { if (isPresentation) act('present'); else { clearProposal(); setTool('select'); } }
     if (isPresentation) return;
@@ -404,14 +463,15 @@ export async function startApplication() {
   if (initial[1].status === 'fulfilled') savedScenes = initial[1].value;
   if (initial[2].status === 'fulfilled') recovery = initial[2].value;
   viewport.setAssets(assets);
-  const lastId = localStorage.getItem('tabletop-last-scene');
+  const lastId = lastScene.read();
   if (lastId && savedScenes.some((scene) => scene.id === lastId)) {
     try { store.replace(await repository.read(lastId)); } catch (error) { notify(error.message, true); }
   }
   if (recovery) {
-    try { validateDocument(recovery.document); } catch { recovery = null; await drafts.clear(); }
-    if (recovery && recovery.document.id === store.document.id && contentJSON(recovery.document) === contentJSON(store.document)) { recovery = null; await drafts.clear(); }
+    try { validateDocument(recovery.document); } catch { await drafts.dismiss(recovery); recovery = null; }
+    if (recovery && recovery.document.id === store.document.id && contentJSON(recovery.document) === contentJSON(store.document)) { await drafts.dismiss(recovery); recovery = null; }
   }
+  initialized = true; document.getElementById('scene-name').disabled = false;
   store.subscribe(updateView); updateView({ type: 'saved' }); viewport.frameScene();
   const firstCamera = Object.values(store.document.cameraPresets)[0]; if (firstCamera) viewport.setCamera(firstCamera);
   if (recovery) {
@@ -420,7 +480,7 @@ export async function startApplication() {
   }
   // Read-only diagnostics for browser verification; no backdoor mutations.
   if (import.meta.env.DEV || new URLSearchParams(location.search).has('diagnostics')) {
-    Object.defineProperty(window, '__tabletop', { value: Object.freeze({ snapshot: () => clone(store.document), project: (position) => viewport.project(position), stats: () => viewport.getInfo(), editVersion: () => store.editVersion }), configurable: true });
+    Object.defineProperty(window, '__tabletop', { value: Object.freeze({ snapshot: () => clone(store.document), project: (position) => viewport.project(position), camera: () => viewport.getCamera(), stats: () => viewport.getInfo(), editVersion: () => store.editVersion }), configurable: true });
   }
 }
 
@@ -433,6 +493,9 @@ function startPresentation(root, sessionId) {
     onError: (error) => { document.getElementById('presentation-message').textContent = error.message; },
   });
   viewport.setPresentation(true);
+  if (new URLSearchParams(location.search).has('diagnostics')) {
+    Object.defineProperty(window, '__tabletop', { value: Object.freeze({ camera: () => viewport.getCamera(), stats: () => viewport.getInfo() }), configurable: true });
+  }
   const channel = new BroadcastChannel(`tabletop-presentation-${sessionId}`);
   let sequence = 0;
   const request = () => channel.postMessage({ version: 1, sessionId, type: 'ready' });

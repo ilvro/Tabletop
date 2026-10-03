@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { randomUUID } from 'node:crypto';
 import { validateDocument, duplicateDocument } from '../src/domain/documents.js';
 import { AssetStorage } from './assets.js';
 import { DocumentStorage, HttpError, assertId, checkRevision } from './storage.js';
@@ -39,7 +40,7 @@ async function validateAssetReferences(document, assets) {
 }
 
 /** Build/API share one origin in production. The slice is intentionally local. */
-export async function createApp({ dataDir = path.join(projectDir, 'data'), distDir = path.join(projectDir, 'dist'), publicDir = path.join(projectDir, 'public'), allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'], assetLimit = '25mb', backupLimit = 5 } = {}) {
+export async function createApp({ dataDir = path.join(projectDir, 'data'), distDir = path.join(projectDir, 'dist'), publicDir = path.join(projectDir, 'public'), allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'], assetLimit = '25mb', backupLimit = 5, instanceId = randomUUID() } = {}) {
   const app = express();
   app.disable('x-powered-by');
   const storage = new DocumentStorage(path.resolve(dataDir), { backupLimit });
@@ -57,7 +58,7 @@ export async function createApp({ dataDir = path.join(projectDir, 'data'), distD
     next();
   });
 
-  app.get('/api/tabletop/health', (_req, res) => res.json({ status: 'ok', schemaVersion: 1, persistence: 'local-server' }));
+  app.get('/api/tabletop/health', (_req, res) => res.json({ status: 'ok', schemaVersion: 1, persistence: 'local-server', instanceId }));
   app.post('/api/tabletop/assets', express.raw({ type: '*/*', limit: assetLimit }), asyncRoute(async (req, res) => {
     const mime = (req.get('Content-Type') ?? '').split(';')[0].trim().toLowerCase();
     const record = await assets.import(req.body, mime, { name: req.query.name, category: req.query.category });

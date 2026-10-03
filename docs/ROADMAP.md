@@ -1,10 +1,10 @@
 # Tabletop — roadmap e critérios de entrega
 
-Data: 3 de outubro de 2026. Planejamento da Fase 2, sem implementação. [ARCHITECTURE.md](ARCHITECTURE.md), [MAP_AUTHORING.md](MAP_AUTHORING.md) e [IMMERSION.md](IMMERSION.md) definem decisões, contratos e pesquisas.
+Atualizado em 3 de outubro de 2026 após a implementação do primeiro vertical slice. [ARCHITECTURE.md](ARCHITECTURE.md), [MAP_AUTHORING.md](MAP_AUTHORING.md) e [IMMERSION.md](IMMERSION.md) mantêm o contexto da Fase 2; [VERTICAL_SLICE.md](VERTICAL_SLICE.md) registra o código entregue, execução e limites.
 
 ## 1. Como este roadmap revisa a Fase 1
 
-A Fase 1 foi investigação. A Fase 2 consolida arquitetura com autoria e imersão como requisitos centrais. Esta entrega cria somente documentação.
+A Fase 1 foi investigação. A Fase 2 consolidou arquitetura com autoria e imersão como requisitos centrais. Após essa entrega documental, o pedido seguinte autorizou o slice funcional descrito abaixo.
 
 O novo MVP traz piso, paredes, porta, luz e Smart Build simples para o primeiro vertical slice. Esses itens estavam em parte previstos para a evolução do editor na Fase 1. A mudança atende ao pedido atual: provar criação rápida de uma cena convincente, além de seleção/persistência de tokens.
 
@@ -12,7 +12,7 @@ MVP, V2 e V3 são marcos de produto, não versões do schema. O schema evolui po
 
 Perfil informado: notebook intermediário com GPU, provável projetor e controle central pelo mestre. Celulares no Wi-Fi local são opcionais; o primeiro piloto não exige que jogadores entrem no Tabletop.
 
-## 2. Fase 2 — entrega desta etapa
+## 2. Fase 2 — arquitetura concluída
 
 | Documento | Resultado consolidado |
 | --- | --- |
@@ -21,7 +21,7 @@ Perfil informado: notebook intermediário com GPU, provável projetor e controle
 | [Imersão](IMMERSION.md) | Estudo público de Ordem, iluminação/materiais/efeitos, ambientes/câmeras, Jukebox, qualidade e benchmark. |
 | Este roadmap | MVP, V2, V3, futuro, critérios, riscos e decisões pendentes. |
 
-As pesquisas foram divididas em três agentes independentes, somente para autoria, renderização/imersão e Smart Build. Nenhum agente implementou código. A síntese é uma arquitetura única, com referências primárias nos documentos especializados.
+As pesquisas arquiteturais foram divididas em três agentes independentes, somente para autoria, renderização/imersão e Smart Build. Naquela etapa não houve implementação. A síntese é uma arquitetura única, com referências primárias nos documentos especializados.
 
 Decisões fechadas para orientar implementação: um modelo comum para autoria manual/assistida; resultados materializados editáveis; cópia de mapa e look na cena; ambiente aplicado sem geração ao carregar; Y para cima/metragem; storage local com revisão; áudio externo ao undo; mestre e apresentação com câmeras distintas.
 
@@ -30,6 +30,12 @@ Decisões ainda dependentes de protótipo/medição estão na seção 8. A arqui
 ## 3. MVP — pequeno vertical slice presencial
 
 Pergunta de produto: **consigo criar uma cena 3D convincente e utilizável em uma sessão em poucos minutos, preservando controle manual?**
+
+**Situação atual:** fundamento do slice implementado e validado tecnicamente. Há criação do vazio, sala com vão/porta, edição manual, tokens, seis assets locais, importação de imagem/GLB estático, luzes/ambientes simples, câmeras, prévia/aceite de Quick Build, undo/redo, servidor com revisões/backups e recuperação por aba. Master View e apresentação funcionam na mesma janela e em segunda janela com câmera publicada independente.
+
+O escopo desta implementação concentrou a UI em **cenas**. A API oferece mapas, mas sua autoria/reutilização separada e a biblioteca de EnvironmentDocument serão próximas entregas. Transporte por manifesto/pacote de documento+assets também ficou para a próxima entrega; preservar o diretório de dados completo é o caminho atual de backup. Esses itens do plano original não fazem parte dos requisitos funcionais do pedido de slice executado.
+
+O navegador foi validado com Chromium headless/WebGL por software; os dados foram comparados após fechar navegador e reiniciar servidor. Conflito entre abas e recuperação têm testes próprios. Isso não conclui a avaliação visual do mestre, o exercício cronometrado, o uso do projetor real ou o benchmark no notebook com música. Não há integração com Jukebox/Ficha ou acesso de celulares nesta entrega.
 
 ### 3.1. Escopo mínimo
 
@@ -46,8 +52,8 @@ Pergunta de produto: **consigo criar uma cena 3D convincente e utilizável em um
 | Câmera | Perspectiva, vista superior, orbit/pan/zoom, enquadrar seleção e pelo menos um preset salvo. |
 | Apresentação | Build/Session Mode e janela local sem ferramentas para projetor, com câmera publicada independente. |
 | Histórico | Undo/redo de comandos e transações completas; um gesto/aceite por entrada. |
-| Dados | Criar/listar/salvar/carregar/duplicar mapas e cenas; assets separados; recuperação de rascunho. |
-| Transporte | Exportar/importar documento com manifesto e assets por pacote de arquivos/pasta; ZIP só se implementado. |
+| Dados | Cenas: criar/listar/salvar/carregar/duplicar/excluir, assets separados e rascunho; API de mapas presente, UI de mapa reutilizável pendente. |
+| Transporte — próxima entrega | Exportar/importar documento com manifesto e assets por pacote de arquivos/pasta; ZIP só se implementado. |
 
 O catálogo não precisa ser grande, mas deve permitir uma sala utilizável. Preferir kit coeso com props reconhecíveis, preparado internamente ou com recursos que possam ser distribuídos, sem exigir download durante a sessão. Biblioteca/demo não substitui criação do vazio.
 
@@ -64,7 +70,7 @@ Não incluir no slice: biblioteca completa de ambientes/prefabs, múltiplos anda
 5. **Persistência completa:** servidor local, revisões, gravação atômica, rascunho, assets e transporte. Validar save/load desde os primeiros documentos; concluir aqui o fluxo de reinício.
 6. **Piloto:** roteiro do vazio ao projetor e benchmark com Jukebox ativo; ajustar problemas de interação/performance demonstrados.
 
-Essa sequência é proposta para a próxima etapa. Não criar antecipadamente módulos sem comportamento nem toda a infraestrutura de V2/V3.
+O slice implementou os passos 1–4 e persistência/recuperação do passo 5. Transporte, piloto cronometrado e benchmark são pendências explícitas. Não criar antecipadamente módulos sem comportamento nem toda a infraestrutura de V2/V3.
 
 ### 3.3. Critérios de aceitação
 
@@ -152,7 +158,7 @@ Não há data ou compromisso de implementar todos esses recursos. O produto deve
 
 ## 7. Estratégia de verificação
 
-Testes futuros devem proteger comportamento e perda de trabalho, sem espelhar detalhes do renderer:
+Testes implementados e futuros devem proteger comportamento e perda de trabalho, sem espelhar detalhes do renderer:
 
 | Camada | Verificações necessárias |
 | --- | --- |
@@ -163,7 +169,7 @@ Testes futuros devem proteger comportamento e perda de trabalho, sem espelhar de
 | Integrações | Concorrência/repetição de recursos, identidade, áudio real, falhas/desconexão e ausência de efeitos externos no undo. |
 | Performance | Roteiro/snapshots reproduzíveis, notebook/projetor, mix real do Jukebox e dispositivos móveis quando usados. |
 
-Escolher metas de frame/resposta/memória somente após baseline. Ver [benchmark](IMMERSION.md). Esta Fase 2 verificou coerência documental e fontes; não executou benchmark, build do Tabletop ou teste de áudio.
+Domínio, projeção de apresentação, geometria de vãos/portas e servidor têm testes automatizados. O roteiro de navegador verifica autoria por gestos/campos, histórico, assets, segunda janela, revisão/recuperação e fidelidade após reiniciar. Build de produção foi executado. Escolher metas de frame/resposta/memória somente após baseline; ver [benchmark](IMMERSION.md). Teste com áudio, projetor e notebook reais continua pendente.
 
 ## 8. Riscos e decisões pendentes
 
@@ -184,7 +190,7 @@ Escolher metas de frame/resposta/memória somente após baseline. Ver [benchmark
 | Tamanho típico de mapa | Nenhum limite arbitrário. | Sala, corredor/andares e externo representativos. |
 | Escopo crescer demais | Slice completo pequeno antes de biblioteca procedural ampla. | Critérios de MVP cumpridos e avaliados. |
 
-Não resta decisão arquitetural que exija implementação antecipada nesta etapa. As pendências devem ser resolvidas por protótipo/piloto ou escolha de dados reais na fase correspondente.
+As pendências devem ser resolvidas pelo piloto do slice e por dados reais na fase correspondente. A implementação confirmou estruturas paramétricas, propostas materializadas e câmera publicada independente; ainda não fornece evidência para sistemas visuais avançados ou LAN.
 
 ## 9. Matriz de cobertura do pedido
 
@@ -203,4 +209,4 @@ Não resta decisão arquitetural que exija implementação antecipada nesta etap
 | Performance com notebook/projetor/áudio e benchmark sem metas inventadas | IMMERSION, seções 13–14. |
 | MVP, V2, V3, futuro, riscos e validações | Este documento, seções 3–8. |
 
-O próximo trabalho possível é implementar e validar o slice descrito. Esta entrega encerra a arquitetura solicitada e não inicia essa implementação.
+O próximo trabalho é avaliar o slice com o mestre no projetor, medir desempenho e ajustar a interação; depois concluir transporte e reutilização de mapas/ambientes. [VERTICAL_SLICE.md](VERTICAL_SLICE.md) distingue o que já funciona das entregas futuras.
