@@ -50,6 +50,7 @@ export async function startApplication() {
     <div id="presentation-controls" hidden><span id="presentation-name"></span>${button('present', 'Voltar à edição', 'close', 'quiet')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet')}</div>
     <dialog id="documents-dialog"><div class="dialog-header"><div><span class="eyebrow">NO SEU COMPUTADOR</span><h2>Cenas salvas</h2></div>${button('close-dialog', '', 'close', 'icon-button', 'aria-label="Fechar"')}</div><div id="documents-list"></div></dialog>
     <dialog id="recovery-dialog"><span class="eyebrow">RECUPERAÇÃO LOCAL</span><h2>Há trabalho não salvo</h2><p id="recovery-description"></p><div class="dialog-actions">${button('discard-draft', 'Descartar rascunho', '', 'quiet')}${button('restore-draft', 'Restaurar trabalho', 'undo', 'primary')}</div></dialog>
+    <div id="context-menu" class="context-menu" hidden></div>
     <input id="asset-file" type="file" accept="image/png,image/jpeg,image/webp,.glb" hidden />`;
 
   let assets = [], savedScenes = [], selection = null, tool = 'select', tab = 'build';
@@ -59,6 +60,7 @@ export async function startApplication() {
   let openTicket = 0;
   let initialized = false;
   let roomOptions = { width: 6, length: 5, height: 2.6, center: [0, 0, 0], door: true, lighting: true };
+  let contextTarget = null, draggedTreeId = null;
   const store = createSceneStore(createScene('Minha primeira cena'));
   const sessionId = id();
   const channel = typeof BroadcastChannel === 'function' ? new BroadcastChannel(`tabletop-presentation-${sessionId}`) : null;
@@ -70,18 +72,6 @@ export async function startApplication() {
     clearTimeout(noticeTimer);
     if (!persistent) noticeTimer = setTimeout(() => { notice.hidden = true; }, error ? 8500 : 4000);
   }
-  const viewport = createViewport(document.getElementById('viewport'), {
-    onSelect: (value) => { selection = value; renderInspector(); renderSceneTreeIfVisible(); viewport.setSelection(value); },
-    onTransform: (objectId, transform, meta = {}) => {
-      const found = locate(objectId);
-      if (!found) return;
-      const patch = found.type === 'light' ? { position: transform.position, rotation: transform.rotation } : { transform };
-      execute(`${found.type}.update`, { id: objectId, patch, snap: meta.snap });
-    },
-    onPlace: (point) => placeAt(point),
-    onRoomDraw: (rectangle) => { roomOptions = { ...roomOptions, ...rectangle }; tab = 'build'; makeProposal(); renderSidebar(); },
-    onError: (error) => notify(error?.message ?? String(error), true, true),
-  });
 
   function locate(objectId = selection) {
     const doc = store.document;
@@ -94,6 +84,89 @@ export async function startApplication() {
     try { return store.execute(type, payload, options); }
     catch (error) { notify(error.message, true); viewport.setDocument(store.document); viewport.setSelection(selection); return null; }
   }
+  function renameTarget(targetId) {
+    const doc = store.document;
+    if (doc.layout.groups[targetId]) {
+      const group = doc.layout.groups[targetId];
+      const nextName = window.prompt('Renomear pasta:', group.name);
+      if (nextName !== null && nextName.trim() && nextName.trim() !== group.name) {
+        execute('group.update', { id: targetId, patch: { name: nextName.trim() } });
+      }
+      return;
+    }
+    const found = locate(targetId);
+    if (!found) return;
+    const currentName = found.type === 'token' ? doc.actors[found.record.actorId]?.name ?? found.record.name : found.record.name;
+    const nextName = window.prompt('Renomear objeto:', currentName);
+    if (nextName !== null && nextName.trim() && nextName.trim() !== currentName) {
+      if (found.type === 'token') {
+        execute('token.update', { id: targetId, actorPatch: { name: nextName.trim() }, patch: { name: nextName.trim() } });
+      } else {
+        execute(`${found.type}.update`, { id: targetId, patch: { name: nextName.trim() } });
+      }
+    }
+  }
+  function showContextMenu(x, y, targetId) {
+    contextTarget = targetId;
+    const menu = document.getElementById('context-menu');
+    if (!menu) return;
+    const doc = store.document;
+    if (doc.layout.groups[targetId]) {
+      const group = doc.layout.groups[targetId];
+      menu.innerHTML = `
+        <div class="context-menu-header">PASTA: ${esc(group.name)}</div>
+        <button type="button" class="context-menu-item" data-context="rename">${icon('edit', 14)}<span>Renomear</span></button>
+        <button type="button" class="context-menu-item danger" data-context="delete-group">${icon('trash', 14)}<span>Deletar</span></button>
+      `;
+    } else {
+      const found = locate(targetId);
+      if (!found) return;
+      const typeLabel = found.type === 'token' ? 'TOKEN' : found.type === 'light' ? 'LUZ' : ({ floor: 'PISO', wall: 'PAREDE', door: 'PORTA', prop: 'OBJETO' }[found.record.kind] || 'OBJETO');
+      const name = found.type === 'token' ? doc.actors[found.record.actorId]?.name ?? found.record.name : found.record.name;
+      menu.innerHTML = `
+        <div class="context-menu-header">${typeLabel}: ${esc(name)}</div>
+        <button type="button" class="context-menu-item" data-context="rename">${icon('edit', 14)}<span>Renomear</span></button>
+        <button type="button" class="context-menu-item" data-context="duplicate">${icon('copy', 14)}<span>Duplicar</span></button>
+        <button type="button" class="context-menu-item danger" data-context="delete">${icon('trash', 14)}<span>Deletar</span></button>
+      `;
+    }
+    menu.hidden = false;
+    const menuWidth = 175, menuHeight = 140;
+    const left = Math.min(x, window.innerWidth - menuWidth - 12);
+    const top = Math.min(y, window.innerHeight - menuHeight - 12);
+    menu.style.left = `${Math.max(8, left)}px`;
+    menu.style.top = `${Math.max(8, top)}px`;
+  }
+  function hideContextMenu() {
+    const menu = document.getElementById('context-menu');
+    if (menu) menu.hidden = true;
+    contextTarget = null;
+  }
+
+  const viewport = createViewport(document.getElementById('viewport'), {
+    onSelect: (value) => { selection = value; renderInspector(); renderSceneTreeIfVisible(); viewport.setSelection(value); hideContextMenu(); },
+    onTransform: (objectId, transform, meta = {}) => {
+      const found = locate(objectId);
+      if (!found) return;
+      const patch = found.type === 'light' ? { position: transform.position, rotation: transform.rotation } : { transform };
+      execute(`${found.type}.update`, { id: objectId, patch, snap: meta.snap });
+    },
+    onPlace: (point) => placeAt(point),
+    onRoomDraw: (rectangle) => { roomOptions = { ...roomOptions, ...rectangle }; tab = 'build'; makeProposal(); renderSidebar(); },
+    onError: (error) => notify(error?.message ?? String(error), true, true),
+    onContextMenu: (event, hit) => {
+      if (hit?.entityId) {
+        selection = hit.entityId;
+        viewport.setSelection(selection);
+        renderInspector();
+        renderSceneTreeIfVisible();
+        showContextMenu(event.clientX, event.clientY, hit.entityId);
+      } else {
+        hideContextMenu();
+      }
+    },
+    onCameraChange: () => hideContextMenu(),
+  });
   function setTool(next) {
     tool = next; viewport.setTool(next);
     if (next !== 'place') placing = null;
@@ -152,7 +225,7 @@ export async function startApplication() {
       panel.innerHTML = `<div class="section-intro"><span class="eyebrow">BIBLIOTECA</span><h2>Detalhes dão vida.</h2><p class="muted">Escolha um objeto e clique no chão para colocá-lo.</p></div><input id="asset-search" type="search" aria-label="Buscar assets" placeholder="Buscar na biblioteca…" /><div id="asset-cards" class="asset-grid"></div>${button('asset-import', 'Importar imagem ou GLB', 'upload', 'wide accent-outline')}<p class="microcopy">Arquivos ficam guardados no servidor local, separados da cena.</p>`;
       renderAssetCards();
     } else {
-      panel.innerHTML = `<section><span class="eyebrow">AMBIENTE</span><h2>A luz conta a história.</h2><p class="muted">Um ponto de partida. Ajuste cada fonte como quiser.</p><div class="environment-options">${ENVIRONMENTS.map((preset) => `<button data-environment="${preset.id}" class="environment-card ${store.document.sourceEnvironment?.id === preset.id ? 'active' : ''}"><span class="environment-swatch ${preset.id}"></span><span><strong>${esc(preset.name)}</strong><small>${esc(preset.description || '')}</small></span>${icon('chevron', 14)}</button>`).join('')}</div>${colorField('background', 'Fundo', store.document.look.background)}${numberField('fill-intensity', 'Preenchimento', store.document.look.fill.intensity, { min: 0, step: .1 })}${colorField('fill-color', 'Cor do preenchimento', store.document.look.fill.skyColor)}</section><section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><span class="eyebrow">ELEMENTOS DA CENA</span><div id="scene-tree"></div></section>`;
+      panel.innerHTML = `<section><span class="eyebrow">AMBIENTE</span><h2>A luz conta a história.</h2><p class="muted">Um ponto de partida. Ajuste cada fonte como quiser.</p><div class="environment-options">${ENVIRONMENTS.map((preset) => `<button data-environment="${preset.id}" class="environment-card ${store.document.sourceEnvironment?.id === preset.id ? 'active' : ''}"><span class="environment-swatch ${preset.id}"></span><span><strong>${esc(preset.name)}</strong><small>${esc(preset.description || '')}</small></span>${icon('chevron', 14)}</button>`).join('')}</div>${colorField('background', 'Fundo', store.document.look.background)}${numberField('fill-intensity', 'Preenchimento', store.document.look.fill.intensity, { min: 0, step: .1 })}${colorField('fill-color', 'Cor do preenchimento', store.document.look.fill.skyColor)}</section><section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
       renderSceneTreeIfVisible();
     }
   }
@@ -165,8 +238,67 @@ export async function startApplication() {
   function renderSceneTreeIfVisible() {
     const tree = document.getElementById('scene-tree'); if (!tree) return;
     const doc = store.document;
-    const entries = [...Object.values(doc.layout.entities), ...Object.values(doc.tokens), ...Object.values(doc.look.lights)];
-    tree.innerHTML = entries.map((entry) => `<button data-select="${entry.id}" class="tree-entry ${entry.id === selection ? 'selected' : ''}">${icon(entry.kind === 'floor' ? 'floor' : entry.kind === 'wall' ? 'wall' : entry.kind === 'door' ? 'door' : entry.actorId ? 'token' : entry.type ? 'light' : 'room', 14)}<span>${esc(entryName(doc, entry))}</span>${entry.audience === 'gm' ? '<small>GM</small>' : ''}</button>`).join('');
+    const groups = Object.values(doc.layout.groups);
+    const entities = Object.values(doc.layout.entities);
+    const tokens = Object.values(doc.tokens);
+    const lights = Object.values(doc.look.lights);
+
+    const renderEntry = (entry) => {
+      const typeGlyph = entry.kind === 'floor' ? 'floor' : entry.kind === 'wall' ? 'wall' : entry.kind === 'door' ? 'door' : entry.actorId ? 'token' : entry.type ? 'light' : 'room';
+      const name = entryName(doc, entry);
+      return `<div draggable="true" data-drag-id="${entry.id}" data-select="${entry.id}" class="tree-entry ${entry.id === selection ? 'selected' : ''}">
+        ${icon(typeGlyph, 14)}
+        <span class="tree-label" title="${esc(name)}">${esc(name)}</span>
+        ${entry.audience === 'gm' ? '<small>GM</small>' : ''}
+        <div class="tree-entry-actions">
+          <button type="button" class="tree-action-btn" data-tree-rename="${entry.id}" title="Renomear">${icon('edit', 12)}</button>
+          <button type="button" class="tree-action-btn" data-tree-menu="${entry.id}" title="Mais opções">${icon('dots', 12)}</button>
+        </div>
+      </div>`;
+    };
+
+    let html = '';
+
+    if (groups.length > 0) {
+      html += groups.map((group) => {
+        const groupEntities = entities.filter((e) => e.groupId === group.id);
+        return `<div class="tree-group" data-drop-group="${group.id}">
+          <div class="tree-group-header" data-group-id="${group.id}">
+            ${icon('folder', 14)}
+            <span class="group-title" title="${esc(group.name)}">${esc(group.name)}</span>
+            <div class="group-actions">
+              <button type="button" data-group-rename="${group.id}" title="Renomear pasta">${icon('edit', 12)}</button>
+              <button type="button" data-group-delete="${group.id}" title="Excluir pasta">${icon('trash', 12)}</button>
+            </div>
+          </div>
+          <div class="tree-group-items" data-drop-group="${group.id}">
+            ${groupEntities.length > 0 ? groupEntities.map(renderEntry).join('') : '<div class="tree-group-empty">Pasta vazia (arraste aqui)</div>'}
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    const rootEntities = entities.filter((e) => !e.groupId);
+    if (groups.length > 0 && rootEntities.length > 0) {
+      html += `<div class="tree-section-title">Sem pasta (Raiz)</div>`;
+    }
+    if (rootEntities.length > 0) {
+      html += `<div class="tree-group-items" data-drop-group="">${rootEntities.map(renderEntry).join('')}</div>`;
+    }
+
+    if (tokens.length > 0) {
+      html += `<div class="tree-section-title">Personagens</div><div class="tree-group-items">${tokens.map(renderEntry).join('')}</div>`;
+    }
+
+    if (lights.length > 0) {
+      html += `<div class="tree-section-title">Iluminação</div><div class="tree-group-items">${lights.map(renderEntry).join('')}</div>`;
+    }
+
+    if (!html) {
+      html = '<p class="microcopy">Nenhum elemento na cena.</p>';
+    }
+
+    tree.innerHTML = html;
   }
   function renderInspector() {
     const panel = document.getElementById('inspector-content'), found = locate();
@@ -181,6 +313,9 @@ export async function startApplication() {
     let fields = `<div class="object-title"><span class="object-icon">${icon(type === 'token' ? 'token' : type === 'light' ? 'light' : record.kind === 'door' ? 'door' : 'room', 24)}</span><span><small>${type === 'token' ? 'TOKEN' : type === 'light' ? 'LUZ' : ({ floor: 'PISO', wall: 'PAREDE', door: 'PORTA', prop: 'ASSET' }[record.kind])}</small><strong>${esc(name)}</strong></span></div><label class="field"><span>Nome</span><input data-field="object-name" value="${esc(name)}" maxlength="256" /></label>`;
     if (position) {
       fields += `<section><span class="eyebrow">POSIÇÃO · METROS</span><div class="axis-fields">${position.map((value, axis) => numberField(`position-${axis}`, ['X', 'Y · altura', 'Z'][axis], value)).join('')}</div>${numberField('object-yaw', 'Rotação Y · graus', yawFromQuaternion(record.transform?.rotation ?? record.rotation), { step: 15 })}</section>`;
+    }
+    if (type === 'entity') {
+      fields += `<section><span class="eyebrow">ORGANIZAÇÃO</span><label class="field"><span>Pasta / Grupo</span><select data-field="entity-group"><option value="">(Sem pasta / Raiz)</option>${Object.values(doc.layout.groups).map((g) => `<option value="${g.id}" ${record.groupId === g.id ? 'selected' : ''}>${esc(g.name)}</option>`).join('')}</select></label></section>`;
     }
     if (record.kind === 'floor') fields += `<section><span class="eyebrow">DIMENSÕES · METROS</span><div class="field-grid">${numberField('width', 'Largura', record.width, { min: .1 })}${numberField('length', 'Comprimento', record.length, { min: .1 })}</div>${numberField('thickness', 'Espessura', record.thickness, { min: .01 })}</section>`;
     if (record.kind === 'wall') fields += `<section><span class="eyebrow">DIMENSÕES · METROS</span>${numberField('length', 'Comprimento', record.length, { min: .1 })}${numberField('height', 'Altura', record.height, { min: .1 })}${numberField('thickness', 'Espessura', record.thickness, { min: .01 })}<p class="microcopy">Portas acompanham esta parede. Reduzir o comprimento exige manter as aberturas válidas.</p></section>`;
@@ -402,6 +537,7 @@ export async function startApplication() {
     else if (field.startsWith('light-')) patch[{ 'light-color': 'color', 'light-intensity': 'intensity', 'light-distance': 'distance', 'light-shadow': 'shadowEnabled' }[field]] = value;
     else if (field === 'object-secret') patch.audience = value ? 'gm' : 'all';
     else if (field === 'object-locked') patch.locked = value;
+    else if (field === 'entity-group') { execute('entity.update', { id: record.id, patch: { groupId: value || null } }); return; }
     else if (field === 'door-angle') { execute('door.setAngle', { id: record.id, angle: value * Math.PI / 180 }); return; }
     else patch[field] = value;
     execute(`${type}.update`, { id: record.id, patch, ...(actorPatch ? { actorPatch } : {}) });
@@ -412,6 +548,15 @@ export async function startApplication() {
     switch (action) {
       case 'save': return saveScene();
       case 'duplicate-scene': return duplicateScene();
+      case 'group-add': {
+        const name = window.prompt('Nome da nova pasta:', 'Nova pasta');
+        if (name !== null && name.trim()) {
+          execute('group.add', { group: { name: name.trim() } });
+          tab = 'scene';
+          renderSidebar();
+        }
+        break;
+      }
       case 'new': if (canSwitch()) { selection = null; clearProposal(); store.replace(createScene('Nova cena'), { saved: false }); setTool('select'); viewport.frameScene(); } break;
       case 'open': return openDialog();
       case 'close-dialog': document.getElementById('documents-dialog').close(); break;
@@ -476,6 +621,54 @@ export async function startApplication() {
   }
   root.addEventListener('click', (event) => {
     if (!initialized) return;
+    if (!event.target.closest('#context-menu')) hideContextMenu();
+
+    const contextBtn = event.target.closest('[data-context]');
+    if (contextBtn && contextTarget) {
+      const action = contextBtn.dataset.context;
+      const targetId = contextTarget;
+      hideContextMenu();
+      if (action === 'rename') renameTarget(targetId);
+      else if (action === 'duplicate') { selection = targetId; viewport.setSelection(selection); act('object-duplicate'); }
+      else if (action === 'delete') { selection = targetId; viewport.setSelection(selection); act('object-delete'); }
+      else if (action === 'delete-group') {
+        const group = store.document.layout.groups[targetId];
+        if (group && confirm(`Excluir a pasta “${group.name}”? Os objetos dentro dela serão mantidos na raiz.`)) {
+          execute('group.remove', { id: targetId });
+        }
+      }
+      return;
+    }
+
+    const treeRenameBtn = event.target.closest('[data-tree-rename]');
+    if (treeRenameBtn) { renameTarget(treeRenameBtn.dataset.treeRename); return; }
+
+    const treeMenuBtn = event.target.closest('[data-tree-menu]');
+    if (treeMenuBtn) {
+      const id = treeMenuBtn.dataset.treeMenu;
+      const rect = treeMenuBtn.getBoundingClientRect();
+      selection = id; viewport.setSelection(selection); renderInspector(); renderSceneTreeIfVisible();
+      showContextMenu(rect.right + 4, rect.top, id); return;
+    }
+
+    const groupRenameBtn = event.target.closest('[data-group-rename]');
+    if (groupRenameBtn) { renameTarget(groupRenameBtn.dataset.groupRename); return; }
+
+    const groupDeleteBtn = event.target.closest('[data-group-delete]');
+    if (groupDeleteBtn) {
+      const groupId = groupDeleteBtn.dataset.groupDelete;
+      const group = store.document.layout.groups[groupId];
+      if (group && confirm(`Excluir a pasta “${group.name}”? Os objetos dentro dela serão mantidos na raiz.`)) {
+        execute('group.remove', { id: groupId });
+      }
+      return;
+    }
+
+    const treeEntry = event.target.closest('.tree-entry');
+    if (treeEntry && !event.target.closest('button')) {
+      selection = treeEntry.dataset.select; viewport.setSelection(selection); renderInspector(); renderSceneTreeIfVisible(); return;
+    }
+
     const node = event.target.closest('button'); if (!node) return;
     if (node.dataset.action) { Promise.resolve(act(node.dataset.action)).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.tab) { tab = node.dataset.tab; renderSidebar(); return; }
@@ -503,6 +696,66 @@ export async function startApplication() {
       }).catch((error) => notify(error.message, true));
     }
   });
+  root.addEventListener('contextmenu', (event) => {
+    if (!initialized) return;
+    const entry = event.target.closest('.tree-entry');
+    if (entry) {
+      event.preventDefault();
+      const id = entry.dataset.select;
+      selection = id; viewport.setSelection(selection); renderInspector(); renderSceneTreeIfVisible();
+      showContextMenu(event.clientX, event.clientY, id);
+      return;
+    }
+    const groupHeader = event.target.closest('.tree-group-header');
+    if (groupHeader) {
+      event.preventDefault();
+      showContextMenu(event.clientX, event.clientY, groupHeader.dataset.groupId);
+      return;
+    }
+  });
+  root.addEventListener('dragstart', (event) => {
+    const entry = event.target.closest('[data-drag-id]');
+    if (entry) {
+      draggedTreeId = entry.dataset.dragId;
+      entry.classList.add('dragging');
+      event.dataTransfer.setData('text/plain', draggedTreeId);
+      event.dataTransfer.effectAllowed = 'move';
+    }
+  });
+  root.addEventListener('dragend', (event) => {
+    const entry = event.target.closest('[data-drag-id]');
+    if (entry) entry.classList.remove('dragging');
+    root.querySelectorAll('.tree-group.drag-over').forEach((el) => el.classList.remove('drag-over'));
+    draggedTreeId = null;
+  });
+  root.addEventListener('dragover', (event) => {
+    const groupTarget = event.target.closest('[data-drop-group]');
+    if (groupTarget && draggedTreeId) {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+      const treeGroup = groupTarget.closest('.tree-group');
+      if (treeGroup) treeGroup.classList.add('drag-over');
+    }
+  });
+  root.addEventListener('dragleave', (event) => {
+    const treeGroup = event.target.closest('.tree-group');
+    if (treeGroup && !treeGroup.contains(event.relatedTarget)) {
+      treeGroup.classList.remove('drag-over');
+    }
+  });
+  root.addEventListener('drop', (event) => {
+    const groupTarget = event.target.closest('[data-drop-group]');
+    if (groupTarget && draggedTreeId) {
+      event.preventDefault();
+      const targetGroupId = groupTarget.dataset.dropGroup || null;
+      const entity = store.document.layout.entities[draggedTreeId];
+      if (entity && entity.groupId !== targetGroupId) {
+        execute('entity.update', { id: draggedTreeId, patch: { groupId: targetGroupId } });
+      }
+      root.querySelectorAll('.tree-group.drag-over').forEach((el) => el.classList.remove('drag-over'));
+      draggedTreeId = null;
+    }
+  });
   root.addEventListener('change', (event) => {
     if (!initialized) return;
     if (event.target.id === 'asset-file') { importAsset(event.target.files[0]); event.target.value = ''; }
@@ -519,7 +772,7 @@ export async function startApplication() {
   window.addEventListener('keydown', (event) => {
     if (!initialized) return;
     if (event.target.closest('input,select,textarea') || document.querySelector('dialog[open]')) return;
-    if (event.key === 'Escape') { if (isPresentation) act('present'); else { clearProposal(); setTool('select'); } }
+    if (event.key === 'Escape') { hideContextMenu(); if (isPresentation) act('present'); else { clearProposal(); setTool('select'); } }
     if (isPresentation) return;
     if (event.ctrlKey || event.metaKey) {
       if (event.key.toLowerCase() === 's') { event.preventDefault(); saveScene(); }

@@ -29,7 +29,7 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
 - **Presets de Ambiente (`environments.js`):** Definições de iluminação e atmosfera para os presets `warm` (acolhedor), `moonlight` (luar) e `neutral` (neutro), integrando luz ambiente, sol direcional, cor de fundo e neblina.
 
 ### 2.2. Estado, Comandos e Histórico (`src/state/`)
-- **Arquitetura de Comandos Puros (`commands.js`):** Todas as mutações no documento acontecem via comandos registrados (`entity.add`, `entity.update`, `entity.remove`, `entity.duplicate`, `token.add`, `token.update`, `token.remove`, `token.duplicate`, `light.add`, `light.update`, `light.remove`, `environment.apply`, `camera.save`, `camera.remove`, `door.setAngle`, `proposal.accept`, `grid.update`).
+- **Arquitetura de Comandos Puros (`commands.js`):** Todas as mutações no documento acontecem via comandos registrados (`entity.add`, `entity.update`, `entity.remove`, `entity.duplicate`, `group.add`, `group.update`, `group.remove`, `token.add`, `token.update`, `token.remove`, `token.duplicate`, `light.add`, `light.update`, `light.remove`, `environment.apply`, `camera.save`, `camera.remove`, `door.setAngle`, `proposal.accept`, `grid.update`).
 - **Undo/Redo Transacional (`scene-store.js`):**
   - Histórico determinístico de desfazer/refazer.
   - Suporte a comandos compostos: operações assistidas (como aceitar uma sala inteira) entram no histórico como um único passo atômico, desfeito de uma só vez.
@@ -62,10 +62,13 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
 - **Painéis de Controle:**
   - Aba **Construir:** Dimensões rápidas de sala, adição manual de pisos, paredes, portas, tokens e luzes.
   - Aba **Assets:** Catálogo local com 6 móveis pré-fabricados originais (mesa, cadeira, arquivo, caixa, luminária e tapete) e importador de arquivos do computador.
-  - Aba **Cena:** Seleção de ambientes luminosos (acolhedor, luar, neutro), salvamento de enquadramentos de câmera e lançamento da segunda janela para projetor.
+  - Aba **Cena:** Seleção de ambientes luminosos (acolhedor, luar, neutro), salvamento de enquadramentos de câmera, lançamento da segunda janela para projetor, e **gerenciamento hierárquico da árvore de cena** com suporte a pastas/grupos (+ Nova Pasta, renomear, excluir), organização via arrastar e soltar (*drag & drop*) e renomeação direta de objetos.
+- **Menu de Contexto Rápido:**
+  - Clique com botão direito (ou menu de opções na árvore) sobre qualquer objeto no 3D ou na árvore abre menu com **Renomear**, **Duplicar** e **Deletar**.
 - **Inspetor Lateral Completo:**
   - Edição numérica de coordenadas X, Y, Z, rotação Yaw e escala em todos os eixos.
   - Controle de abertura de portas (ângulo interativo).
+  - Seleção e movimentação rápida de pasta/grupo para qualquer entidade.
   - Ajuste de cores de tokens e parâmetros de luzes (intensidade, raio, cor).
   - Ferramentas de cópia e colagem (`Ctrl+C` / `Ctrl+V`), duplicação (`Ctrl+D`) e exclusão (`Delete`/`Backspace`).
 
@@ -90,7 +93,7 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Modal de recuperação no carregamento caso o navegador feche inesperadamente ou falhe a gravação no disco.
 
 ### 2.8. Testes Automatizados e Qualidade
-- **31 testes unitários e de integração (`npm test`):** Cobertura completa de regras de domínio, snap, dependências estruturais, cálculo de aberturas de portas, projeção filtrada, 4º eixo de escala proporcional, concorrência no servidor e rotação de backups.
+- **32 testes unitários e de integração (`npm test`):** Cobertura completa de regras de domínio, snap, dependências estruturais, cálculo de aberturas de portas, projeção filtrada, 4º eixo de escala proporcional, gerenciamento de pastas e renomeação com histórico transacional, concorrência no servidor e rotação de backups.
 - **Testes de ponta a ponta (E2E) com Playwright (`npm run test:e2e`):** Validação em navegador real do fluxo completo de criação de sala do vazio, aceite de Smart Build, manipulação de tokens/móveis, salvamento, reinício de servidor e sincronização de janelas.
 
 ---

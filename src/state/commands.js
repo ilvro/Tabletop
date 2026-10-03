@@ -191,6 +191,30 @@ export function applyCommand(document, command) {
       light.position = light.position.map((v, i) => v + (payload.offset ?? [1, 0, 1])[i]); put(look.lights, light); break;
     }
     case 'grid.update': next.layout.grid = merge(next.layout.grid, payload.patch ?? payload); break;
+    case 'group.add': {
+      const group = clone(payload.group ?? {});
+      if (!group.id) group.id = id();
+      if (group.name === undefined) group.name = 'Nova pasta';
+      if (group.parentId === undefined) group.parentId = null;
+      if (group.locked === undefined) group.locked = false;
+      if (group.audience === undefined) group.audience = 'all';
+      put(next.layout.groups, group);
+      break;
+    }
+    case 'group.update': {
+      const before = requireRecord(next.layout.groups, payload.id, 'Grupo');
+      editable(before, payload.patch);
+      next.layout.groups[payload.id] = merge(before, payload.patch);
+      break;
+    }
+    case 'group.remove': {
+      requireRecord(next.layout.groups, payload.id, 'Grupo');
+      delete next.layout.groups[payload.id];
+      for (const entity of Object.values(next.layout.entities)) if (entity.groupId === payload.id) entity.groupId = null;
+      for (const area of Object.values(next.layout.areas)) if (area.groupId === payload.id) area.groupId = null;
+      for (const group of Object.values(next.layout.groups)) if (group.parentId === payload.id) group.parentId = null;
+      break;
+    }
     case 'look.update': {
       const field = next.documentType === 'scene' ? 'look' : 'defaultLook'; next[field] = merge(look, payload.patch ?? payload); break;
     }

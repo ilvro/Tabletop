@@ -78,7 +78,7 @@ export function setupUniformScaleGizmo(transform) {
 /** Runtime adapter only. Documents are read; all durable changes leave through callbacks. */
 export function createViewport(container, {
   onSelect = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
-  onCameraChange = () => {}, onError = () => {},
+  onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {},
 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-label', 'Cena 3D — botão direito orbita, botão do meio desloca, roda aproxima');
@@ -669,7 +669,12 @@ export function createViewport(container, {
     if (transform.object) transform.setRotationSnap(sceneDocument?.layout?.grid?.snap && !altHeld ? Math.PI / 12 : null);
   }
   function onKeyUp(event) { altHeld = event.altKey; }
-  function onContextMenu(event) { event.preventDefault(); }
+  function handleContextMenu(event) {
+    event.preventDefault();
+    if (presentation) return;
+    const hit = pick(event);
+    onContextMenuCb(event, hit ? { entityId: hit.object.userData.entityId, point: hit.point.toArray() } : null);
+  }
   function syncGizmoPlane(event) {
     if (presentation || !transform.enabled || !transform.object) return;
     const pointerPos = transform._getPointer ? transform._getPointer(event) : null;
@@ -693,12 +698,16 @@ export function createViewport(container, {
   canvas.addEventListener('pointerup', onPointerUp);
   canvas.addEventListener('pointercancel', cancelGesture);
   canvas.addEventListener('lostpointercapture', () => { if (pointer) cancelGesture(); });
-  canvas.addEventListener('contextmenu', onContextMenu);
+  canvas.addEventListener('contextmenu', handleContextMenu);
   window.addEventListener('keydown', onKeyDown);
   window.addEventListener('keyup', onKeyUp);
 
   return {
     setDocument,
+    pick(event) {
+      const hit = pick(event);
+      return hit ? { entityId: hit.object.userData.entityId, point: hit.point.toArray() } : null;
+    },
     setAssets(next) {
       const replacement = new Map(values(next?.assets ?? next).map((record) => [`${record.id}@${record.revision ?? 1}`, record]));
       const changed = replacement.size !== assets.size || [...replacement].some(([key, record]) => JSON.stringify(record) !== JSON.stringify(assets.get(key)));

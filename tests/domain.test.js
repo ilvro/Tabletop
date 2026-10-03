@@ -192,3 +192,36 @@ test('validation rejects unavailable integrations, runtime/embedded media, nonfi
   assert.throws(() => applyCommand(createScene(), { type: 'entity.add', payload: { entity: door } }), ValidationError);
   const badMedia = createScene(); badMedia.image = 'data:image/png;base64,abc'; assert.throws(() => validateDocument(badMedia), ValidationError);
 });
+
+test('group creation, rename, entity assignment and group removal with undo/redo', () => {
+  const store = roomStore();
+  const groupId = id();
+  store.execute('group.add', { group: { id: groupId, name: 'Mobiliário' } });
+  assert.equal(store.document.layout.groups[groupId]?.name, 'Mobiliário');
+
+  // Renomear pasta
+  store.execute('group.update', { id: groupId, patch: { name: 'Mobiliário Antigo' } });
+  assert.equal(store.document.layout.groups[groupId]?.name, 'Mobiliário Antigo');
+
+  // Mover piso para a pasta
+  const floorId = Object.values(store.document.layout.entities).find(e => e.kind === 'floor').id;
+  store.execute('entity.update', { id: floorId, patch: { groupId, name: 'Piso do Hall' } });
+  assert.equal(store.document.layout.entities[floorId].groupId, groupId);
+  assert.equal(store.document.layout.entities[floorId].name, 'Piso do Hall');
+
+  // Remover pasta: entidade deve voltar para groupId = null
+  store.execute('group.remove', { id: groupId });
+  assert.equal(store.document.layout.groups[groupId], undefined);
+  assert.equal(store.document.layout.entities[floorId].groupId, null);
+
+  // Undo deve restaurar a pasta e o vínculo da entidade
+  store.undo();
+  assert.equal(store.document.layout.groups[groupId]?.name, 'Mobiliário Antigo');
+  assert.equal(store.document.layout.entities[floorId].groupId, groupId);
+
+  // Redo deve remover novamente
+  store.redo();
+  assert.equal(store.document.layout.groups[groupId], undefined);
+  assert.equal(store.document.layout.entities[floorId].groupId, null);
+});
+
