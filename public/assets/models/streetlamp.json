@@ -1,0 +1,143 @@
+{
+  "name": "Poste de rua",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.2,
+      "radiusBottom": 0.2,
+      "height": 0.1,
+      "position": [
+        -0.259999997317791,
+        0.05000000074505806,
+        0
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.05,
+      "radiusBottom": 0.05,
+      "height": 3.2,
+      "position": [
+        -0.259999997317791,
+        1.700000000745058,
+        0
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.6,
+        0.05,
+        0.06
+      ],
+      "position": [
+        2.682209010451686e-9,
+        3.280000000745058,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.38,
+        0.06,
+        0.24
+      ],
+      "position": [
+        0.27000000268220903,
+        3.2500000007450582,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.015,
+        0.18
+      ],
+      "position": [
+        0.27000000268220903,
+        3.211000000745058,
+        0
+      ],
+      "material": "flame"
+    }
+  ]
+}

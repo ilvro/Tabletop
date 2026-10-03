@@ -34,7 +34,7 @@ export function standardMaterial(properties = {}) {
   });
 }
 
-function recipeInstance(recipe) {
+export function recipeInstance(recipe) {
   if (!Array.isArray(recipe.parts) || recipe.parts.length > 200) throw new Error('Receita de asset inválida.');
   const group = new THREE.Group();
   for (const part of recipe.parts) {

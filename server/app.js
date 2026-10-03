@@ -90,6 +90,9 @@ export async function createApp({ dataDir = path.join(projectDir, 'data'), distD
   app.use('/api', express.json({ limit: '5mb', strict: true }));
   app.get('/api/tabletop/assets', asyncRoute(async (_req, res) => res.json(await assets.list())));
   app.get('/api/tabletop/assets/:id', asyncRoute(async (req, res) => res.json(await assets.read(req.params.id))));
+  app.patch('/api/tabletop/assets/:id/metadata', asyncRoute(async (req, res) => {
+    res.json(await assets.updateMetadata(req.params.id, req.body?.metadata, req.body?.expectedMetadataRevision));
+  }));
   app.get('/api/tabletop/assets/:id/file', asyncRoute(async (req, res) => {
     const record = await assets.read(req.params.id);
     const file = assets.file(record);

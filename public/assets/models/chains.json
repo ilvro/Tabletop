@@ -1,0 +1,579 @@
+{
+  "name": "Correntes suspensas",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        -0.04,
+        0.07250000018626453,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        0.04,
+        0.07250000018626453,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        0.012500000186264515,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        -0.04,
+        0.20250000018626452,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        0.04,
+        0.20250000018626452,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        0.14250000018626452,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        -0.04,
+        0.3325000001862645,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        0.04,
+        0.3325000001862645,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        0.2725000001862645,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        -0.04,
+        0.4625000001862645,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        0.04,
+        0.4625000001862645,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        0.40250000018626453,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        -0.04,
+        0.5925000001862646,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        0.04,
+        0.5925000001862646,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        0.5325000001862645,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        -0.04,
+        0.7225000001862645,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        0.04,
+        0.7225000001862645,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        0.6625000001862645,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        -0.04,
+        0.8525000001862646,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        0.04,
+        0.8525000001862646,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        0.7925000001862645,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        -0.04,
+        0.9825000001862645,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        0.04,
+        0.9825000001862645,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        0.9225000001862645,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        -0.04,
+        1.1125000001862646,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        0.04,
+        1.1125000001862646,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        1.0525000001862646,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        -0.04,
+        1.2425000001862645,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        0.04,
+        1.2425000001862645,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        1.1825000001862644,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        -0.04,
+        1.3725000001862646,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        0.04,
+        1.3725000001862646,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        1.3125000001862646,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        -0.04,
+        1.5025000001862647,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.065,
+        0.13,
+        0.025
+      ],
+      "position": [
+        0.04,
+        1.5025000001862647,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        1.4425000001862647,
+        0
+      ],
+      "material": "dark"
+    }
+  ]
+}

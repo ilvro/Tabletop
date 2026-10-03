@@ -1,0 +1,137 @@
+{
+  "name": "Fragmentos anômalos",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.23,
+      "radiusBottom": 0.23,
+      "height": 0.08,
+      "position": [
+        -0.0170199500642209,
+        0.03999999910593033,
+        0
+      ],
+      "material": "stone",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0,
+      "radiusBottom": 0.12,
+      "height": 0.6,
+      "position": [
+        -0.0170199500642209,
+        0.37999999910593035,
+        0
+      ],
+      "material": "violet",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0,
+      "radiusBottom": 0.08,
+      "height": 0.35,
+      "position": [
+        0.14298004993577912,
+        0.22999999910593033,
+        0.05
+      ],
+      "material": "violet",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        -0.25
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0,
+      "radiusBottom": 0.07,
+      "height": 0.27,
+      "position": [
+        -0.15701995006422093,
+        0.18499999910593032,
+        -0.03
+      ],
+      "material": "screen",
+      "segments": 12,
+      "rotation": [
+        0.2,
+        0,
+        0.3
+      ]
+    }
+  ]
+}

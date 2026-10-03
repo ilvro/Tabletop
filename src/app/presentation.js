@@ -66,5 +66,9 @@ export function presentationAssets(document, assets) {
       token.visualOverride.assetRef : document.actors[token.actorId]?.assetRef;
     include(reference);
   }
-  return assets.filter((asset) => references.has(`${asset.id}@${asset.revision}`));
+  return assets.filter((asset) => references.has(`${asset.id}@${asset.revision}`)).map(asset => {
+    // Classification can contain campaign notes and clues intended only for the GM.
+    const { tags, contexts, era, category, favorite, metadataRevision, description, provenance, ...publicAsset } = asset;
+    return publicAsset;
+  });
 }

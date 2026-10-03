@@ -1,0 +1,144 @@
+{
+  "name": "Pia com bancada",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.2,
+        0.72,
+        0.55
+      ],
+      "position": [
+        0,
+        0.36000001430511475,
+        0
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.26,
+        0.05,
+        0.6
+      ],
+      "position": [
+        0,
+        0.7450000143051148,
+        0
+      ],
+      "material": "stone"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.55,
+        0.015,
+        0.36
+      ],
+      "position": [
+        0,
+        0.7770000143051148,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.025,
+      "radiusBottom": 0.025,
+      "height": 0.23,
+      "position": [
+        0,
+        0.8900000143051148,
+        -0.22
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.18,
+        0.035,
+        0.035
+      ],
+      "position": [
+        0.065,
+        1.0000000143051149,
+        -0.22
+      ],
+      "material": "metal"
+    }
+  ]
+}

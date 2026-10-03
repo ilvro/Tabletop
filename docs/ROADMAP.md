@@ -31,7 +31,7 @@ Decisões ainda dependentes de protótipo/medição estão na seção 8. A arqui
 
 Pergunta de produto: **consigo criar uma cena 3D convincente e utilizável em uma sessão em poucos minutos, preservando controle manual?**
 
-**Situação atual:** fundamento do slice implementado e validado tecnicamente. Há criação do vazio, sala com vão/porta, edição manual, tokens, seis assets locais, importação de imagem/GLB estático, luzes/ambientes simples, câmeras, prévia/aceite de Quick Build, undo/redo, servidor com revisões/backups e recuperação por aba. Master View e apresentação funcionam na mesma janela e em segunda janela com câmera publicada independente.
+**Situação atual:** fundamento do slice implementado e validado tecnicamente. Há criação do vazio, sala com vão/porta, edição manual, tokens, catálogo local (agora com 61 assets originais), importação de imagem/GLB estático, luzes/ambientes simples, câmeras, prévia/aceite de Quick Build, undo/redo, servidor com revisões/backups e recuperação por aba. Master View e apresentação funcionam na mesma janela e em segunda janela com câmera publicada independente.
 
 A evolução posterior já acrescentou gestão de cenas/mapas/tokens, conversão entre mapa e cena, pastas, renomeação e clipboard. Mapas podem ser editados e instanciados em cenas com `sourceMap`. A biblioteca de EnvironmentDocument e o transporte por manifesto/pacote de documento+assets continuam pendentes; preservar o diretório de dados completo é o caminho atual de backup.
 
@@ -95,7 +95,7 @@ Objetivo: reduzir trabalho repetitivo e ampliar controle do cenário, mantendo o
 | Área | Evolução |
 | --- | --- |
 | Estruturas | Pisos poligonais/plataformas, janelas, paredes compartilhadas/encontros, grupos/layers/andares e apoio explícito. |
-| Assets | Categorias/tags/busca ampliadas, favoritos/coleções, variantes, materiais/texturas, anchors/apoios e importação glTF com dependências. |
+| Assets | Entregues: 61 modelos, categorias hierárquicas, tags editáveis, busca, épocas/cenários e favoritos ([ASSET_LIBRARY.md](ASSET_LIBRARY.md)). Pendentes: coleções formais, variantes de textura, sockets específicos e glTF com dependências. |
 | Prefabs | Composições pequenas, templates e receitas locais; proveniência, slots e regeneração por diff preservando alterações. |
 | Smart Build | Cama/acessórios, mesa/cadeiras, luminárias distribuídas, auto-decoration e auto-layout em escopo selecionado. |
 | Polish | Alinhamento/distribuição, variantes de material e revisão de passagens/decoração com preview. |
@@ -211,4 +211,4 @@ As pendências devem ser resolvidas pelo piloto do slice e por dados reais na fa
 | Performance com notebook/projetor/áudio e benchmark sem metas inventadas | IMMERSION, seções 13–14. |
 | MVP, V2, V3, futuro, riscos e validações | Este documento, seções 3–8. |
 
-Próximo incremento estrutural: junções/paredes compartilhadas, níveis e acessos. Avaliar as receitas e o polish com o mestre no projetor antes de ampliar o catálogo e a composição procedural. Transporte e biblioteca de ambientes continuam pendentes. [PHASE_3.md](PHASE_3.md) distingue esta entrega dos recursos futuros.
+Próximo incremento estrutural: junções/paredes compartilhadas, níveis e acessos. Catálogo ampliado para 61 assets, com classificação e filtros persistentes; avaliar com o mestre no projetor antes de ampliar receitas e composição procedural. Transporte e biblioteca de ambientes continuam pendentes. [PHASE_3.md](PHASE_3.md) distingue esta entrega dos recursos futuros.

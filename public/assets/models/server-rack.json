@@ -1,0 +1,369 @@
+{
+  "name": "Rack de servidores",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.65,
+        1.9,
+        0.8
+      ],
+      "position": [
+        0,
+        0.949999988079071,
+        -0.027749996935948734
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.56,
+        0.13,
+        0.04
+      ],
+      "position": [
+        0,
+        0.1999999880790711,
+        0.3922500030640512
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.56,
+        0.13,
+        0.04
+      ],
+      "position": [
+        0,
+        0.3599999880790711,
+        0.3922500030640512
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.56,
+        0.13,
+        0.04
+      ],
+      "position": [
+        0,
+        0.5199999880790711,
+        0.3922500030640512
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.56,
+        0.13,
+        0.04
+      ],
+      "position": [
+        0,
+        0.679999988079071,
+        0.3922500030640512
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.56,
+        0.13,
+        0.04
+      ],
+      "position": [
+        0,
+        0.8399999880790712,
+        0.3922500030640512
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.56,
+        0.13,
+        0.04
+      ],
+      "position": [
+        0,
+        0.9999999880790711,
+        0.3922500030640512
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.56,
+        0.13,
+        0.04
+      ],
+      "position": [
+        0,
+        1.159999988079071,
+        0.3922500030640512
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.56,
+        0.13,
+        0.04
+      ],
+      "position": [
+        0,
+        1.3199999880790712,
+        0.3922500030640512
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.56,
+        0.13,
+        0.04
+      ],
+      "position": [
+        0,
+        1.479999988079071,
+        0.3922500030640512
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.56,
+        0.13,
+        0.04
+      ],
+      "position": [
+        0,
+        1.639999988079071,
+        0.3922500030640512
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.015
+      ],
+      "position": [
+        -0.22,
+        0.1999999880790711,
+        0.42025000306405125
+      ],
+      "material": "violet"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.015
+      ],
+      "position": [
+        -0.22,
+        0.3599999880790711,
+        0.42025000306405125
+      ],
+      "material": "screen"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.015
+      ],
+      "position": [
+        -0.22,
+        0.5199999880790711,
+        0.42025000306405125
+      ],
+      "material": "violet"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.015
+      ],
+      "position": [
+        -0.22,
+        0.679999988079071,
+        0.42025000306405125
+      ],
+      "material": "screen"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.015
+      ],
+      "position": [
+        -0.22,
+        0.8399999880790712,
+        0.42025000306405125
+      ],
+      "material": "violet"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.015
+      ],
+      "position": [
+        -0.22,
+        0.9999999880790711,
+        0.42025000306405125
+      ],
+      "material": "screen"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.015
+      ],
+      "position": [
+        -0.22,
+        1.159999988079071,
+        0.42025000306405125
+      ],
+      "material": "violet"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.015
+      ],
+      "position": [
+        -0.22,
+        1.3199999880790712,
+        0.42025000306405125
+      ],
+      "material": "screen"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.015
+      ],
+      "position": [
+        -0.22,
+        1.479999988079071,
+        0.42025000306405125
+      ],
+      "material": "violet"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.015
+      ],
+      "position": [
+        -0.22,
+        1.639999988079071,
+        0.42025000306405125
+      ],
+      "material": "screen"
+    }
+  ]
+}

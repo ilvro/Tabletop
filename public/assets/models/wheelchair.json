@@ -1,0 +1,253 @@
+{
+  "name": "Cadeira de rodas",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.08,
+        0.5
+      ],
+      "position": [
+        0,
+        0.4800000023841858,
+        -0.015000000596046448
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.5,
+        0.07
+      ],
+      "position": [
+        0,
+        0.7300000023841857,
+        -0.24500000059604646
+      ],
+      "material": "cloth"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.31,
+      "radiusBottom": 0.31,
+      "height": 0.04,
+      "position": [
+        -0.34,
+        0.3100000023841858,
+        -0.15500000059604646
+      ],
+      "material": "metal",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.31,
+      "radiusBottom": 0.31,
+      "height": 0.04,
+      "position": [
+        0.34,
+        0.3100000023841858,
+        -0.15500000059604646
+      ],
+      "material": "metal",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.06,
+      "radiusBottom": 0.06,
+      "height": 0.06,
+      "position": [
+        -0.25,
+        0.06000000238418579,
+        -0.31500000059604644
+      ],
+      "material": "black",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.06,
+      "radiusBottom": 0.06,
+      "height": 0.06,
+      "position": [
+        -0.25,
+        0.06000000238418579,
+        0.28499999940395354
+      ],
+      "material": "black",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.06,
+      "radiusBottom": 0.06,
+      "height": 0.06,
+      "position": [
+        0.25,
+        0.06000000238418579,
+        -0.31500000059604644
+      ],
+      "material": "black",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.06,
+      "radiusBottom": 0.06,
+      "height": 0.06,
+      "position": [
+        0.25,
+        0.06000000238418579,
+        0.28499999940395354
+      ],
+      "material": "black",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.04,
+        0.6
+      ],
+      "position": [
+        -0.27,
+        0.6900000023841857,
+        0.024999999403953553
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.04,
+        0.6
+      ],
+      "position": [
+        0.27,
+        0.6900000023841857,
+        0.024999999403953553
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.03,
+        0.18
+      ],
+      "position": [
+        0,
+        0.1500000023841858,
+        0.37499999940395357
+      ],
+      "material": "metal"
+    }
+  ]
+}

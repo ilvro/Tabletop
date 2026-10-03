@@ -1,0 +1,122 @@
+{
+  "name": "Pilhas de documentos",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.06,
+        0.3
+      ],
+      "position": [
+        -0.12003862030754366,
+        0.029999999552965163,
+        -0.046134905780210705
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.04,
+        0.3
+      ],
+      "position": [
+        0.09996137969245635,
+        0.019999999552965164,
+        0.033865094219789296
+      ],
+      "material": "white",
+      "rotation": [
+        0,
+        0.18,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.23,
+        0.01,
+        0.31
+      ],
+      "position": [
+        -0.12003862030754366,
+        0.06499999955296516,
+        -0.046134905780210705
+      ],
+      "material": "red"
+    }
+  ]
+}

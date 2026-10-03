@@ -15,6 +15,8 @@ import { repository, ApiError } from '../data/api.js';
 import { drafts } from '../data/drafts.js';
 import { icon, escapeHTML as esc } from '../ui/icons.js';
 import { projectPresentation, presentationAssets } from './presentation.js';
+import { splitLabels } from '../domain/asset-library.js';
+import { assetLibraryPanel, assetCards, metadataEditor } from '../ui/asset-library-panel.js';
 
 const button = (action, label, glyph, className = '', extra = '') => `<button type="button" data-action="${action}" class="${className}" ${extra}>${glyph ? icon(glyph) : ''}<span>${label}</span></button>`;
 const numberField = (field, label, value, { min, max, step = .1 } = {}) => `<label class="field"><span>${label}</span><input type="number" data-field="${field}" value="${Number(value).toFixed(3).replace(/\.?0+$/, '') || '0'}" step="${step}" ${min === undefined ? '' : `min="${min}"`} ${max === undefined ? '' : `max="${max}"`} /></label>`;
@@ -73,6 +75,7 @@ export async function startApplication() {
       </nav>
       <div id="documents-tab-content" class="dialog-tab-content"></div>
     </dialog>
+    <dialog id="asset-metadata-dialog" aria-label="Classificar asset"></dialog>
     <dialog id="recovery-dialog"><span class="eyebrow">RECUPERAÇÃO LOCAL</span><h2>Há trabalho não salvo</h2><p id="recovery-description"></p><div class="dialog-actions">${button('discard-draft', 'Descartar rascunho', '', 'quiet')}${button('restore-draft', 'Restaurar trabalho', 'undo', 'primary')}</div></dialog>
     <div id="context-menu" class="context-menu" hidden></div>
     <input id="asset-file" type="file" accept="image/png,image/jpeg,image/webp,.glb" hidden />
@@ -80,6 +83,8 @@ export async function startApplication() {
 
   let assets = [], savedScenes = [], savedMaps = [], selection = null, tool = 'select', tab = 'build';
   let dialogTab = 'scenes';
+  let libraryFilters = { search: '', category: '', era: '', context: '', tags: [], favorites: false };
+  let libraryLimit = 24, editingAsset = null;
   let proposal = null, placing = null, saving = false, isPresentation = false, cutaway = true;
   let workingCamera = null, publishedCamera = null, recovery = null, draftTimer, noticeTimer;
   let draftQueue = Promise.resolve(), draftWarningShown = false;
@@ -325,7 +330,7 @@ export async function startApplication() {
       panel.insertAdjacentHTML('afterbegin', '<p class="microcopy">Abra uma tarefa. Edite o elemento selecionado no inspetor à direita.</p>');
 
     } else if (tab === 'assets') {
-      panel.innerHTML = `<div class="section-intro"><span class="eyebrow">BIBLIOTECA</span><h2>Detalhes dão vida.</h2><p class="muted">Escolha um objeto e clique no chão para colocá-lo.</p></div><input id="asset-search" type="search" aria-label="Buscar assets" placeholder="Buscar na biblioteca…" /><div id="asset-cards" class="asset-grid"></div>${button('asset-import', 'Importar imagem ou GLB', 'upload', 'wide accent-outline')}<p class="microcopy">Arquivos ficam guardados no servidor local, separados da cena.</p>`;
+      panel.innerHTML = assetLibraryPanel(assets, libraryFilters);
       renderAssetCards();
     } else {
       const currentLook = store.document.look ?? store.document.defaultLook;
@@ -333,11 +338,35 @@ export async function startApplication() {
       renderSceneTreeIfVisible();
     }
   }
-  function renderAssetCards(search = '') {
+  function renderAssetCards() {
     const node = document.getElementById('asset-cards'); if (!node) return;
-    const filter = search.toLocaleLowerCase('pt-BR');
-    const filtered = assets.filter((asset) => `${asset.name} ${asset.category} ${(asset.tags || []).join(' ')}`.toLocaleLowerCase('pt-BR').includes(filter));
-    node.innerHTML = filtered.map((asset) => `<button class="asset-card" data-asset="${asset.id}" title="Colocar ${esc(asset.name)}"><div class="asset-preview">${asset.previewUrl ? `<img src="${esc(asset.previewUrl)}" alt="" />` : asset.type === 'image' ? `<img src="${esc(asset.url)}" alt="" />` : icon('room', 36)}</div><span>${esc(asset.name)}</span><small>${asset.type === 'image' ? 'Retrato de token' : esc(asset.category || 'Objeto')}</small></button>`).join('') || '<p class="microcopy">Nenhum asset encontrado.</p>';
+    const result = assetCards(assets, libraryFilters, libraryLimit);
+    node.innerHTML = result.cards;
+    document.getElementById('asset-result-count').textContent = `${result.total} de ${assets.length} assets · ${result.shown} exibidos`;
+    document.querySelector('[data-library-more]').hidden = result.shown >= result.total;
+    document.getElementById('asset-active-tags').innerHTML = libraryFilters.tags.map(tag => `<button type="button" class="asset-tag active" data-library-remove-tag="${esc(tag)}" aria-label="Remover filtro ${esc(tag)}">${esc(tag)} ×</button>`).join('');
+  }
+
+  async function updateAssetClassification(asset, metadata) {
+    const updated = await repository.updateAssetMetadata(asset, metadata);
+    assets = assets.map(item => item.id === updated.id ? updated : item);
+    viewport.setAssets(assets); renderSidebar();
+    return updated;
+  }
+
+  async function saveAssetClassification(form) {
+    const submit = form.querySelector('[type="submit"]'); submit.disabled = true;
+    const fields = new FormData(form);
+    try {
+      await updateAssetClassification(editingAsset, { category: fields.get('category'), era: fields.get('era'), contexts: splitLabels(fields.get('contexts')), tags: splitLabels(fields.get('tags')), favorite: fields.has('favorite') });
+      document.getElementById('asset-metadata-dialog').close(); editingAsset = null;
+      notify('Classificação salva na biblioteca.');
+    } catch (error) {
+      document.getElementById('asset-metadata-error').textContent = error.message;
+      if (error.status === 409) {
+        assets = await repository.assets().catch(() => assets); viewport.setAssets(assets); renderSidebar();
+      }
+    } finally { submit.disabled = false; }
   }
   function renderSceneTreeIfVisible() {
     const tree = document.getElementById('scene-tree'); if (!tree) return;
@@ -1308,6 +1337,21 @@ export async function startApplication() {
     }
 
     const node = event.target.closest('button'); if (!node) return;
+    if (node.hasAttribute('data-library-clear')) { libraryFilters = { search: '', category: '', era: '', context: '', tags: [], favorites: false }; libraryLimit = 24; renderSidebar(); return; }
+    if (node.hasAttribute('data-library-more')) { libraryLimit += 24; renderAssetCards(); return; }
+    if (node.dataset.libraryTag) { if (!libraryFilters.tags.includes(node.dataset.libraryTag)) libraryFilters.tags.push(node.dataset.libraryTag); libraryLimit = 24; renderSidebar(); return; }
+    if (node.dataset.libraryRemoveTag) { libraryFilters.tags = libraryFilters.tags.filter(tag => tag !== node.dataset.libraryRemoveTag); libraryLimit = 24; renderSidebar(); return; }
+    if (node.dataset.libraryEdit) {
+      editingAsset = assets.find(asset => asset.id === node.dataset.libraryEdit);
+      const dialog = document.getElementById('asset-metadata-dialog'); dialog.innerHTML = metadataEditor(editingAsset, assets); dialog.showModal(); return;
+    }
+    if (node.hasAttribute('data-library-close')) { document.getElementById('asset-metadata-dialog').close(); editingAsset = null; return; }
+    if (node.dataset.libraryFavorite) {
+      const asset = assets.find(item => item.id === node.dataset.libraryFavorite); node.disabled = true;
+      updateAssetClassification(asset, { favorite: !asset.favorite }).catch(async error => {
+        notify(error.message, true); assets = await repository.assets().catch(() => assets); viewport.setAssets(assets); renderSidebar();
+      }); return;
+    }
     if (node.dataset.action) { Promise.resolve(act(node.dataset.action, node.dataset)).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.tab) { tab = node.dataset.tab; renderSidebar(); return; }
     if (node.dataset.dialogTab) { dialogTab = node.dataset.dialogTab; renderDialogContent(); return; }
@@ -1424,13 +1468,19 @@ export async function startApplication() {
   });
   root.addEventListener('change', (event) => {
     if (!initialized) return;
-    if (event.target.id === 'asset-file') { importAsset(event.target.files[0]); event.target.value = ''; }
+    if (event.target.dataset.assetFilter) { libraryFilters[event.target.dataset.assetFilter] = event.target.value; libraryLimit = 24; renderAssetCards(); }
+    else if (event.target.id === 'asset-tag-filter') { if (event.target.value && !libraryFilters.tags.includes(event.target.value)) libraryFilters.tags.push(event.target.value); libraryLimit = 24; renderSidebar(); }
+    else if (event.target.id === 'asset-favorites') { libraryFilters.favorites = event.target.checked; libraryLimit = 24; renderAssetCards(); }
+    else if (event.target.id === 'asset-file') { importAsset(event.target.files[0]); event.target.value = ''; }
     else if (event.target.id === 'document-json-file') { importJson(event.target.files[0]); event.target.value = ''; }
     else if (event.target.dataset.field) changeField(event.target);
     else if (event.target.id === 'scene-name') execute('scene.rename', { name: event.target.value });
   });
-  root.addEventListener('input', (event) => { if (event.target.id === 'asset-search') renderAssetCards(event.target.value); });
-  root.addEventListener('submit', (event) => { if (event.target.id === 'quick-form') { event.preventDefault(); makeProposal(); } });
+  root.addEventListener('input', (event) => { if (event.target.id === 'asset-search') { libraryFilters.search = event.target.value; libraryLimit = 24; renderAssetCards(); } });
+  root.addEventListener('submit', (event) => {
+    if (event.target.id === 'quick-form') { event.preventDefault(); makeProposal(); }
+    else if (event.target.id === 'asset-metadata-form') { event.preventDefault(); saveAssetClassification(event.target); }
+  });
   root.addEventListener('click', (event) => {
     if (event.target.closest('[data-action="door-toggle"]')) {
       const found = locate(); if (found?.record.kind === 'door') { const angle = store.document.sessionState?.doors?.[selection] ?? found.record.initialAngle; execute('door.setAngle', { id: selection, angle: Math.abs(angle) < .1 ? Math.PI / 2 : 0 }); }
@@ -1439,6 +1489,7 @@ export async function startApplication() {
   window.addEventListener('keydown', (event) => {
     if (!initialized) return;
     if (event.key === 'Escape') {
+      if (document.getElementById('asset-metadata-dialog').open) return;
       const docDialog = document.getElementById('documents-dialog');
       if (docDialog && docDialog.hasAttribute('open')) {
         closeDialog();

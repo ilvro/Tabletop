@@ -1,0 +1,114 @@
+{
+  "name": "Afloramento rochoso",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.43,
+      "radiusBottom": 0.75,
+      "height": 0.7,
+      "position": [
+        -0.044999986886978094,
+        0.34999999642372126,
+        0
+      ],
+      "material": "stone",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.26,
+      "radiusBottom": 0.42,
+      "height": 0.45,
+      "position": [
+        0.605000013113022,
+        0.22499999642372132,
+        0.18
+      ],
+      "material": "stone",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.24,
+      "radiusBottom": 0.33,
+      "height": 0.32,
+      "position": [
+        -0.6949999868869781,
+        0.1599999964237213,
+        -0.1
+      ],
+      "material": "dark",
+      "segments": 12
+    }
+  ]
+}

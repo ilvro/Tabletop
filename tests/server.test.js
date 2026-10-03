@@ -15,6 +15,40 @@ import { sculptTerrain } from '../src/authoring/terrain.js';
 
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=', 'base64');
 
+test('builtin and imported classifications survive restart without invalidating scene references or source records', async t => {
+  const f = await fixture(t);
+  const sourceCatalog = await readFile(path.join(f.publicDir, 'assets', 'catalog.json'), 'utf8');
+  const imported = (await f.request('/api/tabletop/assets?name=Retrato', { method: 'POST', raw: png, headers: { 'Content-Type': 'image/png' } })).value;
+  for (const asset of [(await f.request('/api/tabletop/assets/builtin-crate')).value, imported]) {
+    const metadata = { category: 'Investigação / Pistas', era: 'Décadas de 1970–1990', contexts: ['Delegacia'], tags: ['Minha campanha', 'pista'], favorite: true };
+    const updated = await f.request(`/api/tabletop/assets/${asset.id}/metadata`, { method: 'PATCH', body: { metadata, expectedMetadataRevision: 0 } });
+    assert.equal(updated.status, 200); assert.equal(updated.value.revision, 1); assert.equal(updated.value.metadataRevision, 1);
+    assert.deepEqual(updated.value.tags, metadata.tags);
+  }
+  const scene = createScene('Referências preservadas');
+  const prop = createEntity('prop', { assetRef: { id: 'builtin-crate', revision: 1 } }); scene.layout.entities[prop.id] = prop;
+  const { actor, token } = createToken({ assetRef: { id: imported.id, revision: 1 } }); scene.actors[actor.id] = actor; scene.tokens[token.id] = token;
+  assert.equal((await f.request('/api/tabletop/scenes', { method: 'POST', body: { document: scene } })).status, 201);
+  await f.stop(); await f.start();
+  const assets = (await f.request('/api/tabletop/assets')).value;
+  assert.equal(assets.length, 2); assert.ok(assets.every(asset => asset.favorite && asset.tags.includes('Minha campanha') && asset.metadataRevision === 1));
+  assert.equal(await readFile(path.join(f.publicDir, 'assets', 'catalog.json'), 'utf8'), sourceCatalog);
+  assert.deepEqual(JSON.parse(await readFile(path.join(f.dataDir, 'assets', imported.id, 'record.json'), 'utf8')), imported);
+  assert.equal((await f.request(`/api/tabletop/assets/${imported.id}/file`)).status, 200);
+  assert.equal((await f.request(`/api/tabletop/scenes/${scene.id}`, { method: 'PUT', body: { document: scene, expectedRevision: 1 } })).status, 200);
+});
+
+test('asset metadata serializes competing writes, validates fields and rejects stale revisions and cross-origin writes', async t => {
+  const f = await fixture(t), route = '/api/tabletop/assets/builtin-crate/metadata';
+  const responses = await Promise.all(['Primeira', 'Segunda'].map(tag => f.request(route, { method: 'PATCH', body: { metadata: { tags: [tag] }, expectedMetadataRevision: 0 } })));
+  assert.deepEqual(responses.map(r => r.status).sort(), [200, 409]);
+  assert.equal((await f.request(route, { method: 'PATCH', body: { metadata: { favorite: true }, expectedMetadataRevision: 0 } })).status, 409);
+  for (const metadata of [{ url: '/changed.glb' }, { tags: ['x'.repeat(61)] }, { favorite: 'yes' }]) assert.equal((await f.request(route, { method: 'PATCH', body: { metadata, expectedMetadataRevision: 1 } })).status, 422);
+  assert.equal((await f.request(route, { method: 'PATCH', body: { metadata: { favorite: true } } })).status, 422);
+  assert.equal((await f.request(route, { method: 'PATCH', body: { metadata: { favorite: true }, expectedMetadataRevision: 1 }, headers: { Origin: 'https://untrusted.example' } })).status, 403);
+  assert.equal((await f.request('/api/tabletop/assets/missing/metadata', { method: 'PATCH', body: { metadata: { tags: [] }, expectedMetadataRevision: 0 } })).status, 404);
+});
+
 test('terrain, perforated storeys, shared walls and anchors persist through restart, backup and duplicate', async t => {
   const f = await fixture(t), store = createSceneStore(createScene()), level = createLevel(), layer = createLayer();
   store.execute('level.add', { level }); store.execute('layer.add', { layer });

@@ -1,0 +1,299 @@
+{
+  "name": "Armários de vestiário",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.2,
+        1.85,
+        0.5
+      ],
+      "position": [
+        0,
+        0.925000011920929,
+        -0.02925000009313225
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.36,
+        1.76,
+        0.035
+      ],
+      "position": [
+        -0.4,
+        0.925000011920929,
+        0.23874999990686777
+      ],
+      "material": "cloth"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.12,
+        0.025
+      ],
+      "position": [
+        -0.29000000000000004,
+        0.9000000119209289,
+        0.26674999990686776
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.018,
+        0.01
+      ],
+      "position": [
+        -0.4,
+        1.500000011920929,
+        0.26074999990686776
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.018,
+        0.01
+      ],
+      "position": [
+        -0.4,
+        1.560000011920929,
+        0.26074999990686776
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.018,
+        0.01
+      ],
+      "position": [
+        -0.4,
+        1.620000011920929,
+        0.26074999990686776
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.36,
+        1.76,
+        0.035
+      ],
+      "position": [
+        0,
+        0.925000011920929,
+        0.23874999990686777
+      ],
+      "material": "cloth"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.12,
+        0.025
+      ],
+      "position": [
+        0.11,
+        0.9000000119209289,
+        0.26674999990686776
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.018,
+        0.01
+      ],
+      "position": [
+        0,
+        1.500000011920929,
+        0.26074999990686776
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.018,
+        0.01
+      ],
+      "position": [
+        0,
+        1.560000011920929,
+        0.26074999990686776
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.018,
+        0.01
+      ],
+      "position": [
+        0,
+        1.620000011920929,
+        0.26074999990686776
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.36,
+        1.76,
+        0.035
+      ],
+      "position": [
+        0.4,
+        0.925000011920929,
+        0.23874999990686777
+      ],
+      "material": "cloth"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.12,
+        0.025
+      ],
+      "position": [
+        0.51,
+        0.9000000119209289,
+        0.26674999990686776
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.018,
+        0.01
+      ],
+      "position": [
+        0.4,
+        1.500000011920929,
+        0.26074999990686776
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.018,
+        0.01
+      ],
+      "position": [
+        0.4,
+        1.560000011920929,
+        0.26074999990686776
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.018,
+        0.01
+      ],
+      "position": [
+        0.4,
+        1.620000011920929,
+        0.26074999990686776
+      ],
+      "material": "black"
+    }
+  ]
+}

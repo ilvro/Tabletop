@@ -1,0 +1,140 @@
+{
+  "name": "Rádio de comunicação",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.28,
+        0.2
+      ],
+      "position": [
+        0,
+        0.14000000059604645,
+        -0.027499999329447744
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.17,
+        0.015
+      ],
+      "position": [
+        -0.1,
+        0.14000000059604645,
+        0.08050000067055225
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.05,
+        0.015
+      ],
+      "position": [
+        0.15,
+        0.20000000059604645,
+        0.08050000067055225
+      ],
+      "material": "screen"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.035,
+      "position": [
+        0.14,
+        0.09000000059604643,
+        0.09250000067055225
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.007,
+      "radiusBottom": 0.007,
+      "height": 0.4,
+      "position": [
+        -0.18,
+        0.46000000059604645,
+        -0.07749999932944775
+      ],
+      "material": "metal",
+      "segments": 12
+    }
+  ]
+}

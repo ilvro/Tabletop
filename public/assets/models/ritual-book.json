@@ -1,0 +1,145 @@
+{
+  "name": "Livro de anotações ocultas",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.32,
+        0.025,
+        0.42
+      ],
+      "position": [
+        0,
+        0.012500000186264515,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.29,
+        0.055,
+        0.39
+      ],
+      "position": [
+        0,
+        0.051500000186264515,
+        0
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.32,
+        0.025,
+        0.42
+      ],
+      "position": [
+        0,
+        0.09150000018626452,
+        0
+      ],
+      "material": "red"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.012,
+        0.21
+      ],
+      "position": [
+        0,
+        0.11150000018626452,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.15,
+        0.012,
+        0.04
+      ],
+      "position": [
+        0,
+        0.11150000018626452,
+        0
+      ],
+      "material": "metal"
+    }
+  ]
+}

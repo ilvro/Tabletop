@@ -3,6 +3,7 @@ import { mkdir, readFile, readdir, unlink, rmdir } from 'node:fs/promises';
 import path from 'node:path';
 import { inflateSync } from 'node:zlib';
 import { atomicWrite, assertId, assetId, HttpError, readJSON } from './storage.js';
+import { validateAssetMetadata } from '../src/domain/asset-library.js';
 
 const mimeTypes = {
   'image/png': { extension: 'png', type: 'image' },
@@ -208,6 +209,8 @@ export class AssetStorage {
   constructor(dataDir, publicDir) {
     this.directory = path.join(dataDir, 'assets');
     this.catalogFile = path.join(publicDir, 'assets', 'catalog.json');
+    this.metadataDirectory = path.join(dataDir, 'asset-metadata');
+    this.locks = new Map();
   }
 
   async builtins() {
@@ -223,14 +226,40 @@ export class AssetStorage {
   async list() {
     const dirs = await readdir(this.directory, { withFileTypes: true });
     const imported = await Promise.all(dirs.filter((entry) => entry.isDirectory() && assetId.test(entry.name)).map((entry) => readJSON(path.join(this.directory, entry.name, 'record.json'))));
-    return [...await this.builtins(), ...imported];
+    return Promise.all([...await this.builtins(), ...imported].map(record => this.withMetadata(record)));
   }
 
   async read(id) {
     assertId(id, assetId);
     const builtin = (await this.builtins()).find((record) => record.id === id);
-    if (builtin) return builtin;
-    return readJSON(path.join(this.directory, id, 'record.json'), 'Asset não encontrado.');
+    if (builtin) return this.withMetadata(builtin);
+    return this.withMetadata(await readJSON(path.join(this.directory, id, 'record.json'), 'Asset não encontrado.'));
+  }
+
+  async withMetadata(record) {
+    let metadata;
+    try { metadata = await readJSON(path.join(this.metadataDirectory, `${record.id}.json`)); }
+    catch (error) { if (error.status !== 404) throw error; }
+    return { ...record, metadataRevision: 0, favorite: false, ...metadata };
+  }
+
+  async updateMetadata(id, patch, expectedRevision) {
+    assertId(id, assetId);
+    let fields;
+    try { fields = validateAssetMetadata(patch); } catch (error) { invalid(error.message); }
+    if (!Number.isSafeInteger(expectedRevision) || expectedRevision < 0) invalid('Informe expectedMetadataRevision como inteiro não negativo.');
+    const previous = this.locks.get(id) ?? Promise.resolve();
+    const operation = previous.catch(() => {}).then(async () => {
+      const current = await this.read(id);
+      if (current.metadataRevision !== expectedRevision) throw new HttpError(409, 'METADATA_CONFLICT', 'A classificação mudou em outra aba. Reabra o editor de tags antes de salvar.', { currentRevision: current.metadataRevision });
+      const metadata = Object.fromEntries(['category', 'era', 'contexts', 'tags', 'favorite'].filter(key => current[key] !== undefined).map(key => [key, current[key]]));
+      Object.assign(metadata, fields, { metadataRevision: current.metadataRevision + 1 });
+      await mkdir(this.metadataDirectory, { recursive: true });
+      await atomicWrite(path.join(this.metadataDirectory, `${id}.json`), JSON.stringify(metadata, null, 2));
+      return { ...current, ...metadata };
+    });
+    this.locks.set(id, operation);
+    try { return await operation; } finally { if (this.locks.get(id) === operation) this.locks.delete(id); }
   }
 
   file(record) {
@@ -257,7 +286,7 @@ export class AssetStorage {
     const id = randomUUID();
     const dir = path.join(this.directory, id);
     const fileName = `source.${format.extension}`;
-    const record = { id, revision: 1, type: format.type, name: name.trim(), category: category.trim(), tags: [], footprint: [1, 1], url: `/api/tabletop/assets/${id}/file`, fileName, mimeType: format.type === 'model' ? 'model/gltf-binary' : mime, hash: createHash('sha256').update(bytes).digest('hex'), byteLength: bytes.length };
+    const record = { id, revision: 1, metadataRevision: 0, favorite: false, type: format.type, name: name.trim(), category: category.trim(), era: 'Não definida', contexts: [], tags: [], footprint: [1, 1], url: `/api/tabletop/assets/${id}/file`, fileName, mimeType: format.type === 'model' ? 'model/gltf-binary' : mime, hash: createHash('sha256').update(bytes).digest('hex'), byteLength: bytes.length };
     await mkdir(dir);
     try {
       await atomicWrite(path.join(dir, fileName), bytes);

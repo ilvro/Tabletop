@@ -103,11 +103,13 @@ test('asset projection includes only exact revisions and effective token appeara
   assert.equal(projected.actors[disguised.actor.id].assetRef, null); assert.equal(projected.actors[plain.actor.id].assetRef, null);
   assert.deepEqual(projected.actors[normal.actor.id].assetRef, { id: 'public-portrait', revision: 1 });
   const assets = [
-    { id: 'public-model', revision: 1, url: '/model-public-v1' }, { id: 'public-model', revision: 2, url: '/model-private-v2' },
+    { id: 'public-model', revision: 1, url: '/model-public-v1', tags: ['Identidade secreta'], contexts: ['Local do crime'], category: 'Pistas', era: 'Contemporânea', favorite: true, metadataRevision: 3, description: 'Notas do mestre', provenance: 'Biblioteca do mestre' }, { id: 'public-model', revision: 2, url: '/model-private-v2' },
     { id: 'public-disguise', revision: 1 }, { id: 'public-disguise', revision: 2 },
     { id: 'public-portrait', revision: 1 }, { id: 'private-canonical-portrait', revision: 2 }, { id: 'private-unused-portrait', revision: 1 },
   ];
   assert.deepEqual(presentationAssets(projected, assets).map(asset => `${asset.id}@${asset.revision}`),
     ['public-model@1', 'public-disguise@1', 'public-portrait@1']);
+  assert.deepEqual(presentationAssets(projected, assets)[0], { id: 'public-model', revision: 1, url: '/model-public-v1' });
+  assert.deepEqual(assets[0].tags, ['Identidade secreta']);
   assert.deepEqual(scene, original); assert.doesNotThrow(() => validateDocument(projected));
 });

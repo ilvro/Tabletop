@@ -1,0 +1,145 @@
+{
+  "name": "Microscópio de laboratório",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.28,
+        0.035,
+        0.22
+      ],
+      "position": [
+        0,
+        0.017500000074505806,
+        -0.0011556471291998133
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.045,
+        0.35,
+        0.07
+      ],
+      "position": [
+        0,
+        0.2095000000745058,
+        -0.07115564712919982
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.025,
+        0.18
+      ],
+      "position": [
+        0,
+        0.18950000007450582,
+        0.018844352870800187
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.035,
+      "radiusBottom": 0.035,
+      "height": 0.23,
+      "position": [
+        0,
+        0.34950000007450577,
+        0.03884435287080019
+      ],
+      "material": "white",
+      "segments": 12,
+      "rotation": [
+        0.35,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.035,
+      "position": [
+        0.06,
+        0.2395000000745058,
+        -0.07115564712919982
+      ],
+      "material": "black"
+    }
+  ]
+}
