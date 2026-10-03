@@ -1,4 +1,5 @@
 /** Validated JSON is the boundary between editor, disk and future network adapters. */
+import { polygonIsSimple, polygonSize } from './geometry.js';
 export class ValidationError extends Error {
   constructor(message, path = '') {
     super(path ? `${path}: ${message}` : message);
@@ -73,30 +74,85 @@ const common = ['id', 'name', 'kind', 'groupId', 'surfaceId', 'locked', 'audienc
 function entity(value, path, document) {
   const { entities, groups } = document.layout;
   const fields = {
-    floor: ['transform', 'width', 'length', 'thickness', 'material'],
+    floor: ['transform', 'width', 'length', 'thickness', 'material', 'vertices'],
     wall: ['transform', 'length', 'height', 'thickness', 'material'],
     door: ['wallId', 'offset', 'width', 'height', 'sill', 'hinge', 'initialAngle', 'material'],
-    prop: ['transform', 'assetRef', 'footprint', 'material'],
+    window: ['wallId', 'offset', 'width', 'height', 'sill', 'style', 'material'],
+    stairs: ['transform', 'width', 'length', 'height', 'steps', 'material'],
+    ramp: ['transform', 'width', 'length', 'height', 'material'],
+    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight'],
   };
   choice(value.kind, Object.keys(fields), `${path}.kind`); keys(value, [...common, ...fields[value.kind]], path);
   text(value.name, `${path}.name`); bool(value.locked, `${path}.locked`); choice(value.audience, ['all', 'gm'], `${path}.audience`);
   fail(Array.isArray(value.tags), 'Tags devem ser uma lista.', `${path}.tags`);
   value.tags.forEach((tag, i) => text(tag, `${path}.tags[${i}]`, 128));
   reference(value.groupId, groups, `${path}.groupId`);
-  reference(value.surfaceId, entities, `${path}.surfaceId`, true, 'floor');
+  supportReference(value.surfaceId, document, `${path}.surfaceId`);
   fail(value.surfaceId !== value.id, 'Uma superfície não pode apoiar a si mesma.', path);
-  if (value.kind !== 'door') transform(value.transform, `${path}.transform`, value.kind !== 'prop');
+  if (!['door', 'window'].includes(value.kind)) transform(value.transform, `${path}.transform`, value.kind !== 'prop');
   material(value.material, `${path}.material`);
   for (const field of fields[value.kind].filter(field => ['width', 'length', 'height', 'thickness'].includes(field))) positive(value[field], `${path}.${field}`);
   if (value.kind === 'prop') { assetRef(value.assetRef, `${path}.assetRef`); vector(value.footprint, 2, `${path}.footprint`); value.footprint.forEach((v, i) => positive(v, `${path}.footprint[${i}]`)); }
-  if (value.kind === 'door') {
+  if (value.vertices !== undefined) {
+    fail(document.schemaVersion === 2 && value.kind === 'floor' && polygonIsSimple(value.vertices), 'O contorno do piso deve ser um polígono simples de 3 a 64 vértices.', path);
+    fail(polygonSize(value.vertices).every((size, i) => Math.abs(size - [value.width, value.length][i]) < 1e-6), 'Dimensões devem corresponder ao contorno do piso.', path);
+  }
+  if (value.supportHeight !== undefined) { fail(document.schemaVersion === 2, 'Apoios de props exigem schema 2.', path); positive(value.supportHeight, `${path}.supportHeight`); quaternion(value.transform.rotation, `${path}.rotation`, true); }
+  if (value.kind === 'window') { fail(document.schemaVersion === 2, 'Janelas exigem schema 2.', path); choice(value.style, ['glass', 'bars', 'open'], `${path}.style`); }
+  if (['stairs', 'ramp'].includes(value.kind)) fail(document.schemaVersion === 2, 'Escadas/rampas exigem schema 2.', path);
+  if (value.kind === 'stairs') { number(value.steps, `${path}.steps`, 1, 128); fail(Number.isInteger(value.steps), 'A quantidade de degraus deve ser inteira.', path); }
+  if (['door', 'window'].includes(value.kind)) {
     reference(value.wallId, entities, `${path}.wallId`, false, 'wall');
     number(value.offset, `${path}.offset`, 0); number(value.sill, `${path}.sill`, 0);
-    choice(value.hinge, ['left', 'right'], `${path}.hinge`); number(value.initialAngle, `${path}.initialAngle`, -Math.PI * 2, Math.PI * 2);
+    if (value.kind === 'door') { choice(value.hinge, ['left', 'right'], `${path}.hinge`); number(value.initialAngle, `${path}.initialAngle`, -Math.PI * 2, Math.PI * 2); }
     const wall = entities[value.wallId];
     fail(value.offset - value.width / 2 >= -1e-8 && value.offset + value.width / 2 <= wall.length + 1e-8,
       'A abertura ultrapassa o comprimento da parede.', path);
     fail(value.sill + value.height <= wall.height + 1e-8, 'A abertura ultrapassa a altura da parede.', path);
+  }
+}
+
+function supportReference(value, document, path) {
+  if (value === undefined || value === null) return;
+  reference(value, document.layout.entities, path, false);
+  const host = document.layout.entities[value];
+  fail(host.kind === 'floor' || document.schemaVersion === 2 && (['stairs', 'ramp'].includes(host.kind) || host.kind === 'prop' && host.supportHeight > 0), 'O apoio precisa ser um piso, escada, rampa ou prop com superfície anotada.', path);
+  if (host.kind === 'prop') quaternion(host.transform.rotation, `${path}.rotation`, true);
+}
+
+function composition(value, path, document) {
+  keys(value, ['id', 'name', 'recipeId', 'recipeVersion', 'areaId', 'parameters', 'slots'], path);
+  text(value.name, `${path}.name`); choice(value.recipeId, ['room-furnishing'], `${path}.recipeId`);
+  fail(value.recipeVersion === 1, 'Versão de receita incompatível.', path);
+  reference(value.areaId, document.layout.areas, `${path}.areaId`, false);
+  keys(value.parameters, ['template', 'density', 'chairs', 'seed', 'lighting'], `${path}.parameters`);
+  choice(value.parameters.template, ['office', 'meeting', 'storage'], `${path}.parameters.template`);
+  choice(value.parameters.density, ['sparse', 'normal', 'dense'], `${path}.parameters.density`);
+  number(value.parameters.chairs, `${path}.parameters.chairs`, 1, 8); number(value.parameters.seed, `${path}.parameters.seed`, 0, 4294967295);
+  fail(Number.isInteger(value.parameters.chairs) && Number.isInteger(value.parameters.seed), 'Quantidade/seed devem ser inteiros.', path);
+  bool(value.parameters.lighting, `${path}.parameters.lighting`); record(value.slots, `${path}.slots`);
+  fail(Object.keys(value.slots).length <= 256, 'Composição excede 256 slots.', path);
+  const ids = new Set();
+  for (const [key, slot] of Object.entries(value.slots)) {
+    fail(/^[a-zA-Z0-9_.-]{1,120}$/.test(key), 'Slot inválido.', path);
+    keys(slot, ['id', 'kind', 'baseline'], `${path}.slots.${key}`); identifier(slot.id, path);
+    fail(!ids.has(slot.id), 'Slots compartilham identidade.', path); ids.add(slot.id);
+    choice(slot.kind, ['entity', 'light'], path);
+    const b = slot.baseline;
+    if (slot.kind === 'entity') {
+      keys(b, ['name', 'groupId', 'surfaceId', 'locked', 'audience', 'tags', 'transform', 'assetRef', 'footprint', 'material', 'supportHeight'], path);
+      transform(b.transform, path); assetRef(b.assetRef, path); vector(b.footprint, 2, path); b.footprint.forEach(v => positive(v, path)); material(b.material, path);
+      fail(Array.isArray(b.tags), 'Tags inválidas.', path); b.tags.forEach(v => text(v, path));
+      if (b.supportHeight !== undefined) positive(b.supportHeight, path);
+    } else {
+      keys(b, ['name', 'type', 'position', 'rotation', 'color', 'intensity', 'distance', 'shadowEnabled', 'audience', 'groupId', 'surfaceId', 'locked'], path);
+      choice(b.type, ['point'], path); vector(b.position, 3, path); quaternion(b.rotation, path); color(b.color, path);
+      number(b.intensity, path, 0); number(b.distance, path, 0); bool(b.shadowEnabled, path);
+    }
+    text(b.name, path); bool(b.locked, path); choice(b.audience, ['all', 'gm'], path);
+    for (const field of ['groupId', 'surfaceId']) if (b[field] !== null) identifier(b[field], path);
+    const current = slot.kind === 'entity' ? document.layout.entities[slot.id] : (document.look ?? document.defaultLook).lights[slot.id];
+    if (current) fail(slot.kind === 'light' ? current.type === 'point' : current.kind === 'prop', 'Slot aponta para um tipo incompatível.', path);
   }
 }
 
@@ -106,12 +162,15 @@ function look(value, path, document, seen) {
   color(value.fill.skyColor, `${path}.fill.skyColor`); color(value.fill.groundColor, `${path}.fill.groundColor`);
   number(value.fill.intensity, `${path}.fill.intensity`, 0);
   dictionary(value.lights, `${path}.lights`, seen, (light, lightPath) => {
-    keys(light, ['id', 'name', 'type', 'position', 'rotation', 'color', 'intensity', 'distance', 'shadowEnabled', 'audience', 'role'], lightPath);
+    keys(light, ['id', 'name', 'type', 'position', 'rotation', 'color', 'intensity', 'distance', 'shadowEnabled', 'audience', 'role', 'groupId', 'surfaceId', 'locked'], lightPath);
     text(light.name, `${lightPath}.name`); choice(light.type, ['directional', 'point'], `${lightPath}.type`);
     vector(light.position, 3, `${lightPath}.position`); quaternion(light.rotation, `${lightPath}.rotation`);
     color(light.color, `${lightPath}.color`); number(light.intensity, `${lightPath}.intensity`, 0); number(light.distance, `${lightPath}.distance`, 0);
     bool(light.shadowEnabled, `${lightPath}.shadowEnabled`); choice(light.audience, ['all', 'gm'], `${lightPath}.audience`);
     if (light.role !== undefined) text(light.role, `${lightPath}.role`, 64);
+    if (light.locked !== undefined) bool(light.locked, `${lightPath}.locked`);
+    if (light.groupId !== undefined) reference(light.groupId, document.layout.groups, `${lightPath}.groupId`);
+    supportReference(light.surfaceId, document, `${lightPath}.surfaceId`);
   });
   record(value.materialAdjustments, `${path}.materialAdjustments`);
   for (const [entityId, slots] of Object.entries(value.materialAdjustments)) {
@@ -127,7 +186,7 @@ function look(value, path, document, seen) {
 export function validateDocument(document) {
   const path = 'document';
   record(document, path);
-  fail(document.schemaVersion === 1, 'Versão de schema incompatível.', `${path}.schemaVersion`);
+  fail([1, 2].includes(document.schemaVersion), 'Versão de schema incompatível.', `${path}.schemaVersion`);
   choice(document.documentType, ['scene', 'map'], `${path}.documentType`);
   const isScene = document.documentType === 'scene';
   keys(document, ['schemaVersion', 'documentType', 'id', 'revision', 'name', 'createdAt', 'updatedAt', 'layout',
@@ -140,7 +199,7 @@ export function validateDocument(document) {
     fail(typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(value) &&
       (value === canonical || value === canonical.replace('.000Z', 'Z')), 'Data deve ser ISO UTC válida.', `${path}.${field}`);
   }
-  keys(document.layout, ['grid', 'entities', 'groups', 'areas'], `${path}.layout`);
+  keys(document.layout, ['grid', 'entities', 'groups', 'areas', ...(document.schemaVersion === 2 ? ['compositions'] : [])], `${path}.layout`);
   const grid = document.layout.grid;
   keys(grid, ['type', 'origin', 'cellSize', 'visible', 'snap', 'color', 'opacity'], 'layout.grid');
   choice(grid.type, ['square'], 'layout.grid.type'); vector(grid.origin, 2, 'layout.grid.origin'); positive(grid.cellSize, 'layout.grid.cellSize');
@@ -149,14 +208,19 @@ export function validateDocument(document) {
   for (const name of ['entities', 'groups', 'areas']) record(document.layout[name], `layout.${name}`);
   const seen = new Set([document.id]);
   dictionary(document.layout.groups, 'layout.groups', seen, (group, groupPath) => {
-    keys(group, ['id', 'name', 'parentId', 'locked', 'audience'], groupPath);
+    keys(group, ['id', 'name', 'parentId', 'locked', 'audience', 'visible'], groupPath);
     text(group.name, `${groupPath}.name`); reference(group.parentId, document.layout.groups, `${groupPath}.parentId`);
     bool(group.locked, `${groupPath}.locked`); choice(group.audience, ['all', 'gm'], `${groupPath}.audience`);
+    if (group.visible !== undefined) bool(group.visible, `${groupPath}.visible`);
     const parents = new Set([group.id]); let parent = group.parentId;
     while (parent) { fail(!parents.has(parent), 'Ciclo de grupos.', groupPath); parents.add(parent); parent = document.layout.groups[parent]?.parentId; }
   });
   dictionary(document.layout.entities, 'layout.entities', seen, (entry, entryPath) => entity(entry, entryPath, document));
-  const doors = Object.values(document.layout.entities).filter(entry => entry.kind === 'door');
+  for (const item of Object.values(document.layout.entities)) {
+    const seenSupports = new Set([item.id]); let host = item.surfaceId;
+    while (host) { fail(!seenSupports.has(host), 'Ciclo de superfícies de apoio.', `layout.entities.${item.id}`); seenSupports.add(host); host = document.layout.entities[host]?.surfaceId; }
+  }
+  const doors = Object.values(document.layout.entities).filter(entry => ['door', 'window'].includes(entry.kind));
   for (let i = 0; i < doors.length; i++) for (let j = i + 1; j < doors.length; j++) {
     const a = doors[i], b = doors[j];
     if (a.wallId !== b.wallId) continue;
@@ -175,6 +239,7 @@ export function validateDocument(document) {
     area.memberIds.forEach((entityId, i) => reference(entityId, document.layout.entities, `${areaPath}.memberIds[${i}]`, false));
   });
   look(isScene ? document.look : document.defaultLook, isScene ? 'look' : 'defaultLook', document, seen);
+  if (document.schemaVersion === 2) dictionary(document.layout.compositions, 'layout.compositions', seen, (entry, entryPath) => composition(entry, entryPath, document));
   if (!isScene) return document;
   sourceRef(document.sourceMap, 'sourceMap'); sourceRef(document.sourceEnvironment, 'sourceEnvironment');
   fail(document.audioCue === null, 'Integração de áudio ainda não implementada; audioCue deve ser null.', 'audioCue');
@@ -184,9 +249,10 @@ export function validateDocument(document) {
     color(actor.color, `${actorPath}.color`); assetRef(actor.assetRef, `${actorPath}.assetRef`, true);
   });
   dictionary(document.tokens, 'tokens', seen, (token, tokenPath) => {
-    keys(token, ['id', 'actorId', 'transform', 'surfaceId', 'footprint', 'locked', 'audience', 'visualOverride'], tokenPath);
+    keys(token, ['id', 'actorId', 'transform', 'surfaceId', 'footprint', 'locked', 'audience', 'visualOverride', 'groupId'], tokenPath);
     reference(token.actorId, document.actors, `${tokenPath}.actorId`, false); transform(token.transform, `${tokenPath}.transform`);
-    reference(token.surfaceId, document.layout.entities, `${tokenPath}.surfaceId`, true, 'floor');
+    supportReference(token.surfaceId, document, `${tokenPath}.surfaceId`);
+    if (token.groupId !== undefined) reference(token.groupId, document.layout.groups, `${tokenPath}.groupId`);
     vector(token.footprint, 2, `${tokenPath}.footprint`); token.footprint.forEach((v, i) => positive(v, `${tokenPath}.footprint[${i}]`));
     bool(token.locked, `${tokenPath}.locked`); choice(token.audience, ['all', 'gm'], `${tokenPath}.audience`);
     if (token.visualOverride !== null) {

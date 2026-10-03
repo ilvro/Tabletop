@@ -1,6 +1,7 @@
 import { mkdir, open, readFile, readdir, rename, unlink } from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
+import { migrateDocument } from '../src/domain/migrations.js';
 
 export class HttpError extends Error {
   constructor(status, code, message, details = {}) {
@@ -90,8 +91,8 @@ export class DocumentStorage {
     return documents.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt) || a.id.localeCompare(b.id));
   }
 
-  read(collection, id) {
-    return readJSON(this.file(collection, id));
+  async read(collection, id) {
+    return migrateDocument(await readJSON(this.file(collection, id)));
   }
 
   async locked(collection, id, action) {
@@ -116,7 +117,8 @@ export class DocumentStorage {
   }
 
   async write(collection, doc, previous) {
-    if (previous) await this.backup(collection, previous);
+    // Keep the original schema in the backup when the explicit save migrates it.
+    if (previous) await this.backup(collection, await readJSON(this.file(collection, previous.id)));
     await atomicWrite(this.file(collection, doc.id), JSON.stringify(doc, null, 2));
     return doc;
   }
@@ -125,7 +127,7 @@ export class DocumentStorage {
     return this.locked(collection, id, async () => {
       const previous = await this.read(collection, id);
       checkRevision(previous, expectedRevision);
-      await this.backup(collection, previous);
+      await this.backup(collection, await readJSON(this.file(collection, id)));
       await unlink(this.file(collection, id));
     });
   }

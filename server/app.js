@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
-import { validateDocument, duplicateDocument } from '../src/domain/documents.js';
+import { validateDocument, duplicateDocument, migrateDocument } from '../src/domain/documents.js';
 import { AssetStorage } from './assets.js';
 import { DocumentStorage, HttpError, assertId, checkRevision } from './storage.js';
 
@@ -18,7 +18,7 @@ function validDocument(body, type, routeId) {
   assertId(document.id);
   if (routeId && document.id !== routeId) throw new HttpError(422, 'DOCUMENT_ID_MISMATCH', 'ID do documento difere da rota.');
   validateDocument(document);
-  return structuredClone(document);
+  return migrateDocument(document);
 }
 
 async function validateAssetReferences(document, assets) {
@@ -80,7 +80,7 @@ export async function createApp({ dataDir = path.join(projectDir, 'data'), distD
     next();
   });
 
-  app.get('/api/tabletop/health', (_req, res) => res.json({ status: 'ok', schemaVersion: 1, persistence: 'local-server', instanceId }));
+  app.get('/api/tabletop/health', (_req, res) => res.json({ status: 'ok', schemaVersion: 2, persistence: 'local-server', instanceId }));
   app.post('/api/tabletop/assets', express.raw({ type: '*/*', limit: assetLimit }), asyncRoute(async (req, res) => {
     const mime = (req.get('Content-Type') ?? '').split(';')[0].trim().toLowerCase();
     const record = await assets.import(req.body, mime, { name: req.query.name, category: req.query.category });

@@ -7,8 +7,48 @@ import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { createApp } from '../server/app.js';
 import { createScene, createMap, createEntity, createToken, createLight } from '../src/domain/documents.js';
+import { proposeFurnishing } from '../src/authoring/furnishing.js';
+import { proposeRoom } from '../src/authoring/quick-build.js';
+import { createSceneStore } from '../src/state/scene-store.js';
 
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=', 'base64');
+
+test('reading v1 migrates in memory; explicit save upgrades with original schema in its backup', async t => {
+  const f = await fixture(t), old = createScene('Legado'); old.schemaVersion = 1; old.revision = 3; delete old.layout.compositions;
+  const file = path.join(f.dataDir, 'scenes', `${old.id}.json`), bytes = JSON.stringify(old, null, 2);
+  await writeFile(file, bytes);
+  const loaded = await f.request(`/api/tabletop/scenes/${old.id}`);
+  assert.equal(loaded.value.schemaVersion, 2); assert.equal(loaded.value.revision, 3);
+  assert.equal(await readFile(file, 'utf8'), bytes);
+  const saved = await f.request(`/api/tabletop/scenes/${old.id}`, { method: 'PUT', body: { document: loaded.value, expectedRevision: 3 } });
+  assert.equal(saved.status, 200); assert.equal(saved.value.revision, 4);
+  const backup = JSON.parse(await readFile(path.join(f.dataDir, 'backups', 'scenes', old.id, '3.json'), 'utf8'));
+  assert.deepEqual(backup, old);
+  await f.stop(); await f.start();
+  assert.deepEqual((await f.request(`/api/tabletop/scenes/${old.id}`)).value, saved.value);
+});
+
+test('recipe slots, manual overrides and deleted-item tombstones survive a server restart and duplicate', async t => {
+  const f = await fixture(t, { publicDir: path.resolve('public') }), store = createSceneStore(createScene('Receita persistente'));
+  store.execute('proposal.accept', { proposal: proposeRoom({}, store.editVersion) });
+  const floor = Object.values(store.document.layout.entities).find(e => e.kind === 'floor');
+  const catalog = JSON.parse(await readFile(new URL('../public/assets/catalog.json', import.meta.url))).assets;
+  store.execute('proposal.accept', { proposal: proposeFurnishing(store.document, { floorId: floor.id }, store.editVersion, catalog) });
+  const recipe = Object.values(store.document.layout.compositions)[0], deleted = recipe.slots['desk.chair'].id;
+  store.execute('entity.remove', { id: deleted });
+  store.execute('entity.update', { id: recipe.slots['desk.main'].id, patch: { name: 'Mesa do mestre' } });
+  const saved = await f.request('/api/tabletop/scenes', { method: 'POST', body: { document: store.document } });
+  assert.equal(saved.status, 201);
+  await f.stop(); await f.start();
+  const loaded = (await f.request(`/api/tabletop/scenes/${saved.value.id}`)).value;
+  assert.deepEqual(loaded, saved.value);
+  const proposal = proposeFurnishing(loaded, { compositionId: recipe.id }, 0, catalog);
+  assert.ok(proposal.report.suppressed.includes('desk.chair')); assert.ok(proposal.report.kept.includes('desk.main'));
+  const copy = await f.request(`/api/tabletop/scenes/${loaded.id}/duplicate`, { method: 'POST', body: { expectedRevision: loaded.revision } });
+  assert.equal(copy.status, 201);
+  const slot = Object.values(copy.value.layout.compositions)[0].slots['desk.chair'];
+  assert.notEqual(slot.id, deleted); assert.equal(copy.value.layout.entities[slot.id], undefined);
+});
 
 async function fixture(t, options = {}) {
   const base = await mkdtemp(path.join(os.tmpdir(), 'tabletop-server-'));

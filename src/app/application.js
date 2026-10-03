@@ -1,8 +1,12 @@
-import { createScene, createMap, createSceneFromMap, createMapFromScene, createEntity, createToken, createLight, clone, id, validateDocument, duplicateDocument } from '../domain/documents.js';
+import { createScene, createMap, createSceneFromMap, createMapFromScene, createEntity, createToken, createLight, clone, id, validateDocument, duplicateDocument, migrateDocument } from '../domain/documents.js';
+import { polygonSize, groupChain, isSupport, isAccess, supportHeightAt, constrainOpening } from '../domain/geometry.js';
 import { quaternionFromYaw, yawFromQuaternion } from '../domain/coords.js';
 import { ENVIRONMENTS } from '../domain/environments.js';
 import { createSceneStore } from '../state/scene-store.js';
 import { proposeRoom } from '../authoring/quick-build.js';
+import { proposeFurnishing } from '../authoring/furnishing.js';
+import { proposePolish } from '../authoring/polish.js';
+import { constructionPanel, smartBuildPanel, polishPanel, proposalReport } from '../ui/authoring-panels.js';
 import { createViewport } from '../render/renderer.js';
 import { repository, ApiError } from '../data/api.js';
 import { drafts } from '../data/drafts.js';
@@ -79,6 +83,9 @@ export async function startApplication() {
   let openTicket = 0;
   let initialized = false;
   let roomOptions = { width: 6, length: 5, height: 2.6, center: [0, 0, 0], door: true, lighting: true };
+  let activeSurfaceId, buildHeight = 0, smartFloorId = null, selectedIds = new Set();
+  let smartOptions = { template: 'office', density: 'normal', chairs: 4, seed: 1, lighting: true, restoreDeleted: false };
+  let polishOptions = { mode: 'align', axis: 'x', alignment: 'center', angle: 5, seed: 1 };
   let contextTarget = null, draggedTreeId = null;
   const store = createSceneStore(createScene('Minha primeira cena'));
   const sessionId = id();
@@ -163,7 +170,7 @@ export async function startApplication() {
   }
 
   const viewport = createViewport(document.getElementById('viewport'), {
-    onSelect: (value) => { selection = value; renderInspector(); renderSceneTreeIfVisible(); viewport.setSelection(value); hideContextMenu(); },
+    onSelect: (value, meta) => { selectObject(value, meta?.additive); hideContextMenu(); },
     onTransform: (objectId, transform, meta = {}) => {
       const found = locate(objectId);
       if (!found) return;
@@ -171,7 +178,22 @@ export async function startApplication() {
       execute(`${found.type}.update`, { id: objectId, patch, snap: meta.snap });
     },
     onPlace: (point) => placeAt(point),
+    onWindowPlace: ({ wallId, offset, height: centerHeight }) => {
+      const wall = store.document.layout.entities[wallId];
+      const width = Math.min(1.2, wall.length - .1), height = Math.min(1, wall.height - .1);
+      if (width < .1 || height < .1) { notify('Esta parede é pequena demais para a janela.', true); return; }
+      const entity = createEntity('window', { wallId, surfaceId: wall.surfaceId, groupId: wall.groupId, width, height,
+        ...constrainOpening(wall, { width, height }, offset, centerHeight - height / 2) });
+      if (execute('entity.add', { entity })) { setTool('move'); selectObject(entity.id); notify('Janela criada. Arraste com Mover (W) ou ajuste posição e peitoril no inspetor.'); }
+    },
+    onOpeningMove: (objectId, patch) => execute('entity.update', { id: objectId, patch }),
     onRoomDraw: (rectangle) => { roomOptions = { ...roomOptions, ...rectangle }; tab = 'build'; makeProposal(); renderSidebar(); },
+    onPolygonDraw: (points) => {
+      const origin = points[0];
+      const vertices = points.map(p => [p[0] - origin[0], p[2] - origin[2]]);
+      const entity = createEntity('floor', { name: 'Piso poligonal', vertices, position: origin });
+      if (execute('entity.add', { entity, snap: false })) { setTool('select'); activeSurfaceId = entity.id; selectObject(entity.id); renderSidebar(); }
+    },
     onError: (error) => notify(error?.message ?? String(error), true, true),
     onContextMenu: (event, hit) => {
       if (hit?.entityId) {
@@ -186,11 +208,31 @@ export async function startApplication() {
     },
     onCameraChange: () => hideContextMenu(),
   });
+  function selectObject(value, additive = false) {
+    if (!additive) selectedIds.clear();
+    if (value) { if (additive && selectedIds.has(value)) selectedIds.delete(value); else selectedIds.add(value); }
+    selection = [...selectedIds].at(-1) ?? null;
+    if (store.document.layout.entities[selection]?.kind === 'floor' && !additive) {
+      activeSurfaceId = selection;
+      if (smartFloorId !== selection) { smartFloorId = selection; const existing = currentComposition(); if (existing) smartOptions = { ...existing.parameters, restoreDeleted: false }; }
+      viewport.setSupportSurface(selection); if (tab === 'build') renderSidebar();
+    }
+    viewport.setSelection(selection, [...selectedIds]); renderInspector(); renderSceneTreeIfVisible();
+  }
+  function currentComposition() { return Object.values(store.document.layout.compositions).find(c => store.document.layout.areas[c.areaId]?.surfaceId === smartFloorId); }
+  function showAuthorshipProposal(next) {
+    proposal = next; viewport.setPreview(next); setTool('select');
+    const bar = document.getElementById('proposal-bar'); bar.hidden = false;
+    bar.innerHTML = `<div><span><strong>${esc(next.label)}</strong><small>Verde: novo / ajustado · vermelho: remoção</small></span></div>${button('cancel-proposal', 'Cancelar', '', 'quiet')}${button('accept-proposal', 'Aceitar proposta', 'plus', 'primary')}<div class="proposal-report">${proposalReport(next)}</div>`;
+    document.getElementById('welcome').hidden = true;
+  }
   function setTool(next) {
+    const previous = tool;
     tool = next; viewport.setTool(next);
     if (next !== 'place') placing = null;
     root.querySelectorAll('[data-action^="tool-"]').forEach((node) => node.classList.toggle('active', node.dataset.action === `tool-${next}`));
-    document.getElementById('gesture-hint').textContent = next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? 'Clique no piso para colocar · Alt: posição livre · Esc cancela' : 'Botão direito: orbitar · Meio: mover câmera · Scroll: zoom';
+    document.getElementById('gesture-hint').textContent = next === 'polygon' ? 'Clique nos vértices · Enter conclui · Backspace remove · Esc cancela' : next === 'window' ? 'Clique na parede para posicionar o centro da janela · Esc cancela' : next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? 'Clique no piso para colocar · Alt: posição livre · Esc cancela' : 'Botão direito: orbitar · Meio: mover câmera · Scroll: zoom';
+    if (tab === 'build' && (previous === 'polygon' || next === 'polygon')) renderSidebar();
   }
   function clearProposal() { proposal = null; viewport.setPreview(null); document.getElementById('proposal-bar').hidden = true; }
   function makeProposal() {
@@ -208,14 +250,17 @@ export async function startApplication() {
       const pair = createToken({ name: placing.name, color: placing.color, assetRef: placing.assetRef ?? null, position, surfaceId });
       if (execute('token.add', { ...pair, snap })) newId = pair.token.id;
     } else if (placing.type === 'light') {
-      const light = createLight({ position: [position[0], position[1] + 2.2, position[2]] });
+      const light = createLight({ position: [position[0], position[1] + 2.2, position[2]], surfaceId });
       if (execute('light.add', { light })) newId = light.id;
+    } else if (['stairs', 'ramp'].includes(placing.type)) {
+      const entity = createEntity(placing.type, { position, surfaceId });
+      if (execute('entity.add', { entity, snap })) newId = entity.id;
     } else {
       const asset = placing.asset;
-      const entity = createEntity('prop', { name: asset.name, position, surfaceId, assetRef: { id: asset.id, revision: asset.revision }, footprint: asset.footprint ?? [1, 1] });
+      const entity = createEntity('prop', { name: asset.name, position, surfaceId, assetRef: { id: asset.id, revision: asset.revision }, footprint: asset.footprint ?? [1, 1], ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}) });
       if (execute('entity.add', { entity, snap })) newId = entity.id;
     }
-    if (newId) { selection = newId; setTool('move'); viewport.setSelection(newId); renderInspector(); notify('Adicionado à cena. Você pode mover, girar e editar.'); }
+    if (newId) { setTool('move'); selectObject(newId); notify('Adicionado à cena. Você pode mover, girar e editar.'); }
   }
   function flushDraft() {
     clearTimeout(draftTimer);
@@ -240,6 +285,8 @@ export async function startApplication() {
     const panel = document.getElementById('side-content');
     if (tab === 'build') {
       panel.innerHTML = `<section class="quick-section"><span class="eyebrow">QUICK BUILD</span><h2>Um espaço para a história.</h2><p class="muted">Desenhe no chão ou comece pelas medidas. Tudo continua editável.</p>${button('room-draw', 'Desenhar sala', 'room', 'wide accent-outline')}<form id="quick-form"><div class="field-grid">${numberField('room-width', 'Largura interna · m', roomOptions.width, { min: 1.4 })}${numberField('room-length', 'Comprimento · m', roomOptions.length, { min: 1 })}</div>${numberField('room-height', 'Altura das paredes · m', roomOptions.height, { min: 2.2 })}<span class="section-caption">SUGESTÕES OPCIONAIS</span>${checkField('room-door', 'Incluir uma porta', roomOptions.door)}${checkField('room-lighting', 'Adicionar iluminação', roomOptions.lighting)}<button class="primary wide" type="submit">${icon('eye')} Ver prévia</button></form></section><section><span class="eyebrow">CONSTRUIR MANUALMENTE</span><div class="construction-grid">${button('floor-add', 'Piso', 'floor')}${button('wall-add', 'Parede', 'wall')}${button('door-add', 'Porta', 'door')}${button('light-place', 'Luz', 'light')}</div></section><section><span class="eyebrow">PERSONAGENS</span><label class="field"><span>Nome do token</span><input id="token-name" value="Investigador" maxlength="256" /></label><div class="token-controls"><input id="token-color" aria-label="Cor do token" type="color" value="#e4b76f" />${button('token-place', 'Colocar token', 'token', 'wide')}</div><p class="microcopy">Para usar um retrato, importe uma imagem na biblioteca.</p></section><section><span class="eyebrow">GRID E PRECISÃO</span>${checkField('grid-visible', 'Mostrar grid', store.document.layout.grid.visible)}${checkField('grid-snap', 'Encaixar no grid', store.document.layout.grid.snap)}${numberField('grid-size', 'Célula · m', store.document.layout.grid.cellSize, { min: .1 })}</section>`;
+      panel.innerHTML += constructionPanel(store.document, { surfaceId: activeSurfaceId, height: buildHeight, polygon: tool === 'polygon' });
+      panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition());
     } else if (tab === 'assets') {
       panel.innerHTML = `<div class="section-intro"><span class="eyebrow">BIBLIOTECA</span><h2>Detalhes dão vida.</h2><p class="muted">Escolha um objeto e clique no chão para colocá-lo.</p></div><input id="asset-search" type="search" aria-label="Buscar assets" placeholder="Buscar na biblioteca…" /><div id="asset-cards" class="asset-grid"></div>${button('asset-import', 'Importar imagem ou GLB', 'upload', 'wide accent-outline')}<p class="microcopy">Arquivos ficam guardados no servidor local, separados da cena.</p>`;
       renderAssetCards();
@@ -266,7 +313,7 @@ export async function startApplication() {
     const renderEntry = (entry) => {
       const typeGlyph = entry.kind === 'floor' ? 'floor' : entry.kind === 'wall' ? 'wall' : entry.kind === 'door' ? 'door' : entry.actorId ? 'token' : entry.type ? 'light' : 'room';
       const name = entryName(doc, entry);
-      return `<div draggable="true" data-drag-id="${entry.id}" data-select="${entry.id}" class="tree-entry ${entry.id === selection ? 'selected' : ''}">
+      return `<div draggable="true" data-drag-id="${entry.id}" data-select="${entry.id}" class="tree-entry ${selectedIds.has(entry.id) ? 'selected' : ''}">
         ${icon(typeGlyph, 14)}
         <span class="tree-label" title="${esc(name)}">${esc(name)}</span>
         ${entry.audience === 'gm' ? '<small>GM</small>' : ''}
@@ -281,12 +328,14 @@ export async function startApplication() {
 
     if (groups.length > 0) {
       html += groups.map((group) => {
-        const groupEntities = entities.filter((e) => e.groupId === group.id);
+        const groupEntities = [...entities, ...tokens, ...lights].filter(e => e.groupId === group.id);
         return `<div class="tree-group" data-drop-group="${group.id}">
           <div class="tree-group-header" data-group-id="${group.id}">
             ${icon('folder', 14)}
             <span class="group-title" title="${esc(group.name)}">${esc(group.name)}</span>
             <div class="group-actions">
+              <button type="button" data-group-visible="${group.id}" title="${group.visible === false ? 'Mostrar pasta' : 'Ocultar pasta'}">${icon('eye', 12)}</button>
+              <button type="button" data-group-lock="${group.id}" title="${group.locked ? 'Desbloquear pasta' : 'Bloquear pasta'}">${group.locked ? '🔒' : '🔓'}</button>
               <button type="button" data-group-rename="${group.id}" title="Renomear pasta">${icon('edit', 12)}</button>
               <button type="button" data-group-delete="${group.id}" title="Excluir pasta">${icon('trash', 12)}</button>
             </div>
@@ -307,11 +356,11 @@ export async function startApplication() {
     }
 
     if (tokens.length > 0) {
-      html += `<div class="tree-section-title">Personagens</div><div class="tree-group-items">${tokens.map(renderEntry).join('')}</div>`;
+      html += `<div class="tree-section-title">Personagens</div><div class="tree-group-items">${tokens.filter(e => !e.groupId).map(renderEntry).join('')}</div>`;
     }
 
     if (lights.length > 0) {
-      html += `<div class="tree-section-title">Iluminação</div><div class="tree-group-items">${lights.map(renderEntry).join('')}</div>`;
+      html += `<div class="tree-section-title">Iluminação</div><div class="tree-group-items">${lights.filter(e => !e.groupId).map(renderEntry).join('')}</div>`;
     }
 
     if (!html) {
@@ -321,6 +370,9 @@ export async function startApplication() {
     tree.innerHTML = html;
   }
   function renderInspector() {
+    if (selection && !selectedIds.has(selection)) selectedIds = new Set([selection]);
+    if (!selection) selectedIds.clear();
+    if (selectedIds.size > 1) { document.getElementById('inspector-content').innerHTML = polishPanel(selectedIds.size, polishOptions); viewport.setSelection(selection, [...selectedIds]); return; }
     const panel = document.getElementById('inspector-content'), found = locate();
     if (!found) {
       panel.innerHTML = `<div class="empty-inspector">${icon('cursor', 30)}<h3>Selecione um elemento</h3><p>Escolha um objeto na cena para editar posição, material e propriedades.</p><div class="inspector-guide"><span>${icon('move', 15)}Posicione com precisão</span><span>${icon('light', 15)}Crie a atmosfera</span><span>${icon('camera', 15)}Prepare o enquadramento</span></div></div>`;
@@ -330,30 +382,45 @@ export async function startApplication() {
     const actor = type === 'token' ? doc.actors[record.actorId] : null;
     const name = actor?.name ?? record.name;
     const position = record.transform?.position ?? record.position;
-    let fields = `<div class="object-title"><span class="object-icon">${icon(type === 'token' ? 'token' : type === 'light' ? 'light' : record.kind === 'door' ? 'door' : 'room', 24)}</span><span><small>${type === 'token' ? 'TOKEN' : type === 'light' ? 'LUZ' : ({ floor: 'PISO', wall: 'PAREDE', door: 'PORTA', prop: 'ASSET' }[record.kind])}</small><strong>${esc(name)}</strong></span></div><label class="field"><span>Nome</span><input data-field="object-name" value="${esc(name)}" maxlength="256" /></label>`;
+    let fields = `<div class="object-title"><span class="object-icon">${icon(type === 'token' ? 'token' : type === 'light' ? 'light' : record.kind === 'door' ? 'door' : 'room', 24)}</span><span><small>${type === 'token' ? 'TOKEN' : type === 'light' ? 'LUZ' : ({ floor: 'PISO', wall: 'PAREDE', door: 'PORTA', window: 'JANELA', stairs: 'ESCADA', ramp: 'RAMPA', prop: 'ASSET' }[record.kind])}</small><strong>${esc(name)}</strong></span></div><label class="field"><span>Nome</span><input data-field="object-name" value="${esc(name)}" maxlength="256" /></label>`;
     if (position) {
       fields += `<section><span class="eyebrow">POSIÇÃO · METROS</span><div class="axis-fields">${position.map((value, axis) => numberField(`position-${axis}`, ['X', 'Y · altura', 'Z'][axis], value)).join('')}</div>${numberField('object-yaw', 'Rotação Y · graus', yawFromQuaternion(record.transform?.rotation ?? record.rotation), { step: 15 })}</section>`;
     }
-    if (type === 'entity') {
+    if (type === 'entity' || type === 'token' || type === 'light') {
       fields += `<section><span class="eyebrow">ORGANIZAÇÃO</span><label class="field"><span>Pasta / Grupo</span><select data-field="entity-group"><option value="">(Sem pasta / Raiz)</option>${Object.values(doc.layout.groups).map((g) => `<option value="${g.id}" ${record.groupId === g.id ? 'selected' : ''}>${esc(g.name)}</option>`).join('')}</select></label></section>`;
     }
+    if (record.transform) fields += `<section><span class="eyebrow">SUPERFÍCIE DE APOIO</span><label class="field"><span>Apoio</span><select data-field="object-surface"><option value="">Sem vínculo</option>${Object.values(doc.layout.entities).filter(e => e.id !== record.id && isSupport(e)).map(e => `<option value="${e.id}" ${record.surfaceId === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select></label>${record.kind === 'prop' ? checkField('prop-support', 'Oferecer superfície de apoio', Boolean(record.supportHeight)) + (record.supportHeight ? numberField('supportHeight', 'Altura local do apoio · m', record.supportHeight, { min: .01 }) : '') : ''}</section>`;
+    if (record.vertices) fields += `<section><span class="eyebrow">CONTORNO LOCAL · X/Z</span>${record.vertices.map((p, i) => `<div class="field-grid">${numberField(`polygon-${i}-0`, `V${i + 1} · X`, p[0])}${numberField(`polygon-${i}-1`, `V${i + 1} · Z`, p[1])}</div>`).join('')}<p class="microcopy">O contorno não pode cruzar a si mesmo. Dimensões ajustam os vértices proporcionalmente.</p></section>`;
     if (record.kind === 'floor') fields += `<section><span class="eyebrow">DIMENSÕES · METROS</span><div class="field-grid">${numberField('width', 'Largura', record.width, { min: .1 })}${numberField('length', 'Comprimento', record.length, { min: .1 })}</div>${numberField('thickness', 'Espessura', record.thickness, { min: .01 })}</section>`;
-    if (record.kind === 'wall') fields += `<section><span class="eyebrow">DIMENSÕES · METROS</span>${numberField('length', 'Comprimento', record.length, { min: .1 })}${numberField('height', 'Altura', record.height, { min: .1 })}${numberField('thickness', 'Espessura', record.thickness, { min: .01 })}<p class="microcopy">Portas acompanham esta parede. Reduzir o comprimento exige manter as aberturas válidas.</p></section>`;
-    if (record.kind === 'door') fields += `<section><span class="eyebrow">ABERTURA NA PAREDE</span>${numberField('offset', 'Posição na parede · m', record.offset, { min: 0 })}<div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .2 })}${numberField('height', 'Altura · m', record.height, { min: .2 })}</div>${numberField('door-angle', 'Ângulo atual · graus', (doc.sessionState.doors[record.id] ?? record.initialAngle) * 180 / Math.PI, { step: 15 })}<label class="field"><span>Dobradiça</span><select data-field="hinge"><option value="left" ${record.hinge === 'left' ? 'selected' : ''}>Esquerda</option><option value="right" ${record.hinge === 'right' ? 'selected' : ''}>Direita</option></select></label>${button('door-toggle', 'Abrir / fechar', 'door', 'wide')}<p class="microcopy">O vão pertence à parede. A folha pode ser aberta sem alterar o mapa.</p></section>`;
+    if (isAccess(record)) fields += `<section><span class="eyebrow">ACESSO ENTRE ALTURAS</span><div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .1 })}${numberField('length', 'Comprimento · m', record.length, { min: .1 })}</div>${numberField('height', 'Desnível · m', record.height, { min: .1 })}${record.kind === 'stairs' ? numberField('steps', 'Degraus', record.steps, { min: 1, max: 128, step: 1 }) : ''}<p class="microcopy">A base fica na altura Y; o acesso sobe no sentido Z local positivo. Use Rotacionar (R) para orientar e escolha este apoio para colocar tokens sobre ele.</p></section>`;
+    if (record.kind === 'wall') fields += `<section><span class="eyebrow">DIMENSÕES · METROS</span>${numberField('length', 'Comprimento', record.length, { min: .1 })}${numberField('height', 'Altura', record.height, { min: .1 })}${numberField('thickness', 'Espessura', record.thickness, { min: .01 })}<p class="microcopy">Portas e janelas acompanham esta parede. Reduzir o comprimento exige manter as aberturas válidas.</p></section>`;
+    if (record.kind === 'door') fields += `<section><span class="eyebrow">ABERTURA NA PAREDE</span>${numberField('offset', 'Posição na parede · m', record.offset, { min: 0 })}<div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .2 })}${numberField('height', 'Altura · m', record.height, { min: .2 })}</div>${numberField('door-angle', 'Ângulo atual · graus', (doc.sessionState?.doors?.[record.id] ?? record.initialAngle) * 180 / Math.PI, { step: 15 })}<label class="field"><span>Dobradiça</span><select data-field="hinge"><option value="left" ${record.hinge === 'left' ? 'selected' : ''}>Esquerda</option><option value="right" ${record.hinge === 'right' ? 'selected' : ''}>Direita</option></select></label>${button('door-toggle', 'Abrir / fechar', 'door', 'wide')}<p class="microcopy">O vão pertence à parede. A folha pode ser aberta sem alterar o mapa.</p></section>`;
+    if (record.kind === 'window') fields += `<section><span class="eyebrow">JANELA HOSPEDADA</span><p class="microcopy">Com Mover (W), arraste a janela na parede. Alt permite ajuste livre. O recorte acompanha a janela.</p><label class="field"><span>Parede</span><select data-field="window-wall">${Object.values(doc.layout.entities).filter(e => e.kind === 'wall').map(e => `<option value="${e.id}" ${record.wallId === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select></label>${numberField('offset', 'Posição na parede · m', record.offset, { min: 0 })}<div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .1 })}${numberField('height', 'Altura · m', record.height, { min: .1 })}</div>${numberField('sill', 'Peitoril · m', record.sill, { min: 0 })}<label class="field"><span>Representação</span><select data-field="style"><option value="glass" ${record.style === 'glass' ? 'selected' : ''}>Vidro</option><option value="bars" ${record.style === 'bars' ? 'selected' : ''}>Grades</option><option value="open" ${record.style === 'open' ? 'selected' : ''}>Vão livre</option></select></label></section>`;
     if (type === 'token' || record.kind === 'prop') fields += `<section><span class="eyebrow">ESCALA VISUAL</span><div class="axis-fields">${record.transform.scale.map((value, axis) => numberField(`scale-${axis}`, ['X', 'Y', 'Z'][axis], value, { min: .01 })).join('')}</div>${type === 'token' ? `<span class="eyebrow">BASE · METROS</span><div class="field-grid">${numberField('footprint-0', 'Largura', record.footprint[0], { min: .1 })}${numberField('footprint-1', 'Profundidade', record.footprint[1], { min: .1 })}</div>${colorField('token-color', 'Cor do personagem', actor.color)}` : ''}</section>`;
     if (record.material) fields += `<section><span class="eyebrow">MATERIAL</span>${colorField('material-color', record.kind === 'prop' ? 'Matiz do asset' : 'Cor', record.material.color)}${numberField('material-roughness', 'Rugosidade', record.material.roughness, { min: 0, max: 1 })}</section>`;
     if (type === 'light') fields += `<section><span class="eyebrow">ILUMINAÇÃO</span>${colorField('light-color', 'Cor da fonte', record.color)}${numberField('light-intensity', 'Intensidade', record.intensity, { min: 0, step: record.type === 'point' ? 5 : .1 })}${record.type === 'point' ? numberField('light-distance', 'Alcance · m', record.distance, { min: 0, step: 1 }) : ''}${checkField('light-shadow', 'Projetar sombras', record.shadowEnabled)}</section>`;
     fields += `<section><span class="eyebrow">APRESENTAÇÃO</span>${checkField('object-secret', 'Somente para o mestre', record.audience === 'gm')}${record.locked === undefined ? '' : checkField('object-locked', 'Bloquear edição', record.locked)}</section><div class="object-actions">${button('object-copy', 'Copiar', 'copy')}${button('object-duplicate', 'Duplicar', 'copy')}${button('object-delete', 'Excluir', 'trash', 'danger')}</div>`;
-    panel.innerHTML = fields;
+    panel.innerHTML = groupChain(doc, record.groupId).some(g => g.locked) ? `<p class="microcopy">Esta pasta está bloqueada. Desbloqueie-a na árvore da cena para editar seus elementos.</p>${fields}` : fields;
   }
 
   function updateView(event = {}) {
     const doc = store.document;
     const isMap = doc.documentType === 'map';
     if (selection && !locate()) selection = null;
+    selectedIds = new Set([...selectedIds].filter(key => locate(key)));
+    if (!selection) selection = [...selectedIds].at(-1) ?? null;
+    if (event.type === 'replace') { selectedIds.clear(); selection = null; activeSurfaceId = undefined; smartFloorId = null; }
+    const floors = Object.values(doc.layout.entities).filter(e => e.kind === 'floor');
+    if (activeSurfaceId && !doc.layout.entities[activeSurfaceId]) activeSurfaceId = undefined;
+    if (activeSurfaceId === undefined) activeSurfaceId = floors.length === 1 ? floors[0].id : null;
+    if (!doc.layout.entities[smartFloorId]) {
+      smartFloorId = floors[0]?.id ?? null;
+      const existing = currentComposition(); if (existing) smartOptions = { ...existing.parameters, restoreDeleted: false };
+    }
     if (proposal && event.type !== 'saved') clearProposal();
     viewport.setDocument(isPresentation ? projectPresentation(doc) : doc);
-    viewport.setSelection(isPresentation ? null : selection);
+    viewport.setSupportSurface(activeSurfaceId); viewport.setWorkplaneHeight(buildHeight);
+    viewport.setSelection(isPresentation ? null : selection, isPresentation ? [] : [...selectedIds]);
     document.getElementById('scene-name').value = doc.name;
     document.getElementById('presentation-name').textContent = doc.name;
     const eyebrow = document.getElementById('doc-type-eyebrow');
@@ -442,13 +509,13 @@ export async function startApplication() {
       const before = new Set([
         ...Object.keys(store.document.layout.entities),
         ...Object.keys(store.document.tokens),
-        ...Object.keys(store.document.look.lights),
+        ...Object.keys((store.document.look ?? store.document.defaultLook).lights),
       ]);
       if (execute(`${clipboard.type}.duplicate`, { id: clipboard.id, offset })) {
         const newId = [
           ...Object.keys(store.document.layout.entities),
           ...Object.keys(store.document.tokens),
-          ...Object.keys(store.document.look.lights),
+          ...Object.keys((store.document.look ?? store.document.defaultLook).lights),
         ].find((key) => !before.has(key));
         if (newId) {
           selection = newId;
@@ -813,6 +880,15 @@ export async function startApplication() {
 
   function changeField(input) {
     const field = input.dataset.field, value = input.type === 'checkbox' ? input.checked : input.type === 'number' ? Number(input.value) : input.value;
+    if (field === 'build-height') { if (!Number.isFinite(value)) return; buildHeight = value; activeSurfaceId = null; roomOptions.center[1] = value; viewport.setWorkplaneHeight(value); viewport.setSupportSurface(null); renderSidebar(); return; }
+    if (field === 'active-surface') { activeSurfaceId = value || null; viewport.setSupportSurface(activeSurfaceId); return; }
+    if (field.startsWith('smart-')) {
+      const key = field.slice(6);
+      if (key === 'floor') { smartFloorId = value || null; const existing = currentComposition(); if (existing) smartOptions = { ...existing.parameters, restoreDeleted: false }; }
+      else smartOptions[key] = value;
+      clearProposal(); renderSidebar(); return;
+    }
+    if (field.startsWith('polish-')) { polishOptions[field.slice(7)] = value; clearProposal(); return; }
     if (field.startsWith('room-')) {
       const key = field.slice(5); roomOptions[key] = value; if (proposal) makeProposal(); return;
     }
@@ -824,6 +900,21 @@ export async function startApplication() {
     if (field.startsWith('fill-')) { execute('look.update', { patch: { fill: { [field === 'fill-color' ? 'skyColor' : 'intensity']: value } } }); return; }
     const found = locate(); if (!found) return;
     const { type, record } = found; let patch = {}, actorPatch;
+    if (field === 'window-wall') {
+      const wall = store.document.layout.entities[value];
+      execute('entity.update', { id: record.id, patch: { wallId: wall.id, surfaceId: wall.surfaceId, groupId: wall.groupId,
+        ...constrainOpening(wall, record, record.offset, record.sill) } }); return;
+    }
+    if (field.startsWith('polygon-')) {
+      const [, vertex, axis] = field.split('-'), vertices = clone(record.vertices); vertices[Number(vertex)][Number(axis)] = value;
+      const [width, length] = polygonSize(vertices); execute('entity.update', { id: record.id, patch: { vertices, width, length } }); return;
+    }
+    if (field === 'prop-support') { if (!value) execute('entity.clearSupport', { id: record.id }); else execute('entity.update', { id: record.id, patch: { supportHeight: .8 } }); return; }
+    if (field === 'object-surface') {
+      patch.surfaceId = value || null;
+      if (value) { const host = store.document.layout.entities[value]; const position = [...record.transform.position]; position[1] = supportHeightAt(host, position); patch.transform = { position }; }
+      execute(`${type}.update`, { id: record.id, patch, snap: false }); return;
+    }
     if (field === 'object-name') { if (type === 'token') actorPatch = { name: value }; else patch.name = value; }
     else if (field.startsWith('position-')) {
       const position = [...(record.transform?.position ?? record.position)]; position[Number(field.slice(-1))] = value;
@@ -843,8 +934,8 @@ export async function startApplication() {
     else if (field.startsWith('light-')) patch[{ 'light-color': 'color', 'light-intensity': 'intensity', 'light-distance': 'distance', 'light-shadow': 'shadowEnabled' }[field]] = value;
     else if (field === 'object-secret') patch.audience = value ? 'gm' : 'all';
     else if (field === 'object-locked') patch.locked = value;
-    else if (field === 'entity-group') { execute('entity.update', { id: record.id, patch: { groupId: value || null } }); return; }
-    else if (field === 'door-angle') { execute('door.setAngle', { id: record.id, angle: value * Math.PI / 180 }); return; }
+    else if (field === 'entity-group') { execute(`${type}.update`, { id: record.id, patch: { groupId: value || null } }); return; }
+    else if (field === 'door-angle') { if (store.document.documentType === 'map') execute('entity.update', { id: record.id, patch: { initialAngle: value * Math.PI / 180 } }); else execute('door.setAngle', { id: record.id, angle: value * Math.PI / 180 }); return; }
     else patch[field] = value;
     execute(`${type}.update`, { id: record.id, patch, ...(actorPatch ? { actorPatch } : {}) });
   }
@@ -853,6 +944,28 @@ export async function startApplication() {
     if (!initialized) return;
     switch (action) {
       case 'save': return saveScene();
+      case 'smart-preview': {
+        try { showAuthorshipProposal(proposeFurnishing(store.document, { ...smartOptions, floorId: smartFloorId, compositionId: currentComposition()?.id }, store.editVersion, assets)); }
+        catch (error) { notify(error.message, true); } break;
+      }
+      case 'smart-detach': if (currentComposition()) execute('composition.detach', { id: currentComposition().id }); break;
+      case 'polish-preview': {
+        try { showAuthorshipProposal(proposePolish(store.document, { ...polishOptions, ids: [...selectedIds] }, store.editVersion)); }
+        catch (error) { notify(error.message, true); } break;
+      }
+      case 'polygon-draw': clearProposal(); setTool('polygon'); document.getElementById('welcome').hidden = true; renderSidebar(); break;
+      case 'polygon-finish': viewport.finishPolygon(); break;
+      case 'platform-add': {
+        const entity = createEntity('floor', { name: 'Plataforma', width: 3, length: 3, position: [0, buildHeight || 1, 0], thickness: .25 });
+        if (execute('entity.add', { entity })) { activeSurfaceId = entity.id; selectObject(entity.id); renderSidebar(); } break;
+      }
+      case 'window-add': {
+        if (!Object.values(store.document.layout.entities).some(e => e.kind === 'wall')) { notify('Crie uma parede antes de colocar a janela.', true); break; }
+        clearProposal(); setTool('window'); viewport.setTopView(false);
+        notify('Clique na parede onde deseja colocar o centro da janela.'); break;
+      }
+      case 'stairs-place': placing = { type: 'stairs' }; clearProposal(); setTool('place'); notify('Clique no apoio para colocar a escada; ajuste desnível e degraus no inspetor.'); break;
+      case 'ramp-place': placing = { type: 'ramp' }; clearProposal(); setTool('place'); notify('Clique no apoio para colocar a rampa; ajuste o desnível no inspetor.'); break;
       case 'duplicate-scene': return duplicateScene();
       case 'group-add': {
         const name = window.prompt('Nome da nova pasta:', 'Nova pasta');
@@ -869,7 +982,12 @@ export async function startApplication() {
       case 'room-draw': clearProposal(); setTool('room'); document.getElementById('welcome').hidden = true; notify('Arraste no chão para desenhar o tamanho da sala.'); break;
       case 'accept-proposal': {
         const proposed = proposal; if (!proposed) return;
-        if (execute('proposal.accept', { proposal: proposed })) { clearProposal(); viewport.frameScene(); selection = proposed.entities.find((entity) => entity.kind === 'floor')?.id ?? null; viewport.setSelection(selection); renderInspector(); notify('Sala criada. Porta, paredes e luz continuam editáveis.'); } break;
+        if (execute('proposal.accept', { proposal: proposed })) {
+          clearProposal(); const floor = proposed.entities?.find(entity => entity.kind === 'floor');
+          if (floor) { viewport.frameScene(); activeSurfaceId = floor.id; smartFloorId = floor.id; selectObject(floor.id); }
+          else { viewport.setSelection(selection, [...selectedIds]); renderInspector(); }
+          renderSidebar(); notify('Proposta aceita. Os elementos continuam editáveis.');
+        } break;
       }
       case 'cancel-proposal': clearProposal(); updateView({ type: 'saved' }); break;
       case 'floor-add': { const entity = createEntity('floor'); if (execute('entity.add', { entity })) { selection = entity.id; setTool('move'); viewport.setSelection(selection); renderInspector(); viewport.frameSelection(selection); } break; }
@@ -890,7 +1008,7 @@ export async function startApplication() {
       case 'object-delete': { const found = locate(); if (found && confirm(found.record.kind === 'floor' ? 'Excluir o piso e todos os elementos apoiados nele? Esta ação pode ser desfeita.' : found.record.kind === 'wall' ? 'Excluir esta parede e suas portas? Esta ação pode ser desfeita.' : 'Excluir este elemento? Esta ação pode ser desfeita.')) execute(`${found.type}.remove`, { id: selection }); break; }
       case 'object-copy': return copySelection();
       case 'object-paste': return pasteClipboard();
-      case 'object-duplicate': { const found = locate(); if (found) { const before = new Set([...Object.keys(store.document.layout.entities), ...Object.keys(store.document.tokens), ...Object.keys(store.document.look.lights)]); if (execute(`${found.type}.duplicate`, { id: selection })) { selection = [...Object.keys(store.document.layout.entities), ...Object.keys(store.document.tokens), ...Object.keys(store.document.look.lights)].find((key) => !before.has(key)); viewport.setSelection(selection); renderInspector(); } } break; }
+      case 'object-duplicate': { const found = locate(); if (found) { const before = new Set([...Object.keys(store.document.layout.entities), ...Object.keys(store.document.tokens), ...Object.keys((store.document.look ?? store.document.defaultLook).lights)]); if (execute(`${found.type}.duplicate`, { id: selection })) { selection = [...Object.keys(store.document.layout.entities), ...Object.keys(store.document.tokens), ...Object.keys((store.document.look ?? store.document.defaultLook).lights)].find((key) => !before.has(key)); viewport.setSelection(selection); renderInspector(); } } break; }
       case 'undo': store.undo(); break;
       case 'redo': store.redo(); break;
       case 'perspective': viewport.setTopView(false); break;
@@ -994,6 +1112,10 @@ export async function startApplication() {
 
     const groupRenameBtn = event.target.closest('[data-group-rename]');
     if (groupRenameBtn) { renameTarget(groupRenameBtn.dataset.groupRename); return; }
+    const groupVisibility = event.target.closest('[data-group-visible]');
+    if (groupVisibility) { const group = store.document.layout.groups[groupVisibility.dataset.groupVisible]; execute('group.update', { id: group.id, patch: { visible: group.visible === false } }); return; }
+    const groupLock = event.target.closest('[data-group-lock]');
+    if (groupLock) { const group = store.document.layout.groups[groupLock.dataset.groupLock]; execute('group.update', { id: group.id, patch: { locked: !group.locked } }); return; }
 
     const groupDeleteBtn = event.target.closest('[data-group-delete]');
     if (groupDeleteBtn) {
@@ -1007,14 +1129,14 @@ export async function startApplication() {
 
     const treeEntry = event.target.closest('.tree-entry');
     if (treeEntry && !event.target.closest('button')) {
-      selection = treeEntry.dataset.select; viewport.setSelection(selection); renderInspector(); renderSceneTreeIfVisible(); return;
+      selectObject(treeEntry.dataset.select, event.shiftKey); return;
     }
 
     const node = event.target.closest('button'); if (!node) return;
     if (node.dataset.action) { Promise.resolve(act(node.dataset.action)).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.tab) { tab = node.dataset.tab; renderSidebar(); return; }
     if (node.dataset.dialogTab) { dialogTab = node.dataset.dialogTab; renderDialogContent(); return; }
-    if (node.dataset.select) { selection = node.dataset.select; viewport.setSelection(selection); renderInspector(); renderSceneTreeIfVisible(); return; }
+    if (node.dataset.select) { selectObject(node.dataset.select, event.shiftKey); return; }
     if (node.dataset.asset) {
       const asset = assets.find((item) => item.id === node.dataset.asset);
       placing = asset.type === 'image' ? { type: 'token', name: asset.name.replace(/\.[^.]+$/, ''), color: '#e4b76f', assetRef: { id: asset.id, revision: asset.revision } } : { type: 'prop', asset };
@@ -1236,7 +1358,7 @@ export async function startApplication() {
     }
   }
   if (recovery) {
-    try { validateDocument(recovery.document); } catch { await drafts.dismiss(recovery); recovery = null; }
+    try { recovery.document = migrateDocument(recovery.document); } catch { await drafts.dismiss(recovery); recovery = null; }
     if (recovery && recovery.document.id === store.document.id && contentJSON(recovery.document) === contentJSON(store.document)) { await drafts.dismiss(recovery); recovery = null; }
   }
   initialized = true; document.getElementById('scene-name').disabled = false;

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
-import { createWall, createDoor, createFloor } from '../src/render/scene-objects.js';
+import { createWall, createDoor, createFloor, createWindow } from '../src/render/scene-objects.js';
 import { disposeObject } from '../src/render/asset-cache.js';
 import { createEntity } from '../src/domain/documents.js';
 import { quaternionFromYaw } from '../src/domain/coords.js';
@@ -103,4 +103,57 @@ test('scale gizmo provides a 4th axis for proportional XYZ scale', () => {
   assert.ok(object.scale.z > 3, 'Scale Z must increase');
   assert.ok(Math.abs(object.scale.y / object.scale.x - 2) < 1e-4, 'Y/X ratio preserved');
   assert.ok(Math.abs(object.scale.z / object.scale.x - 3) < 1e-4, 'Z/X ratio preserved');
+});
+
+test('concave floor triangulation leaves its notch clear and preserves the raised top surface', () => {
+  const floor = createEntity('floor', { vertices: [[-3,-3],[3,-3],[3,3],[1,3],[1,0],[-1,0],[-1,3],[-3,3]], position: [0,2,0], thickness: .25 });
+  const view = createFloor(floor);
+  try {
+    assert.equal(intersections(view, [0,5,2], [0,-1,0]).length, 0);
+    const hit = intersections(view, [2,5,2], [0,-1,0])[0];
+    assert.ok(Math.abs(hit.point.y - 2) < 1e-7); assert.equal(hit.face.normal.y, 1);
+    assert.equal(hit.object.userData.entityId, floor.id);
+  } finally { disposeObject(view); }
+});
+
+test('stacked window and door holes remain separate; glass and bars have semantic identity', () => {
+  const wall = createEntity('wall', { length: 6, height: 4 });
+  const door = createEntity('door', { wallId: wall.id, offset: 3 });
+  const window = createEntity('window', { wallId: wall.id, offset: 3, sill: 2.5, height: 1 });
+  const views = [createWall(wall, [door,window]), createWindow(window, wall), createWindow({ ...window, style: 'bars' }, wall), createWindow({ ...window, style: 'open' }, wall)];
+  try {
+    assert.equal(intersections(views[0], [3,1,2], [0,0,-1]).length, 0);
+    assert.equal(intersections(views[0], [3,3,2], [0,0,-1]).length, 0);
+    assert.ok(intersections(views[0], [3,2.3,2], [0,0,-1]).length > 0);
+    assert.ok(intersections(views[1], [3,3,2], [0,0,-1]).length > 0);
+    assert.equal(intersections(views[3], [3,3,2], [0,0,-1]).length, 0);
+    for (const view of views.slice(1)) view.traverse(node => { if (node.isMesh) assert.equal(node.userData.entityId, window.id); });
+  } finally { views.forEach(disposeObject); }
+});
+
+test('moving a window relocates its physical hole on a translated and rotated wall', () => {
+  const wall = createEntity('wall', { length: 8, height: 3, position: [4,1,-2], rotation: quaternionFromYaw(90) });
+  const original = createEntity('window', { wallId: wall.id, offset: 2, sill: .8 });
+  const moved = { ...original, offset: 5, sill: 1.2 };
+  const view = createWall(wall, [moved]), frame = createWindow(moved, wall);
+  try {
+    assert.ok(intersections(view, [6,2.3,-4], [-1,0,0]).length, 'the original hole is filled');
+    assert.equal(intersections(view, [6,2.7,-7], [-1,0,0]).length, 0, 'the new opening is physically clear');
+    assert.ok(intersections(frame, [6,2.7,-7], [-1,0,0]).every(hit => hit.object.userData.entityId === original.id));
+  } finally { disposeObject(view); disposeObject(frame); }
+});
+
+test('stairs and ramps expose the expected elevations and retain identity after rotation', async () => {
+  const { createAccess } = await import('../src/render/scene-objects.js');
+  for (const kind of ['stairs','ramp']) {
+    const record = createEntity(kind, { width: 2, length: 4, height: 2, steps: 4, position: [3,1,-2], rotation: quaternionFromYaw(90) });
+    const view = createAccess(record);
+    try {
+      for (const [x, rise] of [[1.5, kind === 'stairs' ? .5 : .25], [3.5, kind === 'stairs' ? 1.5 : 1.25]]) {
+        const hit = intersections(view, [x,10,-2], [0,-1,0])[0]; assert.ok(hit); assert.ok(Math.abs(hit.point.y - 1 - rise) < 1e-6);
+        assert.equal(hit.object.userData.entityId, record.id); assert.ok(hit.face.normal.y > 0);
+      }
+      assert.equal(intersections(view, [3,10,0], [0,-1,0]).length, 0, 'the access stays inside its width');
+    } finally { disposeObject(view); }
+  }
 });

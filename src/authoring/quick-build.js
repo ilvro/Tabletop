@@ -32,6 +32,6 @@ export function proposeRoom({ width = 6, length = 5, height = 2.6, center = [0, 
   const area = { id: id(), name, kind: 'rectangle', transform: { position: [...center], rotation: [0, 0, 0, 1], scale: [1, 1, 1] },
     width, length, surfaceId: floor.id, memberIds: entities.map(entity => entity.id), groupId: group.id };
   const lights = lighting ? [createLight({ name: `Luz — ${name}`, position: [cx, cy + height - 0.3, cz],
-    color: '#ffdfa6', intensity: Math.max(28, width * length * 1.8), distance: Math.hypot(width, length) * 1.5 })] : [];
+    color: '#ffdfa6', intensity: Math.max(28, width * length * 1.8), distance: Math.hypot(width, length) * 1.5, surfaceId: floor.id, groupId: group.id })] : [];
   return { id: id(), expectedEditVersion, label: `Criar ${name}`, entities, groups: [group], areas: [area], lights };
 }

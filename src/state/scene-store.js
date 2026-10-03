@@ -1,6 +1,7 @@
 import { clone, id } from '../domain/documents.js';
 import { validateDocument, ValidationError } from '../domain/validation.js';
 import { applyCommand } from './commands.js';
+import { migrateDocument } from '../domain/migrations.js';
 
 const content = document => {
   const { revision, createdAt, updatedAt, ...body } = document;
@@ -14,7 +15,7 @@ function freeze(value) {
 
 /** In-memory editing history is distinct from the disk revision and save receipt. */
 export function createSceneStore(initialDocument) {
-  let document = freeze(clone(validateDocument(initialDocument))), editVersion = 0;
+  let document = freeze(migrateDocument(initialDocument)), editVersion = 0;
   let savedContent = document.revision > 0 ? content(document) : null;
   let confirmed = { revision: document.revision, createdAt: document.createdAt, updatedAt: document.updatedAt };
   let undoStack = [], redoStack = [];
@@ -49,7 +50,7 @@ export function createSceneStore(initialDocument) {
       document = restore(entry.after); undoStack.push(entry); editVersion++; notify('redo', entry.command); return document;
     },
     replace(next, { saved = true } = {}) {
-      document = freeze(clone(validateDocument(next))); editVersion++;
+      document = freeze(migrateDocument(next)); editVersion++;
       confirmed = { revision: document.revision, createdAt: document.createdAt, updatedAt: document.updatedAt };
       savedContent = saved ? content(document) : null; undoStack = []; redoStack = []; notify('replace'); return document;
     },

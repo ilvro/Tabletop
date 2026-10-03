@@ -1,10 +1,12 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
 **Data:** 3 de outubro de 2026  
-**Status do Projeto:** Vertical Slice (MVP Funcional) Concluído e Validado  
+**Status do Projeto:** Vertical Slice validado; Fase 3 com correções de autoria e acessos estruturais entregue
 **Documentos de Referência:** [`ROADMAP.md`](ROADMAP.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`MAP_AUTHORING.md`](MAP_AUTHORING.md), [`IMMERSION.md`](IMMERSION.md), [`VERTICAL_SLICE.md`](VERTICAL_SLICE.md) e [`INVESTIGACAO_E_ARQUITETURA.md`](../INVESTIGACAO_E_ARQUITETURA.md).
 
 ---
+
+**Atualização da Fase 3:** construção com pisos poligonais/elevados, janelas posicionadas por clique e arraste com recorte sincronizado, escadas/rampas paramétricas, apoios explícitos em móveis, ocultação/bloqueio herdados de pastas, receitas de escritório/reunião/depósito, regeneração que preserva ajustes/exclusões e seleção múltipla com polish já estão implementados. [PHASE_3.md](PHASE_3.md) documenta uso, schema 2, validação e limites. O restante de V2 continua pendente; LAN e integrações não foram antecipadas.
 
 ## 1. Resumo Executivo
 
@@ -19,14 +21,14 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
 ## 2. O que está IMPLEMENTADO
 
 ### 2.1. Domínio, Geometria e Contratos (`src/domain/`)
-- **Contrato de Documentos v1 (`documents.js`):** Schema rigoroso para cenas (`SceneDocument`), mapas (`MapDocument`), entidades estruturais (`EntityRecord`), atores (`ActorRecord`), tokens (`TokenRecord`), luzes (`LightRecord`) e presets de câmera (`CameraPreset`).
+- **Contrato de Documentos v2 (`documents.js`):** Cenas/mapas, estruturas, atores/tokens, luzes, câmeras e composições com slots persistentes. Migração explícita de v1 em memória, preservando IDs/revisões; salvar grava v2 com backup do original.
 - **Coordenadas e Snapping Métrico (`coords.js`):**
   - Espaço 3D em metros com eixo Y para cima e pivot na base dos objetos.
   - Grade customizável em tamanho e visibilidade, com suporte a coordenadas negativas e origem deslocada.
   - Snap sensível ao *footprint* dos tokens (1×1 m, 2×2 m, etc.). Tecla `Alt` permite movimentação livre em tempo real sem alterar a grade.
   - Funções de conversão matemática entre ângulos de Euler (Yaw) e quatérnions.
 - **Validação Estrutural e Tipagem (`validation.js`):** Validação profunda que rejeita dados com valores não finitos (`NaN`/`Infinity`), referências órfãs, extensões não permitidas ou mídias *inline* em base64.
-- **Presets de Ambiente (`environments.js`):** Definições de iluminação e atmosfera para os presets `warm` (acolhedor), `moonlight` (luar) e `neutral` (neutro), integrando luz ambiente, sol direcional, cor de fundo e neblina.
+- **Presets de Ambiente (`environments.js`):** Presets `warm` (acolhedor), `moonlight` (luar) e `neutral` (neutro), com preenchimento, luz direcional e cor de fundo. Neblina permanece pendente.
 
 ### 2.2. Estado, Comandos e Histórico (`src/state/`)
 - **Arquitetura de Comandos Puros (`commands.js`):** Todas as mutações no documento acontecem via comandos registrados (`entity.add`, `entity.update`, `entity.remove`, `entity.duplicate`, `group.add`, `group.update`, `group.remove`, `token.add`, `token.update`, `token.remove`, `token.duplicate`, `light.add`, `light.update`, `light.remove`, `environment.apply`, `camera.save`, `camera.remove`, `door.setAngle`, `proposal.accept`, `grid.update`).
@@ -36,6 +38,8 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Controle de revisão numérica local e sinalização de modificações (*dirty state*).
 
 ### 2.3. Autoria e Assistência — Smart Build (`src/authoring/`)
+- **Construção estrutural:** pisos poligonais côncavos e plataformas elevadas; desenho repetível na altura de construção, independente do apoio ativo; janelas posicionadas por clique, arraste no plano da parede e edição numérica, com vão físico sincronizado; escadas/rampas paramétricas com dimensões, desnível, rotação, material e apoio de tokens.
+- **Fase 3 (`furnishing.js`, `polish.js`):** Templates de escritório, reunião e depósito, distribuição limitada de móveis/luzes, prévia de alterações/remoções e avisos de resultado parcial. Regeneração preserva campos manuais, itens bloqueados e exclusões. Alinhamento/distribuição/variação de rotação operam sobre seleção múltipla e são uma transação de histórico.
 - **Quick Build / Smart Build Inicial (`quick-build.js`):**
   - Geração paramétrica de salas a partir de medidas digitadas ou retângulo desenhado com o mouse.
   - Cria piso dimensional, 4 paredes retas com espessura e altura parametrizadas.
@@ -51,7 +55,7 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Controle de visualização: Perspectiva 3D livre com órbita (botão direito) e pan (botão do meio/scroll), e visão superior tática 2D (*Top View*).
   - *Cutaway* inteligente: paredes frontais sofrem corte visual automático de altura para permitir que o mestre e jogadores enxerguem o interior da sala sem obstrução visual da câmera.
 - **Objetos de Cena e Estruturas (`scene-objects.js`):**
-  - Geração de malhas para pisos, paredes com recorte de abertura e vãos de porta, portas animáveis e luzes pontuais.
+  - Geração de malhas para pisos retangulares/poligonais, escadas/rampas e paredes com recortes de portas/janelas, portas animáveis e luzes pontuais.
   - Tokens estilizados em cilindro/base física com anéis de cor ou cartões verticais (*standees*) com imagens.
 - **Cache e Ingestão de Modelos (`asset-cache.js`):**
   - Carregador seguro de GLTF/GLB estático com centralização automática na base e normalização de escala.
@@ -60,14 +64,15 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
 
 ### 2.5. Experiência do Mestre e UI (`src/app/application.js`)
 - **Painéis de Controle:**
-  - Aba **Construir:** Dimensões rápidas de sala, adição manual de pisos, paredes, portas, tokens e luzes.
+  - Aba **Construir:** Dimensões rápidas de sala, adição manual de pisos, paredes, portas, janelas, plataformas, escadas/rampas, tokens e luzes, além de Smart Build.
   - Aba **Assets:** Catálogo local com 6 móveis pré-fabricados originais (mesa, cadeira, arquivo, caixa, luminária e tapete) e importador de arquivos do computador.
   - Aba **Cena:** Seleção de ambientes luminosos (acolhedor, luar, neutro), salvamento de enquadramentos de câmera, lançamento da segunda janela para projetor, e **gerenciamento hierárquico da árvore de cena** com suporte a pastas/grupos (+ Nova Pasta, renomear, excluir), organização via arrastar e soltar (*drag & drop*) e renomeação direta de objetos.
 - **Menu de Contexto Rápido:**
   - Clique com botão direito (ou menu de opções na árvore) sobre qualquer objeto no 3D ou na árvore abre menu com **Renomear**, **Duplicar** e **Deletar**.
 - **Inspetor Lateral Completo:**
   - Edição numérica de coordenadas X, Y, Z, rotação Yaw e escala em todos os eixos.
-  - Controle de abertura de portas (ângulo interativo).
+  - Controle de abertura de portas (ângulo interativo), posição/peitoril de janelas e troca da parede hospedeira.
+  - Dimensões e desnível de escadas/rampas; quantidade de degraus e escolha explícita do apoio para tokens.
   - Seleção e movimentação rápida de pasta/grupo para qualquer entidade.
   - Ajuste de cores de tokens e parâmetros de luzes (intensidade, raio, cor).
   - Ferramentas de cópia e colagem (`Ctrl+C` / `Ctrl+V`), duplicação (`Ctrl+D`) e exclusão (`Delete`/`Backspace`).
@@ -99,8 +104,8 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Modal de recuperação no carregamento caso o navegador feche inesperadamente ou falhe a gravação no disco.
 
 ### 2.8. Testes Automatizados e Qualidade
-- **33 testes unitários e de integração (`npm test`):** Cobertura completa de regras de domínio, snap, conversões bidirecionais entre cenas e mapas com referências a `sourceMap`, dependências estruturais, cálculo de aberturas de portas, projeção filtrada, 4º eixo de escala proporcional, gerenciamento de pastas e renomeação com histórico transacional, concorrência no servidor e rotação de backups.
-- **Testes de ponta a ponta (E2E) com Playwright (`npm run test:e2e`):** Validação em navegador real do fluxo completo de criação de sala do vazio, aceite de Smart Build, manipulação de tokens/móveis, salvamento, reinício de servidor e sincronização de janelas.
+- **55 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição.
+- **Três testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxo da Fase 3 pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor. Chromium headless com WebGL por software; não representa benchmark no notebook/projetor.
 
 ---
 
@@ -119,20 +124,16 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 ### 3.2. Pendências do Marco V2 (Autoria Assistida & Apresentação Reutilizável)
 
 1. **Evolução Estrutural da Construção (`MAP_AUTHORING.md` - Seções 7 e 8):**
-   - Pisos poligonais, plataformas e desníveis no terreno.
-   - Janelas com recortes físicos na parede e opções de vidraça transparente ou grades.
-   - Encontros de paredes e junções não retangulares (*corner joins* angulados ou em "T").
-   - Suporte a múltiplos andares no mesmo mapa, com controle de visibilidade por nível e escadas/rampas.
-   - Camadas e grupos organizacionais (*layers/groups*) para ocultar ou travar conjuntos de objetos.
-   - Superfícies de apoio explícitas (objetos colocados em cima de mesas ou estantes que acompanham o movimento do móvel de suporte).
+   - Terreno esculpido, polígonos com furos internos e geração de paredes no contorno.
+   - Paredes compartilhadas e encontros/junções não retangulares (*corner joins* angulados ou em "T").
+   - Modelo semântico de múltiplos andares, controle de visibilidade por nível e associação automática dos acessos aos andares.
+   - Layers/níveis semânticos e sockets de ancoragem em paredes/tetos.
 2. **Smart Build Avançado e Prefabs Paramétricos (`MAP_AUTHORING.md` - Seções 10 a 13):**
-   - Biblioteca de templates e receitas de cômodos completos (ex.: quarto, escritório, cela, laboratório).
-   - *Auto-decoration* e *auto-layout:* Distribuição contextual de móveis (ex.: colocar cadeiras automaticamente ao redor de uma mesa; posicionar cama encostada na parede com criados-mudos).
-   - Distribuição de iluminação inteligente com base na área do cômodo.
-   - Regeneração de composições com preservação de alterações manuais através de algoritmo de *diff* (manter objetos movidos ou trocados pelo mestre mesmo após reexecutar o gerador).
+   - Novos kits de quarto/cela/laboratório, ampliação do catálogo e prefabs definidos pelo usuário.
+   - Auto-layout entre cômodos e solver geral de circulação.
+   - Biblioteca geral de receitas e variantes reutilizáveis.
 3. **Ferramentas de Polish e Ajustes Finos (`MAP_AUTHORING.md` - Seção 14):**
-   - Ferramentas de alinhamento e distribuição uniforme de objetos.
-   - Variação randômica sutil de rotação para evitar o aspecto artificialmente alinhado de cenas repetitivas.
+   - Variantes de materiais e revisão mais ampla de decoração/passagens.
 4. **Catálogo de Assets e Biblioteca Expandida (`MAP_AUTHORING.md` - Seção 15):**
    - Sistema de categorias hierárquicas, tags temáticas e busca textual no catálogo.
    - Coleções de favoritos e variantes de texturas/materiais por asset.
@@ -201,9 +202,13 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 | **Pacote de Transporte de Arquivos** | `ROADMAP.md` §3.1 | **Opcional / Pendente** | Exportação empacotada de cena + assets em arquivo único |
 | **Interface Dedicada para Mapas** | `ARCHITECTURE.md` §6.3 | **Concluído** | `src/app/application.js`, `src/domain/documents.js` |
 | **Biblioteca de Tokens e Documentos** | `ARCHITECTURE.md` §6.5 | **Concluído** | Abas dedicadas no modal de Gestão da Mesa |
-| **Pisos Poligonais e Janelas** | `MAP_AUTHORING.md` §7.4 | **Pendente** | Previsto para V2 |
-| **Paredes Anguladas e Múltiplos Andares**| `MAP_AUTHORING.md` §8 | **Pendente** | Previsto para V2 |
-| **Auto-Decoration e Prefabs Avançados** | `MAP_AUTHORING.md` §10-12 | **Pendente** | Previsto para V2 |
+| **Pisos Poligonais e Janelas por Clique/Arraste** | `MAP_AUTHORING.md` §7.4 | **Concluído** | `geometry.js`, `scene-objects.js`, `application.js` |
+| **Escadas e Rampas Paramétricas** | `MAP_AUTHORING.md` §7–8 | **Concluído** (dimensões, desnível, degraus e apoio de tokens) | `documents.js`, `scene-objects.js`, `application.js`, `commands.js` |
+| **Plataformas e Apoios Explícitos** | `MAP_AUTHORING.md` §8 | **Concluído** (planos horizontais) | `commands.js`, `renderer.js` |
+| **Visibilidade/Bloqueio de Pastas** | `MAP_AUTHORING.md` §8 | **Concluído** (herdado) | `geometry.js`, `presentation.js` |
+| **Junções/Paredes Compartilhadas e Modelo de Andares**| `MAP_AUTHORING.md` §8 | **Pendente** | Previsto para V2 |
+| **Auto-Decoration e Prefabs Avançados** | `MAP_AUTHORING.md` §10-12 | **Parcial** (3 receitas, diff, iluminação) | `furnishing.js`; biblioteca geral pendente |
+| **Seleção Múltipla e Polish** | `MAP_AUTHORING.md` §14 | **Concluído** (alinhar/distribuir/girar) | `polish.js`, `renderer.js` |
 | **Luz Spot, Flicker e Temperatura** | `IMMERSION.md` §4 | **Pendente** | Previsto para V2 |
 | **Fog de Distância e Pós-Processamento** | `IMMERSION.md` §8, §9 | **Pendente** | Previsto para V2 |
 | **Transições Suaves de Câmera** | `IMMERSION.md` §10 | **Pendente** | Previsto para V2 |
@@ -217,6 +222,6 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 
 Para manter a ordem de implementação técnica eficiente e alinhada ao cronograma:
 
-1. **Entrada nas Estruturas de V2:** Iniciar a implementação das janelas com recorte paramétrico nas paredes e do suporte a múltiplos andares e pisos poligonais.
-2. **Smart Build Avançado (V2):** Templates e receitas de cômodos pré-decorados (escritório, cela, laboratório) com distribuição contextual de mobília.
+1. **Próximo incremento estrutural:** Junções/paredes compartilhadas e níveis semânticos, incluindo associação dos acessos já disponíveis aos andares.
+2. **Autoria assistida:** Avaliar as três receitas no projetor; depois ampliar catálogo/anchors e prefabs reutilizáveis. Regeneração e polish já têm a fundação funcional.
 3. **Pacote de Transporte (Opcional):** Se desejado, implementar compactação/descompactação em `.zip` de cena + assets para envio facilitado entre computadores.

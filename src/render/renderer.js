@@ -2,8 +2,9 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import { snapPosition, yawFromQuaternion } from '../domain/coords.js';
+import { isLocked, isVisible, isSupport, isAccess, supportHeightAt, constrainOpening } from '../domain/geometry.js';
 import { createAssetCache, disposeObject, standardMaterial } from './asset-cache.js';
-import { applyTransform, readTransform, tagEntity, createFloor, createWall, createDoor, createToken, applyMaterialOverrides } from './scene-objects.js';
+import { applyTransform, readTransform, tagEntity, createFloor, createAccess, createWall, createDoor, createWindow, createToken, applyMaterialOverrides } from './scene-objects.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
@@ -78,7 +79,8 @@ export function setupUniformScaleGizmo(transform) {
 /** Runtime adapter only. Documents are read; all durable changes leave through callbacks. */
 export function createViewport(container, {
   onSelect = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
-  onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {},
+  onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
+  onWindowPlace = () => {}, onOpeningMove = () => {},
 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-label', 'Cena 3D — botão direito orbita, botão do meio desloca, roda aproxima');
@@ -132,6 +134,10 @@ export function createViewport(container, {
   let sceneDocument = null;
   let assets = new Map();
   let selectedId = null;
+  let selectedIds = [], extraSelections = [];
+  let supportSurface = undefined, workplaneHeight = 0, polygonPoints = [], previewGeneration = 0;
+  const polygonLine = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: '#e3b878', depthTest: false }));
+  polygonLine.visible = false; polygonLine.renderOrder = 8; scene.add(polygonLine);
   let tool = 'select';
   let presentation = false;
   let cutaway = true;
@@ -286,16 +292,21 @@ export function createViewport(container, {
   }
   function updateSelection() {
     transform.detach();
+    for (const helper of extraSelections) disposeObject(helper); extraSelections = [];
+    if (!presentation) for (const id of selectedIds.filter(id => id !== selectedId)) {
+      const object = objects.get(id); if (!object?.visible) continue;
+      const helper = new THREE.BoxHelper(object, '#e3b878'); helper.material.depthTest = false; scene.add(helper); extraSelections.push(helper);
+    }
     const object = objects.get(selectedId);
     const record = entityRecord(selectedId);
-    selectionBox.visible = Boolean(object && !presentation);
+    selectionBox.visible = Boolean(object?.visible && !presentation);
     if (selectionBox.visible) selectionBox.setFromObject(object);
-    if (object && record && !presentation && !record.locked && ['move', 'rotate', 'scale'].includes(tool) && record.kind !== 'door') {
+    if (object?.visible && record && !presentation && selectedIds.length <= 1 && !isLocked(sceneDocument, record) && ['move', 'rotate', 'scale'].includes(tool) && !['door', 'window'].includes(record.kind)) {
       const isLight = record.type === 'directional' || record.type === 'point';
       if (!(isLight && (tool === 'scale' || (tool === 'rotate' && record.type === 'point')))) {
         transform.setMode({ move: 'translate', rotate: 'rotate', scale: 'scale' }[tool]);
         transform.setSpace(tool === 'scale' ? 'local' : 'world');
-        transform.showX = tool !== 'rotate' || !(record.kind === 'wall' || record.kind === 'floor' || sceneDocument?.tokens?.[record.id]);
+        transform.showX = tool !== 'rotate' || !(record.kind === 'wall' || record.kind === 'floor' || isAccess(record) || sceneDocument?.tokens?.[record.id]);
         transform.showY = !(tool === 'scale' && record.kind === 'floor');
         transform.showZ = transform.showX;
         transform.setTranslationSnap(null); // Footprint/origin snapping belongs to the domain.
@@ -433,12 +444,12 @@ export function createViewport(container, {
       const normal = new THREE.Vector3(0, 0, 1).applyQuaternion(object.quaternion);
       const inFront = center.clone().sub(controls.target).dot(viewDirection) > 0.2;
       const facing = Math.abs(normal.dot(viewDirection)) > 0.45;
-      const visible = !(cutaway && inFront && facing && !(selectedId === id && !presentation));
+      const visible = visibleRecord(record) && !(cutaway && tool !== 'window' && inFront && facing && !(!presentation && (selectedId === id || records.get(selectedId)?.wallId === id)));
       if (object.visible !== visible) { object.visible = visible; renderer.shadowMap.needsUpdate = true; }
     }
-    for (const [id, object] of objects) if (records.get(id)?.kind === 'door') {
+    for (const [id, object] of objects) if (['door', 'window'].includes(records.get(id)?.kind)) {
       // Cutaway removes the tall wall, retaining the door as a readable room entrance.
-      const visible = true;
+      const visible = visibleRecord(records.get(id));
       if (object.visible !== visible) { object.visible = visible; renderer.shadowMap.needsUpdate = true; }
     }
   }
@@ -459,22 +470,26 @@ export function createViewport(container, {
     ground.material.color.set(look.fill?.groundColor ?? '#283934');
     lighting.add(new THREE.HemisphereLight(look.fill?.skyColor ?? '#dbe7e4', look.fill?.groundColor ?? '#524938', look.fill?.intensity ?? 1));
     const entities = values(next.layout.entities);
-    const doors = entities.filter((record) => record.kind === 'door');
+    const doors = entities.filter((record) => ['door', 'window'].includes(record.kind));
     const usedAssets = [];
     for (const entity of entities) {
       let object;
       if (entity.kind === 'floor') object = createFloor(entity);
+      else if (isAccess(entity)) object = createAccess(entity);
       else if (entity.kind === 'wall') object = createWall(entity, doors.filter((door) => door.wallId === entity.id));
       else if (entity.kind === 'door') {
         const wall = next.layout.entities[entity.wallId];
         if (!wall) continue;
         object = createDoor(entity, wall, next.sessionState?.doors?.[entity.id]);
+      } else if (entity.kind === 'window') {
+        const wall = next.layout.entities[entity.wallId]; if (!wall) continue; object = createWindow(entity, wall);
       } else if (entity.kind === 'prop') { object = new THREE.Group(); applyTransform(object, entity.transform); }
       else continue;
       object.name = entity.name;
       content.add(object);
       objects.set(entity.id, object);
       records.set(entity.id, entity);
+      object.visible = visibleRecord(entity);
       if (entity.kind === 'prop') {
         const asset = assetRecord(entity.assetRef);
         if (asset) usedAssets.push(asset);
@@ -488,6 +503,7 @@ export function createViewport(container, {
       content.add(object);
       objects.set(token.id, object);
       records.set(token.id, token);
+      object.visible = visibleRecord(token);
       const appearance = object.userData.appearance;
       if (appearance.assetRef) {
         const asset = assetRecord(appearance.assetRef);
@@ -499,6 +515,7 @@ export function createViewport(container, {
       const object = createLight(record, lighting);
       objects.set(record.id, object);
       records.set(record.id, record);
+      object.visible = visibleRecord(record);
     }
     cache.prune(usedAssets);
     content.updateMatrixWorld(true);
@@ -508,35 +525,48 @@ export function createViewport(container, {
   }
 
   function setPreview(proposal) {
+    const previewVersion = ++previewGeneration;
     clearGroup(preview);
     if (!proposal || presentation) { invalidate(); return; }
-    const entities = values(proposal.entities ?? proposal.layout?.entities);
-    const doors = entities.filter((entity) => entity.kind === 'door');
+    const merged = (base, patch) => ({ ...base, ...patch, ...(patch.transform ? { transform: { ...base.transform, ...patch.transform } } : {}) });
+    const entities = [...values(proposal.entities ?? proposal.layout?.entities), ...(proposal.updates ?? []).filter(p => ['entity', 'token'].includes(p.kind)).map(p => merged(sceneDocument.layout.entities[p.id] ?? sceneDocument.tokens?.[p.id], p.patch))];
+    const doors = [...values(sceneDocument?.layout.entities).filter(e => ['door', 'window'].includes(e.kind)), ...entities.filter(e => ['door', 'window'].includes(e.kind))];
+    const ghost = object => object.traverse(child => {
+      child.userData.entityId = undefined;
+      if (!child.material || child.isSprite) return;
+      for (const material of Array.isArray(child.material) ? child.material : [child.material]) { material.color.set('#8bcea7'); material.transparent = true; material.opacity = .36; material.depthWrite = false; }
+      child.castShadow = false; child.receiveShadow = false;
+    });
     for (const entity of entities) {
       let object;
       if (entity.kind === 'floor') object = createFloor(entity);
+      else if (isAccess(entity)) object = createAccess(entity);
       else if (entity.kind === 'wall') object = createWall(entity, doors.filter((door) => door.wallId === entity.id));
       else if (entity.kind === 'door') {
-        const wall = entities.find((item) => item.id === entity.wallId);
+        const wall = entities.find((item) => item.id === entity.wallId) ?? sceneDocument.layout.entities[entity.wallId];
         if (wall) object = createDoor(entity, wall, entity.initialAngle);
-      }
+      } else if (entity.kind === 'window') {
+        const wall = entities.find(e => e.id === entity.wallId) ?? sceneDocument.layout.entities[entity.wallId]; if (wall) object = createWindow(entity, wall);
+      } else if (entity.kind === 'prop') {
+        object = new THREE.Group(); applyTransform(object, entity.transform);
+        const parent = object, asset = assetRecord(entity.assetRef);
+        if (asset) cache.createInstance(asset).then(instance => {
+          if (destroyed || previewVersion !== previewGeneration) { disposeObject(instance); return; }
+          ghost(instance); parent.add(instance); invalidate();
+        }).catch(error => { if (previewVersion === previewGeneration) report(error); });
+      } else if (entity.actorId) object = createToken(entity, sceneDocument.actors[entity.actorId]);
       if (!object) continue;
-      object.traverse((child) => {
-        if (!child.material) return;
-        child.material.color.set('#8bcea7');
-        child.material.transparent = true;
-        child.material.opacity = 0.26;
-        child.material.depthWrite = false;
-        child.castShadow = false;
-        child.receiveShadow = false;
-        child.userData.entityId = undefined;
-      });
+      ghost(object);
       preview.add(object);
     }
-    for (const light of values(proposal.lights)) {
+    for (const light of [...values(proposal.lights), ...(proposal.updates ?? []).filter(p => p.kind === 'light').map(p => merged((sceneDocument.look ?? sceneDocument.defaultLook).lights[p.id], p.patch))]) {
       const indicator = new THREE.Mesh(new THREE.SphereGeometry(0.17, 12, 8), new THREE.MeshBasicMaterial({ color: light.color, wireframe: true }));
       indicator.position.fromArray(light.position);
       preview.add(indicator);
+    }
+    for (const operation of proposal.removals ?? []) {
+      const object = objects.get(operation.id); if (!object) continue;
+      const helper = new THREE.BoxHelper(object, '#e08a7a'); helper.material.depthTest = false; preview.add(helper);
     }
     invalidate();
   }
@@ -548,18 +578,66 @@ export function createViewport(container, {
     raycaster.setFromCamera(mouse, camera);
   }
   function visibleInHierarchy(object) { for (let current = object; current; current = current.parent) if (!current.visible) return false; return true; }
+  function visibleRecord(record) {
+    if (!isVisible(sceneDocument, record)) return false;
+    const host = record.wallId ?? record.surfaceId;
+    return !host || !sceneDocument.layout.entities[host] || visibleRecord(sceneDocument.layout.entities[host]);
+  }
   function pick(event) {
     rayFromEvent(event);
-    return raycaster.intersectObjects([...objects.values()], true).find((hit) => hit.object.userData.entityId && !hit.object.userData.decorative && visibleInHierarchy(hit.object));
+    let nearest = raycaster.intersectObjects([...objects.values()], true).find((hit) => hit.object.userData.entityId && !hit.object.userData.decorative && visibleInHierarchy(hit.object));
+    // Empty and barred windows remain selectable through their aperture, without
+    // adding invisible geometry that would make the physical opening solid.
+    for (const opening of records.values()) {
+      const object = objects.get(opening.id);
+      if (opening.kind !== 'window' || !object?.visible) continue;
+      const local = pointOnWall(event, opening.wallId);
+      if (!local || Math.abs(local.x - opening.offset) > opening.width / 2 || local.y < opening.sill || local.y > opening.sill + opening.height) continue;
+      const point = local.applyMatrix4(objects.get(opening.wallId).matrixWorld), distance = point.distanceTo(raycaster.ray.origin);
+      if (!nearest || distance < nearest.distance) nearest = { object, point, distance };
+    }
+    return nearest;
   }
-  function supportPoint(event, planeY = 0) {
+  function supportPoint(event, planeY) {
     rayFromEvent(event);
-    const floors = [...objects].filter(([id]) => records.get(id)?.kind === 'floor').map(([, object]) => object);
-    const hit = raycaster.intersectObjects(floors, true).find((intersection) => intersection.face?.normal.y > 0.5 && visibleInHierarchy(intersection.object));
-    if (hit && Math.abs(planeY) < 1e-4) return { position: hit.point.toArray(), surfaceId: hit.object.userData.entityId };
-    plane.constant = -planeY;
+    if (planeY === undefined && supportSurface !== null) {
+      const floors = [...objects].filter(([id]) => (supportSurface === undefined || supportSurface === id) && isSupport(records.get(id))).map(([, object]) => object);
+      const hit = raycaster.intersectObjects(floors, true).find(intersection => intersection.face?.normal.y > 1e-8 && visibleInHierarchy(intersection.object));
+      if (hit) return { position: hit.point.toArray(), surfaceId: hit.object.userData.entityId };
+      if (supportSurface) return null;
+    }
+    plane.constant = -(planeY ?? workplaneHeight);
     const point = raycaster.ray.intersectPlane(plane, new THREE.Vector3());
     return point ? { position: point.toArray(), surfaceId: null } : null;
+  }
+  function pointOnWall(event, wallId) {
+    rayFromEvent(event);
+    const wall = objects.get(wallId); if (!wall) return null;
+    wall.updateMatrixWorld(true);
+    const localRay = raycaster.ray.clone().applyMatrix4(wall.matrixWorld.clone().invert());
+    return localRay.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 0, 1), 0), new THREE.Vector3());
+  }
+  function wallPoint(event) {
+    let nearest;
+    for (const wall of records.values()) {
+      if (wall.kind !== 'wall' || !visibleRecord(wall) || isLocked(sceneDocument, wall)) continue;
+      const local = pointOnWall(event, wall.id);
+      if (!local || local.x < 0 || local.x > wall.length || local.y < 0 || local.y > wall.height) continue;
+      const distance = local.clone().applyMatrix4(objects.get(wall.id).matrixWorld).distanceTo(raycaster.ray.origin);
+      if (!nearest || distance < nearest.distance) nearest = { wallId: wall.id, offset: local.x, height: local.y, distance };
+    }
+    return nearest;
+  }
+  // During a drag, replace both meshes from temporary opening data. The document
+  // stays unchanged until pointer-up commits one command (or cancellation restores it).
+  function previewOpening(opening) {
+    const wall = records.get(opening.wallId);
+    const openings = values(sceneDocument.layout.entities).filter(e => e.wallId === wall.id).map(e => e.id === opening.id ? opening : e);
+    for (const [record, object] of [[wall, createWall(wall, openings)], [opening, createWindow(opening, wall)]]) {
+      disposeObject(objects.get(record.id)); content.add(object); objects.set(record.id, object);
+      object.visible = visibleRecord(record); applyMaterialOverrides(object, undefined, (sceneDocument.look ?? sceneDocument.defaultLook).materialAdjustments?.[record.id]);
+    }
+    content.updateMatrixWorld(true); updateSelection(); invalidate(true);
   }
   function onPointerDown(event) {
     if (event.button !== 0 || presentation || transform.dragging) return;
@@ -572,11 +650,17 @@ export function createViewport(container, {
       pointer.roomStart = support.position;
       controls.enabled = false;
       canvas.setPointerCapture(event.pointerId);
-    } else if (tool === 'move') {
+    } else if (tool === 'move' && !event.shiftKey) {
       const hit = pick(event);
       const id = hit?.object.userData.entityId;
       const record = entityRecord(id);
-      if (id && record && record.kind !== 'door' && !record.locked && record.type !== 'directional' && record.type !== 'point') {
+      if (record?.kind === 'window' && selectedIds.length <= 1 && !isLocked(sceneDocument, record)) {
+        if (selectedId !== id) { onSelect(id); pointer ??= { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false }; }
+        const start = pointOnWall(event, record.wallId);
+        if (!start) return;
+        pointer.opening = record; pointer.wallStart = start; pointer.entityId = id;
+        controls.enabled = false; canvas.setPointerCapture(event.pointerId);
+      } else if (id && record && selectedIds.length <= 1 && !['door', 'window'].includes(record.kind) && !isLocked(sceneDocument, record) && record.type !== 'directional' && record.type !== 'point') {
         if (selectedId !== id) {
           onSelect(id);
           // A host may rebuild its viewport when selection changes.
@@ -613,6 +697,13 @@ export function createViewport(container, {
       hint.textContent = `${w.toFixed(1)} × ${l.toFixed(1)} m · solte para revisar a sala`;
       hint.style.display = '';
       invalidate();
+    } else if (pointer.opening && pointer.moved) {
+      const local = pointOnWall(event, pointer.opening.wallId); if (!local) return;
+      const wall = records.get(pointer.opening.wallId), cell = sceneDocument.layout.grid.cellSize;
+      const snapDelta = value => sceneDocument.layout.grid.snap && !event.altKey ? Math.round(value / cell) * cell : value;
+      pointer.openingPatch = constrainOpening(wall, pointer.opening, pointer.opening.offset + snapDelta(local.x - pointer.wallStart.x), pointer.opening.sill + snapDelta(local.y - pointer.wallStart.y));
+      previewOpening({ ...pointer.opening, ...pointer.openingPatch });
+      hint.textContent = `Posição ${pointer.openingPatch.offset.toFixed(2)} · Peitoril ${pointer.openingPatch.sill.toFixed(2)} m · Alt: livre`; hint.style.display = '';
     } else if (pointer.object && pointer.planeStart && pointer.moved) {
       const support = supportPoint(event, pointer.initial.position[1]);
       if (!support) return;
@@ -620,6 +711,8 @@ export function createViewport(container, {
       candidate[0] += support.position[0] - pointer.planeStart[0];
       candidate[2] += support.position[2] - pointer.planeStart[2];
       pointer.object.position.fromArray(snapPosition(candidate, { ...sceneDocument.layout.grid, snap: sceneDocument.layout.grid.snap && !altHeld }, footprintFor(entityRecord(pointer.entityId), pointer.object.quaternion.toArray())));
+      const host = records.get(entityRecord(pointer.entityId)?.surfaceId);
+      if (isAccess(host)) pointer.object.position.y = supportHeightAt(host, pointer.object.position.toArray());
       hint.textContent = `X ${pointer.object.position.x.toFixed(2)} · Z ${pointer.object.position.z.toFixed(2)} m${altHeld ? ' · livre' : ''}`;
       hint.style.display = '';
       invalidate(true);
@@ -640,17 +733,29 @@ export function createViewport(container, {
         if (room.width >= 1 && room.length >= 1) onRoomDraw(room);
         else report('Desenhe uma sala com pelo menos 1 m de largura e comprimento.');
       }
+    } else if (gesture.opening && gesture.moved) {
+      const version = generation;
+      if (gesture.openingPatch) { try { onOpeningMove(gesture.entityId, gesture.openingPatch); } catch (error) { report(error); } }
+      if (version === generation) setDocument(sceneDocument);
     } else if (gesture.object && gesture.moved) commitTransform(gesture.entityId, gesture.object, Boolean(sceneDocument?.layout.grid.snap && !event.altKey));
     else if (!gesture.moved && !transform.dragging) {
       if (tool === 'place') {
         const support = supportPoint(event);
         if (support) onPlace({ ...support, snap: Boolean(sceneDocument?.layout.grid.snap && !event.altKey) });
-      } else if (tool !== 'room') onSelect(pick(event)?.object.userData.entityId ?? null);
+      } else if (tool === 'window') {
+        const point = wallPoint(event);
+        if (point) onWindowPlace(point); else report('Clique em uma parede desbloqueada. Use a vista 3D para escolher a altura.');
+      } else if (tool === 'polygon') {
+        const support = supportPoint(event, workplaneHeight);
+        if (support) { const point = snapPosition(support.position, { ...sceneDocument.layout.grid, snap: sceneDocument.layout.grid.snap && !event.altKey });
+          if (!polygonPoints.length || point.some((n, i) => Math.abs(n - polygonPoints.at(-1)[i]) > 1e-6)) polygonPoints.push(point); drawPolygon(); }
+      } else if (tool !== 'room') onSelect(pick(event)?.object.userData.entityId ?? null, { additive: event.shiftKey });
     }
     invalidate();
   }
   function cancelPointer() {
     if (pointer?.object && pointer.initial) applyTransform(pointer.object, pointer.initial);
+    if (pointer?.opening) previewOpening(pointer.opening);
     const id = pointer?.id;
     pointer = null;
     if (id != null && canvas.hasPointerCapture(id)) canvas.releasePointerCapture(id);
@@ -664,11 +769,28 @@ export function createViewport(container, {
     invalidate(true);
   }
   function onKeyDown(event) {
+    if (tool === 'polygon' && !event.target.closest('input,textarea,select') && ['Enter', 'Backspace'].includes(event.key)) {
+      event.preventDefault(); event.stopImmediatePropagation();
+      if (event.key === 'Enter') finishPolygon(); else { polygonPoints.pop(); drawPolygon(); } return;
+    }
     altHeld = event.altKey;
     if (event.key === 'Escape') cancelGesture();
     if (transform.object) transform.setRotationSnap(sceneDocument?.layout?.grid?.snap && !altHeld ? Math.PI / 12 : null);
   }
   function onKeyUp(event) { altHeld = event.altKey; }
+  function drawPolygon() {
+    polygonLine.geometry.dispose();
+    const points = polygonPoints.map(p => new THREE.Vector3(p[0], p[1] + .035, p[2]));
+    if (points.length > 2) points.push(points[0]);
+    polygonLine.geometry = new THREE.BufferGeometry().setFromPoints(points);
+    polygonLine.visible = points.length > 1 && !presentation;
+    hint.textContent = `${polygonPoints.length} vértices · Enter concluir · Backspace remover · Esc cancelar`; hint.style.display = 'block'; invalidate();
+  }
+  function finishPolygon() {
+    if (polygonPoints.length < 3) { report('Adicione ao menos três vértices.'); return; }
+    const points = polygonPoints.map(p => [...p]);
+    try { onPolygonDraw(points); } catch (error) { report(error); }
+  }
   function handleContextMenu(event) {
     event.preventDefault();
     if (presentation) return;
@@ -719,8 +841,11 @@ export function createViewport(container, {
         queueMicrotask(() => { if (!destroyed && version === generation) setDocument(sceneDocument); });
       }
     },
-    setSelection(id) { selectedId = id; updateSelection(); },
-    setTool(mode) { cancelGesture(); tool = mode; canvas.style.cursor = mode === 'place' || mode === 'room' ? 'crosshair' : 'default'; updateSelection(); },
+    setSelection(id, ids = id ? [id] : []) { selectedId = id; selectedIds = ids; updateSelection(); },
+    setTool(mode) { cancelGesture(); if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
+    setSupportSurface(id) { supportSurface = id; const host = records.get(id); if (gridObject) gridObject.position.y = (host?.transform?.position[1] ?? workplaneHeight) + (host?.supportHeight ?? 0) * (host?.transform?.scale[1] ?? 1) + .009; invalidate(); },
+    setWorkplaneHeight(value) { workplaneHeight = value; if (gridObject && !supportSurface) gridObject.position.y = value + .009; invalidate(); },
+    finishPolygon,
     setPreview,
     setPresentation(enabled) {
       presentation = enabled;
@@ -743,6 +868,8 @@ export function createViewport(container, {
     getInfo() { return { objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }; },
     destroy() {
       destroyed = true;
+      previewGeneration++;
+      for (const helper of extraSelections) disposeObject(helper); disposeObject(polygonLine);
       generation += 1;
       if (renderRequest != null) cancelAnimationFrame(renderRequest);
       observer.disconnect();

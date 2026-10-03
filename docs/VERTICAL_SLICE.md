@@ -2,6 +2,8 @@
 
 Implementação de 3 de outubro de 2026. Fundação funcional para preparar uma sala e apresentá-la no computador do mestre/projetor. A avaliação de rapidez e qualidade na máquina da mesa continua sendo um piloto com o usuário.
 
+Evolução posterior: gestão de mapas/tokens/documentos, pastas, renomeação e clipboard. A [Fase 3](PHASE_3.md) acrescenta pisos poligonais/elevados com desenho repetível, janelas por clique/arraste, escadas/rampas paramétricas, apoios em móveis, receitas regeneráveis e polish com seleção múltipla. O schema atual é 2, com migração de v1 ao carregar.
+
 ## Implementado
 
 - Aplicação JavaScript/Vite, viewport Three.js/WebGL 2, perspectiva e vista superior, orbit/pan/zoom, enquadramento e câmeras salvas.
@@ -43,19 +45,19 @@ npm run test:e2e
 
 Se Chromium já estiver instalado, indicar seu executável em `TABLETOP_BROWSER_PATH` antes de `npm run test:e2e`. Os testes de navegador usam dados temporários e geram imagens em `test-results/`; não alteram suas cenas.
 
-Verificação desta entrega: build de produção concluído, 30 testes de domínio/projeção/geometria/servidor e dois testes de navegador aprovados. O roteiro completo comparou o documento no disco após reiniciar servidor e navegador, verificou imagem/GLB persistentes e câmera independente; o outro roteiro verificou conflito 409, rascunhos de duas abas, restauração e edição durante a cópia. Chromium headless usou WebGL por software; isso não mede o desempenho do notebook/projetor.
+Verificação atual: build de produção concluído, 55 testes de domínio/projeção/geometria/servidor e três testes de navegador aprovados. Cobrem o slice, conflitos/recuperação e a Fase 3, incluindo regeneração preservada e fidelidade após reiniciar servidor e navegador. Chromium headless usou WebGL por software; isso não mede o desempenho do notebook/projetor.
 
 Roteiro manual: desenhar uma sala ou preencher medidas → escolher porta/luz → ver prévia e criar → clicar em um elemento e mover/girar → colocar token e móveis → ajustar ambiente/luz → desfazer/refazer → salvar câmera e cena → encerrar/reiniciar servidor e navegador → abrir a cena salva. Em **Cena**, abrir segunda tela, arrastá-la ao projetor e publicar um enquadramento; orbitar no editor deve manter a câmera publicada. **Apresentar** oferece a alternativa na mesma janela.
 
-Atalhos: Q selecionar, W mover, E girar, R escalar, F enquadrar; Ctrl/Cmd+S salvar, Ctrl/Cmd+Z desfazer, Ctrl/Cmd+Shift+Z refazer, Ctrl/Cmd+D duplicar seleção. Mouse direito orbita; botão do meio move a câmera. Esc cancela colocação/prévia ou sai da apresentação.
+Atalhos: Q selecionar, W mover, R girar, S escalar, F enquadrar; Shift+clique seleciona vários; Ctrl/Cmd+C e Ctrl/Cmd+V copiam/colam; Ctrl/Cmd+S salva, Ctrl/Cmd+Z desfaz, Ctrl/Cmd+Shift+Z refaz, Ctrl/Cmd+D duplica seleção. Mouse direito orbita; botão do meio move a câmera. Esc cancela colocação/prévia ou sai da apresentação. Piso poligonal: Enter conclui e Backspace remove o último vértice.
 
 ## Decisões e pontos de extensão
 
 `src/domain/` guarda documentos/coordenadas/validação sem Three.js ou DOM; `src/state/` aplica comandos e histórico; `src/render/` mantém objetos e recursos de runtime. O renderer publica um transform ao terminar um gesto. `src/data/` confirma persistência e mantém rascunhos; o documento não contém meshes ou imagens base64.
 
-`src/authoring/quick-build.js` é a primeira receita: produz uma proposta concreta, sem modificar o documento. Futuras receitas/prefabs, procedural placement, Smart Build, auto-decoration e auto-lighting podem produzir a mesma proposta para preview e `proposal.accept`, mantendo validação e undo. O slice não implementa um motor genérico nem regeneração por diff.
+`src/authoring/quick-build.js` produz a sala como proposta sem modificar o documento. `furnishing.js` acrescenta decoração/iluminação e regeneração por diff; `polish.js` produz ajustes. Novas receitas/prefabs podem usar a mesma proposta para preview e `proposal.accept`, mantendo validação e undo. A entrega não implementa um motor procedural genérico.
 
-O schema 1 implementa um subconjunto funcional dos contratos arquiteturais. A UI trabalha com cenas; a API já guarda mapas, mas não há editor separado de mapas ou biblioteca de ambientes. Atores são locais. Comandos levam identidade/revisão local; sincronização autoritativa em rede exigirá sequência e deduplicação no servidor de sessão. [Fronteiras de integração](../src/integrations/README.md) reservam os contratos; não há integração real ou controles simulados.
+O schema atual é 2; v1 é migrado em memória e só regravado ao salvar explicitamente. A UI trabalha com cenas/mapas e permite converter/instanciar mapas. Biblioteca de ambientes continua pendente. Atores são locais. Comandos levam identidade/revisão local; sincronização autoritativa em rede exigirá sequência e deduplicação no servidor de sessão. [Fronteiras de integração](../src/integrations/README.md) reservam os contratos; não há integração real ou controles simulados.
 
 ## Limitações e próximos passos
 
@@ -63,6 +65,6 @@ GLB deve ser estático, autocontido, sem rig/animação, dependências externas 
 
 Histórico e câmera livre são de runtime; salvar um enquadramento é necessário para restaurá-lo. Excluir entidades admite undo; excluir um documento salvo usa confirmação e backup no disco. Não há gerenciamento de exclusão de assets. Um processo de servidor por diretório de dados; travas não coordenam servidores distintos. A recuperação depende do armazenamento do navegador; salvamento em disco é explícito.
 
-Segunda janela usa BroadcastChannel na mesma origem e acompanha o mestre enquanto a conexão local existe. Pop-ups precisam ser permitidos. Este slice opera em loopback; não entrega acesso de celulares, autenticação LAN ou fog of war. Também ficam para depois: prefabs completos, auto-decoration, múltiplos andares, partículas, volumetria, pós-processamento pesado, biblioteca de ambientes e exportação/importação de pacote completo.
+Segunda janela usa BroadcastChannel na mesma origem e acompanha o mestre enquanto a conexão local existe. Pop-ups precisam ser permitidos. Este slice opera em loopback; não entrega acesso de celulares, autenticação LAN ou fog of war. A Fase 3 já oferece decoração assistida limitada; ficam para depois prefabs gerais, andares completos/acessos, partículas, volumetria, pós-processamento pesado, biblioteca de ambientes e exportação/importação de pacote completo.
 
 Próximos passos: piloto cronometrado no notebook/projetor, ajustar legibilidade/gestos e medir custo gráfico; depois transporte de documentos/assets e autoria reutilizável. Jukebox e Ficha não foram modificados. Benchmark com música e dispositivos reais permanece pendente, sem promessa de FPS.

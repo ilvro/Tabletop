@@ -29,9 +29,34 @@ function box(parent, size, position, material, slot = 'base') {
 export function createFloor(entity) {
   const group = new THREE.Group();
   const material = standardMaterial(entity.material);
-  box(group, [entity.width, entity.thickness, entity.length], [0, -entity.thickness / 2, 0], material);
+  if (entity.vertices) {
+    const shape = new THREE.Shape(entity.vertices.map(([x, z]) => new THREE.Vector2(x, z)));
+    const geometry = new THREE.ExtrudeGeometry(shape, { depth: entity.thickness, bevelEnabled: false, steps: 1, curveSegments: 1 });
+    geometry.rotateX(Math.PI / 2);
+    const mesh = new THREE.Mesh(geometry, material.clone()); mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.materialSlot = 'base'; group.add(mesh);
+  } else box(group, [entity.width, entity.thickness, entity.length], [0, -entity.thickness / 2, 0], material);
   material.dispose();
   applyTransform(group, entity.transform);
+  return tagEntity(group, entity.id);
+}
+
+export function createAccess(entity) {
+  const group = new THREE.Group(), material = standardMaterial(entity.material);
+  if (entity.kind === 'stairs') {
+    const depth = entity.length / entity.steps;
+    for (let i = 0; i < entity.steps; i++) {
+      const height = entity.height * (i + 1) / entity.steps;
+      box(group, [entity.width, height, depth], [0, height / 2, -entity.length / 2 + depth * (i + .5)], material);
+    }
+  } else {
+    const profile = new THREE.Shape();
+    profile.moveTo(-entity.length / 2, 0); profile.lineTo(entity.length / 2, 0); profile.lineTo(entity.length / 2, entity.height); profile.closePath();
+    const geometry = new THREE.ExtrudeGeometry(profile, { depth: entity.width, bevelEnabled: false, steps: 1, curveSegments: 1 });
+    // Profile X becomes world Z and extrusion becomes centered world X.
+    geometry.rotateY(-Math.PI / 2); geometry.translate(entity.width / 2, 0, 0);
+    const mesh = new THREE.Mesh(geometry, material.clone()); mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.materialSlot = 'base'; group.add(mesh);
+  }
+  material.dispose(); applyTransform(group, entity.transform);
   return tagEntity(group, entity.id);
 }
 
@@ -45,17 +70,16 @@ export function createWall(entity, doors) {
     box(group, [length, height, entity.thickness], [start + length / 2, bottom + height / 2, 0], material);
     if (bottom === 0 && height >= 0.18) box(group, [length, 0.13, entity.thickness + 0.018], [start + length / 2, 0.065, 0], skirting, 'skirting');
   };
-  let cursor = 0;
-  for (const door of [...doors].sort((a, b) => a.offset - b.offset)) {
-    const left = door.offset - door.width / 2;
-    const right = door.offset + door.width / 2;
-    addSection(cursor, left - cursor, 0, entity.height);
-    addSection(left, door.width, 0, door.sill ?? 0);
-    const top = door.height + (door.sill ?? 0);
-    addSection(left, door.width, top, entity.height - top);
-    cursor = right;
+  const xs = [...new Set([0, entity.length, ...doors.flatMap(d => [d.offset - d.width / 2, d.offset + d.width / 2])])].sort((a, b) => a - b);
+  for (let x = 0; x < xs.length - 1; x++) {
+    const midX = (xs[x] + xs[x + 1]) / 2;
+    const openings = doors.filter(d => midX > d.offset - d.width / 2 && midX < d.offset + d.width / 2);
+    const ys = [...new Set([0, entity.height, ...openings.flatMap(d => [d.sill, d.sill + d.height])])].sort((a, b) => a - b);
+    for (let y = 0; y < ys.length - 1; y++) {
+      const midY = (ys[y] + ys[y + 1]) / 2;
+      if (!openings.some(d => midY > d.sill && midY < d.sill + d.height)) addSection(xs[x], xs[x + 1] - xs[x], ys[y], ys[y + 1] - ys[y]);
+    }
   }
-  addSection(cursor, entity.length - cursor, 0, entity.height);
   material.dispose();
   skirting.dispose();
   applyTransform(group, entity.transform);
@@ -92,6 +116,25 @@ export function createDoor(entity, wall, angle) {
   group.userData.wallId = wall.id;
   frame.dispose();
   leaf.dispose();
+  return tagEntity(group, entity.id);
+}
+
+export function createWindow(entity, wall) {
+  const group = new THREE.Group(), frame = standardMaterial({ color: '#51483a', roughness: .72 });
+  const trim = Math.min(.055, entity.width / 6, entity.height / 6), y = entity.sill + entity.height / 2;
+  for (const sign of [-1, 1]) {
+    box(group, [trim, entity.height, wall.thickness + .04], [entity.offset + sign * (entity.width - trim) / 2, y, 0], frame, 'frame');
+    box(group, [entity.width, trim, wall.thickness + .04], [entity.offset, y + sign * (entity.height - trim) / 2, 0], frame, 'frame');
+  }
+  if (entity.style === 'glass') {
+    const glass = standardMaterial({ ...entity.material, roughness: .16, metalness: .08 });
+    glass.transparent = true; glass.opacity = .28; glass.depthWrite = false;
+    const pane = box(group, [entity.width - 2 * trim, entity.height - 2 * trim, .014], [entity.offset, y, 0], glass); pane.castShadow = false; glass.dispose();
+  } else if (entity.style === 'bars') {
+    const count = Math.max(1, Math.floor(entity.width / .18));
+    for (let i = 1; i <= count; i++) box(group, [.025, entity.height - trim * 2, .035], [entity.offset - entity.width / 2 + entity.width * i / (count + 1), y, 0], frame);
+  }
+  frame.dispose(); applyTransform(group, wall.transform); group.userData.wallId = wall.id;
   return tagEntity(group, entity.id);
 }
 

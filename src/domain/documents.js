@@ -1,4 +1,7 @@
 import { validateDocument, ValidationError } from './validation.js';
+import { polygonSize } from './geometry.js';
+import { migrateDocument } from './migrations.js';
+export { migrateDocument };
 export { validateDocument, ValidationError };
 
 export const clone = value => structuredClone(value);
@@ -12,7 +15,7 @@ const transform = options => ({
 });
 
 export function createEntity(kind, options = {}) {
-  const names = { floor: 'Piso', wall: 'Parede', door: 'Porta', prop: 'Objeto' };
+  const names = { floor: 'Piso', wall: 'Parede', door: 'Porta', window: 'Janela', stairs: 'Escada', ramp: 'Rampa', prop: 'Objeto' };
   if (!names[kind]) throw new ValidationError(`Tipo de entidade desconhecido: ${kind}.`);
   const common = {
     id: options.id ?? id(), name: options.name ?? names[kind], kind,
@@ -24,15 +27,24 @@ export function createEntity(kind, options = {}) {
     height: options.height ?? 2.1, sill: options.sill ?? 0, hinge: options.hinge ?? 'left',
     initialAngle: options.initialAngle ?? Math.PI / 4, material: material('#8b6342', options.material),
   };
+  if (kind === 'window') return { ...common, wallId: options.wallId ?? null,
+    offset: options.offset ?? 2, width: options.width ?? 1.2, height: options.height ?? 1,
+    sill: options.sill ?? .9, style: options.style ?? 'glass', material: material('#618791', options.material) };
   if (kind === 'floor') return { ...common, transform: transform(options),
-    width: options.width ?? 6, length: options.length ?? 5, thickness: options.thickness ?? 0.16,
+    width: options.vertices ? polygonSize(options.vertices)[0] : options.width ?? 6, length: options.vertices ? polygonSize(options.vertices)[1] : options.length ?? 5, thickness: options.thickness ?? 0.16,
+    ...(options.vertices ? { vertices: clone(options.vertices) } : {}),
     material: material('#847d70', options.material),
   };
   if (kind === 'wall') return { ...common, transform: transform(options),
     length: options.length ?? 4, height: options.height ?? 2.6, thickness: options.thickness ?? 0.18,
     material: material('#b3aca0', options.material),
   };
+  if (kind === 'stairs' || kind === 'ramp') return { ...common, transform: transform(options),
+    width: options.width ?? 1.5, length: options.length ?? 3, height: options.height ?? 1.5,
+    ...(kind === 'stairs' ? { steps: options.steps ?? 8 } : {}), material: material('#847d70', options.material),
+  };
   return { ...common, transform: transform(options), assetRef: clone(options.assetRef ?? { id: 'builtin-crate', revision: 1 }),
+    ...(options.supportHeight !== undefined ? { supportHeight: options.supportHeight } : {}),
     footprint: clone(options.footprint ?? [1, 1]), material: material('#ffffff', options.material),
   };
 }
@@ -45,6 +57,7 @@ export function createToken(options = {}) {
   const token = {
     id: options.id ?? id(), actorId: actor.id, transform: transform(options),
     surfaceId: options.surfaceId ?? null, footprint: clone(options.footprint ?? [1, 1]),
+    groupId: options.groupId ?? null,
     locked: options.locked ?? false, audience: options.audience ?? 'all', visualOverride: null,
   };
   return { actor, token };
@@ -57,6 +70,7 @@ export function createLight(options = {}) {
     rotation: clone(options.rotation ?? [0, 0, 0, 1]), color: options.color ?? '#ffdfae',
     intensity: options.intensity ?? 40, distance: options.distance ?? 12,
     shadowEnabled: options.shadowEnabled ?? false, audience: options.audience ?? 'all',
+    groupId: options.groupId ?? null, surfaceId: options.surfaceId ?? null, locked: options.locked ?? false,
     ...(options.role ? { role: options.role } : {}),
   };
 }
@@ -71,9 +85,9 @@ function createLook() {
 
 function envelope(name, documentType) {
   const now = new Date().toISOString();
-  return { schemaVersion: 1, documentType, id: id(), revision: 0, name, createdAt: now, updatedAt: now,
+  return { schemaVersion: 2, documentType, id: id(), revision: 0, name, createdAt: now, updatedAt: now,
     layout: { grid: { type: 'square', origin: [0, 0], cellSize: 1, visible: true, snap: true,
-      color: '#87969e', opacity: 0.25 }, entities: {}, groups: {}, areas: {} } };
+      color: '#87969e', opacity: 0.25 }, entities: {}, groups: {}, areas: {}, compositions: {} } };
 }
 
 export function createScene(name = 'Cena sem título') {
@@ -86,10 +100,10 @@ export function createMap(name = 'Mapa sem título') {
 }
 
 export function createSceneFromMap(map, name) {
-  validateDocument(map);
+  map = migrateDocument(map);
   const now = new Date().toISOString();
   const scene = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     documentType: 'scene',
     id: id(),
     revision: 0,
@@ -110,10 +124,10 @@ export function createSceneFromMap(map, name) {
 }
 
 export function createMapFromScene(scene, name) {
-  validateDocument(scene);
+  scene = migrateDocument(scene);
   const now = new Date().toISOString();
   const map = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     documentType: 'map',
     id: id(),
     revision: 0,
@@ -128,18 +142,23 @@ export function createMapFromScene(scene, name) {
 
 /** Duplicate only document-owned IDs. External asset/source references remain immutable. */
 export function duplicateDocument(document, { name } = {}) {
-  validateDocument(document);
+  document = migrateDocument(document);
   const copy = clone(document), remap = new Map();
   const look = copy.look ?? copy.defaultLook;
-  const collections = [copy.layout.entities, copy.layout.groups, copy.layout.areas, look.lights,
+  const collections = [copy.layout.entities, copy.layout.groups, copy.layout.areas, copy.layout.compositions, look.lights,
     copy.actors, copy.tokens, copy.cameraPresets].filter(Boolean);
   for (const collection of collections) for (const value of Object.values(collection)) remap.set(value.id, id());
+  for (const composition of Object.values(copy.layout.compositions)) for (const slot of Object.values(composition.slots)) if (!remap.has(slot.id)) remap.set(slot.id, id());
   const ref = value => remap.get(value) ?? value;
   for (const collection of collections) {
     for (const [oldId, value] of Object.entries(collection)) {
       delete collection[oldId];
       value.id = ref(oldId);
-      for (const field of ['groupId', 'parentId', 'surfaceId', 'wallId', 'actorId']) if (value[field]) value[field] = ref(value[field]);
+      for (const field of ['groupId', 'parentId', 'surfaceId', 'wallId', 'actorId', 'areaId']) if (value[field]) value[field] = ref(value[field]);
+      if (value.slots) for (const slot of Object.values(value.slots)) {
+        slot.id = ref(slot.id);
+        for (const field of ['groupId', 'surfaceId']) if (slot.baseline[field]) slot.baseline[field] = ref(slot.baseline[field]);
+      }
       if (value.memberIds) value.memberIds = value.memberIds.map(ref);
       collection[value.id] = value;
     }
