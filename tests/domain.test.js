@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createScene, createMap, createEntity, createToken, createLight, duplicateDocument, clone, id, validateDocument, ValidationError } from '../src/domain/documents.js';
+import { createScene, createMap, createSceneFromMap, createMapFromScene, createEntity, createToken, createLight, duplicateDocument, clone, id, validateDocument, ValidationError } from '../src/domain/documents.js';
 import { snapPosition, quaternionFromYaw, yawFromQuaternion } from '../src/domain/coords.js';
 import { proposeRoom } from '../src/authoring/quick-build.js';
 import { createSceneStore } from '../src/state/scene-store.js';
@@ -223,5 +223,32 @@ test('group creation, rename, entity assignment and group removal with undo/redo
   store.redo();
   assert.equal(store.document.layout.groups[groupId], undefined);
   assert.equal(store.document.layout.entities[floorId].groupId, null);
+});
+
+test('createMapFromScene extracts layout and defaultLook, and createSceneFromMap instantiates an editable scene referencing sourceMap', () => {
+  const store = roomStore();
+  const scene = store.document;
+  const map = createMapFromScene(scene, 'Template da Sala');
+
+  assert.equal(map.documentType, 'map');
+  assert.equal(map.name, 'Template da Sala');
+  assert.equal(map.revision, 0);
+  assert.deepEqual(map.layout, scene.layout);
+  assert.deepEqual(map.defaultLook, scene.look);
+  assert.equal(map.actors, undefined);
+  assert.equal(map.tokens, undefined);
+  assert.equal(map.sessionState, undefined);
+  assert.doesNotThrow(() => validateDocument(map));
+
+  const newScene = createSceneFromMap(map, 'Sessão 1');
+  assert.equal(newScene.documentType, 'scene');
+  assert.equal(newScene.name, 'Sessão 1');
+  assert.equal(newScene.sourceMap.id, map.id);
+  assert.equal(newScene.sourceMap.revision, map.revision);
+  assert.deepEqual(newScene.layout, map.layout);
+  assert.deepEqual(newScene.look, map.defaultLook);
+  assert.deepEqual(newScene.actors, {});
+  assert.deepEqual(newScene.tokens, {});
+  assert.doesNotThrow(() => validateDocument(newScene));
 });
 

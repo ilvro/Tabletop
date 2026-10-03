@@ -153,19 +153,50 @@ kbd { color: #b0b9b8; font-family: inherit; border: 1px solid #484f53; border-ra
 .notice { position: absolute; left: 50%; bottom: 76px; transform: translateX(-50%); max-width: min(560px, 88%); padding: 13px 18px; border-radius: 7px; background: #232d2eef; border: 1px solid #65807880; color: #d0dfd5; font-size: 11px; line-height: 1.5; z-index: 20; box-shadow: 0 8px 30px #050b103a; }
 .notice.error { color: #efd1c5; background: #3d2a28ee; border-color: #b6776266; }
 dialog { width: min(510px, 90vw); padding: 26px; border: 1px solid #5b615d; border-radius: 12px; color: #e9e9df; background: #252b2f; box-shadow: 0 30px 100px #080e16aa; }
+dialog.library-dialog { position: absolute; top: 86px; left: 268px; width: min(580px, calc(100vw - 570px)); max-height: calc(100vh - 128px); margin: 0; padding: 18px 20px; display: flex; flex-direction: column; background: #1e252af5; backdrop-filter: blur(10px); border: 1px solid #4f5b61; border-radius: 10px; box-shadow: 0 16px 45px #050b10aa; z-index: 25; }
+dialog.library-dialog:not([open]) { display: none !important; }
+dialog.library-dialog::backdrop { display: none !important; background: transparent !important; backdrop-filter: none !important; pointer-events: none !important; }
+@media (max-width: 1100px) { dialog.library-dialog { left: 20px; width: min(560px, calc(100vw - 40px)); } }
+.dialog-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; user-select: none; }
+.dialog-title-group { display: flex; flex-direction: column; cursor: move; }
+.dialog-close-btn { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #485054; background: #2b3337; color: #c4d0d3; cursor: pointer; flex-shrink: 0; transition: background .15s, color .15s, border-color .15s; }
+.dialog-close-btn:hover { background: #3e484c; color: #fff; border-color: #6a767b; }
+.dialog-close-btn svg { pointer-events: none; }
 dialog::backdrop { background: #0a1016bb; backdrop-filter: blur(4px); }
-.dialog-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
-dialog h2 { margin: 10px 0; }
+dialog h2 { margin: 6px 0; font-size: 18px; }
 dialog p { font-size: 12px; line-height: 1.65; color: #acb6b9; }
 .dialog-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+.dialog-tabs { display: flex; gap: 6px; border-bottom: 1px solid #3e484c; margin-bottom: 14px; padding-bottom: 6px; }
+.dialog-tabs button { background: transparent; border: 1px solid transparent; color: #9aa7ab; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.dialog-tabs button:hover { color: #e2ece8; background: #2b3337; }
+.dialog-tabs button.active { color: #ebcb99; background: #39392e; border-color: #8b775055; }
+.dialog-tab-content { overflow-y: auto; max-height: 52vh; display: flex; flex-direction: column; gap: 10px; padding-right: 4px; }
+.tab-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 8px; flex-wrap: wrap; }
+.tab-toolbar-actions { display: flex; gap: 6px; }
+.item-card { display: flex; align-items: center; border: 1px solid #434d51; border-radius: 7px; padding: 10px 14px; gap: 12px; background: #20272a; transition: border-color .15s; }
+.item-card:hover { border-color: #637277; }
+.item-card-main { flex: 1; text-align: left; display: flex; flex-direction: column; gap: 3px; background: transparent; border: none; cursor: pointer; color: inherit; padding: 0; }
+.item-card-main strong { font-size: 12px; font-weight: 500; color: #edf2f0; }
+.item-card-main small { font-size: 10px; color: #8e9fa3; }
+.item-card-actions { display: flex; gap: 4px; align-items: center; }
+.item-card-actions button { font-size: 10px; padding: 4px 8px; }
+.item-badge { font-size: 8px; text-transform: uppercase; background: #344439; color: #a4d4b4; padding: 2px 6px; border-radius: 3px; letter-spacing: .05em; align-self: flex-start; }
+.token-library-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.token-library-card { display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #414a4e; border-radius: 8px; background: #1f2528; gap: 6px; text-align: center; }
+.token-avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; overflow: hidden; border: 2px solid #5a666b; background: #323b40; }
+.token-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.token-library-card strong { font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
+.doc-box { border: 1px dashed #525d63; border-radius: 8px; padding: 16px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; background: #1c2225; }
+.doc-box h4 { margin: 0; font-size: 12px; color: #dbe4e2; }
+.doc-box p { margin: 0; font-size: 10px; color: #8d9b9f; }
 .saved-scene { display: flex; align-items: center; border: 1px solid #495255; border-radius: 7px; margin-bottom: 9px; overflow: hidden; }
 .saved-scene > button:first-child { flex: 1; justify-content: flex-start; padding: 14px; background: transparent; border: 0; gap: 15px; text-align: left; }
 .saved-scene > button:last-child { background: transparent; border: 0; color: #a99589; }
 .saved-scene span { flex: 1; }
 .saved-scene strong { font-size: 13px; display: block; font-weight: 500; }
 .saved-scene small { display: block; font-size: 10px; color: #929ea3; margin-top: 6px; }
-.empty-dialog { padding: 28px 5px; text-align: center; font-size: 13px; }
-.empty-dialog p { margin-top: 12px; }
+.empty-dialog { padding: 24px 5px; text-align: center; font-size: 12px; color: #8e9fa3; }
+.empty-dialog p { margin-top: 8px; }
 .presenting .app-shell { display: block; }
 .presenting .app-header, .presenting .sidebar, .presenting .inspector, .presenting .statusbar, .presenting .viewport-top, .presenting .viewport-bottom { display: none; }
 .presenting .workspace { height: 100dvh; }

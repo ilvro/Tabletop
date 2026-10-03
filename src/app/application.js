@@ -1,4 +1,4 @@
-import { createScene, createEntity, createToken, createLight, clone, id, validateDocument, duplicateDocument } from '../domain/documents.js';
+import { createScene, createMap, createSceneFromMap, createMapFromScene, createEntity, createToken, createLight, clone, id, validateDocument, duplicateDocument } from '../domain/documents.js';
 import { quaternionFromYaw, yawFromQuaternion } from '../domain/coords.js';
 import { ENVIRONMENTS } from '../domain/environments.js';
 import { createSceneStore } from '../state/scene-store.js';
@@ -14,7 +14,7 @@ const numberField = (field, label, value, { min, max, step = .1 } = {}) => `<lab
 const colorField = (field, label, value) => `<label class="field color-field"><span>${label}</span><input type="color" data-field="${field}" value="${esc(value)}" /></label>`;
 const checkField = (field, label, checked) => `<label class="check"><input type="checkbox" data-field="${field}" ${checked ? 'checked' : ''}/><span>${label}</span></label>`;
 const contentJSON = (doc) => { const { revision, createdAt, updatedAt, ...body } = doc; return JSON.stringify(body); };
-const entryName = (doc, entry) => doc.actors[entry.actorId]?.name ?? entry.name;
+const entryName = (doc, entry) => doc.actors?.[entry.actorId]?.name ?? entry.name;
 const lastScene = {
   read() { try { return localStorage.getItem('tabletop-last-scene'); } catch { return null; } },
   write(value) { try { localStorage.setItem('tabletop-last-scene', value); } catch { /* Optional preference, independent of a confirmed disk write. */ } },
@@ -28,7 +28,7 @@ export async function startApplication() {
     <div class="app-shell">
       <header class="app-header">
         <a class="brand" href="/" aria-label="Tabletop"><span class="brand-mark">T</span><span>TABLETOP<small>CRIAR. PREPARAR. APRESENTAR.</small></span></a>
-        <div class="document-heading"><span class="eyebrow">SUA MESA / CENA</span><input id="scene-name" aria-label="Nome da cena" maxlength="256" disabled /></div>
+        <div class="document-heading"><span id="doc-type-eyebrow" class="eyebrow">SUA MESA / CENA</span><input id="scene-name" aria-label="Nome da cena" maxlength="256" disabled /></div>
         <div class="header-actions"><span id="save-status" role="status" class="save-status"></span>${button('new', 'Nova', 'plus', 'quiet')}${button('open', 'Abrir', 'folder', 'quiet')}${button('present', 'Apresentar', 'display', 'quiet')}${button('save', 'Salvar', 'save', 'primary', 'id="save-scene"')}</div>
       </header>
       <aside class="sidebar">
@@ -48,12 +48,31 @@ export async function startApplication() {
       <footer class="statusbar"><span id="scene-summary">Preparando sua mesa…</span><span><kbd>Q</kbd> Selecionar <kbd>W</kbd> Mover <kbd>R</kbd> Girar <kbd>S</kbd> Escala <kbd>F</kbd> Enquadrar</span></footer>
     </div>
     <div id="presentation-controls" hidden><span id="presentation-name"></span>${button('present', 'Voltar à edição', 'close', 'quiet')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet')}</div>
-    <dialog id="documents-dialog"><div class="dialog-header"><div><span class="eyebrow">NO SEU COMPUTADOR</span><h2>Cenas salvas</h2></div>${button('close-dialog', '', 'close', 'icon-button', 'aria-label="Fechar"')}</div><div id="documents-list"></div></dialog>
+    <dialog id="documents-dialog" class="library-dialog">
+      <div class="dialog-header">
+        <div class="dialog-title-group">
+          <span class="eyebrow">BIBLIOTECA & GESTÃO</span>
+          <h2>Gestão da Mesa</h2>
+        </div>
+        <button type="button" id="close-library-dialog" data-action="close-dialog" class="icon-button dialog-close-btn" aria-label="Fechar painel" title="Fechar (Esc)">
+          ${icon('close', 18)}
+        </button>
+      </div>
+      <nav class="dialog-tabs">
+        <button type="button" data-dialog-tab="scenes" class="active">${icon('room', 14)} Cenas</button>
+        <button type="button" data-dialog-tab="maps">${icon('floor', 14)} Mapas</button>
+        <button type="button" data-dialog-tab="tokens">${icon('token', 14)} Tokens</button>
+        <button type="button" data-dialog-tab="documents">${icon('folder', 14)} Documentos</button>
+      </nav>
+      <div id="documents-tab-content" class="dialog-tab-content"></div>
+    </dialog>
     <dialog id="recovery-dialog"><span class="eyebrow">RECUPERAÇÃO LOCAL</span><h2>Há trabalho não salvo</h2><p id="recovery-description"></p><div class="dialog-actions">${button('discard-draft', 'Descartar rascunho', '', 'quiet')}${button('restore-draft', 'Restaurar trabalho', 'undo', 'primary')}</div></dialog>
     <div id="context-menu" class="context-menu" hidden></div>
-    <input id="asset-file" type="file" accept="image/png,image/jpeg,image/webp,.glb" hidden />`;
+    <input id="asset-file" type="file" accept="image/png,image/jpeg,image/webp,.glb" hidden />
+    <input id="document-json-file" type="file" accept=".json,application/json" hidden />`;
 
-  let assets = [], savedScenes = [], selection = null, tool = 'select', tab = 'build';
+  let assets = [], savedScenes = [], savedMaps = [], selection = null, tool = 'select', tab = 'build';
+  let dialogTab = 'scenes';
   let proposal = null, placing = null, saving = false, isPresentation = false, cutaway = true;
   let workingCamera = null, publishedCamera = null, recovery = null, draftTimer, noticeTimer;
   let draftQueue = Promise.resolve(), draftWarningShown = false;
@@ -75,9 +94,9 @@ export async function startApplication() {
 
   function locate(objectId = selection) {
     const doc = store.document;
-    if (doc.layout.entities[objectId]) return { type: 'entity', record: doc.layout.entities[objectId] };
-    if (doc.tokens[objectId]) return { type: 'token', record: doc.tokens[objectId] };
-    if (doc.look.lights[objectId]) return { type: 'light', record: doc.look.lights[objectId] };
+    if (doc.layout?.entities?.[objectId]) return { type: 'entity', record: doc.layout.entities[objectId] };
+    if (doc.tokens?.[objectId]) return { type: 'token', record: doc.tokens[objectId] };
+    if (doc.look?.lights?.[objectId] || doc.defaultLook?.lights?.[objectId]) return { type: 'light', record: (doc.look?.lights ?? doc.defaultLook?.lights)[objectId] };
     return null;
   }
   function execute(type, payload, options) {
@@ -86,7 +105,7 @@ export async function startApplication() {
   }
   function renameTarget(targetId) {
     const doc = store.document;
-    if (doc.layout.groups[targetId]) {
+    if (doc.layout?.groups?.[targetId]) {
       const group = doc.layout.groups[targetId];
       const nextName = window.prompt('Renomear pasta:', group.name);
       if (nextName !== null && nextName.trim() && nextName.trim() !== group.name) {
@@ -96,7 +115,7 @@ export async function startApplication() {
     }
     const found = locate(targetId);
     if (!found) return;
-    const currentName = found.type === 'token' ? doc.actors[found.record.actorId]?.name ?? found.record.name : found.record.name;
+    const currentName = found.type === 'token' ? doc.actors?.[found.record.actorId]?.name ?? found.record.name : found.record.name;
     const nextName = window.prompt('Renomear objeto:', currentName);
     if (nextName !== null && nextName.trim() && nextName.trim() !== currentName) {
       if (found.type === 'token') {
@@ -111,7 +130,7 @@ export async function startApplication() {
     const menu = document.getElementById('context-menu');
     if (!menu) return;
     const doc = store.document;
-    if (doc.layout.groups[targetId]) {
+    if (doc.layout?.groups?.[targetId]) {
       const group = doc.layout.groups[targetId];
       menu.innerHTML = `
         <div class="context-menu-header">PASTA: ${esc(group.name)}</div>
@@ -122,7 +141,7 @@ export async function startApplication() {
       const found = locate(targetId);
       if (!found) return;
       const typeLabel = found.type === 'token' ? 'TOKEN' : found.type === 'light' ? 'LUZ' : ({ floor: 'PISO', wall: 'PAREDE', door: 'PORTA', prop: 'OBJETO' }[found.record.kind] || 'OBJETO');
-      const name = found.type === 'token' ? doc.actors[found.record.actorId]?.name ?? found.record.name : found.record.name;
+      const name = found.type === 'token' ? doc.actors?.[found.record.actorId]?.name ?? found.record.name : found.record.name;
       menu.innerHTML = `
         <div class="context-menu-header">${typeLabel}: ${esc(name)}</div>
         <button type="button" class="context-menu-item" data-context="rename">${icon('edit', 14)}<span>Renomear</span></button>
@@ -225,7 +244,8 @@ export async function startApplication() {
       panel.innerHTML = `<div class="section-intro"><span class="eyebrow">BIBLIOTECA</span><h2>Detalhes dão vida.</h2><p class="muted">Escolha um objeto e clique no chão para colocá-lo.</p></div><input id="asset-search" type="search" aria-label="Buscar assets" placeholder="Buscar na biblioteca…" /><div id="asset-cards" class="asset-grid"></div>${button('asset-import', 'Importar imagem ou GLB', 'upload', 'wide accent-outline')}<p class="microcopy">Arquivos ficam guardados no servidor local, separados da cena.</p>`;
       renderAssetCards();
     } else {
-      panel.innerHTML = `<section><span class="eyebrow">AMBIENTE</span><h2>A luz conta a história.</h2><p class="muted">Um ponto de partida. Ajuste cada fonte como quiser.</p><div class="environment-options">${ENVIRONMENTS.map((preset) => `<button data-environment="${preset.id}" class="environment-card ${store.document.sourceEnvironment?.id === preset.id ? 'active' : ''}"><span class="environment-swatch ${preset.id}"></span><span><strong>${esc(preset.name)}</strong><small>${esc(preset.description || '')}</small></span>${icon('chevron', 14)}</button>`).join('')}</div>${colorField('background', 'Fundo', store.document.look.background)}${numberField('fill-intensity', 'Preenchimento', store.document.look.fill.intensity, { min: 0, step: .1 })}${colorField('fill-color', 'Cor do preenchimento', store.document.look.fill.skyColor)}</section><section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
+      const currentLook = store.document.look ?? store.document.defaultLook;
+      panel.innerHTML = `<section><span class="eyebrow">AMBIENTE</span><h2>A luz conta a história.</h2><p class="muted">Um ponto de partida. Ajuste cada fonte como quiser.</p><div class="environment-options">${ENVIRONMENTS.map((preset) => `<button data-environment="${preset.id}" class="environment-card ${store.document.sourceEnvironment?.id === preset.id ? 'active' : ''}"><span class="environment-swatch ${preset.id}"></span><span><strong>${esc(preset.name)}</strong><small>${esc(preset.description || '')}</small></span>${icon('chevron', 14)}</button>`).join('')}</div>${colorField('background', 'Fundo', currentLook.background)}${numberField('fill-intensity', 'Preenchimento', currentLook.fill.intensity, { min: 0, step: .1 })}${colorField('fill-color', 'Cor do preenchimento', currentLook.fill.skyColor)}</section><section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
       renderSceneTreeIfVisible();
     }
   }
@@ -238,10 +258,10 @@ export async function startApplication() {
   function renderSceneTreeIfVisible() {
     const tree = document.getElementById('scene-tree'); if (!tree) return;
     const doc = store.document;
-    const groups = Object.values(doc.layout.groups);
-    const entities = Object.values(doc.layout.entities);
-    const tokens = Object.values(doc.tokens);
-    const lights = Object.values(doc.look.lights);
+    const groups = Object.values(doc.layout?.groups || {});
+    const entities = Object.values(doc.layout?.entities || {});
+    const tokens = Object.values(doc.tokens || {});
+    const lights = Object.values(doc.look?.lights || doc.defaultLook?.lights || {});
 
     const renderEntry = (entry) => {
       const typeGlyph = entry.kind === 'floor' ? 'floor' : entry.kind === 'wall' ? 'wall' : entry.kind === 'door' ? 'door' : entry.actorId ? 'token' : entry.type ? 'light' : 'room';
@@ -329,38 +349,49 @@ export async function startApplication() {
 
   function updateView(event = {}) {
     const doc = store.document;
+    const isMap = doc.documentType === 'map';
     if (selection && !locate()) selection = null;
     if (proposal && event.type !== 'saved') clearProposal();
     viewport.setDocument(isPresentation ? projectPresentation(doc) : doc);
     viewport.setSelection(isPresentation ? null : selection);
     document.getElementById('scene-name').value = doc.name;
     document.getElementById('presentation-name').textContent = doc.name;
-    document.getElementById('welcome').hidden = Object.keys(doc.layout.entities).length > 0 || !!proposal || isPresentation;
+    const eyebrow = document.getElementById('doc-type-eyebrow');
+    if (eyebrow) eyebrow.textContent = `SUA MESA / ${isMap ? 'MAPA' : 'CENA'}`;
+    document.getElementById('welcome').hidden = Object.keys(doc.layout?.entities || {}).length > 0 || !!proposal || isPresentation;
     document.getElementById('undo').disabled = !store.canUndo;
     document.getElementById('redo').disabled = !store.canRedo;
     document.getElementById('undo').title = `Desfazer${store.undoLabel ? `: ${store.undoLabel}` : ''} (Ctrl+Z)`;
     const status = document.getElementById('save-status');
     status.textContent = saving ? 'Salvando…' : store.dirty ? 'Alterações locais' : `Salvo · revisão ${doc.revision}`;
     status.classList.toggle('unsaved', store.dirty); document.getElementById('save-scene').disabled = saving;
-    document.getElementById('scene-summary').textContent = `${Object.keys(doc.layout.entities).length} elementos · ${Object.keys(doc.tokens).length} tokens · ${Object.keys(doc.look.lights).length} luzes · grid ${doc.layout.grid.cellSize} m`;
+    document.getElementById('scene-summary').textContent = `${Object.keys(doc.layout?.entities || {}).length} elementos · ${Object.keys(doc.tokens || {}).length} tokens · ${Object.keys(doc.look?.lights || doc.defaultLook?.lights || {}).length} luzes · grid ${doc.layout?.grid?.cellSize ?? 1} m`;
     renderInspector(); renderSidebar(); broadcast();
     clearTimeout(draftTimer); draftTimer = setTimeout(flushDraft, 180);
   }
-  async function refreshSaved() { savedScenes = await repository.list(); }
+  async function refreshSaved() {
+    const [scenesResult, mapsResult] = await Promise.allSettled([
+      repository.list('scene'),
+      repository.list('map'),
+    ]);
+    if (scenesResult.status === 'fulfilled') savedScenes = scenesResult.value;
+    if (mapsResult.status === 'fulfilled') savedMaps = mapsResult.value;
+  }
   async function saveScene() {
     if (saving) return false;
     saving = true; updateView({ type: 'saved' });
     const sentDocument = clone(store.document), sentVersion = store.editVersion;
+    const isMap = sentDocument.documentType === 'map';
     try {
       const receipt = sentDocument.revision === 0 ? await repository.create(sentDocument) : await repository.save(sentDocument);
       if (store.document.id !== sentDocument.id) return false;
       store.markSaved(receipt, sentVersion);
       lastScene.write(receipt.id);
-      flushDraft(); notify(store.dirty ? 'Versão salva. Há alterações posteriores ainda locais.' : 'Cena salva no computador.');
-      await refreshSaved().catch(() => notify('Cena salva. A lista de cenas não pôde ser atualizada agora.', true)); return true;
+      flushDraft(); notify(store.dirty ? 'Versão salva. Há alterações posteriores ainda locais.' : `${isMap ? 'Mapa salvo' : 'Cena salva'} no computador.`);
+      await refreshSaved().catch(() => notify(`${isMap ? 'Mapa salvo' : 'Cena salva'}. A lista não pôde ser atualizada agora.`, true)); return true;
     } catch (error) {
       const conflict = error instanceof ApiError && error.status === 409;
-      notify(conflict ? 'Esta cena mudou em outra janela. Seu trabalho está no rascunho. Abra a versão salva ou salve como uma nova cena.' : `Não foi possível salvar: ${error.message}`, true, true);
+      notify(conflict ? `Este documento mudou em outra janela. Seu trabalho está no rascunho. Abra a versão salva ou salve como nova.` : `Não foi possível salvar: ${error.message}`, true, true);
       flushDraft(); return false;
     } finally { saving = false; updateView({ type: 'saved' }); }
   }
@@ -368,6 +399,7 @@ export async function startApplication() {
   async function duplicateScene() {
     if (saving) return;
     const sourceId = store.document.id, sourceVersion = store.editVersion;
+    const isMap = store.document.documentType === 'map';
     const copy = duplicateDocument(store.document, { name: `${store.document.name} — cópia` });
     saving = true; updateView({ type: 'saved' });
     try {
@@ -376,9 +408,9 @@ export async function startApplication() {
       if (store.document.id === sourceId && store.editVersion === sourceVersion) {
         selection = null; clearProposal(); store.replace(receipt);
         lastScene.write(receipt.id);
-        flushDraft(); notify('Cópia independente salva. Você está editando a nova cena.');
-      } else notify('Cópia salva. Suas alterações posteriores continuam na cena atual.');
-      await refreshSaved().catch(() => notify('Cópia salva. A lista de cenas não pôde ser atualizada agora.', true));
+        flushDraft(); notify(`Cópia independente salva. Você está editando ${isMap ? 'o novo mapa' : 'a nova cena'}.`);
+      } else notify(`Cópia salva. Suas alterações posteriores continuam ${isMap ? 'no mapa atual' : 'na cena atual'}.`);
+      await refreshSaved().catch(() => notify('Cópia salva. A lista não pôde ser atualizada agora.', true));
     } finally { saving = false; updateView({ type: 'saved' }); }
   }
   let clipboard = null;
@@ -457,21 +489,295 @@ export async function startApplication() {
       }
     }
   }
+
+  function closeDialog() {
+    const dialog = document.getElementById('documents-dialog');
+    if (dialog) {
+      if (typeof dialog.close === 'function') dialog.close();
+      dialog.removeAttribute('open');
+    }
+  }
+
   async function openScene(sceneId) {
     if (!canSwitch()) return;
     const ticket = ++openTicket, sourceId = store.document.id, sourceVersion = store.editVersion;
-    const doc = await repository.read(sceneId);
+    const doc = await repository.read(sceneId, 'scene');
     if (ticket !== openTicket) return;
     if (store.document.id !== sourceId || store.editVersion !== sourceVersion) { notify('A cena atual mudou durante o carregamento. Suas alterações foram preservadas; abra novamente quando estiver pronto.', true); return; }
     selection = null; clearProposal(); setTool('select');
     store.replace(doc); lastScene.write(doc.id); viewport.frameScene();
-    const camera = Object.values(doc.cameraPresets)[0]; if (camera) viewport.setCamera(camera);
-    document.getElementById('documents-dialog').close();
+    const camera = Object.values(doc.cameraPresets || {})[0]; if (camera) viewport.setCamera(camera);
+    closeDialog();
+    notify(`Cena “${doc.name}” aberta.`);
   }
-  async function openDialog() {
+
+  async function openMap(mapId) {
+    if (!canSwitch()) return;
+    const ticket = ++openTicket, sourceId = store.document.id, sourceVersion = store.editVersion;
+    const doc = await repository.read(mapId, 'map');
+    if (ticket !== openTicket) return;
+    if (store.document.id !== sourceId || store.editVersion !== sourceVersion) { notify('O documento atual mudou durante o carregamento.', true); return; }
+    selection = null; clearProposal(); setTool('select');
+    store.replace(doc); lastScene.write(doc.id); viewport.frameScene();
+    closeDialog();
+    notify(`Mapa “${doc.name}” aberto para edição.`);
+  }
+
+  async function instantiateMap(mapId) {
+    if (!canSwitch()) return;
+    const map = await repository.read(mapId, 'map');
+    const sceneName = window.prompt('Nome da nova cena baseada neste mapa:', `Cena de ${map.name}`);
+    if (sceneName === null) return;
+    const scene = createSceneFromMap(map, sceneName.trim() || undefined);
+    selection = null; clearProposal(); setTool('select');
+    saving = true; updateView({ type: 'saved' });
+    try {
+      const receipt = await repository.create(scene);
+      store.replace(receipt);
+      lastScene.write(receipt.id);
+      flushDraft();
+      closeDialog();
+      notify(`Cena “${receipt.name}” criada a partir do mapa.`);
+      await refreshSaved();
+    } catch (error) {
+      notify(`Erro ao criar cena a partir do mapa: ${error.message}`, true);
+    } finally {
+      saving = false; updateView({ type: 'saved' });
+    }
+  }
+
+  async function saveCurrentAsMap() {
+    const defaultName = `Mapa de ${store.document.name.replace(/^Mapa de\s*/i, '')}`;
+    const mapName = window.prompt('Nome do novo mapa modelo:', defaultName);
+    if (mapName === null) return;
+    const map = createMapFromScene(store.document, mapName.trim() || undefined);
+    try {
+      const receipt = await repository.create(map);
+      notify(`Mapa “${receipt.name}” salvo no acervo com sucesso.`);
+      await refreshSaved();
+      renderDialogContent();
+    } catch (error) {
+      notify(`Não foi possível salvar o mapa: ${error.message}`, true);
+    }
+  }
+
+  async function duplicateDocFromList(docId, type = 'scene') {
+    const list = type === 'map' ? savedMaps : savedScenes;
+    const item = list.find((d) => d.id === docId);
+    if (!item) return;
+    try {
+      const receipt = await repository.duplicate({ ...item, documentType: type });
+      notify(`${type === 'map' ? 'Mapa' : 'Cena'} “${receipt.name}” duplicado(a).`);
+      await refreshSaved();
+      renderDialogContent();
+    } catch (error) {
+      notify(`Erro ao duplicar: ${error.message}`, true);
+    }
+  }
+
+  async function deleteMap(mapId) {
+    if (saving) { notify('Aguarde o salvamento antes de excluir um mapa.'); return; }
+    const map = savedMaps.find((m) => m.id === mapId);
+    if (!map || !confirm(`Excluir o mapa “${map.name}”?`)) return;
+    const version = store.editVersion;
+    try {
+      await repository.remove({ ...map, documentType: 'map' });
+      if (store.document.id === map.id) {
+        if (store.editVersion === version) store.replace(createScene('Nova cena'), { saved: false });
+        else { store.replace(duplicateDocument(store.document, { name: store.document.name }), { saved: false }); notify('Mapa excluído. Alterações mantidas como nova cena.'); }
+      }
+      await refreshSaved();
+      renderDialogContent();
+    } catch (error) {
+      notify(error.message, true);
+    }
+  }
+
+  function exportJson() {
+    const doc = store.document;
+    const blob = new Blob([JSON.stringify(doc, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${doc.name.replace(/[^a-zA-Z0-9_\u00C0-\u017F\s-]/g, '').trim() || 'tabletop-document'}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    notify('Documento JSON exportado para download.');
+  }
+
+  function importJson(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        const validated = validateDocument(parsed);
+        if (!canSwitch()) return;
+        let loadedDoc = validated;
+        try {
+          const saved = await repository.create(validated);
+          loadedDoc = saved;
+        } catch { /* se já existir ou offline, usa local */ }
+        selection = null; clearProposal(); setTool('select');
+        store.replace(loadedDoc, { saved: Boolean(loadedDoc.revision > 0) });
+        viewport.frameScene();
+        closeDialog();
+        notify(`Documento “${loadedDoc.name}” carregado na mesa.`);
+        await refreshSaved();
+      } catch (err) {
+        notify(`Não foi possível carregar o arquivo JSON: ${err.message}`, true);
+      }
+    };
+    reader.onerror = () => notify('Erro ao ler o arquivo selecionado.', true);
+    reader.readAsText(file);
+  }
+
+  function renderDialogContent() {
+    const container = document.getElementById('documents-tab-content');
+    if (!container) return;
+    const tabs = root.querySelectorAll('[data-dialog-tab]');
+    tabs.forEach((btn) => btn.classList.toggle('active', btn.dataset.dialogTab === dialogTab));
+
+    if (dialogTab === 'scenes') {
+      container.innerHTML = `
+        <div class="tab-toolbar">
+          <span class="eyebrow">${savedScenes.length} cena(s) salva(s)</span>
+          <div class="tab-toolbar-actions">
+            ${button('dialog-new-scene', 'Nova cena', 'plus', 'primary')}
+          </div>
+        </div>
+        ${savedScenes.map((scene) => `
+          <div class="item-card">
+            <button type="button" class="item-card-main" data-open="${scene.id}">
+              <div style="display:flex;align-items:center;gap:6px">
+                <strong>${esc(scene.name)}</strong>
+                ${scene.id === store.document.id ? '<span class="item-badge" style="background:#2d473e;color:#8ce2be">Atual</span>' : ''}
+              </div>
+              <small>Revisão ${scene.revision} · ${new Date(scene.updatedAt).toLocaleString('pt-BR')}</small>
+            </button>
+            <div class="item-card-actions">
+              <button type="button" class="quiet" data-duplicate-scene-id="${scene.id}" title="Duplicar cena">${icon('copy', 14)}</button>
+              <button type="button" class="quiet danger" data-delete-scene="${scene.id}" title="Excluir cena">${icon('trash', 14)}</button>
+            </div>
+          </div>
+        `).join('') || '<div class="empty-dialog">Nenhuma cena salva ainda.<p>Crie uma sala e use Salvar para começar sua coleção.</p></div>'}
+      `;
+    } else if (dialogTab === 'maps') {
+      container.innerHTML = `
+        <div class="tab-toolbar">
+          <span class="eyebrow">${savedMaps.length} mapa(s) no acervo</span>
+          <div class="tab-toolbar-actions">
+            ${button('save-current-as-map', 'Salvar cena como Mapa', 'save', 'primary')}
+            ${button('dialog-new-map', 'Novo mapa em branco', 'plus', 'quiet')}
+          </div>
+        </div>
+        ${savedMaps.map((map) => `
+          <div class="item-card">
+            <button type="button" class="item-card-main" data-open-map="${map.id}">
+              <div style="display:flex;align-items:center;gap:6px">
+                <span class="item-badge">MAPA</span>
+                <strong>${esc(map.name)}</strong>
+                ${map.id === store.document.id ? '<span class="item-badge" style="background:#2d473e;color:#8ce2be">Atual</span>' : ''}
+              </div>
+              <small>Revisão ${map.revision} · ${new Date(map.updatedAt).toLocaleString('pt-BR')}</small>
+            </button>
+            <div class="item-card-actions">
+              <button type="button" class="primary" data-instantiate-map="${map.id}" title="Criar nova cena usando este mapa">${icon('plus', 14)} Criar cena</button>
+              <button type="button" class="quiet" data-duplicate-map-id="${map.id}" title="Duplicar mapa">${icon('copy', 14)}</button>
+              <button type="button" class="quiet danger" data-delete-map="${map.id}" title="Excluir mapa">${icon('trash', 14)}</button>
+            </div>
+          </div>
+        `).join('') || '<div class="empty-dialog">Nenhum mapa salvo ainda.<p>Você pode converter a estrutura da sua cena atual em um Mapa modelo reutilizável!</p></div>'}
+      `;
+    } else if (dialogTab === 'tokens') {
+      const defaultTokens = [
+        { name: 'Investigador', color: '#e4b76f' },
+        { name: 'Guerreiro', color: '#c44d44' },
+        { name: 'Mago', color: '#5b7fc4' },
+        { name: 'Ladino', color: '#4a934a' },
+        { name: 'Monstro', color: '#8e44ad' },
+        { name: 'NPC', color: '#888888' },
+      ];
+      const imageAssets = assets.filter((asset) => asset.type === 'image');
+      container.innerHTML = `
+        <div class="tab-toolbar">
+          <span class="eyebrow">Banco de Tokens & Personagens</span>
+          <div class="tab-toolbar-actions">
+            ${button('dialog-custom-token', 'Novo token customizado', 'plus', 'primary')}
+          </div>
+        </div>
+        <p class="microcopy" style="margin: 0 0 10px 0">Clique em qualquer token abaixo para colocá-lo diretamente na mesa:</p>
+        <div class="token-library-grid">
+          ${defaultTokens.map((t) => `
+            <div class="token-library-card">
+              <div class="token-avatar" style="border-color:${t.color};background:${t.color}22">
+                <span style="font-weight:700;color:${t.color}">${t.name[0]}</span>
+              </div>
+              <strong>${esc(t.name)}</strong>
+              <button type="button" class="primary" data-dialog-pick-token="${esc(t.name)}" data-token-color="${t.color}">Colocar</button>
+            </div>
+          `).join('')}
+          ${imageAssets.map((asset) => `
+            <div class="token-library-card">
+              <div class="token-avatar">
+                <img src="${esc(asset.url)}" alt="${esc(asset.name)}" />
+              </div>
+              <strong>${esc(asset.name.replace(/\.[^.]+$/, ''))}</strong>
+              <button type="button" class="primary" data-dialog-pick-asset-token="${asset.id}">Colocar</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    } else if (dialogTab === 'documents') {
+      const doc = store.document;
+      const isMap = doc.documentType === 'map';
+      const entitiesCount = Object.keys(doc.layout?.entities || {}).length;
+      const tokensCount = Object.keys(doc.tokens || {}).length;
+      const lightsCount = Object.keys(doc.look?.lights || doc.defaultLook?.lights || {}).length;
+      container.innerHTML = `
+        <div class="tab-toolbar">
+          <span class="eyebrow">Importação, Exportação e Arquivos</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="doc-box">
+            <div style="font-size:24px">${icon('download', 28)}</div>
+            <h4>Exportar Documento Atual (.json)</h4>
+            <p>Baixe uma cópia completa do arquivo JSON deste(a) ${isMap ? 'mapa' : 'cena'} para backup, envio ou uso em outro computador.</p>
+            ${button('export-json', `Baixar ${isMap ? 'Mapa' : 'Cena'} (${esc(doc.name)}.json)`, 'download', 'primary')}
+          </div>
+          <div class="doc-box">
+            <div style="font-size:24px">${icon('upload', 28)}</div>
+            <h4>Carregar Documento Local (.json)</h4>
+            <p>Importe um arquivo .json de cena ou mapa salvo no seu computador diretamente para a mesa de jogo.</p>
+            ${button('trigger-load-json', 'Selecionar arquivo .json no computador', 'folder', 'accent-outline')}
+          </div>
+          <div class="item-card" style="margin-top:4px">
+            <div class="item-card-main">
+              <strong>Documento atual em edição: ${esc(doc.name)}</strong>
+              <small>Tipo: ${isMap ? 'Mapa Estrutural' : 'Cena com Tokens'} · ID: ${doc.id} · Revisão: ${doc.revision}</small>
+              <small>Conteúdo: ${entitiesCount} entidades · ${tokensCount} tokens · ${lightsCount} luzes</small>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  async function openDialog(targetTab) {
+    const dialog = document.getElementById('documents-dialog');
+    if (!dialog) return;
+    if (dialog.hasAttribute('open') && (!targetTab || targetTab === dialogTab)) {
+      closeDialog();
+      return;
+    }
+    if (targetTab) dialogTab = targetTab;
     await refreshSaved();
-    document.getElementById('documents-list').innerHTML = savedScenes.map((scene) => `<div class="saved-scene"><button data-open="${scene.id}">${icon('room', 23)}<span><strong>${esc(scene.name)}</strong><small>Revisão ${scene.revision} · ${new Date(scene.updatedAt).toLocaleString('pt-BR')}</small></span>${icon('chevron', 16)}</button><button data-delete-scene="${scene.id}" title="Excluir cena salva" aria-label="Excluir ${esc(scene.name)}">${icon('trash', 16)}</button></div>`).join('') || '<div class="empty-dialog">Nenhuma cena salva ainda.<p>Crie uma sala e use Salvar para começar sua coleção.</p></div>';
-    document.getElementById('documents-dialog').showModal();
+    renderDialogContent();
+    if (typeof dialog.show === 'function') {
+      dialog.show();
+    } else {
+      dialog.setAttribute('open', '');
+    }
   }
   async function importAsset(file) {
     if (!file) return;
@@ -559,7 +865,7 @@ export async function startApplication() {
       }
       case 'new': if (canSwitch()) { selection = null; clearProposal(); store.replace(createScene('Nova cena'), { saved: false }); setTool('select'); viewport.frameScene(); } break;
       case 'open': return openDialog();
-      case 'close-dialog': document.getElementById('documents-dialog').close(); break;
+      case 'close-dialog': closeDialog(); break;
       case 'room-draw': clearProposal(); setTool('room'); document.getElementById('welcome').hidden = true; notify('Arraste no chão para desenhar o tamanho da sala.'); break;
       case 'accept-proposal': {
         const proposed = proposal; if (!proposed) return;
@@ -608,6 +914,41 @@ export async function startApplication() {
         viewport.setPresentation(isPresentation); updateView({ type: 'saved' }); break;
       case 'fullscreen': if (!document.fullscreenElement) await document.documentElement.requestFullscreen(); else await document.exitFullscreen(); break;
       case 'asset-import': document.getElementById('asset-file').click(); break;
+      case 'save-current-as-map': return saveCurrentAsMap();
+      case 'dialog-new-scene': {
+        if (canSwitch()) {
+          selection = null; clearProposal();
+          store.replace(createScene('Nova cena'), { saved: false });
+          setTool('select'); viewport.frameScene();
+          closeDialog();
+        }
+        break;
+      }
+      case 'dialog-new-map': {
+        if (canSwitch()) {
+          selection = null; clearProposal();
+          store.replace(createMap('Novo mapa'), { saved: false });
+          setTool('select'); viewport.frameScene();
+          closeDialog();
+          notify('Novo mapa em branco criado. Construa a estrutura e salve no acervo.');
+        }
+        break;
+      }
+      case 'dialog-custom-token': {
+        const name = window.prompt('Nome do novo token:', 'Personagem');
+        if (name !== null && name.trim()) {
+          placing = { type: 'token', name: name.trim(), color: '#e4b76f' };
+          setTool('place');
+          closeDialog();
+          notify('Clique no piso para colocar o token.');
+        }
+        break;
+      }
+      case 'export-json': return exportJson();
+      case 'trigger-load-json': {
+        document.getElementById('document-json-file').click();
+        break;
+      }
       case 'restore-draft': {
         const doc = recovery.document, matching = savedScenes.find((scene) => scene.id === doc.id);
         await drafts.dismiss(recovery);
@@ -672,6 +1013,7 @@ export async function startApplication() {
     const node = event.target.closest('button'); if (!node) return;
     if (node.dataset.action) { Promise.resolve(act(node.dataset.action)).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.tab) { tab = node.dataset.tab; renderSidebar(); return; }
+    if (node.dataset.dialogTab) { dialogTab = node.dataset.dialogTab; renderDialogContent(); return; }
     if (node.dataset.select) { selection = node.dataset.select; viewport.setSelection(selection); renderInspector(); renderSceneTreeIfVisible(); return; }
     if (node.dataset.asset) {
       const asset = assets.find((item) => item.id === node.dataset.asset);
@@ -682,17 +1024,40 @@ export async function startApplication() {
     if (node.dataset.camera) { viewport.setCamera(store.document.cameraPresets[node.dataset.camera]); publishedCamera = viewport.getCamera(); broadcast(); return; }
     if (node.dataset.cameraDelete) { execute('camera.remove', { id: node.dataset.cameraDelete }); return; }
     if (node.dataset.open) { openScene(node.dataset.open).catch((error) => notify(error.message, true)); return; }
+    if (node.dataset.openMap) { openMap(node.dataset.openMap).catch((error) => notify(error.message, true)); return; }
+    if (node.dataset.instantiateMap) { instantiateMap(node.dataset.instantiateMap).catch((error) => notify(error.message, true)); return; }
+    if (node.dataset.duplicateSceneId) { duplicateDocFromList(node.dataset.duplicateSceneId, 'scene'); return; }
+    if (node.dataset.duplicateMapId) { duplicateDocFromList(node.dataset.duplicateMapId, 'map'); return; }
+    if (node.dataset.deleteMap) { deleteMap(node.dataset.deleteMap); return; }
+    if (node.dataset.dialogPickToken) {
+      placing = { type: 'token', name: node.dataset.dialogPickToken, color: node.dataset.tokenColor || '#e4b76f' };
+      setTool('place');
+      closeDialog();
+      notify(`Clique no piso para posicionar ${node.dataset.dialogPickToken}.`);
+      return;
+    }
+    if (node.dataset.dialogPickAssetToken) {
+      const asset = assets.find((item) => item.id === node.dataset.dialogPickAssetToken);
+      if (asset) {
+        placing = { type: 'token', name: asset.name.replace(/\.[^.]+$/, ''), color: '#e4b76f', assetRef: { id: asset.id, revision: asset.revision } };
+        setTool('place');
+        closeDialog();
+        notify(`Clique no piso para posicionar ${asset.name}.`);
+      }
+      return;
+    }
     if (node.dataset.deleteScene) {
       if (saving) { notify('Aguarde o salvamento antes de excluir uma cena.'); return; }
       const scene = savedScenes.find((item) => item.id === node.dataset.deleteScene);
-      if (!confirm(`Excluir a cena salva “${scene.name}”?`)) return;
+      if (!scene || !confirm(`Excluir a cena salva “${scene.name}”?`)) return;
       const version = store.editVersion;
-      repository.remove(scene).then(async () => {
+      repository.remove({ ...scene, documentType: 'scene' }).then(async () => {
         if (store.document.id === scene.id) {
           if (store.editVersion === version) store.replace(createScene('Nova cena'), { saved: false });
           else { store.replace(duplicateDocument(store.document, { name: store.document.name }), { saved: false }); notify('Cena salva excluída. As alterações posteriores foram mantidas como uma nova cena.'); }
         }
-        await openDialog();
+        await refreshSaved();
+        renderDialogContent();
       }).catch((error) => notify(error.message, true));
     }
   });
@@ -759,6 +1124,7 @@ export async function startApplication() {
   root.addEventListener('change', (event) => {
     if (!initialized) return;
     if (event.target.id === 'asset-file') { importAsset(event.target.files[0]); event.target.value = ''; }
+    else if (event.target.id === 'document-json-file') { importJson(event.target.files[0]); event.target.value = ''; }
     else if (event.target.dataset.field) changeField(event.target);
     else if (event.target.id === 'scene-name') execute('scene.rename', { name: event.target.value });
   });
@@ -766,13 +1132,24 @@ export async function startApplication() {
   root.addEventListener('submit', (event) => { if (event.target.id === 'quick-form') { event.preventDefault(); makeProposal(); } });
   root.addEventListener('click', (event) => {
     if (event.target.closest('[data-action="door-toggle"]')) {
-      const found = locate(); if (found?.record.kind === 'door') { const angle = store.document.sessionState.doors[selection] ?? found.record.initialAngle; execute('door.setAngle', { id: selection, angle: Math.abs(angle) < .1 ? Math.PI / 2 : 0 }); }
+      const found = locate(); if (found?.record.kind === 'door') { const angle = store.document.sessionState?.doors?.[selection] ?? found.record.initialAngle; execute('door.setAngle', { id: selection, angle: Math.abs(angle) < .1 ? Math.PI / 2 : 0 }); }
     }
   });
   window.addEventListener('keydown', (event) => {
     if (!initialized) return;
-    if (event.target.closest('input,select,textarea') || document.querySelector('dialog[open]')) return;
-    if (event.key === 'Escape') { hideContextMenu(); if (isPresentation) act('present'); else { clearProposal(); setTool('select'); } }
+    if (event.key === 'Escape') {
+      const docDialog = document.getElementById('documents-dialog');
+      if (docDialog && docDialog.hasAttribute('open')) {
+        closeDialog();
+        return;
+      }
+      hideContextMenu();
+      if (isPresentation) act('present');
+      else { clearProposal(); setTool('select'); }
+      return;
+    }
+    if (event.target.closest('input,select,textarea')) return;
+    if (document.getElementById('recovery-dialog')?.open) return;
     if (isPresentation) return;
     if (event.ctrlKey || event.metaKey) {
       if (event.key.toLowerCase() === 's') { event.preventDefault(); saveScene(); }
@@ -788,17 +1165,75 @@ export async function startApplication() {
     if (event.key.toLowerCase() === 'f') act('frame');
     if (event.key === 'Delete' || event.key === 'Backspace') act('object-delete');
   });
+
+  const dialogElem = document.getElementById('documents-dialog');
+  const dialogCloseBtn = document.getElementById('close-library-dialog');
+  if (dialogCloseBtn) {
+    dialogCloseBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeDialog();
+    });
+  }
+  const dialogHeader = dialogElem?.querySelector('.dialog-title-group');
+  if (dialogElem && dialogHeader) {
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dialogStartX = 0;
+    let dialogStartY = 0;
+
+    dialogHeader.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      const rect = dialogElem.getBoundingClientRect();
+      dialogStartX = rect.left;
+      dialogStartY = rect.top;
+      dialogElem.style.left = `${dialogStartX}px`;
+      dialogElem.style.top = `${dialogStartY}px`;
+      dialogElem.style.right = 'auto';
+      dialogElem.style.bottom = 'auto';
+      document.body.style.userSelect = 'none';
+
+      const onMouseMove = (moveEvent) => {
+        if (!isDragging) return;
+        const dx = moveEvent.clientX - dragStartX;
+        const dy = moveEvent.clientY - dragStartY;
+        const newLeft = Math.max(10, Math.min(window.innerWidth - 100, dialogStartX + dx));
+        const newTop = Math.max(10, Math.min(window.innerHeight - 80, dialogStartY + dy));
+        dialogElem.style.left = `${newLeft}px`;
+        dialogElem.style.top = `${newTop}px`;
+      };
+
+      const onMouseUp = () => {
+        isDragging = false;
+        document.body.style.userSelect = '';
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+      };
+
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+    });
+  }
   window.addEventListener('pagehide', () => { flushDraft(); channel?.close(); viewport.destroy(); });
   window.addEventListener('beforeunload', (event) => { if (store.dirty) { event.preventDefault(); event.returnValue = ''; } });
 
-  const initial = await Promise.allSettled([repository.assets(), repository.list(), drafts.read()]);
+  const initial = await Promise.allSettled([repository.assets(), repository.list('scene'), repository.list('map'), drafts.read()]);
   if (initial[0].status === 'fulfilled') assets = initial[0].value; else notify('O servidor local está indisponível. Inicie com npm run dev ou npm start; o trabalho continua como rascunho.', true, true);
   if (initial[1].status === 'fulfilled') savedScenes = initial[1].value;
-  if (initial[2].status === 'fulfilled') recovery = initial[2].value;
+  if (initial[2].status === 'fulfilled') savedMaps = initial[2].value;
+  if (initial[3].status === 'fulfilled') recovery = initial[3].value;
   viewport.setAssets(assets);
   const lastId = lastScene.read();
-  if (lastId && savedScenes.some((scene) => scene.id === lastId)) {
-    try { store.replace(await repository.read(lastId)); } catch (error) { notify(error.message, true); }
+  if (lastId) {
+    const isMap = savedMaps.some((scene) => scene.id === lastId);
+    const isScene = savedScenes.some((scene) => scene.id === lastId);
+    if (isMap || isScene) {
+      try { store.replace(await repository.read(lastId, isMap ? 'map' : 'scene')); } catch (error) { notify(error.message, true); }
+    }
   }
   if (recovery) {
     try { validateDocument(recovery.document); } catch { await drafts.dismiss(recovery); recovery = null; }
@@ -806,7 +1241,7 @@ export async function startApplication() {
   }
   initialized = true; document.getElementById('scene-name').disabled = false;
   store.subscribe(updateView); updateView({ type: 'saved' }); viewport.frameScene();
-  const firstCamera = Object.values(store.document.cameraPresets)[0]; if (firstCamera) viewport.setCamera(firstCamera);
+  const firstCamera = Object.values(store.document.cameraPresets || {})[0]; if (firstCamera) viewport.setCamera(firstCamera);
   if (recovery) {
     document.getElementById('recovery-description').textContent = `“${recovery.document.name}” possui um rascunho local de ${new Date(recovery.savedAt).toLocaleString('pt-BR')}. Restaurar não sobrescreve a versão salva no servidor.`;
     document.getElementById('recovery-dialog').showModal();

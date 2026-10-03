@@ -71,6 +71,12 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Seleção e movimentação rápida de pasta/grupo para qualquer entidade.
   - Ajuste de cores de tokens e parâmetros de luzes (intensidade, raio, cor).
   - Ferramentas de cópia e colagem (`Ctrl+C` / `Ctrl+V`), duplicação (`Ctrl+D`) e exclusão (`Delete`/`Backspace`).
+- **Interface Gráfica de Gestão da Mesa (Painel Flutuante Multitabs, Não-Bloqueante e Arrastável):**
+  - **Design Não-Bloqueante & Arrastável:** O painel não trava a tela nem aplica camada escura, permitindo que o mestre veja a mesa 3D, inspecione a sala, orbite a câmera e selecione onde colocar tokens. O cabeçalho pode ser arrastado com o mouse para reposicionar o painel livremente, e o fechamento responde imediatamente pelo botão **X**, pela tecla <kbd>Esc</kbd> ou ao alternar pelo botão do cabeçalho.
+  - **Aba Cenas:** Listagem de todas as cenas salvas no servidor local, abertura rápida, duplicação e exclusão com segurança de revisão.
+  - **Aba Mapas (`MapDocument`):** Gerenciamento completo do acervo de mapas estruturais. Permite salvar a estrutura da cena atual como um mapa modelo reutilizável (`createMapFromScene`), criar novas cenas instantaneamente a partir de um mapa (`createSceneFromMap`), abrir mapas para edição direta e criar novos mapas em branco.
+  - **Aba Tokens:** Catálogo visual de personagens com arquétipos padrão (Guerreiro, Mago, Ladino, Clérigo, Monstro, NPC) e retratos customizados importados pelo usuário, com posicionamento imediato com 1 clique no piso 3D.
+  - **Aba Documentos:** Central de arquivos para o mestre. Permite baixar/exportar o documento ativo completo em `.json` e carregar/importar arquivos `.json` locais de cenas ou mapas com validação automática de esquema.
 
 ### 2.6. Apresentação e Segunda Janela para Projetor (`src/app/presentation.js`)
 - **Modo Apresentação Embutido:** Permite alternar o editor para modo de visualização limpa em tela cheia na própria máquina.
@@ -82,7 +88,7 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
 
 ### 2.7. Backend, Persistência e Segurança (`server/` e `src/data/`)
 - **Servidor Local Node.js / Express:**
-  - Endpoints REST para gerenciamento de cenas (`/api/tabletop/scenes`) e assets (`/api/tabletop/assets`).
+  - Endpoints REST para gerenciamento de cenas (`/api/tabletop/scenes`), mapas (`/api/tabletop/maps`) e assets (`/api/tabletop/assets`).
   - Gravação atômica em disco (escrita em arquivo temporário seguida de renomeação atômica).
   - Rotação automática dos últimos 5 backups para cada cena alterada.
   - Controle de concorrência otimista com verificação de revisão (retorno HTTP 409 Conflict se outra aba tentar sobrescrever dados defasados).
@@ -93,7 +99,7 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Modal de recuperação no carregamento caso o navegador feche inesperadamente ou falhe a gravação no disco.
 
 ### 2.8. Testes Automatizados e Qualidade
-- **32 testes unitários e de integração (`npm test`):** Cobertura completa de regras de domínio, snap, dependências estruturais, cálculo de aberturas de portas, projeção filtrada, 4º eixo de escala proporcional, gerenciamento de pastas e renomeação com histórico transacional, concorrência no servidor e rotação de backups.
+- **33 testes unitários e de integração (`npm test`):** Cobertura completa de regras de domínio, snap, conversões bidirecionais entre cenas e mapas com referências a `sourceMap`, dependências estruturais, cálculo de aberturas de portas, projeção filtrada, 4º eixo de escala proporcional, gerenciamento de pastas e renomeação com histórico transacional, concorrência no servidor e rotação de backups.
 - **Testes de ponta a ponta (E2E) com Playwright (`npm run test:e2e`):** Validação em navegador real do fluxo completo de criação de sala do vazio, aceite de Smart Build, manipulação de tokens/móveis, salvamento, reinício de servidor e sincronização de janelas.
 
 ---
@@ -104,12 +110,9 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 
 ### 3.1. Pendências Imediatas (Fechamento e Consolidação do MVP)
 
-1. **Pacote de Transporte de Cenas e Assets:**
+1. **Pacote de Transporte de Cenas e Assets (Opcional):**
    - *Planejado:* Exportação e importação de cenas completas acompanhadas de seus respectivos arquivos de assets (imagens e GLBs) em um arquivo empacotado (.zip ou manifesto).
-   - *Status atual:* O upload e ingestão individual de arquivos (imagens e GLBs) já funciona nativamente na aba Assets. O salvamento persiste no disco local dentro da pasta `data/`. O pacote de transporte visa apenas facilitar empacotar e desempacotar uma cena com seus assets em um arquivo único para migração entre máquinas diferentes sem copiar pastas manualmente.
-2. **Interface Gráfica para Gestão de Mapas (`MapDocument`):**
-   - *Planejado:* Uma UI desacoplada para salvar apenas a geometria estrutural de um local (o "Mapa") e poder criar múltiplas "Cenas" a partir dele com diferentes iluminações, móveis e tokens.
-   - *Status atual:* A API do backend já implementa o modelo de mapas, mas a interface do usuário está focada exclusivamente na manipulação de cenas completas.
+   - *Status atual:* O upload e ingestão individual de arquivos (imagens e GLBs) já funciona nativamente na aba Assets, a exportação/importação de documentos `.json` já está disponível na aba Documentos, e o salvamento persiste no disco local dentro da pasta `data/`. Um arquivo zip autocontido seria útil apenas para transportar tudo em um só arquivo sem copiar pastas.
 
 ---
 
@@ -196,7 +199,8 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 | **Persistência, Conflito 409 e Backups** | `ARCHITECTURE.md` §9 | **Concluído** | `server/app.js`, `src/data/api.js` |
 | **Rascunho e Recuperação Local** | `ARCHITECTURE.md` §9 | **Concluído** (IndexedDB) | `src/data/drafts.js` |
 | **Pacote de Transporte de Arquivos** | `ROADMAP.md` §3.1 | **Opcional / Pendente** | Exportação empacotada de cena + assets em arquivo único |
-| **Interface Dedicada para Mapas** | `ARCHITECTURE.md` §6.3 | **Pendente** | Backend pronto, falta UI de gestão |
+| **Interface Dedicada para Mapas** | `ARCHITECTURE.md` §6.3 | **Concluído** | `src/app/application.js`, `src/domain/documents.js` |
+| **Biblioteca de Tokens e Documentos** | `ARCHITECTURE.md` §6.5 | **Concluído** | Abas dedicadas no modal de Gestão da Mesa |
 | **Pisos Poligonais e Janelas** | `MAP_AUTHORING.md` §7.4 | **Pendente** | Previsto para V2 |
 | **Paredes Anguladas e Múltiplos Andares**| `MAP_AUTHORING.md` §8 | **Pendente** | Previsto para V2 |
 | **Auto-Decoration e Prefabs Avançados** | `MAP_AUTHORING.md` §10-12 | **Pendente** | Previsto para V2 |
@@ -213,6 +217,6 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 
 Para manter a ordem de implementação técnica eficiente e alinhada ao cronograma:
 
-1. **Interface para Biblioteca de Mapas (`MapDocument`):** Adicionar na barra lateral a alternância entre Cenas e Mapas base, viabilizando reaproveitar a mesma planta baixa estrutural para múltiplos momentos e variações de jogo.
-2. **Pacote de Transporte (Opcional):** Se desejado, implementar exportação/importação em `.zip` de cena + assets para facilitar envio entre diferentes computadores sem cópia manual de pastas.
-3. **Entrada nas Estruturas de V2:** Iniciar a implementação das janelas com recorte paramétrico e dos múltiplos andares/plataformas.
+1. **Entrada nas Estruturas de V2:** Iniciar a implementação das janelas com recorte paramétrico nas paredes e do suporte a múltiplos andares e pisos poligonais.
+2. **Smart Build Avançado (V2):** Templates e receitas de cômodos pré-decorados (escritório, cela, laboratório) com distribuição contextual de mobília.
+3. **Pacote de Transporte (Opcional):** Se desejado, implementar compactação/descompactação em `.zip` de cena + assets para envio facilitado entre computadores.

@@ -85,6 +85,47 @@ export function createMap(name = 'Mapa sem título') {
   return { ...envelope(name, 'map'), defaultLook: createLook() };
 }
 
+export function createSceneFromMap(map, name) {
+  validateDocument(map);
+  const now = new Date().toISOString();
+  const scene = {
+    schemaVersion: 1,
+    documentType: 'scene',
+    id: id(),
+    revision: 0,
+    name: name ?? `Cena de ${map.name}`,
+    createdAt: now,
+    updatedAt: now,
+    layout: clone(map.layout),
+    sourceMap: { id: map.id, revision: map.revision },
+    sourceEnvironment: null,
+    look: clone(map.defaultLook),
+    actors: {},
+    tokens: {},
+    cameraPresets: {},
+    sessionState: { doors: {} },
+    audioCue: null,
+  };
+  return validateDocument(scene);
+}
+
+export function createMapFromScene(scene, name) {
+  validateDocument(scene);
+  const now = new Date().toISOString();
+  const map = {
+    schemaVersion: 1,
+    documentType: 'map',
+    id: id(),
+    revision: 0,
+    name: name ?? `Mapa de ${scene.name}`,
+    createdAt: now,
+    updatedAt: now,
+    layout: clone(scene.layout),
+    defaultLook: clone(scene.look ?? scene.defaultLook),
+  };
+  return validateDocument(map);
+}
+
 /** Duplicate only document-owned IDs. External asset/source references remain immutable. */
 export function duplicateDocument(document, { name } = {}) {
   validateDocument(document);
