@@ -1,0 +1,323 @@
+# Tabletop — arquitetura da Fase 2
+
+Data: 3 de outubro de 2026. Estado: proposta consolidada para implementação posterior; nenhum módulo do Tabletop foi implementado nesta etapa.
+
+Este documento parte de [INVESTIGACAO_E_ARQUITETURA.md](../INVESTIGACAO_E_ARQUITETURA.md). A Fase 1 permanece como registro da investigação. As decisões de produto desta Fase 2 revisam seu escopo de MVP: piso, paredes, porta, iluminação, apresentação e assistência simples passam a fazer parte do primeiro vertical slice.
+
+Os detalhes de autoria estão em [MAP_AUTHORING.md](MAP_AUTHORING.md), os de apresentação em [IMMERSION.md](IMMERSION.md), e entregas, critérios e pendências em [ROADMAP.md](ROADMAP.md). Os contratos abaixo são propostas, não APIs disponíveis.
+
+## 1. Decisão central
+
+Recomendo manter JavaScript com módulos ES, Vite, Three.js/WebGLRenderer e um servidor local Node.js/Express. O produto terá um único editor com ferramentas rápidas e controle manual, documentos serializáveis e uma projeção visual independente do estado persistido.
+
+**Toda automação produz entidades comuns, com IDs, parâmetros e propriedades editáveis.** Quick Build, Assisted Build e Expert Build mudam o caminho até o resultado, mas usam os mesmos documentos, comandos, inspector e histórico. Prefabs e procedural não criam uma categoria de conteúdo bloqueado.
+
+A composição passa a ter três responsabilidades:
+
+| Conceito | Responsabilidade | Exemplo |
+| --- | --- | --- |
+| Mapa | Geometria, layout, superfícies, estruturas, props e organização espacial reutilizável. | Hospital, com corredores, portas e luminárias físicas. |
+| Ambiente | Receita reutilizável de iluminação, aparência e efeitos. | Hospital à noite, frio, com névoa discreta. |
+| Cena | Cópia do mapa, ambiente aplicado, atores/tokens, enquadramentos, estado da sessão e referência sonora. | Segundo andar durante um apagão, com uma porta aberta e personagens presentes. |
+
+Essa separação permite variar a atmosfera sem duplicar o trabalho de geometria. Uma receita de ambiente não cria entulho nem desloca móveis ao ser ativada. Alterações físicas que tornam um hospital abandonado são ações explícitas do Smart Build, revisáveis no editor.
+
+## 2. Perfil de execução e premissas
+
+O usuário definiu um notebook intermediário com placa de vídeo e provável uso de projetor. O mestre pode controlar tudo; celulares conectados ao Wi-Fi local são uma possibilidade opcional.
+
+- O MVP opera no computador do mestre, com servidor em loopback e janela local de apresentação para o projetor.
+- O sistema operacional pode usar projeção estendida, permitindo editor no notebook e apresentação no projetor. Espelhamento também funciona, mas expõe a mesma interface; o Session Mode em tela cheia atende esse caso.
+- A apresentação possui câmera e qualidade próprias. Não precisa mostrar seleção, gizmos, biblioteca ou notas do mestre.
+- Clientes de celular/LAN ficam para uma etapa posterior. A arquitetura prevê projeções filtradas e comandos autorizados, sem tornar dispositivos de jogadores requisito para o primeiro piloto.
+- Navegador, resolução do projetor, CPU/GPU/RAM e tamanho típico das cenas ainda precisam ser medidos. “Intermediário” orienta prioridades, não constitui um benchmark.
+
+Build Mode e Session Mode são modos de interface. Papéis de mestre, jogador e apresentação pertencem à futura autorização de sessão; um botão escondido não estabelece permissão.
+
+## 3. Reexame dos projetos existentes
+
+Os pontos relevantes da Fase 1 foram conferidos diretamente no código, sem alterar os projetos nem repetir seus testes de build/HTTP. Ambos estavam sem alterações versionadas no início desta etapa. Não foram encontrados AGENTS.md aplicáveis.
+
+| Evidência atual | Consequência arquitetural |
+| --- | --- |
+| A ficha usa JS/Vite; o lockfile resolve Three.js 0.186.0 e Vite 7.3.6. | Começar com essa família e fixar dependências no novo lockfile. Não criar o projeto nesta fase. [Package](<../../Ficha teste - Ordem II/package.json>), [lockfile](<../../Ficha teste - Ordem II/package-lock.json>). |
+| Normalização, interface e recursos da ficha estão em `app.js`; a persistência envia todas as fichas. | Preservar a autoridade da ficha e evoluir seu domínio/repositório antes de escrita integrada por ID. [Modelo](<../../Ficha teste - Ordem II/src/app.js>), [API de desenvolvimento](<../../Ficha teste - Ordem II/vite.config.js>). |
+| O player do Jukebox usa objetos de áudio e elementos DOM; o backend realiza download/edição. | A ponte deve executar comandos dentro do runtime musical existente. [Estado](../../Jukebox/song-state.mjs), [player](../../Jukebox/player.js), [servidor](../../Jukebox/server.js). |
+| `activateScene()` é interna e `playSong()` não devolve a promessa de reprodução. | Expor uma fachada com resultados confirmados antes de apresentar controles remotos como concluídos. [Cenas](../../Jukebox/scenes.js). |
+| Presets persistem títulos/tags, mas não `libraryId`/`trackId`; cenas sonoras usam localStorage. | Migrar identidades e transportar cenas explicitamente. Nome não é vínculo durável. [Presets](../../Jukebox/upload-song.js). |
+| Jukebox usa um barramento Web Audio compartilhado e virtualização de biblioteca. | Preservar a implementação e medir concorrência de áudio, importação e renderização. [Áudio](../../Jukebox/mixing/audio-context.js), [biblioteca](../../Jukebox/filters.js). |
+
+Os exports do Jukebox e o módulo de dados 3D da ficha não serão importados no editor como se fossem bibliotecas independentes de DOM. As limitações de armazenamento, CORS, localhost e implantação descritas na Fase 1 continuam relevantes.
+
+## 4. Síntese das pesquisas e sua aplicação
+
+As pesquisas independentes trataram de autoria, renderização/imersão e Smart Build, sem implementação. Sua síntese recomenda:
+
+| Pilar | Conclusão para o Tabletop | Evidência e detalhamento |
+| --- | --- | --- |
+| Autoria | Ferramentas de desenho e transformação precisam de parâmetros semânticos, snapping configurável e escape para edição livre. | Referências oficiais de Blender/ProBuilder/TransformControls em [MAP_AUTHORING.md](MAP_AUTHORING.md). |
+| Assistência | Gerar candidatos a partir de espaço, categorias, encaixes e circulação; mostrar alternativas antes de aplicar. | Trabalhos de layout assistido e metadados procedurais em [MAP_AUTHORING.md](MAP_AUTHORING.md). |
+| Imersão | Investir primeiro em composição, materiais consistentes, iluminação legível e câmeras preparadas; adicionar efeitos conforme medição. | Documentação Three.js e estudo visual de Ordem em [IMMERSION.md](IMMERSION.md). |
+| Reutilização | Copiar snapshots de mapa/ambiente para a cena e registrar a origem. Atualizações de biblioteca precisam de diff explícito. | Decisão própria, coerente com save/load, duplicação e liberdade manual. |
+| Performance | Qualidade é local a cada viewport; medir projetor e editor juntos, com o Jukebox ativo. | Estratégia detalhada em [IMMERSION.md](IMMERSION.md). |
+
+Não há evidência pública suficiente para deduzir o código, a engine ou o pipeline interno do tabletop de Ordem. A inspiração adotada é a experiência visual observável, documentada separadamente das hipóteses técnicas.
+
+## 5. Componentes e fluxo
+
+```mermaid
+flowchart LR
+  UI[Build e Session UI] --> TOOLS[Ferramentas manuais]
+  UI --> SMART[Regras e geradores]
+  SMART --> PREVIEW[Proposta e preview]
+  PREVIEW --> COMMANDS[Comandos validados]
+  TOOLS --> COMMANDS
+  COMMANDS --> STORE[Documento em edição]
+  COMMANDS --> HISTORY[Histórico transacional]
+  STORE --> RENDER[Adaptador Three.js]
+  STORE --> DATA[Repositório local HTTP]
+  DATA --> DISK[JSON e assets no disco]
+  STORE --> DRAFT[Rascunho IndexedDB]
+  STORE --> PRESENT[Projeção de apresentação]
+  SESSION[Ações de sessão] --> JUKEBOX[Ponte do Jukebox]
+  SESSION --> SHEETS[Adaptador da ficha]
+```
+
+O domínio calcula coordenadas, valida estruturas, associa referências e aplica mudanças sem DOM ou Three.js. Os geradores recebem um snapshot e um catálogo de metadados; devolvem propostas, não meshes como documento final.
+
+O renderer mantém uma associação de ID para objetos Three.js, reconstrói geometrias paramétricas e atualiza entidades afetadas. Cache de bounds e índice espacial são dados derivados: podem ser reconstruídos, sem serem a única descrição do mapa.
+
+Seleção, hover, ferramenta, arraste provisório, preview de sugestão e câmera de trabalho pertencem à UI. Câmeras salvas, estado de porta e ambiente da cena pertencem ao documento. Conexões, loaders, texturas GPU e áudio pertencem ao runtime.
+
+## 6. Contrato de documentos v1
+
+### 6.1. Envelope e convenções
+
+| Campo | Contrato proposto |
+| --- | --- |
+| `schemaVersion` | Inteiro `1` para o contrato inicial. Migrações são explícitas; versões futuras incompatíveis não são sobrescritas. |
+| `documentType` | `map` ou `scene` no MVP. `environment` será adicionado com a biblioteca de ambientes na V2. |
+| `id` | UUID estável do documento. Importar para restaurar preserva identidade; importar como cópia gera novos IDs locais. |
+| `revision` | Inteiro não negativo atribuído pelo servidor; começa em 1 após criação. Não aumenta a cada movimento provisório. |
+| `name` | Nome editável, sem função de identidade. |
+| `createdAt`, `updatedAt` | Instantes UTC ISO 8601 atribuídos pelo servidor; exibidos no fuso local. |
+| `layout` | Snapshot de grid, superfícies, estruturas, props e organização espacial. Presente em mapa e cena. |
+
+Números devem ser finitos. Vetores são arrays de três números; quaternion é `[x,y,z,w]`, normalizado. Escalas são positivas; dimensões estruturais não podem ser nulas. IDs locais são únicos no documento e referências internas precisam existir.
+
+Mundo em metros, Y para cima, plano XZ e rotações internas por quaternion. A convenção coincide com as [unidades e coordenadas de glTF](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html). O inspector mostra graus e dimensões físicas, sem impor o grid à posição persistida.
+
+No v1, `transform` descreve posição do pivot, quaternion e escala em coordenadas de mundo. O agrupamento usa referências organizacionais, sem pais transformáveis. Hierarquia local e attachments espaciais entram na V2 com migração explícita; não reinterpretar silenciosamente transforms de mundo como locais. Portas hospedadas são a exceção: sua posição visual deriva da parede e dos parâmetros da abertura.
+
+### 6.2. Layout e entidades
+
+| Estrutura | Campos mínimos e semântica |
+| --- | --- |
+| `grid` | `type: square`, origem XZ, tamanho de célula em metros, cor/opacidade, visibilidade e snap padrão. Grid visual e snap podem ser desligados separadamente. |
+| `entities` | Coleção por ID; `kind` diferencia `floor`, `wall`, `door`, `prop` e, na V2, `window`/outros tipos. |
+| Entidade comum | ID, nome, kind, `groupId`, `surfaceId` quando apoiada, tags, `locked`, `audience: all ou gm`; transform para entidades de posição livre. |
+| `floor` | Superfície retangular: largura, comprimento, espessura, material base. Pivot no centro da face superior; espessura cresce para baixo. O ID do piso identifica essa superfície de apoio. |
+| `wall` | Segmento com comprimento, altura e espessura, em eixo local +X; pivot no início da base e no centro da espessura. Transform posiciona/orienta; aberturas referenciam essa entidade. |
+| `door` | `wallId`, distância do centro da abertura ao início local da parede, largura, altura, soleira, lado da dobradiça e ângulo inicial. Seu transform visual é derivado da abertura e dobradiça; não existe posição independente conflitante. |
+| `prop` | Referência de asset, transform livre, footprint e materiais base por slot. |
+| `groups` | Coleções organizacionais com ID, nome e parentId opcional. Sem ciclos. Bloqueio e filtros de apresentação são propriedades distintas. |
+| `areas` | Regiões de autoria identificadas por ID. No MVP: retângulo com transform, largura/comprimento, surfaceId e memberIds das estruturas associadas; não implica paredes indestrutíveis nem pathfinding. |
+
+No MVP cada sala retangular tem paredes próprias; união de salas e paredes compartilhadas fica para V2. As medidas de sala são internas. Pisos e paredes usam dimensões paramétricas como autoridade: escala estrutural é unitária e o gesto de escala altera essas dimensões, enquanto props/tokens mantêm escala no transform. As ferramentas iniciais tratam pisos horizontais e paredes verticais; orientações estruturais mais amplas exigem validação de apoio na evolução.
+
+A geometria das aberturas é reconstruída a partir de parâmetros, usando partes de parede ao redor do vão. Uma porta visualmente sobreposta a uma parede intacta não satisfaz o contrato. A área ajuda seleção/assistência; mover uma parede individualmente não realinha todos os membros sem um comando de sala explícito. Uma área desatualizada precisa ser revisada antes de gerar sobre ela.
+
+Duplicar sala remapeia pisos, paredes, portas, áreas e grupos juntos. Apagar ou diminuir parede com aberturas exige preview das dependências e uma transação coerente; não deixa portas órfãs. Mais detalhes em [MAP_AUTHORING.md](MAP_AUTHORING.md).
+
+### 6.3. Mapa, ambiente aplicado e cena
+
+O mapa contém o layout e `defaultLook`, um ponto de partida visual serializado. As luminárias como objetos pertencem ao layout; as fontes de luz que as fazem iluminar pertencem ao look. `defaultLook` não transforma atmosfera em geometria: serve apenas para iniciar uma cena ou visualizar o mapa em preparação.
+
+Uma cena contém, além do envelope/layout:
+
+| Campo | Função |
+| --- | --- |
+| `sourceMap` | `{id, revision}` opcional, como proveniência. O layout é uma cópia independente. |
+| `sourceEnvironment` | Referência e versão do preset interno no MVP; referência `{id, revision}` para documentos de ambiente na V2. Nunca dependência viva. |
+| `look` | Estado visual aplicado: fundo/ambiente, luzes com IDs, ajustes de materiais, fog, emissores de efeitos e pós-processamento solicitado quando suportado. |
+| `actors`, `tokens` | Identidades e instâncias espaciais, separados. |
+| `cameraPresets` | Enquadramentos salvos por ID, projeção, posição, alvo, FOV ou escala ortográfica e limites relevantes. |
+| `sessionState` | Estados locais por entidade, como ângulo atual de porta. Valor ausente usa configuração inicial do layout. |
+| `audioCue` | Referência opcional a uma cena sonora do Jukebox e política de acionamento explícita. O mix não é copiado. |
+
+Carregar documento reconstrói seu estado salvo; não executa geradores, não aplica novamente ambiente e não toca música.
+
+O MVP precisa de `look` com iluminação ambiente, direcional/pontual, cor e intensidade, sombras seletivas, fundo e ajustes simples de materiais. Campos de fog, efeitos e pós-processamento só ganham schema concreto quando implementados. O v1 não aceita qualquer objeto arbitrário como promessa de extensibilidade; novas versões adicionam formatos validados.
+
+Contrato visual mínimo proposto:
+
+| Campo de `look` | Tipo e semântica v1 |
+| --- | --- |
+| `background` | Cor sRGB; imagem/céu e environment map serão extensões validadas. |
+| `fill` | Tipo hemisphere, cores de céu/chão e intensidade não negativa. |
+| `lights` | Coleção por ID com tipo `directional` ou `point`, posição, quaternion para fonte direcional, cor sRGB, intensidade não negativa, alcance da point e `shadowEnabled`. |
+| `materialAdjustments` | Ajustes por entityId e slot de material existente: cor, roughness/metalness em 0–1, emissive e intensidade não negativa, conforme suporte do material. |
+
+O adaptador converte direção de luz em alvo Three.js. Resolução de sombra, pixel ratio e efeitos efetivos pertencem ao perfil local do viewport, sem alterar look. Materiais base pertencem às entidades; ajustes do look sobrepõem propriedades permitidas e mantêm o original.
+
+Em `sessionState`, porta usa ângulo atual em radianos por entityId; valor ausente usa ângulo inicial. Presets de câmera usam posição/alvo em metros, projeção `perspective` com FOV vertical em graus ou `orthographic` com altura de enquadramento em metros. Near/far positivos e ordenados são configuração validada do adaptador; aspect ratio vem do viewport. Recarregar conserva o preset e resolve seu enquadramento para a tela atual.
+
+### 6.4. EnvironmentDocument e aplicação na V2
+
+O ambiente reutilizável contém envelope, tags de estilo, parâmetros, configuração global e receitas de luz/material/efeito por alvo semântico. Seletores usam papéis ou bindings explícitos — piso, parede, luminária, área — em vez de depender dos IDs de um hospital específico.
+
+Aplicar ambiente resolve os alvos contra a cena e apresenta um diff: novas luzes, propriedades alteradas, bindings ausentes e overrides manuais que poderiam ser substituídos. O resultado é materializado em `look`, com IDs, e gravado junto da cena. A receita e sua versão ficam como proveniência. Nenhum resultado deve depender de encontrar a biblioteca depois para reabrir a cena.
+
+Precedência visual proposta: material padrão do asset → material base da entidade → ajustes de ambiente por papel → ajustes específicos da cena por entidade/slot. Não há merge arbitrário de objetos JSON. Cada propriedade suportada possui regra de substituição definida.
+
+Luzes e efeitos têm instâncias normais editáveis. Regeneração ou troca de ambiente preserva campos marcados como editados/protegidos e pede resolução dos conflitos no diff. No MVP o ambiente é um preset interno aplicado uma vez; edição posterior altera o snapshot. A biblioteca de receitas e o sistema de overrides não são pré-requisitos do slice.
+
+Trocar “dia” por “apagão” muda look, mantendo layout e tokens. Uma ação separada “abandonar sala” pode propor props, materiais e luzes em uma transação da cena, mas sua aceitação é autoria, não ativação de sessão.
+
+### 6.5. Atores e tokens
+
+`Actor` guarda ID, nome local, aparência padrão e, quando suportados, propriedades e condições locais. O MVP precisa de nome/cor e referência opcional de imagem/modelo; condições e propriedades adicionais recebem formatos validados ao serem implementadas. Para atores vinculados, na integração, guarda `sheetRef: {provider, collectionId, sheetId}` e uma projeção de leitura com revisão recebida. PV/PD projetados continuam sendo cache da ficha.
+
+`Token` guarda ID, actorId, transform, superfície de apoio, footprint, aparência substituta opcional, bloqueio e audiência. A base ocupa o espaço físico; a imagem/modelo pode ter escala visual diferente. Dois tokens do mesmo Actor compartilham sua identidade e recursos, mantendo posições independentes.
+
+No MVP atores são locais e tokens podem usar imagens reais importadas ou discos com nome/cor. O campo de vínculo é reservado para uma integração implementada e validada posteriormente; a UI não exibe PV sincronizado sem autoridade real.
+
+## 7. Comandos, transações e undo/redo
+
+Cada comando durável identifica documento, `commandId`, tipo, alvos, payload e versão local esperada do estado em edição. A revisão de disco permanece separada: várias edições locais podem ocorrer entre dois salvamentos.
+
+`commandId` é UUID; `documentId` identifica o alvo e `expectedEditVersion` é o contador local monotônico, incrementado a cada commit/undo/redo. A proposta registra esse contador e é rejeitada/recalculada se ficar obsoleta. `expectedRevision` é exclusivamente a revisão confirmada de storage usada no save. Esses contadores não são intercambiáveis.
+
+| Família | Exemplos propostos | Regra |
+| --- | --- | --- |
+| Estruturas | `room.create`, `floor.resize`, `wall.update`, `door.place` | Validar dimensões, abertura e referências antes do commit. |
+| Entidades | `entity.transform`, `entity.properties`, `entity.duplicate`, `entity.remove` | Usar IDs; incluir dependências e remapeamento quando necessário. |
+| Aparência | `look.applyPreset`, `light.create`, `light.update`, `material.update` | Resultado editável; não acionar áudio. |
+| Tokens/câmeras | `token.move`, `token.rotate`, `cameraPreset.save` | Câmera provisória só vira documento ao salvar enquadramento. |
+| Assistência | `proposal.accept` | Aplicar o lote já validado e seus IDs; desfazer como uma unidade. |
+
+O preview não altera o documento nem cria uma gravação. O commit valida o conjunto inteiro e aplica tudo ou nada em memória. Arrastar um objeto, editar continuamente um slider ou aceitar uma sala gera uma entrada de histórico por gesto/aceitação.
+
+O histórico guarda dados anteriores e posteriores, incluindo IDs, bindings e estado de dependentes. Redo reaplica o resultado aceito, sem sortear outra composição. Undo não rebobina a revisão atribuída pelo servidor: desfazer produz estado local sujo e o próximo save gera nova revisão.
+
+Escala e transform de prop podem ser livres. Estruturas paramétricas validam suas dimensões e vínculos; editar uma porta fora da parede oferece convertê-la em prop independente de forma explícita. Restrições mantêm dados coerentes, sem impedir posicionamento livre de assets.
+
+Histórico da sessão de edição é inicialmente em memória. Save/load deve conservar o documento final; não é promessa de histórico ilimitado depois de reiniciar. IndexedDB guarda recuperação do documento em andamento, não um log completo de comandos. Persistência de histórico poderá ser adicionada se o uso justificar.
+
+Ações externas, como ativar música ou alterar PV da ficha, não entram no undo geométrico e não são reexecutadas por redo, autosave, load ou duplicação.
+
+## 8. Biblioteca e estratégia de assets
+
+O arquivo de asset é separado do documento. `AssetRecord` recebe ID/revisão, tipo, nome, arquivos gerenciados, hash de conteúdo, tamanho e preview. Metadados semânticos evoluem no próprio registro, sem substituir a geometria original.
+
+Referências persistidas usam `assetRef: {id, revision}`. Arquivos associados a uma revisão são imutáveis; revisões referenciadas continuam disponíveis. Atualizar modelo, normalização ou metadados da biblioteca cria nova revisão e não altera silenciosamente cenas antigas. Hash deduplica conteúdo; não substitui o ID semântico do asset. A exportação inclui as revisões exatas referenciadas.
+
+| Metadado | Uso |
+| --- | --- |
+| Categoria e tags | Buscar cadeira, parede, luminária; filtrar hospitalar, industrial, abandonado. |
+| Dimensões, unidade, pivot e frente | Normalizar escala e posicionamento antes de usar no mapa. |
+| Footprint e volume aproximado | Evitar interseções básicas; não confundir com colisão física exata. |
+| Slots de material e variantes | Ajustar aparência por instância sem alterar todas as cópias. |
+| Anchors e superfícies de suporte | Encaixar cadeira à mesa, livro à prateleira e fonte de luz à luminária na V2. |
+| Folgas de uso | Área da cadeira, abertura de armário/porta e circulação para sugestões. |
+| Contextos compatíveis | Dar preferência a uso em quarto/escritório/corredor, com ranking ajustável. |
+| Proveniência/licença | Registrar origem e condições de distribuição dos recursos da biblioteca. |
+
+Favoritos e coleções são organização do usuário, separada da identidade do asset. A biblioteca oferece busca textual/tags, categorias e preview; detalhes avançados aparecem no inspector de importação/metadados.
+
+Assets internos mínimos, imagens PNG/WebP/JPEG e um caminho reduzido de importação GLB compõem o MVP. glTF com dependências, texturas avulsas e biblioteca avançada entram na V2. GLB não garante ausência de URIs externos: o importador deve verificar e copiar dependências suportadas ou recusar o pacote incompleto. A compatibilidade depende das extensões e loaders da versão fixada, conforme o [GLTFLoader](https://threejs.org/docs/pages/GLTFLoader.html).
+
+A importação passa por staging: leitura/validação, preview, escala/pivot/frente, metadados básicos e cópia para armazenamento gerenciado. Somente depois um asset pode ser referenciado por documento salvo. Um modelo sem metadados continua utilizável manualmente; sugestões mais específicas dependem de anotação do usuário.
+
+Não persistir URLs `blob:` nem imagens base64 no JSON de mapa/cena. Dependências, decoders e assets distribuídos devem estar locais para operar sem internet. Exportação transporta manifesto, documentos e arquivos necessários; vínculos externos com ficha/Jukebox permanecem referências, com relatório do que não foi incluído.
+
+## 9. Persistência e recuperação
+
+Um JSON por mapa/cena; assets em arquivos; dados fora do bundle e do código versionado. O servidor é o único escritor de cada documento, inclusive quando duas abas do editor estão abertas.
+
+Contrato HTTP proposto para o MVP:
+
+| Operação | Rota | Resultado |
+| --- | --- | --- |
+| Listar | `GET /api/tabletop/maps` e `/scenes` | Resumos com ID, nome, revisão e updatedAt, sem carregar todos os assets. |
+| Criar | `POST /api/tabletop/maps` ou `/scenes` | Documento validado, ID novo e revisão 1. |
+| Ler | `GET /api/tabletop/maps/:id` ou `/scenes/:id` | Documento completo. |
+| Salvar | `PUT /api/tabletop/maps/:id` ou `/scenes/:id` | Corpo com documento e `expectedRevision`; confirmação com revisão nova. |
+| Duplicar | `POST /api/tabletop/maps/:id/duplicate` ou equivalente de cena | Cópia da revisão indicada, novos IDs locais, referências externas preservadas. |
+| Assets | `GET/POST /api/tabletop/assets`; `GET /api/tabletop/assets/:id` | Catálogo/ingestão e registro; mídia em rota própria por ID de arquivo gerenciado. |
+
+Usar revisão explícita no corpo no v1, sem misturar simultaneamente uma segunda regra de If-Match. Conflito retorna 409 com revisão atual e sem sobrescrever; dados inválidos retornam 422, JSON inválido 400, ID ausente 404 e falha de storage 500. A UI conserva o rascunho e explica o resultado.
+
+Salvamentos do mesmo documento são serializados. Gravar temporário no mesmo filesystem, concluir escrita, substituir por rename e só então confirmar. Política de backups limitados é configurável; não confundir atomicidade de substituição com garantia absoluta contra falha física do disco.
+
+Durante save, o cliente marca a versão local enviada. A resposta confirma essa versão; alterações feitas depois continuam sujas. Um save seguinte parte da nova revisão, sem fazer o toast “salvo” apagar o estado de alterações ainda pendentes.
+
+Se a resposta se perde, ler a revisão atual e comparar com o conteúdo enviado antes de reenviar; nunca resolver incerteza com PUT incondicional. O v1 não promete atomicidade entre arquivos distintos. Aplicações de ambiente/Smart Build são transações dentro do documento em edição; salvar uma receita na biblioteca é uma operação separada.
+
+IndexedDB guarda rascunho, documento-base/revisão e referências/blobs de importação ainda pendentes. Ao reabrir, apresentar recuperação quando divergir do disco. Data mais recente ajuda a explicar, mas não autoriza sobrescrever uma revisão nova. Sem servidor, o trabalho pode continuar como rascunho, com status visível; não é “salvo no disco”.
+
+Duplicação remapeia IDs locais de layout, atores, tokens, luzes, câmeras e referências entre eles. Preserva IDs de assets e sheetRef; sourceMap/sourceEnvironment continuam proveniência. A cue sonora é copiada como referência inerte, sem ativação automática. Um asset em uso não é apagado silenciosamente; coleta de órfãos só ocorre após conferir documentos/backups.
+
+## 10. Estrutura de implementação proposta
+
+Esta árvore orienta responsabilidades; só `docs/` é criada nesta etapa. Módulos entram conforme o comportamento for implementado.
+
+```text
+Tabletop/
+  docs/                       arquitetura, autoria, imersão, roadmap
+  src/
+    main.js
+    app/                      composição e modos
+    domain/                   documentos, validação, coordenadas, estruturas
+    state/                    store, comandos, transações, histórico
+    editor/                   ferramentas, seleção, snapping, preview
+    authoring/                regras e geradores de propostas
+    render/                   Three.js, picking, câmera, luzes, cache
+    ui/                       biblioteca, inspector, layers, apresentação
+    data/                     HTTP, rascunhos, importação/exportação
+    integrations/             adaptadores reais na etapa de integração
+  server/                     rotas, validação e storage local
+  public/                     recursos distribuídos e decoders locais
+  tests/                      domínio, storage e fluxos essenciais
+  package.json
+  vite.config.js
+
+Diretório de dados configurável, fora do bundle:
+  maps/
+  scenes/
+  assets/
+  environments/               biblioteca de ambientes a partir da V2
+  backups/
+```
+
+Vite encaminha API em desenvolvimento; Express serve build/API na mesma origem em produção local. Rotas API precedem fallback HTML. UI depende do domínio; renderer observa estado; domínio não depende de renderer. Não há banco, ECS, física ou framework de plugins como requisito inicial.
+
+## 11. Apresentação, áudio e ficha
+
+A janela de apresentação recebe snapshot filtrado da cena, sequência de alterações e enquadramento publicado. O editor conserva sua câmera. Reabrir a janela pede novo snapshot; troca de cena invalida eventos antigos pelo ID de sessão/cena e sequência.
+
+No computador do mestre, BroadcastChannel pode conectar editor e apresentação na mesma origem/partição. Esse alcance é local ao navegador, conforme a [documentação da API](https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API). O protocolo possui versão, ID da sessão e mensagem de prontidão; não é mecanismo de LAN. Nunca enviar notas/entidades secretas para depois apenas esconder meshes.
+
+A ponte do Jukebox continua baseada em janela proprietária conhecida e `postMessage`, verificando origem exata, remetente e schema, como orienta a [API](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage). Handshake informa prontidão, versão, capacidades e áudio desbloqueado. Pedidos têm requestId e resultados; timeout significa resultado desconhecido até consultar estado, não sucesso presumido.
+
+SceneDocument guarda apenas `audioCue` com provider, biblioteca e ID da cena sonora, e política como `manual` ou `onExplicitSceneActivation`. Ambiente pode sugerir uma cue ao autor; a cena confirma sua escolha. Abrir no editor ou ajustar look nunca toca música. O detalhe de coordenação e falhas está em [IMMERSION.md](IMMERSION.md).
+
+O serviço da ficha, futuramente, confirma recursos por coleção/ID e revisão. Tabletop não posta o array inteiro, não acessa o IndexedDB de outro frontend e não duplica a autoridade de PV/PD. Condições locais permanecem locais até existir contrato na ficha. Undo visual não desfaz alterações confirmadas por outro sistema.
+
+LAN acrescentará servidor de sessão autoritativo, pareamento, papéis, projeções filtradas, HTTP para assets e WebSocket para comandos/eventos. Celular poderá receber uma vista tática leve; não precisa carregar a qualidade visual do projetor. Essa infraestrutura é evolução opcional, sem condicionar a autoria presencial.
+
+## 12. Riscos e decisões que precisam de validação
+
+| Risco/decisão | Tratamento e validação |
+| --- | --- |
+| Automação apagar edição manual | Snapshot comum no MVP; slots/proteções/diff na regeneração V2. Testar alterações manuais antes e depois de trocar preset. |
+| Smart Build parecer inteligente sem entender circulação | Começar com regras explícitas e metadados confiáveis; devolver proposta parcial quando não houver encaixe. |
+| Geometria quebrar ao editar portas/paredes | Modelo paramétrico e transações de dependências; verificar resize, delete e undo. |
+| Duas janelas duplicarem uso de GPU | Medir editor/projetor simultâneos; permitir editor sob demanda e qualidade própria por viewport. |
+| Escuridão perder legibilidade no projetor | Validar distância/luz da sala e oferecer ajuste local de exposição, mantendo contraste e tokens reconhecíveis. |
+| Assets externos dominarem custo | Preview, bounds normalizados, diagnóstico e carregamento sob demanda; medir recursos reais. |
+| Integração musical acusar sucesso falso | Aguardar resultado do runtime; representar desconexão/bloqueio/ausência explicitamente. |
+| Coleção da ficha ter vários escritores | Migrar para repositório autoritativo antes de edição integrada. |
+| Arquitetura exceder o slice | Contrato implementado mínimo e extensões versionadas; não criar toda a biblioteca procedural antecipadamente. |
+
+Ainda validar: navegador principal e WebGL 2; hardware específico; resolução e contraste do projetor; primeiros assets/estilo visual; complexidade de cenas frequentes; necessidade real de interação de celular e quem pode mover qual token. Esses pontos não impedem a consolidação da Fase 2 e não autorizam iniciar implementação nesta entrega.

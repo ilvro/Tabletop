@@ -1,0 +1,15 @@
+{
+  "name": "Arquivo metálico", "unit": "meter", "pivot": "base-center",
+  "materials": { "shell": { "color": "#697c77", "roughness": 0.6, "metalness": 0.35 }, "drawer": { "color": "#80918a", "roughness": 0.55, "metalness": 0.3 }, "detail": { "color": "#c7b899", "roughness": 0.4, "metalness": 0.5 } },
+  "parts": [
+    { "shape": "box", "size": [0.90, 1.4, 0.50], "position": [0, 0.70, 0], "material": "shell" },
+    { "shape": "box", "size": [0.84, 0.30, 0.015], "position": [0, 0.24, 0.258], "material": "drawer" },
+    { "shape": "box", "size": [0.84, 0.30, 0.015], "position": [0, 0.57, 0.258], "material": "drawer" },
+    { "shape": "box", "size": [0.84, 0.30, 0.015], "position": [0, 0.90, 0.258], "material": "drawer" },
+    { "shape": "box", "size": [0.84, 0.30, 0.015], "position": [0, 1.23, 0.258], "material": "drawer" },
+    { "shape": "box", "size": [0.18, 0.024, 0.032], "position": [0, 0.30, 0.28], "material": "detail" },
+    { "shape": "box", "size": [0.18, 0.024, 0.032], "position": [0, 0.63, 0.28], "material": "detail" },
+    { "shape": "box", "size": [0.18, 0.024, 0.032], "position": [0, 0.96, 0.28], "material": "detail" },
+    { "shape": "box", "size": [0.18, 0.024, 0.032], "position": [0, 1.29, 0.28], "material": "detail" }
+  ]
+}

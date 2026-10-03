@@ -1,0 +1,31 @@
+const paths = {
+  cursor: '<path d="m5 3 14 10-7 1-3 7z"/>',
+  move: '<path d="M12 3v18M3 12h18m-12-6 3-3 3 3m-9 3-3 3 3 3m9 3-3 3-3-3m9-9 3 3-3 3"/>',
+  rotate: '<path d="M4 10a8 8 0 1 1 2 8M4 4v6h6"/>',
+  scale: '<path d="M14 3h7v7m0-7-8 8M3 14v7h7m-7 0 8-8"/>',
+  grid: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/>',
+  room: '<path d="m3 8 9-5 9 5v9l-9 5-9-5zm0 0 9 5 9-5M12 13v9"/>',
+  floor: '<path d="m2 12 10-6 10 6-10 6z"/>',
+  wall: '<path d="M3 5h18v15H3zM3 10h18M3 15h18M9 5v5m6 0v5M9 15v5"/>',
+  door: '<path d="M5 21V3h13v18M5 3l10 3v15H5m6-9h1"/>',
+  token: '<circle cx="12" cy="8" r="4"/><path d="M5 21v-3a7 7 0 0 1 14 0v3"/>',
+  light: '<path d="M9 18h6m-5 3h4M8 13a6 6 0 1 1 8 0l-1 3H9zM12 1v1M3 4l1 1m16-1-1 1"/>',
+  save: '<path d="M4 3h13l4 4v14H3V3zM7 3v6h10V3M7 21v-8h10v8"/>',
+  folder: '<path d="M3 6h7l2 3h9v11H3z"/>',
+  plus: '<path d="M12 4v16M4 12h16"/>',
+  undo: '<path d="M3 10h10a7 7 0 0 1 0 14M3 10l6-6m-6 6 6 6"/>',
+  redo: '<path d="M21 10H11a7 7 0 0 0 0 14m10-14-6-6m6 6-6 6"/>',
+  copy: '<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V3H3v13h5"/>',
+  trash: '<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/>',
+  camera: '<path d="M3 7h5l2-3h4l2 3h5v14H3z"/><circle cx="12" cy="13" r="4"/>',
+  eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
+  display: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M12 17v4M7 21h10"/>',
+  close: '<path d="m5 5 14 14M19 5 5 19"/>',
+  frame: '<path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/>',
+  upload: '<path d="M12 16V3m-5 5 5-5 5 5M3 15v6h18v-6"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 1v2m0 18v2M1 12h2m18 0h2M4 4l2 2m12 12 2 2M4 20l2-2M18 6l2-2"/>',
+  chevron: '<path d="m9 5 7 7-7 7"/>',
+};
+
+export const icon = (name, size = 18) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] || paths.room}</svg>`;
+export const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));

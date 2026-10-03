@@ -1,0 +1,14 @@
+{
+  "name": "Mesa de investigação", "unit": "meter", "pivot": "base-center",
+  "materials": { "wood": { "color": "#79553b", "roughness": 0.72 }, "edge": { "color": "#392f2a", "roughness": 0.75 }, "metal": { "color": "#b49b75", "roughness": 0.45, "metalness": 0.65 } },
+  "parts": [
+    { "shape": "box", "size": [1.8, 0.09, 0.85], "position": [0, 0.775, 0], "material": "wood" },
+    { "shape": "box", "size": [1.65, 0.10, 0.74], "position": [0, 0.70, 0], "material": "edge" },
+    { "shape": "box", "size": [0.10, 0.68, 0.10], "position": [-0.78, 0.34, -0.31], "material": "edge" },
+    { "shape": "box", "size": [0.10, 0.68, 0.10], "position": [0.78, 0.34, -0.31], "material": "edge" },
+    { "shape": "box", "size": [0.10, 0.68, 0.10], "position": [-0.78, 0.34, 0.31], "material": "edge" },
+    { "shape": "box", "size": [0.10, 0.68, 0.10], "position": [0.78, 0.34, 0.31], "material": "edge" },
+    { "shape": "box", "size": [0.54, 0.23, 0.56], "position": [0.51, 0.58, 0.03], "material": "wood" },
+    { "shape": "box", "size": [0.14, 0.022, 0.028], "position": [0.51, 0.58, 0.324], "material": "metal" }
+  ]
+}

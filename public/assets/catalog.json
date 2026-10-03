@@ -1,0 +1,10 @@
+{
+  "assets": [
+    { "id": "builtin-desk", "revision": 1, "type": "recipe", "name": "Mesa de investigação", "category": "Mobiliário", "tags": ["mesa", "madeira", "escritório"], "footprint": [1.8, 0.85], "url": "/assets/models/desk.json", "previewUrl": "/assets/previews/desk.svg", "provenance": "Kit original Tabletop; distribuído com a aplicação." },
+    { "id": "builtin-chair", "revision": 1, "type": "recipe", "name": "Cadeira", "category": "Mobiliário", "tags": ["cadeira", "madeira", "escritório"], "footprint": [0.55, 0.55], "url": "/assets/models/chair.json", "previewUrl": "/assets/previews/chair.svg", "provenance": "Kit original Tabletop; distribuído com a aplicação." },
+    { "id": "builtin-cabinet", "revision": 1, "type": "recipe", "name": "Arquivo metálico", "category": "Mobiliário", "tags": ["armário", "arquivo", "industrial"], "footprint": [0.9, 0.5], "url": "/assets/models/cabinet.json", "previewUrl": "/assets/previews/cabinet.svg", "provenance": "Kit original Tabletop; distribuído com a aplicação." },
+    { "id": "builtin-crate", "revision": 1, "type": "recipe", "name": "Caixa de madeira", "category": "Objetos", "tags": ["caixa", "madeira", "depósito"], "footprint": [0.8, 0.8], "url": "/assets/models/crate.json", "previewUrl": "/assets/previews/crate.svg", "provenance": "Kit original Tabletop; distribuído com a aplicação." },
+    { "id": "builtin-lamp", "revision": 1, "type": "recipe", "name": "Luminária de chão", "category": "Objetos", "tags": ["luminária", "luz", "escritório"], "footprint": [0.45, 0.45], "url": "/assets/models/lamp.json", "previewUrl": "/assets/previews/lamp.svg", "provenance": "Kit original Tabletop; distribuído com a aplicação." },
+    { "id": "builtin-rug", "revision": 1, "type": "recipe", "name": "Tapete de sala", "category": "Objetos", "tags": ["tapete", "tecido", "decoração"], "footprint": [2.4, 1.8], "url": "/assets/models/rug.json", "previewUrl": "/assets/previews/rug.svg", "provenance": "Kit original Tabletop; distribuído com a aplicação." }
+  ]
+}

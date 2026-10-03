@@ -1,0 +1,11 @@
+{
+  "name": "Caixa de madeira", "unit": "meter", "pivot": "base-center",
+  "materials": { "board": { "color": "#8b6240", "roughness": 0.88 }, "brace": { "color": "#ae8155", "roughness": 0.8 }, "strap": { "color": "#3f4543", "roughness": 0.6, "metalness": 0.4 } },
+  "parts": [
+    { "shape": "box", "size": [0.76, 0.74, 0.76], "position": [0, 0.37, 0], "material": "board" },
+    { "shape": "box", "size": [0.82, 0.08, 0.82], "position": [0, 0.07, 0], "material": "brace" },
+    { "shape": "box", "size": [0.82, 0.08, 0.82], "position": [0, 0.69, 0], "material": "brace" },
+    { "shape": "box", "size": [0.10, 0.78, 0.80], "position": [-0.28, 0.39, 0], "material": "strap" },
+    { "shape": "box", "size": [0.10, 0.78, 0.80], "position": [0.28, 0.39, 0], "material": "strap" }
+  ]
+}

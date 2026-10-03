@@ -1,0 +1,13 @@
+{
+  "name": "Cadeira", "unit": "meter", "pivot": "base-center",
+  "materials": { "frame": { "color": "#45392f", "roughness": 0.7 }, "fabric": { "color": "#677765", "roughness": 0.95 } },
+  "parts": [
+    { "shape": "box", "size": [0.52, 0.08, 0.50], "position": [0, 0.45, 0], "material": "frame" },
+    { "shape": "box", "size": [0.45, 0.06, 0.43], "position": [0, 0.51, 0.015], "material": "fabric" },
+    { "shape": "box", "size": [0.065, 0.90, 0.065], "position": [-0.22, 0.45, -0.22], "material": "frame" },
+    { "shape": "box", "size": [0.065, 0.90, 0.065], "position": [0.22, 0.45, -0.22], "material": "frame" },
+    { "shape": "box", "size": [0.065, 0.42, 0.065], "position": [-0.22, 0.21, 0.22], "material": "frame" },
+    { "shape": "box", "size": [0.065, 0.42, 0.065], "position": [0.22, 0.21, 0.22], "material": "frame" },
+    { "shape": "box", "size": [0.40, 0.26, 0.06], "position": [0, 0.76, -0.22], "material": "fabric" }
+  ]
+}
