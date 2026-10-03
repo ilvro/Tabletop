@@ -8,6 +8,73 @@ import { applyTransform, readTransform, tagEntity, createFloor, createWall, crea
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
 
+/** Configures a dedicated 4th diagonal axis/arrow on TransformControls for uniform/proportional XYZ scale. */
+export function setupUniformScaleGizmo(transform) {
+  const helper = transform?.getHelper ? transform.getHelper() : null;
+  const tcGizmo = helper?.children?.find((child) => child.isTransformControlsGizmo);
+  if (!tcGizmo?.gizmo?.scale || !tcGizmo?.picker?.scale) return;
+
+  // Remove the old invisible/internal center 0.1 box to avoid near-zero divide issues
+  const oldGizmo = tcGizmo.gizmo.scale.children.find((child) => child.name === 'XYZ');
+  if (oldGizmo) tcGizmo.gizmo.scale.remove(oldGizmo);
+  const oldPicker = tcGizmo.picker.scale.children.find((child) => child.name === 'XYZ');
+  if (oldPicker) tcGizmo.picker.scale.remove(oldPicker);
+
+  const dir = new THREE.Vector3(1, 1, 1).normalize();
+  const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+  const length = 0.52;
+
+  // Diagonal axis line
+  const lineGeom = new THREE.CylinderGeometry(0.0075, 0.0075, length, 6);
+  lineGeom.translate(0, length / 2, 0);
+  lineGeom.applyQuaternion(q);
+
+  // Arrow cone tip pointing outward along the diagonal
+  const tipGeom = new THREE.ConeGeometry(0.04, 0.1, 12);
+  tipGeom.translate(0, 0.05, 0);
+  tipGeom.applyQuaternion(q);
+  const tipPos = dir.clone().multiplyScalar(length);
+  tipGeom.translate(tipPos.x, tipPos.y, tipPos.z);
+
+  // Cube handle at the base of the arrow tip
+  const cubeGeom = new THREE.BoxGeometry(0.07, 0.07, 0.07);
+  cubeGeom.applyQuaternion(q);
+  const cubePos = dir.clone().multiplyScalar(length + 0.02);
+  cubeGeom.translate(cubePos.x, cubePos.y, cubePos.z);
+
+  const createMaterial = () => new THREE.MeshBasicMaterial({
+    color: 0xf5a623,
+    depthTest: false,
+    depthWrite: false,
+    transparent: true,
+    opacity: 0.9,
+    toneMapped: false,
+  });
+
+  const lineMesh = new THREE.Mesh(lineGeom, createMaterial());
+  lineMesh.name = 'XYZ';
+  lineMesh.renderOrder = Infinity;
+
+  const tipMesh = new THREE.Mesh(tipGeom, createMaterial());
+  tipMesh.name = 'XYZ';
+  tipMesh.renderOrder = Infinity;
+
+  const cubeMesh = new THREE.Mesh(cubeGeom, createMaterial());
+  cubeMesh.name = 'XYZ';
+  cubeMesh.renderOrder = Infinity;
+
+  tcGizmo.gizmo.scale.add(lineMesh, tipMesh, cubeMesh);
+
+  // Picker cylinder along the 4th axis
+  const pickerGeom = new THREE.CylinderGeometry(0.14, 0.14, length + 0.16, 8);
+  pickerGeom.translate(0, (length + 0.16) / 2, 0);
+  pickerGeom.applyQuaternion(q);
+  const pickerMesh = new THREE.Mesh(pickerGeom, new THREE.MeshBasicMaterial({ visible: false }));
+  pickerMesh.name = 'XYZ';
+
+  tcGizmo.picker.scale.add(pickerMesh);
+}
+
 /** Runtime adapter only. Documents are read; all durable changes leave through callbacks. */
 export function createViewport(container, {
   onSelect = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
@@ -89,6 +156,7 @@ export function createViewport(container, {
   const transform = new TransformControls(camera, canvas);
   const gizmo = transform.getHelper();
   transform.setSize(0.82);
+  setupUniformScaleGizmo(transform);
   scene.add(gizmo);
 
   function report(message) { if (!destroyed) onError(message instanceof Error ? message : new Error(message)); }
@@ -247,7 +315,17 @@ export function createViewport(container, {
     if (version === generation && sceneDocument) setDocument(sceneDocument);
   }
   transform.addEventListener('dragging-changed', (event) => { controls.enabled = !event.value; if (event.value) gizmoCancelled = false; invalidate(); });
-  transform.addEventListener('objectChange', () => { if (transform.object) snapObject(transform.object); invalidate(true); });
+  transform.addEventListener('objectChange', () => {
+    if (transform.object) {
+      if (tool === 'scale') {
+        transform.object.scale.x = Math.max(0.01, transform.object.scale.x);
+        transform.object.scale.y = Math.max(0.01, transform.object.scale.y);
+        transform.object.scale.z = Math.max(0.01, transform.object.scale.z);
+      }
+      snapObject(transform.object);
+    }
+    invalidate(true);
+  });
   transform.addEventListener('mouseUp', () => {
     if (transform.object && selectedId && !gizmoCancelled) commitTransform(selectedId, transform.object, Boolean(sceneDocument?.layout.grid.snap && !altHeld));
     controls.enabled = true;

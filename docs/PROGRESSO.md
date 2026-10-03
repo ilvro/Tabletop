@@ -46,7 +46,7 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
 ### 2.4. Renderização 3D e Câmeras (`src/render/`)
 - **Viewport Three.js / WebGL 2 (`renderer.js`):**
   - Renderizador PBR com iluminação dinâmica, sombras direcionais e mapeamento de tons.
-  - Sistema de *gizmo* interativo para translação, rotação e escala.
+  - Sistema de *gizmo* interativo para translação, rotação e escala (com quarto eixo/seta diagonal amarela para escala proporcional e uniforme nos três eixos).
   - Atalhos de teclado operacionais no canvas: **Q** (selecionar), **W** (mover), **R** (rotacionar), **S** (escala) e **F** (enquadrar seleção).
   - Controle de visualização: Perspectiva 3D livre com órbita (botão direito) e pan (botão do meio/scroll), e visão superior tática 2D (*Top View*).
   - *Cutaway* inteligente: paredes frontais sofrem corte visual automático de altura para permitir que o mestre e jogadores enxerguem o interior da sala sem obstrução visual da câmera.
@@ -84,12 +84,13 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Rotação automática dos últimos 5 backups para cada cena alterada.
   - Controle de concorrência otimista com verificação de revisão (retorno HTTP 409 Conflict se outra aba tentar sobrescrever dados defasados).
   - Ingestão segura de arquivos com limite de tamanho (25 MB para assets, 5 MB para documentos) e validação de extensões.
+  - Proteção CSRF de escrita com autorização dinâmica de origens locais (loopback `localhost`, `127.0.0.1`, `[::1]` em qualquer porta e variáveis de ambiente).
 - **Armazenamento de Rascunho Local (`drafts.js`):**
   - Rascunhos automáticos salvos no IndexedDB por aba.
   - Modal de recuperação no carregamento caso o navegador feche inesperadamente ou falhe a gravação no disco.
 
 ### 2.8. Testes Automatizados e Qualidade
-- **30 testes unitários e de integração (`npm test`):** Cobertura completa de regras de domínio, snap, dependências estruturais, cálculo de aberturas de portas, projeção filtrada, concorrência no servidor e rotação de backups.
+- **31 testes unitários e de integração (`npm test`):** Cobertura completa de regras de domínio, snap, dependências estruturais, cálculo de aberturas de portas, projeção filtrada, 4º eixo de escala proporcional, concorrência no servidor e rotação de backups.
 - **Testes de ponta a ponta (E2E) com Playwright (`npm run test:e2e`):** Validação em navegador real do fluxo completo de criação de sala do vazio, aceite de Smart Build, manipulação de tokens/móveis, salvamento, reinício de servidor e sincronização de janelas.
 
 ---

@@ -5,6 +5,8 @@ import { createWall, createDoor, createFloor } from '../src/render/scene-objects
 import { disposeObject } from '../src/render/asset-cache.js';
 import { createEntity } from '../src/domain/documents.js';
 import { quaternionFromYaw } from '../src/domain/coords.js';
+import { TransformControls } from 'three/addons/controls/TransformControls.js';
+import { setupUniformScaleGizmo } from '../src/render/renderer.js';
 
 const intersections = (object, origin, direction) => {
   object.updateMatrixWorld(true);
@@ -54,4 +56,51 @@ test('floor thickness grows below its top pivot and its top remains a selectable
     assert.equal(hit.object.userData.entityId, floor.id);
     assert.equal(hit.face.normal.y, 1);
   } finally { disposeObject(view); }
+});
+
+test('scale gizmo provides a 4th axis for proportional XYZ scale', () => {
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+  camera.position.set(0, 0, 5);
+  camera.lookAt(0, 0, 0);
+  const canvas = { style: {}, addEventListener() {}, removeEventListener() {} };
+  const transform = new TransformControls(camera, canvas);
+  setupUniformScaleGizmo(transform);
+
+  const helper = transform.getHelper();
+  const tcGizmo = helper.children.find((c) => c.isTransformControlsGizmo);
+  assert.ok(tcGizmo, 'TransformControlsGizmo helper must exist');
+
+  const xyzMeshes = tcGizmo.gizmo.scale.children.filter((c) => c.name === 'XYZ');
+  assert.ok(xyzMeshes.length >= 3, 'Must have line, tip and handle meshes for XYZ');
+
+  const xyzPickers = tcGizmo.picker.scale.children.filter((c) => c.name === 'XYZ');
+  assert.ok(xyzPickers.length >= 1, 'Must have raycast picker for XYZ');
+
+  const object = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1));
+  object.scale.set(1, 2, 3);
+  const scene = new THREE.Scene();
+  scene.add(object);
+  scene.add(helper);
+  camera.updateMatrixWorld(true);
+  scene.updateMatrixWorld(true);
+
+  transform.attach(object);
+  transform.setMode('scale');
+  transform.axis = 'XYZ';
+  helper.updateMatrixWorld(true);
+
+  const pointerDown = { x: 0.1, y: 0.1, button: 0 };
+  transform.pointerDown(pointerDown);
+  assert.ok(transform.dragging, 'Pointer down on XYZ must start dragging');
+  assert.ok(transform.pointStart.length() > 0, 'pointStart must be non-zero for proportional scaling');
+
+  // Drag outward: should scale up proportionally
+  const pointerMoveOut = { x: 0.2, y: 0.2, button: -1 };
+  transform.pointerMove(pointerMoveOut);
+
+  assert.ok(object.scale.x > 1, 'Scale X must increase');
+  assert.ok(object.scale.y > 2, 'Scale Y must increase');
+  assert.ok(object.scale.z > 3, 'Scale Z must increase');
+  assert.ok(Math.abs(object.scale.y / object.scale.x - 2) < 1e-4, 'Y/X ratio preserved');
+  assert.ok(Math.abs(object.scale.z / object.scale.x - 3) < 1e-4, 'Z/X ratio preserved');
 });
