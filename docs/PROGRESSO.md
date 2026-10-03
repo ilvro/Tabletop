@@ -47,7 +47,7 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
 - **Viewport Three.js / WebGL 2 (`renderer.js`):**
   - Renderizador PBR com iluminação dinâmica, sombras direcionais e mapeamento de tons.
   - Sistema de *gizmo* interativo para translação, rotação e escala (com quarto eixo/seta diagonal amarela para escala proporcional e uniforme nos três eixos).
-  - Atalhos de teclado operacionais no canvas: **Q** (selecionar), **W** (mover), **R** (rotacionar), **S** (escala) e **F** (enquadrar seleção).
+  - Atalhos de teclado operacionais no canvas: **Q** (selecionar), **W** (mover), **R** (rotacionar), **S** (escala), **F** (enquadrar seleção), **Ctrl+C / Ctrl+V** (copiar e colar), **Ctrl+D** (duplicar), **Ctrl+Z / Ctrl+Y** (desfazer/refazer) e **Ctrl+S** (salvar).
   - Controle de visualização: Perspectiva 3D livre com órbita (botão direito) e pan (botão do meio/scroll), e visão superior tática 2D (*Top View*).
   - *Cutaway* inteligente: paredes frontais sofrem corte visual automático de altura para permitir que o mestre e jogadores enxerguem o interior da sala sem obstrução visual da câmera.
 - **Objetos de Cena e Estruturas (`scene-objects.js`):**
@@ -67,7 +67,7 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Edição numérica de coordenadas X, Y, Z, rotação Yaw e escala em todos os eixos.
   - Controle de abertura de portas (ângulo interativo).
   - Ajuste de cores de tokens e parâmetros de luzes (intensidade, raio, cor).
-  - Ferramentas de duplicação (`Ctrl+D`) e exclusão (`Delete`/`Backspace`).
+  - Ferramentas de cópia e colagem (`Ctrl+C` / `Ctrl+V`), duplicação (`Ctrl+D`) e exclusão (`Delete`/`Backspace`).
 
 ### 2.6. Apresentação e Segunda Janela para Projetor (`src/app/presentation.js`)
 - **Modo Apresentação Embutido:** Permite alternar o editor para modo de visualização limpa em tela cheia na própria máquina.

@@ -188,7 +188,7 @@ export async function startApplication() {
     if (type === 'token' || record.kind === 'prop') fields += `<section><span class="eyebrow">ESCALA VISUAL</span><div class="axis-fields">${record.transform.scale.map((value, axis) => numberField(`scale-${axis}`, ['X', 'Y', 'Z'][axis], value, { min: .01 })).join('')}</div>${type === 'token' ? `<span class="eyebrow">BASE · METROS</span><div class="field-grid">${numberField('footprint-0', 'Largura', record.footprint[0], { min: .1 })}${numberField('footprint-1', 'Profundidade', record.footprint[1], { min: .1 })}</div>${colorField('token-color', 'Cor do personagem', actor.color)}` : ''}</section>`;
     if (record.material) fields += `<section><span class="eyebrow">MATERIAL</span>${colorField('material-color', record.kind === 'prop' ? 'Matiz do asset' : 'Cor', record.material.color)}${numberField('material-roughness', 'Rugosidade', record.material.roughness, { min: 0, max: 1 })}</section>`;
     if (type === 'light') fields += `<section><span class="eyebrow">ILUMINAÇÃO</span>${colorField('light-color', 'Cor da fonte', record.color)}${numberField('light-intensity', 'Intensidade', record.intensity, { min: 0, step: record.type === 'point' ? 5 : .1 })}${record.type === 'point' ? numberField('light-distance', 'Alcance · m', record.distance, { min: 0, step: 1 }) : ''}${checkField('light-shadow', 'Projetar sombras', record.shadowEnabled)}</section>`;
-    fields += `<section><span class="eyebrow">APRESENTAÇÃO</span>${checkField('object-secret', 'Somente para o mestre', record.audience === 'gm')}${record.locked === undefined ? '' : checkField('object-locked', 'Bloquear edição', record.locked)}</section><div class="object-actions">${button('object-duplicate', 'Duplicar', 'copy')}${button('object-delete', 'Excluir', 'trash', 'danger')}</div>`;
+    fields += `<section><span class="eyebrow">APRESENTAÇÃO</span>${checkField('object-secret', 'Somente para o mestre', record.audience === 'gm')}${record.locked === undefined ? '' : checkField('object-locked', 'Bloquear edição', record.locked)}</section><div class="object-actions">${button('object-copy', 'Copiar', 'copy')}${button('object-duplicate', 'Duplicar', 'copy')}${button('object-delete', 'Excluir', 'trash', 'danger')}</div>`;
     panel.innerHTML = fields;
   }
 
@@ -245,6 +245,82 @@ export async function startApplication() {
       } else notify('Cópia salva. Suas alterações posteriores continuam na cena atual.');
       await refreshSaved().catch(() => notify('Cópia salva. A lista de cenas não pôde ser atualizada agora.', true));
     } finally { saving = false; updateView({ type: 'saved' }); }
+  }
+  let clipboard = null;
+  let pasteCount = 0;
+  function copySelection() {
+    const found = locate();
+    if (!found) { notify('Nenhum objeto selecionado para copiar.'); return; }
+    clipboard = {
+      type: found.type,
+      id: selection,
+      record: clone(found.record),
+      actor: found.type === 'token' && store.document.actors?.[found.record.actorId] ? clone(store.document.actors[found.record.actorId]) : null,
+    };
+    pasteCount = 0;
+    try {
+      if (navigator?.clipboard?.writeText) {
+        navigator.clipboard.writeText(JSON.stringify({ tabletopClipboard: clipboard })).catch(() => {});
+      }
+    } catch { /* clipboard permission or context */ }
+    notify(`${found.record.name || 'Objeto'} copiado.`);
+  }
+  function pasteClipboard() {
+    if (!clipboard) { notify('Área de transferência vazia.'); return; }
+    pasteCount += 1;
+    const step = store.document.layout.grid.cellSize || 1;
+    const offset = [step * pasteCount, 0, step * pasteCount];
+    const exists = locate(clipboard.id);
+    if (exists && exists.type === clipboard.type) {
+      const before = new Set([
+        ...Object.keys(store.document.layout.entities),
+        ...Object.keys(store.document.tokens),
+        ...Object.keys(store.document.look.lights),
+      ]);
+      if (execute(`${clipboard.type}.duplicate`, { id: clipboard.id, offset })) {
+        const newId = [
+          ...Object.keys(store.document.layout.entities),
+          ...Object.keys(store.document.tokens),
+          ...Object.keys(store.document.look.lights),
+        ].find((key) => !before.has(key));
+        if (newId) {
+          selection = newId;
+          viewport.setSelection(selection);
+          renderInspector();
+        }
+        notify(`${clipboard.record.name || 'Objeto'} colado.`);
+      }
+    } else {
+      const copy = clone(clipboard.record);
+      copy.id = id();
+      if (copy.name) copy.name = copy.name.includes('— cópia') ? copy.name : `${copy.name} — cópia`;
+      if (clipboard.type === 'entity') {
+        if (copy.transform) copy.transform.position = copy.transform.position.map((v, i) => v + offset[i]);
+        if (execute('entity.add', { entity: copy })) {
+          selection = copy.id;
+          viewport.setSelection(selection);
+          renderInspector();
+          notify(`${copy.name || 'Objeto'} colado.`);
+        }
+      } else if (clipboard.type === 'token') {
+        if (copy.transform) copy.transform.position = copy.transform.position.map((v, i) => v + offset[i]);
+        if (execute('token.add', { token: copy, actor: clipboard.actor })) {
+          selection = copy.id;
+          viewport.setSelection(selection);
+          renderInspector();
+          notify(`${copy.name || 'Personagem'} colado.`);
+        }
+      } else if (clipboard.type === 'light') {
+        delete copy.role;
+        if (copy.position) copy.position = copy.position.map((v, i) => v + offset[i]);
+        if (execute('light.add', { light: copy })) {
+          selection = copy.id;
+          viewport.setSelection(selection);
+          renderInspector();
+          notify(`${copy.name || 'Luz'} colada.`);
+        }
+      }
+    }
   }
   async function openScene(sceneId) {
     if (!canSwitch()) return;
@@ -361,6 +437,8 @@ export async function startApplication() {
       case 'token-place': placing = { type: 'token', name: document.getElementById('token-name')?.value || 'Personagem', color: document.getElementById('token-color')?.value || '#e4b76f' }; setTool('place'); break;
       case 'light-place': placing = { type: 'light' }; setTool('place'); break;
       case 'object-delete': { const found = locate(); if (found && confirm(found.record.kind === 'floor' ? 'Excluir o piso e todos os elementos apoiados nele? Esta ação pode ser desfeita.' : found.record.kind === 'wall' ? 'Excluir esta parede e suas portas? Esta ação pode ser desfeita.' : 'Excluir este elemento? Esta ação pode ser desfeita.')) execute(`${found.type}.remove`, { id: selection }); break; }
+      case 'object-copy': return copySelection();
+      case 'object-paste': return pasteClipboard();
       case 'object-duplicate': { const found = locate(); if (found) { const before = new Set([...Object.keys(store.document.layout.entities), ...Object.keys(store.document.tokens), ...Object.keys(store.document.look.lights)]); if (execute(`${found.type}.duplicate`, { id: selection })) { selection = [...Object.keys(store.document.layout.entities), ...Object.keys(store.document.tokens), ...Object.keys(store.document.look.lights)].find((key) => !before.has(key)); viewport.setSelection(selection); renderInspector(); } } break; }
       case 'undo': store.undo(); break;
       case 'redo': store.redo(); break;
@@ -448,6 +526,8 @@ export async function startApplication() {
       if (event.key.toLowerCase() === 'z') { event.preventDefault(); event.shiftKey ? store.redo() : store.undo(); }
       if (event.key.toLowerCase() === 'y') { event.preventDefault(); store.redo(); }
       if (event.key.toLowerCase() === 'd') { event.preventDefault(); act('object-duplicate'); }
+      if (event.key.toLowerCase() === 'c') { event.preventDefault(); act('object-copy'); }
+      if (event.key.toLowerCase() === 'v') { event.preventDefault(); act('object-paste'); }
       return;
     }
     const keys = { q: 'select', w: 'move', r: 'rotate', s: 'scale' };
@@ -480,7 +560,7 @@ export async function startApplication() {
   }
   // Read-only diagnostics for browser verification; no backdoor mutations.
   if (import.meta.env.DEV || new URLSearchParams(location.search).has('diagnostics')) {
-    Object.defineProperty(window, '__tabletop', { value: Object.freeze({ snapshot: () => clone(store.document), project: (position) => viewport.project(position), camera: () => viewport.getCamera(), stats: () => viewport.getInfo(), editVersion: () => store.editVersion }), configurable: true });
+    Object.defineProperty(window, '__tabletop', { value: Object.freeze({ snapshot: () => clone(store.document), project: (position) => viewport.project(position), camera: () => viewport.getCamera(), stats: () => viewport.getInfo(), editVersion: () => store.editVersion, copy: () => copySelection(), paste: () => pasteClipboard() }), configurable: true });
   }
 }
 
