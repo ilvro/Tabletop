@@ -49,12 +49,34 @@ export async function createApp({ dataDir = path.join(projectDir, 'data'), distD
   app.locals.storage = storage;
   app.locals.assets = assets;
 
+  const origins = new Set([
+    ...allowedOrigins,
+    ...(process.env.TABLETOP_ALLOWED_ORIGINS ?? '').split(',').map((item) => item.trim()).filter(Boolean),
+    ...(process.env.TABLETOP_UI_PORT ? [
+      `http://localhost:${process.env.TABLETOP_UI_PORT}`,
+      `http://127.0.0.1:${process.env.TABLETOP_UI_PORT}`,
+    ] : []),
+  ]);
+
+  function isAllowedOrigin(origin, sameOrigin) {
+    if (!origin) return true;
+    if (sameOrigin && origin === sameOrigin) return true;
+    if (origins.has(origin)) return true;
+    try {
+      const { hostname } = new URL(origin);
+      if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]' || hostname === '::1') {
+        return true;
+      }
+    } catch { /* malformed origin */ }
+    return false;
+  }
+
   app.use('/api', (req, _res, next) => {
     if (!['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) return next();
     const origin = req.get('Origin');
     if (!origin) return next();
     const sameOrigin = `${req.protocol}://${req.get('host')}`;
-    if (origin !== sameOrigin && !allowedOrigins.includes(origin)) return next(new HttpError(403, 'ORIGIN_REJECTED', 'Origem de escrita não autorizada pelo servidor local.'));
+    if (!isAllowedOrigin(origin, sameOrigin)) return next(new HttpError(403, 'ORIGIN_REJECTED', 'Origem de escrita não autorizada pelo servidor local.'));
     next();
   });
 

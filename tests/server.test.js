@@ -164,7 +164,9 @@ test('validation, API misses and origin checks return JSON with useful status co
   assert.equal((await f.request('/api/tabletop/scenes', { method: 'POST', raw: '{broken', headers: { 'Content-Type': 'application/json' } })).status, 400);
   assert.equal((await f.request('/api/tabletop/scenes/bad-id')).status, 422);
   assert.equal((await f.request('/api/tabletop/scenes', { method: 'POST', body: scene, headers: { Origin: 'https://unrelated.example' } })).status, 403);
+  assert.equal((await f.request('/api/tabletop/scenes', { method: 'POST', body: scene, headers: { Origin: 'http://localhost.evil.com' } })).status, 403);
   assert.equal((await f.request('/api/tabletop/scenes', { method: 'POST', body: scene, headers: { Origin: 'http://localhost:5173' } })).status, 201);
+  assert.equal((await f.request(`/api/tabletop/scenes/${scene.id}`, { method: 'PUT', body: { document: scene, expectedRevision: 1 }, headers: { Origin: 'http://127.0.0.1:5180' } })).status, 200);
   assert.equal((await f.request('/api/tabletop/scenes', { method: 'POST', body: scene })).status, 409);
   const mismatch = { ...scene, id: createScene().id };
   assert.equal((await f.request(`/api/tabletop/scenes/${scene.id}`, { method: 'PUT', body: { document: mismatch, expectedRevision: 1 } })).status, 422);
