@@ -4,7 +4,8 @@ import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import { snapPosition, yawFromQuaternion } from '../domain/coords.js';
 import { isLocked, isVisible, isSupport, isAccess, supportHeightAt, constrainOpening } from '../domain/geometry.js';
 import { createAssetCache, disposeObject, standardMaterial } from './asset-cache.js';
-import { applyTransform, readTransform, tagEntity, createFloor, createAccess, createWall, createDoor, createWindow, createToken, applyMaterialOverrides } from './scene-objects.js';
+import { applyTransform, readTransform, tagEntity, createFloor, createTerrain, createAccess, createWall, createDoor, createWindow, createToken, applyMaterialOverrides } from './scene-objects.js';
+import { sculptTerrain } from '../authoring/terrain.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
@@ -80,7 +81,7 @@ export function setupUniformScaleGizmo(transform) {
 export function createViewport(container, {
   onSelect = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
   onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
-  onWindowPlace = () => {}, onOpeningMove = () => {},
+  onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {},
 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-label', 'Cena 3D — botão direito orbita, botão do meio desloca, roda aproxima');
@@ -136,8 +137,11 @@ export function createViewport(container, {
   let selectedId = null;
   let selectedIds = [], extraSelections = [];
   let supportSurface = undefined, workplaneHeight = 0, polygonPoints = [], previewGeneration = 0;
+  let isolatedLevel = null, terrainBrush = { mode: 'raise', radius: 2, strength: .25, target: 0 };
   const polygonLine = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: '#e3b878', depthTest: false }));
   polygonLine.visible = false; polygonLine.renderOrder = 8; scene.add(polygonLine);
+  const brushLine = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: '#e3b878', depthTest: false }));
+  brushLine.visible = false; brushLine.renderOrder = 8; scene.add(brushLine);
   let tool = 'select';
   let presentation = false;
   let cutaway = true;
@@ -265,7 +269,7 @@ export function createViewport(container, {
     const object = objects.get(id);
     if (object) frameBounds(new THREE.Box3().setFromObject(object));
   }
-  function frameScene() { frameBounds(new THREE.Box3().setFromObject(content)); }
+  function frameScene() { const bounds = new THREE.Box3(); for (const [key, object] of objects) if (object.visible && !records.get(key)?.type) bounds.expandByObject(object); frameBounds(bounds); }
 
   function entityRecord(id) { return records.get(id); }
   function footprintFor(record, quaternion = record?.transform?.rotation) {
@@ -306,7 +310,7 @@ export function createViewport(container, {
       if (!(isLight && (tool === 'scale' || (tool === 'rotate' && record.type === 'point')))) {
         transform.setMode({ move: 'translate', rotate: 'rotate', scale: 'scale' }[tool]);
         transform.setSpace(tool === 'scale' ? 'local' : 'world');
-        transform.showX = tool !== 'rotate' || !(record.kind === 'wall' || record.kind === 'floor' || isAccess(record) || sceneDocument?.tokens?.[record.id]);
+        transform.showX = tool !== 'rotate' || !(record.kind === 'wall' || record.kind === 'floor' || record.kind === 'terrain' || isAccess(record) || sceneDocument?.tokens?.[record.id]);
         transform.showY = !(tool === 'scale' && record.kind === 'floor');
         transform.showZ = transform.showX;
         transform.setTranslationSnap(null); // Footprint/origin snapping belongs to the domain.
@@ -470,13 +474,15 @@ export function createViewport(container, {
     ground.material.color.set(look.fill?.groundColor ?? '#283934');
     lighting.add(new THREE.HemisphereLight(look.fill?.skyColor ?? '#dbe7e4', look.fill?.groundColor ?? '#524938', look.fill?.intensity ?? 1));
     const entities = values(next.layout.entities);
+    ground.position.y = Math.min(-.025, ...entities.filter(e => e.kind === 'terrain').map(e => e.transform.position[1] + Math.min(...e.heights) - .05));
     const doors = entities.filter((record) => ['door', 'window'].includes(record.kind));
     const usedAssets = [];
     for (const entity of entities) {
       let object;
       if (entity.kind === 'floor') object = createFloor(entity);
+      else if (entity.kind === 'terrain') object = createTerrain(entity);
       else if (isAccess(entity)) object = createAccess(entity);
-      else if (entity.kind === 'wall') object = createWall(entity, doors.filter((door) => door.wallId === entity.id));
+      else if (entity.kind === 'wall') object = createWall(entity, doors.filter((door) => door.wallId === entity.id), entities.filter(e => e.kind === 'wall'));
       else if (entity.kind === 'door') {
         const wall = next.layout.entities[entity.wallId];
         if (!wall) continue;
@@ -534,14 +540,15 @@ export function createViewport(container, {
     const ghost = object => object.traverse(child => {
       child.userData.entityId = undefined;
       if (!child.material || child.isSprite) return;
-      for (const material of Array.isArray(child.material) ? child.material : [child.material]) { material.color.set('#8bcea7'); material.transparent = true; material.opacity = .36; material.depthWrite = false; }
+      for (const material of Array.isArray(child.material) ? child.material : [child.material]) { if (!proposal.materialPreview) material.color.set('#8bcea7'); material.transparent = true; material.opacity = proposal.materialPreview ? .85 : .36; material.depthWrite = false; }
       child.castShadow = false; child.receiveShadow = false;
     });
     for (const entity of entities) {
       let object;
       if (entity.kind === 'floor') object = createFloor(entity);
+      else if (entity.kind === 'terrain') object = createTerrain(entity);
       else if (isAccess(entity)) object = createAccess(entity);
-      else if (entity.kind === 'wall') object = createWall(entity, doors.filter((door) => door.wallId === entity.id));
+      else if (entity.kind === 'wall') object = createWall(entity, doors.filter((door) => door.wallId === entity.id), [...values(sceneDocument.layout.entities).filter(e => e.kind === 'wall' && !entities.some(p => p.id === e.id)), ...entities.filter(e => e.kind === 'wall')]);
       else if (entity.kind === 'door') {
         const wall = entities.find((item) => item.id === entity.wallId) ?? sceneDocument.layout.entities[entity.wallId];
         if (wall) object = createDoor(entity, wall, entity.initialAngle);
@@ -552,7 +559,7 @@ export function createViewport(container, {
         const parent = object, asset = assetRecord(entity.assetRef);
         if (asset) cache.createInstance(asset).then(instance => {
           if (destroyed || previewVersion !== previewGeneration) { disposeObject(instance); return; }
-          ghost(instance); parent.add(instance); invalidate();
+          applyMaterialOverrides(instance, entity.material, null, true); ghost(instance); parent.add(instance); invalidate();
         }).catch(error => { if (previewVersion === previewGeneration) report(error); });
       } else if (entity.actorId) object = createToken(entity, sceneDocument.actors[entity.actorId]);
       if (!object) continue;
@@ -578,10 +585,11 @@ export function createViewport(container, {
     raycaster.setFromCamera(mouse, camera);
   }
   function visibleInHierarchy(object) { for (let current = object; current; current = current.parent) if (!current.visible) return false; return true; }
-  function visibleRecord(record) {
+  function visibleRecord(record, ignoreIsolation = false) {
     if (!isVisible(sceneDocument, record)) return false;
-    const host = record.wallId ?? record.surfaceId;
-    return !host || !sceneDocument.layout.entities[host] || visibleRecord(sceneDocument.layout.entities[host]);
+    if (!ignoreIsolation && !presentation && isolatedLevel && record.levelId && record.levelId !== isolatedLevel && record.fromLevelId !== isolatedLevel && record.toLevelId !== isolatedLevel) return false;
+    const host = record.wallId ?? record.anchor?.hostId ?? record.surfaceId;
+    return !host || !sceneDocument.layout.entities[host] || visibleRecord(sceneDocument.layout.entities[host], ignoreIsolation || isAccess(record) && (record.fromLevelId === isolatedLevel || record.toLevelId === isolatedLevel));
   }
   function pick(event) {
     rayFromEvent(event);
@@ -633,7 +641,7 @@ export function createViewport(container, {
   function previewOpening(opening) {
     const wall = records.get(opening.wallId);
     const openings = values(sceneDocument.layout.entities).filter(e => e.wallId === wall.id).map(e => e.id === opening.id ? opening : e);
-    for (const [record, object] of [[wall, createWall(wall, openings)], [opening, createWindow(opening, wall)]]) {
+    for (const [record, object] of [[wall, createWall(wall, openings, values(sceneDocument.layout.entities).filter(e => e.kind === 'wall'))], [opening, createWindow(opening, wall)]]) {
       disposeObject(objects.get(record.id)); content.add(object); objects.set(record.id, object);
       object.visible = visibleRecord(record); applyMaterialOverrides(object, undefined, (sceneDocument.look ?? sceneDocument.defaultLook).materialAdjustments?.[record.id]);
     }
@@ -644,7 +652,12 @@ export function createViewport(container, {
     canvas.focus({ preventScroll: true });
     altHeld = event.altKey;
     pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
-    if (tool === 'room') {
+    if (tool === 'terrain') {
+      const hit = pick(event), record = records.get(hit?.object.userData.entityId);
+      if (record?.kind !== 'terrain' || record.id !== selectedId || isLocked(sceneDocument, record)) { pointer = null; report('Selecione o terreno e pinte sobre ele.'); return; }
+      pointer.terrain = structuredClone(record); pointer.terrainBefore = record; pointer.lastStamp = hit.point.toArray();
+      controls.enabled = false; canvas.setPointerCapture(event.pointerId); stampTerrain(hit.point.toArray());
+    } else if (tool === 'room') {
       const support = supportPoint(event);
       if (!support) { pointer = null; return; }
       pointer.roomStart = support.position;
@@ -679,9 +692,35 @@ export function createViewport(container, {
   }
   function onPointerMove(event) {
     altHeld = event.altKey;
+    if (tool === 'terrain' && !presentation) {
+      const record = pointer?.terrain ?? records.get(selectedId), object = objects.get(selectedId);
+      if (record?.kind === 'terrain' && object) {
+        rayFromEvent(event); const hit = raycaster.intersectObject(object, true).find(h => h.face?.normal.y > 0);
+        brushLine.visible = Boolean(hit);
+        if (hit) {
+          const points = Array.from({ length: 49 }, (_, i) => {
+            const a = i / 48 * Math.PI * 2, point = [hit.point.x + Math.cos(a) * terrainBrush.radius, 0, hit.point.z + Math.sin(a) * terrainBrush.radius];
+            point[1] = supportHeightAt(record, point) + .03; return new THREE.Vector3(...point);
+          });
+          brushLine.geometry.dispose(); brushLine.geometry = new THREE.BufferGeometry().setFromPoints(points);
+        }
+        invalidate();
+      }
+    }
     if (!pointer || pointer.id !== event.pointerId || presentation) return;
     pointer.moved ||= Math.hypot(event.clientX - pointer.x, event.clientY - pointer.y) > 4;
-    if (pointer.roomStart) {
+    if (pointer.terrain) {
+      const hits = (() => { rayFromEvent(event); return raycaster.intersectObject(objects.get(pointer.terrain.id), true); })();
+      const hit = hits.find(h => h.face?.normal.y > 0); if (!hit) return;
+      const point = hit.point.toArray(), previous = pointer.lastStamp;
+      const distance = Math.hypot(point[0] - previous[0], point[2] - previous[2]), spacing = Math.max(.05, terrainBrush.radius / 4);
+      if (distance >= spacing) {
+        const steps = Math.min(64, Math.ceil(distance / spacing));
+        for (let i = 1; i <= steps; i++) stampTerrain(previous.map((v, axis) => v + (point[axis] - v) * i / steps), false);
+        replaceTerrain(pointer.terrain);
+        pointer.lastStamp = point;
+      }
+    } else if (pointer.roomStart) {
       const point = supportPoint(event, pointer.roomStart[1]);
       if (!point) return;
       const start = snapPosition(pointer.roomStart, { ...sceneDocument.layout.grid, snap: sceneDocument.layout.grid.snap && !altHeld });
@@ -712,7 +751,7 @@ export function createViewport(container, {
       candidate[2] += support.position[2] - pointer.planeStart[2];
       pointer.object.position.fromArray(snapPosition(candidate, { ...sceneDocument.layout.grid, snap: sceneDocument.layout.grid.snap && !altHeld }, footprintFor(entityRecord(pointer.entityId), pointer.object.quaternion.toArray())));
       const host = records.get(entityRecord(pointer.entityId)?.surfaceId);
-      if (isAccess(host)) pointer.object.position.y = supportHeightAt(host, pointer.object.position.toArray());
+      if (isAccess(host) || host?.kind === 'terrain') pointer.object.position.y = supportHeightAt(host, pointer.object.position.toArray());
       hint.textContent = `X ${pointer.object.position.x.toFixed(2)} · Z ${pointer.object.position.z.toFixed(2)} m${altHeld ? ' · livre' : ''}`;
       hint.style.display = '';
       invalidate(true);
@@ -725,7 +764,11 @@ export function createViewport(container, {
     controls.enabled = true;
     hint.style.display = 'none';
     if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
-    if (gesture.roomStart) {
+    if (gesture.terrain) {
+      const version = generation;
+      try { onTerrainStroke(gesture.terrain.id, gesture.terrain.heights); } catch (error) { report(error); }
+      if (version === generation) setDocument(sceneDocument);
+    } else if (gesture.roomStart) {
       clearGroup(preview);
       if (gesture.roomEnd && gesture.moved) {
         const start = gesture.snappedStart ?? gesture.roomStart, end = gesture.roomEnd;
@@ -754,6 +797,7 @@ export function createViewport(container, {
     invalidate();
   }
   function cancelPointer() {
+    if (pointer?.terrainBefore) replaceTerrain(pointer.terrainBefore);
     if (pointer?.object && pointer.initial) applyTransform(pointer.object, pointer.initial);
     if (pointer?.opening) previewOpening(pointer.opening);
     const id = pointer?.id;
@@ -761,6 +805,15 @@ export function createViewport(container, {
     if (id != null && canvas.hasPointerCapture(id)) canvas.releasePointerCapture(id);
     controls.enabled = true;
     hint.style.display = 'none';
+  }
+  function replaceTerrain(record) {
+    ground.position.y = Math.min(-.025, ...values(sceneDocument.layout.entities).filter(e => e.kind === 'terrain').map(e => { const terrain = e.id === record.id ? record : e; return terrain.transform.position[1] + Math.min(...terrain.heights) - .05; }));
+    const previous = objects.get(record.id); if (previous) { content.remove(previous); disposeObject(previous); }
+    const object = createTerrain(record); content.add(object); objects.set(record.id, object); object.visible = visibleRecord(record); content.updateMatrixWorld(true); invalidate(true);
+  }
+  function stampTerrain(position, render = true) {
+    pointer.terrain.heights = sculptTerrain(pointer.terrain, position, terrainBrush); if (render) replaceTerrain(pointer.terrain);
+    hint.textContent = `Pincel ${terrainBrush.radius} m · solte para aplicar · Esc cancela`; hint.style.display = '';
   }
   function cancelGesture() {
     if (transform.dragging) { gizmoCancelled = true; transform.reset(); transform.pointerUp(null); }
@@ -842,7 +895,9 @@ export function createViewport(container, {
       }
     },
     setSelection(id, ids = id ? [id] : []) { selectedId = id; selectedIds = ids; updateSelection(); },
-    setTool(mode) { cancelGesture(); if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
+    setTool(mode) { cancelGesture(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window', 'terrain'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
+    setTerrainBrush(options) { terrainBrush = { ...terrainBrush, ...options }; },
+    setIsolatedLevel(levelId) { isolatedLevel = levelId; for (const [key, object] of objects) object.visible = visibleRecord(records.get(key)); updateSelection(); invalidate(true); },
     setSupportSurface(id) { supportSurface = id; const host = records.get(id); if (gridObject) gridObject.position.y = (host?.transform?.position[1] ?? workplaneHeight) + (host?.supportHeight ?? 0) * (host?.transform?.scale[1] ?? 1) + .009; invalidate(); },
     setWorkplaneHeight(value) { workplaneHeight = value; if (gridObject && !supportSurface) gridObject.position.y = value + .009; invalidate(); },
     finishPolygon,
@@ -851,6 +906,7 @@ export function createViewport(container, {
       presentation = enabled;
       cancelGesture();
       preview.visible = !enabled;
+      brushLine.visible = false;
       if (gridObject) gridObject.visible = !enabled && Boolean(sceneDocument?.layout?.grid?.visible);
       lighting.traverse((child) => { if (child.userData.editHelper) child.visible = !enabled; });
       updateSelection();
@@ -869,7 +925,7 @@ export function createViewport(container, {
     destroy() {
       destroyed = true;
       previewGeneration++;
-      for (const helper of extraSelections) disposeObject(helper); disposeObject(polygonLine);
+      for (const helper of extraSelections) disposeObject(helper); disposeObject(polygonLine); disposeObject(brushLine);
       generation += 1;
       if (renderRequest != null) cancelAnimationFrame(renderRequest);
       observer.disconnect();

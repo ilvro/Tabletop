@@ -1,8 +1,8 @@
-import { clone, id } from '../domain/documents.js';
+import { clone, id, createLevel, createLayer } from '../domain/documents.js';
 import { yawFromQuaternion, rotateXZ, snapPosition } from '../domain/coords.js';
 import { applyEnvironment } from '../domain/environments.js';
 import { ValidationError, validateDocument } from '../domain/validation.js';
-import { groupChain, isAccess, supportHeightAt } from '../domain/geometry.js';
+import { groupChain, isAccess, supportHeightAt, worldPoint } from '../domain/geometry.js';
 
 const collectionItems = value => Array.isArray(value) ? value : Object.values(value ?? {});
 const requireRecord = (collection, itemId, label) => {
@@ -11,7 +11,8 @@ const requireRecord = (collection, itemId, label) => {
   return record;
 };
 function editable(record, patch, document) {
-  if (document && groupChain(document, record.groupId ?? record.parentId).some(g => g.locked) || record.locked && patch?.locked !== false) throw new ValidationError('O objeto ou sua pasta está bloqueado.');
+  if (document && (groupChain(document, record.groupId ?? record.parentId).some(g => g.locked) || document.layout.levels?.[record.levelId]?.locked || document.layout.layers?.[record.layerId]?.locked) || record.locked && patch?.locked !== false) throw new ValidationError('O objeto, andar ou camada está bloqueado.');
+  if (document && record.anchor && patch?.anchor !== null) editable(requireRecord(document.layout.entities, record.anchor.hostId, 'Host'), undefined, document);
 }
 function merge(record, patch) {
   if (!patch || typeof patch !== 'object' || Array.isArray(patch)) throw new ValidationError('Patch inválido.');
@@ -28,9 +29,10 @@ function put(collection, record) {
   collection[record.id] = clone(record);
 }
 function bakeStructuralScale(entity) {
-  if (!['floor', 'wall', 'stairs', 'ramp'].includes(entity.kind)) return;
+  if (!['floor', 'terrain', 'wall', 'stairs', 'ramp'].includes(entity.kind)) return;
   const [x, y, z] = entity.transform.scale;
-  if (entity.kind === 'floor') { entity.width *= x; entity.length *= z; entity.thickness *= y; if (entity.vertices) entity.vertices = entity.vertices.map(p => [p[0] * x, p[1] * z]); }
+  if (entity.kind === 'floor') { entity.width *= x; entity.length *= z; entity.thickness *= y; if (entity.vertices) entity.vertices = entity.vertices.map(p => [p[0] * x, p[1] * z]); if (entity.holes) entity.holes = entity.holes.map(ring => ring.map(p => [p[0] * x, p[1] * z])); }
+  else if (entity.kind === 'terrain') { entity.width *= x; entity.length *= z; entity.heights = entity.heights.map(h => h * y); }
   else if (isAccess(entity)) { entity.width *= x; entity.height *= y; entity.length *= z; }
   else { entity.length *= x; entity.height *= y; entity.thickness *= z; }
   entity.transform.scale = [1, 1, 1];
@@ -48,7 +50,29 @@ function snappedToken(token, grid, override, document) {
 }
 function settleOnAccess(document, record) {
   const host = document?.layout.entities[record.surfaceId];
-  if (isAccess(host) && record.transform) record.transform.position[1] = supportHeightAt(host, record.transform.position);
+  if ((isAccess(host) || host?.kind === 'terrain') && record.transform) record.transform.position[1] = supportHeightAt(host, record.transform.position);
+}
+function semanticPlacement(document, record, patch = {}, checkHost = true, initial = false) {
+  const host = document.layout.entities[record.wallId ?? record.anchor?.hostId ?? record.surfaceId];
+  const rehosted = ['surfaceId', 'wallId', 'anchor'].some(key => Object.hasOwn(patch, key));
+  if (host && patch.levelId === undefined && host.levelId !== undefined && (initial || rehosted || !Object.hasOwn(record, 'levelId'))) record.levelId = host.levelId;
+  if (isAccess(record)) {
+    const levels = Object.values(document.layout.levels ?? {});
+    if (patch.fromLevelId === undefined && !record.fromLevelId) {
+      const hostLevel = document.layout.levels?.[host?.levelId];
+      record.fromLevelId = hostLevel && Math.abs(hostLevel.elevation - record.transform.position[1]) < 1e-6 ? hostLevel.id : levels.find(l => Math.abs(l.elevation - record.transform.position[1]) < 1e-6)?.id ?? null;
+    }
+    if (!record.toLevelId && patch.toLevelId === undefined) record.toLevelId = levels.find(l => l.id !== record.fromLevelId && Math.abs(l.elevation - record.transform.position[1] - record.height) < 1e-6)?.id ?? null;
+    const from = document.layout.levels?.[record.fromLevelId], to = document.layout.levels?.[record.toLevelId];
+    if (from && to) { record.transform.position[1] = from.elevation; record.height = to.elevation - from.elevation; record.levelId = from.id; }
+  }
+  if (record.anchor) {
+    const anchorHost = requireRecord(document.layout.entities, record.anchor.hostId, 'Host'); if (checkHost) editable(anchorHost, undefined, document);
+    const offset = [...record.anchor.offset]; if (record.anchor.socket === 'ceiling') offset[1] -= anchorHost.thickness;
+    const position = worldPoint(anchorHost, offset);
+    if (record.transform) { record.transform.position = position; record.transform.rotation = clone(anchorHost.transform.rotation); }
+    else { record.position = position; record.rotation = clone(anchorHost.transform.rotation); }
+  }
 }
 function dependentIds(document, entityId) {
   const ids = new Set([entityId]);
@@ -56,7 +80,7 @@ function dependentIds(document, entityId) {
   while (added) {
     added = false;
     for (const entity of Object.values(document.layout.entities)) {
-      if (!ids.has(entity.id) && (ids.has(entity.wallId) || ids.has(entity.surfaceId))) { ids.add(entity.id); added = true; }
+      if (!ids.has(entity.id) && (ids.has(entity.wallId) || ids.has(entity.surfaceId) || ids.has(entity.anchor?.hostId))) { ids.add(entity.id); added = true; }
     }
   }
   return ids;
@@ -66,7 +90,7 @@ function removeEntity(document, entityId) {
   const ids = dependentIds(document, entityId), look = document.look ?? document.defaultLook;
   for (const value of ids) editable(document.layout.entities[value], undefined, document);
   for (const token of Object.values(document.tokens ?? {})) if (ids.has(token.surfaceId)) editable(token, undefined, document);
-  for (const light of Object.values(look.lights)) if (ids.has(light.surfaceId)) { editable(light, undefined, document); delete look.lights[light.id]; }
+  for (const light of Object.values(look.lights)) if (ids.has(light.surfaceId) || ids.has(light.anchor?.hostId)) { editable(light, undefined, document); delete look.lights[light.id]; }
   for (const value of ids) {
     delete document.layout.entities[value]; delete look.materialAdjustments[value];
     if (document.sessionState) delete document.sessionState.doors[value];
@@ -75,6 +99,7 @@ function removeEntity(document, entityId) {
     if (ids.has(area.surfaceId)) delete document.layout.areas[area.id];
     else area.memberIds = area.memberIds.filter(value => !ids.has(value));
   }
+  for (const entity of Object.values(document.layout.entities)) if (entity.floorIds?.some(key => ids.has(key))) { editable(entity, undefined, document); entity.floorIds = entity.floorIds.filter(key => !ids.has(key)); }
   for (const composition of Object.values(document.layout.compositions ?? {})) if (!document.layout.areas[composition.areaId]) delete document.layout.compositions[composition.id];
   for (const token of Object.values(document.tokens ?? {})) if (ids.has(token.surfaceId)) removeToken(document, token.id);
 }
@@ -93,7 +118,9 @@ function duplicateEntity(document, payload) {
     // Move a duplicated composition by one delta; individual walls retain their joins.
     offset = snapped.map((v, i) => v - entity.transform.position[i]);
   }
-  const ids = dependentIds(document, entity.id), remap = new Map([...ids].map(value => [value, id()]));
+  const ids = dependentIds(document, entity.id);
+  if (entity.kind === 'floor') for (const wall of Object.values(document.layout.entities).filter(e => e.floorIds?.includes(entity.id))) for (const key of dependentIds(document, wall.id)) ids.add(key);
+  const remap = new Map([...ids].map(value => [value, id()]));
   const originalGroupId = entity.kind === 'floor' ? entity.groupId : null;
   if (originalGroupId) {
     const group = clone(document.layout.groups[originalGroupId]);
@@ -103,6 +130,8 @@ function duplicateEntity(document, payload) {
   for (const entityId of ids) {
     const copy = clone(document.layout.entities[entityId]); copy.id = ref(entityId); copy.name += ' — cópia';
     copy.surfaceId = ref(copy.surfaceId); copy.groupId = ref(copy.groupId);
+    if (copy.anchor) copy.anchor.hostId = ref(copy.anchor.hostId);
+    if (copy.floorIds) copy.floorIds = copy.floorIds.filter(key => ids.has(key)).map(ref);
     if (['door', 'window'].includes(copy.kind)) {
       copy.wallId = ref(copy.wallId);
       if (['door', 'window'].includes(entity.kind)) {
@@ -132,9 +161,10 @@ function duplicateEntity(document, payload) {
   }
   const look = document.look ?? document.defaultLook;
   for (const light of Object.values(look.lights)) {
-    if (!ids.has(light.surfaceId)) continue;
+    if (!ids.has(light.surfaceId) && !ids.has(light.anchor?.hostId)) continue;
     const copy = clone(light); copy.id = id(); remap.set(light.id, copy.id); copy.surfaceId = ref(copy.surfaceId); copy.groupId = ref(copy.groupId);
     copy.position = copy.position.map((v, i) => v + offset[i]); put(look.lights, copy);
+    if (copy.anchor) look.lights[copy.id].anchor.hostId = ref(copy.anchor.hostId);
   }
   for (const source of Object.values(document.layout.compositions ?? {})) {
     if (!remap.has(source.areaId)) continue;
@@ -159,11 +189,11 @@ function carrySupports(document, previous, next) {
     const s = Math.sin(half), c = Math.cos(half);
     transform.rotation = [c * x + s * z, c * y + s * w, c * z - s * x, c * w - s * y];
   };
-  if (before.every((v, i) => v === after[i]) && Math.abs(deltaYaw) < 1e-8 && !(isAccess(next) && ['height', 'length', 'steps'].some(key => previous[key] !== next[key]))) return;
+  if (before.every((v, i) => v === after[i]) && Math.abs(deltaYaw) < 1e-8 && !(isAccess(next) && ['height', 'length', 'steps'].some(key => previous[key] !== next[key])) && !(next.kind === 'terrain' && ['heights', 'width', 'length'].some(key => JSON.stringify(previous[key]) !== JSON.stringify(next[key])))) return;
   const supports = dependentIds(document, previous.id); supports.delete(previous.id);
   const heightDeltas = new Map();
   const settle = record => {
-    if (record.surfaceId === next.id && isAccess(next)) {
+    if (record.surfaceId === next.id && (isAccess(next) || next.kind === 'terrain')) {
       const delta = supportHeightAt(next, record.transform.position) - record.transform.position[1];
       record.transform.position[1] += delta; heightDeltas.set(record.id, delta);
     }
@@ -179,11 +209,73 @@ function carrySupports(document, previous, next) {
   const hosts = new Set([previous.id, ...supports]);
   for (const token of Object.values(document.tokens ?? {})) if (hosts.has(token.surfaceId)) { editable(token, undefined, document); carry(token.transform); settle(token); token.transform.position[1] += inheritedHeight(token); }
   for (const area of Object.values(document.layout.areas)) if (hosts.has(area.surfaceId)) carry(area.transform);
-  for (const light of Object.values(document.look?.lights ?? document.defaultLook.lights)) if (hosts.has(light.surfaceId)) { editable(light, undefined, document);
+  for (const light of Object.values((document.look ?? document.defaultLook).lights)) if (hosts.has(light.surfaceId)) { editable(light, undefined, document);
     const oldPosition = [...light.position], t = { position: light.position, rotation: light.rotation }; carry(t);
     t.position[1] += inheritedHeight(light);
-    if (light.surfaceId === next.id && isAccess(next)) t.position[1] += supportHeightAt(next, t.position) - supportHeightAt(previous, oldPosition) - (after[1] - before[1]);
+    if (light.surfaceId === next.id && (isAccess(next) || next.kind === 'terrain')) t.position[1] += supportHeightAt(next, t.position) - supportHeightAt(previous, oldPosition) - (after[1] - before[1]);
     light.position = t.position; light.rotation = t.rotation;
+  }
+}
+
+function refreshAnchors(document) {
+  const records = [...Object.values(document.layout.entities), ...Object.values((document.look ?? document.defaultLook).lights)];
+  const done = new Set();
+  function refresh(record, visiting = new Set()) {
+    if (!record.anchor || done.has(record.id)) return;
+    if (visiting.has(record.id)) throw new ValidationError('Ciclo de ancoragem.');
+    visiting.add(record.id);
+    const host = document.layout.entities[record.anchor.hostId]; if (host) refresh(host, visiting);
+    const before = clone(record); semanticPlacement(document, record, {}, false);
+    if (JSON.stringify(before) !== JSON.stringify(record)) editable(before, undefined, document);
+    if (record.transform && record.supportHeight) carrySupports(document, before, record);
+    done.add(record.id);
+  }
+  records.forEach(record => refresh(record));
+}
+
+function moveLevel(document, levelId, elevation) {
+  const level = requireRecord(document.layout.levels, levelId, 'Andar'); editable(level, undefined, document);
+  if (!Number.isFinite(elevation)) throw new ValidationError('Altura do andar inválida.');
+  const delta = elevation - level.elevation;
+  const records = [...Object.values(document.layout.entities), ...Object.values(document.tokens ?? {}), ...Object.values((document.look ?? document.defaultLook).lights)];
+  const accesses = Object.values(document.layout.entities).filter(e => isAccess(e) && (e.fromLevelId === levelId || e.toLevelId === levelId));
+  const dependents = new Set(accesses.flatMap(e => [...dependentIds(document, e.id)].filter(key => key !== e.id)));
+  const onAccess = record => accesses.some(e => record.surfaceId === e.id || dependents.has(record.surfaceId));
+  const affected = new Set(Object.values(document.layout.entities).filter(e => e.levelId === levelId && !isAccess(e)).flatMap(e => [...dependentIds(document, e.id)]));
+  for (const record of records) if (!accesses.some(a => a.id === record.id) && !dependents.has(record.id) && !onAccess(record) && (record.levelId === levelId || affected.has(record.id) || affected.has(record.surfaceId))) {
+    editable(record, undefined, document);
+    const position = record.transform?.position ?? record.position; if (position) position[1] += delta;
+  }
+  level.elevation = elevation;
+  for (const access of accesses) {
+    editable(access, undefined, document); const before = clone(access);
+    semanticPlacement(document, access, { levelId: access.levelId }); carrySupports(document, before, access);
+  }
+  for (const area of Object.values(document.layout.areas)) if (affected.has(area.surfaceId)) area.transform.position[1] += delta;
+}
+
+function duplicateLevel(document, payload) {
+  const source = requireRecord(document.layout.levels, payload.id, 'Andar'); editable(source, undefined, document);
+  const target = createLevel({ name: payload.name ?? `${source.name} — cópia`, elevation: payload.elevation ?? source.elevation + 3 });
+  put(document.layout.levels, target);
+  const ids = new Set(Object.values(document.layout.entities).filter(e => e.levelId === source.id && !isAccess(e) && e.kind !== 'terrain').map(e => e.id));
+  for (const key of [...ids]) for (const dependent of dependentIds(document, key)) if (!isAccess(document.layout.entities[dependent]) && document.layout.entities[dependent].kind !== 'terrain') ids.add(dependent);
+  const remap = new Map([...ids].map(key => [key, id()])), ref = key => remap.get(key) ?? key, delta = target.elevation - source.elevation;
+  for (const key of ids) {
+    const record = clone(document.layout.entities[key]); editable(record, undefined, document);
+    record.id = ref(key); record.levelId = target.id; record.surfaceId = remap.get(record.surfaceId) ?? null;
+    if (record.wallId) record.wallId = ref(record.wallId);
+    if (record.floorIds) record.floorIds = record.floorIds.filter(k => ids.has(k)).map(ref);
+    if (record.anchor) record.anchor.hostId = ref(record.anchor.hostId);
+    if (record.transform) record.transform.position[1] += delta;
+    put(document.layout.entities, record);
+    const look = document.look ?? document.defaultLook; if (look.materialAdjustments[key]) look.materialAdjustments[record.id] = clone(look.materialAdjustments[key]);
+  }
+  // Session tokens stay with their characters; copying a storey copies its construction and lighting.
+  const look = document.look ?? document.defaultLook;
+  for (const light of Object.values(look.lights)) if (light.levelId === source.id || ids.has(light.surfaceId) || ids.has(light.anchor?.hostId)) {
+    editable(light, undefined, document); const copy = clone(light); copy.id = id(); copy.levelId = target.id; copy.surfaceId = remap.get(copy.surfaceId) ?? null; delete copy.role;
+    if (copy.anchor) copy.anchor.hostId = ref(copy.anchor.hostId); copy.position[1] += delta; put(look.lights, copy);
   }
 }
 
@@ -193,29 +285,72 @@ export function applyCommand(document, command) {
   if (command.documentId && command.documentId !== document.id) throw new ValidationError('O comando pertence a outro documento.');
   let next = clone(document); const payload = command.payload ?? {}, look = next.look ?? next.defaultLook;
   switch (command.type) {
+    case 'level.add': case 'layer.add': {
+      const field = command.type.startsWith('level') ? 'levels' : 'layers'; next.layout[field] ??= {};
+      const entry = field === 'levels' ? createLevel(payload.level) : createLayer(payload.layer); put(next.layout[field], entry);
+      if (field === 'levels' && payload.adoptExisting) {
+        const roots = Object.values(next.layout.entities).filter(e => !e.levelId && e.transform && Math.abs(e.transform.position[1] - entry.elevation) < 1e-6);
+        const ids = new Set(roots.flatMap(e => [...dependentIds(next, e.id)]));
+        for (const record of [...Object.values(next.layout.entities), ...Object.values(next.tokens ?? {}), ...Object.values(look.lights)]) if (!record.levelId && (ids.has(record.id) || ids.has(record.surfaceId) || ids.has(record.anchor?.hostId))) { editable(record, undefined, next); record.levelId = entry.id; }
+      }
+      if (field === 'levels') for (const access of Object.values(next.layout.entities).filter(isAccess)) {
+        const before = clone(access); semanticPlacement(next, access, { levelId: access.levelId });
+        if (JSON.stringify(before) !== JSON.stringify(access)) editable(before, undefined, next);
+      }
+      break;
+    }
+    case 'level.move': moveLevel(next, payload.id, payload.elevation); break;
+    case 'level.duplicate': duplicateLevel(next, payload); break;
+    case 'level.update': case 'layer.update': {
+      const field = command.type.startsWith('level') ? 'levels' : 'layers', before = requireRecord(next.layout[field], payload.id, 'Andar/camada');
+      if (payload.patch?.elevation !== undefined) { moveLevel(next, payload.id, payload.patch.elevation); }
+      if (!Object.keys(payload.patch ?? {}).every(key => ['visible', 'locked', 'audience'].includes(key))) editable(before, payload.patch, next);
+      next.layout[field][payload.id] = merge(before, payload.patch); break;
+    }
+    case 'level.remove': case 'layer.remove': {
+      const field = command.type.startsWith('level') ? 'levels' : 'layers', reference = field === 'levels' ? 'levelId' : 'layerId';
+      editable(requireRecord(next.layout[field], payload.id, 'Andar/camada'), undefined, next);
+      for (const record of [...Object.values(next.layout.entities), ...Object.values(next.tokens ?? {}), ...Object.values(look.lights)]) {
+        if (record[reference] === payload.id) { editable(record, undefined, next); record[reference] = null; }
+        for (const key of ['fromLevelId', 'toLevelId']) if (field === 'levels' && record[key] === payload.id) record[key] = null;
+      }
+      for (const composition of Object.values(next.layout.compositions ?? {})) for (const slot of Object.values(composition.slots)) if (slot.baseline[reference] === payload.id) slot.baseline[reference] = null;
+      delete next.layout[field][payload.id]; break;
+    }
     case 'entity.add': {
       const entity = clone(payload.entity); if (!entity) throw new ValidationError('Entidade ausente.');
       if (groupChain(next, entity.groupId).some(g => g.locked)) throw new ValidationError('A pasta está bloqueada.');
       if (entity.wallId) editable(requireRecord(next.layout.entities, entity.wallId, 'Parede'), undefined, next);
       if (entity.transform) entity.transform.position = snapPosition(entity.transform.position, snappingGrid(next.layout.grid, payload.snap));
       settleOnAccess(next, entity);
+      semanticPlacement(next, entity, { levelId: entity.levelId ?? undefined }, true, true);
+      editable({ ...entity, locked: false }, undefined, next);
       bakeStructuralScale(entity); put(next.layout.entities, entity); break;
     }
     case 'entity.update': {
       const before = requireRecord(next.layout.entities, payload.id, 'Entidade'); editable(before, payload.patch, next);
       if (before.wallId) editable(requireRecord(next.layout.entities, before.wallId, 'Parede'), undefined, next);
       const after = merge(before, payload.patch); bakeStructuralScale(after);
+      semanticPlacement(next, after, payload.patch);
+      editable({ ...after, locked: false }, undefined, next);
       if (after.wallId !== before.wallId && after.wallId) editable(requireRecord(next.layout.entities, after.wallId, 'Parede'), undefined, next);
       if (before.vertices && !payload.patch.vertices && (payload.patch.width !== undefined || payload.patch.length !== undefined)) after.vertices = before.vertices.map(([x, z]) => [x * after.width / before.width, z * after.length / before.length]);
+      if (before.holes && !payload.patch.holes && (payload.patch.width !== undefined || payload.patch.length !== undefined)) after.holes = before.holes.map(ring => ring.map(([x, z]) => [x * after.width / before.width, z * after.length / before.length]));
       if (after.transform && payload.patch.transform?.position) after.transform.position = snapPosition(after.transform.position, snappingGrid(next.layout.grid, payload.snap));
       settleOnAccess(next, after);
-      if (['floor', 'prop', 'stairs', 'ramp'].includes(before.kind)) carrySupports(next, before, after);
+      if (['floor', 'terrain', 'wall', 'prop', 'stairs', 'ramp'].includes(before.kind)) carrySupports(next, before, after);
       if (before.kind === 'floor' && (before.width !== after.width || before.length !== after.length)) {
         for (const area of Object.values(next.layout.areas)) if (area.surfaceId === before.id) {
           area.width *= after.width / before.width; area.length *= after.length / before.length;
           const local = rotateXZ(area.transform.position.map((v, i) => v - after.transform.position[i]), -yawFromQuaternion(after.transform.rotation));
           local[0] *= after.width / before.width; local[2] *= after.length / before.length;
           area.transform.position = rotateXZ(local, yawFromQuaternion(after.transform.rotation)).map((v, i) => v + after.transform.position[i]);
+        }
+      }
+      if (before.levelId !== after.levelId) {
+        const dependents = dependentIds(next, before.id); dependents.delete(before.id);
+        for (const record of [...Object.values(next.layout.entities), ...Object.values(next.tokens ?? {}), ...Object.values(look.lights)]) if ((dependents.has(record.id) || dependents.has(record.surfaceId) || record.surfaceId === before.id || record.anchor?.hostId === before.id) && (record.levelId === before.levelId || record.levelId === undefined) && !(isAccess(record) && record.fromLevelId && record.toLevelId)) {
+          editable(record, undefined, next); record.levelId = after.levelId ?? null;
         }
       }
       next.layout.entities[payload.id] = after; break;
@@ -234,12 +369,14 @@ export function applyCommand(document, command) {
         if (!existing) put(next.actors, payload.actor);
         else if (JSON.stringify(existing) !== JSON.stringify(payload.actor)) throw new ValidationError('O ator já existe com dados diferentes.');
       }
-      { const token = clone(payload.token); if (!token) throw new ValidationError('Token ausente.'); snappedToken(token, next.layout.grid, payload.snap, next); put(next.tokens, token); }
+      { const token = clone(payload.token); if (!token) throw new ValidationError('Token ausente.'); snappedToken(token, next.layout.grid, payload.snap, next); semanticPlacement(next, token, { levelId: token.levelId ?? undefined }, true, true); editable({ ...token, locked: false }, undefined, next); put(next.tokens, token); }
       break;
     case 'token.update': {
       const patch = payload.patch ?? {};
       const before = requireRecord(next.tokens, payload.id, 'Token'); editable(before, patch, next);
       const token = merge(before, patch);
+      semanticPlacement(next, token, patch);
+      editable({ ...token, locked: false }, undefined, next);
       if (patch.transform?.position || patch.transform?.rotation || patch.footprint || patch.surfaceId) snappedToken(token, next.layout.grid, payload.snap, next);
       next.tokens[payload.id] = token;
       if (payload.actorPatch) next.actors[token.actorId] = merge(next.actors[token.actorId], payload.actorPatch);
@@ -252,8 +389,8 @@ export function applyCommand(document, command) {
       token.id = id(); offsetPosition(token.transform, payload.offset ?? [next.layout.grid.cellSize, 0, next.layout.grid.cellSize]);
       snappedToken(token, next.layout.grid, payload.snap, next); put(next.tokens, token); break;
     }
-    case 'light.add': put(look.lights, payload.light); break;
-    case 'light.update': { const before = requireRecord(look.lights, payload.id, 'Luz'); editable(before, payload.patch, next); look.lights[payload.id] = merge(before, payload.patch); break; }
+    case 'light.add': { const light = clone(payload.light); semanticPlacement(next, light, { levelId: light.levelId ?? undefined }, true, true); editable({ ...light, locked: false }, undefined, next); put(look.lights, light); break; }
+    case 'light.update': { const before = requireRecord(look.lights, payload.id, 'Luz'); editable(before, payload.patch, next); const after = merge(before, payload.patch); semanticPlacement(next, after, payload.patch); editable({ ...after, locked: false }, undefined, next); look.lights[payload.id] = after; break; }
     case 'light.remove': editable(requireRecord(look.lights, payload.id, 'Luz'), undefined, next); delete look.lights[payload.id]; break;
     case 'light.duplicate': {
       const light = clone(requireRecord(look.lights, payload.id, 'Luz')); editable(light, undefined, next); light.id = id(); light.name += ' — cópia'; delete light.role;
@@ -310,6 +447,11 @@ export function applyCommand(document, command) {
       for (const entity of collectionItems(proposal.entities)) put(next.layout.entities, entity);
       for (const area of collectionItems(proposal.areas)) put(next.layout.areas, area);
       for (const light of collectionItems(proposal.lights)) put(look.lights, light);
+      for (const source of [...collectionItems(proposal.entities), ...collectionItems(proposal.lights)]) {
+        const record = next.layout.entities[source.id] ?? look.lights[source.id];
+        semanticPlacement(next, record, { levelId: record.levelId ?? undefined }, true, true);
+        editable({ ...record, locked: false }, undefined, next); settleOnAccess(next, record);
+      }
       for (const operation of proposal.removals ?? []) {
         if (!['entity', 'light', 'token'].includes(operation.kind)) throw new ValidationError('Tipo de remoção inválido.');
         next = applyCommand(next, { type: `${operation.kind}.remove`, payload: { id: operation.id } });
@@ -323,5 +465,6 @@ export function applyCommand(document, command) {
     }
     default: throw new ValidationError(`Comando desconhecido: ${command.type}.`);
   }
+  refreshAnchors(next);
   return validateDocument(next);
 }

@@ -6,12 +6,32 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { createApp } from '../server/app.js';
-import { createScene, createMap, createEntity, createToken, createLight } from '../src/domain/documents.js';
+import { createScene, createMap, createEntity, createToken, createLight, createLevel, createLayer } from '../src/domain/documents.js';
 import { proposeFurnishing } from '../src/authoring/furnishing.js';
 import { proposeRoom } from '../src/authoring/quick-build.js';
 import { createSceneStore } from '../src/state/scene-store.js';
+import { proposeContourWalls } from '../src/authoring/structures.js';
+import { sculptTerrain } from '../src/authoring/terrain.js';
 
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=', 'base64');
+
+test('terrain, perforated storeys, shared walls and anchors persist through restart, backup and duplicate', async t => {
+  const f = await fixture(t), store = createSceneStore(createScene()), level = createLevel(), layer = createLayer();
+  store.execute('level.add', { level }); store.execute('layer.add', { layer });
+  const terrain = createEntity('terrain', { segments: 8, levelId: level.id }); terrain.heights = sculptTerrain(terrain,[0,0,0], { radius: 3, strength: 2 });
+  store.execute('entity.add', { entity: terrain });
+  const floor = createEntity('floor', { levelId: level.id, layerId: layer.id, holes: [[[-1,-1],[1,-1],[1,1],[-1,1]]] }); store.execute('entity.add', { entity: floor });
+  store.execute('proposal.accept', { proposal: proposeContourWalls(store.document, { floorId: floor.id }, store.editVersion) });
+  const wall = Object.values(store.document.layout.entities).find(e => e.kind === 'wall');
+  store.execute('entity.add', { entity: createEntity('prop', { anchor: { hostId: wall.id, socket: 'wall', offset: [1,2,.2] } }) });
+  store.execute('level.duplicate', { id: level.id });
+  const saved = await f.request('/api/tabletop/scenes', { method:'POST', body: { document: store.document } }); assert.equal(saved.status,201);
+  await f.stop(); await f.start(); const loaded = (await f.request(`/api/tabletop/scenes/${saved.value.id}`)).value; assert.deepEqual(loaded,saved.value);
+  const copy = await f.request(`/api/tabletop/scenes/${loaded.id}/duplicate`, { method:'POST', body: { expectedRevision: loaded.revision } }); assert.equal(copy.status,201);
+  assert.equal(Object.keys(copy.value.layout.levels).length,2); assert.equal(Object.keys(copy.value.layout.layers).length,1);
+  assert.notEqual(Object.values(copy.value.layout.levels)[0].id,level.id);
+  assert.deepEqual(Object.values(copy.value.layout.entities).find(e => e.kind === 'terrain').heights,terrain.heights);
+});
 
 test('reading v1 migrates in memory; explicit save upgrades with original schema in its backup', async t => {
   const f = await fixture(t), old = createScene('Legado'); old.schemaVersion = 1; old.revision = 3; delete old.layout.compositions;

@@ -1,6 +1,6 @@
 import { createEntity, createLight, clone, id } from '../domain/documents.js';
 import { quaternionFromYaw, rotateXZ, yawFromQuaternion } from '../domain/coords.js';
-import { worldFootprint, footprintsOverlap, pointInPolygon, polygonContainsPolygon, isLocked } from '../domain/geometry.js';
+import { worldFootprint, footprintsOverlap, pointInPolygon, polygonContainsPolygon, isLocked, footprintOnFloor } from '../domain/geometry.js';
 import { ValidationError, validateDocument } from '../domain/validation.js';
 
 export const ROOM_TEMPLATES = [{ id: 'office', name: 'Escritório' }, { id: 'meeting', name: 'Sala de reunião' }, { id: 'storage', name: 'Depósito' }];
@@ -74,13 +74,13 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
   const occupied = Object.values(document.layout.entities).filter(e => e.kind === 'prop' && e.surfaceId === floor.id && !priorIds.has(e.id)).map(e => ({ id: e.id, corners: worldFootprint(e, .08) }));
   const reserved = [];
   for (const door of Object.values(document.layout.entities).filter(e => e.kind === 'door')) {
-    const wall = document.layout.entities[door.wallId]; if (wall.surfaceId !== floor.id) continue;
+    const wall = document.layout.entities[door.wallId]; if (wall.surfaceId !== floor.id && !wall.floorIds?.includes(floor.id)) continue;
     const offset = rotateXZ([door.offset, 0, 0], yawFromQuaternion(wall.transform.rotation)).map((v, i) => v + wall.transform.position[i]);
     reserved.push(worldFootprint({ footprint: [door.width + .5, 2.4], transform: { position: offset, rotation: wall.transform.rotation, scale: [1, 1, 1] } }));
   }
   const floorPolygon = floor.vertices ?? [[-floor.width / 2, -floor.length / 2], [floor.width / 2, -floor.length / 2], [floor.width / 2, floor.length / 2], [-floor.width / 2, floor.length / 2]];
   const localFloor = p => { const v = rotateXZ([p[0] - floor.transform.position[0], 0, p[1] - floor.transform.position[2]], -yawFromQuaternion(floor.transform.rotation)); return [v[0], v[2]]; };
-  const within = corners => polygonContainsPolygon(floorPolygon, corners.map(localFloor)) && corners.every(p => {
+  const within = corners => footprintOnFloor(floor, corners) && polygonContainsPolygon(floorPolygon, corners.map(localFloor)) && corners.every(p => {
     const local = rotateXZ([p[0] - area.transform.position[0], 0, p[1] - area.transform.position[2]], -yaw);
     return Math.abs(local[0]) <= w / 2 - .1 + 1e-8 && Math.abs(local[2]) <= l / 2 - .1 + 1e-8 && pointInPolygon(localFloor(p), floorPolygon);
   });
@@ -99,11 +99,11 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
     let generated;
     if (candidate.light) {
       const height = Math.max(1.2, ...Object.values(document.layout.entities).filter(e => e.kind === 'wall' && e.surfaceId === floor.id).map(e => e.height - .3));
-      generated = createLight({ id: prior?.id, name: `Luz — ${area.name}`, position: toWorld(candidate.x, candidate.z, height), intensity: candidate.intensity, distance: Math.max(w, l) * 1.3, surfaceId: floor.id, groupId: area.groupId });
+      generated = createLight({ id: prior?.id, name: `Luz — ${area.name}`, position: toWorld(candidate.x, candidate.z, height), intensity: candidate.intensity, distance: Math.max(w, l) * 1.3, surfaceId: floor.id, groupId: area.groupId, levelId: floor.levelId ?? null, layerId: floor.layerId ?? null });
     } else {
       const asset = catalog.find(a => a.id === candidate.assetId);
       if (!asset) { proposal.report.omissions.push('Um móvel da receita está ausente no catálogo.'); if (prior) composition.slots[key] = clone(prior); continue; }
-      generated = createEntity('prop', { id: prior?.id, name: asset.name, assetRef: { id: asset.id, revision: asset.revision }, position: toWorld(candidate.x, candidate.z), rotation: quaternionFromYaw(yaw + candidate.rotation), footprint: asset.footprint, groupId: area.groupId, surfaceId: floor.id, ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}) });
+      generated = createEntity('prop', { id: prior?.id, name: asset.name, assetRef: { id: asset.id, revision: asset.revision }, position: toWorld(candidate.x, candidate.z), rotation: quaternionFromYaw(yaw + candidate.rotation), footprint: asset.footprint, groupId: area.groupId, surfaceId: floor.id, levelId: floor.levelId ?? null, layerId: floor.layerId ?? null, ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}) });
     }
     const baseline = snapshotItem(generated);
     const label = generated.name;

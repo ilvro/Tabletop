@@ -1,10 +1,12 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
 **Data:** 3 de outubro de 2026  
-**Status do Projeto:** Vertical Slice validado; Fase 3 com correções de autoria e acessos estruturais entregue
+**Status do Projeto:** Vertical Slice validado; evolução estrutural e polish de V2 entregues
 **Documentos de Referência:** [`ROADMAP.md`](ROADMAP.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`MAP_AUTHORING.md`](MAP_AUTHORING.md), [`IMMERSION.md`](IMMERSION.md), [`VERTICAL_SLICE.md`](VERTICAL_SLICE.md) e [`INVESTIGACAO_E_ARQUITETURA.md`](../INVESTIGACAO_E_ARQUITETURA.md).
 
 ---
+
+**Atualização estrutural de V2:** terreno esculpido, pisos com furos, paredes de contorno compartilhadas, junções anguladas/T, andares/camadas, acessos associados e sockets de parede/teto estão implementados. Polish inclui materiais, orientação, passagem, decoração de canto e luzes. [STRUCTURAL_EVOLUTION.md](STRUCTURAL_EVOLUTION.md) documenta controles e limites.
 
 **Atualização da Fase 3:** construção com pisos poligonais/elevados, janelas posicionadas por clique e arraste com recorte sincronizado, escadas/rampas paramétricas, apoios explícitos em móveis, ocultação/bloqueio herdados de pastas, receitas de escritório/reunião/depósito, regeneração que preserva ajustes/exclusões e seleção múltipla com polish já estão implementados. [PHASE_3.md](PHASE_3.md) documenta uso, schema 2, validação e limites. O restante de V2 continua pendente; LAN e integrações não foram antecipadas.
 
@@ -104,8 +106,18 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Modal de recuperação no carregamento caso o navegador feche inesperadamente ou falhe a gravação no disco.
 
 ### 2.8. Testes Automatizados e Qualidade
-- **55 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição.
-- **Três testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxo da Fase 3 pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor. Chromium headless com WebGL por software; não representa benchmark no notebook/projetor.
+- **68 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição.
+- **Quatro testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxos da Fase 3 e da evolução estrutural pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor. Chromium headless com WebGL por software; não representa benchmark no notebook/projetor.
+
+---
+
+### 2.9. Evolução Estrutural e Polish (`STRUCTURAL_EVOLUTION.md`)
+- **Terreno:** heightmap editável com pincéis de elevar/rebaixar/suavizar/nivelar, círculo de raio, ajuste numérico e apoios sincronizados aos triângulos da malha. Cada traço é uma operação cancelável de histórico.
+- **Recortes e paredes:** furos físicos em pisos retangulares/poligonais; prévia de paredes de contorno com reutilização de segmentos colineares completos/parciais; junções anguladas por mitras limitadas e terminações em T.
+- **Andares e camadas:** nome/altura/visibilidade/bloqueio, adoção da construção existente, cópia de construção com novos IDs, movimento mundial sem deslocamento duplicado e isolamento temporário no editor. Escadas/rampas acompanham andares associados.
+- **Ancoragem estrutural:** props/luzes em sockets locais de paredes ou na face inferior de pisos superiores, com transporte/deleção dos dependentes e edição numérica.
+- **Polish local:** paletas de material por instância, frente voltada à referência, revisão de folgas com deslocamentos propostos, luminária em canto livre, distribuição/normalização de luzes e enquadramento da referência. Prévia com motivos/conflitos, preservação de protegidos e aceite atômico.
+- **Persistência:** campos opcionais do schema 2 validados e preservados em cenas/mapas, duplicação, backups e reinício; projeção pública filtra níveis/camadas e dependentes privados.
 
 ---
 
@@ -123,32 +135,25 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 
 ### 3.2. Pendências do Marco V2 (Autoria Assistida & Apresentação Reutilizável)
 
-1. **Evolução Estrutural da Construção (`MAP_AUTHORING.md` - Seções 7 e 8):**
-   - Terreno esculpido, polígonos com furos internos e geração de paredes no contorno.
-   - Paredes compartilhadas e encontros/junções não retangulares (*corner joins* angulados ou em "T").
-   - Modelo semântico de múltiplos andares, controle de visibilidade por nível e associação automática dos acessos aos andares.
-   - Layers/níveis semânticos e sockets de ancoragem em paredes/tetos.
-2. **Smart Build Avançado e Prefabs Paramétricos (`MAP_AUTHORING.md` - Seções 10 a 13):**
+1. **Smart Build Avançado e Prefabs Paramétricos (`MAP_AUTHORING.md` - Seções 10 a 13):**
    - Novos kits de quarto/cela/laboratório, ampliação do catálogo e prefabs definidos pelo usuário.
    - Auto-layout entre cômodos e solver geral de circulação.
    - Biblioteca geral de receitas e variantes reutilizáveis.
-3. **Ferramentas de Polish e Ajustes Finos (`MAP_AUTHORING.md` - Seção 14):**
-   - Variantes de materiais e revisão mais ampla de decoração/passagens.
-4. **Catálogo de Assets e Biblioteca Expandida (`MAP_AUTHORING.md` - Seção 15):**
+2. **Catálogo de Assets e Biblioteca Expandida (`MAP_AUTHORING.md` - Seção 15):**
    - Sistema de categorias hierárquicas, tags temáticas e busca textual no catálogo.
    - Coleções de favoritos e variantes de texturas/materiais por asset.
    - Metadados de ancoragem (*anchors/sockets*) para fixação automática de itens em paredes ou tetos.
    - Suporte a importação de modelos glTF com diretórios de texturas externas.
-5. **Iluminação e Imersão Avançada (`IMMERSION.md` - Seções 4 a 9):**
+3. **Iluminação e Imersão Avançada (`IMMERSION.md` - Seções 4 a 9):**
    - Luzes do tipo *Spot* (holofote/foco cônico) com ângulo de abertura e suavidade de penumbra configuráveis.
    - Simulação de temperatura de cor de iluminação em escala Kelvin.
    - Efeitos de cintilação animada (*flicker*) para tochas, velas e lâmpadas fluorescentes defeituosas.
    - Névoa volumétrica e *fog* de distância configurável no ambiente.
    - Efeitos leves de pós-processamento opcionais (como *bloom* sutil calibrado para não pesar a GPU).
-6. **Câmera Cinematográfica (`IMMERSION.md` - Seção 10):**
+4. **Câmera Cinematográfica (`IMMERSION.md` - Seção 10):**
    - Transições suaves e interpoladas entre enquadramentos de câmera salvos, com opção de corte imediato ou interrupção pelo mestre.
    - Modo de acompanhamento automático de tokens em movimento.
-7. **Integrações Externas Reservadas (`ARCHITECTURE.md` - Seção 11 e `src/integrations/README.md`):**
+5. **Integrações Externas Reservadas (`ARCHITECTURE.md` - Seção 11 e `src/integrations/README.md`):**
    - **Integração com a Ficha de Personagens:** Conexão com o servidor da ficha para leitura de fichas por `actorId` e sincronização bidirecional de recursos (PV, Sanidade, Pontos de Esforço), sem que o Tabletop assuma autoridade indevida sobre o sistema de regras.
    - **Integração com o Jukebox de Áudio:** Fachada de comunicação via WebSocket/HTTP para enviar gatilhos de cenas musicais (*audioCue*) diretamente da cena do Tabletop, reagindo a transições sem poluir o histórico de *undo/redo* visual.
 
@@ -206,9 +211,11 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 | **Escadas e Rampas Paramétricas** | `MAP_AUTHORING.md` §7–8 | **Concluído** (dimensões, desnível, degraus e apoio de tokens) | `documents.js`, `scene-objects.js`, `application.js`, `commands.js` |
 | **Plataformas e Apoios Explícitos** | `MAP_AUTHORING.md` §8 | **Concluído** (planos horizontais) | `commands.js`, `renderer.js` |
 | **Visibilidade/Bloqueio de Pastas** | `MAP_AUTHORING.md` §8 | **Concluído** (herdado) | `geometry.js`, `presentation.js` |
-| **Junções/Paredes Compartilhadas e Modelo de Andares**| `MAP_AUTHORING.md` §8 | **Pendente** | Previsto para V2 |
+| **Junções/Paredes Compartilhadas e Modelo de Andares**| `MAP_AUTHORING.md` §8 | **Concluído** (segmentos colineares, mitras/T, níveis e acessos) | `structures.js`, `commands.js`, `renderer.js` |
 | **Auto-Decoration e Prefabs Avançados** | `MAP_AUTHORING.md` §10-12 | **Parcial** (3 receitas, diff, iluminação) | `furnishing.js`; biblioteca geral pendente |
-| **Seleção Múltipla e Polish** | `MAP_AUTHORING.md` §14 | **Concluído** (alinhar/distribuir/girar) | `polish.js`, `renderer.js` |
+| **Seleção Múltipla e Polish** | `MAP_AUTHORING.md` §14 | **Concluído** (materiais, orientação, passagens, cantos e luzes) | `polish.js`, `renderer.js` |
+| **Terreno Esculpido e Furos em Pisos** | `MAP_AUTHORING.md` §7 | **Concluído** (heightmap limitado e recortes poligonais) | `terrain.js`, `geometry.js`, `scene-objects.js` |
+| **Camadas e Sockets Estruturais** | `MAP_AUTHORING.md` §8–9 | **Concluído** (parede/teto) | `commands.js`, `application.js` |
 | **Luz Spot, Flicker e Temperatura** | `IMMERSION.md` §4 | **Pendente** | Previsto para V2 |
 | **Fog de Distância e Pós-Processamento** | `IMMERSION.md` §8, §9 | **Pendente** | Previsto para V2 |
 | **Transições Suaves de Câmera** | `IMMERSION.md` §10 | **Pendente** | Previsto para V2 |
@@ -222,6 +229,6 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 
 Para manter a ordem de implementação técnica eficiente e alinhada ao cronograma:
 
-1. **Próximo incremento estrutural:** Junções/paredes compartilhadas e níveis semânticos, incluindo associação dos acessos já disponíveis aos andares.
-2. **Autoria assistida:** Avaliar as três receitas no projetor; depois ampliar catálogo/anchors e prefabs reutilizáveis. Regeneração e polish já têm a fundação funcional.
+1. **Validar a autoria estrutural no uso presencial:** experimentar relevo, vãos de escada e construção por andares no notebook/projetor; os controles e testes já estão entregues.
+2. **Autoria assistida:** Avaliar as três receitas no projetor; depois ampliar catálogo, sockets específicos por asset e prefabs reutilizáveis. Regeneração e polish já têm a fundação funcional.
 3. **Pacote de Transporte (Opcional):** Se desejado, implementar compactação/descompactação em `.zip` de cena + assets para envio facilitado entre computadores.

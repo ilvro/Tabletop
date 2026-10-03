@@ -76,19 +76,46 @@ export function groupChain(document, groupId) {
   while (groupId && !visited.has(groupId)) { visited.add(groupId); const group = document.layout.groups[groupId]; if (!group) break; result.push(group); groupId = group.parentId; }
   return result;
 }
-export const isLocked = (document, record) => Boolean(record.locked || groupChain(document, record.groupId).some(g => g.locked) || record.wallId && isLocked(document, document.layout.entities[record.wallId]));
-export const isVisible = (document, record) => !groupChain(document, record.groupId).some(g => g.visible === false);
+export const isLocked = (document, record) => Boolean(record.locked || groupChain(document, record.groupId).some(g => g.locked) || document.layout.levels?.[record.levelId]?.locked || document.layout.layers?.[record.layerId]?.locked || (record.wallId || record.anchor?.hostId) && isLocked(document, document.layout.entities[record.wallId ?? record.anchor.hostId]));
+export const isVisible = (document, record) => !groupChain(document, record.groupId).some(g => g.visible === false) && document.layout.levels?.[record.levelId]?.visible !== false && document.layout.layers?.[record.layerId]?.visible !== false;
 
 export const isAccess = record => ['stairs', 'ramp'].includes(record?.kind);
-export const isSupport = record => record?.kind === 'floor' || isAccess(record) || record?.supportHeight > 0;
+export const isSupport = record => ['floor', 'terrain'].includes(record?.kind) || isAccess(record) || record?.supportHeight > 0;
 
 /** Accesses rise along local +Z; their pivot is the center of the lower base. */
 export function supportHeightAt(host, position) {
+  if (host.kind === 'terrain') return host.transform.position[1] + terrainHeightAt(host, position);
   if (!isAccess(host)) return host.transform.position[1] + (host.supportHeight ?? 0) * host.transform.scale[1];
   const local = rotateXZ(position.map((v, i) => v - host.transform.position[i]), -yawFromQuaternion(host.transform.rotation));
   const progress = Math.max(0, Math.min(1, local[2] / host.length + .5));
   const rise = host.kind === 'stairs' ? Math.min(host.steps, Math.floor(progress * host.steps) + 1) / host.steps : progress;
   return host.transform.position[1] + host.height * rise;
+}
+
+export const floorContour = floor => floor.vertices ?? [[-floor.width / 2, -floor.length / 2], [floor.width / 2, -floor.length / 2], [floor.width / 2, floor.length / 2], [-floor.width / 2, floor.length / 2]];
+export const localPoint = (host, position) => rotateXZ(position.map((v, i) => v - host.transform.position[i]), -yawFromQuaternion(host.transform.rotation));
+export const worldPoint = (host, point) => rotateXZ(point, yawFromQuaternion(host.transform.rotation)).map((v, i) => v + host.transform.position[i]);
+
+/** Holes must be strictly internal, disjoint, simple rings. */
+export function validHoles(outer, holes) {
+  if (!Array.isArray(holes) || holes.length > 16) return false;
+  const ringsTouch = (a, b) => a.some((p, i) => b.some((q, j) => intersects(p, a[(i + 1) % a.length], q, b[(j + 1) % b.length])));
+  return holes.every((hole, i) => polygonIsSimple(hole) && polygonContainsPolygon(outer, hole) && !ringsTouch(outer, hole) && holes.slice(0, i).every(other => !ringsTouch(other, hole) && !pointInPolygon(hole[0], other) && !pointInPolygon(other[0], hole)));
+}
+
+export function footprintOnFloor(floor, footprint) {
+  const polygon = footprint.map(([x, z]) => { const p = localPoint(floor, [x, floor.transform.position[1], z]); return [p[0], p[2]]; });
+  if (!polygonContainsPolygon(floorContour(floor), polygon)) return false;
+  return !(floor.holes ?? []).some(hole => hole.some(p => pointInPolygon(p, polygon)) || polygon.some(p => pointInPolygon(p, hole)) || hole.some((p, i) => polygon.some((q, j) => intersects(p, hole[(i + 1) % hole.length], q, polygon[(j + 1) % polygon.length]))));
+}
+
+/** Matches the rendered grid's diagonal: a-b-c and b-d-c, never bilinear. */
+export function terrainHeightAt(terrain, position) {
+  const p = localPoint(terrain, position), n = terrain.segments;
+  const gx = Math.max(0, Math.min(n, (p[0] / terrain.width + .5) * n)), gz = Math.max(0, Math.min(n, (p[2] / terrain.length + .5) * n));
+  const x = Math.min(n - 1, Math.floor(gx)), z = Math.min(n - 1, Math.floor(gz)), u = gx - x, v = gz - z;
+  const a = terrain.heights[z * (n + 1) + x], b = terrain.heights[z * (n + 1) + x + 1], c = terrain.heights[(z + 1) * (n + 1) + x], d = terrain.heights[(z + 1) * (n + 1) + x + 1];
+  return u + v <= 1 ? a + u * (b - a) + v * (c - a) : d + (1 - u) * (c - d) + (1 - v) * (b - d);
 }
 
 export function constrainOpening(wall, opening, offset, sill) {

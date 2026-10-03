@@ -89,13 +89,13 @@ O renderer mantém uma associação de ID para objetos Three.js, reconstrói geo
 
 Seleção, hover, ferramenta, arraste provisório, preview de sugestão e câmera de trabalho pertencem à UI. Câmeras salvas, estado de porta e ambiente da cena pertencem ao documento. Conexões, loaders, texturas GPU e áudio pertencem ao runtime.
 
-## 6. Contrato de documentos v1
+## 6. Contrato de documentos
 
 ### 6.1. Envelope e convenções
 
 | Campo | Contrato proposto |
 | --- | --- |
-| `schemaVersion` | Inteiro `1` para o contrato inicial. Migrações são explícitas; versões futuras incompatíveis não são sobrescritas. |
+| `schemaVersion` | Inteiro `2` no contrato atual, com migração explícita de `1`. Andares/camadas e campos estruturais são opcionais; versões futuras incompatíveis não são sobrescritas. |
 | `documentType` | `map` ou `scene` no MVP. `environment` será adicionado com a biblioteca de ambientes na V2. |
 | `id` | UUID estável do documento. Importar para restaurar preserva identidade; importar como cópia gera novos IDs locais. |
 | `revision` | Inteiro não negativo atribuído pelo servidor; começa em 1 após criação. Não aumenta a cada movimento provisório. |
@@ -107,9 +107,11 @@ Números devem ser finitos. Vetores são arrays de três números; quaternion é
 
 Mundo em metros, Y para cima, plano XZ e rotações internas por quaternion. A convenção coincide com as [unidades e coordenadas de glTF](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html). O inspector mostra graus e dimensões físicas, sem impor o grid à posição persistida.
 
-No v1, `transform` descreve posição do pivot, quaternion e escala em coordenadas de mundo. O agrupamento usa referências organizacionais, sem pais transformáveis. Hierarquia local e attachments espaciais entram na V2 com migração explícita; não reinterpretar silenciosamente transforms de mundo como locais. Portas hospedadas são a exceção: sua posição visual deriva da parede e dos parâmetros da abertura.
+No v1, `transform` descreve posição do pivot, quaternion e escala em coordenadas de mundo. O agrupamento usa referências organizacionais, sem pais transformáveis. A autoria atual mantém transforms mundiais e ancoragem estrutural explícita; hierarquia local exigirá migração deliberada; não reinterpretar silenciosamente transforms de mundo como locais. Portas hospedadas são a exceção: sua posição visual deriva da parede e dos parâmetros da abertura.
 
 ### 6.2. Layout e entidades
+
+O contrato atual inclui pisos com `vertices`/`holes`, terreno por `segments`/`heights`, paredes com `floorIds`, `layout.levels`/`layout.layers` e associações opcionais `levelId`/`layerId`. Escadas/rampas usam `fromLevelId`/`toLevelId`; props/luzes podem ter `anchor: {hostId, socket, offset}`. Transforms permanecem mundiais. Detalhes e limites: [STRUCTURAL_EVOLUTION.md](STRUCTURAL_EVOLUTION.md).
 
 | Estrutura | Campos mínimos e semântica |
 | --- | --- |
@@ -123,7 +125,7 @@ No v1, `transform` descreve posição do pivot, quaternion e escala em coordenad
 | `groups` | Coleções organizacionais com ID, nome e parentId opcional. Sem ciclos. Bloqueio e filtros de apresentação são propriedades distintas. |
 | `areas` | Regiões de autoria identificadas por ID. No MVP: retângulo com transform, largura/comprimento, surfaceId e memberIds das estruturas associadas; não implica paredes indestrutíveis nem pathfinding. |
 
-No MVP cada sala retangular tem paredes próprias; união de salas e paredes compartilhadas fica para V2. As medidas de sala são internas. Pisos e paredes usam dimensões paramétricas como autoridade: escala estrutural é unitária e o gesto de escala altera essas dimensões, enquanto props/tokens mantêm escala no transform. As ferramentas iniciais tratam pisos horizontais e paredes verticais; orientações estruturais mais amplas exigem validação de apoio na evolução.
+Quick Build mantém paredes próprias por sala; o gerador de contorno de V2 já reutiliza intervalos colineares compartilhados, com junções anguladas/T limitadas. As medidas de sala são internas. Pisos e paredes usam dimensões paramétricas como autoridade: escala estrutural é unitária e o gesto de escala altera essas dimensões, enquanto props/tokens mantêm escala no transform. As ferramentas iniciais tratam pisos horizontais e paredes verticais; orientações estruturais mais amplas exigem validação de apoio na evolução.
 
 A geometria das aberturas é reconstruída a partir de parâmetros, usando partes de parede ao redor do vão. Uma porta visualmente sobreposta a uma parede intacta não satisfaz o contrato. A área ajuda seleção/assistência; mover uma parede individualmente não realinha todos os membros sem um comando de sala explícito. Uma área desatualizada precisa ser revisada antes de gerar sobre ela.
 

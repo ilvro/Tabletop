@@ -1,5 +1,5 @@
 /** Validated JSON is the boundary between editor, disk and future network adapters. */
-import { polygonIsSimple, polygonSize } from './geometry.js';
+import { polygonIsSimple, polygonSize, floorContour, validHoles, pointInPolygon } from './geometry.js';
 export class ValidationError extends Error {
   constructor(message, path = '') {
     super(path ? `${path}: ${message}` : message);
@@ -70,16 +70,37 @@ function dictionary(value, path, seen, validate) {
     validate(entry, `${path}.${key}`);
   }
 }
-const common = ['id', 'name', 'kind', 'groupId', 'surfaceId', 'locked', 'audience', 'tags'];
+const semantics = ['levelId', 'layerId', 'anchor'];
+function semanticReferences(value, document, path) {
+  if (semantics.some(key => value[key] !== undefined)) fail(document.schemaVersion === 2, 'Organização e sockets exigem schema 2.', path);
+  for (const [field, collection] of [['levelId', 'levels'], ['layerId', 'layers']]) if (value[field] !== undefined) reference(value[field], document.layout[collection] ?? {}, `${path}.${field}`);
+  if (value.anchor != null) {
+    keys(value.anchor, ['hostId', 'socket', 'offset'], `${path}.anchor`);
+    reference(value.anchor.hostId, document.layout.entities, `${path}.anchor.hostId`, false);
+    choice(value.anchor.socket, ['wall', 'ceiling'], `${path}.anchor.socket`); vector(value.anchor.offset, 3, `${path}.anchor.offset`);
+    const host = document.layout.entities[value.anchor.hostId];
+    fail(value.kind === 'prop' || value.type === 'point', 'Somente props e luzes locais podem usar sockets.', path);
+    fail(host.kind === (value.anchor.socket === 'wall' ? 'wall' : 'floor'), 'Host incompatível com o socket.', path);
+    fail(!value.surfaceId, 'Âncora e apoio não podem controlar o mesmo objeto.', path);
+    if (host.kind === 'wall') {
+      number(value.anchor.offset[0], path, 0, host.length); number(value.anchor.offset[1], path, 0, host.height);
+    } else {
+      const point = [value.anchor.offset[0], value.anchor.offset[2]];
+      fail(pointInPolygon(point, floorContour(host)) && !(host.holes ?? []).some(hole => pointInPolygon(point, hole)), 'Socket de teto deve estar sobre uma região sólida do piso.', path);
+    }
+  }
+}
+const common = ['id', 'name', 'kind', 'groupId', 'surfaceId', 'locked', 'audience', 'tags', ...semantics];
 function entity(value, path, document) {
   const { entities, groups } = document.layout;
   const fields = {
-    floor: ['transform', 'width', 'length', 'thickness', 'material', 'vertices'],
-    wall: ['transform', 'length', 'height', 'thickness', 'material'],
+    floor: ['transform', 'width', 'length', 'thickness', 'material', 'vertices', 'holes'],
+    terrain: ['transform', 'width', 'length', 'segments', 'heights', 'material'],
+    wall: ['transform', 'length', 'height', 'thickness', 'material', 'floorIds'],
     door: ['wallId', 'offset', 'width', 'height', 'sill', 'hinge', 'initialAngle', 'material'],
     window: ['wallId', 'offset', 'width', 'height', 'sill', 'style', 'material'],
-    stairs: ['transform', 'width', 'length', 'height', 'steps', 'material'],
-    ramp: ['transform', 'width', 'length', 'height', 'material'],
+    stairs: ['transform', 'width', 'length', 'height', 'steps', 'material', 'fromLevelId', 'toLevelId'],
+    ramp: ['transform', 'width', 'length', 'height', 'material', 'fromLevelId', 'toLevelId'],
     prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight'],
   };
   choice(value.kind, Object.keys(fields), `${path}.kind`); keys(value, [...common, ...fields[value.kind]], path);
@@ -91,11 +112,31 @@ function entity(value, path, document) {
   fail(value.surfaceId !== value.id, 'Uma superfície não pode apoiar a si mesma.', path);
   if (!['door', 'window'].includes(value.kind)) transform(value.transform, `${path}.transform`, value.kind !== 'prop');
   material(value.material, `${path}.material`);
+  semanticReferences(value, document, path);
   for (const field of fields[value.kind].filter(field => ['width', 'length', 'height', 'thickness'].includes(field))) positive(value[field], `${path}.${field}`);
   if (value.kind === 'prop') { assetRef(value.assetRef, `${path}.assetRef`); vector(value.footprint, 2, `${path}.footprint`); value.footprint.forEach((v, i) => positive(v, `${path}.footprint[${i}]`)); }
   if (value.vertices !== undefined) {
     fail(document.schemaVersion === 2 && value.kind === 'floor' && polygonIsSimple(value.vertices), 'O contorno do piso deve ser um polígono simples de 3 a 64 vértices.', path);
     fail(polygonSize(value.vertices).every((size, i) => Math.abs(size - [value.width, value.length][i]) < 1e-6), 'Dimensões devem corresponder ao contorno do piso.', path);
+  }
+  if (value.holes !== undefined) fail(document.schemaVersion === 2 && value.kind === 'floor' && validHoles(floorContour(value), value.holes), 'Furos devem ser polígonos internos, separados e sem cruzamentos.', path);
+  if (value.kind === 'terrain') {
+    fail(document.schemaVersion === 2, 'Terreno exige schema 2.', path);
+    number(value.segments, `${path}.segments`, 2, 64); fail(Number.isInteger(value.segments), 'Resolução deve ser inteira.', path);
+    fail(Array.isArray(value.heights) && value.heights.length === (value.segments + 1) ** 2, 'Heightmap com tamanho incompatível.', path);
+    value.heights.forEach((height, i) => number(height, `${path}.heights[${i}]`, -1000, 1000));
+  }
+  if (value.floorIds !== undefined) {
+    fail(document.schemaVersion === 2, 'Paredes compartilhadas exigem schema 2.', path);
+    fail(Array.isArray(value.floorIds) && new Set(value.floorIds).size === value.floorIds.length, 'Pisos compartilhados inválidos.', path);
+    value.floorIds.forEach(key => reference(key, entities, path, false, 'floor'));
+  }
+  if (['stairs', 'ramp'].includes(value.kind)) {
+    for (const field of ['fromLevelId', 'toLevelId']) if (value[field] !== undefined) reference(value[field], document.layout.levels ?? {}, `${path}.${field}`);
+    if (value.fromLevelId && value.toLevelId) {
+      const from = document.layout.levels[value.fromLevelId], to = document.layout.levels[value.toLevelId];
+      fail(to.elevation > from.elevation && Math.abs(value.height - (to.elevation - from.elevation)) < 1e-6 && Math.abs(value.transform.position[1] - from.elevation) < 1e-6, 'O acesso deve conectar as alturas dos andares.', path);
+    }
   }
   if (value.supportHeight !== undefined) { fail(document.schemaVersion === 2, 'Apoios de props exigem schema 2.', path); positive(value.supportHeight, `${path}.supportHeight`); quaternion(value.transform.rotation, `${path}.rotation`, true); }
   if (value.kind === 'window') { fail(document.schemaVersion === 2, 'Janelas exigem schema 2.', path); choice(value.style, ['glass', 'bars', 'open'], `${path}.style`); }
@@ -116,7 +157,7 @@ function supportReference(value, document, path) {
   if (value === undefined || value === null) return;
   reference(value, document.layout.entities, path, false);
   const host = document.layout.entities[value];
-  fail(host.kind === 'floor' || document.schemaVersion === 2 && (['stairs', 'ramp'].includes(host.kind) || host.kind === 'prop' && host.supportHeight > 0), 'O apoio precisa ser um piso, escada, rampa ou prop com superfície anotada.', path);
+  fail(host.kind === 'floor' || document.schemaVersion === 2 && (['terrain', 'stairs', 'ramp'].includes(host.kind) || host.kind === 'prop' && host.supportHeight > 0), 'O apoio precisa ser um piso, terreno, acesso ou prop com superfície anotada.', path);
   if (host.kind === 'prop') quaternion(host.transform.rotation, `${path}.rotation`, true);
 }
 
@@ -140,12 +181,12 @@ function composition(value, path, document) {
     choice(slot.kind, ['entity', 'light'], path);
     const b = slot.baseline;
     if (slot.kind === 'entity') {
-      keys(b, ['name', 'groupId', 'surfaceId', 'locked', 'audience', 'tags', 'transform', 'assetRef', 'footprint', 'material', 'supportHeight'], path);
+      keys(b, ['name', 'groupId', 'surfaceId', 'locked', 'audience', 'tags', 'transform', 'assetRef', 'footprint', 'material', 'supportHeight', ...semantics], path);
       transform(b.transform, path); assetRef(b.assetRef, path); vector(b.footprint, 2, path); b.footprint.forEach(v => positive(v, path)); material(b.material, path);
       fail(Array.isArray(b.tags), 'Tags inválidas.', path); b.tags.forEach(v => text(v, path));
       if (b.supportHeight !== undefined) positive(b.supportHeight, path);
     } else {
-      keys(b, ['name', 'type', 'position', 'rotation', 'color', 'intensity', 'distance', 'shadowEnabled', 'audience', 'groupId', 'surfaceId', 'locked'], path);
+      keys(b, ['name', 'type', 'position', 'rotation', 'color', 'intensity', 'distance', 'shadowEnabled', 'audience', 'groupId', 'surfaceId', 'locked', ...semantics], path);
       choice(b.type, ['point'], path); vector(b.position, 3, path); quaternion(b.rotation, path); color(b.color, path);
       number(b.intensity, path, 0); number(b.distance, path, 0); bool(b.shadowEnabled, path);
     }
@@ -162,7 +203,8 @@ function look(value, path, document, seen) {
   color(value.fill.skyColor, `${path}.fill.skyColor`); color(value.fill.groundColor, `${path}.fill.groundColor`);
   number(value.fill.intensity, `${path}.fill.intensity`, 0);
   dictionary(value.lights, `${path}.lights`, seen, (light, lightPath) => {
-    keys(light, ['id', 'name', 'type', 'position', 'rotation', 'color', 'intensity', 'distance', 'shadowEnabled', 'audience', 'role', 'groupId', 'surfaceId', 'locked'], lightPath);
+    keys(light, ['id', 'name', 'type', 'position', 'rotation', 'color', 'intensity', 'distance', 'shadowEnabled', 'audience', 'role', 'groupId', 'surfaceId', 'locked', ...semantics], lightPath);
+    semanticReferences(light, document, lightPath);
     text(light.name, `${lightPath}.name`); choice(light.type, ['directional', 'point'], `${lightPath}.type`);
     vector(light.position, 3, `${lightPath}.position`); quaternion(light.rotation, `${lightPath}.rotation`);
     color(light.color, `${lightPath}.color`); number(light.intensity, `${lightPath}.intensity`, 0); number(light.distance, `${lightPath}.distance`, 0);
@@ -199,7 +241,7 @@ export function validateDocument(document) {
     fail(typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(value) &&
       (value === canonical || value === canonical.replace('.000Z', 'Z')), 'Data deve ser ISO UTC válida.', `${path}.${field}`);
   }
-  keys(document.layout, ['grid', 'entities', 'groups', 'areas', ...(document.schemaVersion === 2 ? ['compositions'] : [])], `${path}.layout`);
+  keys(document.layout, ['grid', 'entities', 'groups', 'areas', ...(document.schemaVersion === 2 ? ['compositions', 'levels', 'layers'] : [])], `${path}.layout`);
   const grid = document.layout.grid;
   keys(grid, ['type', 'origin', 'cellSize', 'visible', 'snap', 'color', 'opacity'], 'layout.grid');
   choice(grid.type, ['square'], 'layout.grid.type'); vector(grid.origin, 2, 'layout.grid.origin'); positive(grid.cellSize, 'layout.grid.cellSize');
@@ -207,6 +249,11 @@ export function validateDocument(document) {
   // References are validated after every collection has its JSON shape checked.
   for (const name of ['entities', 'groups', 'areas']) record(document.layout[name], `layout.${name}`);
   const seen = new Set([document.id]);
+  for (const name of ['levels', 'layers']) if (document.layout[name] !== undefined) dictionary(document.layout[name], `layout.${name}`, seen, (entry, entryPath) => {
+    keys(entry, ['id', 'name', 'visible', 'locked', 'audience', ...(name === 'levels' ? ['elevation'] : [])], entryPath);
+    text(entry.name, entryPath); bool(entry.visible, entryPath); bool(entry.locked, entryPath); choice(entry.audience, ['all', 'gm'], entryPath);
+    if (name === 'levels') number(entry.elevation, entryPath);
+  });
   dictionary(document.layout.groups, 'layout.groups', seen, (group, groupPath) => {
     keys(group, ['id', 'name', 'parentId', 'locked', 'audience', 'visible'], groupPath);
     text(group.name, `${groupPath}.name`); reference(group.parentId, document.layout.groups, `${groupPath}.parentId`);
@@ -219,6 +266,10 @@ export function validateDocument(document) {
   for (const item of Object.values(document.layout.entities)) {
     const seenSupports = new Set([item.id]); let host = item.surfaceId;
     while (host) { fail(!seenSupports.has(host), 'Ciclo de superfícies de apoio.', `layout.entities.${item.id}`); seenSupports.add(host); host = document.layout.entities[host]?.surfaceId; }
+  }
+  for (const item of [...Object.values(document.layout.entities), ...Object.values((document.look ?? document.defaultLook)?.lights ?? {})]) {
+    const visited = new Set([item.id]); let hostId = item.anchor?.hostId ?? item.surfaceId ?? item.wallId;
+    while (hostId) { fail(!visited.has(hostId), 'Ciclo de ancoragem/apoio.', 'layout.entities'); visited.add(hostId); const host = document.layout.entities[hostId]; hostId = host?.anchor?.hostId ?? host?.surfaceId ?? host?.wallId; }
   }
   const doors = Object.values(document.layout.entities).filter(entry => ['door', 'window'].includes(entry.kind));
   for (let i = 0; i < doors.length; i++) for (let j = i + 1; j < doors.length; j++) {
@@ -249,7 +300,8 @@ export function validateDocument(document) {
     color(actor.color, `${actorPath}.color`); assetRef(actor.assetRef, `${actorPath}.assetRef`, true);
   });
   dictionary(document.tokens, 'tokens', seen, (token, tokenPath) => {
-    keys(token, ['id', 'actorId', 'transform', 'surfaceId', 'footprint', 'locked', 'audience', 'visualOverride', 'groupId'], tokenPath);
+    keys(token, ['id', 'actorId', 'transform', 'surfaceId', 'footprint', 'locked', 'audience', 'visualOverride', 'groupId', ...semantics], tokenPath);
+    semanticReferences(token, document, tokenPath);
     reference(token.actorId, document.actors, `${tokenPath}.actorId`, false); transform(token.transform, `${tokenPath}.transform`);
     supportReference(token.surfaceId, document, `${tokenPath}.surfaceId`);
     if (token.groupId !== undefined) reference(token.groupId, document.layout.groups, `${tokenPath}.groupId`);

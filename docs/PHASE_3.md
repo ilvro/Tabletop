@@ -2,6 +2,8 @@
 
 Entrega de 3 de outubro de 2026. Primeiro incremento da evolução de autoria descrita no marco V2 do [roadmap](ROADMAP.md), sobre as funcionalidades registradas pelo Gemini em [PROGRESSO.md](PROGRESSO.md). O Tabletop continua operado pelo mestre, com apresentação local para projetor.
 
+O incremento seguinte já entregou terreno, furos, paredes compartilhadas, andares/camadas, sockets e polish ampliado. Uso atual: [STRUCTURAL_EVOLUTION.md](STRUCTURAL_EVOLUTION.md).
+
 ## O que funciona
 
 - **Pisos poligonais:** desenhar de 3 a 64 vértices, inclusive contornos côncavos, repetidamente sem reload; o desenho usa a altura de construção, independente dos limites do apoio ativo; editar coordenadas locais, dimensões, espessura e material. Contornos cruzados ou degenerados são rejeitados sem alterar a cena.
@@ -43,10 +45,10 @@ Novos dados: `floor.vertices` em XZ local, `window`, `stairs`/`ramp` com dimens�
 
 O E2E da Fase 3 verifica dois pisos poligonais sem reload, cancelamento de desenho, janela colocada por clique/arrastada com undo/redo e escadas/rampas com token apoiado; usa interações reais de mouse/campos e compara o documento após reiniciar navegador e servidor. Imagens de mestre/apresentação ficam em `test-results/phase3-*.png`. Testes usam dados temporários. Executar `npm test`, `npm run build` e `npm run test:e2e`; Chromium existente pode ser indicado por `TABLETOP_BROWSER_PATH`.
 
-Ainda não há junções anguladas/T automáticas, paredes compartilhadas, modelo completo de andares ou terreno esculpido. Escadas/rampas já existem como estruturas independentes; a associação a andares e a ocultação por nível continuam pendentes. A altura/apoio explícito é a base para esses recursos. Polígonos não têm furos internos nem geração automática de paredes no contorno. Apoios anotados em móveis são planos horizontais; escadas/rampas oferecem altura variável pela posição; não há sockets, física ou colisão manual automática. Durante arraste, tokens vinculados a escadas/rampas acompanham a altura local; os demais objetos mantêm o plano inicial. Mudar apoio é uma escolha no inspetor. Não há navegação automática entre apoios/andares.
+Os limites estruturais da entrega inicial foram superados no incremento documentado em [STRUCTURAL_EVOLUTION.md](STRUCTURAL_EVOLUTION.md): há relevo, recortes, contornos de parede compartilhados, junções anguladas/T, níveis/camadas, associação de acessos e sockets estruturais. Continuam fora do escopo física, colisão manual automática, navegação automática entre apoios/andares e solver geral de circulação. Mudar apoio permanece uma escolha explícita no inspetor.
 
 As receitas usam o catálogo atual e footprints retangulares, com busca local e parcial. Não constituem um solver geral de circulação: avisos exigem revisão, e mudanças manuais podem criar sobreposições. Alterar um piso não reconstrói suas paredes; a área de geração acompanha dimensões, enquanto estruturas seguem edição explícita. Luzes existentes permanecem ao mobiliar; intensidade final deve ser ajustada pelo mestre.
 
 Validação gráfica ocorreu em Chromium headless com WebGL por software. Não é benchmark da GPU/projetor. Não foram implementados LAN, novas integrações, efeitos cinematográficos ou transporte ZIP; Jukebox e Ficha permaneceram intactos.
 
-Próximos incrementos: junções e paredes compartilhadas; níveis e associação dos acessos aos andares; catálogo/anchors e prefabs reutilizáveis; câmera/iluminação conforme avaliação no projetor. Esses itens continuam pendentes no roadmap.
+Próximos incrementos: catálogo ampliado, sockets específicos por asset, receitas/prefabs reutilizáveis e câmera/iluminação avançadas conforme avaliação no projetor. Ver pendências atuais em [PROGRESSO.md](PROGRESSO.md).

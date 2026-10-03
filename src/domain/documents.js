@@ -15,12 +15,13 @@ const transform = options => ({
 });
 
 export function createEntity(kind, options = {}) {
-  const names = { floor: 'Piso', wall: 'Parede', door: 'Porta', window: 'Janela', stairs: 'Escada', ramp: 'Rampa', prop: 'Objeto' };
+  const names = { terrain: 'Terreno', floor: 'Piso', wall: 'Parede', door: 'Porta', window: 'Janela', stairs: 'Escada', ramp: 'Rampa', prop: 'Objeto' };
   if (!names[kind]) throw new ValidationError(`Tipo de entidade desconhecido: ${kind}.`);
   const common = {
     id: options.id ?? id(), name: options.name ?? names[kind], kind,
     groupId: options.groupId ?? null, surfaceId: options.surfaceId ?? null,
     locked: options.locked ?? false, audience: options.audience ?? 'all', tags: clone(options.tags ?? []),
+    ...semanticFields(options),
   };
   if (kind === 'door') return { ...common,
     wallId: options.wallId ?? null, offset: options.offset ?? 2, width: options.width ?? 1,
@@ -33,15 +34,24 @@ export function createEntity(kind, options = {}) {
   if (kind === 'floor') return { ...common, transform: transform(options),
     width: options.vertices ? polygonSize(options.vertices)[0] : options.width ?? 6, length: options.vertices ? polygonSize(options.vertices)[1] : options.length ?? 5, thickness: options.thickness ?? 0.16,
     ...(options.vertices ? { vertices: clone(options.vertices) } : {}),
+    ...(options.holes ? { holes: clone(options.holes) } : {}),
     material: material('#847d70', options.material),
   };
+  if (kind === 'terrain') {
+    const segments = options.segments ?? 32;
+    if (!Number.isInteger(segments) || segments < 2 || segments > 64) throw new ValidationError('O terreno aceita de 2 a 64 divisões por eixo.');
+    return { ...common, transform: transform(options), width: options.width ?? 20, length: options.length ?? 20,
+      segments, heights: clone(options.heights ?? Array((segments + 1) ** 2).fill(0)), material: material('#71805a', options.material) };
+  }
   if (kind === 'wall') return { ...common, transform: transform(options),
     length: options.length ?? 4, height: options.height ?? 2.6, thickness: options.thickness ?? 0.18,
     material: material('#b3aca0', options.material),
+    ...(options.floorIds ? { floorIds: clone(options.floorIds) } : {}),
   };
   if (kind === 'stairs' || kind === 'ramp') return { ...common, transform: transform(options),
     width: options.width ?? 1.5, length: options.length ?? 3, height: options.height ?? 1.5,
     ...(kind === 'stairs' ? { steps: options.steps ?? 8 } : {}), material: material('#847d70', options.material),
+    ...(options.fromLevelId ? { fromLevelId: options.fromLevelId } : {}), ...(options.toLevelId ? { toLevelId: options.toLevelId } : {}),
   };
   return { ...common, transform: transform(options), assetRef: clone(options.assetRef ?? { id: 'builtin-crate', revision: 1 }),
     ...(options.supportHeight !== undefined ? { supportHeight: options.supportHeight } : {}),
@@ -59,6 +69,7 @@ export function createToken(options = {}) {
     surfaceId: options.surfaceId ?? null, footprint: clone(options.footprint ?? [1, 1]),
     groupId: options.groupId ?? null,
     locked: options.locked ?? false, audience: options.audience ?? 'all', visualOverride: null,
+    ...semanticFields(options),
   };
   return { actor, token };
 }
@@ -72,7 +83,19 @@ export function createLight(options = {}) {
     shadowEnabled: options.shadowEnabled ?? false, audience: options.audience ?? 'all',
     groupId: options.groupId ?? null, surfaceId: options.surfaceId ?? null, locked: options.locked ?? false,
     ...(options.role ? { role: options.role } : {}),
+    ...semanticFields(options),
   };
+}
+
+function semanticFields(options) {
+  return Object.fromEntries(['levelId', 'layerId', 'anchor'].filter(key => options[key] !== undefined).map(key => [key, clone(options[key])]));
+}
+
+export function createLevel(options = {}) {
+  return { id: options.id ?? id(), name: options.name ?? 'Andar', elevation: options.elevation ?? 0, visible: options.visible ?? true, locked: options.locked ?? false, audience: options.audience ?? 'all' };
+}
+export function createLayer(options = {}) {
+  return { id: options.id ?? id(), name: options.name ?? 'Camada', visible: options.visible ?? true, locked: options.locked ?? false, audience: options.audience ?? 'all' };
 }
 
 function createLook() {
@@ -145,7 +168,7 @@ export function duplicateDocument(document, { name } = {}) {
   document = migrateDocument(document);
   const copy = clone(document), remap = new Map();
   const look = copy.look ?? copy.defaultLook;
-  const collections = [copy.layout.entities, copy.layout.groups, copy.layout.areas, copy.layout.compositions, look.lights,
+  const collections = [copy.layout.levels, copy.layout.layers, copy.layout.entities, copy.layout.groups, copy.layout.areas, copy.layout.compositions, look.lights,
     copy.actors, copy.tokens, copy.cameraPresets].filter(Boolean);
   for (const collection of collections) for (const value of Object.values(collection)) remap.set(value.id, id());
   for (const composition of Object.values(copy.layout.compositions)) for (const slot of Object.values(composition.slots)) if (!remap.has(slot.id)) remap.set(slot.id, id());
@@ -154,10 +177,12 @@ export function duplicateDocument(document, { name } = {}) {
     for (const [oldId, value] of Object.entries(collection)) {
       delete collection[oldId];
       value.id = ref(oldId);
-      for (const field of ['groupId', 'parentId', 'surfaceId', 'wallId', 'actorId', 'areaId']) if (value[field]) value[field] = ref(value[field]);
+      for (const field of ['groupId', 'parentId', 'surfaceId', 'wallId', 'actorId', 'areaId', 'levelId', 'layerId', 'fromLevelId', 'toLevelId']) if (value[field]) value[field] = ref(value[field]);
+      if (value.anchor) value.anchor.hostId = ref(value.anchor.hostId);
+      if (value.floorIds) value.floorIds = value.floorIds.map(ref);
       if (value.slots) for (const slot of Object.values(value.slots)) {
         slot.id = ref(slot.id);
-        for (const field of ['groupId', 'surfaceId']) if (slot.baseline[field]) slot.baseline[field] = ref(slot.baseline[field]);
+        for (const field of ['groupId', 'surfaceId', 'levelId', 'layerId']) if (slot.baseline[field]) slot.baseline[field] = ref(slot.baseline[field]);
       }
       if (value.memberIds) value.memberIds = value.memberIds.map(ref);
       collection[value.id] = value;

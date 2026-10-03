@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { standardMaterial } from './asset-cache.js';
+import { floorContour } from '../domain/geometry.js';
+import { wallJoinProfile, clipWallProfile } from '../authoring/structures.js';
 
 export function applyTransform(object, transform) {
   object.position.fromArray(transform?.position ?? [0, 0, 0]);
@@ -29,8 +31,11 @@ function box(parent, size, position, material, slot = 'base') {
 export function createFloor(entity) {
   const group = new THREE.Group();
   const material = standardMaterial(entity.material);
-  if (entity.vertices) {
-    const shape = new THREE.Shape(entity.vertices.map(([x, z]) => new THREE.Vector2(x, z)));
+  // A floor laid at grade may coincide with a flat terrain triangle.
+  material.polygonOffset = true; material.polygonOffsetFactor = -1; material.polygonOffsetUnits = -1;
+  if (entity.vertices || entity.holes?.length) {
+    const shape = new THREE.Shape(floorContour(entity).map(([x, z]) => new THREE.Vector2(x, z)));
+    shape.holes = (entity.holes ?? []).map(ring => new THREE.Path(ring.map(([x, z]) => new THREE.Vector2(x, z))));
     const geometry = new THREE.ExtrudeGeometry(shape, { depth: entity.thickness, bevelEnabled: false, steps: 1, curveSegments: 1 });
     geometry.rotateX(Math.PI / 2);
     const mesh = new THREE.Mesh(geometry, material.clone()); mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.materialSlot = 'base'; group.add(mesh);
@@ -38,6 +43,19 @@ export function createFloor(entity) {
   material.dispose();
   applyTransform(group, entity.transform);
   return tagEntity(group, entity.id);
+}
+
+export function createTerrain(entity) {
+  const n = entity.segments, positions = [], indices = [];
+  for (let z = 0; z <= n; z++) for (let x = 0; x <= n; x++) positions.push((x / n - .5) * entity.width, entity.heights[z * (n + 1) + x], (z / n - .5) * entity.length);
+  for (let z = 0; z < n; z++) for (let x = 0; x < n; x++) {
+    const a = z * (n + 1) + x, b = a + 1, c = a + n + 1, d = c + 1;
+    indices.push(a, c, b, b, c, d);
+  }
+  const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3)); geometry.setIndex(indices); geometry.computeVertexNormals();
+  const group = new THREE.Group(), mesh = new THREE.Mesh(geometry, standardMaterial(entity.material));
+  mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.materialSlot = 'base'; group.add(mesh);
+  applyTransform(group, entity.transform); return tagEntity(group, entity.id);
 }
 
 export function createAccess(entity) {
@@ -61,14 +79,24 @@ export function createAccess(entity) {
 }
 
 /** A semantic opening creates physical segments, never a door in front of an intact wall. */
-export function createWall(entity, doors) {
+export function createWall(entity, doors, walls = []) {
   const group = new THREE.Group();
   const material = standardMaterial(entity.material);
   const skirting = standardMaterial({ color: '#434b43', roughness: 0.9 });
+  skirting.polygonOffset = true; skirting.polygonOffsetFactor = -1; skirting.polygonOffsetUnits = -1;
+  const profile = wallJoinProfile(entity, walls);
+  const prism = (polygon, bottom, height, mat, slot) => {
+    if (polygon.length < 3) return;
+    const shape = new THREE.Shape(polygon.map(([x, z]) => new THREE.Vector2(x, -z)));
+    const geometry = new THREE.ExtrudeGeometry(shape, { depth: height, bevelEnabled: false, steps: 1 });
+    geometry.rotateX(-Math.PI / 2); geometry.translate(0, bottom, 0);
+    const mesh = new THREE.Mesh(geometry, mat.clone()); mesh.userData.materialSlot = slot; mesh.castShadow = true; mesh.receiveShadow = true; group.add(mesh);
+  };
   const addSection = (start, length, bottom, height) => {
     if (length <= 0.00001 || height <= 0.00001) return;
-    box(group, [length, height, entity.thickness], [start + length / 2, bottom + height / 2, 0], material);
-    if (bottom === 0 && height >= 0.18) box(group, [length, 0.13, entity.thickness + 0.018], [start + length / 2, 0.065, 0], skirting, 'skirting');
+    const section = clipWallProfile(profile, start === 0 ? -Infinity : start, Math.abs(start + length - entity.length) < 1e-8 ? Infinity : start + length);
+    prism(section, bottom, height, material, 'base');
+    if (bottom === 0 && height >= .18) prism(section, 0, .13, skirting, 'skirting');
   };
   const xs = [...new Set([0, entity.length, ...doors.flatMap(d => [d.offset - d.width / 2, d.offset + d.width / 2])])].sort((a, b) => a - b);
   for (let x = 0; x < xs.length - 1; x++) {
