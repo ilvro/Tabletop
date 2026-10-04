@@ -28,7 +28,7 @@ As imagens mostram o resultado final. Elas não permitem determinar o motor, os 
 - Produzir kits coerentes de interiores, fachadas urbanas, ruínas/ritual e exterior, com escala métrica, pivot na base e materiais nomeados.
 - Usar texturas de cor, relevo aparente por normal map e rugosidade para madeira, metal, concreto, tecido e desgaste. Os GLBs importados preservam seus materiais/texturas; não é preciso implementar um novo carregador para começar com arquivos compatíveis.
 - Adicionar pequenos objetos de decoração: papéis, livros, cabos, utensílios, ferramentas, lixo e detalhes pessoais. Parte do catálogo já representa esses temas, mas precisa de modelos com o acabamento adequado para câmera próxima.
-- Ampliar os oito materiais procedurais locais com importação de texturas avulsas/fotográficas, variantes e superfícies autorais. Aplicação em estruturas/receitas, tamanho em metros e mistura por camada do terreno estão disponíveis em [MATERIALS.md](MATERIALS.md).
+- Ampliar os oito materiais procedurais locais com importação de texturas avulsas/fotográficas e superfícies autorais. Variações procedurais de madeira/metal, recoloração/brilho/orientação, aplicação em estruturas/receitas, tamanho em metros e mistura por camada do terreno estão disponíveis em [MATERIALS.md](MATERIALS.md).
 - Acrescentar decals, como manchas, inscrições, rachaduras e sujeira, para variar superfícies sem criar um modelo inteiro para cada variação.
 
 ### 2. Terreno, vegetação e superfícies molhadas

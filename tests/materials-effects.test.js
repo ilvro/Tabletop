@@ -68,3 +68,51 @@ test('local fire/smoke use deterministic quads, local transforms, a real fire li
     let disposed=0; a.particles.geometry.addEventListener('dispose',()=>disposed++); a.particles.material.addEventListener('dispose',()=>disposed++); disposeObject(first); assert.equal(disposed,2);
   } finally {[first,second,smoke].forEach(o=>disposeObject(o));}
 });
+
+test('custom texture parameters validate atomically and persist through history, terrain resampling and presentation', () => {
+  const store=createSceneStore(createScene()), floor=createEntity('floor'), terrain=createEntity('terrain',{segments:4});
+  store.execute('entity.add',{entity:floor}); store.execute('entity.add',{entity:terrain});
+  const style={...surfacePatch('wood'),textureColor:'#437c65',textureColorMode:'replace',textureBrightness:.6,textureContrast:1.2,textureSaturation:.8,textureRotation:45,textureSeed:123,woodPattern:'parquet',woodBoards:8,woodDirection:'vertical',woodGap:.08,woodGrain:.8};
+  store.execute('entity.update',{id:floor.id,patch:{material:style}}); const edited=structuredClone(store.document);
+  store.undo(); assert.equal(store.document.layout.entities[floor.id].material.texture,undefined); store.redo(); assert.deepEqual(store.document,edited);
+  for(const material of [{woodBoards:1.5},{woodBoards:33},{woodDirection:'diagonal'},{metalPattern:'mirror'},{metalWear:1.1},{textureColor:'red'},{textureColorMode:'hsl'},{textureBrightness:NaN},{textureContrast:-1},{textureSaturation:3},{textureRotation:361},{textureSeed:1.5},{patternDensity:0},{woodGap:.2},{woodGrain:2}]) {
+    assert.throws(()=>store.execute('entity.update',{id:floor.id,patch:{material}})); assert.deepEqual(store.document,edited);
+  }
+  const {color,roughness,metalness,relief,...layerStyle}=style;
+  store.execute('entity.update',{id:terrain.id,patch:{paintLayers:terrain.paintLayers.map(layer=>({...layer,...layerStyle,color:'#ffffff'}))}});
+  const painted=store.document.layout.entities[terrain.id];
+  const resized=resampleTerrain(painted,8); assert.equal(resized.paintLayers[0].woodBoards,8); assert.equal(resized.paintLayers[0].textureColor,'#437c65'); assert.equal(resized.paintLayers[0].weights.length,81);
+  for(const scene of [JSON.parse(JSON.stringify(store.document)),duplicateDocument(store.document),createSceneFromMap(createMapFromScene(store.document)),projectPresentation(store.document)]) {
+    validateDocument(scene); assert.ok(Object.values(scene.layout.entities).some(e=>e.material.woodBoards===8&&e.material.textureColor==='#437c65'));
+    assert.ok(Object.values(scene.layout.entities).some(e=>e.paintLayers?.[0].woodPattern==='parquet'));
+  }
+});
+
+test('wood and metal variants generate deterministic independent patterns while color and direction reuse pixels', async () => {
+  const {generateSurfaceTile,surfaceStyleKey}=await import('../src/render/surface-pixels.js');
+  const wood=generateSurfaceTile({texture:'wood'});
+  for(const patch of [{woodBoards:9},{woodGap:.1},{woodGrain:0},{woodPattern:'grain'},{woodPattern:'parquet'},{textureSeed:12},{patternDensity:2}]) {
+    assert.notDeepEqual(generateSurfaceTile({texture:'wood',...patch}).albedo,wood.albedo,JSON.stringify(patch));
+  }
+  assert.deepEqual(generateSurfaceTile(surfacePatch('wood')),wood);
+  assert.deepEqual(generateSurfaceTile({texture:'wood',woodDirection:'vertical',textureColor:'#225544',textureBrightness:.3}),wood);
+  assert.equal(surfaceStyleKey({texture:'wood',woodDirection:'vertical'}),surfaceStyleKey({texture:'wood'}));
+  const metal=generateSurfaceTile({texture:'metal'});
+  for(const metalPattern of ['smooth','diamond','corrugated','rusted']) assert.notDeepEqual(generateSurfaceTile({texture:'metal',metalPattern}).details,metal.details);
+  const rust=generateSurfaceTile({texture:'metal',metalPattern:'rusted',metalWear:1}); assert.ok(rust.details.some((v,i)=>i%4===2&&v<255));
+  assert.deepEqual(generateSurfaceTile({texture:'metal',metalPattern:'diamond',textureSeed:42}),generateSurfaceTile({texture:'metal',metalPattern:'diamond',textureSeed:42}));
+});
+
+test('custom atlases share identical variants, pack nine styles and release after the last material is disposed', () => {
+  const library=createSurfaceLibrary(), first=new THREE.MeshStandardMaterial(), second=new THREE.MeshStandardMaterial();
+  const settings=[{texture:'wood',woodBoards:8},{texture:'metal',metalPattern:'diamond'}];
+  const a=library.acquire(settings,first), b=library.acquire([...settings].reverse(),second);
+  assert.equal(a.albedo,b.albedo); assert.equal(a.index(settings[0]),b.index(settings[0])); assert.equal(library.variantCount,1);
+  let disposed=0; a.albedo.addEventListener('dispose',()=>disposed++); a.details.addEventListener('dispose',()=>disposed++);
+  first.dispose(); assert.equal(disposed,0); second.dispose(); assert.equal(disposed,2); assert.equal(library.variantCount,0);
+  const material=new THREE.MeshStandardMaterial(), nine=Array.from({length:9},(_,i)=>({texture:'wood',woodBoards:i+1}));
+  const packed=library.acquire(nine,material); assert.equal(packed.albedo.image.width,768); assert.equal(packed.albedo.image.height,768); assert.equal(new Set(nine.map(packed.index)).size,9);
+  packed.albedo.addEventListener('dispose',()=>disposed++); library.dispose(); assert.equal(disposed,3); material.dispose(); assert.equal(disposed,3);
+  for(let i=1;i<=20;i++) {const m=new THREE.MeshStandardMaterial();library.acquire([{texture:'wood',woodBoards:i}],m);m.dispose();assert.equal(library.variantCount,0);}
+  library.dispose();
+});

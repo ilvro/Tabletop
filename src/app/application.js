@@ -1,5 +1,5 @@
 import { materialPanel, localEffectPanel } from '../ui/material-panels.js';
-import { surfacePatch, surfacePreset, LOCAL_EFFECT_DEFAULTS, smokeDefaults } from '../domain/materials.js';
+import { surfacePatch, layerSurfacePatch, textureFieldPatch, surfacePreset, LOCAL_EFFECT_DEFAULTS, smokeDefaults } from '../domain/materials.js';
 import { Euler, Quaternion, Vector3 } from 'three';
 import { environmentPanel, bindingPanel } from '../ui/environment-panels.js';
 import { atmospherePanel, lightPanel } from '../ui/lighting-panels.js';
@@ -479,6 +479,7 @@ export async function startApplication() {
     if (!selection) selectedIds.clear();
     if (selectedIds.size > 1) { document.getElementById('inspector-content').innerHTML = `<section><span class="eyebrow">UNIR OBJETOS</span><button class="wide primary" data-action="assembly-bind">Ancorar objetos juntos</button><p class="microcopy">Cria uma composição que se seleciona, move e gira como uma unidade. Desancore pela pasta para editar os objetos individualmente.</p></section>` + polishPanel(selectedIds.size, polishOptions, store.document); viewport.setSelection(selection, [...selectedIds]); return; }
     const panel = document.getElementById('inspector-content'), found = locate();
+    const textureDisclosures = new Map([...panel.querySelectorAll('[data-texture-options]')].map(node => [node.dataset.textureOptions, node.open]));
     const adjustmentsOpen = panel.querySelector('.object-adjustments')?.open ?? false;
     const terrainAdvancedOpen = panel.querySelector('[data-disclosure="terrain-advanced"]')?.open ?? false;
     const terrainLayerEditorOpen = panel.querySelector('[data-disclosure="terrain-layer-editor"]')?.open ?? false;
@@ -532,6 +533,7 @@ export async function startApplication() {
     fields += `<section><span class="eyebrow">APRESENTAÇÃO</span>${checkField('object-secret', 'Somente para o mestre', record.audience === 'gm')}${record.locked === undefined ? '' : checkField('object-locked', 'Bloquear edição', record.locked)}</section>${record.kind === 'terrain' ? '</details>' : ''}<div class="object-actions">${button('object-copy', 'Copiar', 'copy')}${button('object-duplicate', 'Duplicar', 'copy')}${button('object-delete', 'Excluir', 'trash', 'danger')}</div>`;
     if (record.kind !== 'terrain') fields += `<details class="object-adjustments" ${adjustmentsOpen ? 'open' : ''}><summary>Alinhar e ajustar objetos</summary>${polishPanel(1, polishOptions, doc)}</details>`;
     panel.innerHTML = isLocked(doc, record) ? `<p class="microcopy">Elemento, pasta, andar ou camada bloqueados. Desbloqueie na organização da cena para editar.</p>${fields}` : fields;
+    for (const node of panel.querySelectorAll('[data-texture-options]')) node.open = textureDisclosures.get(node.dataset.textureOptions) ?? false;
   }
 
   function updateView(event = {}) {
@@ -1051,7 +1053,7 @@ export async function startApplication() {
       const terrain = locate()?.record, layers = terrain?.paintLayers;
       if (terrain?.kind !== 'terrain' || !layers?.some(layer => layer.id === terrainBrush.layerId)) return;
       const key = field.slice(14);
-      execute('entity.update', { id: terrain.id, patch: { paintLayers: layers.map(layer => layer.id === terrainBrush.layerId ? { ...layer, ...(key === 'texture' && surfacePreset(value) ? { texture: value, textureSize: surfacePreset(value).size, color: '#ffffff' } : { [key]: value }) } : layer) }, snap: false }, { label: 'Editar camada do terreno' }); return;
+      execute('entity.update', { id: terrain.id, patch: { paintLayers: layers.map(layer => layer.id === terrainBrush.layerId ? { ...layer, ...(key === 'texture' ? layerSurfacePatch(value) : textureFieldPatch(layer, key, value)) } : layer) }, snap: false }, { label: 'Editar camada do terreno' }); return;
     }
     if (field === 'terrain-shading') { if (locate()?.record.kind === 'terrain') execute('entity.update', { id: selection, patch: { flatShading: value === 'faceted' } }, { label: 'Acabamento do terreno' }); return; }
     if (field === 'terrain-resolution') {
@@ -1186,7 +1188,7 @@ export async function startApplication() {
     else if (field.startsWith('scale-')) { const scale = [...record.transform.scale]; scale[Number(field.slice(-1))] = value; patch.transform = { scale }; }
     else if (field.startsWith('footprint-')) { const footprint = [...record.footprint]; footprint[Number(field.slice(-1))] = value; patch.footprint = footprint; }
     else if (field === 'token-color') actorPatch = { color: value };
-    else if (field.startsWith('material-')) patch.material = field === 'material-texture' ? surfacePatch(value) : { [field.slice(9)]: value };
+    else if (field.startsWith('material-')) patch.material = field === 'material-texture' ? surfacePatch(value) : textureFieldPatch(record.material, field.slice(9), value);
     else if (field.startsWith('effect-') && record.kind === 'prop') {
       const config = clone(record.localEffect ?? LOCAL_EFFECT_DEFAULTS), member=field.slice(7);
       if(member === 'type') patch.localEffect = value === 'none' ? { ...config, enabled:false } : config.type === value ? { ...config, enabled:true } : { ...(value==='smoke'?smokeDefaults():LOCAL_EFFECT_DEFAULTS), hideModel:config.hideModel, enabled:true };

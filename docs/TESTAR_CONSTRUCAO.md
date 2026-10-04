@@ -93,3 +93,14 @@ Use pisos poligonais para experimentar cantos oblíquos. Paredes com alturas/esp
 5. Mude a altura do andar superior para 4 m. O piso superior sobe e o desnível da escada associada acompanha a alteração. Ajuste posição, rotação e comprimento para a escada chegar ao vão.
 
 Recorte, posicionamento do acesso e associação dos andares são ações separadas. A escada/rampa não cria nem procura automaticamente um vão no piso superior.
+
+
+## 7. Personalizar madeira, metal e terreno
+
+1. Selecione um piso e abra **Material e textura → Madeira**. Escolha 8 tábuas por repetição, orientação vertical, juntas de 5% e brilho 0,6. Observe tábuas mais estreitas/escuras; alterne para horizontal e parquet.
+2. Escolha **Cor da textura**. A aplicação passa para **Recolorir · preservar detalhes**; veios/juntas continuam visíveis. Em **Contraste, saturação e variação**, saturação 0 retira a cor e seed produz outro desenho. O bloco continua aberto após cada alteração.
+3. Selecione um objeto e escolha **Metal**. Compare escovado, liso, chapa xadrez, ondulado e enferrujado; varie desgaste, tamanho e rotação. Em objetos com materiais nomeados, escolha apenas um em **Aplicar acabamento em**.
+4. No terreno, escolha a camada e abra **Editar material e propriedades**. Os mesmos controles personalizam a camada; trocar cor/desenho conserva a região pintada.
+5. Desfaça/refaça, salve e reabra a cena. As configurações devem permanecer. Abra o projetor e edite a madeira: o material muda e a câmera publicada conserva seu enquadramento.
+
+Quantidade de tábuas é por repetição, não por objeto inteiro. Relevo altera a iluminação aparente; não muda geometria ou colisão. Detalhes em [MATERIALS.md](MATERIALS.md).

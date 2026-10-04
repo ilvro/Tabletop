@@ -107,6 +107,12 @@ Verificados: oito materiais com pixels distintos, mistura no terreno, isolamento
 
 Texturas em estruturas/objetos, mistura no terreno e emissores de fogo/fumaça por objeto ficam nas entregas. Importação de texturas avulsas/fotográficas, decals, múltiplas regiões de chuva/poeira/brasas e colisão continuam como pendências reais.
 
+## Personalização dos materiais — em andamento
+
+Pedido de 4 de outubro de 2026: tornar o desenho e a cor das texturas editáveis. Plano: controles de recoloração, brilho, contraste, saturação e rotação; quantidade/orientação/juntas/veios da madeira; padrões e desgaste do metal; densidade e seed das demais superfícies. Os ajustes serão opcionais para preservar documentos existentes e estarão disponíveis em materiais e camadas do terreno.
+
+Implementado: campos opcionais validados, controles compartilhados de materiais/camadas, recoloração no shader, variantes de madeira e metal, densidade/seed e atlas compactos com descarte por referência. Build, 126 testes unitários/de integração e três E2E afetados passaram. Verificados: controles reais de madeira/metal/terreno, recoloração e escurecimento nos pixels WebGL, máscaras conservadas, desfazer/refazer, salvamento/reabertura, projetor/câmera independente e descarte dos atlas. Em revisão final: preservação do bloco avançado aberto, compatibilidade visual de documentos sem os novos campos e renderização com oito camadas personalizadas. Uso atualizado em docs/MATERIALS.md; resumos serão sincronizados ao concluir.
+
 ## Pendências atuais
 
 Somente trabalho ainda não concluído. A prioridade visual proposta está em [docs/VISUAL_TARGET.md](docs/VISUAL_TARGET.md).

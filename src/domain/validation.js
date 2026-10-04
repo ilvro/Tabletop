@@ -1,4 +1,4 @@
-import { SURFACE_MATERIALS } from './materials.js';
+import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES } from './materials.js';
 /** Validated JSON is the boundary between editor, disk and future network adapters. */
 import { kelvinToColor } from './lighting.js';
 import { polygonIsSimple, polygonSize, floorContour, validHoles, pointInPolygon } from './geometry.js';
@@ -41,7 +41,7 @@ function transform(value, path, structural = false) {
   if (structural) fail(value.scale.every(v => Math.abs(v - 1) < 1e-8), 'Escala estrutural deve ser incorporada às dimensões.', path);
 }
 function material(value, path, partial = false) {
-  keys(value, ['color', 'roughness', 'metalness', 'emissive', 'emissiveIntensity', 'texture', 'textureSize', 'relief', 'textureSlot'], path);
+  keys(value, ['color', 'roughness', 'metalness', 'emissive', 'emissiveIntensity', 'texture', 'textureSize', 'relief', 'textureSlot', ...TEXTURE_OPTION_FIELDS], path);
   if (!partial || value.color !== undefined) color(value.color, `${path}.color`);
   for (const field of ['roughness', 'metalness']) if (!partial || value[field] !== undefined) number(value[field], `${path}.${field}`, 0, 1);
   surfaceFields(value,path);
@@ -53,6 +53,12 @@ function surfaceFields(value,path) {
   if(value.textureSize !== undefined) number(value.textureSize,`${path}.textureSize`,.05,50);
   if(value.relief !== undefined) number(value.relief,`${path}.relief`,0,.2);
   if(value.textureSlot !== undefined) text(value.textureSlot,`${path}.textureSlot`,128);
+  if(value.textureColor !== undefined) color(value.textureColor,`${path}.textureColor`);
+  for (const [key, [min, max]] of Object.entries(TEXTURE_RANGES)) if (value[key] !== undefined) {
+    number(value[key],`${path}.${key}`,min,max);
+    if (['woodBoards','textureSeed'].includes(key)) fail(Number.isInteger(value[key]),'Deve ser inteiro.',`${path}.${key}`);
+  }
+  for (const [key, choices] of Object.entries(TEXTURE_CHOICES)) if (value[key] !== undefined) choice(value[key],choices,`${path}.${key}`);
 }
 function localEffect(value,path) {
   keys(value,['type','enabled','count','size','offset','speed','opacity','color','seed','lightIntensity','hideModel'],path);
@@ -158,7 +164,7 @@ function entity(value, path, document) {
       fail(new Set(value.paintLayers.map(layer => layer?.id)).size === value.paintLayers.length, 'IDs de camadas de cor devem ser únicos.', path);
       value.paintLayers.forEach((layer, index) => {
         const lp = `${path}.paintLayers[${index}]`;
-        keys(layer, ['id','name','color','opacity','visible','weights','texture','textureSize'], lp);
+        keys(layer, ['id','name','color','opacity','visible','weights','texture','textureSize', ...TEXTURE_OPTION_FIELDS], lp);
         surfaceFields(layer,lp);
         identifier(layer.id, `${lp}.id`); text(layer.name, `${lp}.name`); color(layer.color, `${lp}.color`); number(layer.opacity, `${lp}.opacity`, 0, 1); bool(layer.visible, `${lp}.visible`);
         fail(Array.isArray(layer.weights) && layer.weights.length === value.heights.length, 'Máscara de pintura com tamanho incompatível.', lp);

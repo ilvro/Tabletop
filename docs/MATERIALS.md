@@ -10,8 +10,28 @@ A escolha aplica a cor branca de matiz e o acabamento inicial do material. Depoi
 
 - **Tamanho do padrão · m:** tamanho de uma repetição. Menor produz detalhes menores; maior amplia o padrão.
 - **Relevo aparente · m:** intensidade do detalhe na iluminação, sem alterar geometria, colisão ou apoio.
-- **Cor / matiz**, **Rugosidade** e **Metalicidade:** personalizam o acabamento. A textura já possui variação local de rugosidade.
+- **Cor da textura:** recolore o material preservando os detalhes. Ao escolher uma cor, **Aplicação da cor** muda da paleta original para **Recolorir · preservar detalhes**. Também é possível escolher **Multiplicar pela cor** ou voltar à **Paleta original**.
+- **Brilho:** 1 conserva a aparência original, valores menores escurecem e valores maiores clareiam; 0 deixa a textura preta. Para madeira escura, experimente 0,5–0,7.
+- **Rotação do padrão:** gira o desenho em graus sobre cada face projetada.
+- **Contraste, saturação e variação:** bloco recolhível com contraste, saturação (0 = cinza), densidade de detalhes e seed. A seed gera outro desenho determinístico; não altera a geometria ou a área pintada.
+- **Cor / matiz**, **Rugosidade** e **Metalicidade:** personalizam o acabamento final. Cor / matiz multiplica a textura, inclusive a recoloração; deixe branca para ver a cor escolhida sem outra matiz. A textura possui variação local de rugosidade.
 - Em objetos da biblioteca/GLB, **Aplicar acabamento em** permite escolher um material nomeado, como `wood`, conservando textura, cor e acabamento dos outros. **Todos os materiais** aplica a textura ao conjunto.
+
+### Madeira
+
+- **Padrão:** tábuas, madeira contínua sem juntas ou parquet em blocos com direções alternadas.
+- **Tábuas por repetição:** 1–32, por repetição do padrão; no parquet, por bloco. Não é a contagem total de tábuas do objeto. Por exemplo, tamanho de padrão de 2 m com 8 tábuas produz tábuas de aproximadamente 25 cm; no parquet, os blocos ocupam metade da repetição.
+- **Orientação:** horizontal ou vertical nos eixos projetados da superfície; pode ser combinada com a rotação em graus. A rotação do objeto e a posição da câmera não definem esses eixos.
+- **Largura das juntas:** 0–15% da largura de uma tábua; zero remove o sulco.
+- **Intensidade dos veios:** 0–1, alterando cor e altura aparente dos veios.
+
+Exemplo: escolha madeira, 8 tábuas, vertical, juntas de 5%, brilho 0,6 e uma cor marrom para obter um piso de tábuas mais estreitas e escuras.
+
+### Metal
+
+**Padrão do metal** oferece escovado, liso, chapa xadrez, ondulado e enferrujado. **Desgaste / oxidação** controla a intensidade de manchas de oxidação em 0–100%; no padrão enferrujado, a ferrugem também aumenta a rugosidade e reduz a resposta metálica local. Tamanho do padrão, rotação e densidade alteram a escala/direção dos detalhes. O relevo é aparente; chapas onduladas continuam com a geometria do objeto original.
+
+Selecionar outra textura reinicia os ajustes de cor/desenho/brilho para os valores iniciais do material escolhido, conservando o slot selecionado e as máscaras do terreno. Desfazer restaura a configuração anterior. Ajustes ausentes em documentos antigos equivalem aos padrões originais.
 
 **Sem textura adicional** remove a substituição e volta a usar os mapas originais de um GLB, conservando seus ajustes de cor/rugosidade/metalicidade. Documentos e assets compartilhados não são modificados por outra instância.
 
@@ -22,7 +42,7 @@ As oito texturas são procedurais originais, geradas localmente, com cor, altura
 Selecione o terreno e use **Camadas de cor e textura** no topo do inspetor:
 
 1. Escolha a camada e abra **Editar material e propriedades**.
-2. Selecione a textura e o tamanho do padrão. Escolher uma textura reinicia a matiz da camada para branco, preservando a área pintada.
+2. Selecione a textura e o tamanho do padrão. Cada camada oferece os mesmos controles de cor, brilho, rotação, densidade/seed e desenho de madeira/metal dos materiais de objetos. Escolher uma textura reinicia os ajustes e a matiz da camada para branco, preservando a área pintada.
 3. Para uma segunda superfície, use **Nova camada de material**, escolha outra textura e use **Pintar camada** com o pincel sobre o terreno.
 4. **Apagar** revela as camadas de baixo. Opacidade, visibilidade e ordem continuam disponíveis; a última camada cobre as anteriores.
 
@@ -43,17 +63,18 @@ Na aba **Cena**, **Pausar efeitos animados** congela os efeitos. Movimento reduz
 ## Dados, renderização e limites
 
 - `material.texture` guarda um ID local ou `none`; `textureSize` aceita 0,05–50 m, `relief` 0–0,2 m e `textureSlot` identifica o material do objeto. A validação aceita esses campos opcionais e rejeita IDs/valores inválidos.
-- Camadas do terreno aceitam `texture`/`textureSize` além de suas cores e máscaras. Misturam cor, altura aparente e rugosidade na renderização.
+- Materiais e camadas do terreno aceitam os parâmetros opcionais `textureColor`, `textureColorMode`, `textureBrightness`, `textureContrast`, `textureSaturation`, `textureRotation`, `textureSeed`, `patternDensity`, `woodPattern`, `woodBoards`, `woodDirection`, `woodGap`, `woodGrain`, `metalPattern` e `metalWear`. Brilho/contraste/saturação aceitam 0–2; rotação 0–360 graus; seed inteira 0–65.535; densidade 0,25–4; tábuas inteiras 1–32; juntas 0–0,15; veios/desgaste 0–1. A interface apresenta juntas/desgaste em porcentagem. Valores não aplicáveis à textura escolhida são ignorados pelo desenho.
+- Camadas do terreno conservam suas cores e máscaras. Misturam cor, altura aparente, rugosidade e resposta metálica local; a metalicidade geral do terreno permanece no material base.
 - As superfícies usam projeção em três eixos e escala em coordenadas mundiais. Isso evita esticar texturas em paredes e terrenos sem UV, mas mover objetos pode deslocar o padrão sobre eles. Texturas autorais com UV continuam disponíveis no GLB original.
-- Cada viewport possui duas texturas compartilhadas do acervo, geradas sob demanda e liberadas ao destruir a janela. Edição não cria uma cópia das imagens para cada objeto.
+- Cada viewport possui duas texturas compartilhadas do acervo original. Desenhos personalizados usam atlas compactos de cor/detalhes, com até nove tiles (base + oito camadas), compartilhados por configurações equivalentes e liberados quando seu último material é descartado. Há cache CPU de até 32 tiles; cores, brilho, contraste, saturação e orientação usam parâmetros de shader e não criam novos pixels no cache. Fechar o viewport libera todas as texturas GPU. Cenas com muitos desenhos diferentes exigem mais memória que o acervo original.
 - `prop.localEffect` persiste configuração e deslocamento do emissor. O limite é 512 partículas por emissor, 32 emissores ativos e 4.096 partículas locais por documento. Emissores desativados não alocam partículas no viewport. O clima global conserva seu limite independente.
 - Partículas são planos voltados para a câmera, desenhados em lote por emissor, com turbulência, expansão/desvanecimento da fumaça e cor de chama variando durante a vida. São efeitos visuais, sem simulação de fluidos, propagação de incêndio, colisão com tetos/paredes ou sombras volumétricas.
 - A luz do fogo não projeta sombras próprias e pode atravessar paredes. Luzes pontuais/spot com sombra podem ser adicionadas separadamente quando necessário.
 
-Modelos fotográficos, upload de texturas avulsas/variantes da biblioteca, decals, vegetação distribuída, poças/reflexos e benchmark presencial seguem como evolução. Uso de iluminação e ambiente: [LIGHTING.md](LIGHTING.md) e [ENVIRONMENTS.md](ENVIRONMENTS.md).
+Modelos fotográficos, upload de texturas avulsas/coleções de variantes nomeadas, decals, vegetação distribuída, poças/reflexos e benchmark presencial seguem como evolução. Uso de iluminação e ambiente: [LIGHTING.md](LIGHTING.md) e [ENVIRONMENTS.md](ENVIRONMENTS.md).
 
 ## Validação
 
-Os testes de domínio cobrem rejeição atômica, histórico, duplicação/mapas, filtragem de emissores privados, máscaras/reamostragem do terreno, isolamento por material, seeds e descarte. Os testes de navegador cobrem controles reais, colocação, pausa/qualidade, reabertura e projetor independente. A verificação WebGL compara pixels dos oito materiais, terreno misturado e fogo/fumaça animados, e verifica a liberação das texturas do acervo.
+Os testes de domínio cobrem rejeição atômica, histórico, duplicação/mapas, filtragem de emissores privados, máscaras/reamostragem do terreno, isolamento por material, seeds e descarte. Os testes de navegador cobrem controles reais, colocação, pausa/qualidade, reabertura e projetor independente. A verificação WebGL compara pixels dos oito materiais, variantes de madeira/metal, recoloração verde e escurecimento, terreno personalizado misturado e fogo/fumaça animados; verifica compatibilidade visual sem os novos campos e liberação das texturas. A UI verifica persistência no projetor/reabertura, desfazer e máscaras conservadas.
 
-Os resultados finais desta implementação são registrados em [progress.md](../progress.md). Captura do fluxo: `test-results/materials-fire-smoke.png`. Chromium com WebGL por software não representa benchmark no notebook/projetor.
+Os resultados finais desta implementação são registrados em [progress.md](../progress.md). Capturas do fluxo: `test-results/materials-fire-smoke.png` e `test-results/custom-materials.png`. Chromium com WebGL por software não representa benchmark no notebook/projetor.

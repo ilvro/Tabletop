@@ -87,6 +87,8 @@ O domínio calcula coordenadas, valida estruturas, associa referências e aplica
 
 O renderer mantém uma associação de ID para objetos Three.js, reconstrói geometrias paramétricas e atualiza entidades afetadas. Cache de bounds e índice espacial são dados derivados: podem ser reconstruídos, sem serem a única descrição do mapa.
 
+Materiais e camadas do terreno persistem IDs de textura local e parâmetros opcionais de cor/desenho, com padrões que conservam documentos anteriores. `surface-pixels.js` gera tiles determinísticos e mantém cache CPU limitado; `surface-materials.js` compõe projeção em três eixos e parâmetros de cor/orientação no shader. Atlas personalizados são compartilhados por conjuntos de desenhos equivalentes e liberados por referência ao descarte do último material. Uso e campos: [MATERIALS.md](MATERIALS.md).
+
 Seleção, hover, ferramenta, arraste provisório, preview de sugestão e câmera de trabalho pertencem à UI. Câmeras salvas, estado de porta e ambiente da cena pertencem ao documento. Conexões, loaders, texturas GPU e áudio pertencem ao runtime.
 
 ## 6. Contrato de documentos
