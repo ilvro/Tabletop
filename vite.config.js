@@ -4,6 +4,7 @@ const frontendPort = Number(process.env.TABLETOP_UI_PORT ?? 5173);
 if (!Number.isInteger(frontendPort) || frontendPort < 1 || frontendPort > 65535) throw new Error('TABLETOP_UI_PORT deve estar entre 1 e 65535.');
 
 export default defineConfig({
+  base: '/Tabletop/',
   server: {
     host: '127.0.0.1',
     port: frontendPort,
