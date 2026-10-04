@@ -1,3 +1,4 @@
+import { applyEnvironment, createEnvironmentFromLook } from '../src/domain/environments.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, writeFile, readFile, readdir, rename, rm } from 'node:fs/promises';
@@ -374,4 +375,30 @@ test('development launcher refuses to reuse an existing backend on its configure
   assert.match(output, /outra instância/);
   assert.ok(!output.includes('VITE v'));
   assert.equal((await f.request('/api/tabletop/health')).status, 200);
+});
+
+
+test('environment library survives restart, guards revisions and remains independent of applied scenes', async t => {
+  const f = await fixture(t), preset = createEnvironmentFromLook(applyEnvironment(createScene(), 'rain'), 'Chuva de investigação');
+  const created = await f.request('/api/tabletop/environments', { method:'POST', body:{ document:preset } });
+  assert.equal(created.status,201); assert.equal(created.value.revision,1);
+  const route = `/api/tabletop/environments/${preset.id}`, scene = applyEnvironment(createScene(),created.value);
+  assert.equal((await f.request('/api/tabletop/scenes', { method:'POST', body:{ document:scene } })).status,201);
+  const writes = await Promise.all(['A','B'].map(name => f.request(route,{ method:'PUT',body:{ document:{ ...created.value,name },expectedRevision:1 } })));
+  assert.deepEqual(writes.map(r=>r.status).sort(),[200,409]);
+  const saved = writes.find(r=>r.status===200).value;
+  await f.stop(); await f.start();
+  assert.deepEqual((await f.request(route)).value,saved);
+  assert.deepEqual((await f.request('/api/tabletop/environments')).value.map(p=>p.id),[preset.id]);
+  const backup = JSON.parse(await readFile(path.join(f.dataDir,'backups','environments',preset.id,'1.json'),'utf8'));
+  assert.deepEqual(backup,created.value);
+  const copy = await f.request(`${route}/duplicate`, { method:'POST',body:{expectedRevision:2} });
+  assert.equal(copy.status,201); assert.notEqual(copy.value.id,preset.id); assert.deepEqual(copy.value.settings,saved.settings);
+  const invalid = structuredClone(saved); invalid.settings.weather.count=10000;
+  assert.equal((await f.request(route,{method:'PUT',body:{document:invalid,expectedRevision:2}})).status,422);
+  assert.equal((await f.request(route,{method:'DELETE'})).status,422);
+  assert.equal((await f.request(`${route}?expectedRevision=1`,{method:'DELETE'})).status,409);
+  assert.equal((await f.request(`${route}?expectedRevision=2`,{method:'DELETE'})).status,204);
+  const loadedScene=(await f.request(`/api/tabletop/scenes/${scene.id}`)).value;
+  assert.deepEqual(loadedScene.look,scene.look); assert.deepEqual(loadedScene.sourceEnvironment,scene.sourceEnvironment);
 });

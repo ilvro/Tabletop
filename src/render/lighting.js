@@ -52,7 +52,7 @@ export function updateLightEffects(objects, seconds, paused) {
     if (!source || !record) continue;
     let visible = true;
     for (let parent = wrapper; parent; parent = parent.parent) if (!parent.visible) visible = false;
-    const active = visible && record.enabled !== false;
+    const active = visible && record.enabled !== false && wrapper.userData.environmentActive !== false;
     const running = active && !paused && record.flicker?.enabled && record.flicker.amplitude > 0;
     source.intensity = active ? record.intensity * flickerFactor(record.flicker, seconds) : 0;
     animated ||= Boolean(running);

@@ -216,7 +216,7 @@ function composition(value, path, document) {
 }
 
 function look(value, path, document, seen) {
-  keys(value, ['background', 'fill', 'lights', 'materialAdjustments', 'fog', 'volumetricFog', 'bloom', 'effectsPaused'], path); color(value.background, `${path}.background`);
+  keys(value, ['background', 'fill', 'lights', 'materialAdjustments', 'fog', 'volumetricFog', 'bloom', 'effectsPaused', 'daylight', 'sky', 'weather', 'nightWindows', 'environmentBindings'], path); color(value.background, `${path}.background`);
   keys(value.fill, ['skyColor', 'groundColor', 'intensity'], `${path}.fill`);
   color(value.fill.skyColor, `${path}.fill.skyColor`); color(value.fill.groundColor, `${path}.fill.groundColor`);
   number(value.fill.intensity, `${path}.fill.intensity`, 0);
@@ -267,6 +267,42 @@ function look(value, path, document, seen) {
     keys(b, ['enabled', 'strength', 'radius', 'threshold'], p);
     bool(b.enabled, p); number(b.strength, p, 0, 1); number(b.radius, p, 0, 1); number(b.threshold, p, 0, 10);
   }
+  if (value.daylight !== undefined) {
+    keys(value.daylight, ['phase', 'exposure'], `${path}.daylight`);
+    choice(value.daylight.phase, ['day', 'sunset', 'night'], path); number(value.daylight.exposure, path, .2, 4);
+  }
+  if (value.sky !== undefined) {
+    const s = value.sky, p = `${path}.sky`;
+    keys(s, ['enabled', 'topColor', 'horizonColor', 'celestialEnabled', 'discSize', 'stars', 'clouds', 'cloudColor', 'cloudCoverage', 'cloudOpacity', 'cloudSpeed', 'cloudScale', 'seed'], p);
+    for (const key of ['enabled', 'celestialEnabled', 'stars', 'clouds']) bool(s[key], `${p}.${key}`);
+    for (const key of ['topColor', 'horizonColor', 'cloudColor']) color(s[key], `${p}.${key}`);
+    number(s.discSize, p, .005, .15); number(s.cloudCoverage, p, 0, 1); number(s.cloudOpacity, p, 0, 1);
+    number(s.cloudSpeed, p, 0, 1); number(s.cloudScale, p, .1, 20);
+    fail(Number.isInteger(s.seed) && s.seed >= 0 && s.seed <= 2147483647, 'Seed inválido.', p);
+  }
+  if (value.weather !== undefined) {
+    const w = value.weather, p = `${path}.weather`;
+    keys(w, ['type', 'count', 'center', 'size', 'color', 'opacity', 'particleSize', 'speed', 'wind', 'seed'], p);
+    choice(w.type, ['none', 'rain', 'dust', 'embers', 'smoke'], p);
+    fail(Number.isInteger(w.count) && w.count >= 0 && w.count <= 3000, 'Quantidade deve ser inteiro de 0 a 3000.', p);
+    vector(w.center, 3, p); vector(w.size, 3, p); w.size.forEach(v => number(v, p, .1, 1000));
+    color(w.color, p); number(w.opacity, p, 0, 1); number(w.particleSize, p, .005, 3); number(w.speed, p, 0, 100);
+    vector(w.wind, 2, p); w.wind.forEach(v => number(v, p, -50, 50));
+    fail(Number.isInteger(w.seed) && w.seed >= 0 && w.seed <= 2147483647, 'Seed inválido.', p);
+  }
+  if (value.nightWindows !== undefined) {
+    keys(value.nightWindows, ['enabled', 'color', 'intensity'], `${path}.nightWindows`);
+    bool(value.nightWindows.enabled, path); color(value.nightWindows.color, path); number(value.nightWindows.intensity, path, 0, 20);
+  }
+  if (value.environmentBindings !== undefined) {
+    record(value.environmentBindings, `${path}.environmentBindings`);
+    for (const [targetId, b] of Object.entries(value.environmentBindings)) {
+      const target = document.layout.entities[targetId] ?? value.lights[targetId], p = `${path}.environmentBindings.${targetId}`;
+      fail(target && (target.type || ['prop', 'window'].includes(target.kind)), 'Vínculo exige prop, janela ou luz existente.', p);
+      keys(b, ['enabled', 'phase', 'slot', 'color', 'intensity'], p); bool(b.enabled, p);
+      choice(b.phase, ['day', 'night', 'always'], p); text(b.slot, p, 120); color(b.color, p); number(b.intensity, p, 0, 20);
+    }
+  }
   record(value.materialAdjustments, `${path}.materialAdjustments`);
   for (const [entityId, slots] of Object.entries(value.materialAdjustments)) {
     reference(entityId, document.layout.entities, `${path}.materialAdjustments.${entityId}`, false);
@@ -282,6 +318,7 @@ export function validateDocument(document) {
   const path = 'document';
   record(document, path);
   fail([1, 2].includes(document.schemaVersion), 'Versão de schema incompatível.', `${path}.schemaVersion`);
+  if (document.documentType === 'environment') return validateEnvironmentDocument(document);
   choice(document.documentType, ['scene', 'map'], `${path}.documentType`);
   const isScene = document.documentType === 'scene';
   keys(document, ['schemaVersion', 'documentType', 'id', 'revision', 'name', 'createdAt', 'updatedAt', 'layout',
@@ -381,5 +418,24 @@ export function validateDocument(document) {
     reference(doorId, document.layout.entities, `sessionState.doors.${doorId}`, false, 'door');
     number(angle, `sessionState.doors.${doorId}`, -Math.PI * 2, Math.PI * 2);
   }
+  return document;
+}
+
+/** Environment library snapshots have no scene IDs, geometry, actors or media. */
+function validateEnvironmentDocument(document) {
+  const path = 'environment';
+  keys(document, ['schemaVersion', 'documentType', 'id', 'revision', 'name', 'createdAt', 'updatedAt', 'settings'], path);
+  fail(document.schemaVersion === 2, 'Ambientes exigem schema 2.', path); identifier(document.id, path); text(document.name, path);
+  fail(Number.isSafeInteger(document.revision) && document.revision >= 0, 'Revisão inválida.', path);
+  for (const key of ['createdAt', 'updatedAt']) fail(typeof document[key] === 'string' && Number.isFinite(Date.parse(document[key])) && new Date(document[key]).toISOString() === document[key], 'Data deve ser ISO UTC válida.', path);
+  const s = document.settings;
+  keys(s, ['background', 'fill', 'daylight', 'sky', 'weather', 'fog', 'volumetricFog', 'bloom', 'nightWindows', 'effectsPaused', 'keyLight'], `${path}.settings`);
+  const required = ['daylight', 'sky', 'weather', 'fog', 'volumetricFog', 'bloom', 'nightWindows', 'effectsPaused'];
+  for (const key of required) fail(s[key] !== undefined, `Configuração ausente: ${key}.`, path);
+  keys(s.keyLight, ['name', 'type', 'position', 'rotation', 'temperature', 'color', 'intensity', 'distance', 'shadowEnabled', 'enabled', 'audience', 'locked', 'groupId', 'surfaceId'], `${path}.keyLight`);
+  fail(s.keyLight.type === 'directional' && s.keyLight.groupId === null && s.keyLight.surfaceId === null && s.keyLight.audience === 'all' && s.keyLight.locked === false, 'A luz principal do preset deve ser direcional e independente da cena.', path);
+  const { keyLight, ...globals } = s;
+  const value = { ...globals, materialAdjustments: {}, lights: { 'environment-key': { ...keyLight, id: 'environment-key' } } };
+  look(value, `${path}.settings`, { schemaVersion: 2, layout: { entities: {}, groups: {} } }, new Set([document.id]));
   return document;
 }

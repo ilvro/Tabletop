@@ -2,14 +2,14 @@
 
 **Data:** 4 de outubro de 2026
 
-**Status do Projeto:** Vertical Slice validado; evolução estrutural, polish câmera cinematográfica e iluminação/imersão avançada entregues
+**Status do Projeto:** Vertical Slice validado; evolução estrutural, polish câmera cinematográfica e iluminação/imersão avançada, ambientes/horários/clima entregues
 **Documentos de Referência:** [`ROADMAP.md`](ROADMAP.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`MAP_AUTHORING.md`](MAP_AUTHORING.md), [`IMMERSION.md`](IMMERSION.md), [`VERTICAL_SLICE.md`](VERTICAL_SLICE.md) e [`INVESTIGACAO_E_ARQUITETURA.md`](../INVESTIGACAO_E_ARQUITETURA.md).
 
 ---
 
 **Câmera cinematográfica:** WASD com aceleração/desaceleração, Shift rápido, Page Up/Down e Espaço/Ctrl para altura na perspectiva, velocidade e lente; órbita suave, transições de presets/publicação com duração, pausa e corte. Zoom, pan e órbita preservam o movimento por teclado, e o botão direito seleciona somente ao soltar sem arrastar. Ctrl+WASD tem prioridade sobre atalhos de edição na perspectiva com foco no canvas; atalhos reservados do Chrome exigem Tela cheia pelo botão e permissão de captura WASD. Menu nativo cancelado na área 3D, incluindo overlays. Projetor mantém câmera independente e edições de conteúdo não reiniciam transições. A apresentação na mesma janela aceita navegação e restaura a câmera de trabalho ao voltar à edição. G/R/V substituem W/R/S para transformar objetos. Acompanhamento automático/caminhos e benchmark no projetor permanecem pendentes. Uso: [CAMERA.md](CAMERA.md). Andamento contínuo: [progress.md](../progress.md).
 
-**Biblioteca expandida:** 127 assets originais locais (121 além do kit inicial, incluindo 66 na segunda ampliação), para investigação/horror paranormal em diferentes épocas e cenários. Categorias hierárquicas, busca sem acentos, filtros combinados por época/cenário/tags, favoritos e classificação editável de assets internos/importados, salva no servidor sem alterar referências de cenas. Uso e limites em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
+**Biblioteca expandida:** 161 assets originais locais (155 além do kit inicial, incluindo 66 na segunda e 34 na terceira ampliação), para investigação/horror paranormal em diferentes épocas e cenários. Categorias hierárquicas, busca sem acentos, filtros combinados por época/cenário/tags, favoritos e classificação editável de assets internos/importados, salva no servidor sem alterar referências de cenas. Uso e limites em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
 
 **Composições ancoradas:** Shift+seleção → botão direito → Ancorar objetos juntos cria uma pasta que se seleciona, move, gira, redimensiona, duplica e copia/cola como uma unidade. Desancorar pela pasta conserva as poses e volta à seleção individual. Fixar em parede/teto permanece como comando separado. [TESTAR_CONSTRUCAO.md](TESTAR_CONSTRUCAO.md) inclui o exemplo mesa + lamparina.
 
@@ -79,7 +79,7 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
 ### 2.5. Experiência do Mestre e UI (`src/app/application.js`)
 - **Painéis de Controle:**
   - Aba **Construir:** Dimensões rápidas de sala, adição manual de pisos, paredes, portas, janelas, plataformas, escadas/rampas, tokens e luzes, além de Smart Build.
-  - Aba **Assets:** Catálogo com 127 modelos originais locais, prévias e paginação; categorias hierárquicas, épocas, cenários, busca, filtros por múltiplas tags, favoritos e classificação editável persistente. Importação de imagens/GLB estático preservada. Ver [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
+  - Aba **Assets:** Catálogo com 161 modelos originais locais, prévias e paginação; categorias hierárquicas, épocas, cenários, busca, filtros por múltiplas tags, favoritos e classificação editável persistente. Importação de imagens/GLB estático preservada. Ver [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
   - Aba **Cena:** Seleção de ambientes luminosos (acolhedor, luar, neutro), salvamento de enquadramentos de câmera, lançamento da segunda janela para projetor, e **gerenciamento hierárquico da árvore de cena** com suporte a pastas/grupos (+ Nova Pasta, renomear, excluir), organização via arrastar e soltar (*drag & drop*) e renomeação direta de objetos.
 - **Menu de Contexto Rápido:**
   - Botão direito sobre um objeto no 3D seleciona e abre menu com **Renomear**, **Duplicar** e **Deletar** somente ao soltar sem arrastar; órbita não seleciona. A árvore também oferece o menu de contexto.
@@ -118,8 +118,8 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Modal de recuperação no carregamento caso o navegador feche inesperadamente ou falhe a gravação no disco.
 
 ### 2.8. Testes Automatizados e Qualidade
-- **107 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição; catálogo acrescenta resolução dos 127 modelos/prévias, filtros combinados, metadados validados, concorrência, persistência e referências preservadas; câmera acrescenta direção relativa/superior, normalização de diagonais, integração temporal da velocidade, Espaço/ambos os Ctrl na perspectiva e trajetos sem colapso do raio. A iluminação acrescenta validação/Kelvin, histórico, flicker determinístico, direção do spot/socket, regeneração e projeção filtrada.
-- **Dez testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxos da Fase 3 e da evolução estrutural pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor; biblioteca acrescenta filtros, tags personalizadas, favoritos, novos props e classificação de importados após reinício. Execução sequencial com Chromium headless e WebGL por software; inclui composição mesa + lamparina, transformações conjuntas e desancoragem pela pasta. O E2E de câmera cobre WASD durante zoom/pan/órbita, seleção no release sem arraste, altura com Espaço/ambos os Ctrl, foco/atalhos, lente, publicação independente, transições sem reinício por edições, pausa/corte, interrupção, redução de movimento e persistência de presets. Os dois E2E de iluminação acrescentam edição/persistência após reinício, pausa/movimento reduzido, qualidade independente e descarte de buffers, além de pixels WebGL de profundidade/volume/bloom. Não representa benchmark no notebook/projetor.
+- **118 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição; catálogo acrescenta resolução dos 161 modelos/prévias, filtros combinados, metadados validados, concorrência, persistência e referências preservadas; câmera acrescenta direção relativa/superior, normalização de diagonais, integração temporal da velocidade, Espaço/ambos os Ctrl na perspectiva e trajetos sem colapso do raio. A iluminação acrescenta validação/Kelvin, histórico, flicker determinístico, direção do spot/socket, regeneração e projeção filtrada; ambientes acrescentam HSV, snapshots, biblioteca/concorrência/backups, vínculos por horário, duplicação/projeção, materiais por slot e partículas determinísticas.
+- **Doze testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxos da Fase 3 e da evolução estrutural pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor; biblioteca acrescenta filtros, tags personalizadas, favoritos, novos props e classificação de importados após reinício. Execução sequencial com Chromium headless e WebGL por software; inclui composição mesa + lamparina, transformações conjuntas e desancoragem pela pasta. O E2E de câmera cobre WASD durante zoom/pan/órbita, seleção no release sem arraste, altura com Espaço/ambos os Ctrl, foco/atalhos, lente, publicação independente, transições sem reinício por edições, pausa/corte, interrupção, redução de movimento e persistência de presets. Os dois E2E de iluminação acrescentam edição/persistência após reinício, pausa/movimento reduzido, qualidade independente e descarte de buffers, além de pixels WebGL de profundidade/volume/bloom. Os dois E2E de ambientes acrescentam presets/Kelvin/HSV, slots de materiais, instâncias independentes, janelas/luzes por horário, nuvens/partículas, pausa/qualidade, biblioteca/prévia, câmera publicada e fidelidade após reinício; pixels WebGL confirmam sol/lua, nuvens e chuva. Câmera/autoria/ambientes foram repetidos após ajustar o encerramento da órbita com animação contínua. Não representa benchmark no notebook/projetor.
 
 ---
 
@@ -140,6 +140,17 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
 - **Bloom e qualidade:** pipeline opcional com OutputPass, buffers limitados a pixel ratio 1 e mips reduzidos; desligamento local independente por janela e descarte dos recursos ao desligar/destruir. Fog de distância permanece disponível.
 - **Dados e apresentação:** campos opcionais do schema 2, com validação profunda, undo/redo, mapas/cenas/duplicação e filtragem de fontes privadas. Editar look não publica câmera nem reinicia transições do projetor.
 - **Validação final em 4 de outubro:** build, 107 testes unitários/de integração e dez E2E passaram. Os dois E2E de iluminação foram repetidos após o ajuste de yaw que preserva a inclinação do spot. Nove testes novos de domínio/renderização e dois E2E cobrem edição pela UI, parâmetros preservados após reinício, animação sem mudança no documento, pausa/movimento reduzido, recursos GPU sem acumulação e pixels reais de profundidade/volume/bloom. A avaliação presencial no notebook/projetor permanece pendente.
+
+---
+
+### 2.11. Ambientes, horários e clima (`ENVIRONMENTS.md`)
+
+- **Controles diretos:** sol/lua, intensidade, Kelvin, RGB/HSV, altitude/azimute, sombras, exposição e preenchimento na aba Cena.
+- **Presets e céu:** dia, tarde, noite, neblina, chuva, pântano, calor e neutro; céu procedural com sol/lua, estrelas e nuvens editáveis/animadas.
+- **Clima:** emissor global de chuva, poeira, brasas ou fumaça suave, limitado a 3.000 partículas por região/seed; geometria em lote, animação temporal, pausa/movimento reduzido e qualidade independente por janela. Partículas não colidem com tetos/paredes.
+- **Reação ao horário:** janelas de vidro acesas à noite; vínculos de materiais por slot e estado de luzes por dia/noite, sem modificar assets compartilhados. Ajustes de material explícitos têm precedência; emissão não substitui luz local.
+- **Biblioteca:** EnvironmentDocument validado no servidor, criação/atualização/exclusão/duplicação, revisão/conflito/backups, snapshots independentes da cena e prévia/diff sem publicar no projetor. Vínculos por instância acompanham histórico, duplicação e filtragem de dados privados.
+- **Validação final:** Build de produção, 118 testes unitários/de integração e os 12 roteiros E2E verificados com sucesso. Após corrigir o encerramento da órbita durante animação contínua, os roteiros de câmera, autoria e ambientes foram repetidos e passaram. Uso e limites: [ENVIRONMENTS.md](ENVIRONMENTS.md).
 
 ---
 
@@ -167,8 +178,8 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
    - Sockets específicos por asset e metadados para fixação automática; sockets genéricos de parede/teto já estão entregues.
    - Suporte a importação de modelos glTF com diretórios de texturas externas.
 3. **Extensões futuras de imersão (`IMMERSION.md` - Seções 7 a 9):**
-   - Biblioteca de ambientes reutilizáveis com bindings e aplicação por diff.
-   - Partículas, chuva/fumaça localizada e emissores com vínculo espacial.
+   - **Entregue:** biblioteca de ambientes reutilizáveis, presets de horário/clima, céu/nuvens, sol/lua, Kelvin/HSV e prévia/diff ([ENVIRONMENTS.md](ENVIRONMENTS.md)).
+   - **Entregue:** emissor global limitado de chuva/poeira/brasas/fumaça em região editável, pausa/qualidade local e vínculos por horário de materiais/luzes. **Pendente:** múltiplos emissores vinculados a objetos/áreas e colisão de partículas.
    - Volumetria com feixes, densidade variável, sombras e espalhamento por fonte, condicionada a benchmark. O volume homogêneo por altura já está entregue.
    - Efeitos adicionais e medição de bloom/sombras no notebook e projetor reais.
 4. **Câmera Cinematográfica (`IMMERSION.md` - Seção 10):**
@@ -216,7 +227,7 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 | **Grid e Snap Métrico** | `MAP_AUTHORING.md` §6 | **Concluído** | `src/domain/coords.js` |
 | **Edição Manual (Mover, Rotacionar, Escalar)** | `MAP_AUTHORING.md` §5 | **Concluído** (Atalhos: G, R, V) | `src/render/renderer.js`, `src/app/application.js` |
 | **Tokens e Retratos** | `ARCHITECTURE.md` §6.5 | **Concluído** | `src/domain/documents.js`, `src/render/scene-objects.js` |
-| **Catálogo de Móveis Básico** | `ROADMAP.md` §3.1 | **Concluído e ampliado** (127 itens locais) | `public/assets/`, `src/app/application.js` |
+| **Catálogo de Móveis Básico** | `ROADMAP.md` §3.1 | **Concluído e ampliado** (161 itens locais) | `public/assets/`, `src/app/application.js` |
 | **Ingestão de Imagens e GLB** | `ARCHITECTURE.md` §8 | **Concluído** (GLB estático) | `src/render/asset-cache.js`, `server/app.js` |
 | **Quick Build (Sala com Porta/Luz)** | `MAP_AUTHORING.md` §3 | **Concluído** | `src/authoring/quick-build.js` |
 | **Luzes e Presets de Ambiente** | `IMMERSION.md` §4, §7 | **Concluído** (3 presets) | `src/domain/environments.js`, `src/render/renderer.js` |
@@ -252,5 +263,5 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 Para manter a ordem de implementação técnica eficiente e alinhada ao cronograma:
 
 1. **Validar autoria e imersão no uso presencial:** experimentar relevo, vãos de escada e construção por andares no notebook/projetor; os controles e testes já estão entregues. Medir spot/sombras, flicker, fog/volume e bloom com editor/projetor ativos; ajustar legibilidade e custo.
-2. **Autoria assistida:** Avaliar as três receitas e os 127 assets no projetor; depois ampliar receitas, sockets específicos por asset e prefabs reutilizáveis. Regeneração e polish já têm a fundação funcional.
+2. **Autoria assistida:** Avaliar as três receitas e os 161 assets no projetor; depois ampliar receitas, sockets específicos por asset e prefabs reutilizáveis. Regeneração e polish já têm a fundação funcional.
 3. **Pacote de Transporte (Opcional):** Se desejado, implementar compactação/descompactação em `.zip` de cena + assets para envio facilitado entre computadores.

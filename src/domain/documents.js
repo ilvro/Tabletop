@@ -172,6 +172,7 @@ export function createMapFromScene(scene, name) {
 /** Duplicate only document-owned IDs. External asset/source references remain immutable. */
 export function duplicateDocument(document, { name } = {}) {
   document = migrateDocument(document);
+  if (document.documentType === 'environment') return validateDocument({ ...clone(document), id: id(), revision: 0, name: name ?? `${document.name} — cópia`, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
   const copy = clone(document), remap = new Map();
   const look = copy.look ?? copy.defaultLook;
   const collections = [copy.layout.levels, copy.layout.layers, copy.layout.entities, copy.layout.groups, copy.layout.areas, copy.layout.compositions, look.lights,
@@ -195,6 +196,7 @@ export function duplicateDocument(document, { name } = {}) {
     }
   }
   look.materialAdjustments = Object.fromEntries(Object.entries(look.materialAdjustments).map(([key, value]) => [ref(key), value]));
+  if (look.environmentBindings) look.environmentBindings = Object.fromEntries(Object.entries(look.environmentBindings).map(([key, value]) => [ref(key), value]));
   if (copy.sessionState) copy.sessionState.doors = Object.fromEntries(Object.entries(copy.sessionState.doors).map(([key, value]) => [ref(key), value]));
   const now = new Date().toISOString();
   Object.assign(copy, { id: id(), name: name ?? `${document.name} — cópia`, revision: 0, createdAt: now, updatedAt: now });

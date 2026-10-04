@@ -1,10 +1,11 @@
-import { Euler, Quaternion } from 'three';
+import { Euler, Quaternion, Vector3 } from 'three';
+import { environmentPanel, bindingPanel } from '../ui/environment-panels.js';
 import { atmospherePanel, lightPanel } from '../ui/lighting-panels.js';
-import { FOG_DEFAULTS, VOLUME_DEFAULTS, BLOOM_DEFAULTS, FLICKER_DEFAULTS } from '../domain/lighting.js';
+import { FOG_DEFAULTS, VOLUME_DEFAULTS, BLOOM_DEFAULTS, FLICKER_DEFAULTS, SKY_DEFAULTS, WEATHER_DEFAULTS, DAYLIGHT_DEFAULTS, NIGHT_WINDOWS_DEFAULTS, BINDING_DEFAULTS, colorToHSV, hsvToColor } from '../domain/lighting.js';
 import { createScene, createMap, createSceneFromMap, createMapFromScene, createEntity, createToken, createLight, createLevel, createLayer, clone, id, validateDocument, duplicateDocument, migrateDocument } from '../domain/documents.js';
 import { polygonSize, groupChain, isSupport, isAccess, supportHeightAt, constrainOpening, localPoint, isLocked } from '../domain/geometry.js';
 import { quaternionFromYaw, yawFromQuaternion } from '../domain/coords.js';
-import { ENVIRONMENTS } from '../domain/environments.js';
+import { primaryLight, createEnvironmentFromLook, applyEnvironment, environmentDiff } from '../domain/environments.js';
 import { createSceneStore } from '../state/scene-store.js';
 import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
@@ -87,6 +88,8 @@ export async function startApplication() {
 
   let assets = [], savedScenes = [], savedMaps = [], selection = null, tool = 'select', tab = 'build';
   let dialogTab = 'scenes';
+  let savedEnvironments = [], selectedEnvironmentId = '', environmentPreview = null, skyReturnCamera = null;
+  const openAtmosphereSections = new Set();
   let libraryFilters = { search: '', category: '', era: '', context: '', tags: [], favorites: false };
   let libraryLimit = 24, editingAsset = null;
   let proposal = null, placing = null, saving = false, isPresentation = false, cutaway = true;
@@ -189,6 +192,7 @@ export async function startApplication() {
   }
 
   const viewport = createViewport(document.getElementById('viewport'), {
+    onMaterialSlots: objectId => { if (selection === objectId) renderInspector(); },
     onSelect: (value, meta) => { selectObject(value, meta?.additive); hideContextMenu(); },
     onTransform: (objectId, transform, meta = {}) => {
       const found = locate(objectId);
@@ -274,7 +278,7 @@ export async function startApplication() {
     if (tab === 'build' && (previous === 'polygon' || next === 'polygon')) renderSidebar();
     if (previous === 'terrain' || next === 'terrain') renderInspector();
   }
-  function clearProposal() { proposal = null; viewport.setPreview(null); document.getElementById('proposal-bar').hidden = true; }
+  function clearProposal() { cancelEnvironmentPreview(); proposal = null; viewport.setPreview(null); document.getElementById('proposal-bar').hidden = true; }
   function makeProposal() {
     try {
       proposal = proposeRoom(roomOptions, store.editVersion);
@@ -363,7 +367,7 @@ export async function startApplication() {
       renderAssetCards();
     } else {
       const currentLook = store.document.look ?? store.document.defaultLook;
-      panel.innerHTML = `<section><span class="eyebrow">AMBIENTE</span><h2>A luz conta a história.</h2><p class="muted">Um ponto de partida. Ajuste cada fonte como quiser.</p><div class="environment-options">${ENVIRONMENTS.map((preset) => `<button data-environment="${preset.id}" class="environment-card ${store.document.sourceEnvironment?.id === preset.id ? 'active' : ''}"><span class="environment-swatch ${preset.id}"></span><span><strong>${esc(preset.name)}</strong><small>${esc(preset.description || '')}</small></span>${icon('chevron', 14)}</button>`).join('')}</div>${colorField('background', 'Fundo', currentLook.background)}${numberField('fill-intensity', 'Preenchimento', currentLook.fill.intensity, { min: 0, step: .1 })}${colorField('fill-color', 'Cor do preenchimento', currentLook.fill.skyColor)}</section>${atmospherePanel(currentLook, effectsEnabled, { numberField, colorField, checkField })}${cameraPanel()}<section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-cut="${camera.id}" title="Cortar para este enquadramento" aria-label="Cortar para ${esc(camera.name)}">${icon('camera', 14)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
+      panel.innerHTML = `${environmentPanel(store.document, savedEnvironments, selectedEnvironmentId, openAtmosphereSections, { numberField, colorField, checkField })}${atmospherePanel(currentLook, effectsEnabled, { numberField, colorField, checkField }, openAtmosphereSections)}${cameraPanel()}<section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-cut="${camera.id}" title="Cortar para este enquadramento" aria-label="Cortar para ${esc(camera.name)}">${icon('camera', 14)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
       renderSceneTreeIfVisible();
     }
   }
@@ -520,6 +524,7 @@ export async function startApplication() {
     if (type === 'token' || record.kind === 'prop') fields += `<section><span class="eyebrow">ESCALA VISUAL</span><div class="axis-fields">${record.transform.scale.map((value, axis) => numberField(`scale-${axis}`, ['X', 'Y', 'Z'][axis], value, { min: .01 })).join('')}</div>${type === 'token' ? `<span class="eyebrow">BASE · METROS</span><div class="field-grid">${numberField('footprint-0', 'Largura', record.footprint[0], { min: .1 })}${numberField('footprint-1', 'Profundidade', record.footprint[1], { min: .1 })}</div>${colorField('token-color', 'Cor do personagem', actor.color)}` : ''}</section>`;
     if (record.material && record.kind !== 'terrain') fields += `<section><span class="eyebrow">MATERIAL</span>${colorField('material-color', record.kind === 'prop' ? 'Matiz do asset' : 'Cor', record.material.color)}${numberField('material-roughness', 'Rugosidade', record.material.roughness, { min: 0, max: 1 })}</section>`;
     if (type === 'light') fields += lightPanel(record, { numberField, colorField, checkField });
+    if (type === 'light' || ['prop','window'].includes(record.kind)) fields += bindingPanel(record, doc.look ?? doc.defaultLook, viewport.getMaterialSlots(record.id), openAtmosphereSections, { numberField, colorField, checkField });
     fields += `<section><span class="eyebrow">APRESENTAÇÃO</span>${checkField('object-secret', 'Somente para o mestre', record.audience === 'gm')}${record.locked === undefined ? '' : checkField('object-locked', 'Bloquear edição', record.locked)}</section>${record.kind === 'terrain' ? '</details>' : ''}<div class="object-actions">${button('object-copy', 'Copiar', 'copy')}${button('object-duplicate', 'Duplicar', 'copy')}${button('object-delete', 'Excluir', 'trash', 'danger')}</div>`;
     if (record.kind !== 'terrain') fields += `<details class="object-adjustments" ${adjustmentsOpen ? 'open' : ''}><summary>Alinhar e ajustar objetos</summary>${polishPanel(1, polishOptions, doc)}</details>`;
     panel.innerHTML = isLocked(doc, record) ? `<p class="microcopy">Elemento, pasta, andar ou camada bloqueados. Desbloqueie na organização da cena para editar.</p>${fields}` : fields;
@@ -531,7 +536,7 @@ export async function startApplication() {
     if (selection && !locate()) selection = null;
     selectedIds = new Set([...selectedIds].filter(key => locate(key)));
     if (!selection) selection = [...selectedIds].at(-1) ?? null;
-    if (event.type === 'replace') { selectedIds.clear(); selection = null; activeSurfaceId = undefined; smartFloorId = null; activeLevelId = null; activeLayerId = null; isolatedLevel = false; }
+    if (event.type === 'replace') { skyReturnCamera = null; selectedIds.clear(); selection = null; activeSurfaceId = undefined; smartFloorId = null; activeLevelId = null; activeLayerId = null; isolatedLevel = false; }
     if (!doc.layout.levels?.[activeLevelId]) { activeLevelId = null; isolatedLevel = false; }
     if (!doc.layout.layers?.[activeLayerId]) activeLayerId = null;
     const floors = Object.values(doc.layout.entities).filter(e => e.kind === 'floor');
@@ -541,8 +546,9 @@ export async function startApplication() {
       smartFloorId = floors[0]?.id ?? null;
       const existing = currentComposition(); if (existing) smartOptions = { ...existing.parameters, restoreDeleted: false };
     }
+    if (environmentPreview && event.type !== 'saved') { environmentPreview = null; document.getElementById('proposal-bar').hidden = true; }
     if (proposal && event.type !== 'saved') clearProposal();
-    viewport.setDocument(isPresentation ? projectPresentation(doc) : doc);
+    viewport.setDocument(isPresentation ? projectPresentation(environmentPreview?.next ?? doc) : environmentPreview?.next ?? doc);
     viewport.setIsolatedLevel(isolatedLevel ? activeLevelId : null);
     viewport.setSupportSurface(activeSurfaceId); viewport.setWorkplaneHeight(buildHeight);
     viewport.setSelection(isPresentation ? null : selection, isPresentation ? [] : [...selectedIds]);
@@ -614,6 +620,7 @@ export async function startApplication() {
       type: found.type,
       id: selection,
       record: clone(found.record),
+      binding: clone((store.document.look ?? store.document.defaultLook).environmentBindings?.[selection] ?? null),
       document: found.type === 'group' ? clone(store.document) : null,
       actor: found.type === 'token' && store.document.actors?.[found.record.actorId] ? clone(store.document.actors[found.record.actorId]) : null,
     };
@@ -661,7 +668,7 @@ export async function startApplication() {
       if (copy.name) copy.name = copy.name.includes('— cópia') ? copy.name : `${copy.name} — cópia`;
       if (clipboard.type === 'entity') {
         if (copy.transform) copy.transform.position = copy.transform.position.map((v, i) => v + offset[i]);
-        if (execute('entity.add', { entity: copy })) {
+        if (execute('entity.add', { entity: copy, binding: clipboard.binding })) {
           selection = copy.id;
           viewport.setSelection(selection);
           renderInspector();
@@ -678,7 +685,7 @@ export async function startApplication() {
       } else if (clipboard.type === 'light') {
         delete copy.role;
         if (copy.position) copy.position = copy.position.map((v, i) => v + offset[i]);
-        if (execute('light.add', { light: copy })) {
+        if (execute('light.add', { light: copy, binding: clipboard.binding })) {
           selection = copy.id;
           viewport.setSelection(selection);
           renderInspector();
@@ -810,6 +817,7 @@ export async function startApplication() {
       try {
         const parsed = JSON.parse(reader.result);
         const validated = validateDocument(parsed);
+        if (validated.documentType === 'environment') throw new Error('Ambientes são presets. Use a biblioteca de ambientes na aba Cena; este carregamento aceita cenas e mapas.');
         if (!canSwitch()) return;
         let loadedDoc = validated;
         try {
@@ -1069,8 +1077,36 @@ export async function startApplication() {
       const key = { 'grid-visible': 'visible', 'grid-snap': 'snap', 'grid-size': 'cellSize' }[field];
       execute('grid.update', { patch: { [key]: value } }); return;
     }
+    if (field === 'environment-library') { selectedEnvironmentId = value; renderSidebar(); return; }
+    if (field.startsWith('scene-key-')) {
+      const key = field.slice(10), look = store.document.look ?? store.document.defaultLook, light = primaryLight(look);
+      let patch = { [key === 'shadow' ? 'shadowEnabled' : key]: value };
+      if (key === 'useTemperature') patch = { temperature: value ? 6000 : null };
+      if (['hue','saturation','value'].includes(key)) {
+        if (!Number.isFinite(value) || value < 0 || value > (key === 'hue' ? 360 : 100)) { notify('HSV fora do intervalo permitido.', true); return; }
+        const hsv = colorToHSV(light?.color ?? '#ffe8c5'); hsv[key] = key === 'hue' ? value : value / 100;
+        patch = { color: hsvToColor(hsv) };
+      }
+      if (['altitude','azimuth'].includes(key)) {
+        if (!Number.isFinite(value) || value < (key === 'altitude' ? 1 : -180) || value > (key === 'altitude' ? 90 : 180)) return;
+        const angles = new Euler().setFromQuaternion(new Quaternion(...(light?.rotation ?? [0,0,0,1])), 'YXZ');
+        if (key === 'altitude') angles.x = (90 - value) * Math.PI / 180; else angles.y = value * Math.PI / 180;
+        patch = { rotation: new Quaternion().setFromEuler(angles).toArray() };
+      }
+      execute('environment.key.update', { patch }); return;
+    }
+    for (const [prefix, key, defaults] of [['daylight-', 'daylight', DAYLIGHT_DEFAULTS], ['sky-', 'sky', SKY_DEFAULTS], ['weather-', 'weather', WEATHER_DEFAULTS], ['nightWindows-', 'nightWindows', NIGHT_WINDOWS_DEFAULTS]]) {
+      if (!field.startsWith(prefix)) continue;
+      const look = store.document.look ?? store.document.defaultLook, settings = clone({ ...defaults, ...look[key] }), member = field.slice(prefix.length);
+      if (/^(center|size|wind)-[012]$/.test(member)) { const [array, index] = member.split('-'); settings[array][Number(index)] = value; }
+      else settings[member] = value;
+      if (key === 'weather' && member === 'type' && value !== 'none' && look.weather?.type !== value) {
+        Object.assign(settings, value === 'rain' ? { speed:12, particleSize:.025, count:900, color:'#afc9de', opacity:.45 } : value === 'smoke' ? { speed:.5, particleSize:.7, count:180, color:'#b0b0b0', opacity:.22 } : value === 'embers' ? { speed:1, particleSize:.055, count:250, color:'#ff9e45', opacity:.8 } : { speed:.25, particleSize:.035, count:300, color:'#e1ceaa', opacity:.3 });
+      }
+      execute('look.update', { patch: { [key]: settings } }); return;
+    }
     if (field === 'background') { execute('look.update', { patch: { background: value } }); return; }
-    if (field.startsWith('fill-')) { execute('look.update', { patch: { fill: { [field === 'fill-color' ? 'skyColor' : 'intensity']: value } } }); return; }
+    if (field.startsWith('fill-')) { execute('look.update', { patch: { fill: { [{'fill-color':'skyColor','fill-groundColor':'groundColor','fill-intensity':'intensity'}[field]]: value } } }); return; }
     if (field === 'viewport-effects') { effectsEnabled = value; viewport.setEffectsEnabled(value); return; }
     if (field === 'effects-paused') { execute('look.update', { patch: { effectsPaused: value } }); return; }
     for (const [prefix, key, defaults] of [['fog-', 'fog', FOG_DEFAULTS], ['volume-', 'volumetricFog', VOLUME_DEFAULTS], ['bloom-', 'bloom', BLOOM_DEFAULTS]]) {
@@ -1080,7 +1116,12 @@ export async function startApplication() {
       }
     }
     const found = locate(); if (!found) return;
-    const { type, record } = found; let patch = {}, actorPatch;
+    const { type, record } = found;
+    if (field.startsWith('binding-')) {
+      const look = store.document.look ?? store.document.defaultLook;
+      execute('environment.binding.update', { id: record.id, binding: { ...BINDING_DEFAULTS, ...look.environmentBindings?.[record.id], [field.slice(8)]: value } }); return;
+    }
+    let patch = {}, actorPatch;
     if (type === 'light' && field.startsWith('flicker-')) {
       execute('light.update', { id: record.id, patch: { flicker: { ...FLICKER_DEFAULTS, ...record.flicker, [field.slice(8)]: value } } }); return;
     }
@@ -1151,9 +1192,58 @@ export async function startApplication() {
     execute(`${type}.update`, { id: record.id, patch, ...(actorPatch ? { actorPatch } : {}) });
   }
 
+  function cancelEnvironmentPreview() {
+    if (!environmentPreview) return;
+    environmentPreview = null; viewport.setDocument(isPresentation ? projectPresentation(store.document) : store.document);
+    document.getElementById('proposal-bar').hidden = true;
+  }
+  function previewEnvironment(preset) {
+    const next = applyEnvironment(store.document, preset), diff = environmentDiff(store.document, next);
+    clearProposal(); environmentPreview = { preset, next, version: store.editVersion };
+    viewport.setDocument(isPresentation ? projectPresentation(next) : next);
+    const labels = { background:'fundo', fill:'luz ambiente', daylight:'horário/exposição', sky:'céu/nuvens', weather:'clima', fog:'névoa', volumetricFog:'volume de névoa', bloom:'halo', nightWindows:'janelas', effectsPaused:'animação' };
+    const bar = document.getElementById('proposal-bar'); bar.hidden = false;
+    bar.innerHTML = `<div><span><strong>Prévia de ambiente</strong><small>${diff.fields.map(f => labels[f]).join(' · ') || 'Mesmas configurações globais'} · sol/lua</small></span></div>${button('environment-preview-cancel','Cancelar','','quiet')}${button('environment-preview-accept','Aplicar ambiente','plus','primary')}<p class="microcopy">${diff.windows} janelas de vidro · ${diff.bindings} vínculos por horário · ${diff.localLights} luzes locais preservadas. Geometria e câmeras permanecem na cena.</p>`;
+  }
+  async function selectedEnvironment() {
+    if (!selectedEnvironmentId) throw new Error('Selecione um ambiente salvo.');
+    return repository.read(selectedEnvironmentId, 'environment');
+  }
+  async function refreshEnvironments() { savedEnvironments = await repository.list('environment'); renderSidebar(); }
   async function act(action, metadata = {}) {
     if (!initialized) return;
     switch (action) {
+      case 'environment-view-sky': {
+        const camera = viewport.getCamera(); skyReturnCamera ??= clone(camera);
+        const light = primaryLight(store.document.look ?? store.document.defaultLook);
+        const direction = new Vector3(0,1,0).applyQuaternion(new Quaternion(...(light?.rotation ?? [0,0,0,1]))).normalize();
+        viewport.setCamera({ ...camera, projection:'perspective', target: new Vector3(...camera.position).addScaledVector(direction,20).toArray() }); break;
+      }
+      case 'environment-return-map': if (skyReturnCamera) { viewport.setCamera(skyReturnCamera); skyReturnCamera = null; } viewport.frameScene(); break;
+      case 'environment-select-light': selectObject(primaryLight(store.document.look ?? store.document.defaultLook)?.id); break;
+      case 'environment-binding-remove': if (selection) execute('environment.binding.update', { id:selection, binding:null }); break;
+      case 'environment-preview-cancel': cancelEnvironmentPreview(); break;
+      case 'environment-preview-accept': { const preview = environmentPreview; if (!preview) break; if (preview.version !== store.editVersion) { cancelEnvironmentPreview(); throw new Error('A cena mudou. Faça uma nova prévia.'); } execute('environment.apply', { preset: preview.preset }); break; }
+      case 'environment-custom-apply':
+      case 'environment-custom-preview': {
+        const version = store.editVersion, documentId = store.document.id, preset = await selectedEnvironment();
+        if (version !== store.editVersion || documentId !== store.document.id) throw new Error('A cena mudou enquanto o ambiente era carregado. Tente novamente.');
+        if (action.endsWith('preview')) previewEnvironment(preset); else execute('environment.apply', { preset }); break;
+      }
+      case 'environment-save': {
+        const name = prompt('Nome do ambiente:', 'Meu ambiente'); if (!name?.trim()) break;
+        const saved = await repository.create(createEnvironmentFromLook(store.document, name.trim()));
+        selectedEnvironmentId = saved.id; openAtmosphereSections.add('library'); await refreshEnvironments(); notify('Ambiente salvo na biblioteca.'); break;
+      }
+      case 'environment-overwrite': {
+        const snapshot = createEnvironmentFromLook(store.document), existing = await selectedEnvironment();
+        Object.assign(snapshot, { id:existing.id, revision:existing.revision, name:existing.name, createdAt:existing.createdAt });
+        await repository.save(snapshot); await refreshEnvironments(); notify('Ambiente atualizado. Cenas anteriores mantêm sua própria cópia.'); break;
+      }
+      case 'environment-delete': {
+        const existing = await selectedEnvironment(); if (!confirm(`Excluir o ambiente “${existing.name}”?`)) break;
+        await repository.remove(existing); selectedEnvironmentId = ''; await refreshEnvironments(); notify('Ambiente excluído. As cenas que o usaram continuam iguais.'); break;
+      }
       case 'level-add': {
         const level = createLevel({ name: Object.keys(store.document.layout.levels ?? {}).length ? `Andar ${Object.keys(store.document.layout.levels).length + 1}` : 'Térreo', elevation: buildHeight });
         if (execute('level.add', { level, adoptExisting: !Object.keys(store.document.layout.levels ?? {}).length })) { activeLevelId = level.id; renderSidebar(); } break;
@@ -1474,6 +1564,7 @@ export async function startApplication() {
       placing = asset.type === 'image' ? { type: 'token', name: asset.name.replace(/\.[^.]+$/, ''), color: '#e4b76f', assetRef: { id: asset.id, revision: asset.revision } } : { type: 'prop', asset };
       setTool('place'); notify(`Clique no piso para colocar ${asset.name}.`); return;
     }
+    if (node.dataset.environmentPreview) { try { previewEnvironment(node.dataset.environmentPreview); } catch (error) { notify(error.message, true); } return; }
     if (node.dataset.environment) { execute('environment.apply', { presetId: node.dataset.environment }); return; }
     if (node.dataset.camera || node.dataset.cameraCut) {
       const preset = store.document.cameraPresets[node.dataset.camera ?? node.dataset.cameraCut];
@@ -1520,6 +1611,8 @@ export async function startApplication() {
     }
   });
   root.addEventListener('toggle', event => {
+    const atmosphereKey = event.target.dataset?.atmosphereSection;
+    if (atmosphereKey && event.target.isConnected) { if (event.target.open) openAtmosphereSections.add(atmosphereKey); else openAtmosphereSections.delete(atmosphereKey); }
     const key = event.target.dataset?.buildSection;
     if (key && event.target.isConnected) { if (event.target.open) openBuildSections.add(key); else openBuildSections.delete(key); }
   }, true);
@@ -1706,11 +1799,12 @@ export async function startApplication() {
   window.addEventListener('pagehide', () => { flushDraft(); channel?.close(); viewport.destroy(); });
   window.addEventListener('beforeunload', (event) => { if (store.dirty) { event.preventDefault(); event.returnValue = ''; } });
 
-  const initial = await Promise.allSettled([repository.assets(), repository.list('scene'), repository.list('map'), drafts.read()]);
+  const initial = await Promise.allSettled([repository.assets(), repository.list('scene'), repository.list('map'), drafts.read(), repository.list('environment')]);
   if (initial[0].status === 'fulfilled') assets = initial[0].value; else notify('O servidor local está indisponível. Inicie com npm run dev ou npm start; o trabalho continua como rascunho.', true, true);
   if (initial[1].status === 'fulfilled') savedScenes = initial[1].value;
   if (initial[2].status === 'fulfilled') savedMaps = initial[2].value;
   if (initial[3].status === 'fulfilled') recovery = initial[3].value;
+  if (initial[4].status === 'fulfilled') savedEnvironments = initial[4].value;
   viewport.setAssets(assets);
   const lastId = lastScene.read();
   if (lastId) {
@@ -1741,7 +1835,7 @@ function startPresentation(root, sessionId) {
   if (!/^[a-zA-Z0-9_-]{1,120}$/.test(sessionId)) throw new Error('Endereço de apresentação inválido.');
   if (typeof BroadcastChannel !== 'function') throw new Error('Este navegador não suporta a apresentação em segunda janela.');
   document.body.classList.add('presentation-window');
-  root.innerHTML = `<div id="presentation-viewport"></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><button id="presentation-effects" class="presentation-fullscreen" style="right:60px" title="Volume e bloom nesta janela" aria-label="Volume e bloom nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button>`;
+  root.innerHTML = `<div id="presentation-viewport"></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><button id="presentation-effects" class="presentation-fullscreen" style="right:60px" title="Volume, bloom, clima e nuvens nesta janela" aria-label="Volume, bloom, clima e nuvens nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button>`;
   const viewport = createViewport(document.getElementById('presentation-viewport'), {
     onError: (error) => { document.getElementById('presentation-message').textContent = error.message; },
     navigationEnabled: false,

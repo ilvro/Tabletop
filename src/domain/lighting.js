@@ -3,6 +3,29 @@ export const FOG_DEFAULTS = Object.freeze({ enabled: false, mode: 'linear', colo
 export const VOLUME_DEFAULTS = Object.freeze({ enabled: false, color: '#a5b6c5', density: .06, baseHeight: 0, height: 3, maxDistance: 80 });
 export const BLOOM_DEFAULTS = Object.freeze({ enabled: false, strength: .25, radius: .3, threshold: 1 });
 export const FLICKER_DEFAULTS = Object.freeze({ enabled: false, pattern: 'candle', amplitude: .2, frequency: 2, seed: 1 });
+export const DAYLIGHT_DEFAULTS = Object.freeze({ phase: 'day', exposure: 1.1 });
+export const SKY_DEFAULTS = Object.freeze({ enabled: false, topColor: '#397bc0', horizonColor: '#bfd5e6', celestialEnabled: true, discSize: .035, stars: true, clouds: true, cloudColor: '#ffffff', cloudCoverage: .35, cloudOpacity: .45, cloudSpeed: .025, cloudScale: 3, seed: 1 });
+export const WEATHER_DEFAULTS = Object.freeze({ type: 'none', count: 600, center: [0, 0, 0], size: [30, 12, 30], color: '#afc9de', opacity: .45, particleSize: .025, speed: 10, wind: [1, 0], seed: 1 });
+export const NIGHT_WINDOWS_DEFAULTS = Object.freeze({ enabled: true, color: '#ffc86d', intensity: 2 });
+export const BINDING_DEFAULTS = Object.freeze({ enabled: true, phase: 'night', slot: 'base', color: '#ffc86d', intensity: 2 });
+
+export function colorToHSV(color) {
+  const [r, g, b] = [1, 3, 5].map(i => parseInt(color.slice(i, i + 2), 16) / 255);
+  const max = Math.max(r, g, b), min = Math.min(r, g, b), delta = max - min;
+  const h = !delta ? 0 : max === r ? ((g - b) / delta + 6) % 6 : max === g ? (b - r) / delta + 2 : (r - g) / delta + 4;
+  return { hue: h * 60, saturation: max ? delta / max : 0, value: max };
+}
+
+export function hsvToColor({ hue, saturation, value }) {
+  const h = ((hue % 360) + 360) % 360 / 60, c = value * saturation, x = c * (1 - Math.abs(h % 2 - 1)), m = value - c;
+  const rgb = [[c, x, 0], [x, c, 0], [0, c, x], [0, x, c], [x, 0, c], [c, 0, x]][Math.floor(h)];
+  return '#' + rgb.map(v => Math.round((v + m) * 255).toString(16).padStart(2, '0')).join('');
+}
+
+export function environmentBindingActive(look, binding) {
+  const night = look.daylight?.phase === 'night';
+  return binding.enabled !== false && (binding.phase === 'always' || binding.phase === 'night' && night || binding.phase === 'day' && !night);
+}
 
 /** Approximate black-body RGB, stored as sRGB. Artistic control, not photometry. */
 export function kelvinToColor(kelvin) {

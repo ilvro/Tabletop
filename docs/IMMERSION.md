@@ -1,6 +1,6 @@
 # Tabletop — imersão e apresentação
 
-Data: 3 de outubro de 2026. Pesquisa/proposta da Fase 2, com base visual, câmera e incremento de iluminação/imersão implementados. Integrações externas permanecem pendentes. Uso atual: [LIGHTING.md](LIGHTING.md) e [CAMERA.md](CAMERA.md). [Arquitetura](ARCHITECTURE.md), [autoria](MAP_AUTHORING.md) e [roadmap](ROADMAP.md) completam esta especificação.
+Data: 4 de outubro de 2026. Pesquisa/proposta da Fase 2, com base visual, câmera e incremento de iluminação/imersão implementados. Integrações externas permanecem pendentes. Uso atual: [ENVIRONMENTS.md](ENVIRONMENTS.md), [LIGHTING.md](LIGHTING.md) e [CAMERA.md](CAMERA.md). [Arquitetura](ARCHITECTURE.md), [autoria](MAP_AUTHORING.md) e [roadmap](ROADMAP.md) completam esta especificação.
 
 ## 1. Filosofia visual
 
@@ -124,15 +124,17 @@ Mapa conserva o espaço; ambiente define receita de aparência; cena guarda o re
 
 Uma casa pode ser apresentada como dia, noite, tempestade, apagão, emergência ou sobrenatural. Trocar look não precisa copiar geometria nem mover tokens. Adicionar entulho ou destruir parede é autoria explícita.
 
-Receita de ambiente na V2 pode conter fundo, preenchimento, fontes por papel, configuração de fog, materiais por papel, emissores e pós-processamento solicitado. Bindings associam a receita a fixtures/áreas reais, com preview dos alvos e dos overrides afetados.
+**Entregue em 4 de outubro:** biblioteca persistente de ambientes, aplicação por cópia, prévia/diff, presets de horário/clima, sol/lua com Kelvin/HSV, céu procedural/nuvens e vínculos por horário para luzes e materiais de instâncias. Uso e limites: [ENVIRONMENTS.md](ENVIRONMENTS.md). Um emissor global em região editável está entregue; múltiplos emissores associados a fixtures/áreas continuam futuros.
+
+A extensão geral de receita de ambiente pode conter fundo, preenchimento, fontes por papel, configuração de fog, materiais por papel, emissores e pós-processamento solicitado. Bindings associam a receita a fixtures/áreas reais, com preview dos alvos e dos overrides afetados.
 
 O fundo visível e o environment map que afeta materiais são recursos separados, como distingue [Scene](https://threejs.org/docs/pages/Scene.html). O mestre pode ajustar um sem obrigar o outro. Mapas de ambiente ajudam aparência/reflexos, mas não resolvem oclusão de interiores automaticamente.
 
-Salvar o look concreto permite reabrir sem biblioteca ou gerador. Ajustes locais da cena têm precedência definida; substituir ambiente mostra diff. Preset interno do MVP já deve produzir luzes/propriedades comuns, mesmo antes de existir uma biblioteca de EnvironmentDocument.
+Salvar o look concreto permite reabrir sem biblioteca ou gerador. Ajustes locais da cena têm precedência definida; substituir ambiente mostra diff. Os presets internos e EnvironmentDocuments salvos produzem configurações concretas. Aplicação rápida é direta; o botão Prévia mostra diff antes do aceite. Atualizar/excluir um preset não altera cenas materializadas.
 
 ## 8. Atmosfera, fog, partículas e pequenos efeitos
 
-**Entregue:** fog linear/exponencial por distância e volume homogêneo por altura com profundidade opaca, densidade, cor e distância máxima. Não há feixes ou sombras volumétricas. Partículas, emissores e volumetria com espalhamento permanecem futuros; ver [LIGHTING.md](LIGHTING.md).
+**Entregue:** fog linear/exponencial por distância e volume homogêneo por altura com profundidade opaca, densidade, cor e distância máxima. Não há feixes ou sombras volumétricas. Chuva, poeira, brasas e fumaça suave estão entregues como emissor global limitado, determinístico e configurável por região, com pausa e qualidade local. Múltiplos emissores ligados a objetos/áreas, colisão de partículas e volumetria com espalhamento permanecem futuros; ver [ENVIRONMENTS.md](ENVIRONMENTS.md) e [LIGHTING.md](LIGHTING.md).
 
 Fog/FogExp2 oferecem névoa dependente de distância. Não representam densidade por altura, fumaça localizada, espalhamento volumétrico ou visibilidade de jogador. [Fog](https://threejs.org/docs/pages/Fog.html), [FogExp2](https://threejs.org/docs/pages/FogExp2.html).
 
@@ -289,6 +291,6 @@ Há um caso específico a verificar: o player atual usa requestAnimationFrame em
 
 MVP: escala/material coerentes, luz básica editável, sombra seletiva opcional, câmera perspectiva/superior, enquadramento salvo e apresentação local. O Smart Build fornece estrutura/iluminação simples e permite ajuste manual.
 
-V2: biblioteca de ambientes, spot/flicker, fog, emissores leves, presets/transições e pós-processamento opcional medido; integração real do Jukebox e ficha conforme os contratos. V3: composição atmosférica mais ampla, streaming/LOD quando necessário e LAN móvel opcional. Futuro: volumetria/reflexos avançados e IA somente com ganho demonstrado.
+V2 já entrega biblioteca de ambientes, spot/flicker, fog, emissor leve em região editável, presets/horários, céu/nuvens e pós-processamento opcional. Múltiplos emissores com vínculo espacial, benchmark presencial e integração real do Jukebox/ficha continuam pendentes conforme os contratos. V3: composição atmosférica mais ampla, streaming/LOD quando necessário e LAN móvel opcional. Futuro: volumetria/reflexos avançados e IA somente com ganho demonstrado.
 
-Validar hardware/navegador específicos, legibilidade do projetor, estilo e disponibilidade de assets, número/tipo de fontes relevantes, sombras em interiores e interação com áudio em segundo plano. Não houve benchmark gráfico, teste de reprodução ou validação visual do Tabletop nesta fase; as imagens analisadas são referências externas.
+Validar hardware/navegador específicos, legibilidade do projetor, estilo e disponibilidade de assets, número/tipo de fontes relevantes, sombras em interiores e interação com áudio em segundo plano. Há validação automatizada do Tabletop em Chromium/WebGL, incluindo pixels e reinício. Benchmark presencial, áudio e legibilidade na máquina/projetor reais continuam pendentes; as imagens da ferramenta de referência não demonstram sua implementação interna.

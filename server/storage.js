@@ -74,7 +74,7 @@ export class DocumentStorage {
   }
 
   async init() {
-    await Promise.all(['maps', 'scenes', 'assets', 'backups'].map((name) => mkdir(path.join(this.dataDir, name), { recursive: true })));
+    await Promise.all(['maps', 'scenes', 'environments', 'assets', 'backups'].map((name) => mkdir(path.join(this.dataDir, name), { recursive: true })));
   }
 
   file(collection, id) {

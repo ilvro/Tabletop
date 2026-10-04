@@ -47,6 +47,7 @@ export function projectPresentation(document) {
   const look = copy.look ?? copy.defaultLook;
   look.lights = Object.fromEntries(Object.entries(look.lights).filter(([, light]) => light.audience !== 'gm' && groupAllowed(light.groupId) && semanticAllowed(light) && (!light.surfaceId || entities[light.surfaceId]) && (!light.anchor || entities[light.anchor.hostId])));
   for (const light of Object.values(look.lights)) if (light.groupId !== undefined) light.groupId = null;
+  if (look.environmentBindings) look.environmentBindings = Object.fromEntries(Object.entries(look.environmentBindings).filter(([id]) => entities[id] || look.lights[id]));
   look.materialAdjustments = Object.fromEntries(Object.entries(look.materialAdjustments).filter(([id]) => entities[id]));
   for (const collection of ['levels', 'layers']) if (copy.layout[collection]) copy.layout[collection] = Object.fromEntries(Object.entries(copy.layout[collection]).filter(([, entry]) => entry.audience !== 'gm' && entry.visible !== false));
   for (const entity of Object.values(entities)) for (const field of ['fromLevelId', 'toLevelId']) if (entity[field] && !copy.layout.levels?.[entity[field]]) entity[field] = null;

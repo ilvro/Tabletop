@@ -1,8 +1,8 @@
-import { clone, id, createLevel, createLayer } from '../domain/documents.js';
+import { clone, id, createLevel, createLayer, createLight } from '../domain/documents.js';
 import { assemblyMembers, assemblyClosure, assemblyFor, objectById, objectTransform, transformMatrix, transformByMatrix } from '../domain/assemblies.js';
 import { yawFromQuaternion, rotateXZ, snapPosition, multiplyQuaternions } from '../domain/coords.js';
 import { kelvinToColor } from '../domain/lighting.js';
-import { applyEnvironment } from '../domain/environments.js';
+import { applyEnvironment, primaryLight } from '../domain/environments.js';
 import { ValidationError, validateDocument } from '../domain/validation.js';
 import { groupChain, isAccess, supportHeightAt, worldPoint, localPoint } from '../domain/geometry.js';
 
@@ -21,7 +21,7 @@ function merge(record, patch) {
   if (patch.id !== undefined && patch.id !== record.id) throw new ValidationError('O ID não pode ser alterado.');
   if (patch.kind !== undefined && patch.kind !== record.kind) throw new ValidationError('O tipo não pode ser alterado.');
   const next = { ...record, ...clone(patch) };
-  for (const field of ['transform', 'material', 'fill', 'visualOverride', 'flicker', 'fog', 'volumetricFog', 'bloom']) {
+  for (const field of ['transform', 'material', 'fill', 'visualOverride', 'flicker', 'fog', 'volumetricFog', 'bloom', 'daylight', 'sky', 'weather', 'nightWindows']) {
     if (patch[field] && record[field]) next[field] = { ...clone(record[field]), ...clone(patch[field]) };
   }
   return next;
@@ -101,9 +101,9 @@ function removeEntity(document, entityId) {
   const ids = dependentIds(document, entityId), look = document.look ?? document.defaultLook;
   for (const value of ids) editable(document.layout.entities[value], undefined, document);
   for (const token of Object.values(document.tokens ?? {})) if (ids.has(token.surfaceId)) editable(token, undefined, document);
-  for (const light of Object.values(look.lights)) if (ids.has(light.surfaceId) || ids.has(light.anchor?.hostId)) { editable(light, undefined, document); delete look.lights[light.id]; }
+  for (const light of Object.values(look.lights)) if (ids.has(light.surfaceId) || ids.has(light.anchor?.hostId)) { editable(light, undefined, document); delete look.lights[light.id]; if (look.environmentBindings) delete look.environmentBindings[light.id]; }
   for (const value of ids) {
-    delete document.layout.entities[value]; delete look.materialAdjustments[value];
+    delete document.layout.entities[value]; delete look.materialAdjustments[value]; if (look.environmentBindings) delete look.environmentBindings[value];
     if (document.sessionState) delete document.sessionState.doors[value];
   }
   for (const area of Object.values(document.layout.areas)) {
@@ -160,6 +160,7 @@ function duplicateEntity(document, payload) {
     put(document.layout.entities, copy);
     const look = document.look ?? document.defaultLook;
     if (look.materialAdjustments[entityId]) look.materialAdjustments[copy.id] = clone(look.materialAdjustments[entityId]);
+    if (look.environmentBindings?.[entityId]) look.environmentBindings[copy.id] = clone(look.environmentBindings[entityId]);
   }
   for (const area of Object.values(document.layout.areas)) {
     if (!ids.has(area.surfaceId)) continue;
@@ -176,6 +177,7 @@ function duplicateEntity(document, payload) {
     const copy = clone(light); copy.id = id(); remap.set(light.id, copy.id); copy.surfaceId = ref(copy.surfaceId); copy.groupId = ref(copy.groupId);
     copy.position = copy.position.map((v, i) => v + offset[i]); put(look.lights, copy);
     if (copy.anchor) look.lights[copy.id].anchor.hostId = ref(copy.anchor.hostId);
+    if (look.environmentBindings?.[light.id]) look.environmentBindings[copy.id] = clone(look.environmentBindings[light.id]);
   }
   for (const source of Object.values(document.layout.compositions ?? {})) {
     if (!remap.has(source.areaId)) continue;
@@ -214,6 +216,7 @@ function duplicateAssembly(target, source, payload) {
       if(!target.actors[copy.actorId]) { const actor=clone(source.actors[copy.actorId]); actor.id=id(); put(target.actors,actor); copy.actorId=actor.id; }
       put(target.tokens,copy);
     } else { delete copy.role; put(targetLook.lights,copy); }
+    if(sourceLook.environmentBindings?.[record.id]) { targetLook.environmentBindings ??= {}; targetLook.environmentBindings[copy.id]=clone(sourceLook.environmentBindings[record.id]); }
   }
 }
 
@@ -309,12 +312,14 @@ function duplicateLevel(document, payload) {
     if (record.transform) record.transform.position[1] += delta;
     put(document.layout.entities, record);
     const look = document.look ?? document.defaultLook; if (look.materialAdjustments[key]) look.materialAdjustments[record.id] = clone(look.materialAdjustments[key]);
+    if (look.environmentBindings?.[key]) look.environmentBindings[record.id] = clone(look.environmentBindings[key]);
   }
   // Session tokens stay with their characters; copying a storey copies its construction and lighting.
   const look = document.look ?? document.defaultLook;
   for (const light of Object.values(look.lights)) if (light.levelId === source.id || ids.has(light.surfaceId) || ids.has(light.anchor?.hostId)) {
     editable(light, undefined, document); const copy = clone(light); copy.id = id(); copy.levelId = target.id; copy.surfaceId = remap.get(copy.surfaceId) ?? null; delete copy.role;
     if (copy.anchor) copy.anchor.hostId = ref(copy.anchor.hostId); copy.position[1] += delta; put(look.lights, copy);
+    if (look.environmentBindings?.[light.id]) look.environmentBindings[copy.id] = clone(look.environmentBindings[light.id]);
   }
 }
 
@@ -364,7 +369,7 @@ export function applyCommand(document, command) {
       settleOnAccess(next, entity);
       semanticPlacement(next, entity, { levelId: entity.levelId ?? undefined }, true, true);
       editable({ ...entity, locked: false }, undefined, next);
-      bakeStructuralScale(entity); put(next.layout.entities, entity); break;
+      bakeStructuralScale(entity); put(next.layout.entities, entity); if (payload.binding) { look.environmentBindings ??= {}; look.environmentBindings[entity.id] = clone(payload.binding); } break;
     }
     case 'entity.update': {
       const before = requireRecord(next.layout.entities, payload.id, 'Entidade'); editable(before, payload.patch, next);
@@ -428,17 +433,17 @@ export function applyCommand(document, command) {
       token.id = id(); offsetPosition(token.transform, payload.offset ?? [next.layout.grid.cellSize, 0, next.layout.grid.cellSize]);
       snappedToken(token, next.layout.grid, payload.snap, next); put(next.tokens, token); break;
     }
-    case 'light.add': { const light = clone(payload.light); semanticPlacement(next, light, { levelId: light.levelId ?? undefined }, true, true); editable({ ...light, locked: false }, undefined, next); put(look.lights, light); break; }
+    case 'light.add': { const light = clone(payload.light); semanticPlacement(next, light, { levelId: light.levelId ?? undefined }, true, true); editable({ ...light, locked: false }, undefined, next); put(look.lights, light); if (payload.binding) { look.environmentBindings ??= {}; look.environmentBindings[light.id] = clone(payload.binding); } break; }
     case 'light.update': { const before = requireRecord(look.lights, payload.id, 'Luz'); editable(before, payload.patch, next); const after = merge(before, payload.patch);
       if (after.type === 'spot') { after.angle ??= Math.PI / 6; after.penumbra ??= .4; }
       else if (payload.patch.type !== undefined) { delete after.angle; delete after.penumbra; if (after.anchor) delete after.anchor.rotation; }
       if (payload.patch.temperature != null) after.color = kelvinToColor(payload.patch.temperature);
       else if (payload.patch.color !== undefined) after.temperature = null;
       semanticPlacement(next, after, payload.patch); editable({ ...after, locked: false }, undefined, next); look.lights[payload.id] = after; break; }
-    case 'light.remove': editable(requireRecord(look.lights, payload.id, 'Luz'), undefined, next); delete look.lights[payload.id]; break;
+    case 'light.remove': editable(requireRecord(look.lights, payload.id, 'Luz'), undefined, next); delete look.lights[payload.id]; if (look.environmentBindings) delete look.environmentBindings[payload.id]; break;
     case 'light.duplicate': {
       const light = clone(requireRecord(look.lights, payload.id, 'Luz')); editable(light, undefined, next); light.id = id(); light.name += ' — cópia'; delete light.role;
-      light.position = light.position.map((v, i) => v + (payload.offset ?? [1, 0, 1])[i]); put(look.lights, light); break;
+      light.position = light.position.map((v, i) => v + (payload.offset ?? [1, 0, 1])[i]); put(look.lights, light); if (look.environmentBindings?.[payload.id]) look.environmentBindings[light.id] = clone(look.environmentBindings[payload.id]); break;
     }
     case 'grid.update': next.layout.grid = merge(next.layout.grid, payload.patch ?? payload); break;
     case 'group.bind': {
@@ -499,7 +504,7 @@ export function applyCommand(document, command) {
       for(const record of members) {
         if(next.layout.entities[record.id]) removeEntity(next,record.id);
         else if(next.tokens?.[record.id]) removeToken(next,record.id);
-        else delete look.lights[record.id];
+        else { delete look.lights[record.id]; if (look.environmentBindings) delete look.environmentBindings[record.id]; }
       }
       const groupIds=Object.values(next.layout.groups).filter(child => child.id===group.id || groupChain(next,child.parentId).some(parent => parent.id===group.id)).map(child => child.id);
       for(const key of groupIds) delete next.layout.groups[key];
@@ -531,10 +536,22 @@ export function applyCommand(document, command) {
       for (const item of [...Object.values(next.tokens ?? {}), ...Object.values(look.lights)]) if (item.groupId === payload.id) item.groupId = null;
       break;
     }
+    case 'environment.key.update': {
+      let light = primaryLight(look);
+      if (!light) { light = createLight({ type: 'directional', role: 'key', name: 'Sol / Lua', intensity: 2.2, distance: 0, position: [4, 8, 6], shadowEnabled: true }); put(look.lights, light); }
+      next = applyCommand(next, { type: 'light.update', payload: { id: light.id, patch: payload.patch } }); break;
+    }
+    case 'environment.binding.update': {
+      const target = next.layout.entities[payload.id] ?? look.lights[payload.id];
+      if (!target) throw new ValidationError('Objeto do vínculo não encontrado.'); editable(target, undefined, next);
+      look.environmentBindings ??= {};
+      if (payload.binding === null) delete look.environmentBindings[payload.id];
+      else look.environmentBindings[payload.id] = clone(payload.binding); break;
+    }
     case 'look.update': {
       const field = next.documentType === 'scene' ? 'look' : 'defaultLook'; next[field] = merge(look, payload.patch ?? payload); break;
     }
-    case 'environment.apply': return applyEnvironment(next, payload.presetId);
+    case 'environment.apply': return applyEnvironment(next, payload.preset ?? payload.presetId);
     case 'scene.rename': next.name = payload.name; break;
     case 'camera.save':
       if (next.documentType !== 'scene') throw new ValidationError('Presets de câmera pertencem a cenas.');

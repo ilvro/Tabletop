@@ -2,6 +2,8 @@
 
 Implementado em 3 de outubro de 2026; validação final concluída em 4 de outubro. As configurações pertencem ao `look` da cena ou ao `defaultLook` do mapa, participam de undo/redo e acompanham o documento salvo, duplicado, exportado em JSON e apresentado. Documentos antigos de schema 2 continuam válidos sem esses campos opcionais.
 
+Para **sol/lua, Kelvin/HSV direto na aba Cena, horários, céu, nuvens, chuva e objetos que acendem à noite**, veja [ENVIRONMENTS.md](ENVIRONMENTS.md).
+
 ## Luzes
 
 Em **Construir → Peças avulsas**, escolha **Luz pontual** ou **Luz spot** e clique no piso. A fonte nasce 2,2 m acima do apoio. Selecione a luz no canvas ou na árvore da aba Cena e use o inspetor:
@@ -25,7 +27,7 @@ Na aba **Cena → Atmosfera e efeitos**, abra o controle correspondente:
 | Névoa de distância | Linear por início/fim em metros ou exponencial por densidade, com cor e ativação. O fim deve ser maior que o início. |
 | Névoa volumétrica por altura | Camada horizontal definida por altura base, espessura vertical, densidade, cor e distância máxima. Integra a extensão do raio dentro da camada até a primeira superfície opaca, nas câmeras perspectiva e superior. |
 | Bloom | Halo para regiões acima do limiar de brilho linear, força e raio de 0–1. Desligado por padrão; o limiar inicial 1 favorece fontes brilhantes. |
-| Pausar cintilação | Congela o relógio visual desta janela. Retomar conserva a fase; o documento guarda apenas a configuração e o estado de pausa. |
+| Pausar efeitos animados | Congela o relógio visual desta janela. Retomar conserva a fase; o documento guarda apenas a configuração e o estado de pausa. |
 
 Comece com densidade baixa e avalie os personagens e passagens no enquadramento escolhido. A névoa pode ser colorida independentemente do fundo; aplicar um preset de ambiente preserva os ajustes locais de atmosfera e as fontes locais.
 
@@ -33,9 +35,9 @@ Comece com densidade baixa e avalie os personagens e passagens no enquadramento 
 
 O projetor recebe as configurações filtradas, com fontes privadas excluídas. Editar atmosfera não publica a câmera de trabalho nem reinicia a transição publicada.
 
-**Volume e bloom nesta janela** desliga esses dois efeitos só no viewport atual. No projetor, o botão de luz ao lado de Tela cheia oferece o mesmo controle. Cada janela conserva sua escolha durante atualizações da cena; isso não altera o documento nem é salvo como qualidade da cena. O fog de distância continua disponível.
+**Volume, bloom, clima e nuvens nesta janela** desliga esses efeitos só no viewport atual. No projetor, o botão de luz ao lado de Tela cheia oferece o mesmo controle. Cada janela conserva sua escolha durante atualizações da cena; isso não altera o documento nem é salvo como qualidade da cena. O fog de distância continua disponível.
 
-O pipeline opcional cria buffers somente quando necessário, limita-os a um pixel físico por pixel CSS, usa bloom com mips reduzidos e libera os recursos ao desligar os efeitos ou destruir o viewport. A saída usa `OutputPass` para uma única conversão de cor/tone mapping. Cenas estáticas renderizam sob demanda; apenas cintilação visível/ativa ou movimento de câmera mantém frames. Abas ocultas interrompem a animação, e a preferência de movimento reduzido pausa a cintilação. O relógio visual é local a cada viewport e não sincroniza música nem garante fases idênticas entre janelas.
+O pipeline opcional cria buffers somente quando necessário, limita-os a um pixel físico por pixel CSS, usa bloom com mips reduzidos e libera os recursos ao desligar os efeitos ou destruir o viewport. A saída usa `OutputPass` para uma única conversão de cor/tone mapping. Cenas estáticas renderizam sob demanda; cintilação, nuvens e partículas visíveis/ativas ou movimento de câmera mantêm frames. Abas ocultas interrompem a animação, e a preferência de movimento reduzido pausa os efeitos animados. O relógio visual é local a cada viewport e não sincroniza música nem garante fases idênticas entre janelas.
 
 ## Limites e validação
 

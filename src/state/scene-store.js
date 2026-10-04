@@ -13,9 +13,15 @@ function freeze(value) {
   return value;
 }
 
+function editingDocument(next) {
+  const document = migrateDocument(next);
+  if (!['scene', 'map'].includes(document.documentType)) throw new ValidationError('Ambientes são presets; o editor da mesa aceita cenas e mapas.');
+  return document;
+}
+
 /** In-memory editing history is distinct from the disk revision and save receipt. */
 export function createSceneStore(initialDocument) {
-  let document = freeze(migrateDocument(initialDocument)), editVersion = 0;
+  let document = freeze(editingDocument(initialDocument)), editVersion = 0;
   let savedContent = document.revision > 0 ? content(document) : null;
   let confirmed = { revision: document.revision, createdAt: document.createdAt, updatedAt: document.updatedAt };
   let undoStack = [], redoStack = [];
@@ -50,12 +56,13 @@ export function createSceneStore(initialDocument) {
       document = restore(entry.after); undoStack.push(entry); editVersion++; notify('redo', entry.command); return document;
     },
     replace(next, { saved = true } = {}) {
-      document = freeze(migrateDocument(next)); editVersion++;
+      document = freeze(editingDocument(next)); editVersion++;
       confirmed = { revision: document.revision, createdAt: document.createdAt, updatedAt: document.updatedAt };
       savedContent = saved ? content(document) : null; undoStack = []; redoStack = []; notify('replace'); return document;
     },
     markSaved(serverDocument, sentEditVersion) {
       validateDocument(serverDocument);
+      if (serverDocument.documentType !== document.documentType) throw new ValidationError('Confirmação de outro tipo de documento.');
       if (serverDocument.id !== document.id) throw new ValidationError('Confirmação de outro documento.');
       if (!Number.isInteger(sentEditVersion) || sentEditVersion > editVersion || sentEditVersion < 0) throw new ValidationError('Versão local de salvamento inválida.');
       if (serverDocument.revision < confirmed.revision) throw new ValidationError('Confirmação de salvamento obsoleta.');

@@ -17,7 +17,7 @@ async function request(path, options = {}) {
 }
 
 const json = (body) => ({ headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-const collection = (type = 'scene') => type === 'map' ? 'maps' : 'scenes';
+const collection = (type = 'scene') => type === 'environment' ? 'environments' : type === 'map' ? 'maps' : 'scenes';
 export const repository = {
   list: (type) => request(`/${collection(type)}`),
   read: (id, type) => request(`/${collection(type)}/${encodeURIComponent(id)}`),

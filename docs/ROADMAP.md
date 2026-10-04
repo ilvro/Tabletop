@@ -31,7 +31,7 @@ Decisões ainda dependentes de protótipo/medição estão na seção 8. A arqui
 
 Pergunta de produto: **consigo criar uma cena 3D convincente e utilizável em uma sessão em poucos minutos, preservando controle manual?**
 
-**Situação atual:** fundamento do slice implementado e validado tecnicamente. Há criação do vazio, sala com vão/porta, edição manual, tokens, catálogo local (agora com 127 assets originais), importação de imagem/GLB estático, luzes/ambientes simples, câmeras, prévia/aceite de Quick Build, undo/redo, servidor com revisões/backups e recuperação por aba. Master View e apresentação funcionam na mesma janela e em segunda janela com câmera publicada independente.
+**Situação atual:** fundamento do slice implementado e validado tecnicamente. Há criação do vazio, sala com vão/porta, edição manual, tokens, catálogo local (agora com 161 assets originais), importação de imagem/GLB estático, luzes/ambientes simples, câmeras, prévia/aceite de Quick Build, undo/redo, servidor com revisões/backups e recuperação por aba. Master View e apresentação funcionam na mesma janela e em segunda janela com câmera publicada independente.
 
 A evolução posterior já acrescentou gestão de cenas/mapas/tokens, conversão entre mapa e cena, pastas, renomeação e clipboard. Mapas podem ser editados e instanciados em cenas com `sourceMap`. A biblioteca de EnvironmentDocument e o transporte por manifesto/pacote de documento+assets continuam pendentes; preservar o diretório de dados completo é o caminho atual de backup.
 
@@ -90,17 +90,17 @@ O slice implementou os passos 1–4 e persistência/recuperação do passo 5. Tr
 
 Objetivo: reduzir trabalho repetitivo e ampliar controle do cenário, mantendo o modelo de comandos e a liberdade do slice.
 
-**Fase 3, primeiro incremento entregue:** pisos poligonais/plataformas, janelas posicionadas por clique/arraste com vãos físicos sincronizados, escadas/rampas paramétricas com apoio de tokens, apoio explícito em pisos/móveis, visibilidade/bloqueio herdados de pastas; receitas de escritório/reunião/depósito, luzes distribuídas e regeneração com overrides/exclusões; seleção múltipla, alinhamento, distribuição e variação de rotação com prévia. Schema 2 com migração de v1 em memória e gravação explícita. Detalhes e roteiro: [PHASE_3.md](PHASE_3.md). Isso não conclui todo o marco V2: biblioteca de prefabs/ambientes e integrações continuam pendentes. Junções/andares/terreno e o incremento visual de spot/Kelvin/flicker/fog/volume por altura/bloom já foram entregues; ver [STRUCTURAL_EVOLUTION.md](STRUCTURAL_EVOLUTION.md) e [LIGHTING.md](LIGHTING.md).
+**Fase 3, primeiro incremento entregue:** pisos poligonais/plataformas, janelas posicionadas por clique/arraste com vãos físicos sincronizados, escadas/rampas paramétricas com apoio de tokens, apoio explícito em pisos/móveis, visibilidade/bloqueio herdados de pastas; receitas de escritório/reunião/depósito, luzes distribuídas e regeneração com overrides/exclusões; seleção múltipla, alinhamento, distribuição e variação de rotação com prévia. Schema 2 com migração de v1 em memória e gravação explícita. Detalhes e roteiro: [PHASE_3.md](PHASE_3.md). Isso não conclui todo o marco V2: biblioteca de prefabs e integrações continuam pendentes. Junções/andares/terreno e o incremento visual de spot/Kelvin/flicker/fog/volume por altura/bloom já foram entregues; ver [STRUCTURAL_EVOLUTION.md](STRUCTURAL_EVOLUTION.md) e [LIGHTING.md](LIGHTING.md).
 
 | Área | Evolução |
 | --- | --- |
 | Estruturas | Pisos poligonais/plataformas, janelas, paredes compartilhadas/encontros, grupos/layers/andares e apoio explícito. |
-| Assets | Entregues: 127 modelos, categorias hierárquicas, tags editáveis, busca, épocas/cenários e favoritos ([ASSET_LIBRARY.md](ASSET_LIBRARY.md)). Pendentes: coleções formais, variantes de textura, sockets específicos e glTF com dependências. |
+| Assets | Entregues: 161 modelos, categorias hierárquicas, tags editáveis, busca, épocas/cenários e favoritos ([ASSET_LIBRARY.md](ASSET_LIBRARY.md)). Pendentes: coleções formais, variantes de textura, sockets específicos e glTF com dependências. |
 | Prefabs | Composições pequenas, templates e receitas locais; proveniência, slots e regeneração por diff preservando alterações. |
 | Smart Build | Cama/acessórios, mesa/cadeiras, luminárias distribuídas, auto-decoration e auto-layout em escopo selecionado. |
 | Polish | Alinhamento/distribuição, variantes de material e revisão de passagens/decoração com preview. |
-| Ambientes | Biblioteca de EnvironmentDocument, bindings por papel e snapshots editáveis por cena. |
-| Visual | Entregues: spot, Kelvin, flicker, fog de distância, volume homogêneo por altura e bloom opcional ([LIGHTING.md](LIGHTING.md)). Pendentes: emissores/partículas, volumetria com sombras e benchmark presencial. |
+| Ambientes | Entregues: EnvironmentDocument persistente, presets de horário/clima, snapshots independentes, prévia/diff e vínculos por horário de materiais/luzes ([ENVIRONMENTS.md](ENVIRONMENTS.md)). Múltiplos emissores com vínculo a fixtures/áreas continuam futuros. |
+| Visual | Entregues: spot, Kelvin, flicker, fog de distância, volume homogêneo por altura e bloom opcional ([LIGHTING.md](LIGHTING.md)). Entregues também: céu/nuvens, sol/lua e emissor global de chuva/poeira/brasas/fumaça. Pendentes: múltiplos emissores espaciais, colisão, volumetria com sombras e benchmark presencial. |
 | Câmera | Entregues: WASD/Shift/altura, lente/velocidade, órbita suave, foco nos bounds da seleção, presets/transições interrompíveis e corte imediato ([CAMERA.md](CAMERA.md)). Pendentes: acompanhamento automático de tokens, caminhos/colisão e avaliação no projetor. |
 
 Integrações são entregas independentes dentro desse marco, após seus pré-requisitos:
@@ -171,7 +171,7 @@ Testes implementados e futuros devem proteger comportamento e perda de trabalho,
 | Integrações | Concorrência/repetição de recursos, identidade, áudio real, falhas/desconexão e ausência de efeitos externos no undo. |
 | Performance | Roteiro/snapshots reproduzíveis, notebook/projetor, mix real do Jukebox e dispositivos móveis quando usados. |
 
-Domínio, projeção, geometria e servidor contam com 107 testes. Os dez roteiros de navegador verificam autoria, assets, apresentação, revisão/recuperação e a Fase 3: regeneração preservada, janela, piso elevado, apoios, seleção múltipla/polish e fidelidade após reiniciar. Build de produção foi executado. Escolher metas de frame/resposta/memória somente após baseline; ver [benchmark](IMMERSION.md). Teste com áudio, projetor e notebook reais continua pendente.
+Domínio, projeção, geometria e servidor contam com 118 testes. Os doze roteiros de navegador verificam autoria, assets, apresentação, revisão/recuperação e a Fase 3: regeneração preservada, janela, piso elevado, apoios, seleção múltipla/polish e fidelidade após reiniciar. Os roteiros de ambientes também verificam controles diretos, reação ao horário, biblioteca/persistência, prévia e pixels do céu/clima; câmera/autoria/ambientes foram repetidos após ajustar a órbita com animação contínua. Build de produção foi executado. Escolher metas de frame/resposta/memória somente após baseline; ver [benchmark](IMMERSION.md). Teste com áudio, projetor e notebook reais continua pendente.
 
 ## 8. Riscos e decisões pendentes
 
@@ -211,4 +211,4 @@ As pendências devem ser resolvidas pelo piloto do slice e por dados reais na fa
 | Performance com notebook/projetor/áudio e benchmark sem metas inventadas | IMMERSION, seções 13–14. |
 | MVP, V2, V3, futuro, riscos e validações | Este documento, seções 3–8. |
 
-Junções/paredes compartilhadas, níveis, acessos e terreno já foram entregues; próximos incrementos estruturais dependem do uso presencial. Catálogo ampliado para 127 assets, com classificação e filtros persistentes; avaliar com o mestre no projetor antes de ampliar receitas e composição procedural. Transporte e biblioteca de ambientes continuam pendentes. [PHASE_3.md](PHASE_3.md) distingue esta entrega dos recursos futuros.
+Junções/paredes compartilhadas, níveis, acessos e terreno já foram entregues; próximos incrementos estruturais dependem do uso presencial. Catálogo ampliado para 161 assets, com classificação e filtros persistentes; avaliar com o mestre no projetor antes de ampliar receitas e composição procedural. Transporte permanece opcional; a biblioteca de ambientes já está entregue. [PHASE_3.md](PHASE_3.md) distingue esta entrega dos recursos futuros.

@@ -1,6 +1,6 @@
 # Catálogo de assets e classificação
 
-Implementado em 3 de outubro de 2026. A aba **Assets** oferece **127 modelos 3D locais**, incluindo os seis objetos do kit inicial e **121 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas.
+Implementado em 3 de outubro de 2026. A aba **Assets** oferece **161 modelos 3D locais**, incluindo os seis objetos do kit inicial e **155 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
 
 ## Acervo
 
@@ -16,7 +16,8 @@ Implementado em 3 de outubro de 2026. A aba **Assets** oferece **127 modelos 3D 
 | Urbano | Poste, caçamba, barreira de concreto, cone e grade de drenagem. |
 | Investigação | Quadro de pistas, maleta de perícia, documentos, mala antiga, cofre e estojo tático. |
 | Comercial | Balcão de recepção, caixa registradora, vitrine, máquina de bebidas, gôndola, banco de lanchonete, banqueta, sinuca e carteira escolar. |
-| Veículos | Carro de passeio, furgão de carga, ambulância, viatura de investigação, motocicleta e barco a remo. |
+| Veículos | Carro de passeio, furgão de carga, ambulância, viatura de investigação, motocicleta, bicicleta e barco a remo. |
+| Terceira ampliação | Cadeira de balanço, lareira, cabideiro, fichário de biblioteca, berço, cavalo de balanço, gramofone, globo, lustre, lampião, tabuleiro espiritual, jaula, cadeira de contenção, biombo, saco mortuário, poça de sangue, cova com cruz, cova aberta, anjo de cemitério, candelabro ritual, cerca de madeira, bomba d’água, lenha, carrinho de mão, orelhão, ponto de ônibus, hidrante, lixeira, carrinho de supermercado, fliperama, quadro-negro, grade de cela e filmadora em tripé. |
 
 As épocas incluem **Antiguidade**, **Colonial / século XIX**, **Início do século XX**, **Décadas de 1970–1990**, **Contemporânea** e **Atemporal**. São classificações de uso cenográfico. Os cenários incluem hospital, laboratório, delegacia, bunker, fazenda, floresta, igreja, ruínas e outros.
 
@@ -44,9 +45,9 @@ A projeção dos jogadores recebe os dados necessários à renderização dos as
 
 ## Modelos e limites
 
-Os modelos são receitas estáticas de primitivas, com materiais próprios e prévias SVG geradas da mesma geometria. Execute `node scripts/generate-library.js` na raiz para regenerar os 121 modelos novos, suas prévias e o catálogo. Os IDs do kit inicial permanecem iguais; footprints antigos foram corrigidos para abranger a geometria.
+Os modelos são receitas estáticas de primitivas, com materiais próprios e prévias SVG geradas da mesma geometria. Execute `node scripts/generate-library.js` na raiz para regenerar os 155 modelos novos, suas prévias e o catálogo. Os IDs do kit inicial permanecem iguais; footprints antigos foram corrigidos para abranger a geometria.
 
-Mesas, bancos, cama, pia, bancada, maca, carrinhos, altar e outros móveis têm altura de apoio anotada. A segunda ampliação inclui apoios na mesa de centro, criado-mudo, cômoda, balcão, vitrine, carteira escolar, mesa de autópsia, palete e toco. Veículos, dispositivos, móveis fechados e túmulos são estáticos e cenográficos; portas e mecanismos não possuem interação automática. Props de parede/teto usam a fixação manual do inspetor. Velas, cristais, fogueira e poste têm emissive estático. Adicione luz real separadamente.
+Mesas, bancos, cama, pia, bancada, maca, carrinhos, altar e outros móveis têm altura de apoio anotada. A segunda ampliação inclui apoios na mesa de centro, criado-mudo, cômoda, balcão, vitrine, carteira escolar, mesa de autópsia, palete e toco. Veículos, dispositivos, móveis fechados e túmulos são estáticos e cenográficos; portas e mecanismos não possuem interação automática. Props de parede/teto usam a fixação manual do inspetor. A terceira ampliação anota apoio no fichário de biblioteca. Velas, cristais, fogueira, poste, lareira, lustre, candelabro, lampião, fliperama e luz da filmadora têm emissive estático. Adicione luz real separadamente.
 
 Esta entrega inclui catálogo, categorias hierárquicas, busca, tags editáveis, épocas/cenários e favoritos. Continuam pendentes coleções formais além de tags/favoritos, variantes de textura por asset, sockets específicos com fixação automática, receitas/prefabs adicionais e importação glTF com dependências externas. Imagens e GLB estático autocontido continuam importáveis.
 

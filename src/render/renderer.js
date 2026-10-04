@@ -7,6 +7,9 @@ import { groupChain, isLocked, isVisible, isSupport, isAccess, supportHeightAt, 
 import { createAssetCache, disposeObject, standardMaterial } from './asset-cache.js';
 import { applyTransform, readTransform, tagEntity, createFloor, createTerrain, createAccess, createWall, createDoor, createWindow, createToken, applyMaterialOverrides } from './scene-objects.js';
 import { sculptTerrain, paintTerrain, terrainBrushOutline } from '../authoring/terrain.js';
+import { createAtmosphere, applyEnvironmentMaterials, materialSlots } from './atmosphere.js';
+import { primaryLight } from '../domain/environments.js';
+import { environmentBindingActive } from '../domain/lighting.js';
 import { createLightObject, updateLightEffects } from './lighting.js';
 import { createEffectsPipeline } from './effects.js';
 import { advanceVelocity, navigationDirection, interpolateCamera } from './camera-motion.js';
@@ -85,7 +88,7 @@ export function setupUniformScaleGizmo(transform) {
 export function createViewport(container, {
   onSelect = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
   onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
-  onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {},
+  onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {}, onMaterialSlots = () => {},
   navigationEnabled = true,
 } = {}) {
   const canvas = document.createElement('canvas');
@@ -119,10 +122,11 @@ export function createViewport(container, {
   container.append(hint);
   const scene = new THREE.Scene();
   const effects = createEffectsPipeline(renderer, scene);
+  const atmosphere = createAtmosphere(scene);
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const onReducedMotion = () => invalidate();
   reducedMotion.addEventListener('change', onReducedMotion);
-  let effectTime = 0, animatedLights = false;
+  let effectTime = 0, animatedLights = false, animatedAtmosphere = false;
   scene.background = new THREE.Color('#25373a');
   const content = new THREE.Group();
   const lighting = new THREE.Group();
@@ -194,7 +198,8 @@ export function createViewport(container, {
   function render(now) {
     renderRequest = null;
     if (destroyed) return;
-    const seconds = Math.min(.05, Math.max(0, (now - (lastFrameTime ?? now)) / 1000));
+    const elapsed = Math.max(0, (now - (lastFrameTime ?? now)) / 1000);
+    const seconds = Math.min(.05, elapsed);
     lastFrameTime = now;
     let moving = false;
     if (transition) {
@@ -212,16 +217,18 @@ export function createViewport(container, {
       moving = navigationKeys.size > 0 || Math.hypot(...velocity) > 0;
     }
     controls.dampingFactor = 1 - Math.exp(-12 * Math.max(seconds, 1 / 240));
-    const orbitChanged = controls.enabled && controls.update(seconds);
+    // Ambient animation must not keep consuming sub-threshold orbit damping.
+    const orbitChanged = Boolean(controls.enabled && (orbitMoving || moving || transition) && controls.update(seconds));
     orbitMoving = Boolean(orbitChanged);
     updateCutaway();
     if (selectionBox.visible) selectionBox.update();
     const effectsPaused = sceneDocument?.look?.effectsPaused ?? sceneDocument?.defaultLook?.effectsPaused;
     const paused = Boolean(effectsPaused || reducedMotion.matches || document.hidden);
-    if (!paused) effectTime += seconds;
+    if (!paused) effectTime += elapsed;
     animatedLights = updateLightEffects(objects.values(), effectTime, paused);
+    animatedAtmosphere = atmosphere.update(camera, effectTime, paused, height * renderer.getPixelRatio());
     effects.render(camera, seconds);
-    if ((moving || orbitChanged || animatedLights) && !document.hidden) invalidate();
+    if ((moving || orbitChanged || animatedLights || animatedAtmosphere) && !document.hidden) invalidate();
     else lastFrameTime = null;
   }
   function attachOrbit(target) {
@@ -235,12 +242,12 @@ export function createViewport(container, {
     controls.maxDistance = 260;
     controls.minZoom = 0.1;
     controls.maxZoom = 16;
-    controls.maxPolarAngle = Math.PI / 2;
+    controls.maxPolarAngle = Math.PI - .05;
     controls.mouseButtons = { LEFT: null, MIDDLE: THREE.MOUSE.PAN, RIGHT: THREE.MOUSE.ROTATE };
     controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_ROTATE };
-    controls.addEventListener('change', () => { invalidate(); onCameraChange(getCamera()); });
+    controls.addEventListener('change', () => { orbitMoving = true; invalidate(); onCameraChange(getCamera()); });
     // Mouse navigation interrupts a shot while preserving held keys and velocity.
-    controls.addEventListener('start', () => { transition = null; invalidate(); });
+    controls.addEventListener('start', () => { transition = null; orbitMoving = true; invalidate(); });
     controls.enabled = navigationEnabled;
     controls.update();
   }
@@ -292,6 +299,7 @@ export function createViewport(container, {
     controls.enableDamping = false; controls.update();
     camera.position.copy(position); controls.target.copy(target);
     controls.enableDamping = true; controls.update();
+    orbitMoving = false;
     if (destination) applyCamera(destination);
     invalidate();
   }
@@ -465,8 +473,12 @@ export function createViewport(container, {
       if (!stillCurrent()) { disposeObject(instance); return; }
       parent.add(instance);
       applyMaterialOverrides(instance, entity.material, sceneDocument.look?.materialAdjustments?.[entity.id] ?? sceneDocument.defaultLook?.materialAdjustments?.[entity.id], true);
+      const look = sceneDocument.look ?? sceneDocument.defaultLook;
+      applyEnvironmentMaterials(instance, entity, look);
+      applyMaterialOverrides(instance, undefined, look.materialAdjustments?.[entity.id]);
       tagEntity(parent, entity.id);
       updateSelection();
+      onMaterialSlots(entity.id);
       updateShadowBounds();
       invalidate(true);
     }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } });
@@ -519,12 +531,14 @@ export function createViewport(container, {
     objects.clear();
     records.clear();
     createGrid(next?.layout?.grid);
-    if (!next) { cache.prune([]); scene.fog = null; effects.configure({}); invalidate(true); return; }
+    if (!next) { cache.prune([]); scene.fog = null; effects.configure({}); atmosphere.configure({}, null); invalidate(true); return; }
     const look = next.look ?? next.defaultLook;
     scene.background.set(look.background);
     scene.fog = !look.fog?.enabled ? null : look.fog.mode === 'exp2'
       ? new THREE.FogExp2(look.fog.color, look.fog.density) : new THREE.Fog(look.fog.color, look.fog.near, look.fog.far);
     effects.configure(look);
+    renderer.toneMappingExposure = look.daylight?.exposure ?? 1.1;
+    atmosphere.configure(look, primaryLight(look));
     ground.material.color.set(look.fill?.groundColor ?? '#283934');
     lighting.add(new THREE.HemisphereLight(look.fill?.skyColor ?? '#dbe7e4', look.fill?.groundColor ?? '#524938', look.fill?.intensity ?? 1));
     const entities = values(next.layout.entities);
@@ -554,7 +568,7 @@ export function createViewport(container, {
         const asset = assetRecord(entity.assetRef);
         if (asset) usedAssets.push(asset);
         installAsset(object, entity, entity.assetRef, generation);
-      } else applyMaterialOverrides(object, undefined, look.materialAdjustments?.[entity.id]);
+      } else { applyEnvironmentMaterials(object, entity, look); applyMaterialOverrides(object, undefined, look.materialAdjustments?.[entity.id]); }
     }
     for (const token of values(next.tokens)) {
       const actor = next.actors[token.actorId];
@@ -573,6 +587,8 @@ export function createViewport(container, {
     }
     for (const record of values(look.lights)) {
       const object = createLight(record, lighting);
+      const binding = look.environmentBindings?.[record.id];
+      object.userData.environmentActive = !binding?.enabled || environmentBindingActive(look, binding);
       objects.set(record.id, object);
       records.set(record.id, record);
       object.visible = visibleRecord(record);
@@ -706,7 +722,7 @@ export function createViewport(container, {
     const openings = values(sceneDocument.layout.entities).filter(e => e.wallId === wall.id).map(e => e.id === opening.id ? opening : e);
     for (const [record, object] of [[wall, createWall(wall, openings, values(sceneDocument.layout.entities).filter(e => e.kind === 'wall'))], [opening, createWindow(opening, wall)]]) {
       disposeObject(objects.get(record.id)); content.add(object); objects.set(record.id, object);
-      object.visible = visibleRecord(record); applyMaterialOverrides(object, undefined, (sceneDocument.look ?? sceneDocument.defaultLook).materialAdjustments?.[record.id]);
+      object.visible = visibleRecord(record); applyEnvironmentMaterials(object, record, sceneDocument.look ?? sceneDocument.defaultLook); applyMaterialOverrides(object, undefined, (sceneDocument.look ?? sceneDocument.defaultLook).materialAdjustments?.[record.id]);
     }
     content.updateMatrixWorld(true); updateSelection(); invalidate(true);
   }
@@ -1028,8 +1044,10 @@ export function createViewport(container, {
       const rect = canvas.getBoundingClientRect();
       return { x: rect.left + (vector.x + 1) * rect.width / 2, y: rect.top + (1 - vector.y) * rect.height / 2, visible: vector.z >= -1 && vector.z <= 1 && Math.abs(vector.x) <= 1 && Math.abs(vector.y) <= 1 };
     },
-    setEffectsEnabled(value) { effects.setEnabled(value); invalidate(); },
-    getInfo() { return { effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },
+    getMaterialSlots(id) { return materialSlots(objects.get(id)); },
+    setEffectsEnabled(value) { effects.setEnabled(value); atmosphere.setEnabled(value); invalidate(); },
+    getInfo() { return { atmosphere: atmosphere.info(), animatedAtmosphere,
+      environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },
     destroy() {
       destroyed = true;
       previewGeneration++;
@@ -1055,6 +1073,7 @@ export function createViewport(container, {
       cache.destroy();
       reducedMotion.removeEventListener('change', onReducedMotion);
       effects.dispose();
+      atmosphere.dispose();
       renderer.dispose();
       renderer.forceContextLoss();
       canvas.remove();

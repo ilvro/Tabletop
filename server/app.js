@@ -101,7 +101,7 @@ export async function createApp({ dataDir = path.join(projectDir, 'data'), distD
     await new Promise((resolve, reject) => res.sendFile(file, (error) => error ? reject(error) : resolve()));
   }));
 
-  for (const [collection, type] of [['scenes', 'scene'], ['maps', 'map']]) {
+  for (const [collection, type] of [['scenes', 'scene'], ['maps', 'map'], ['environments', 'environment']]) {
     const route = `/api/tabletop/${collection}`;
     app.get(route, asyncRoute(async (_req, res) => res.json(await storage.list(collection))));
     app.get(`${route}/:id`, asyncRoute(async (req, res) => res.json(await storage.read(collection, req.params.id))));

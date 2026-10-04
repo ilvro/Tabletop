@@ -1,6 +1,6 @@
 # Tabletop — arquitetura da Fase 2
 
-Data: 3 de outubro de 2026. Estado: proposta consolidada para implementação posterior; nenhum módulo do Tabletop foi implementado nesta etapa.
+Pesquisa inicial de 3 de outubro de 2026, atualizada em 4 de outubro. Arquitetura de referência com contratos entregues documentados e propostas futuras identificadas abaixo.
 
 Este documento parte de [INVESTIGACAO_E_ARQUITETURA.md](../INVESTIGACAO_E_ARQUITETURA.md). A Fase 1 permanece como registro da investigação. As decisões de produto desta Fase 2 revisam seu escopo de MVP: piso, paredes, porta, iluminação, apresentação e assistência simples passam a fazer parte do primeiro vertical slice.
 
@@ -96,7 +96,7 @@ Seleção, hover, ferramenta, arraste provisório, preview de sugestão e câmer
 | Campo | Contrato proposto |
 | --- | --- |
 | `schemaVersion` | Inteiro `2` no contrato atual, com migração explícita de `1`. Andares/camadas e campos estruturais são opcionais; versões futuras incompatíveis não são sobrescritas. |
-| `documentType` | `map` ou `scene` no MVP. `environment` será adicionado com a biblioteca de ambientes na V2. |
+| `documentType` | `map`, `scene` ou `environment`. A biblioteca persistente de ambientes está implementada no schema 2; ver [ENVIRONMENTS.md](ENVIRONMENTS.md). |
 | `id` | UUID estável do documento. Importar para restaurar preserva identidade; importar como cópia gera novos IDs locais. |
 | `revision` | Inteiro não negativo atribuído pelo servidor; começa em 1 após criação. Não aumenta a cada movimento provisório. |
 | `name` | Nome editável, sem função de identidade. |
@@ -149,15 +149,19 @@ Uma cena contém, além do envelope/layout:
 
 Carregar documento reconstrói seu estado salvo; não executa geradores, não aplica novamente ambiente e não toca música.
 
-O MVP precisa de `look` com iluminação ambiente, direcional/pontual, cor e intensidade, sombras seletivas, fundo e ajustes simples de materiais. Campos de fog, efeitos e pós-processamento só ganham schema concreto quando implementados. O v1 não aceita qualquer objeto arbitrário como promessa de extensibilidade; novas versões adicionam formatos validados.
+O MVP precisa de `look` com iluminação ambiente, direcional/pontual, cor e intensidade, sombras seletivas, fundo e ajustes simples de materiais. Fog, volume por altura, bloom, horário/exposição, céu/nuvens, clima e vínculos por horário possuem campos opcionais validados no schema 2; documentos anteriores preservam sua aparência. O v1 não aceita qualquer objeto arbitrário como promessa de extensibilidade; novas versões adicionam formatos validados.
 
-Contrato visual mínimo proposto:
+Contrato visual vigente, com extensões opcionais do schema 2:
 
-| Campo de `look` | Tipo e semântica v1 |
+| Campo de `look` | Tipo e semântica |
 | --- | --- |
-| `background` | Cor sRGB; imagem/céu e environment map serão extensões validadas. |
+| `background` | Cor sRGB quando o céu está desligado; céu procedural em `sky`. Environment map/reflexos permanece futuro. |
 | `fill` | Tipo hemisphere, cores de céu/chão e intensidade não negativa. |
-| `lights` | Coleção por ID com tipo `directional` ou `point`, posição, quaternion para fonte direcional, cor sRGB, intensidade não negativa, alcance da point e `shadowEnabled`. |
+| `lights` | Coleção por ID com tipo `directional`, `point` ou `spot`, posição/quaternion, cor sRGB/Kelvin, intensidade, alcance, sombras e flicker opcional; spot inclui cone/penumbra. |
+| `daylight`, `sky` | Horário/exposição, gradiente, sol/lua/estrelas e nuvens com controles/seed. |
+| `weather` | Emissor global em região XZ/altura, tipo/quantidade/cor/velocidade/vento/seed; até 3.000 partículas por viewport. |
+| `nightWindows`, `environmentBindings` | Regra global de vidros noturnos e vínculos por ID de prop/janela/luz, horário, slot e emissão; referências existentes e projeção filtrada. |
+| `fog`, `volumetricFog`, `bloom`, `effectsPaused` | Névoa de distância/altura, halo e pausa dos efeitos; configurações opcionais validadas. |
 | `materialAdjustments` | Ajustes por entityId e slot de material existente: cor, roughness/metalness em 0–1, emissive e intensidade não negativa, conforme suporte do material. |
 
 O adaptador converte direção de luz em alvo Three.js. Resolução de sombra, pixel ratio e efeitos efetivos pertencem ao perfil local do viewport, sem alterar look. Materiais base pertencem às entidades; ajustes do look sobrepõem propriedades permitidas e mantêm o original.
@@ -165,6 +169,10 @@ O adaptador converte direção de luz em alvo Three.js. Resolução de sombra, p
 Em `sessionState`, porta usa ângulo atual em radianos por entityId; valor ausente usa ângulo inicial. Presets de câmera usam posição/alvo em metros, projeção `perspective` com FOV vertical em graus ou `orthographic` com altura de enquadramento em metros. Near/far positivos e ordenados são configuração validada do adaptador; aspect ratio vem do viewport. Recarregar conserva o preset e resolve seu enquadramento para a tela atual.
 
 ### 6.4. EnvironmentDocument e aplicação na V2
+
+**Contrato entregue em 4 de outubro de 2026:** envelope de schema 2 e `settings` com `background`, `fill`, `daylight`, `sky`, `weather`, `fog`, `volumetricFog`, `bloom`, `nightWindows`, `effectsPaused` e `keyLight` direcional sem ID/referências locais. Não inclui layout, câmeras, assets, luzes locais ou vínculos de instâncias. `look.environmentBindings` mapeia prop/janela/luz existente para estado, horário, slot, cor e intensidade emissiva; mapa/cena é a autoridade desses alvos. Aplicação substitui globais/luz principal por uma cópia e preserva ajustes locais; Prévia oferece diff e aceite atômico. Biblioteca em `data/environments/` usa revisão/backups e não é dependência para abrir cenas. [ENVIRONMENTS.md](ENVIRONMENTS.md) documenta os controles.
+
+A receita mais ampla proposta abaixo, com seletores por papel e múltiplos emissores vinculados a fixtures/áreas, permanece como extensão:
 
 O ambiente reutilizável contém envelope, tags de estilo, parâmetros, configuração global e receitas de luz/material/efeito por alvo semântico. Seletores usam papéis ou bindings explícitos — piso, parede, luminária, área — em vez de depender dos IDs de um hospital específico.
 

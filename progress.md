@@ -56,12 +56,38 @@ Validação final em 4 de outubro: build de produção, 107 testes unitários/de
 
 Spots, Kelvin, flicker, fog de distância, névoa por altura e bloom saíram das pendências. A névoa volumétrica entregue é uma camada homogênea limitada pela geometria opaca; feixes e sombras volumétricas continuam futuros. A avaliação presencial no notebook/projetor permanece necessária.
 
+## Ambientes, horários e clima — concluídos
+
+- [x] Conferir os limites atuais: controles da luz principal escondidos no inspetor e presets restritos a fundo/preenchimento/luz.
+- [x] Expor sol/lua, temperatura, intensidade, direção e HSV na aba Cena.
+- [x] Presets de dia, tarde, noite, neblina, chuva, pântano e calor; céu com sol/lua, estrelas e nuvens editáveis.
+- [x] Chuva e partículas em região configurável, com animação determinística, pausa e qualidade local.
+- [x] Vínculos de dia/noite para materiais e luzes, incluindo janelas acesas, sem modificar assets compartilhados.
+- [x] Biblioteca de ambientes personalizados no servidor, reutilização independente da cena e prévia/diff.
+- [x] Validar histórico, dados, sigilo, reinício e projetor independente; sincronizar os relatórios.
+
+Referências visuais fornecidas pelo usuário: tarde alaranjada e noite azul com lua/janelas acesas. Essas imagens orientam comportamento e composição; não estabelecem a implementação interna da ferramenta de referência. Controles e limites: [docs/ENVIRONMENTS.md](docs/ENVIRONMENTS.md).
+
+Validação final: Build de produção, 118 testes unitários/de integração e os 12 roteiros E2E verificados com sucesso. Após corrigir o encerramento da órbita durante animação contínua, os roteiros de câmera, autoria e ambientes foram repetidos e passaram. Verificados controles diretos, materiais por slot/instâncias independentes, janelas/luzes por horário, biblioteca e snapshots após reiniciar, prévia local/aceite, pausa/movimento reduzido, qualidade local, enquadramento de céu sem publicar câmera e pixels WebGL de sol/lua, nuvens e chuva. Capturas em `test-results/environment-afternoon.png`, `environment-night.png` e `environment-night-sky.png`.
+
+Revisão final validada: importar um EnvironmentDocument não substitui a mesa; store/histórico e recibos de salvamento rejeitam o tipo de documento incompatível sem alterar cena ou histórico. A suíte de 118 testes e os dois E2E de ambientes passaram novamente após essa proteção.
+
+Biblioteca de ambientes e emissor global de clima/partículas saíram das pendências. Múltiplos emissores associados a objetos/áreas, colisão de partículas, feixes/sombras volumétricas e benchmark presencial permanecem futuros.
+
+## Biblioteca — terceira ampliação concluída
+
+- [x] Inspecionar pipeline: receitas de primitivas em `scripts/generate-library.js`/`library-expansion.js`, pivot na base, footprints/apoios e prévias SVG.
+- [x] Adicionar 34 assets originais em `scripts/library-expansion-3.js` (casarão/sótão, asilo/necrotério, cemitério, rua, rural, comércio e investigação), sem alterar materiais nem modelos existentes.
+- [x] Regenerar catálogo/modelos/prévias e revisar visualmente as prévias; sincronizar contagens (161 assets, 155 além do kit) na documentação.
+
+Validação: 107 testes unitários/de integração, build e E2E da biblioteca (paginação completa com 161 cards) passaram. A regeneração apenas acrescentou registros ao catálogo; os 127 modelos/prévias anteriores ficaram idênticos.
+
 ## Pendências atuais
 
 - Acompanhamento automático de tokens; caminhos de câmera e colisão com paredes.
 - Avaliação presencial do movimento/legibilidade no notebook e projetor.
 - Pacote único de cena + assets (opcional).
-- Receitas e prefabs adicionais, biblioteca reutilizável de ambientes e auto-layout entre cômodos.
+- Receitas e prefabs adicionais e auto-layout entre cômodos.
 - Coleções/variantes de assets, sockets específicos por asset e glTF com texturas externas.
 - Integrações Ficha/Jukebox e LAN, conforme [roadmap](docs/ROADMAP.md).
-- Volumetria com sombras/espalhamento por luz, partículas e efeitos adicionais dependentes de benchmark.
+- Volumetria com sombras/espalhamento por luz, múltiplos emissores associados a objetos/áreas, colisão de partículas e efeitos adicionais dependentes de benchmark.
