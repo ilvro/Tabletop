@@ -6,13 +6,13 @@ Data: 3 de outubro de 2026. Pesquisa e proposta da Fase 2; nenhuma cena, efeito 
 
 Imersão é parte do produto desde o primeiro slice. A cena deve comunicar escala, uso do espaço, atmosfera e posição dos personagens, além de representar geometria. Um hospital é reconhecido por materiais, mobiliário, proporções e luz; noite, emergência e abandono mudam sua leitura.
 
-A referência de Ordem orienta apresentação de mesa 3D; Baldur's Gate orienta composição, escala e atmosfera. Essas referências não definem fidelidade gráfica garantida nem exigem um RPG completo, simulação de combate ou exploração cinematográfica contínua.
+A referência de Ordem Paranormal orienta apresentação de mesa 3D; Baldur's Gate orienta composição, escala e atmosfera. Essas referências não definem fidelidade gráfica garantida nem exigem um RPG completo, simulação de combate ou exploração cinematográfica contínua.
 
 Priorizar ganho perceptível por custo: escala consistente, composição, materiais coerentes, luz principal/preenchimento, contato com o chão e câmera preparada. Efeitos complementam essa base. Todas as luzes, presets e resultados automáticos precisam de controle manual.
 
 O usuário prevê notebook intermediário com GPU e provavelmente projetor. O mestre controla a cena; interação por celulares no Wi-Fi é opcional. Portanto, legibilidade à distância e facilidade de condução são critérios tão relevantes quanto a imagem no monitor de edição.
 
-## 2. Tabletop de Ordem: evidências e limites
+## 2. Tabletop de Ordem Paranormal: evidências e limites
 
 ### 2.1. Informação publicada oficialmente
 
@@ -40,7 +40,7 @@ Uma sala de terror pode ter um foco visual e passagens legíveis; o mestre escol
 
 ### 2.4. Hipóteses técnicas e aspectos não demonstrados
 
-Sombras seletivas, fog de distância, emissive, luzes pontuais e billboards são candidatos nossos para efeitos semelhantes no navegador. Não afirmamos que Ordem use essas técnicas. Não foi estabelecido publicamente nas fontes examinadas qual engine usa, como sincroniza jogadores ou como importa seus assets.
+Sombras seletivas, fog de distância, emissive, luzes pontuais e billboards são candidatos nossos para efeitos semelhantes no navegador. Não afirmamos que Ordem Paranormal use essas técnicas. Não foi estabelecido publicamente nas fontes examinadas qual engine usa, como sincroniza jogadores ou como importa seus assets.
 
 Imagens estáticas não permitem avaliar duração/interpolação de transições, comportamento de câmera, flicker, partículas, animação ou interface em operação. Esses itens são requisitos/propostas do nosso produto; não resultados observados nesta pesquisa. Não extrapolar a imagem de desenvolvimento de julho para todos os recursos da versão exibida depois.
 
@@ -165,6 +165,8 @@ Caso EffectComposer seja escolhido, usar OutputPass para saída/tone mapping con
 Qualidade local pode omitir um efeito solicitado pelo look sem alterar a cena. A UI informa o perfil efetivo. Troca de cena libera render targets antigos e mantém dimensões compatíveis com o viewport; buffers do projetor têm custo próprio.
 
 ## 10. Câmera, enquadramento e transições
+
+**Incremento implementado em 3 de outubro de 2026:** navegação WASD com inércia, Shift/Page Up/Down, lente/velocidade, órbita suave e transições de enquadramentos salvos/publicados com duração, interrupção e corte imediato; projetor independente. Uso e limites em [CAMERA.md](CAMERA.md); acompanhamento automático de tokens/caminhos e benchmark presencial continuam pendentes. A proposta abaixo mantém o contexto da Fase 2.
 
 Perspectiva inclinada é o padrão de apresentação. Vista superior ortográfica atende edição precisa e visão tática. “Cinematográfica” é uma configuração de enquadramento/lente/movimento, não outra representação do mapa.
 

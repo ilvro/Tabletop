@@ -37,7 +37,7 @@ Até oito camadas de cor são compostas em ordem; as últimas cobrem as primeira
 1. Coloque uma mesa e uma lamparina na cena. Selecione os dois com **Shift+clique**, na cena ou na lista da aba **Cena**.
 2. Clique com o botão direito em um dos selecionados e escolha **Ancorar objetos juntos**. A mesma ação aparece no inspetor da seleção múltipla.
 3. Uma pasta **ancorada** surge na aba **Cena**. Os objetos mantêm suas posições. Clicar em qualquer membro seleciona a composição inteira.
-4. Use **W** para mover, **R** para girar ou **S** para alterar seu tamanho uniforme. Os campos do inspetor também afetam todos os objetos juntos. Duplicar e copiar/colar conservam o conjunto como uma unidade independente.
+4. Use **G** para mover, **R** para girar ou **V** para alterar seu tamanho uniforme. Os campos do inspetor também afetam todos os objetos juntos. Duplicar e copiar/colar conservam o conjunto como uma unidade independente.
 5. Na pasta, clique em **Desancorar objetos** (também disponível no menu de contexto e no inspetor). Os objetos mantêm as posições e ficam selecionáveis individualmente; a pasta continua para organização. **Ctrl+Z** restaura a ancoragem.
 
 A composição preserva os objetos e seus vínculos originais, incluindo apoios. A união, as transformações e a desancoragem podem ser desfeitas; a composição também é preservada ao salvar e reabrir. Objetos bloqueados não podem ser unidos ou transformados pela composição.

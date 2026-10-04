@@ -22,7 +22,7 @@ Controle completo significa autoria de layout, estruturas, composição, transfo
 | [Merrell et al. — Interactive Furniture Layout, 2011](https://graphics.stanford.edu/projects/furniture/) | Pesquisa combina manipulação manual e sugestões por critérios funcionais/visuais. | Usar regras pequenas e explicáveis; não adotar seu otimizador complexo como requisito do slice. |
 | [Epic — PCG Overview](https://dev.epicgames.com/documentation/en-us/unreal-engine/procedural-content-generation-overview) | Dados procedurais incluem transforms, bounds, seed e atributos. | Separar candidatos espaciais do renderer e avaliar metadados antes de criar entidades. |
 
-Essas ferramentas são referências de interação e organização de dados. Não são dependências de runtime nem indicação de como Ordem implementa seu tabletop. As seções seguintes são propostas próprias.
+Essas ferramentas são referências de interação e organização de dados. Não são dependências de runtime nem indicação de como Ordem Paranormal implementa seu tabletop. As seções seguintes são propostas próprias.
 
 ## 3. Quick Build
 

@@ -48,14 +48,14 @@ export async function startApplication() {
       </aside>
       <main class="workspace">
         <div id="viewport" aria-label="Viewport 3D"></div>
-        <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (W)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (R)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (S)" aria-label="Escala"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
+        <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (G)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (R)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (V)" aria-label="Escala"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
         <div id="welcome" class="welcome-card"><span class="eyebrow">UMA CENA COMEÇA COM UM ESPAÇO</span><h1>Sua próxima história<br/>começa aqui.</h1><p>Desenhe uma sala, escolha a luz e traga seus personagens para a mesa.</p>${button('room-draw', 'Desenhar minha primeira sala', 'room', 'primary')}<small>Ou use as medidas no painel Construir.</small></div>
         <div id="proposal-bar" class="proposal-bar" hidden></div>
-        <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}</div><span id="gesture-hint" class="gesture-hint">Botão direito: orbitar · Meio: mover câmera · Scroll: zoom</span></div>
+        <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}</div><span id="gesture-hint" class="gesture-hint">WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom</span></div>
         <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
       </main>
       <aside class="inspector"><div class="panel-heading"><span class="eyebrow">PROPRIEDADES</span>${icon('scale', 16)}</div><div id="inspector-content"></div></aside>
-      <footer class="statusbar"><span id="scene-summary">Preparando sua mesa…</span><span><kbd>Q</kbd> Selecionar <kbd>W</kbd> Mover <kbd>R</kbd> Girar <kbd>S</kbd> Escala <kbd>F</kbd> Enquadrar</span></footer>
+      <footer class="statusbar"><span id="scene-summary">Preparando sua mesa…</span><span><kbd>Q</kbd> Selecionar <kbd>G</kbd> Mover <kbd>R</kbd> Girar <kbd>V</kbd> Escala <kbd>F</kbd> Enquadrar</span></footer>
     </div>
     <div id="presentation-controls" hidden><span id="presentation-name"></span>${button('present', 'Voltar à edição', 'close', 'quiet')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet')}</div>
     <dialog id="documents-dialog" class="library-dialog">
@@ -104,7 +104,8 @@ export async function startApplication() {
   const store = createSceneStore(createScene('Minha primeira cena'));
   const sessionId = id();
   const channel = typeof BroadcastChannel === 'function' ? new BroadcastChannel(`tabletop-presentation-${sessionId}`) : null;
-  let sequence = 0;
+  let sequence = 0, cameraSequence = 0, publishedDuration = 0;
+  let cameraDuration = 1.2, cameraSpeed = 6;
 
   function notify(message, error = false, persistent = false) {
     const notice = document.getElementById('notice');
@@ -200,7 +201,7 @@ export async function startApplication() {
       if (width < .1 || height < .1) { notify('Esta parede é pequena demais para a janela.', true); return; }
       const entity = createEntity('window', { wallId, surfaceId: wall.surfaceId, groupId: wall.groupId, width, height,
         ...constrainOpening(wall, { width, height }, offset, centerHeight - height / 2) });
-      if (execute('entity.add', { entity })) { setTool('move'); selectObject(entity.id); notify('Janela criada. Arraste com Mover (W) ou ajuste posição e peitoril no inspetor.'); }
+      if (execute('entity.add', { entity })) { setTool('move'); selectObject(entity.id); notify('Janela criada. Arraste com Mover (G) ou ajuste posição e peitoril no inspetor.'); }
     },
     onOpeningMove: (objectId, patch) => execute('entity.update', { id: objectId, patch }),
     onTerrainStroke: (objectId, patch) => execute('entity.update', { id: objectId, patch, snap: false }, { label: patch.paintLayers ? 'Pintar terreno' : 'Esculpir terreno' }),
@@ -231,7 +232,13 @@ export async function startApplication() {
         hideContextMenu();
       }
     },
-    onCameraChange: () => hideContextMenu(),
+    onCameraChange: preset => {
+      hideContextMenu();
+      root.querySelector('[data-action="perspective"]')?.classList.toggle('active', preset.projection === 'perspective');
+      root.querySelector('[data-action="top"]')?.classList.toggle('active', preset.projection === 'orthographic');
+      const field = root.querySelector('[data-field="camera-fov"]');
+      if (field && document.activeElement !== field) field.value = String(Math.round(preset.fov * 10) / 10);
+    },
   });
   function selectObject(value, additive = false) {
     anchorEditing = false;
@@ -260,7 +267,7 @@ export async function startApplication() {
     tool = next; viewport.setTool(next);
     if (next !== 'place') placing = null;
     root.querySelectorAll('[data-action^="tool-"]').forEach((node) => node.classList.toggle('active', node.dataset.action === `tool-${next}`));
-    document.getElementById('gesture-hint').textContent = next === 'terrain' ? 'Pincel ativo · T/Q: seleção · [ ]: tamanho · Esc: cancelar traço' : next === 'polygon' ? 'Clique nos vértices · Enter conclui · Backspace remove · Esc cancela' : next === 'window' ? 'Clique na parede para posicionar o centro da janela · Esc cancela' : next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? 'Clique no piso para colocar · Alt: posição livre · Esc cancela' : 'Botão direito: orbitar · Meio: mover câmera · Scroll: zoom';
+    document.getElementById('gesture-hint').textContent = next === 'terrain' ? 'Pincel ativo · T/Q: seleção · [ ]: tamanho · Esc: cancelar traço' : next === 'polygon' ? 'Clique nos vértices · Enter conclui · Backspace remove · Esc cancela' : next === 'window' ? 'Clique na parede para posicionar o centro da janela · Esc cancela' : next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? 'Clique no piso para colocar · Alt: posição livre · Esc cancela' : 'WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom';
     if (tab === 'build' && (previous === 'polygon' || next === 'polygon')) renderSidebar();
     if (previous === 'terrain' || next === 'terrain') renderInspector();
   }
@@ -310,12 +317,26 @@ export async function startApplication() {
   function broadcast() {
     if (!channel) return;
     const doc = projectPresentation(store.document);
-    channel.postMessage({ version: 1, type: 'snapshot', sessionId, sequence: ++sequence, document: doc, assets: presentationAssets(doc, assets), camera: publishedCamera ?? viewport.getCamera(), cutaway });
+    channel.postMessage({ version: 1, type: 'snapshot', sessionId, sequence: ++sequence, document: doc, assets: presentationAssets(doc, assets), camera: publishedCamera ?? viewport.getCamera(), cameraSequence, cameraDuration: publishedDuration, cutaway });
   }
   channel?.addEventListener('message', (event) => {
     if (event.data?.version === 1 && event.data?.sessionId === sessionId && event.data.type === 'ready') broadcast();
   });
 
+  function publishCamera(preset, duration = cameraDuration) {
+    publishedCamera = clone(preset); publishedDuration = duration; cameraSequence++; broadcast();
+  }
+  function cameraPanel() {
+    const current = viewport.getCamera();
+    return `<section><span class="eyebrow">CÂMERA CINEMATOGRÁFICA</span>
+      <p class="microcopy">Clique na mesa e use WASD para viajar, Shift para acelerar e Page Up/Down para subir ou descer. Botão direito orbita; roda aproxima.</p>
+      ${numberField('camera-speed', 'Velocidade · m/s', cameraSpeed, { min: .2, max: 40, step: .2 })}
+      ${numberField('camera-fov', 'Lente · campo de visão em graus', current.fov, { min: 20, max: 90, step: 1 })}
+      <label class="field"><span>Troca de enquadramento</span><select data-field="camera-duration">${[[0,'Corte imediato'],[.6,'Rápida · 0,6 s'],[1.2,'Suave · 1,2 s'],[2.5,'Dramática · 2,5 s'],[4,'Contemplativa · 4 s']].map(([duration,label]) => `<option value="${duration}" ${cameraDuration === duration ? 'selected' : ''}>${label}</option>`).join('')}</select></label>
+      <div class="field-grid">${button('camera-stop', 'Parar transição', 'close', 'quiet')}${button('camera-cut', 'Cortar agora', 'camera', 'quiet')}</div>
+      <p class="microcopy">Enquadramentos salvos e publicação usam a duração escolhida. Parar conserva o ponto atual e publica; Cortar chega ao destino imediatamente. A navegação livre conserva a câmera do projetor.</p>
+    </section>`;
+  }
   function renderSidebar() {
     root.querySelectorAll('[data-tab]').forEach((node) => node.classList.toggle('active', node.dataset.tab === tab));
     const panel = document.getElementById('side-content');
@@ -339,7 +360,7 @@ export async function startApplication() {
       renderAssetCards();
     } else {
       const currentLook = store.document.look ?? store.document.defaultLook;
-      panel.innerHTML = `<section><span class="eyebrow">AMBIENTE</span><h2>A luz conta a história.</h2><p class="muted">Um ponto de partida. Ajuste cada fonte como quiser.</p><div class="environment-options">${ENVIRONMENTS.map((preset) => `<button data-environment="${preset.id}" class="environment-card ${store.document.sourceEnvironment?.id === preset.id ? 'active' : ''}"><span class="environment-swatch ${preset.id}"></span><span><strong>${esc(preset.name)}</strong><small>${esc(preset.description || '')}</small></span>${icon('chevron', 14)}</button>`).join('')}</div>${colorField('background', 'Fundo', currentLook.background)}${numberField('fill-intensity', 'Preenchimento', currentLook.fill.intensity, { min: 0, step: .1 })}${colorField('fill-color', 'Cor do preenchimento', currentLook.fill.skyColor)}</section><section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
+      panel.innerHTML = `<section><span class="eyebrow">AMBIENTE</span><h2>A luz conta a história.</h2><p class="muted">Um ponto de partida. Ajuste cada fonte como quiser.</p><div class="environment-options">${ENVIRONMENTS.map((preset) => `<button data-environment="${preset.id}" class="environment-card ${store.document.sourceEnvironment?.id === preset.id ? 'active' : ''}"><span class="environment-swatch ${preset.id}"></span><span><strong>${esc(preset.name)}</strong><small>${esc(preset.description || '')}</small></span>${icon('chevron', 14)}</button>`).join('')}</div>${colorField('background', 'Fundo', currentLook.background)}${numberField('fill-intensity', 'Preenchimento', currentLook.fill.intensity, { min: 0, step: .1 })}${colorField('fill-color', 'Cor do preenchimento', currentLook.fill.skyColor)}</section>${cameraPanel()}<section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-cut="${camera.id}" title="Cortar para este enquadramento" aria-label="Cortar para ${esc(camera.name)}">${icon('camera', 14)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
       renderSceneTreeIfVisible();
     }
   }
@@ -460,7 +481,7 @@ export async function startApplication() {
     const { type, record } = found, doc = store.document;
     if (type === 'group') {
       const members = assemblyMembers(doc,record.id), t=record.transform;
-      panel.innerHTML=`<div class="object-title"><strong>${esc(record.name)}</strong><small>COMPOSIÇÃO ANCORADA · ${members.length} objetos</small></div><label class="field"><span>Nome da pasta</span><input data-field="assembly-name" value="${esc(record.name)}" maxlength="256"/></label><p class="microcopy">Clique em qualquer membro para selecionar todos. Mover (W), Rotacionar (R) e Escalar (S) atuam na composição inteira.</p><section><span class="eyebrow">POSIÇÃO DA COMPOSIÇÃO</span><div class="axis-fields">${t.position.map((value,i) => numberField(`assembly-position-${i}`,['X','Y · altura','Z'][i],value)).join('')}</div>${numberField('assembly-yaw','Rotação Y · graus',yawFromQuaternion(t.rotation),{ step:15 })}${numberField('assembly-size','Tamanho uniforme',t.scale[0],{ min:.01 })}</section><details><summary>Objetos da composição</summary><ul>${members.map(member => `<li>${esc(entryName(doc,member))}</li>`).join('')}</ul></details><button class="wide" data-action="assembly-unbind" data-id="${record.id}">Desancorar objetos</button><p class="microcopy">Desancorar conserva as posições e a pasta; seus objetos voltam a ser selecionados individualmente.</p><div class="object-actions">${button('object-copy','Copiar','copy')}${button('object-duplicate','Duplicar','copy')}${button('object-delete','Excluir','trash','danger')}</div>`;
+      panel.innerHTML=`<div class="object-title"><strong>${esc(record.name)}</strong><small>COMPOSIÇÃO ANCORADA · ${members.length} objetos</small></div><label class="field"><span>Nome da pasta</span><input data-field="assembly-name" value="${esc(record.name)}" maxlength="256"/></label><p class="microcopy">Clique em qualquer membro para selecionar todos. Mover (G), Rotacionar (R) e Escalar (S) atuam na composição inteira.</p><section><span class="eyebrow">POSIÇÃO DA COMPOSIÇÃO</span><div class="axis-fields">${t.position.map((value,i) => numberField(`assembly-position-${i}`,['X','Y · altura','Z'][i],value)).join('')}</div>${numberField('assembly-yaw','Rotação Y · graus',yawFromQuaternion(t.rotation),{ step:15 })}${numberField('assembly-size','Tamanho uniforme',t.scale[0],{ min:.01 })}</section><details><summary>Objetos da composição</summary><ul>${members.map(member => `<li>${esc(entryName(doc,member))}</li>`).join('')}</ul></details><button class="wide" data-action="assembly-unbind" data-id="${record.id}">Desancorar objetos</button><p class="microcopy">Desancorar conserva as posições e a pasta; seus objetos voltam a ser selecionados individualmente.</p><div class="object-actions">${button('object-copy','Copiar','copy')}${button('object-duplicate','Duplicar','copy')}${button('object-delete','Excluir','trash','danger')}</div>`;
       return;
     }
 
@@ -492,7 +513,7 @@ export async function startApplication() {
     if (isAccess(record)) fields += `<section><span class="eyebrow">ACESSO ENTRE ALTURAS</span><div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .1 })}${numberField('length', 'Comprimento · m', record.length, { min: .1 })}</div>${numberField('height', 'Desnível · m', record.height, { min: .1 })}${record.kind === 'stairs' ? numberField('steps', 'Degraus', record.steps, { min: 1, max: 128, step: 1 }) : ''}<p class="microcopy">A base fica na altura Y; o acesso sobe no sentido Z local positivo. Use Rotacionar (R) para orientar e escolha este apoio para colocar tokens sobre ele.</p></section>`;
     if (record.kind === 'wall') fields += `<section><span class="eyebrow">DIMENSÕES · METROS</span>${numberField('length', 'Comprimento', record.length, { min: .1 })}${numberField('height', 'Altura', record.height, { min: .1 })}${numberField('thickness', 'Espessura', record.thickness, { min: .01 })}<p class="microcopy">Portas e janelas acompanham esta parede. Reduzir o comprimento exige manter as aberturas válidas.</p></section>`;
     if (record.kind === 'door') fields += `<section><span class="eyebrow">ABERTURA NA PAREDE</span>${numberField('offset', 'Posição na parede · m', record.offset, { min: 0 })}<div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .2 })}${numberField('height', 'Altura · m', record.height, { min: .2 })}</div>${numberField('door-angle', 'Ângulo atual · graus', (doc.sessionState?.doors?.[record.id] ?? record.initialAngle) * 180 / Math.PI, { step: 15 })}<label class="field"><span>Dobradiça</span><select data-field="hinge"><option value="left" ${record.hinge === 'left' ? 'selected' : ''}>Esquerda</option><option value="right" ${record.hinge === 'right' ? 'selected' : ''}>Direita</option></select></label>${button('door-toggle', 'Abrir / fechar', 'door', 'wide')}<p class="microcopy">O vão pertence à parede. A folha pode ser aberta sem alterar o mapa.</p></section>`;
-    if (record.kind === 'window') fields += `<section><span class="eyebrow">JANELA HOSPEDADA</span><p class="microcopy">Com Mover (W), arraste a janela na parede. Alt permite ajuste livre. O recorte acompanha a janela.</p><label class="field"><span>Parede</span><select data-field="window-wall">${Object.values(doc.layout.entities).filter(e => e.kind === 'wall').map(e => `<option value="${e.id}" ${record.wallId === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select></label>${numberField('offset', 'Posição na parede · m', record.offset, { min: 0 })}<div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .1 })}${numberField('height', 'Altura · m', record.height, { min: .1 })}</div>${numberField('sill', 'Peitoril · m', record.sill, { min: 0 })}<label class="field"><span>Representação</span><select data-field="style"><option value="glass" ${record.style === 'glass' ? 'selected' : ''}>Vidro</option><option value="bars" ${record.style === 'bars' ? 'selected' : ''}>Grades</option><option value="open" ${record.style === 'open' ? 'selected' : ''}>Vão livre</option></select></label></section>`;
+    if (record.kind === 'window') fields += `<section><span class="eyebrow">JANELA HOSPEDADA</span><p class="microcopy">Com Mover (G), arraste a janela na parede. Alt permite ajuste livre. O recorte acompanha a janela.</p><label class="field"><span>Parede</span><select data-field="window-wall">${Object.values(doc.layout.entities).filter(e => e.kind === 'wall').map(e => `<option value="${e.id}" ${record.wallId === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select></label>${numberField('offset', 'Posição na parede · m', record.offset, { min: 0 })}<div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .1 })}${numberField('height', 'Altura · m', record.height, { min: .1 })}</div>${numberField('sill', 'Peitoril · m', record.sill, { min: 0 })}<label class="field"><span>Representação</span><select data-field="style"><option value="glass" ${record.style === 'glass' ? 'selected' : ''}>Vidro</option><option value="bars" ${record.style === 'bars' ? 'selected' : ''}>Grades</option><option value="open" ${record.style === 'open' ? 'selected' : ''}>Vão livre</option></select></label></section>`;
     if (type === 'token' || record.kind === 'prop') fields += `<section><span class="eyebrow">ESCALA VISUAL</span><div class="axis-fields">${record.transform.scale.map((value, axis) => numberField(`scale-${axis}`, ['X', 'Y', 'Z'][axis], value, { min: .01 })).join('')}</div>${type === 'token' ? `<span class="eyebrow">BASE · METROS</span><div class="field-grid">${numberField('footprint-0', 'Largura', record.footprint[0], { min: .1 })}${numberField('footprint-1', 'Profundidade', record.footprint[1], { min: .1 })}</div>${colorField('token-color', 'Cor do personagem', actor.color)}` : ''}</section>`;
     if (record.material && record.kind !== 'terrain') fields += `<section><span class="eyebrow">MATERIAL</span>${colorField('material-color', record.kind === 'prop' ? 'Matiz do asset' : 'Cor', record.material.color)}${numberField('material-roughness', 'Rugosidade', record.material.roughness, { min: 0, max: 1 })}</section>`;
     if (type === 'light') fields += `<section><span class="eyebrow">ILUMINAÇÃO</span>${colorField('light-color', 'Cor da fonte', record.color)}${numberField('light-intensity', 'Intensidade', record.intensity, { min: 0, step: record.type === 'point' ? 5 : .1 })}${record.type === 'point' ? numberField('light-distance', 'Alcance · m', record.distance, { min: 0, step: 1 }) : ''}${checkField('light-shadow', 'Projetar sombras', record.shadowEnabled)}</section>`;
@@ -987,6 +1008,9 @@ export async function startApplication() {
 
   function changeField(input) {
     const field = input.dataset.field, value = input.type === 'checkbox' ? input.checked : ['number','range'].includes(input.type) ? Number(input.value) : input.value;
+    if (field === 'camera-speed') { if (Number.isFinite(Number(value))) { cameraSpeed = Math.max(.2, Math.min(40, Number(value))); viewport.setNavigationSpeed(cameraSpeed); } renderSidebar(); return; }
+    if (field === 'camera-fov') { viewport.setFov(Number(value)); renderSidebar(); return; }
+    if (field === 'camera-duration') { cameraDuration = Number(value); return; }
     if (field.startsWith('assembly-')) {
       const group=locate()?.record; if(!group?.anchored) return;
       if(field==='assembly-name') { execute('group.update',{ id:group.id,patch:{ name:value } }); return; }
@@ -1256,7 +1280,9 @@ export async function startApplication() {
       case 'frame': if (selection) viewport.frameSelection(selection); else viewport.frameScene(); break;
       case 'cutaway': cutaway = !cutaway; viewport.setCutaway(cutaway); root.querySelector('[data-action="cutaway"]').classList.toggle('active', cutaway); broadcast(); break;
       case 'camera-save': { const camera = { ...viewport.getCamera(), id: id(), name: `Enquadramento ${Object.keys(store.document.cameraPresets).length + 1}` }; execute('camera.save', { camera }); notify('Enquadramento salvo na cena.'); break; }
-      case 'publish-camera': publishedCamera = viewport.getCamera(); broadcast(); notify('Câmera publicada na segunda tela.'); break;
+      case 'publish-camera': viewport.stopCameraMotion(); publishCamera(viewport.getCamera()); notify('Câmera publicada na segunda tela.'); break;
+      case 'camera-stop': viewport.stopCameraMotion(); publishCamera(viewport.getCamera(), 0); notify('Transição interrompida no enquadramento atual.'); break;
+      case 'camera-cut': viewport.stopCameraMotion(true); publishCamera(viewport.getCamera(), 0); notify('Corte imediato publicado.'); break;
       case 'presentation-window': {
         publishedCamera ??= viewport.getCamera();
         const diagnostics = new URLSearchParams(location.search).has('diagnostics') ? '&diagnostics' : '';
@@ -1267,7 +1293,7 @@ export async function startApplication() {
       case 'present':
         clearProposal(); isPresentation = !isPresentation;
         if (isPresentation) { workingCamera = viewport.getCamera(); publishedCamera ??= workingCamera; viewport.setDocument(projectPresentation(store.document)); viewport.setCamera(publishedCamera); }
-        else { publishedCamera = viewport.getCamera(); viewport.setDocument(store.document); if (workingCamera) viewport.setCamera(workingCamera); }
+        else { const presented = viewport.getCamera(); viewport.setDocument(store.document); if (workingCamera) viewport.setCamera(workingCamera); publishCamera(presented, 0); }
         document.body.classList.toggle('presenting', isPresentation); document.getElementById('presentation-controls').hidden = !isPresentation;
         viewport.setPresentation(isPresentation); updateView({ type: 'saved' }); break;
       case 'fullscreen': if (!document.fullscreenElement) await document.documentElement.requestFullscreen(); else await document.exitFullscreen(); break;
@@ -1406,7 +1432,11 @@ export async function startApplication() {
       setTool('place'); notify(`Clique no piso para colocar ${asset.name}.`); return;
     }
     if (node.dataset.environment) { execute('environment.apply', { presetId: node.dataset.environment }); return; }
-    if (node.dataset.camera) { viewport.setCamera(store.document.cameraPresets[node.dataset.camera]); publishedCamera = viewport.getCamera(); broadcast(); return; }
+    if (node.dataset.camera || node.dataset.cameraCut) {
+      const preset = store.document.cameraPresets[node.dataset.camera ?? node.dataset.cameraCut];
+      const duration = node.dataset.cameraCut ? 0 : cameraDuration;
+      viewport.setCamera(preset, { duration }); publishCamera(preset, duration); return;
+    }
     if (node.dataset.cameraDelete) { execute('camera.remove', { id: node.dataset.cameraDelete }); return; }
     if (node.dataset.open) { openScene(node.dataset.open).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.openMap) { openMap(node.dataset.openMap).catch((error) => notify(error.message, true)); return; }
@@ -1546,7 +1576,7 @@ export async function startApplication() {
       else { clearProposal(); setTool('select'); }
       return;
     }
-    if (event.target.closest('input,select,textarea')) return;
+    if (event.defaultPrevented || event.target.closest('input,select,textarea,[contenteditable]:not([contenteditable="false"])')) return;
     if (document.querySelector('dialog[open]')) return;
     if (isPresentation) return;
     if (event.ctrlKey || event.metaKey) {
@@ -1560,7 +1590,8 @@ export async function startApplication() {
     }
     if (event.key.toLowerCase() === 't') { event.preventDefault(); if (!event.repeat) act(tool === 'terrain' ? 'terrain-stop' : 'terrain-sculpt'); return; }
     if (tool === 'terrain' && ['[',']'].includes(event.key)) { event.preventDefault(); terrainBrush.radius = Math.max(.1, Math.min(100, Number((terrainBrush.radius * (event.key === '[' ? .8 : 1.25)).toFixed(2)))); viewport.setTerrainBrush(terrainBrush); renderInspector(); return; }
-    const keys = { q: 'select', w: 'move', r: 'rotate', s: 'scale' };
+    if (event.altKey || event.repeat) return;
+    const keys = { q: 'select', g: 'move', r: 'rotate', v: 'scale' };
     if (keys[event.key.toLowerCase()]) setTool(keys[event.key.toLowerCase()]);
     if (event.key.toLowerCase() === 'f') act('frame');
     if (event.key === 'Delete' || event.key === 'Backspace') act('object-delete');
@@ -1659,13 +1690,14 @@ function startPresentation(root, sessionId) {
   root.innerHTML = `<div id="presentation-viewport"></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button>`;
   const viewport = createViewport(document.getElementById('presentation-viewport'), {
     onError: (error) => { document.getElementById('presentation-message').textContent = error.message; },
+    navigationEnabled: false,
   });
   viewport.setPresentation(true);
   if (new URLSearchParams(location.search).has('diagnostics')) {
     Object.defineProperty(window, '__tabletop', { value: Object.freeze({ camera: () => viewport.getCamera(), stats: () => viewport.getInfo() }), configurable: true });
   }
   const channel = new BroadcastChannel(`tabletop-presentation-${sessionId}`);
-  let sequence = 0;
+  let sequence = 0, receivedCameraSequence = null;
   const request = () => channel.postMessage({ version: 1, sessionId, type: 'ready' });
   const retry = setInterval(request, 1500);
   channel.onmessage = (event) => {
@@ -1674,7 +1706,10 @@ function startPresentation(root, sessionId) {
     try {
       validateDocument(data.document); sequence = data.sequence;
       viewport.setAssets(data.assets); viewport.setDocument(data.document); viewport.setCutaway(data.cutaway);
-      if (data.camera) viewport.setCamera(data.camera);
+      if (data.camera && data.cameraSequence !== receivedCameraSequence) {
+        const duration = receivedCameraSequence === null ? 0 : Number(data.cameraDuration) || 0;
+        viewport.setCamera(data.camera, { duration }); receivedCameraSequence = data.cameraSequence;
+      }
       document.title = `${data.document.name} — apresentação`; document.getElementById('presentation-message').hidden = true; clearInterval(retry);
     } catch (error) { document.getElementById('presentation-message').textContent = error.message; }
   };

@@ -49,7 +49,9 @@ Verificação atual: build de produção concluído, 55 testes de domínio/proje
 
 Roteiro manual: desenhar uma sala ou preencher medidas → escolher porta/luz → ver prévia e criar → clicar em um elemento e mover/girar → colocar token e móveis → ajustar ambiente/luz → desfazer/refazer → salvar câmera e cena → encerrar/reiniciar servidor e navegador → abrir a cena salva. Em **Cena**, abrir segunda tela, arrastá-la ao projetor e publicar um enquadramento; orbitar no editor deve manter a câmera publicada. **Apresentar** oferece a alternativa na mesma janela.
 
-Atalhos: Q selecionar, W mover, R girar, S escalar, F enquadrar; Shift+clique seleciona vários; Ctrl/Cmd+C e Ctrl/Cmd+V copiam/colam; Ctrl/Cmd+S salva, Ctrl/Cmd+Z desfaz, Ctrl/Cmd+Shift+Z refaz, Ctrl/Cmd+D duplica seleção. Mouse direito orbita; botão do meio move a câmera. Esc cancela colocação/prévia ou sai da apresentação. Piso poligonal: Enter conclui e Backspace remove o último vértice.
+Atalhos: WASD move a câmera, Shift acelera, Page Up/Down altera altura; Q selecionar, G mover objetos, R girar, V escalar, F enquadrar; Shift+clique seleciona vários; Ctrl/Cmd+C e Ctrl/Cmd+V copiam/colam; Ctrl/Cmd+S salva, Ctrl/Cmd+Z desfaz, Ctrl/Cmd+Shift+Z refaz, Ctrl/Cmd+D duplica seleção. Mouse direito orbita; botão do meio move a câmera. Esc cancela colocação/prévia ou sai da apresentação. Piso poligonal: Enter conclui e Backspace remove o último vértice.
+
+Câmera cinematográfica: em **Cena**, ajustar velocidade, lente e duração; ativar enquadramentos salvos, interromper ou cortar a transição. A navegação livre conserva a câmera do projetor. Controles/limites em [CAMERA.md](CAMERA.md).
 
 ## Decisões e pontos de extensão
 

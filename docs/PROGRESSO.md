@@ -1,10 +1,12 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
 **Data:** 3 de outubro de 2026  
-**Status do Projeto:** Vertical Slice validado; evolução estrutural e polish de V2 entregues
+**Status do Projeto:** Vertical Slice validado; evolução estrutural, polish e primeiro incremento de câmera cinematográfica entregues
 **Documentos de Referência:** [`ROADMAP.md`](ROADMAP.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`MAP_AUTHORING.md`](MAP_AUTHORING.md), [`IMMERSION.md`](IMMERSION.md), [`VERTICAL_SLICE.md`](VERTICAL_SLICE.md) e [`INVESTIGACAO_E_ARQUITETURA.md`](../INVESTIGACAO_E_ARQUITETURA.md).
 
 ---
+
+**Câmera cinematográfica:** WASD com aceleração/desaceleração, Shift rápido, Page Up/Down, velocidade e lente; órbita suave, transições de presets/publicação com duração, pausa e corte. Projetor mantém câmera independente e edições de conteúdo não reiniciam transições. A apresentação na mesma janela aceita navegação e restaura a câmera de trabalho ao voltar à edição. G/R/V substituem W/R/S para transformar objetos. Acompanhamento automático/caminhos e benchmark no projetor permanecem pendentes. Uso: [CAMERA.md](CAMERA.md). Andamento contínuo: [progress.md](../progress.md).
 
 **Biblioteca expandida:** 127 assets originais locais (121 além do kit inicial, incluindo 66 na segunda ampliação), para investigação/horror paranormal em diferentes épocas e cenários. Categorias hierárquicas, busca sem acentos, filtros combinados por época/cenário/tags, favoritos e classificação editável de assets internos/importados, salva no servidor sem alterar referências de cenas. Uso e limites em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
 
@@ -61,7 +63,8 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
 - **Viewport Three.js / WebGL 2 (`renderer.js`):**
   - Renderizador PBR com iluminação dinâmica, sombras direcionais e mapeamento de tons.
   - Sistema de *gizmo* interativo para translação, rotação e escala (com quarto eixo/seta diagonal amarela para escala proporcional e uniforme nos três eixos).
-  - Atalhos de teclado operacionais no canvas: **Q** (selecionar), **W** (mover), **R** (rotacionar), **S** (escala), **F** (enquadrar seleção), **Ctrl+C / Ctrl+V** (copiar e colar), **Ctrl+D** (duplicar), **Ctrl+Z / Ctrl+Y** (desfazer/refazer) e **Ctrl+S** (salvar).
+  - Atalhos de teclado operacionais no canvas: **Q** (selecionar), **G** (mover), **R** (rotacionar), **V** (escala), **F** (enquadrar seleção), **Ctrl+C / Ctrl+V** (copiar e colar), **Ctrl+D** (duplicar), **Ctrl+Z / Ctrl+Y** (desfazer/refazer) e **Ctrl+S** (salvar).
+  - Navegação WASD/Page Up/Down com inércia e Shift; velocidade e lente editáveis; transições por alvo/distância/ângulo/FOV ou altura ortográfica, interrompíveis, com corte imediato e respeito a reduzir movimento. Render sob demanda continua durante o movimento.
   - Controle de visualização: Perspectiva 3D livre com órbita (botão direito) e pan (botão do meio/scroll), e visão superior tática 2D (*Top View*).
   - *Cutaway* inteligente: paredes frontais sofrem corte visual automático de altura para permitir que o mestre e jogadores enxerguem o interior da sala sem obstrução visual da câmera.
 - **Objetos de Cena e Estruturas (`scene-objects.js`):**
@@ -114,8 +117,8 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Modal de recuperação no carregamento caso o navegador feche inesperadamente ou falhe a gravação no disco.
 
 ### 2.8. Testes Automatizados e Qualidade
-- **92 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição; catálogo acrescenta resolução dos 127 modelos/prévias, filtros combinados, metadados validados, concorrência, persistência e referências preservadas.
-- **Sete testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxos da Fase 3 e da evolução estrutural pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor; biblioteca acrescenta filtros, tags personalizadas, favoritos, novos props e classificação de importados após reinício. Execução sequencial com Chromium headless e WebGL por software; inclui composição mesa + lamparina, transformações conjuntas e desancoragem pela pasta. Não representa benchmark no notebook/projetor.
+- **97 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição; catálogo acrescenta resolução dos 127 modelos/prévias, filtros combinados, metadados validados, concorrência, persistência e referências preservadas; câmera acrescenta direção relativa/superior, normalização de diagonais, integração temporal da velocidade e trajetos sem colapso do raio.
+- **Oito testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxos da Fase 3 e da evolução estrutural pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor; biblioteca acrescenta filtros, tags personalizadas, favoritos, novos props e classificação de importados após reinício. Execução sequencial com Chromium headless e WebGL por software; inclui composição mesa + lamparina, transformações conjuntas e desancoragem pela pasta. O novo E2E cobre WASD/foco/atalhos, lente, publicação independente, transições sem reinício por edições, pausa/corte, interrupção, redução de movimento e persistência de presets. Não representa benchmark no notebook/projetor.
 
 ---
 
@@ -159,8 +162,8 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
    - Névoa volumétrica e *fog* de distância configurável no ambiente.
    - Efeitos leves de pós-processamento opcionais (como *bloom* sutil calibrado para não pesar a GPU).
 4. **Câmera Cinematográfica (`IMMERSION.md` - Seção 10):**
-   - Transições suaves e interpoladas entre enquadramentos de câmera salvos, com opção de corte imediato ou interrupção pelo mestre.
-   - Modo de acompanhamento automático de tokens em movimento.
+   - **Entregue:** navegação WASD, lente/velocidade, órbita suave e transições entre enquadramentos salvos/publicados, com duração, interrupção e corte imediato ([CAMERA.md](CAMERA.md)).
+   - **Pendente:** acompanhamento automático de tokens em movimento, caminhos/colisão de câmera e avaliação presencial no projetor.
 5. **Integrações Externas Reservadas (`ARCHITECTURE.md` - Seção 11 e `src/integrations/README.md`):**
    - **Integração com a Ficha de Personagens:** Conexão com o servidor da ficha para leitura de fichas por `actorId` e sincronização bidirecional de recursos (PV, Sanidade, Pontos de Esforço), sem que o Tabletop assuma autoridade indevida sobre o sistema de regras.
    - **Integração com o Jukebox de Áudio:** Fachada de comunicação via WebSocket/HTTP para enviar gatilhos de cenas musicais (*audioCue*) diretamente da cena do Tabletop, reagindo a transições sem poluir o histórico de *undo/redo* visual.
@@ -201,7 +204,7 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 | **Piso, Paredes e Sala Inicial** | `MAP_AUTHORING.md` §7 | **Concluído** | `src/domain/documents.js`, `src/render/scene-objects.js` |
 | **Porta Física com Vão e Giro** | `MAP_AUTHORING.md` §7.3 | **Concluído** | `src/render/scene-objects.js`, `src/app/application.js` |
 | **Grid e Snap Métrico** | `MAP_AUTHORING.md` §6 | **Concluído** | `src/domain/coords.js` |
-| **Edição Manual (Mover, Rotacionar, Escalar)** | `MAP_AUTHORING.md` §5 | **Concluído** (Atalhos: W, R, S) | `src/render/renderer.js`, `src/app/application.js` |
+| **Edição Manual (Mover, Rotacionar, Escalar)** | `MAP_AUTHORING.md` §5 | **Concluído** (Atalhos: G, R, V) | `src/render/renderer.js`, `src/app/application.js` |
 | **Tokens e Retratos** | `ARCHITECTURE.md` §6.5 | **Concluído** | `src/domain/documents.js`, `src/render/scene-objects.js` |
 | **Catálogo de Móveis Básico** | `ROADMAP.md` §3.1 | **Concluído e ampliado** (127 itens locais) | `public/assets/`, `src/app/application.js` |
 | **Ingestão de Imagens e GLB** | `ARCHITECTURE.md` §8 | **Concluído** (GLB estático) | `src/render/asset-cache.js`, `server/app.js` |
@@ -226,7 +229,8 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 | **Camadas e Sockets Estruturais** | `MAP_AUTHORING.md` §8–9 | **Concluído** (parede/teto) | `commands.js`, `application.js` |
 | **Luz Spot, Flicker e Temperatura** | `IMMERSION.md` §4 | **Pendente** | Previsto para V2 |
 | **Fog de Distância e Pós-Processamento** | `IMMERSION.md` §8, §9 | **Pendente** | Previsto para V2 |
-| **Transições Suaves de Câmera** | `IMMERSION.md` §10 | **Pendente** | Previsto para V2 |
+| **Navegação WASD e Transições Suaves de Câmera** | `IMMERSION.md` §10 | **Concluído** (duração, pausa/corte, lente e projetor independente) | `camera-motion.js`, `renderer.js`, `application.js`; [CAMERA.md](CAMERA.md) |
+| **Acompanhamento de Tokens e Caminhos de Câmera** | `IMMERSION.md` §10 | **Pendente** | Incrementos posteriores; avaliação presencial pendente |
 | **Integração com Jukebox e Ficha** | `ARCHITECTURE.md` §11 | **Pendente** | Fronteiras definidas em `src/integrations/` |
 | **Sessão LAN e Suporte a Celulares** | `ROADMAP.md` §5 | **Pendente** | Previsto para V3 |
 | **Fog of War com Linha de Visão** | `ROADMAP.md` §6 | **Pendente** | Condicionado a validação futura |

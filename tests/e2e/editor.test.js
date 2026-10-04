@@ -150,6 +150,7 @@ test('autoria real, apresentação, assets e fidelidade após reabrir navegador/
   await page.mouse.down({ button: 'right' });
   await page.mouse.move(viewportBox.x + viewportBox.width / 2 + 90, viewportBox.y + viewportBox.height / 2 + 30, { steps: 12 });
   await page.mouse.up({ button: 'right' });
+  await page.waitForFunction(() => !window.__tabletop.stats().cameraMoving);
   const editorCamera = await page.evaluate(() => window.__tabletop.camera());
   assert.notDeepEqual(editorCamera.position, published.position);
   assert.deepEqual((await popup.evaluate(() => window.__tabletop.camera())).position, published.position);

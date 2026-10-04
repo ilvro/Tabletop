@@ -7,6 +7,7 @@ import { groupChain, isLocked, isVisible, isSupport, isAccess, supportHeightAt, 
 import { createAssetCache, disposeObject, standardMaterial } from './asset-cache.js';
 import { applyTransform, readTransform, tagEntity, createFloor, createTerrain, createAccess, createWall, createDoor, createWindow, createToken, applyMaterialOverrides } from './scene-objects.js';
 import { sculptTerrain, paintTerrain, terrainBrushOutline } from '../authoring/terrain.js';
+import { advanceVelocity, navigationDirection, interpolateCamera } from './camera-motion.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
@@ -83,9 +84,10 @@ export function createViewport(container, {
   onSelect = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
   onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
   onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {},
+  navigationEnabled = true,
 } = {}) {
   const canvas = document.createElement('canvas');
-  canvas.setAttribute('aria-label', 'Cena 3D — botão direito orbita, botão do meio desloca, roda aproxima');
+  canvas.setAttribute('aria-label', navigationEnabled ? 'Cena 3D — WASD desloca, Shift acelera, Page Up/Down altera altura, botão direito orbita, roda aproxima' : 'Cena publicada pelo mestre');
   canvas.dataset.testid = 'viewport-canvas';
   canvas.tabIndex = 0;
   let renderer;
@@ -155,6 +157,10 @@ export function createViewport(container, {
   let orthoHeight = DEFAULT_CAMERA.orthographicHeight;
   let lastPerspective = DEFAULT_CAMERA;
   let controls = null;
+  const navigationKeys = new Set();
+  const movementCodes = new Set(['KeyW', 'KeyA', 'KeyS', 'KeyD', 'PageUp', 'PageDown']);
+  let velocity = [0, 0, 0], navigationSpeed = 6, fastNavigation = false;
+  let transition = null, lastFrameTime = null, orbitMoving = false;
   let pointer = null;
   let gizmoCancelled = false;
   let altHeld = false;
@@ -176,27 +182,52 @@ export function createViewport(container, {
     if (shadows) renderer.shadowMap.needsUpdate = true;
     if (renderRequest == null) renderRequest = requestAnimationFrame(render);
   }
-  function render() {
+  function render(now) {
     renderRequest = null;
     if (destroyed) return;
-    controls.update();
+    const seconds = Math.min(.05, Math.max(0, (now - (lastFrameTime ?? now)) / 1000));
+    lastFrameTime = now;
+    let moving = false;
+    if (transition) {
+      const progress = Math.min(1, (now - transition.start) / (transition.duration * 1000));
+      applyCamera(interpolateCamera(transition.from, transition.to, progress));
+      if (progress === 1) transition = null;
+      moving = Boolean(transition);
+    } else if (navigationEnabled && controls.enabled && !pointer && !transform.dragging && document.activeElement === canvas) {
+      const desired = navigationDirection(camera, navigationKeys).map(value => value * navigationSpeed * (fastNavigation ? 3 : 1));
+      const step = advanceVelocity(velocity, desired, seconds);
+      velocity = step.velocity;
+      if (Math.hypot(...velocity) < .001 && !navigationKeys.size) velocity = [0, 0, 0];
+      const displacement = new THREE.Vector3(...step.displacement);
+      camera.position.add(displacement); controls.target.add(displacement);
+      moving = navigationKeys.size > 0 || Math.hypot(...velocity) > 0;
+    }
+    controls.dampingFactor = 1 - Math.exp(-12 * Math.max(seconds, 1 / 240));
+    const orbitChanged = controls.enabled && controls.update(seconds);
+    orbitMoving = Boolean(orbitChanged);
     updateCutaway();
     if (selectionBox.visible) selectionBox.update();
     renderer.render(scene, camera);
+    if (moving || orbitChanged) invalidate();
+    else lastFrameTime = null;
   }
   function attachOrbit(target) {
     controls?.dispose();
     controls = new OrbitControls(camera, canvas);
     controls.target.fromArray(target);
-    controls.enableDamping = false;
+    controls.enableDamping = true;
+    controls.dampingFactor = .18;
+    controls.screenSpacePanning = false;
     controls.minDistance = 1.1;
     controls.maxDistance = 260;
     controls.minZoom = 0.1;
     controls.maxZoom = 16;
-    controls.maxPolarAngle = Math.PI * 0.485;
+    controls.maxPolarAngle = Math.PI / 2;
     controls.mouseButtons = { LEFT: null, MIDDLE: THREE.MOUSE.PAN, RIGHT: THREE.MOUSE.ROTATE };
     controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_ROTATE };
     controls.addEventListener('change', () => { invalidate(); onCameraChange(getCamera()); });
+    controls.addEventListener('start', () => { stopCameraMotion(); });
+    controls.enabled = navigationEnabled;
     controls.update();
   }
   attachOrbit(DEFAULT_CAMERA.target);
@@ -207,7 +238,9 @@ export function createViewport(container, {
   function resize() {
     width = Math.max(1, container.clientWidth);
     height = Math.max(1, container.clientHeight);
-    renderer.setSize(width, height, false);
+    // A transition changes the lens/frustum every frame, not the drawing buffer size.
+    const ratio = renderer.getPixelRatio();
+    if (canvas.width !== Math.floor(width * ratio) || canvas.height !== Math.floor(height * ratio)) renderer.setSize(width, height, false);
     if (camera.isPerspectiveCamera) camera.aspect = width / height;
     else { camera.left = -orthoHeight * width / height / 2; camera.right = orthoHeight * width / height / 2; camera.top = orthoHeight / 2; camera.bottom = -orthoHeight / 2; }
     camera.updateProjectionMatrix();
@@ -217,8 +250,7 @@ export function createViewport(container, {
   observer.observe(container);
   resize();
 
-  function setCamera(preset) {
-    const next = { ...DEFAULT_CAMERA, ...preset };
+  function applyCamera(next) {
     if ((next.projection === 'orthographic') !== camera.isOrthographicCamera) {
       camera = next.projection === 'orthographic' ? new THREE.OrthographicCamera(-1, 1, 1, -1, 0.03, 1200) : new THREE.PerspectiveCamera(next.fov, width / height, 0.03, 1200);
       camera.position.fromArray(next.position);
@@ -236,6 +268,26 @@ export function createViewport(container, {
     onCameraChange(getCamera());
     invalidate();
   }
+  function resetNavigation() { navigationKeys.clear(); velocity = [0, 0, 0]; fastNavigation = false; }
+  function stopCameraMotion(finish = false) {
+    const destination = finish && transition?.to;
+    transition = null; resetNavigation();
+    // Flush accumulated damping without replacing listeners during a pointer gesture.
+    const position = camera.position.clone(), target = controls.target.clone();
+    controls.enableDamping = false; controls.update();
+    camera.position.copy(position); controls.target.copy(target);
+    controls.enableDamping = true; controls.update();
+    if (destination) applyCamera(destination);
+    invalidate();
+  }
+  function setCamera(preset, { duration = 0 } = {}) {
+    const next = { ...DEFAULT_CAMERA, ...preset };
+    stopCameraMotion();
+    if (duration > 0 && next.projection === getCamera().projection && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      transition = { from: getCamera(), to: next, start: performance.now(), duration: Math.min(10, duration) };
+      invalidate();
+    } else applyCamera(next);
+  }
   function setTopView(enabled = !camera.isOrthographicCamera) {
     if (enabled && !camera.isOrthographicCamera) {
       lastPerspective = getCamera();
@@ -246,6 +298,7 @@ export function createViewport(container, {
 
   function frameBounds(bounds) {
     if (bounds.isEmpty()) return;
+    stopCameraMotion();
     const center = bounds.getCenter(new THREE.Vector3());
     const size = bounds.getSize(new THREE.Vector3());
     const radius = Math.max(size.length() / 2, 0.8);
@@ -330,7 +383,7 @@ export function createViewport(container, {
     // A rejected/no-op callback must not leave a runtime transform masquerading as saved state.
     if (version === generation && sceneDocument) setDocument(sceneDocument);
   }
-  transform.addEventListener('dragging-changed', (event) => { controls.enabled = !event.value; if (event.value) gizmoCancelled = false; invalidate(); });
+  transform.addEventListener('dragging-changed', (event) => { if (event.value) { stopCameraMotion(); gizmoCancelled = false; } controls.enabled = navigationEnabled && !event.value; invalidate(); });
   transform.addEventListener('objectChange', () => {
     if (transform.object) {
       if (tool === 'scale' && entityRecord(selectedId)?.kind==='assembly') {
@@ -349,7 +402,7 @@ export function createViewport(container, {
   });
   transform.addEventListener('mouseUp', () => {
     if (transform.object && selectedId && !gizmoCancelled) commitTransform(selectedId, transform.object, Boolean(sceneDocument?.layout.grid.snap && !altHeld));
-    controls.enabled = true;
+    controls.enabled = navigationEnabled;
   });
 
   function clearGroup(group) { for (const child of [...group.children]) disposeObject(child); }
@@ -664,6 +717,7 @@ export function createViewport(container, {
   }
   function onPointerDown(event) {
     if (event.button !== 0 || presentation || transform.dragging) return;
+    stopCameraMotion();
     canvas.focus({ preventScroll: true });
     altHeld = event.altKey;
     pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
@@ -775,7 +829,7 @@ export function createViewport(container, {
     if (!pointer || pointer.id !== event.pointerId) return;
     const gesture = pointer;
     pointer = null;
-    controls.enabled = true;
+    controls.enabled = navigationEnabled;
     hint.style.display = 'none';
     if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
     if (gesture.terrain) {
@@ -817,7 +871,7 @@ export function createViewport(container, {
     const id = pointer?.id;
     pointer = null;
     if (id != null && canvas.hasPointerCapture(id)) canvas.releasePointerCapture(id);
-    controls.enabled = true;
+    controls.enabled = navigationEnabled;
     hint.style.display = 'none';
   }
   function replaceTerrain(record) {
@@ -839,15 +893,24 @@ export function createViewport(container, {
     invalidate(true);
   }
   function onKeyDown(event) {
+    altHeld = event.altKey;
+    if (transform.object) transform.setRotationSnap(sceneDocument?.layout?.grid?.snap && !altHeld ? Math.PI / 12 : null);
+    if (event.key === 'Escape') stopCameraMotion();
+    if (event.ctrlKey || event.metaKey || event.altKey) { resetNavigation(); return; }
+    fastNavigation = event.shiftKey;
+    if (navigationEnabled && document.activeElement === canvas && !document.querySelector('dialog:modal') && movementCodes.has(event.code) && controls.enabled && !pointer && !transform.dragging) {
+      event.preventDefault();
+      if (transition) stopCameraMotion();
+      navigationKeys.add(event.code); fastNavigation = event.shiftKey; invalidate();
+    }
     if (tool === 'polygon' && !event.target.closest('input,textarea,select') && ['Enter', 'Backspace'].includes(event.key)) {
       event.preventDefault(); event.stopImmediatePropagation();
       if (event.key === 'Enter') finishPolygon(); else { polygonPoints.pop(); drawPolygon(); } return;
     }
-    altHeld = event.altKey;
     if (event.key === 'Escape') cancelGesture();
-    if (transform.object) transform.setRotationSnap(sceneDocument?.layout?.grid?.snap && !altHeld ? Math.PI / 12 : null);
   }
-  function onKeyUp(event) { altHeld = event.altKey; }
+  function onKeyUp(event) { altHeld = event.altKey; fastNavigation = event.shiftKey; navigationKeys.delete(event.code); }
+  function onVisibilityChange() { if (document.hidden) { resetNavigation(); if (!transition) stopCameraMotion(); lastFrameTime = null; } }
   function drawPolygon() {
     polygonLine.geometry.dispose();
     const points = polygonPoints.map(p => new THREE.Vector3(p[0], p[1] + .035, p[2]));
@@ -876,6 +939,7 @@ export function createViewport(container, {
     }
   }
   canvas.addEventListener('pointerdown', (event) => {
+    if (navigationEnabled) canvas.focus({ preventScroll: true });
     if (event.button === 0) syncGizmoPlane(event);
   }, { capture: true });
   canvas.addEventListener('pointermove', (event) => {
@@ -893,6 +957,9 @@ export function createViewport(container, {
   canvas.addEventListener('contextmenu', handleContextMenu);
   window.addEventListener('keydown', onKeyDown);
   window.addEventListener('keyup', onKeyUp);
+  canvas.addEventListener('blur', resetNavigation);
+  window.addEventListener('blur', resetNavigation);
+  document.addEventListener('visibilitychange', onVisibilityChange);
 
   return {
     setDocument,
@@ -929,7 +996,9 @@ export function createViewport(container, {
       updateSelection();
       invalidate();
     },
-    getCamera, setCamera, setTopView, frameSelection, frameScene,
+    getCamera, setCamera, setTopView, frameSelection, frameScene, stopCameraMotion,
+    setNavigationSpeed(value) { if (Number.isFinite(value)) navigationSpeed = Math.max(.2, Math.min(40, value)); },
+    setFov(value) { if (!Number.isFinite(value)) return; const next = Math.max(20, Math.min(90, value)); stopCameraMotion(); if (camera.isPerspectiveCamera) { camera.fov = next; camera.updateProjectionMatrix(); onCameraChange(getCamera()); invalidate(); } else lastPerspective = { ...lastPerspective, fov: next }; },
     setCutaway(enabled) { cutaway = enabled; invalidate(true); },
     setExposure(exposure) { renderer.toneMappingExposure = Math.max(0.2, Math.min(4, exposure)); invalidate(); },
     project(position) {
@@ -938,7 +1007,7 @@ export function createViewport(container, {
       const rect = canvas.getBoundingClientRect();
       return { x: rect.left + (vector.x + 1) * rect.width / 2, y: rect.top + (1 - vector.y) * rect.height / 2, visible: vector.z >= -1 && vector.z <= 1 && Math.abs(vector.x) <= 1 && Math.abs(vector.y) <= 1 };
     },
-    getInfo() { return { objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures }; },
+    getInfo() { return { objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },
     destroy() {
       destroyed = true;
       previewGeneration++;
@@ -948,6 +1017,8 @@ export function createViewport(container, {
       observer.disconnect();
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
+      window.removeEventListener('blur', resetNavigation);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       controls.dispose();
       transform.dispose();
       clearGroup(content);

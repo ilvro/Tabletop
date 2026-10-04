@@ -101,7 +101,7 @@ Objetivo: reduzir trabalho repetitivo e ampliar controle do cenário, mantendo o
 | Polish | Alinhamento/distribuição, variantes de material e revisão de passagens/decoração com preview. |
 | Ambientes | Biblioteca de EnvironmentDocument, bindings por papel e snapshots editáveis por cena. |
 | Visual | Spot, temperatura, flicker, fog de distância, emissores leves e bloom opcional se justificado pelo benchmark. |
-| Câmera | Mais presets, foco em token/área, transições interrompíveis e corte imediato. |
+| Câmera | Entregues: WASD/Shift/altura, lente/velocidade, órbita suave, foco nos bounds da seleção, presets/transições interrompíveis e corte imediato ([CAMERA.md](CAMERA.md)). Pendentes: acompanhamento automático de tokens, caminhos/colisão e avaliação no projetor. |
 
 Integrações são entregas independentes dentro desse marco, após seus pré-requisitos:
 
