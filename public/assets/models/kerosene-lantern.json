@@ -1,0 +1,303 @@
+{
+  "name": "Lampião a querosene",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.08,
+      "radiusBottom": 0.08,
+      "height": 0.06,
+      "position": [
+        0,
+        0.029999999329447746,
+        0
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.055,
+      "height": 0.16,
+      "position": [
+        0,
+        0.13999999932944776,
+        0
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.008,
+        0.18,
+        0.008
+      ],
+      "position": [
+        0.07,
+        0.13999999932944776,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.008,
+        0.18,
+        0.008
+      ],
+      "position": [
+        4.286263797015737e-18,
+        0.13999999932944776,
+        0.07
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.008,
+        0.18,
+        0.008
+      ],
+      "position": [
+        -0.07,
+        0.13999999932944776,
+        8.572527594031473e-18
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.008,
+        0.18,
+        0.008
+      ],
+      "position": [
+        -1.285879139104721e-17,
+        0.13999999932944776,
+        -0.07
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.035,
+      "radiusBottom": 0.07,
+      "height": 0.04,
+      "position": [
+        0,
+        0.23999999932944774,
+        0
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.035,
+        0.008,
+        0.008
+      ],
+      "position": [
+        0.07,
+        0.26999999932944774,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.035,
+        0.008,
+        0.008
+      ],
+      "position": [
+        0.06062177826491071,
+        0.30499999932944777,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        2.0943951023931953
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.035,
+        0.008,
+        0.008
+      ],
+      "position": [
+        0.03500000000000001,
+        0.3306217775943585,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        2.617993877991494
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.035,
+        0.008,
+        0.008
+      ],
+      "position": [
+        4.286263797015737e-18,
+        0.3399999993294478,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        3.141592653589793
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.035,
+        0.008,
+        0.008
+      ],
+      "position": [
+        -0.03499999999999999,
+        0.3306217775943585,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        3.665191429188092
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.035,
+        0.008,
+        0.008
+      ],
+      "position": [
+        -0.06062177826491071,
+        0.30499999932944777,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        4.188790204786391
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.035,
+        0.008,
+        0.008
+      ],
+      "position": [
+        -0.07,
+        0.26999999932944774,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        4.71238898038469
+      ]
+    }
+  ]
+}

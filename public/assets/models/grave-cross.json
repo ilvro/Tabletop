@@ -1,0 +1,201 @@
+{
+  "name": "Cova com cruz de madeira",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.7,
+        0.15,
+        1.7
+      ],
+      "position": [
+        0,
+        0.07500001192092891,
+        0
+      ],
+      "material": "rust"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.55,
+        0.08,
+        1.5
+      ],
+      "position": [
+        0,
+        0.1900000119209289,
+        0
+      ],
+      "material": "rust"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.08,
+        1.1,
+        0.06
+      ],
+      "position": [
+        0,
+        0.550000011920929,
+        -0.75
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.08,
+        0.06
+      ],
+      "position": [
+        0,
+        0.800000011920929,
+        -0.75
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.08,
+        0.01
+      ],
+      "position": [
+        0,
+        0.6500000119209289,
+        -0.715
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.06,
+      "position": [
+        0.25,
+        0.20000001192092892,
+        -0.55
+      ],
+      "material": "stone"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.06,
+      "position": [
+        -0.22,
+        0.20000001192092892,
+        0.3
+      ],
+      "material": "stone"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.06,
+      "position": [
+        0.2,
+        0.20000001192092892,
+        0.62
+      ],
+      "material": "stone"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.008,
+      "radiusBottom": 0.008,
+      "height": 0.2,
+      "position": [
+        -0.04,
+        0.3300000119209289,
+        -0.6
+      ],
+      "material": "green",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.008,
+      "radiusBottom": 0.008,
+      "height": 0.2,
+      "position": [
+        0.04,
+        0.3300000119209289,
+        -0.6
+      ],
+      "material": "green",
+      "segments": 12
+    }
+  ]
+}

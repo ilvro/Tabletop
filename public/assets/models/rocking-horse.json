@@ -1,0 +1,359 @@
+{
+  "name": "Cavalo de balanço",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.5
+      ],
+      "position": [
+        -0.08,
+        0.014999999664723873,
+        -0.011940673930908474
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.25
+      ],
+      "position": [
+        -0.08,
+        0.05194002549739132,
+        0.35747638720979225
+      ],
+      "material": "wood",
+      "rotation": [
+        -0.3,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.25
+      ],
+      "position": [
+        -0.08,
+        0.05194002549739132,
+        -0.3813577350716092
+      ],
+      "material": "wood",
+      "rotation": [
+        0.3,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.5
+      ],
+      "position": [
+        0.08,
+        0.014999999664723873,
+        -0.011940673930908474
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.25
+      ],
+      "position": [
+        0.08,
+        0.05194002549739132,
+        0.35747638720979225
+      ],
+      "material": "wood",
+      "rotation": [
+        -0.3,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.03,
+        0.25
+      ],
+      "position": [
+        0.08,
+        0.05194002549739132,
+        -0.3813577350716092
+      ],
+      "material": "wood",
+      "rotation": [
+        0.3,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.4,
+        0.04
+      ],
+      "position": [
+        -0.07,
+        0.23499999966472387,
+        -0.21194067393090849
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.4,
+        0.04
+      ],
+      "position": [
+        -0.07,
+        0.23499999966472387,
+        0.18805932606909154
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.4,
+        0.04
+      ],
+      "position": [
+        0.07,
+        0.23499999966472387,
+        -0.21194067393090849
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.4,
+        0.04
+      ],
+      "position": [
+        0.07,
+        0.23499999966472387,
+        0.18805932606909154
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.18,
+        0.2,
+        0.55
+      ],
+      "position": [
+        0,
+        0.5349999996647239,
+        -0.011940673930908474
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        0.3,
+        0.12
+      ],
+      "position": [
+        0,
+        0.7149999996647238,
+        0.23805932606909153
+      ],
+      "material": "paper",
+      "rotation": [
+        0.5,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        0.12,
+        0.25
+      ],
+      "position": [
+        0,
+        0.8849999996647239,
+        0.36805932606909153
+      ],
+      "material": "paper",
+      "rotation": [
+        0.3,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.25,
+        0.06
+      ],
+      "position": [
+        0,
+        0.7849999996647239,
+        0.18805932606909154
+      ],
+      "material": "dark",
+      "rotation": [
+        0.5,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.2,
+        0.04
+      ],
+      "position": [
+        0,
+        0.5349999996647239,
+        -0.31194067393090846
+      ],
+      "material": "dark",
+      "rotation": [
+        -0.6,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.03,
+        0.2
+      ],
+      "position": [
+        0,
+        0.6499999996647239,
+        -0.03194067393090848
+      ],
+      "material": "red"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.014,
+      "position": [
+        -0.061,
+        0.9149999996647239,
+        0.4180593260690915
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.014,
+      "position": [
+        0.061,
+        0.9149999996647239,
+        0.4180593260690915
+      ],
+      "material": "black"
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "name": "Bomba d’água manual",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.6,
+        0.3,
+        0.6
+      ],
+      "position": [
+        0,
+        0.15000000596046448,
+        -0.02566510977390779
+      ],
+      "material": "stone"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.08,
+      "radiusBottom": 0.08,
+      "height": 0.7,
+      "position": [
+        0,
+        0.6500000059604645,
+        -0.02566510977390779
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.1,
+      "radiusBottom": 0.1,
+      "height": 0.06,
+      "position": [
+        0,
+        1.0300000059604646,
+        -0.02566510977390779
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.03,
+      "radiusBottom": 0.03,
+      "height": 0.35,
+      "position": [
+        0,
+        0.8200000059604644,
+        0.17433489022609222
+      ],
+      "material": "dark",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.04,
+        0.6
+      ],
+      "position": [
+        0,
+        1.1500000059604645,
+        -0.2756651097739078
+      ],
+      "material": "dark",
+      "rotation": [
+        -0.35,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.14,
+      "radiusBottom": 0.12,
+      "height": 0.24,
+      "position": [
+        0,
+        0.12000000596046448,
+        0.4243348902260922
+      ],
+      "material": "metal",
+      "segments": 12
+    }
+  ]
+}

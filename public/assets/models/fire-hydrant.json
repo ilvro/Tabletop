@@ -1,0 +1,227 @@
+{
+  "name": "Hidrante de rua",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.13,
+      "radiusBottom": 0.13,
+      "height": 0.06,
+      "position": [
+        0,
+        0.029999999329447746,
+        -0.025000002756714823
+      ],
+      "material": "red",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.1,
+      "radiusBottom": 0.1,
+      "height": 0.55,
+      "position": [
+        0,
+        0.3349999993294478,
+        -0.025000002756714823
+      ],
+      "material": "red",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.11,
+      "radiusBottom": 0.11,
+      "height": 0.05,
+      "position": [
+        0,
+        0.6349999993294477,
+        -0.025000002756714823
+      ],
+      "material": "red",
+      "segments": 12
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.08,
+      "position": [
+        0,
+        0.6599999993294478,
+        -0.025000002756714823
+      ],
+      "material": "red"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.025,
+      "radiusBottom": 0.025,
+      "height": 0.04,
+      "position": [
+        0,
+        0.7499999993294477,
+        -0.025000002756714823
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.12,
+      "position": [
+        -0.14,
+        0.41999999932944776,
+        -0.025000002756714823
+      ],
+      "material": "red",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.05,
+      "radiusBottom": 0.05,
+      "height": 0.025,
+      "position": [
+        -0.21,
+        0.41999999932944776,
+        -0.025000002756714823
+      ],
+      "material": "metal",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.12,
+      "position": [
+        0.14,
+        0.41999999932944776,
+        -0.025000002756714823
+      ],
+      "material": "red",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.05,
+      "radiusBottom": 0.05,
+      "height": 0.025,
+      "position": [
+        0.21,
+        0.41999999932944776,
+        -0.025000002756714823
+      ],
+      "material": "metal",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.06,
+      "radiusBottom": 0.06,
+      "height": 0.1,
+      "position": [
+        0,
+        0.41999999932944776,
+        0.10499999724328518
+      ],
+      "material": "red",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    }
+  ]
+}

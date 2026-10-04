@@ -1,0 +1,256 @@
+{
+  "name": "Cabideiro de pé",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.45,
+        0.04,
+        0.05
+      ],
+      "position": [
+        0.01750000327825546,
+        0.019999999552965164,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.04,
+        0.45
+      ],
+      "position": [
+        0.01750000327825546,
+        0.019999999552965164,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.03,
+      "radiusBottom": 0.03,
+      "height": 1.78,
+      "position": [
+        0.01750000327825546,
+        0.9299999995529652,
+        0
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.045,
+      "position": [
+        0.01750000327825546,
+        1.8399999995529652,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.18,
+        0.022,
+        0.022
+      ],
+      "position": [
+        0.09750000327825546,
+        1.699999999552965,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        0.45
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.18,
+        0.022,
+        0.022
+      ],
+      "position": [
+        0.017500003278255464,
+        1.699999999552965,
+        0.08
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -1.5707963267948966,
+        0.45
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.18,
+        0.022,
+        0.022
+      ],
+      "position": [
+        -0.06249999672174454,
+        1.699999999552965,
+        9.797174393178826e-18
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -3.141592653589793,
+        0.45
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.18,
+        0.022,
+        0.022
+      ],
+      "position": [
+        0.017500003278255447,
+        1.699999999552965,
+        -0.08
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -4.71238898038469,
+        0.45
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.72,
+        0.1
+      ],
+      "position": [
+        0.01750000327825546,
+        1.2799999995529652,
+        0.1
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.32,
+        0.1,
+        0.12
+      ],
+      "position": [
+        0.01750000327825546,
+        1.5999999995529652,
+        0.1
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.14,
+      "radiusBottom": 0.14,
+      "height": 0.015,
+      "position": [
+        -0.10249999672174454,
+        1.7599999995529652,
+        -0.02
+      ],
+      "material": "black",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.09,
+      "radiusBottom": 0.09,
+      "height": 0.09,
+      "position": [
+        -0.10249999672174454,
+        1.8099999995529652,
+        -0.02
+      ],
+      "material": "black",
+      "segments": 12
+    }
+  ]
+}

@@ -3992,6 +3992,1096 @@
       ],
       "url": "/assets/models/rowboat.json",
       "previewUrl": "/assets/previews/rowboat.svg"
+    },
+    {
+      "id": "builtin-rocking-chair",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cadeira de balanço",
+      "category": "Mobiliário / Assentos",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Casa",
+        "Fazenda",
+        "Asilo"
+      ],
+      "tags": [
+        "cadeira",
+        "madeira",
+        "balanço",
+        "medo"
+      ],
+      "description": "Cadeira de balanço com encosto de ripas e almofada; o balanço é estático.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.6,
+        0.9
+      ],
+      "bounds": [
+        0.59,
+        1.16,
+        0.892
+      ],
+      "url": "/assets/models/rocking-chair.json",
+      "previewUrl": "/assets/previews/rocking-chair.svg"
+    },
+    {
+      "id": "builtin-fireplace",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Lareira de tijolos",
+      "category": "Mobiliário / Equipamentos",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Casa",
+        "Hotel",
+        "Fazenda"
+      ],
+      "tags": [
+        "lareira",
+        "fogo",
+        "calor",
+        "parede"
+      ],
+      "description": "Lareira com consolo de madeira, chaminé e chamas emissivas estáticas; adicione luz real separadamente.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.86,
+        0.81
+      ],
+      "bounds": [
+        1.85,
+        2.43,
+        0.8
+      ],
+      "url": "/assets/models/fireplace.json",
+      "previewUrl": "/assets/previews/fireplace.svg"
+    },
+    {
+      "id": "builtin-coat-rack",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cabideiro de pé",
+      "category": "Mobiliário / Decoração",
+      "era": "Início do século XX",
+      "contexts": [
+        "Casa",
+        "Hotel",
+        "Escritório"
+      ],
+      "tags": [
+        "cabideiro",
+        "madeira",
+        "casaco",
+        "entrada"
+      ],
+      "description": "Cabideiro com casaco e chapéu pendurados, para entradas e escritórios.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.49,
+        0.45
+      ],
+      "bounds": [
+        0.485,
+        1.885,
+        0.45
+      ],
+      "url": "/assets/models/coat-rack.json",
+      "previewUrl": "/assets/previews/coat-rack.svg"
+    },
+    {
+      "id": "builtin-card-catalog",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Fichário de biblioteca",
+      "category": "Mobiliário / Armazenamento",
+      "era": "Início do século XX",
+      "contexts": [
+        "Biblioteca",
+        "Arquivo",
+        "Museu"
+      ],
+      "tags": [
+        "fichário",
+        "gaveta",
+        "conhecimento",
+        "pesquisa"
+      ],
+      "description": "Móvel de 24 gavetas de fichas catalográficas com etiquetas em branco.",
+      "supportHeight": 1.290000001490116,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.95,
+        0.56
+      ],
+      "bounds": [
+        0.95,
+        1.29,
+        0.55
+      ],
+      "url": "/assets/models/card-catalog.json",
+      "previewUrl": "/assets/previews/card-catalog.svg"
+    },
+    {
+      "id": "builtin-crib",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Berço antigo",
+      "category": "Mobiliário / Dormitório",
+      "era": "Início do século XX",
+      "contexts": [
+        "Casa",
+        "Asilo",
+        "Orfanato"
+      ],
+      "tags": [
+        "berço",
+        "criança",
+        "medo",
+        "madeira"
+      ],
+      "description": "Berço de grades torneadas com colchão e manta.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.76,
+        1.3
+      ],
+      "bounds": [
+        0.75,
+        1,
+        1.29
+      ],
+      "url": "/assets/models/crib.json",
+      "previewUrl": "/assets/previews/crib.svg"
+    },
+    {
+      "id": "builtin-rocking-horse",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cavalo de balanço",
+      "category": "Mobiliário / Decoração",
+      "era": "Início do século XX",
+      "contexts": [
+        "Casa",
+        "Orfanato",
+        "Sótão"
+      ],
+      "tags": [
+        "brinquedo",
+        "criança",
+        "medo",
+        "madeira"
+      ],
+      "description": "Brinquedo antigo de madeira pintada para quartos e sótãos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.21,
+        1.02
+      ],
+      "bounds": [
+        0.2,
+        0.979,
+        1.01
+      ],
+      "url": "/assets/models/rocking-horse.json",
+      "previewUrl": "/assets/previews/rocking-horse.svg"
+    },
+    {
+      "id": "builtin-gramophone",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Gramofone",
+      "category": "Tecnologia / Analógica",
+      "era": "Início do século XX",
+      "contexts": [
+        "Casa",
+        "Hotel",
+        "Museu"
+      ],
+      "tags": [
+        "gramofone",
+        "música",
+        "analógico",
+        "disco"
+      ],
+      "description": "Toca-discos de manivela com corneta dourada.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.5,
+        0.47
+      ],
+      "bounds": [
+        0.5,
+        0.703,
+        0.462
+      ],
+      "url": "/assets/models/gramophone.json",
+      "previewUrl": "/assets/previews/gramophone.svg"
+    },
+    {
+      "id": "builtin-spirit-board",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Tabuleiro espiritual",
+      "category": "Paranormal / Ritual",
+      "era": "Início do século XX",
+      "contexts": [
+        "Casa",
+        "Ritual",
+        "Sótão"
+      ],
+      "tags": [
+        "tabuleiro",
+        "comunicação",
+        "medo",
+        "ocultismo"
+      ],
+      "description": "Tabuleiro de letras e números com ponteiro, símbolos originais; para colocar sobre mesas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.51,
+        0.35
+      ],
+      "bounds": [
+        0.5,
+        0.031,
+        0.34
+      ],
+      "url": "/assets/models/spirit-board.json",
+      "previewUrl": "/assets/previews/spirit-board.svg"
+    },
+    {
+      "id": "builtin-cage",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Jaula de contenção",
+      "category": "Paranormal / Contenção",
+      "era": "Atemporal",
+      "contexts": [
+        "Bunker",
+        "Laboratório",
+        "Fazenda"
+      ],
+      "tags": [
+        "jaula",
+        "contenção",
+        "metal",
+        "prisão"
+      ],
+      "description": "Jaula metálica fechada com cadeado para criaturas ou prisioneiros.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.22,
+        1.24
+      ],
+      "bounds": [
+        1.22,
+        1.425,
+        1.235
+      ],
+      "url": "/assets/models/cage.json",
+      "previewUrl": "/assets/previews/cage.svg"
+    },
+    {
+      "id": "builtin-restraint-chair",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cadeira de contenção",
+      "category": "Saúde / Mobiliário",
+      "era": "Início do século XX",
+      "contexts": [
+        "Asilo",
+        "Hospital",
+        "Prisão"
+      ],
+      "tags": [
+        "cadeira",
+        "contenção",
+        "medo",
+        "asilo"
+      ],
+      "description": "Cadeira de madeira com cintas de couro nos braços, tornozelos e peito.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.71,
+        0.51
+      ],
+      "bounds": [
+        0.7,
+        1.405,
+        0.505
+      ],
+      "url": "/assets/models/restraint-chair.json",
+      "previewUrl": "/assets/previews/restraint-chair.svg"
+    },
+    {
+      "id": "builtin-privacy-screen",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Biombo hospitalar",
+      "category": "Saúde / Mobiliário",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Hospital",
+        "Asilo",
+        "Necrotério"
+      ],
+      "tags": [
+        "biombo",
+        "privacidade",
+        "medicina",
+        "cobertura"
+      ],
+      "description": "Biombo de três painéis com rodízios para enfermarias e necrotérios.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.72,
+        0.35
+      ],
+      "bounds": [
+        1.714,
+        1.685,
+        0.347
+      ],
+      "url": "/assets/models/privacy-screen.json",
+      "previewUrl": "/assets/previews/privacy-screen.svg"
+    },
+    {
+      "id": "builtin-body-bag",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Saco mortuário",
+      "category": "Investigação / Pistas",
+      "era": "Contemporânea",
+      "contexts": [
+        "Necrotério",
+        "Hospital",
+        "Rua"
+      ],
+      "tags": [
+        "corpo",
+        "morte",
+        "necrotério",
+        "pista"
+      ],
+      "description": "Saco fechado com zíper e etiqueta em branco para cenas de perícia.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.5,
+        1.8
+      ],
+      "bounds": [
+        0.5,
+        0.3,
+        1.795
+      ],
+      "url": "/assets/models/body-bag.json",
+      "previewUrl": "/assets/previews/body-bag.svg"
+    },
+    {
+      "id": "builtin-blood-pool",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Poça de sangue",
+      "category": "Investigação / Pistas",
+      "era": "Atemporal",
+      "contexts": [
+        "Casa",
+        "Rua",
+        "Ritual"
+      ],
+      "tags": [
+        "sangue",
+        "pista",
+        "morte",
+        "chão"
+      ],
+      "description": "Mancha rasa com respingos para marcar pistas no chão.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.36,
+        0.82
+      ],
+      "bounds": [
+        1.355,
+        0.008,
+        0.82
+      ],
+      "url": "/assets/models/blood-pool.json",
+      "previewUrl": "/assets/previews/blood-pool.svg"
+    },
+    {
+      "id": "builtin-grave-cross",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cova com cruz de madeira",
+      "category": "Religioso / Cemitério",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Cemitério",
+        "Igreja",
+        "Estrada"
+      ],
+      "tags": [
+        "cruz",
+        "morte",
+        "madeira",
+        "memorial"
+      ],
+      "description": "Sepultura simples de terra com cruz e placa sem nome.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.7,
+        1.71
+      ],
+      "bounds": [
+        0.7,
+        1.1,
+        1.7
+      ],
+      "url": "/assets/models/grave-cross.json",
+      "previewUrl": "/assets/previews/grave-cross.svg"
+    },
+    {
+      "id": "builtin-open-grave",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cova aberta com pá",
+      "category": "Religioso / Cemitério",
+      "era": "Atemporal",
+      "contexts": [
+        "Cemitério",
+        "Floresta",
+        "Fazenda"
+      ],
+      "tags": [
+        "cova",
+        "pá",
+        "morte",
+        "terra",
+        "pista"
+      ],
+      "description": "Cova com borda de terra elevada, monte escavado e pá cravada.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.16,
+        2.11
+      ],
+      "bounds": [
+        2.15,
+        1.531,
+        2.1
+      ],
+      "url": "/assets/models/open-grave.json",
+      "previewUrl": "/assets/previews/open-grave.svg"
+    },
+    {
+      "id": "builtin-angel-statue",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Estátua de anjo chorosa",
+      "category": "Religioso / Cemitério",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Cemitério",
+        "Igreja",
+        "Casa"
+      ],
+      "tags": [
+        "estátua",
+        "cemitério",
+        "pedra",
+        "medo"
+      ],
+      "description": "Figura alada com o rosto coberto pelas mãos, sobre pedestal.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.67,
+        0.73
+      ],
+      "bounds": [
+        0.66,
+        1.685,
+        0.727
+      ],
+      "url": "/assets/models/angel-statue.json",
+      "previewUrl": "/assets/previews/angel-statue.svg"
+    },
+    {
+      "id": "builtin-ritual-candelabra",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Candelabro ritual",
+      "category": "Paranormal / Ritual",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Ritual",
+        "Igreja",
+        "Casa"
+      ],
+      "tags": [
+        "candelabro",
+        "velas",
+        "ritual",
+        "luz"
+      ],
+      "description": "Candelabro de pé com cinco velas e chamas emissivas estáticas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.68,
+        0.41
+      ],
+      "bounds": [
+        0.67,
+        1.385,
+        0.4
+      ],
+      "url": "/assets/models/ritual-candelabra.json",
+      "previewUrl": "/assets/previews/ritual-candelabra.svg"
+    },
+    {
+      "id": "builtin-chandelier",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Lustre de velas",
+      "category": "Mobiliário / Iluminação",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Casa",
+        "Igreja",
+        "Hotel"
+      ],
+      "tags": [
+        "lustre",
+        "velas",
+        "teto",
+        "luz"
+      ],
+      "description": "Lustre de seis velas para fixar no teto; adicione luz real separadamente.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.78,
+        0.69
+      ],
+      "bounds": [
+        0.78,
+        1.02,
+        0.686
+      ],
+      "url": "/assets/models/chandelier.json",
+      "previewUrl": "/assets/previews/chandelier.svg"
+    },
+    {
+      "id": "builtin-wooden-fence",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cerca de madeira",
+      "category": "Exterior / Cercas",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Fazenda",
+        "Vila",
+        "Floresta"
+      ],
+      "tags": [
+        "cerca",
+        "madeira",
+        "rural",
+        "barreira"
+      ],
+      "description": "Segmento rústico de cerca com uma ripa solta.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.01,
+        0.15
+      ],
+      "bounds": [
+        2,
+        1.1,
+        0.14
+      ],
+      "url": "/assets/models/wooden-fence.json",
+      "previewUrl": "/assets/previews/wooden-fence.svg"
+    },
+    {
+      "id": "builtin-water-pump",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Bomba d’água manual",
+      "category": "Exterior / Rural",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Fazenda",
+        "Vila",
+        "Acampamento"
+      ],
+      "tags": [
+        "bomba",
+        "água",
+        "rural",
+        "metal"
+      ],
+      "description": "Bomba de manivela sobre base de pedra, com balde.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.61,
+        1.13
+      ],
+      "bounds": [
+        0.6,
+        1.272,
+        1.129
+      ],
+      "url": "/assets/models/water-pump.json",
+      "previewUrl": "/assets/previews/water-pump.svg"
+    },
+    {
+      "id": "builtin-log-pile",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Pilha de lenha",
+      "category": "Exterior / Rural",
+      "era": "Atemporal",
+      "contexts": [
+        "Fazenda",
+        "Acampamento",
+        "Floresta"
+      ],
+      "tags": [
+        "lenha",
+        "madeira",
+        "fogo",
+        "rural"
+      ],
+      "description": "Toras empilhadas em pirâmide com cortes aparentes.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.11,
+        0.73
+      ],
+      "bounds": [
+        1.108,
+        0.648,
+        0.72
+      ],
+      "url": "/assets/models/log-pile.json",
+      "previewUrl": "/assets/previews/log-pile.svg"
+    },
+    {
+      "id": "builtin-wheelbarrow",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Carrinho de mão",
+      "category": "Exterior / Rural",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fazenda",
+        "Obra",
+        "Cemitério"
+      ],
+      "tags": [
+        "carrinho",
+        "terra",
+        "ferramentas",
+        "rural"
+      ],
+      "description": "Carrinho de obra com caçamba cheia de terra.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.72,
+        1.63
+      ],
+      "bounds": [
+        0.717,
+        0.788,
+        1.63
+      ],
+      "url": "/assets/models/wheelbarrow.json",
+      "previewUrl": "/assets/previews/wheelbarrow.svg"
+    },
+    {
+      "id": "builtin-phone-booth",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Orelhão",
+      "category": "Urbano / Infraestrutura",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Rua",
+        "Estação",
+        "Vila"
+      ],
+      "tags": [
+        "telefone",
+        "comunicação",
+        "urbano",
+        "orelhão"
+      ],
+      "description": "Cabine telefônica pública de capuz alaranjado.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.76,
+        0.87
+      ],
+      "bounds": [
+        0.76,
+        2.34,
+        0.86
+      ],
+      "url": "/assets/models/phone-booth.json",
+      "previewUrl": "/assets/previews/phone-booth.svg"
+    },
+    {
+      "id": "builtin-bus-stop",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Ponto de ônibus",
+      "category": "Urbano / Infraestrutura",
+      "era": "Contemporânea",
+      "contexts": [
+        "Rua",
+        "Estrada",
+        "Vila"
+      ],
+      "tags": [
+        "ponto",
+        "ônibus",
+        "urbano",
+        "abrigo"
+      ],
+      "description": "Abrigo de parada com banco, cartaz em branco e placa.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.88,
+        1.3
+      ],
+      "bounds": [
+        2.875,
+        2.575,
+        1.3
+      ],
+      "url": "/assets/models/bus-stop.json",
+      "previewUrl": "/assets/previews/bus-stop.svg"
+    },
+    {
+      "id": "builtin-fire-hydrant",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Hidrante de rua",
+      "category": "Urbano / Infraestrutura",
+      "era": "Contemporânea",
+      "contexts": [
+        "Rua",
+        "Indústria",
+        "Escola"
+      ],
+      "tags": [
+        "hidrante",
+        "água",
+        "urbano",
+        "metal"
+      ],
+      "description": "Hidrante de calçada com bocais laterais.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.45,
+        0.31
+      ],
+      "bounds": [
+        0.445,
+        0.77,
+        0.31
+      ],
+      "url": "/assets/models/fire-hydrant.json",
+      "previewUrl": "/assets/previews/fire-hydrant.svg"
+    },
+    {
+      "id": "builtin-trash-can",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Lixeira pública",
+      "category": "Urbano / Infraestrutura",
+      "era": "Contemporânea",
+      "contexts": [
+        "Rua",
+        "Escola",
+        "Estação"
+      ],
+      "tags": [
+        "lixo",
+        "urbano",
+        "metal"
+      ],
+      "description": "Cesto suspenso em poste com lixo transbordando.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.45,
+        0.5
+      ],
+      "bounds": [
+        0.45,
+        1.081,
+        0.5
+      ],
+      "url": "/assets/models/trash-can.json",
+      "previewUrl": "/assets/previews/trash-can.svg"
+    },
+    {
+      "id": "builtin-shopping-cart",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Carrinho de supermercado",
+      "category": "Comercial / Equipamentos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Loja",
+        "Depósito",
+        "Rua"
+      ],
+      "tags": [
+        "carrinho",
+        "comércio",
+        "metal",
+        "abandonado"
+      ],
+      "description": "Carrinho de arame com cesto e alça vermelha.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.61,
+        0.93
+      ],
+      "bounds": [
+        0.6,
+        1.038,
+        0.92
+      ],
+      "url": "/assets/models/shopping-cart.json",
+      "previewUrl": "/assets/previews/shopping-cart.svg"
+    },
+    {
+      "id": "builtin-arcade-cabinet",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Fliperama",
+      "category": "Comercial / Lazer",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Restaurante",
+        "Loja",
+        "Casa"
+      ],
+      "tags": [
+        "jogo",
+        "fliperama",
+        "lazer",
+        "energia"
+      ],
+      "description": "Gabinete de jogo com tela, letreiro emissivo e controles.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.65,
+        0.95
+      ],
+      "bounds": [
+        0.65,
+        1.75,
+        0.95
+      ],
+      "url": "/assets/models/arcade-cabinet.json",
+      "previewUrl": "/assets/previews/arcade-cabinet.svg"
+    },
+    {
+      "id": "builtin-chalkboard",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Quadro-negro escolar",
+      "category": "Comercial / Escola",
+      "era": "Início do século XX",
+      "contexts": [
+        "Escola",
+        "Arquivo",
+        "Bunker"
+      ],
+      "tags": [
+        "quadro",
+        "escola",
+        "giz",
+        "conhecimento",
+        "parede"
+      ],
+      "description": "Quadro com anotações de giz; use a fixação de parede do editor.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.8,
+        0.11
+      ],
+      "bounds": [
+        1.8,
+        1,
+        0.105
+      ],
+      "url": "/assets/models/chalkboard.json",
+      "previewUrl": "/assets/previews/chalkboard.svg"
+    },
+    {
+      "id": "builtin-jail-bars",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Grade de cela",
+      "category": "Investigação / Delegacia",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Prisão",
+        "Delegacia",
+        "Asilo"
+      ],
+      "tags": [
+        "grade",
+        "prisão",
+        "cela",
+        "metal",
+        "barreira"
+      ],
+      "description": "Frente de cela com barras e fechadura, estática.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.31,
+        0.11
+      ],
+      "bounds": [
+        2.3,
+        2.4,
+        0.1
+      ],
+      "url": "/assets/models/jail-bars.json",
+      "previewUrl": "/assets/previews/jail-bars.svg"
+    },
+    {
+      "id": "builtin-camera-tripod",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Câmera de vídeo em tripé",
+      "category": "Investigação / Equipamentos",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Estúdio",
+        "Casa",
+        "Ritual"
+      ],
+      "tags": [
+        "câmera",
+        "gravação",
+        "investigação",
+        "pista"
+      ],
+      "description": "Filmadora com luz de gravação estática para vigílias paranormais.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.73,
+        0.63
+      ],
+      "bounds": [
+        0.726,
+        1.496,
+        0.629
+      ],
+      "url": "/assets/models/camera-tripod.json",
+      "previewUrl": "/assets/previews/camera-tripod.svg"
+    },
+    {
+      "id": "builtin-kerosene-lantern",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Lampião a querosene",
+      "category": "Mobiliário / Iluminação",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Fazenda",
+        "Acampamento",
+        "Casa"
+      ],
+      "tags": [
+        "lampião",
+        "luz",
+        "fogo",
+        "rural"
+      ],
+      "description": "Lampião portátil com vidro emissivo; adicione luz real separadamente.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.16,
+        0.16
+      ],
+      "bounds": [
+        0.16,
+        0.344,
+        0.16
+      ],
+      "url": "/assets/models/kerosene-lantern.json",
+      "previewUrl": "/assets/previews/kerosene-lantern.svg"
+    },
+    {
+      "id": "builtin-globe",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Globo terrestre de escritório",
+      "category": "Mobiliário / Decoração",
+      "era": "Início do século XX",
+      "contexts": [
+        "Escritório",
+        "Biblioteca",
+        "Escola"
+      ],
+      "tags": [
+        "globo",
+        "mapa",
+        "conhecimento",
+        "estudo"
+      ],
+      "description": "Globo de mesa com meridiano metálico e continentes estilizados.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.38,
+        0.33
+      ],
+      "bounds": [
+        0.375,
+        0.567,
+        0.326
+      ],
+      "url": "/assets/models/globe.json",
+      "previewUrl": "/assets/previews/globe.svg"
+    },
+    {
+      "id": "builtin-bicycle",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Bicicleta",
+      "category": "Veículos / Terrestres",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Rua",
+        "Vila",
+        "Fazenda"
+      ],
+      "tags": [
+        "bicicleta",
+        "transporte",
+        "estrada"
+      ],
+      "description": "Bicicleta de passeio estacionada, sem comportamento automático.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.5,
+        1.66
+      ],
+      "bounds": [
+        0.5,
+        0.975,
+        1.66
+      ],
+      "url": "/assets/models/bicycle.json",
+      "previewUrl": "/assets/previews/bicycle.svg"
     }
   ]
 }

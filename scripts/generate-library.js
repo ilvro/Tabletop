@@ -3,6 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import * as THREE from 'three';
 import { recipeInstance, disposeObject } from '../src/render/asset-cache.js';
 import { addLibraryExpansion } from './library-expansion.js';
+import { addLibraryExpansion3 } from './library-expansion-3.js';
 
 const materials = {
   wood: { color: '#79553e', roughness: .84 }, dark: { color: '#292b30', roughness: .8 },
@@ -95,6 +96,7 @@ add('documents', 'Pilhas de documentos', 'Investigação / Pistas', timeless, ['
 add('suitcase', 'Mala de viagem antiga', 'Investigação / Equipamentos', historic, ['Hotel', 'Casa', 'Estação'], ['mala', 'viagem', 'bagagem', 'pista'], [b([.65, .4, .22], [0, .2, 0]), ...[-.2, .2].map(x => b([.025, .42, .235], [x, .21, 0], 'dark')), b([.22, .03, .07], [0, .45, 0], 'metal'), ...[-.095, .095].map(x => b([.03, .06, .07], [x, .42, 0], 'metal'))], 'Mala rígida com cintas e alça.');
 
 addLibraryExpansion({ add, b, c, s, legs, table, wheels, shelf, ring, modern, retro, historic, colonial, ancient, timeless });
+addLibraryExpansion3({ add, b, c, s, legs, table, wheels, modern, retro, historic, colonial, timeless });
 
 function preview(object) {
   object.updateMatrixWorld(true);

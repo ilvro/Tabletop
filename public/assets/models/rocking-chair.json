@@ -1,0 +1,431 @@
+{
+  "name": "Cadeira de balanço",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.04,
+        0.45
+      ],
+      "position": [
+        -0.22,
+        0.019999999552965164,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.04,
+        0.225
+      ],
+      "position": [
+        -0.22,
+        0.053246022802365865,
+        0.33247535502663067
+      ],
+      "material": "wood",
+      "rotation": [
+        -0.3,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.04,
+        0.225
+      ],
+      "position": [
+        -0.22,
+        0.053246022802365865,
+        -0.33247535502663067
+      ],
+      "material": "wood",
+      "rotation": [
+        0.3,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.04,
+        0.45
+      ],
+      "position": [
+        0.22,
+        0.019999999552965164,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.04,
+        0.225
+      ],
+      "position": [
+        0.22,
+        0.053246022802365865,
+        0.33247535502663067
+      ],
+      "material": "wood",
+      "rotation": [
+        -0.3,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.04,
+        0.225
+      ],
+      "position": [
+        0.22,
+        0.053246022802365865,
+        -0.33247535502663067
+      ],
+      "material": "wood",
+      "rotation": [
+        0.3,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.045,
+        0.37,
+        0.045
+      ],
+      "position": [
+        -0.22,
+        0.22499999955296515,
+        0.2
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.045,
+        0.37,
+        0.045
+      ],
+      "position": [
+        -0.22,
+        0.22499999955296515,
+        -0.22
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.045,
+        0.37,
+        0.045
+      ],
+      "position": [
+        0.22,
+        0.22499999955296515,
+        0.2
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.045,
+        0.37,
+        0.045
+      ],
+      "position": [
+        0.22,
+        0.22499999955296515,
+        -0.22
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.05,
+        0.5
+      ],
+      "position": [
+        0,
+        0.4299999995529652,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.72,
+        0.05
+      ],
+      "position": [
+        -0.24,
+        0.7799999995529652,
+        -0.24
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.72,
+        0.05
+      ],
+      "position": [
+        0.24,
+        0.7799999995529652,
+        -0.24
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.6,
+        0.025
+      ],
+      "position": [
+        -0.16,
+        0.7699999995529652,
+        -0.24
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.6,
+        0.025
+      ],
+      "position": [
+        -0.08,
+        0.7699999995529652,
+        -0.24
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.6,
+        0.025
+      ],
+      "position": [
+        0,
+        0.7699999995529652,
+        -0.24
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.6,
+        0.025
+      ],
+      "position": [
+        0.08,
+        0.7699999995529652,
+        -0.24
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.6,
+        0.025
+      ],
+      "position": [
+        0.16,
+        0.7699999995529652,
+        -0.24
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.54,
+        0.06,
+        0.045
+      ],
+      "position": [
+        0,
+        1.129999999552965,
+        -0.24
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.04,
+        0.5
+      ],
+      "position": [
+        -0.27,
+        0.6599999995529652,
+        -0.01
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.21,
+        0.04
+      ],
+      "position": [
+        -0.27,
+        0.5449999995529651,
+        0.2
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.04,
+        0.5
+      ],
+      "position": [
+        0.27,
+        0.6599999995529652,
+        -0.01
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.21,
+        0.04
+      ],
+      "position": [
+        0.27,
+        0.5449999995529651,
+        0.2
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.42,
+        0.04,
+        0.38
+      ],
+      "position": [
+        0,
+        0.4749999995529652,
+        0.02
+      ],
+      "material": "red"
+    }
+  ]
+}

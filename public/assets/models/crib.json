@@ -1,0 +1,567 @@
+{
+  "name": "Berço antigo",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        1,
+        0.05
+      ],
+      "position": [
+        -0.35,
+        0.5,
+        -0.62
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        1,
+        0.05
+      ],
+      "position": [
+        -0.35,
+        0.5,
+        0.62
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        1,
+        0.05
+      ],
+      "position": [
+        0.35,
+        0.5,
+        -0.62
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        1,
+        0.05
+      ],
+      "position": [
+        0.35,
+        0.5,
+        0.62
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.7,
+        0.05,
+        1.25
+      ],
+      "position": [
+        0,
+        0.38,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.65,
+        0.1,
+        1.2
+      ],
+      "position": [
+        0,
+        0.45,
+        0
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.04,
+        1.25
+      ],
+      "position": [
+        -0.35,
+        0.96,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.04,
+        1.25
+      ],
+      "position": [
+        0.35,
+        0.96,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.7,
+        0.04,
+        0.05
+      ],
+      "position": [
+        0,
+        0.96,
+        -0.62
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.7,
+        0.04,
+        0.05
+      ],
+      "position": [
+        0,
+        0.96,
+        0.62
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.35,
+        0.69,
+        -0.5
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.35,
+        0.69,
+        -0.375
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.35,
+        0.69,
+        -0.25
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.35,
+        0.69,
+        -0.125
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.35,
+        0.69,
+        0
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.35,
+        0.69,
+        0.125
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.35,
+        0.69,
+        0.25
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.35,
+        0.69,
+        0.375
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.35,
+        0.69,
+        0.5
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.35,
+        0.69,
+        -0.5
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.35,
+        0.69,
+        -0.375
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.35,
+        0.69,
+        -0.25
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.35,
+        0.69,
+        -0.125
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.35,
+        0.69,
+        0
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.35,
+        0.69,
+        0.125
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.35,
+        0.69,
+        0.25
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.35,
+        0.69,
+        0.375
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.35,
+        0.69,
+        0.5
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.21,
+        0.69,
+        -0.62
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.06999999999999998,
+        0.69,
+        -0.62
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.07000000000000003,
+        0.69,
+        -0.62
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.21000000000000005,
+        0.69,
+        -0.62
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.21,
+        0.69,
+        0.62
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        -0.06999999999999998,
+        0.69,
+        0.62
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.07000000000000003,
+        0.69,
+        0.62
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.5,
+      "position": [
+        0.21000000000000005,
+        0.69,
+        0.62
+      ],
+      "material": "wood",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.03,
+        0.45
+      ],
+      "position": [
+        0,
+        0.515,
+        0.25
+      ],
+      "material": "cloth"
+    }
+  ]
+}

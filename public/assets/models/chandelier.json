@@ -1,0 +1,472 @@
+{
+  "name": "Lustre de velas",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "sphere",
+      "radius": 0.04,
+      "position": [
+        0,
+        0.03999999910593033,
+        -2.7755575615628914e-17
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.03,
+      "radiusBottom": 0.03,
+      "height": 0.5,
+      "position": [
+        0,
+        0.29999999910593034,
+        -2.7755575615628914e-17
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.008,
+      "radiusBottom": 0.008,
+      "height": 0.45,
+      "position": [
+        0,
+        0.7749999991059303,
+        -2.7755575615628914e-17
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.06,
+      "radiusBottom": 0.06,
+      "height": 0.02,
+      "position": [
+        0,
+        1.0099999991059303,
+        -2.7755575615628914e-17
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.35,
+        0.02,
+        0.02
+      ],
+      "position": [
+        0.175,
+        0.19999999910593033,
+        -2.7755575615628914e-17
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.04,
+      "radiusBottom": 0.04,
+      "height": 0.03,
+      "position": [
+        0.35,
+        0.21499999910593032,
+        -2.7755575615628914e-17
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.018,
+      "radiusBottom": 0.018,
+      "height": 0.12,
+      "position": [
+        0.35,
+        0.2899999991059304,
+        -2.7755575615628914e-17
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.001,
+      "radiusBottom": 0.012,
+      "height": 0.045,
+      "position": [
+        0.35,
+        0.37199999910593035,
+        -2.7755575615628914e-17
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.35,
+        0.02,
+        0.02
+      ],
+      "position": [
+        0.08750000000000001,
+        0.19999999910593033,
+        0.15155444566227672
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        -1.0471975511965976,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.04,
+      "radiusBottom": 0.04,
+      "height": 0.03,
+      "position": [
+        0.17500000000000002,
+        0.21499999910593032,
+        0.30310889132455343
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.018,
+      "radiusBottom": 0.018,
+      "height": 0.12,
+      "position": [
+        0.17500000000000002,
+        0.2899999991059304,
+        0.30310889132455343
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.001,
+      "radiusBottom": 0.012,
+      "height": 0.045,
+      "position": [
+        0.17500000000000002,
+        0.37199999910593035,
+        0.30310889132455343
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.35,
+        0.02,
+        0.02
+      ],
+      "position": [
+        -0.08749999999999995,
+        0.19999999910593033,
+        0.15155444566227674
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        -2.0943951023931953,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.04,
+      "radiusBottom": 0.04,
+      "height": 0.03,
+      "position": [
+        -0.1749999999999999,
+        0.21499999910593032,
+        0.30310889132455354
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.018,
+      "radiusBottom": 0.018,
+      "height": 0.12,
+      "position": [
+        -0.1749999999999999,
+        0.2899999991059304,
+        0.30310889132455354
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.001,
+      "radiusBottom": 0.012,
+      "height": 0.045,
+      "position": [
+        -0.1749999999999999,
+        0.37199999910593035,
+        0.30310889132455354
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.35,
+        0.02,
+        0.02
+      ],
+      "position": [
+        -0.175,
+        0.19999999910593033,
+        -6.324256630550234e-18
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        -3.141592653589793,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.04,
+      "radiusBottom": 0.04,
+      "height": 0.03,
+      "position": [
+        -0.35,
+        0.21499999910593032,
+        1.5107062354528446e-17
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.018,
+      "radiusBottom": 0.018,
+      "height": 0.12,
+      "position": [
+        -0.35,
+        0.2899999991059304,
+        1.5107062354528446e-17
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.001,
+      "radiusBottom": 0.012,
+      "height": 0.045,
+      "position": [
+        -0.35,
+        0.37199999910593035,
+        1.5107062354528446e-17
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.35,
+        0.02,
+        0.02
+      ],
+      "position": [
+        -0.08750000000000008,
+        0.19999999910593033,
+        -0.15155444566227674
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        -4.1887902047863905,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.04,
+      "radiusBottom": 0.04,
+      "height": 0.03,
+      "position": [
+        -0.17500000000000016,
+        0.21499999910593032,
+        -0.30310889132455343
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.018,
+      "radiusBottom": 0.018,
+      "height": 0.12,
+      "position": [
+        -0.17500000000000016,
+        0.2899999991059304,
+        -0.30310889132455343
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.001,
+      "radiusBottom": 0.012,
+      "height": 0.045,
+      "position": [
+        -0.17500000000000016,
+        0.37199999910593035,
+        -0.30310889132455343
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.35,
+        0.02,
+        0.02
+      ],
+      "position": [
+        0.08750000000000001,
+        0.19999999910593033,
+        -0.15155444566227677
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        -5.235987755982989,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.04,
+      "radiusBottom": 0.04,
+      "height": 0.03,
+      "position": [
+        0.17500000000000002,
+        0.21499999910593032,
+        -0.30310889132455354
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.018,
+      "radiusBottom": 0.018,
+      "height": 0.12,
+      "position": [
+        0.17500000000000002,
+        0.2899999991059304,
+        -0.30310889132455354
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.001,
+      "radiusBottom": 0.012,
+      "height": 0.045,
+      "position": [
+        0.17500000000000002,
+        0.37199999910593035,
+        -0.30310889132455354
+      ],
+      "material": "flame",
+      "segments": 12
+    }
+  ]
+}

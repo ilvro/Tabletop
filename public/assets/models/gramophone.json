@@ -1,0 +1,189 @@
+{
+  "name": "Gramofone",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.38,
+        0.16,
+        0.38
+      ],
+      "position": [
+        -0.060000002086162574,
+        0.07999999821186066,
+        -0.0050000000000000044
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.15,
+      "radiusBottom": 0.15,
+      "height": 0.012,
+      "position": [
+        -0.060000002086162574,
+        0.16599999821186068,
+        -0.0050000000000000044
+      ],
+      "material": "black",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.04,
+      "radiusBottom": 0.04,
+      "height": 0.004,
+      "position": [
+        -0.060000002086162574,
+        0.17399999821186063,
+        -0.0050000000000000044
+      ],
+      "material": "red",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.02,
+        0.2
+      ],
+      "position": [
+        0.05999999791383742,
+        0.18999999821186064,
+        -0.025000000000000005
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        0.4,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 0.21,
+      "position": [
+        0.07999999791383744,
+        0.26499999821186065,
+        -0.125
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.17,
+      "radiusBottom": 0.025,
+      "height": 0.32,
+      "position": [
+        0.07999999791383744,
+        0.4699999982118606,
+        -4.336808689942018e-18
+      ],
+      "material": "wax",
+      "segments": 12,
+      "rotation": [
+        0.9,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.015,
+        0.015
+      ],
+      "position": [
+        0.17999999791383742,
+        0.08999999821186065,
+        0.045
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.018,
+      "position": [
+        0.2299999979138374,
+        0.08999999821186065,
+        0.045
+      ],
+      "material": "black"
+    }
+  ]
+}

@@ -1,0 +1,253 @@
+{
+  "name": "Lareira de tijolos",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.8,
+        0.06,
+        0.8
+      ],
+      "position": [
+        0,
+        0.029999999329447746,
+        2.7755575615628914e-17
+      ],
+      "material": "stone"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.35,
+        1.1,
+        0.5
+      ],
+      "position": [
+        -0.65,
+        0.5999999993294477,
+        -0.09999999999999998
+      ],
+      "material": "red"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.35,
+        1.1,
+        0.5
+      ],
+      "position": [
+        0.65,
+        0.5999999993294477,
+        -0.09999999999999998
+      ],
+      "material": "red"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.95,
+        1.1,
+        0.08
+      ],
+      "position": [
+        0,
+        0.5999999993294477,
+        -0.30999999999999994
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.65,
+        0.3,
+        0.5
+      ],
+      "position": [
+        0,
+        1.2999999993294478,
+        -0.09999999999999998
+      ],
+      "material": "red"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.85,
+        0.08,
+        0.62
+      ],
+      "position": [
+        0,
+        1.4899999993294477,
+        -0.05999999999999998
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.1,
+        0.9,
+        0.45
+      ],
+      "position": [
+        0,
+        1.9799999993294477,
+        -0.12999999999999998
+      ],
+      "material": "red"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.06,
+      "radiusBottom": 0.06,
+      "height": 0.6,
+      "position": [
+        0,
+        0.11999999932944774,
+        -0.14999999999999997
+      ],
+      "material": "wood",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.06,
+      "radiusBottom": 0.06,
+      "height": 0.6,
+      "position": [
+        0,
+        0.11999999932944774,
+        -0.02999999999999997
+      ],
+      "material": "wood",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.055,
+      "radiusBottom": 0.055,
+      "height": 0.5,
+      "position": [
+        0,
+        0.21999999932944775,
+        -0.08999999999999998
+      ],
+      "material": "dark",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.16,
+      "height": 0.28,
+      "position": [
+        0,
+        0.3799999993294477,
+        -0.09999999999999998
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.01,
+      "radiusBottom": 0.08,
+      "height": 0.18,
+      "position": [
+        0.15,
+        0.3199999993294478,
+        -0.07999999999999997
+      ],
+      "material": "flame",
+      "segments": 12
+    }
+  ]
+}

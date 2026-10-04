@@ -1,0 +1,227 @@
+{
+  "name": "Cova aberta com pá",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.8,
+        0.02,
+        1.7
+      ],
+      "position": [
+        -0.47499998807907107,
+        0.010000005960464483,
+        0
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.2,
+        0.25,
+        0.2
+      ],
+      "position": [
+        -0.47499998807907107,
+        0.12500000596046448,
+        -0.95
+      ],
+      "material": "rust"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.2,
+        0.25,
+        0.2
+      ],
+      "position": [
+        -0.47499998807907107,
+        0.12500000596046448,
+        0.95
+      ],
+      "material": "rust"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.25,
+        1.7
+      ],
+      "position": [
+        -0.9749999880790711,
+        0.12500000596046448,
+        0
+      ],
+      "material": "rust"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.25,
+        1.7
+      ],
+      "position": [
+        0.025000011920928933,
+        0.12500000596046448,
+        0
+      ],
+      "material": "rust"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.3,
+      "radiusBottom": 0.5,
+      "height": 0.3,
+      "position": [
+        0.575000011920929,
+        0.15000000596046448,
+        0
+      ],
+      "material": "rust",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.1,
+      "radiusBottom": 0.3,
+      "height": 0.2,
+      "position": [
+        0.575000011920929,
+        0.4000000059604645,
+        0
+      ],
+      "material": "rust",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.25,
+        0.02
+      ],
+      "position": [
+        0.575000011920929,
+        0.5000000059604645,
+        0
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        0,
+        0.2
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.016,
+      "radiusBottom": 0.016,
+      "height": 0.9,
+      "position": [
+        0.461000011920929,
+        1.0630000059604645,
+        0
+      ],
+      "material": "wood",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        0.2
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        0.03,
+        0.03
+      ],
+      "position": [
+        0.3720000119209289,
+        1.5040000059604646,
+        0
+      ],
+      "material": "wood",
+      "rotation": [
+        0,
+        0,
+        0.2
+      ]
+    }
+  ]
+}

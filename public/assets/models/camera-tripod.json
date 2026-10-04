@@ -1,0 +1,232 @@
+{
+  "name": "Câmera de vídeo em tripé",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        1.3125,
+        0.025
+      ],
+      "position": [
+        1.2326877045398918e-16,
+        0.6288380432451227,
+        0.10243406562199464
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        -1.5707963267948966,
+        0.3097029445424562
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        1.3125,
+        0.025
+      ],
+      "position": [
+        -0.17320508075688767,
+        0.6288380432451227,
+        -0.19756593437800532
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        -3.665191429188092,
+        0.3097029445424562
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        1.3125,
+        0.025
+      ],
+      "position": [
+        0.17320508075688779,
+        0.6288380432451227,
+        -0.19756593437800546
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        -5.759586531581287,
+        0.3097029445424562
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 0.15,
+      "position": [
+        1.1102230246251565e-16,
+        1.2038380432451228,
+        -0.09756593437800537
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.05,
+      "radiusBottom": 0.05,
+      "height": 0.06,
+      "position": [
+        1.1102230246251565e-16,
+        1.2838380432451229,
+        -0.09756593437800537
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.16,
+        0.32
+      ],
+      "position": [
+        1.1102230246251565e-16,
+        1.3938380432451227,
+        -0.09756593437800537
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.05,
+      "radiusBottom": 0.045,
+      "height": 0.12,
+      "position": [
+        1.1102230246251565e-16,
+        1.4038380432451225,
+        0.11243406562199462
+      ],
+      "material": "black",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.04,
+      "radiusBottom": 0.04,
+      "height": 0.005,
+      "position": [
+        1.1102230246251565e-16,
+        1.4038380432451225,
+        0.17443406562199465
+      ],
+      "material": "screen",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.05,
+        0.1
+      ],
+      "position": [
+        -0.08999999999999989,
+        1.4438380432451225,
+        -0.19756593437800538
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.012,
+      "position": [
+        0.03000000000000011,
+        1.4838380432451226,
+        0.04243406562199464
+      ],
+      "material": "flame"
+    }
+  ]
+}

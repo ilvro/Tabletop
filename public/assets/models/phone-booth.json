@@ -1,0 +1,326 @@
+{
+  "name": "Orelhão",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.05,
+        0.3
+      ],
+      "position": [
+        0,
+        0.02500000037252903,
+        -0.2800000035762787
+      ],
+      "material": "stone"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 2.3,
+      "position": [
+        0,
+        1.150000000372529,
+        -0.2800000035762787
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.75,
+        0.9,
+        0.06
+      ],
+      "position": [
+        0,
+        1.8500000003725292,
+        -0.20000000357627867
+      ],
+      "material": "rust"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.9,
+        0.6
+      ],
+      "position": [
+        -0.35,
+        1.8500000003725292,
+        0.09999999642372132
+      ],
+      "material": "rust"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.9,
+        0.6
+      ],
+      "position": [
+        0.35,
+        1.8500000003725292,
+        0.09999999642372132
+      ],
+      "material": "rust"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.75,
+        0.06,
+        0.66
+      ],
+      "position": [
+        0,
+        2.310000000372529,
+        0.09999999642372132
+      ],
+      "material": "rust"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.65,
+        0.85,
+        0.01
+      ],
+      "position": [
+        0,
+        1.8500000003725292,
+        -0.1650000035762787
+      ],
+      "material": "cloth"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.32,
+        0.12
+      ],
+      "position": [
+        0,
+        1.650000000372529,
+        -0.1000000035762787
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.2,
+        0.05
+      ],
+      "position": [
+        -0.12,
+        1.700000000372529,
+        -0.0400000035762787
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.015,
+        0.012
+      ],
+      "position": [
+        -0.03,
+        1.6000000003725292,
+        -0.03500000357627869
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.015,
+        0.012
+      ],
+      "position": [
+        0,
+        1.6000000003725292,
+        -0.03500000357627869
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.015,
+        0.012
+      ],
+      "position": [
+        0.03,
+        1.6000000003725292,
+        -0.03500000357627869
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.015,
+        0.012
+      ],
+      "position": [
+        -0.03,
+        1.6350000003725291,
+        -0.03500000357627869
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.015,
+        0.012
+      ],
+      "position": [
+        0,
+        1.6350000003725291,
+        -0.03500000357627869
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.015,
+        0.012
+      ],
+      "position": [
+        0.03,
+        1.6350000003725291,
+        -0.03500000357627869
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.015,
+        0.012
+      ],
+      "position": [
+        -0.03,
+        1.6700000003725293,
+        -0.03500000357627869
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.015,
+        0.012
+      ],
+      "position": [
+        0,
+        1.6700000003725293,
+        -0.03500000357627869
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.015,
+        0.012
+      ],
+      "position": [
+        0.03,
+        1.6700000003725293,
+        -0.03500000357627869
+      ],
+      "material": "white"
+    }
+  ]
+}
