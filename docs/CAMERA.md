@@ -12,13 +12,19 @@ Clique na mesa para dar foco ao viewport. Funciona na perspectiva, na vista supe
 | A / D | Deslocar lateralmente, conforme o ângulo da câmera. |
 | Shift + movimento | Triplicar a velocidade. |
 | Page Up / Page Down | Subir / descer a câmera e o ponto de foco. |
+| Espaço / Ctrl esquerdo ou direito | Subir / descer na perspectiva. |
 | Botão direito + arraste | Orbitar com desaceleração suave. |
+| Botão direito sem arraste | Selecionar o objeto e abrir seu menu somente ao soltar. |
 | Botão do meio + arraste | Deslocar no plano do mapa. |
 | Roda | Aproximar / afastar. |
 | F / Enquadrar | Enquadrar a seleção; sem seleção, enquadrar a construção visível. |
 | Q / G / R / V | Selecionar / mover objetos / girar / escalar. |
 
-WASD não muda a ferramenta nem o documento. Diagonais têm a mesma velocidade dos movimentos retos. Ao soltar as teclas, a câmera desacelera; ao sair do viewport, trocar de janela ou usar Ctrl/Cmd/Alt, as teclas e a velocidade são limpas. Campos de texto e atalhos como Ctrl+S, Ctrl+D e Ctrl+V mantêm suas funções. Durante arraste/gizmo/pincel, a navegação fica suspensa.
+WASD não muda a ferramenta nem o documento. Zoom, pan e órbita preservam as teclas pressionadas e podem ocorrer durante o movimento. Arrastar com o botão direito não seleciona objetos nem abre menus, mesmo se o ponteiro retornar ao ponto inicial.
+
+Diagonais têm a mesma velocidade dos movimentos retos. Ao soltar as teclas, a câmera desacelera; ao sair do viewport, trocar de janela, usar Cmd/Alt ou executar um atalho de edição com Ctrl, as teclas e a velocidade são limpas. Durante arraste de objetos/gizmo/pincel, a navegação fica suspensa.
+
+Na perspectiva com foco no canvas, Ctrl desce e combina com WASD e Shift, independentemente da ordem em que as teclas são pressionadas. Ctrl+A/D/S/W são controles de câmera nesse contexto: não selecionam texto, duplicam objetos, salvam a cena nem acionam atalhos do navegador. Soltar Ctrl conserva o movimento das demais teclas. Para salvar ou duplicar, use os botões ou dê foco a outro controle do editor antes do atalho. Campos de texto conservam Ctrl+A e os demais atalhos nativos; Ctrl+V/C/Z e outros atalhos de edição continuam disponíveis.
 
 ## Preparar e apresentar um enquadramento
 
@@ -40,7 +46,7 @@ A janela dedicada do projetor não aceita navegação por mouse/teclado. A apres
 
 ## Validação e limites
 
-`tests/camera-motion.test.js` verifica direção relativa/diagonal/superior, integração temporal da velocidade e trajetos sem colapso do raio. `tests/e2e/camera.test.js` exercita teclado real, foco, ferramentas, lentes, publicação, cortes/interrupções, redução de movimento e câmeras salvas após reload. O E2E do editor aguarda a desaceleração da órbita antes de comparar publicação.
+`tests/camera-motion.test.js` verifica direção relativa/diagonal/superior, Espaço/ambos os Ctrl somente na perspectiva, integração temporal da velocidade e trajetos sem colapso do raio. `tests/e2e/camera.test.js` exercita teclado real, movimento simultâneo com zoom/pan/órbita, seleção/menu no release sem arraste, altura com Espaço/Ctrl, foco, ferramentas, lentes, publicação, cortes/interrupções, redução de movimento e câmeras salvas após reload. O E2E do editor aguarda a desaceleração da órbita antes de comparar publicação.
 
 Permanecem pendentes acompanhamento automático de tokens, caminhos de câmera, colisão com paredes e avaliação visual no notebook/projetor real. O foco usa os bounds dos objetos/áreas construídas; não acrescenta vínculos persistentes de acompanhamento. Os testes com WebGL por software não medem desempenho ou qualidade no equipamento da mesa.
 

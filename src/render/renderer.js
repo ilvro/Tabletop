@@ -158,10 +158,12 @@ export function createViewport(container, {
   let lastPerspective = DEFAULT_CAMERA;
   let controls = null;
   const navigationKeys = new Set();
-  const movementCodes = new Set(['KeyW', 'KeyA', 'KeyS', 'KeyD', 'PageUp', 'PageDown']);
+  const perspectiveHeightCodes = new Set(['Space', 'ControlLeft', 'ControlRight']);
+  const movementCodes = new Set(['KeyW', 'KeyA', 'KeyS', 'KeyD', 'PageUp', 'PageDown', ...perspectiveHeightCodes]);
   let velocity = [0, 0, 0], navigationSpeed = 6, fastNavigation = false;
   let transition = null, lastFrameTime = null, orbitMoving = false;
   let pointer = null;
+  let contextPointer = null;
   let gizmoCancelled = false;
   let altHeld = false;
   const objects = new Map();
@@ -226,7 +228,8 @@ export function createViewport(container, {
     controls.mouseButtons = { LEFT: null, MIDDLE: THREE.MOUSE.PAN, RIGHT: THREE.MOUSE.ROTATE };
     controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_ROTATE };
     controls.addEventListener('change', () => { invalidate(); onCameraChange(getCamera()); });
-    controls.addEventListener('start', () => { stopCameraMotion(); });
+    // Mouse navigation interrupts a shot while preserving held keys and velocity.
+    controls.addEventListener('start', () => { transition = null; invalidate(); });
     controls.enabled = navigationEnabled;
     controls.update();
   }
@@ -887,6 +890,7 @@ export function createViewport(container, {
     hint.textContent = `Pincel ${brush.radius} m · solte para aplicar · Esc cancela`; hint.style.display = '';
   }
   function cancelGesture() {
+    contextPointer = null;
     if (transform.dragging) { gizmoCancelled = true; transform.reset(); transform.pointerUp(null); }
     if (pointer?.roomStart) clearGroup(preview);
     cancelPointer();
@@ -896,9 +900,14 @@ export function createViewport(container, {
     altHeld = event.altKey;
     if (transform.object) transform.setRotationSnap(sceneDocument?.layout?.grid?.snap && !altHeld ? Math.PI / 12 : null);
     if (event.key === 'Escape') stopCameraMotion();
-    if (event.ctrlKey || event.metaKey || event.altKey) { resetNavigation(); return; }
+    const heightKey = perspectiveHeightCodes.has(event.code);
+    const perspectiveHeightKey = camera.isPerspectiveCamera && heightKey;
+    const canNavigate = navigationEnabled && document.activeElement === canvas && !document.querySelector('dialog:modal') && controls.enabled && !pointer && !transform.dragging;
+    // Ctrl is a height control here: Ctrl+WASD must not reach browser/editor shortcuts.
+    const perspectiveCtrlNavigation = canNavigate && camera.isPerspectiveCamera && (movementCodes.has(event.code) || event.key === 'Shift');
+    if (event.metaKey || event.altKey || (event.ctrlKey && !perspectiveCtrlNavigation)) { resetNavigation(); return; }
     fastNavigation = event.shiftKey;
-    if (navigationEnabled && document.activeElement === canvas && !document.querySelector('dialog:modal') && movementCodes.has(event.code) && controls.enabled && !pointer && !transform.dragging) {
+    if (canNavigate && movementCodes.has(event.code) && (!heightKey || perspectiveHeightKey)) {
       event.preventDefault();
       if (transition) stopCameraMotion();
       navigationKeys.add(event.code); fastNavigation = event.shiftKey; invalidate();
@@ -910,7 +919,7 @@ export function createViewport(container, {
     if (event.key === 'Escape') cancelGesture();
   }
   function onKeyUp(event) { altHeld = event.altKey; fastNavigation = event.shiftKey; navigationKeys.delete(event.code); }
-  function onVisibilityChange() { if (document.hidden) { resetNavigation(); if (!transition) stopCameraMotion(); lastFrameTime = null; } }
+  function onVisibilityChange() { if (document.hidden) { onNavigationBlur(); if (!transition) stopCameraMotion(); lastFrameTime = null; } }
   function drawPolygon() {
     polygonLine.geometry.dispose();
     const points = polygonPoints.map(p => new THREE.Vector3(p[0], p[1] + .035, p[2]));
@@ -926,7 +935,15 @@ export function createViewport(container, {
   }
   function handleContextMenu(event) {
     event.preventDefault();
-    if (presentation) return;
+    // Browsers may emit contextmenu on press; selection belongs to pointer release.
+  }
+  function finishContextPointer(event) {
+    if (!contextPointer || contextPointer.id !== event.pointerId || event.button !== 2) return;
+    const gesture = contextPointer;
+    contextPointer = null;
+    const rect = canvas.getBoundingClientRect();
+    if (presentation || pointer || transform.dragging || gesture.moved || Math.hypot(event.clientX - gesture.x, event.clientY - gesture.y) > 4 ||
+      event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) return;
     const hit = pick(event);
     onContextMenuCb(event, hit ? { entityId: hit.object.userData.entityId, point: hit.point.toArray() } : null);
   }
@@ -940,9 +957,13 @@ export function createViewport(container, {
   }
   canvas.addEventListener('pointerdown', (event) => {
     if (navigationEnabled) canvas.focus({ preventScroll: true });
+    if (event.button === 2 && navigationEnabled && !presentation && !pointer && !transform.dragging) {
+      contextPointer = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
+    }
     if (event.button === 0) syncGizmoPlane(event);
   }, { capture: true });
   canvas.addEventListener('pointermove', (event) => {
+    if (contextPointer?.id === event.pointerId) contextPointer.moved ||= Math.hypot(event.clientX - contextPointer.x, event.clientY - contextPointer.y) > 4;
     if (!pointer && !transform.dragging && transform.enabled && transform.object && !presentation) {
       const prevAxis = transform.axis;
       syncGizmoPlane(event);
@@ -952,13 +973,15 @@ export function createViewport(container, {
   canvas.addEventListener('pointerdown', onPointerDown);
   canvas.addEventListener('pointermove', onPointerMove);
   canvas.addEventListener('pointerup', onPointerUp);
+  canvas.addEventListener('pointerup', finishContextPointer, { capture: true });
   canvas.addEventListener('pointercancel', cancelGesture);
-  canvas.addEventListener('lostpointercapture', () => { if (pointer) cancelGesture(); });
+  canvas.addEventListener('lostpointercapture', () => { contextPointer = null; if (pointer) cancelGesture(); });
   canvas.addEventListener('contextmenu', handleContextMenu);
   window.addEventListener('keydown', onKeyDown);
   window.addEventListener('keyup', onKeyUp);
-  canvas.addEventListener('blur', resetNavigation);
-  window.addEventListener('blur', resetNavigation);
+  function onNavigationBlur() { resetNavigation(); contextPointer = null; }
+  canvas.addEventListener('blur', onNavigationBlur);
+  window.addEventListener('blur', onNavigationBlur);
   document.addEventListener('visibilitychange', onVisibilityChange);
 
   return {
@@ -1017,7 +1040,7 @@ export function createViewport(container, {
       observer.disconnect();
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
-      window.removeEventListener('blur', resetNavigation);
+      window.removeEventListener('blur', onNavigationBlur);
       document.removeEventListener('visibilitychange', onVisibilityChange);
       controls.dispose();
       transform.dispose();

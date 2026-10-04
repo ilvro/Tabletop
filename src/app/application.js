@@ -329,7 +329,7 @@ export async function startApplication() {
   function cameraPanel() {
     const current = viewport.getCamera();
     return `<section><span class="eyebrow">CÂMERA CINEMATOGRÁFICA</span>
-      <p class="microcopy">Clique na mesa e use WASD para viajar, Shift para acelerar e Page Up/Down para subir ou descer. Botão direito orbita; roda aproxima.</p>
+      <p class="microcopy">Clique na mesa e use WASD para viajar e Shift para acelerar. Na perspectiva, Espaço sobe e Ctrl desce; Ctrl+WASD navega com foco na mesa. Para Ctrl+S/D salvar/duplicar, dê foco a outro controle ou use os botões. Page Up/Down também alteram a altura. Arraste com o botão direito para orbitar; solte sem arrastar para selecionar. Roda aproxima.</p>
       ${numberField('camera-speed', 'Velocidade · m/s', cameraSpeed, { min: .2, max: 40, step: .2 })}
       ${numberField('camera-fov', 'Lente · campo de visão em graus', current.fov, { min: 20, max: 90, step: 1 })}
       <label class="field"><span>Troca de enquadramento</span><select data-field="camera-duration">${[[0,'Corte imediato'],[.6,'Rápida · 0,6 s'],[1.2,'Suave · 1,2 s'],[2.5,'Dramática · 2,5 s'],[4,'Contemplativa · 4 s']].map(([duration,label]) => `<option value="${duration}" ${cameraDuration === duration ? 'selected' : ''}>${label}</option>`).join('')}</select></label>

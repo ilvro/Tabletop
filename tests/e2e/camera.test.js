@@ -44,6 +44,48 @@ test('WASD, focus safety, lenses, interruptible shots and independent projector 
   assert.deepEqual(await snapshot(), original); assert.equal(await page.evaluate(() => window.__tabletop.editVersion()), version);
   assert.ok(await page.locator('[data-action="tool-move"]').evaluate(node => node.classList.contains('active')), 'W does not replace the transform tool');
 
+  // Mouse navigation must preserve a held W, including after release of the mouse.
+  const bounds = await canvas.boundingBox(), mouseX = bounds.x + bounds.width / 2, mouseY = bounds.y + bounds.height / 2;
+  await page.mouse.move(mouseX, mouseY); await canvas.focus(); await page.keyboard.down('w');
+  const travelForward = async before => page.waitForFunction(target => window.__tabletop.camera().target[2] < target[2] - .4, before.target);
+  await travelForward(await camera());
+  const beforeZoom = await camera(); await page.mouse.wheel(0, -180); await travelForward(beforeZoom);
+  assert.ok((await camera()).orthographicHeight < beforeZoom.orthographicHeight);
+  for (const button of ['middle', 'right']) {
+    const beforePress = await camera(); await page.mouse.down({ button }); await travelForward(beforePress);
+    await page.mouse.move(mouseX + 30, mouseY, { steps: 4 });
+    await travelForward(await camera());
+    await page.mouse.up({ button }); await travelForward(await camera());
+    assert.equal(await page.locator('#context-menu').isVisible(), false, 'camera drag does not select or open a menu');
+    await page.mouse.move(mouseX, mouseY);
+  }
+  await page.keyboard.up('w'); await settle();
+  assert.deepEqual(await snapshot(), original); assert.equal(await page.evaluate(() => window.__tabletop.editVersion()), version);
+
+  // Right selection is deferred until release; dragging away and back is still a drag.
+  await action('frame'); await settle(); await page.keyboard.press('q'); await page.locator('[data-tab="scene"]').click();
+  const floor = Object.values(original.layout.entities).find(entity => entity.kind === 'floor');
+  const floorEntry = page.locator(`[data-select="${floor.id}"]`);
+  const floorPoint = await page.evaluate(position => window.__tabletop.project(position), floor.transform.position);
+  await page.mouse.click(bounds.x + 30, mouseY); // Empty ground, away from the toolbar overlay.
+  assert.equal(await floorEntry.evaluate(node => node.classList.contains('selected')), false);
+  await page.mouse.move(floorPoint.x, floorPoint.y); await page.mouse.down({ button: 'right' });
+  // Cover platforms that fire the native contextmenu immediately on press.
+  await canvas.dispatchEvent('contextmenu', { button: 2, clientX: floorPoint.x, clientY: floorPoint.y });
+  assert.equal(await floorEntry.evaluate(node => node.classList.contains('selected')), false);
+  assert.equal(await page.locator('#context-menu').isVisible(), false);
+  await page.mouse.up({ button: 'right' });
+  assert.equal(await floorEntry.evaluate(node => node.classList.contains('selected')), true);
+  assert.equal(await page.locator('#context-menu').isVisible(), true);
+  await page.keyboard.press('Escape');
+  await page.mouse.click(bounds.x + 30, mouseY);
+  await page.mouse.move(floorPoint.x, floorPoint.y); await page.mouse.down({ button: 'right' });
+  await page.mouse.move(floorPoint.x + 40, floorPoint.y, { steps: 4 });
+  await page.mouse.move(floorPoint.x, floorPoint.y, { steps: 4 }); await page.mouse.up({ button: 'right' }); await settle();
+  assert.equal(await floorEntry.evaluate(node => node.classList.contains('selected')), false);
+  assert.equal(await page.locator('#context-menu').isVisible(), false);
+  await action('tool-move');
+
   // Typing, modifiers, and focus loss must never leave the camera drifting.
   await page.locator('#scene-name').focus(); const beforeTyping = await camera();
   await page.keyboard.type('wasd'); await page.keyboard.press('Tab');
@@ -61,6 +103,44 @@ test('WASD, focus safety, lenses, interruptible shots and independent projector 
   await move('PageUp'); assert.ok((await camera()).target[1] > afterBlur.target[1] + 1);
 
   await action('perspective'); await action('frame'); await settle();
+  const beforeHeight = await camera();
+  await move('Space'); const afterUp = await camera(); assert.ok(afterUp.target[1] > beforeHeight.target[1] + 1);
+  await move('ControlLeft'); const afterDown = await camera(); assert.ok(afterDown.target[1] < afterUp.target[1] - 1);
+  await move('ControlRight'); assert.ok((await camera()).target[1] < afterDown.target[1] - 1);
+  // Ctrl+WASD belongs to camera navigation while the perspective canvas has focus.
+  const beforeCtrlTravel = await snapshot(), ctrlVersion = await page.evaluate(() => window.__tabletop.editVersion());
+  await page.evaluate(() => {
+    window.__cameraKeyDefaults = [];
+    window.__recordCameraKey = event => { if (event.ctrlKey && ['KeyW', 'KeyA', 'KeyS', 'KeyD'].includes(event.code)) window.__cameraKeyDefaults.push({ code: event.code, prevented: event.defaultPrevented }); };
+    window.addEventListener('keydown', window.__recordCameraKey);
+  });
+  await page.keyboard.down('ControlLeft');
+  for (const key of ['a', 'd', 's', 'w']) {
+    const before = await camera(); await page.keyboard.down(key);
+    await page.waitForFunction(target => {
+      const next = window.__tabletop.camera().target;
+      return Math.hypot(next[0] - target[0], next[2] - target[2]) > .5 && next[1] < target[1] - .5;
+    }, before.target);
+    await page.keyboard.down(key); // Key repeat also stays in navigation.
+    await page.keyboard.up(key);
+  }
+  await page.keyboard.down('w'); await page.keyboard.up('ControlLeft');
+  const beforeResume = await camera();
+  await page.waitForFunction(target => Math.hypot(window.__tabletop.camera().target[0] - target[0], window.__tabletop.camera().target[2] - target[2]) > .5, beforeResume.target);
+  await page.keyboard.down('ControlRight'); await page.keyboard.down('Shift');
+  const beforeShift = await camera();
+  await page.waitForFunction(target => window.__tabletop.camera().target[1] < target[1] - 1, beforeShift.target);
+  await page.keyboard.up('Shift'); await page.keyboard.up('ControlRight'); await page.keyboard.up('w'); await settle();
+  assert.deepEqual(await snapshot(), beforeCtrlTravel, 'Ctrl+S/D navigation does not save or duplicate objects');
+  assert.equal(await page.evaluate(() => window.__tabletop.editVersion()), ctrlVersion);
+  assert.equal(await page.evaluate(() => String(window.getSelection())), '', 'Ctrl+A navigation does not select page text');
+  const defaults = await page.evaluate(() => { window.removeEventListener('keydown', window.__recordCameraKey); return window.__cameraKeyDefaults; });
+  assert.equal(defaults.length, 9); assert.ok(defaults.every(event => event.prevented), 'Ctrl+WASD cancels browser defaults');
+  // Text fields retain native Ctrl+A; editing shortcuts remain available off the canvas.
+  const beforeShortcut = await camera(); await page.locator('#scene-name').focus();
+  await page.keyboard.press('Control+a'); assert.equal(await page.locator('#scene-name').evaluate(node => node.selectionEnd - node.selectionStart), (await snapshot()).name.length);
+  await page.locator('[data-tab="scene"]').focus(); await page.keyboard.press('Control+s');
+  await page.waitForFunction(() => window.__tabletop.snapshot().revision > 0); await settle(); sameCamera(await camera(), beforeShortcut);
   await page.locator('[data-tab="scene"]').click(); await field('camera-fov', 30);
   assert.equal((await camera()).fov, 30);
   await action('camera-save'); const shotA = Object.values((await snapshot()).cameraPresets)[0];
@@ -110,7 +190,8 @@ test('WASD, focus safety, lenses, interruptible shots and independent projector 
   // Returning from presentation changes the viewport size; allow ResizeObserver and its render to finish.
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   await mkdir('test-results', { recursive: true }); await page.screenshot({ path: 'test-results/camera-controls.png' });
-  await action('save'); await page.waitForFunction(() => window.__tabletop.snapshot().revision > 0);
+  const revisionBeforeSave = (await snapshot()).revision;
+  await action('save'); await page.waitForFunction(revision => window.__tabletop.snapshot().revision > revision, revisionBeforeSave);
   const saved = await snapshot(); await page.reload(); await page.waitForFunction(() => !!window.__tabletop);
   assert.deepEqual((await snapshot()).cameraPresets, saved.cameraPresets); assert.deepEqual(errors, []);
 });

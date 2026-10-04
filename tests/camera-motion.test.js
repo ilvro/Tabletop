@@ -28,6 +28,22 @@ test('WASD remains usable directly overhead and after rotating top view', () => 
   close(turned[0], -1); close(turned[1], 0); close(turned[2], 0);
 });
 
+test('Space and either Ctrl change perspective height, combine with WASD, and stay inactive overhead', () => {
+  const camera = new THREE.PerspectiveCamera();
+  assert.deepEqual(navigationDirection(camera, new Set(['Space'])), [0, 1, 0]);
+  for (const control of ['ControlLeft', 'ControlRight']) {
+    assert.deepEqual(navigationDirection(camera, new Set([control])), [0, -1, 0]);
+  }
+  assert.deepEqual(navigationDirection(camera, new Set(['ControlLeft', 'ControlRight'])), [0, -1, 0]);
+  assert.deepEqual(navigationDirection(camera, new Set(['Space', 'ControlLeft'])), [0, 0, 0]);
+  assert.deepEqual(navigationDirection(camera, new Set(['Space', 'PageUp'])), [0, 1, 0]);
+  const diagonal = navigationDirection(camera, new Set(['KeyW', 'ControlLeft']));
+  close(Math.hypot(...diagonal), 1); assert.ok(diagonal[1] < 0 && diagonal[2] < 0);
+  for (const key of ['Space', 'ControlLeft', 'ControlRight']) {
+    assert.deepEqual(navigationDirection(new THREE.OrthographicCamera(), new Set([key])), [0, 0, 0]);
+  }
+});
+
 test('acceleration and stopping cover the same distance at 30 and 144 fps', () => {
   function simulate(fps) {
     let velocity = [0, 0, 0], distance = 0;

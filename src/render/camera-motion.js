@@ -16,7 +16,9 @@ export function navigationDirection(camera, keys) {
   const forward = new THREE.Vector3(0, 1, 0).cross(right);
   const direction = right.multiplyScalar(Number(keys.has('KeyD')) - Number(keys.has('KeyA')))
     .addScaledVector(forward, Number(keys.has('KeyW')) - Number(keys.has('KeyS')));
-  direction.y = Number(keys.has('PageUp')) - Number(keys.has('PageDown'));
+  const up = keys.has('PageUp') || (camera.isPerspectiveCamera === true && keys.has('Space'));
+  const down = keys.has('PageDown') || (camera.isPerspectiveCamera === true && (keys.has('ControlLeft') || keys.has('ControlRight')));
+  direction.y = Number(up) - Number(down);
   return direction.lengthSq() ? direction.normalize().toArray() : [0, 0, 0];
 }
 
