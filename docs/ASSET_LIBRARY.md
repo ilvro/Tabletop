@@ -1,20 +1,22 @@
 # Catálogo de assets e classificação
 
-Implementado em 3 de outubro de 2026. A aba **Assets** oferece **61 modelos 3D locais**, incluindo os seis objetos do kit inicial e **55 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop.
+Implementado em 3 de outubro de 2026. A aba **Assets** oferece **127 modelos 3D locais**, incluindo os seis objetos do kit inicial e **121 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas.
 
 ## Acervo
 
 | Família | Exemplos e usos |
 | --- | --- |
-| Mobiliário | Mesa rústica, banco, estante, cama de ferro, beliche, sofá, guarda-roupa, fogão a lenha, geladeira, pia e banheira. |
-| Tecnologia | Televisão de tubo, telefone de disco, rádio, computador, câmera de vigilância e servidores. |
-| Industrial | Gerador, tambor, bancada de oficina e armários de vestiário. |
-| Saúde | Maca, cadeira de rodas, microscópio, carrinho de instrumentos e suporte de soro. |
-| Religioso | Banco de igreja, confessionário, púlpito, sino, lápide e caixão. |
-| Paranormal | Altar, velas, círculo ritualístico original, obelisco, correntes, fragmentos anômalos e livro oculto. |
-| Exterior | Árvore, pinheiro, rochas, poço, palha, carroça, barraca e fogueira. |
-| Urbano | Poste, caçamba, barreira de concreto e cone. |
-| Investigação | Quadro de pistas, maleta de perícia, documentos e mala antiga. |
+| Mobiliário | Mesa rústica, banco, estante, cama de ferro, beliche, sofá, guarda-roupa, cozinha/banheiro, poltrona, cômoda, espelho, relógio de pêndulo, radiador, ventilador e piano. |
+| Tecnologia | Televisão de tubo, telefone, rádio, computador, vigilância, servidores, máquina de escrever, gravador de rolo, VHS, central de monitores, osciloscópio, notebook, projetor de slides e antena. |
+| Industrial | Gerador, tambor, bancada, armários, palete, paleteira, carrinho de ferramentas, válvula, quadro elétrico, reservatório, bomba de combustível e cavalete de extração. |
+| Saúde | Maca, cadeira de rodas, microscópio, carrinho e soro, centrífuga, frascos, tubos de ensaio, oxigênio, mesa de autópsia, gavetas de necrotério e luminária cirúrgica. |
+| Religioso | Banco de igreja, confessionário, púlpito, sino, lápide, caixão e mausoléu. |
+| Paranormal | Altar, velas, círculo original, obelisco, correntes, cristais e livro, cápsula de contenção, máscara, relicário, sarcófago, crânio, efígie e arco anômalo. |
+| Exterior | Árvores, rochas, poço, palha, carroça, barraca, fogueira, árvore seca, toco, arbustos, grade de cemitério, coluna quebrada e mureta desmoronada. |
+| Urbano | Poste, caçamba, barreira de concreto, cone e grade de drenagem. |
+| Investigação | Quadro de pistas, maleta de perícia, documentos, mala antiga, cofre e estojo tático. |
+| Comercial | Balcão de recepção, caixa registradora, vitrine, máquina de bebidas, gôndola, banco de lanchonete, banqueta, sinuca e carteira escolar. |
+| Veículos | Carro de passeio, furgão de carga, ambulância, viatura de investigação, motocicleta e barco a remo. |
 
 As épocas incluem **Antiguidade**, **Colonial / século XIX**, **Início do século XX**, **Décadas de 1970–1990**, **Contemporânea** e **Atemporal**. São classificações de uso cenográfico. Os cenários incluem hospital, laboratório, delegacia, bunker, fazenda, floresta, igreja, ruínas e outros.
 
@@ -42,12 +44,12 @@ A projeção dos jogadores recebe os dados necessários à renderização dos as
 
 ## Modelos e limites
 
-Os modelos são receitas estáticas de primitivas, com materiais próprios e prévias SVG geradas da mesma geometria. Execute `node scripts/generate-library.js` na raiz para regenerar os 55 modelos novos, suas prévias e o catálogo. Os IDs do kit inicial permanecem iguais; footprints antigos foram corrigidos para abranger a geometria.
+Os modelos são receitas estáticas de primitivas, com materiais próprios e prévias SVG geradas da mesma geometria. Execute `node scripts/generate-library.js` na raiz para regenerar os 121 modelos novos, suas prévias e o catálogo. Os IDs do kit inicial permanecem iguais; footprints antigos foram corrigidos para abranger a geometria.
 
-Mesa rústica, banco, cama, pia, bancada, maca, carrinho e altar têm altura de apoio anotada. Props de parede/teto usam a fixação manual do inspetor. Dispositivos são cenográficos; velas, cristais, fogueira e poste têm emissive estático. Adicione luz real separadamente.
+Mesas, bancos, cama, pia, bancada, maca, carrinhos, altar e outros móveis têm altura de apoio anotada. A segunda ampliação inclui apoios na mesa de centro, criado-mudo, cômoda, balcão, vitrine, carteira escolar, mesa de autópsia, palete e toco. Veículos, dispositivos, móveis fechados e túmulos são estáticos e cenográficos; portas e mecanismos não possuem interação automática. Props de parede/teto usam a fixação manual do inspetor. Velas, cristais, fogueira e poste têm emissive estático. Adicione luz real separadamente.
 
 Esta entrega inclui catálogo, categorias hierárquicas, busca, tags editáveis, épocas/cenários e favoritos. Continuam pendentes coleções formais além de tags/favoritos, variantes de textura por asset, sockets específicos com fixação automática, receitas/prefabs adicionais e importação glTF com dependências externas. Imagens e GLB estático autocontido continuam importáveis.
 
 ## Verificação
 
-`npm test` valida modelos/prévias, bounds/footprints/apoios, filtros, metadados, persistência, concorrência e conservação das referências de cenas. `tests/e2e/asset-library.test.js` percorre filtros, edição de tags, favoritos, colocação, importação e reinício do navegador/servidor; captura em `test-results/asset-library.png`. O teste do editor existente cobre o kit original, apresentação e save/reload. Chromium com WebGL por software não é um benchmark no projetor.
+`npm test` valida modelos/prévias, bounds/footprints/apoios, filtros, metadados, persistência, concorrência e conservação das referências de cenas. `tests/e2e/asset-library.test.js` percorre filtros, edição de tags, favoritos, paginação completa, filtros de veículos, colocação de moto e maca, importação e reinício do navegador/servidor; captura em `test-results/asset-library.png`. O teste do editor existente cobre o kit original, apresentação e save/reload. Chromium com WebGL por software não é um benchmark no projetor.

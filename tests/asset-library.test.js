@@ -9,7 +9,7 @@ const publicRoot = new URL('../public/', import.meta.url);
 const { assets } = JSON.parse(await readFile(new URL('assets/catalog.json', publicRoot), 'utf8'));
 
 test('expanded catalog resolves every local model and preview with metric bounds and valid support heights', async () => {
-  assert.ok(assets.length >= 60);
+  assert.ok(assets.length >= 127);
   assert.equal(new Set(assets.map(asset => asset.id)).size, assets.length);
   const facets = catalogFacets(assets);
   assert.ok(facets.eras.length >= 6); assert.ok(facets.contexts.length >= 20);

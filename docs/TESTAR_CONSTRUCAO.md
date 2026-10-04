@@ -32,12 +32,22 @@ O formato é a área afetada pelo pincel. A dureza controla a transição da for
 
 Até oito camadas de cor são compostas em ordem; as últimas cobrem as primeiras. São camadas de pintura sobre a mesma malha, independentes das camadas de organização da cena. Apagar uma camada não remove alturas nem a pintura das outras. As cores são interpoladas entre vértices; a resolução da malha limita a largura e precisão dos rastros. Essas camadas aplicam cores, sem texturas de neve/grama ou vegetação automática.
 
-## 2. Fixar objetos numa parede ou teto
+## 2. Ancorar objetos juntos: mesa + lamparina
 
-**Ancorar** cria um vínculo: mover ou girar a parede/teto depois também move os objetos fixados. **Alinhar** ajusta suas posições; não cria esse vínculo.
+1. Coloque uma mesa e uma lamparina na cena. Selecione os dois com **Shift+clique**, na cena ou na lista da aba **Cena**.
+2. Clique com o botão direito em um dos selecionados e escolha **Ancorar objetos juntos**. A mesma ação aparece no inspetor da seleção múltipla.
+3. Uma pasta **ancorada** surge na aba **Cena**. Os objetos mantêm suas posições. Clicar em qualquer membro seleciona a composição inteira.
+4. Use **W** para mover, **R** para girar ou **S** para alterar seu tamanho uniforme. Os campos do inspetor também afetam todos os objetos juntos. Duplicar e copiar/colar conservam o conjunto como uma unidade independente.
+5. Na pasta, clique em **Desancorar objetos** (também disponível no menu de contexto e no inspetor). Os objetos mantêm as posições e ficam selecionáveis individualmente; a pasta continua para organização. **Ctrl+Z** restaura a ancoragem.
+
+A composição preserva os objetos e seus vínculos originais, incluindo apoios. A união, as transformações e a desancoragem podem ser desfeitas; a composição também é preservada ao salvar e reabrir. Objetos bloqueados não podem ser unidos ou transformados pela composição.
+
+## Fixação adicional numa parede ou teto
+
+**Fixar em parede / teto** vincula objetos à face de uma parede ou piso superior. Esse comando tem seu próprio fluxo de prévia. **Ancorar objetos juntos** cria a composição descrita acima.
 
 1. Coloque dois objetos da biblioteca ou luzes locais. Selecione-os com **Shift+clique** na cena ou na lista da aba **Cena**.
-2. Opcionalmente inclua a parede na seleção. Clique com o botão direito sobre um dos selecionados e escolha **Fixar / ancorar…**. A seleção múltipla é conservada.
+2. Opcionalmente inclua a parede na seleção. Clique com o botão direito sobre um dos selecionados e escolha **Fixar em parede / teto…**. A seleção múltipla é conservada.
 3. No inspetor, escolha **Fixar em**. Se você incluiu uma parede ou piso na seleção, ele já aparece como referência. Para teto, escolha o **piso do andar de cima**; a fixação usa sua face inferior.
 4. Clique em **Ver prévia da fixação**. Objetos serão colocados junto à face da parede mais próxima, ou abaixo do piso escolhido. Eles acompanham também a rotação do suporte. Revise e escolha **Aceitar proposta** ou **Cancelar**.
 5. Selecione a parede/piso e mude X em 1 m. Os objetos fixados devem acompanhá-lo. **Ctrl+Z** desfaz o movimento; outro desfazer desfaz a fixação em grupo.

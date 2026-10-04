@@ -323,3 +323,5 @@ LAN acrescentará servidor de sessão autoritativo, pareamento, papéis, projeç
 | Arquitetura exceder o slice | Contrato implementado mínimo e extensões versionadas; não criar toda a biblioteca procedural antecipadamente. |
 
 Ainda validar: navegador principal e WebGL 2; hardware específico; resolução e contraste do projetor; primeiros assets/estilo visual; complexidade de cenas frequentes; necessidade real de interação de celular e quem pode mover qual token. Esses pontos não impedem a consolidação da Fase 2 e não autorizam iniciar implementação nesta entrega.
+
+Composições de objetos usam `layout.groups[id].anchored` e `transform` opcionais. Membros e subpastas mantêm `groupId`/`parentId`; o domínio aplica deltas às coordenadas mundiais em comandos `group.bind`, `group.transform`, `group.unbind`, `group.duplicate`/`group.paste` e `group.delete`. O renderer resolve um membro para a composição externa e usa um nó Three.js para manipulação conjunta. A projeção pública materializa os membros e remove as pastas como antes.

@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
+import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { snapPosition, yawFromQuaternion } from '../domain/coords.js';
-import { isLocked, isVisible, isSupport, isAccess, supportHeightAt, constrainOpening } from '../domain/geometry.js';
+import { groupChain, isLocked, isVisible, isSupport, isAccess, supportHeightAt, constrainOpening } from '../domain/geometry.js';
 import { createAssetCache, disposeObject, standardMaterial } from './asset-cache.js';
 import { applyTransform, readTransform, tagEntity, createFloor, createTerrain, createAccess, createWall, createDoor, createWindow, createToken, applyMaterialOverrides } from './scene-objects.js';
 import { sculptTerrain, paintTerrain, terrainBrushOutline } from '../authoring/terrain.js';
@@ -310,7 +311,7 @@ export function createViewport(container, {
       if (!(isLight && (tool === 'scale' || (tool === 'rotate' && record.type === 'point')))) {
         transform.setMode({ move: 'translate', rotate: 'rotate', scale: 'scale' }[tool]);
         transform.setSpace(tool === 'scale' ? 'local' : 'world');
-        transform.showX = tool !== 'rotate' || !(record.kind === 'wall' || record.kind === 'floor' || record.kind === 'terrain' || isAccess(record) || sceneDocument?.tokens?.[record.id]);
+        transform.showX = tool !== 'rotate' || !(record.kind === 'assembly' || record.kind === 'wall' || record.kind === 'floor' || record.kind === 'terrain' || isAccess(record) || sceneDocument?.tokens?.[record.id]);
         transform.showY = !(tool === 'scale' && record.kind === 'floor');
         transform.showZ = transform.showX;
         transform.setTranslationSnap(null); // Footprint/origin snapping belongs to the domain.
@@ -332,6 +333,11 @@ export function createViewport(container, {
   transform.addEventListener('dragging-changed', (event) => { controls.enabled = !event.value; if (event.value) gizmoCancelled = false; invalidate(); });
   transform.addEventListener('objectChange', () => {
     if (transform.object) {
+      if (tool === 'scale' && entityRecord(selectedId)?.kind==='assembly') {
+        const original=entityRecord(selectedId).transform.scale[0], values=transform.object.scale.toArray();
+        const changed=values.reduce((best,value) => Math.abs(value-original)>Math.abs(best-original) ? value : best,original);
+        transform.object.scale.setScalar(Math.max(.01,changed));
+      }
       if (tool === 'scale') {
         transform.object.scale.x = Math.max(0.01, transform.object.scale.x);
         transform.object.scale.y = Math.max(0.01, transform.object.scale.y);
@@ -523,6 +529,14 @@ export function createViewport(container, {
       records.set(record.id, record);
       object.visible = visibleRecord(record);
     }
+    const assemblies=values(next.layout.groups).filter(group => group.anchored);
+    const depth=group => { let count=0,parent=group.parentId; while(parent) { count++; parent=next.layout.groups[parent]?.parentId; } return count; };
+    for(const group of assemblies.sort((a,b) => depth(b)-depth(a))) {
+      const proxy=new THREE.Group(); applyTransform(proxy,group.transform); content.add(proxy); proxy.updateMatrixWorld(true);
+      for(const record of [...values(next.layout.entities),...values(next.tokens),...values(look.lights)]) if(groupChain(next,record.groupId).find(parent => parent.anchored)?.id===group.id && objects.has(record.id)) proxy.attach(objects.get(record.id));
+      for(const child of assemblies) if(groupChain(next,child.parentId).find(parent => parent.anchored)?.id===group.id && objects.has(child.id)) proxy.attach(objects.get(child.id));
+      objects.set(group.id,proxy); records.set(group.id,{ ...group,kind:'assembly',groupId:group.parentId,locked:group.locked || assemblyMembers(next,group.id).some(record => isLocked(next,record)) }); proxy.visible=group.visible!==false && visibleRecord(records.get(group.id));
+    }
     cache.prune(usedAssets);
     content.updateMatrixWorld(true);
     updateShadowBounds();
@@ -586,6 +600,7 @@ export function createViewport(container, {
   }
   function visibleInHierarchy(object) { for (let current = object; current; current = current.parent) if (!current.visible) return false; return true; }
   function visibleRecord(record, ignoreIsolation = false) {
+    if(record.kind==='assembly') return record.visible!==false && isVisible(sceneDocument,record) && assemblyMembers(sceneDocument,record.id).some(member => visibleRecord(member,ignoreIsolation));
     if (!isVisible(sceneDocument, record)) return false;
     if (!ignoreIsolation && !presentation && isolatedLevel && record.levelId && record.levelId !== isolatedLevel && record.fromLevelId !== isolatedLevel && record.toLevelId !== isolatedLevel) return false;
     const host = record.wallId ?? record.anchor?.hostId ?? record.surfaceId;
@@ -666,7 +681,8 @@ export function createViewport(container, {
       canvas.setPointerCapture(event.pointerId);
     } else if (tool === 'move' && !event.shiftKey) {
       const hit = pick(event);
-      const id = hit?.object.userData.entityId;
+      const hitId=hit?.object.userData.entityId;
+      const id=assemblyFor(sceneDocument,hitId)?.id ?? hitId;
       const record = entityRecord(id);
       if (record?.kind === 'window' && selectedIds.length <= 1 && !isLocked(sceneDocument, record)) {
         if (selectedId !== id) { onSelect(id); pointer ??= { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false }; }

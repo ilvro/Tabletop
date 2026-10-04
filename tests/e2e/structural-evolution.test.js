@@ -79,7 +79,7 @@ test('structural authoring: sculpt/cancel, holes, shared walls, levels, anchors,
   await select(lamp.id); await select(pointLight.id, true); await select(wall.id, true);
   await tab('scene'); await page.locator(`[data-select="${wall.id}"]`).click({ button: 'right' });
   assert.equal(await page.locator('.tree-entry.selected').count(), 3);
-  await page.getByRole('button', { name: 'Fixar / ancorar…', exact: true }).click();
+  await page.getByRole('button', { name: 'Fixar em parede / teto…', exact: true }).click();
   assert.equal(await page.locator('[data-field="anchor-host"]').inputValue(), wall.id);
   const beforeAnchoring = await snapshot(); await action('anchor-preview'); await action('cancel-proposal'); assert.deepEqual(await snapshot(), beforeAnchoring);
   await action('anchor-preview'); await action('accept-proposal');

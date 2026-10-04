@@ -6,7 +6,9 @@
 
 ---
 
-**Biblioteca expandida:** 61 assets originais locais (55 novos), para investigação/horror paranormal em diferentes épocas e cenários. Categorias hierárquicas, busca sem acentos, filtros combinados por época/cenário/tags, favoritos e classificação editável de assets internos/importados, salva no servidor sem alterar referências de cenas. Uso e limites em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
+**Biblioteca expandida:** 127 assets originais locais (121 além do kit inicial, incluindo 66 na segunda ampliação), para investigação/horror paranormal em diferentes épocas e cenários. Categorias hierárquicas, busca sem acentos, filtros combinados por época/cenário/tags, favoritos e classificação editável de assets internos/importados, salva no servidor sem alterar referências de cenas. Uso e limites em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
+
+**Composições ancoradas:** Shift+seleção → botão direito → Ancorar objetos juntos cria uma pasta que se seleciona, move, gira, redimensiona, duplica e copia/cola como uma unidade. Desancorar pela pasta conserva as poses e volta à seleção individual. Fixar em parede/teto permanece como comando separado. [TESTAR_CONSTRUCAO.md](TESTAR_CONSTRUCAO.md) inclui o exemplo mesa + lamparina.
 
 **Usabilidade da construção:** controles agrupados por tarefa, blocos recolhíveis em ordem alfabética, pincéis no topo do inspetor, ajustes com opções e instruções por operação e fixação em grupo pelo menu de contexto, preservando Shift+seleção. [TESTAR_CONSTRUCAO.md](TESTAR_CONSTRUCAO.md) traz passos e resultados esperados para cada teste.
 
@@ -73,7 +75,7 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
 ### 2.5. Experiência do Mestre e UI (`src/app/application.js`)
 - **Painéis de Controle:**
   - Aba **Construir:** Dimensões rápidas de sala, adição manual de pisos, paredes, portas, janelas, plataformas, escadas/rampas, tokens e luzes, além de Smart Build.
-  - Aba **Assets:** Catálogo com 61 modelos originais locais, prévias e paginação; categorias hierárquicas, épocas, cenários, busca, filtros por múltiplas tags, favoritos e classificação editável persistente. Importação de imagens/GLB estático preservada. Ver [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
+  - Aba **Assets:** Catálogo com 127 modelos originais locais, prévias e paginação; categorias hierárquicas, épocas, cenários, busca, filtros por múltiplas tags, favoritos e classificação editável persistente. Importação de imagens/GLB estático preservada. Ver [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
   - Aba **Cena:** Seleção de ambientes luminosos (acolhedor, luar, neutro), salvamento de enquadramentos de câmera, lançamento da segunda janela para projetor, e **gerenciamento hierárquico da árvore de cena** com suporte a pastas/grupos (+ Nova Pasta, renomear, excluir), organização via arrastar e soltar (*drag & drop*) e renomeação direta de objetos.
 - **Menu de Contexto Rápido:**
   - Clique com botão direito (ou menu de opções na árvore) sobre qualquer objeto no 3D ou na árvore abre menu com **Renomear**, **Duplicar** e **Deletar**.
@@ -112,8 +114,8 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Modal de recuperação no carregamento caso o navegador feche inesperadamente ou falhe a gravação no disco.
 
 ### 2.8. Testes Automatizados e Qualidade
-- **85 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição; catálogo acrescenta resolução dos 61 modelos/prévias, filtros combinados, metadados validados, concorrência, persistência e referências preservadas.
-- **Seis testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxos da Fase 3 e da evolução estrutural pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor; biblioteca acrescenta filtros, tags personalizadas, favoritos, novos props e classificação de importados após reinício. Chromium headless com WebGL por software; não representa benchmark no notebook/projetor.
+- **92 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição; catálogo acrescenta resolução dos 127 modelos/prévias, filtros combinados, metadados validados, concorrência, persistência e referências preservadas.
+- **Sete testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxos da Fase 3 e da evolução estrutural pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor; biblioteca acrescenta filtros, tags personalizadas, favoritos, novos props e classificação de importados após reinício. Execução sequencial com Chromium headless e WebGL por software; inclui composição mesa + lamparina, transformações conjuntas e desancoragem pela pasta. Não representa benchmark no notebook/projetor.
 
 ---
 
@@ -201,7 +203,7 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 | **Grid e Snap Métrico** | `MAP_AUTHORING.md` §6 | **Concluído** | `src/domain/coords.js` |
 | **Edição Manual (Mover, Rotacionar, Escalar)** | `MAP_AUTHORING.md` §5 | **Concluído** (Atalhos: W, R, S) | `src/render/renderer.js`, `src/app/application.js` |
 | **Tokens e Retratos** | `ARCHITECTURE.md` §6.5 | **Concluído** | `src/domain/documents.js`, `src/render/scene-objects.js` |
-| **Catálogo de Móveis Básico** | `ROADMAP.md` §3.1 | **Concluído e ampliado** (61 itens locais) | `public/assets/`, `src/app/application.js` |
+| **Catálogo de Móveis Básico** | `ROADMAP.md` §3.1 | **Concluído e ampliado** (127 itens locais) | `public/assets/`, `src/app/application.js` |
 | **Ingestão de Imagens e GLB** | `ARCHITECTURE.md` §8 | **Concluído** (GLB estático) | `src/render/asset-cache.js`, `server/app.js` |
 | **Quick Build (Sala com Porta/Luz)** | `MAP_AUTHORING.md` §3 | **Concluído** | `src/authoring/quick-build.js` |
 | **Luzes e Presets de Ambiente** | `IMMERSION.md` §4, §7 | **Concluído** (3 presets) | `src/domain/environments.js`, `src/render/renderer.js` |
@@ -236,5 +238,5 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 Para manter a ordem de implementação técnica eficiente e alinhada ao cronograma:
 
 1. **Validar a autoria estrutural no uso presencial:** experimentar relevo, vãos de escada e construção por andares no notebook/projetor; os controles e testes já estão entregues.
-2. **Autoria assistida:** Avaliar as três receitas e os 61 assets no projetor; depois ampliar receitas, sockets específicos por asset e prefabs reutilizáveis. Regeneração e polish já têm a fundação funcional.
+2. **Autoria assistida:** Avaliar as três receitas e os 127 assets no projetor; depois ampliar receitas, sockets específicos por asset e prefabs reutilizáveis. Regeneração e polish já têm a fundação funcional.
 3. **Pacote de Transporte (Opcional):** Se desejado, implementar compactação/descompactação em `.zip` de cena + assets para envio facilitado entre computadores.

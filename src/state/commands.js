@@ -1,8 +1,9 @@
 import { clone, id, createLevel, createLayer } from '../domain/documents.js';
+import { assemblyMembers, assemblyClosure, assemblyFor, objectById, objectTransform, transformMatrix, transformByMatrix } from '../domain/assemblies.js';
 import { yawFromQuaternion, rotateXZ, snapPosition } from '../domain/coords.js';
 import { applyEnvironment } from '../domain/environments.js';
 import { ValidationError, validateDocument } from '../domain/validation.js';
-import { groupChain, isAccess, supportHeightAt, worldPoint } from '../domain/geometry.js';
+import { groupChain, isAccess, supportHeightAt, worldPoint, localPoint } from '../domain/geometry.js';
 
 const collectionItems = value => Array.isArray(value) ? value : Object.values(value ?? {});
 const requireRecord = (collection, itemId, label) => {
@@ -178,6 +179,34 @@ function duplicateEntity(document, payload) {
     put(document.layout.compositions, copy);
   }
 }
+function duplicateAssembly(target, source, payload) {
+  const root=requireRecord(source.layout.groups,payload.id,'Composição');
+  if (!root.anchored) throw new ValidationError('Selecione uma composição ancorada.');
+  const offset=payload.offset ?? [target.layout.grid.cellSize,0,target.layout.grid.cellSize];
+  const members=assemblyClosure(source,assemblyMembers(source,root.id).map(record => record.id));
+  for (const record of members) editable(record,undefined,source);
+  const groups=Object.values(source.layout.groups).filter(group => group.id===root.id || groupChain(source,group.parentId).some(parent => parent.id===root.id));
+  for(const group of groups) editable(group,undefined,source);
+  const remap=new Map([...groups,...members].map(record => [record.id,id()])), ref=key => remap.get(key) ?? key;
+  const ownedEntity=key => remap.has(key) ? ref(key) : target.layout.entities[key] ? key : null;
+  const ownedGroup=key => remap.has(key) ? ref(key) : target.layout.groups[key] ? key : null;
+  const sourceLook=source.look ?? source.defaultLook, targetLook=target.look ?? target.defaultLook;
+  for(const group of groups) { const copy=clone(group); copy.id=ref(group.id); copy.parentId=ownedGroup(group.parentId); copy.name+=' — cópia'; if(copy.transform) offsetPosition(copy.transform,offset); put(target.layout.groups,copy); }
+  for(const record of members) {
+    const copy=clone(record); copy.id=ref(record.id); copy.groupId=remap.has(record.groupId) ? ref(record.groupId) : ref(root.id); copy.surfaceId=ownedEntity(record.surfaceId); if(copy.name) copy.name+=' — cópia';
+    for(const field of ['levelId','fromLevelId','toLevelId']) if(copy[field] && !target.layout.levels?.[copy[field]]) copy[field]=null;
+    if(copy.layerId && !target.layout.layers?.[copy.layerId]) copy.layerId=null;
+    if(copy.anchor) { copy.anchor.hostId=ownedEntity(copy.anchor.hostId); if(!copy.anchor.hostId) copy.anchor=null; }
+    if(copy.wallId) copy.wallId=ownedEntity(copy.wallId); if(copy.floorIds) copy.floorIds=copy.floorIds.map(ownedEntity).filter(Boolean);
+    if(copy.transform) offsetPosition(copy.transform,offset); else if(copy.position) copy.position=copy.position.map((value,i) => value+offset[i]);
+    if(source.layout.entities[record.id]) { put(target.layout.entities,copy); if(sourceLook.materialAdjustments[record.id]) targetLook.materialAdjustments[copy.id]=clone(sourceLook.materialAdjustments[record.id]); if(target.sessionState && source.sessionState?.doors[record.id] !== undefined) target.sessionState.doors[copy.id]=source.sessionState.doors[record.id]; }
+    else if(source.tokens?.[record.id]) {
+      if(!target.actors[copy.actorId]) { const actor=clone(source.actors[copy.actorId]); actor.id=id(); put(target.actors,actor); copy.actorId=actor.id; }
+      put(target.tokens,copy);
+    } else { delete copy.role; put(targetLook.lights,copy); }
+  }
+}
+
 function carrySupports(document, previous, next) {
   const deltaYaw = yawFromQuaternion(next.transform.rotation) - yawFromQuaternion(previous.transform.rotation);
   const before = previous.transform.position, after = [...next.transform.position];
@@ -397,6 +426,70 @@ export function applyCommand(document, command) {
       light.position = light.position.map((v, i) => v + (payload.offset ?? [1, 0, 1])[i]); put(look.lights, light); break;
     }
     case 'grid.update': next.layout.grid = merge(next.layout.grid, payload.patch ?? payload); break;
+    case 'group.bind': {
+      if (!Array.isArray(payload.ids) || payload.ids.length < 2 || payload.ids.length > 256 || new Set(payload.ids).size !== payload.ids.length) throw new ValidationError('Selecione pelo menos dois objetos para ancorar juntos.');
+      for (const key of payload.ids) if (!objectById(next,key) && !next.layout.groups[key]?.anchored) throw new ValidationError('Objeto selecionado não encontrado.');
+      const units = new Set(payload.ids.map(key => assemblyFor(next,key)?.id ?? key));
+      if (units.size < 2) throw new ValidationError('Os objetos já pertencem à mesma composição.');
+      const members = assemblyClosure(next,[...units]), memberIds = new Set(members.map(record => record.id));
+      for (const record of members) {
+        editable(record,undefined,next);
+        if (record.anchor && !memberIds.has(record.anchor.hostId) || record.wallId && !memberIds.has(record.wallId)) throw new ValidationError('Inclua a parede/teto de fixação na seleção ou solte essa fixação antes de ancorar os objetos juntos.');
+      }
+      const positions = members.map(record => objectTransform(next,record).position);
+      const position = [0,1,2].map(axis => positions.reduce((sum,p) => sum+p[axis],0)/positions.length);
+      const group = { id:payload.id ?? id(),name:payload.name ?? 'Composição ancorada',parentId:null,locked:false,audience:'all',visible:true,anchored:true,transform:{ position,rotation:[0,0,0,1],scale:[1,1,1] } };
+      put(next.layout.groups,group);
+      const nested = new Set([...units].filter(key => next.layout.groups[key]?.anchored));
+      for (const key of nested) { const child = next.layout.groups[key]; editable(child,undefined,next); child.parentId=group.id; }
+      for (const record of members) if (!groupChain(next,record.groupId).some(parent => nested.has(parent.id))) record.groupId=group.id;
+      break;
+    }
+    case 'group.unbind': {
+      const group = requireRecord(next.layout.groups,payload.id,'Composição'); editable(group,undefined,next);
+      group.anchored=false; delete group.transform; break;
+    }
+    case 'group.transform': {
+      const group = requireRecord(next.layout.groups,payload.id,'Composição'); editable(group,undefined,next);
+      if (!group.anchored || !payload.transform) throw new ValidationError('Selecione uma composição ancorada.');
+      const after=clone(payload.transform); after.position=snapPosition(after.position,snappingGrid(next.layout.grid,payload.snap));
+      if (!after.scale.every(value => Math.abs(value-after.scale[0])<1e-8)) throw new ValidationError('A composição usa escala uniforme.');
+      const delta=transformMatrix(after).multiply(transformMatrix(group.transform).invert()), ratio=after.scale[0]/group.transform.scale[0];
+      const members=assemblyClosure(next,assemblyMembers(next,group.id).map(record => record.id)), memberIds=new Set(members.map(record => record.id));
+      for (const record of members) {
+        editable(record,undefined,next);
+        if (record.anchor && !memberIds.has(record.anchor.hostId) || record.wallId && !memberIds.has(record.wallId)) throw new ValidationError('A composição tem uma fixação externa. Solte a fixação ou inclua seu suporte antes de mover.');
+        if (isAccess(record) && record.fromLevelId && record.toLevelId) throw new ValidationError('Desassocie os andares deste acesso antes de mover a composição.');
+      }
+      for (const record of members) {
+        if (record.transform) { record.transform=transformByMatrix(record.transform,delta); bakeStructuralScale(record); }
+        else if (record.position) { const transformed=transformByMatrix(objectTransform(next,record),delta); record.position=transformed.position; record.rotation=transformed.rotation; }
+        else { for (const field of ['offset','width','height','sill']) if (record[field] !== undefined) record[field]*=ratio; }
+      }
+      for (const record of members) if (record.anchor) {
+        const host=next.layout.entities[record.anchor.hostId];
+        record.anchor.offset=localPoint(host,record.transform?.position ?? record.position);
+        if (record.anchor.socket==='ceiling') record.anchor.offset[1]+=host.thickness;
+      }
+      for (const child of Object.values(next.layout.groups)) if (child.id!==group.id && child.anchored && groupChain(next,child.parentId).some(parent => parent.id===group.id)) { editable(child,undefined,next); child.transform=transformByMatrix(child.transform,delta); }
+      for (const area of Object.values(next.layout.areas)) if (memberIds.has(area.surfaceId)) { area.transform=transformByMatrix(area.transform,delta); area.width*=ratio; area.length*=ratio; area.transform.scale=[1,1,1]; }
+      group.transform=after; break;
+    }
+    case 'group.duplicate': duplicateAssembly(next,next,payload); break;
+    case 'group.paste': duplicateAssembly(next,validateDocument(clone(payload.document)),payload); break;
+    case 'group.delete': {
+      const group=requireRecord(next.layout.groups,payload.id,'Composição'); editable(group,undefined,next);
+      const members=assemblyClosure(next,assemblyMembers(next,group.id).map(record => record.id));
+      for(const record of members) editable(record,undefined,next);
+      for(const record of members) {
+        if(next.layout.entities[record.id]) removeEntity(next,record.id);
+        else if(next.tokens?.[record.id]) removeToken(next,record.id);
+        else delete look.lights[record.id];
+      }
+      const groupIds=Object.values(next.layout.groups).filter(child => child.id===group.id || groupChain(next,child.parentId).some(parent => parent.id===group.id)).map(child => child.id);
+      for(const key of groupIds) delete next.layout.groups[key];
+      break;
+    }
     case 'group.add': {
       const group = clone(payload.group ?? {});
       if (!group.id) group.id = id();
@@ -408,6 +501,7 @@ export function applyCommand(document, command) {
       break;
     }
     case 'group.update': {
+      if(payload.patch && ['transform','anchored'].some(key => Object.hasOwn(payload.patch,key))) throw new ValidationError('Use ancorar, desancorar ou transformar composição para modificar esse vínculo.');
       const before = requireRecord(next.layout.groups, payload.id, 'Grupo');
       if (!payload.patch || Object.keys(payload.patch).some(key => key !== 'visible')) editable(before, payload.patch, next);
       next.layout.groups[payload.id] = merge(before, payload.patch);

@@ -2,6 +2,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import * as THREE from 'three';
 import { recipeInstance, disposeObject } from '../src/render/asset-cache.js';
+import { addLibraryExpansion } from './library-expansion.js';
 
 const materials = {
   wood: { color: '#79553e', roughness: .84 }, dark: { color: '#292b30', roughness: .8 },
@@ -92,6 +93,8 @@ add('evidence-board', 'Quadro de investigação', 'Investigação / Pistas', mod
 add('evidence-case', 'Maleta de perícia', 'Investigação / Equipamentos', modern, ['Delegacia', 'Laboratório', 'Rua'], ['maleta', 'perícia', 'investigação', 'amostras'], [b([.52, .18, .35], [0, .09, 0], 'dark'), b([.52, .035, .35], [0, .198, 0], 'metal'), b([.16, .04, .04], [0, .12, .2], 'black'), ...[-.15, .15].map(x => b([.03, .08, .02], [x, .15, .184], 'metal'))], 'Maleta rígida fechada para equipes de investigação.');
 add('documents', 'Pilhas de documentos', 'Investigação / Pistas', timeless, ['Arquivo', 'Escritório', 'Biblioteca'], ['documentos', 'pista', 'papel', 'conhecimento'], [b([.22, .06, .3], [-.1, .03, 0], 'paper'), b([.22, .04, .3], [.12, .02, .08], 'white', [0, .18, 0]), b([.23, .01, .31], [-.1, .065, 0], 'red')], 'Pastas e folhas empilhadas para mesas e arquivos.');
 add('suitcase', 'Mala de viagem antiga', 'Investigação / Equipamentos', historic, ['Hotel', 'Casa', 'Estação'], ['mala', 'viagem', 'bagagem', 'pista'], [b([.65, .4, .22], [0, .2, 0]), ...[-.2, .2].map(x => b([.025, .42, .235], [x, .21, 0], 'dark')), b([.22, .03, .07], [0, .45, 0], 'metal'), ...[-.095, .095].map(x => b([.03, .06, .07], [x, .42, 0], 'metal'))], 'Mala rígida com cintas e alça.');
+
+addLibraryExpansion({ add, b, c, s, legs, table, wheels, shelf, ring, modern, retro, historic, colonial, ancient, timeless });
 
 function preview(object) {
   object.updateMatrixWorld(true);

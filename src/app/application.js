@@ -5,6 +5,7 @@ import { ENVIRONMENTS } from '../domain/environments.js';
 import { createSceneStore } from '../state/scene-store.js';
 import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
+import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { resampleTerrain } from '../authoring/terrain.js';
 import { proposeAnchoring } from '../authoring/anchoring.js';
 import { proposePolish } from '../authoring/polish.js';
@@ -114,6 +115,7 @@ export async function startApplication() {
 
   function locate(objectId = selection) {
     const doc = store.document;
+    if (doc.layout?.groups?.[objectId]?.anchored) return { type: 'group', record: doc.layout.groups[objectId] };
     if (doc.layout?.entities?.[objectId]) return { type: 'entity', record: doc.layout.entities[objectId] };
     if (doc.tokens?.[objectId]) return { type: 'token', record: doc.tokens[objectId] };
     if (doc.look?.lights?.[objectId] || doc.defaultLook?.lights?.[objectId]) return { type: 'light', record: (doc.look?.lights ?? doc.defaultLook?.lights)[objectId] };
@@ -155,7 +157,7 @@ export async function startApplication() {
       menu.innerHTML = `
         <div class="context-menu-header">PASTA: ${esc(group.name)}</div>
         <button type="button" class="context-menu-item" data-context="rename">${icon('edit', 14)}<span>Renomear</span></button>
-        <button type="button" class="context-menu-item danger" data-context="delete-group">${icon('trash', 14)}<span>Deletar</span></button>
+        ${group.anchored ? `<button class="context-menu-item" data-context="unbind">Desancorar objetos</button><button class="context-menu-item" data-context="duplicate">Duplicar composição</button><button class="context-menu-item danger" data-context="delete">Excluir composição</button>` : ''}${selectedIds.size > 1 ? '<button class="context-menu-item" data-context="anchor">Ancorar objetos juntos</button>' : ''}<button type="button" class="context-menu-item danger" data-context="delete-group">${icon('trash', 14)}<span>Deletar</span></button>
       `;
     } else {
       const found = locate(targetId);
@@ -165,12 +167,12 @@ export async function startApplication() {
       menu.innerHTML = `
         <div class="context-menu-header">${selectedIds.size > 1 ? `${selectedIds.size} SELECIONADOS` : `${typeLabel}: ${esc(name)}`}</div>
         <button type="button" class="context-menu-item" data-context="rename">${icon('edit', 14)}<span>Renomear</span></button>
-        <button type="button" class="context-menu-item" data-context="anchor"><span>Fixar / ancorar…</span></button><button type="button" class="context-menu-item" data-context="adjust"><span>Alinhar e ajustar…</span></button><button type="button" class="context-menu-item" data-context="duplicate">${icon('copy', 14)}<span>Duplicar</span></button>
+        <button type="button" class="context-menu-item" data-context="anchor" ${selectedIds.size < 2 ? 'disabled title="Selecione dois ou mais objetos com Shift"' : ''}><span>Ancorar objetos juntos</span></button><button type="button" class="context-menu-item" data-context="mount"><span>Fixar em parede / teto…</span></button><button type="button" class="context-menu-item" data-context="adjust"><span>Alinhar e ajustar…</span></button><button type="button" class="context-menu-item" data-context="duplicate">${icon('copy', 14)}<span>Duplicar</span></button>
         <button type="button" class="context-menu-item danger" data-context="delete">${icon('trash', 14)}<span>Deletar</span></button>
       `;
     }
     menu.hidden = false;
-    const menuWidth = 210, menuHeight = 240;
+    const menuWidth = menu.offsetWidth, menuHeight = menu.offsetHeight;
     const left = Math.min(x, window.innerWidth - menuWidth - 12);
     const top = Math.min(y, window.innerHeight - menuHeight - 12);
     menu.style.left = `${Math.max(8, left)}px`;
@@ -188,7 +190,8 @@ export async function startApplication() {
       const found = locate(objectId);
       if (!found) return;
       const patch = found.type === 'light' ? { position: transform.position, rotation: transform.rotation } : { transform };
-      execute(`${found.type}.update`, { id: objectId, patch, snap: meta.snap });
+      if (found.type === 'group') execute('group.transform', { id: objectId, transform, snap: meta.snap });
+      else execute(`${found.type}.update`, { id: objectId, patch, snap: meta.snap });
     },
     onPlace: (point) => placeAt(point),
     onWindowPlace: ({ wallId, offset, height: centerHeight }) => {
@@ -217,12 +220,13 @@ export async function startApplication() {
     onError: (error) => notify(error?.message ?? String(error), true, true),
     onContextMenu: (event, hit) => {
       if (hit?.entityId) {
-        if (!selectedIds.has(hit.entityId)) selectObject(hit.entityId);
-        selection = hit.entityId;
+        const target = assemblyFor(store.document,hit.entityId)?.id ?? hit.entityId;
+        if (!selectedIds.has(target)) selectObject(target);
+        selection = target;
         viewport.setSelection(selection, [...selectedIds]);
         renderInspector();
         renderSceneTreeIfVisible();
-        showContextMenu(event.clientX, event.clientY, hit.entityId);
+        showContextMenu(event.clientX, event.clientY, selection);
       } else {
         hideContextMenu();
       }
@@ -231,6 +235,7 @@ export async function startApplication() {
   });
   function selectObject(value, additive = false) {
     anchorEditing = false;
+    value = assemblyFor(store.document,value)?.id ?? value;
     if (!additive) selectedIds.clear();
     if (value) { if (additive && selectedIds.has(value)) selectedIds.delete(value); else selectedIds.add(value); }
     selection = [...selectedIds].at(-1) ?? null;
@@ -379,7 +384,7 @@ export async function startApplication() {
     const renderEntry = (entry) => {
       const typeGlyph = entry.kind === 'floor' ? 'floor' : entry.kind === 'wall' ? 'wall' : entry.kind === 'door' ? 'door' : entry.actorId ? 'token' : entry.type ? 'light' : 'room';
       const name = entryName(doc, entry);
-      return `<div draggable="true" data-drag-id="${entry.id}" data-select="${entry.id}" class="tree-entry ${selectedIds.has(entry.id) ? 'selected' : ''}">
+      return `<div draggable="true" data-drag-id="${entry.id}" data-select="${entry.id}" class="tree-entry ${selectedIds.has(assemblyFor(doc,entry.id)?.id ?? entry.id) ? 'selected' : ''}">
         ${icon(typeGlyph, 14)}
         <span class="tree-label" title="${esc([name, doc.layout.levels?.[entry.levelId]?.name, doc.layout.layers?.[entry.layerId]?.name].filter(Boolean).join(' · '))}">${esc(name)}</span>${entry.levelId && doc.layout.levels?.[entry.levelId] ? `<small title="Andar">${esc(doc.layout.levels[entry.levelId].name)}</small>` : ''}
         ${entry.audience === 'gm' ? '<small>GM</small>' : ''}
@@ -393,12 +398,12 @@ export async function startApplication() {
     let html = '';
 
     if (groups.length > 0) {
-      html += groups.map((group) => {
+      const renderGroup = group => {
         const groupEntities = [...entities, ...tokens, ...lights].filter(e => e.groupId === group.id);
         return `<div class="tree-group" data-drop-group="${group.id}">
           <div class="tree-group-header" data-group-id="${group.id}">
             ${icon('folder', 14)}
-            <span class="group-title" title="${esc(group.name)}">${esc(group.name)}</span>
+            ${group.anchored ? `<button class="group-title" data-action="assembly-select" data-id="${group.id}" title="Selecionar composição">${esc(group.name)} · ancorada</button>` : `<span class="group-title" title="${esc(group.name)}">${esc(group.name)}</span>`}
             <div class="group-actions">
               <button type="button" data-group-visible="${group.id}" title="${group.visible === false ? 'Mostrar pasta' : 'Ocultar pasta'}">${icon('eye', 12)}</button>
               <button type="button" data-group-lock="${group.id}" title="${group.locked ? 'Desbloquear pasta' : 'Bloquear pasta'}">${group.locked ? '🔒' : '🔓'}</button>
@@ -406,11 +411,12 @@ export async function startApplication() {
               <button type="button" data-group-delete="${group.id}" title="Excluir pasta">${icon('trash', 12)}</button>
             </div>
           </div>
-          <div class="tree-group-items" data-drop-group="${group.id}">
-            ${groupEntities.length > 0 ? groupEntities.map(renderEntry).join('') : '<div class="tree-group-empty">Pasta vazia (arraste aqui)</div>'}
+          ${group.anchored ? `<button class="assembly-release wide quiet" data-action="assembly-unbind" data-id="${group.id}">Desancorar objetos</button>` : ''}<div class="tree-group-items" data-drop-group="${group.id}">
+            ${groups.filter(child => child.parentId===group.id).map(renderGroup).join('')}${groupEntities.length > 0 ? groupEntities.map(renderEntry).join('') : groups.some(child => child.parentId===group.id) ? '' : '<div class="tree-group-empty">Pasta vazia (arraste aqui)</div>'}
           </div>
         </div>`;
-      }).join('');
+      };
+      html += groups.filter(group => !group.parentId).map(renderGroup).join('');
     }
 
     const rootEntities = entities.filter((e) => !e.groupId);
@@ -441,7 +447,7 @@ export async function startApplication() {
     if (anchorEditing) { document.getElementById('inspector-content').innerHTML = anchoringPanel(store.document, [...selectedIds], anchorHostId); return; }
     if (selection && !selectedIds.has(selection)) selectedIds = new Set([selection]);
     if (!selection) selectedIds.clear();
-    if (selectedIds.size > 1) { document.getElementById('inspector-content').innerHTML = polishPanel(selectedIds.size, polishOptions, store.document); viewport.setSelection(selection, [...selectedIds]); return; }
+    if (selectedIds.size > 1) { document.getElementById('inspector-content').innerHTML = `<section><span class="eyebrow">UNIR OBJETOS</span><button class="wide primary" data-action="assembly-bind">Ancorar objetos juntos</button><p class="microcopy">Cria uma composição que se seleciona, move e gira como uma unidade. Desancore pela pasta para editar os objetos individualmente.</p></section>` + polishPanel(selectedIds.size, polishOptions, store.document); viewport.setSelection(selection, [...selectedIds]); return; }
     const panel = document.getElementById('inspector-content'), found = locate();
     const adjustmentsOpen = panel.querySelector('.object-adjustments')?.open ?? false;
     const terrainAdvancedOpen = panel.querySelector('[data-disclosure="terrain-advanced"]')?.open ?? false;
@@ -452,6 +458,12 @@ export async function startApplication() {
       return;
     }
     const { type, record } = found, doc = store.document;
+    if (type === 'group') {
+      const members = assemblyMembers(doc,record.id), t=record.transform;
+      panel.innerHTML=`<div class="object-title"><strong>${esc(record.name)}</strong><small>COMPOSIÇÃO ANCORADA · ${members.length} objetos</small></div><label class="field"><span>Nome da pasta</span><input data-field="assembly-name" value="${esc(record.name)}" maxlength="256"/></label><p class="microcopy">Clique em qualquer membro para selecionar todos. Mover (W), Rotacionar (R) e Escalar (S) atuam na composição inteira.</p><section><span class="eyebrow">POSIÇÃO DA COMPOSIÇÃO</span><div class="axis-fields">${t.position.map((value,i) => numberField(`assembly-position-${i}`,['X','Y · altura','Z'][i],value)).join('')}</div>${numberField('assembly-yaw','Rotação Y · graus',yawFromQuaternion(t.rotation),{ step:15 })}${numberField('assembly-size','Tamanho uniforme',t.scale[0],{ min:.01 })}</section><details><summary>Objetos da composição</summary><ul>${members.map(member => `<li>${esc(entryName(doc,member))}</li>`).join('')}</ul></details><button class="wide" data-action="assembly-unbind" data-id="${record.id}">Desancorar objetos</button><p class="microcopy">Desancorar conserva as posições e a pasta; seus objetos voltam a ser selecionados individualmente.</p><div class="object-actions">${button('object-copy','Copiar','copy')}${button('object-duplicate','Duplicar','copy')}${button('object-delete','Excluir','trash','danger')}</div>`;
+      return;
+    }
+
     const actor = type === 'token' ? doc.actors[record.actorId] : null;
     const name = actor?.name ?? record.name;
     const position = record.transform?.position ?? record.position;
@@ -474,7 +486,7 @@ export async function startApplication() {
 
     if (record.kind === 'floor' && record.holes?.length) fields += `<section><span class="eyebrow">RECORTES DO PISO</span>${record.holes.map((ring,h) => `<details><summary>Furo ${h + 1} · ${ring.length} vértices</summary>${ring.map((p,i) => `<div class="field-grid">${numberField(`hole-${h}-${i}-0`,'X local',p[0])}${numberField(`hole-${h}-${i}-1`,'Z local',p[1])}</div>`).join('')}<button data-action="hole-remove" data-index="${h}">Remover recorte</button></details>`).join('')}</section>`;
     if (isAccess(record)) fields += `<section><span class="eyebrow">ANDARES CONECTADOS</span>${[['fromLevelId','Origem'],['toLevelId','Destino']].map(([field,label]) => `<label class="field"><span>${label}</span><select data-field="${field}"><option value="">Sem associação</option>${Object.values(doc.layout.levels ?? {}).map(l => `<option value="${l.id}" ${record[field] === l.id ? 'selected' : ''}>${esc(l.name)} · ${l.elevation} m</option>`).join('')}</select></label>`).join('')}<p class="microcopy">Quando os dois andares estão associados, base e desnível acompanham suas alturas.</p></section>`;
-    if (record.kind === 'prop' || type === 'light' && record.type === 'point') fields += `<section><span class="eyebrow">FIXAR EM PAREDE / TETO</span><p class="microcopy">Escolha uma parede ou o piso do andar de cima. O objeto ficará junto à face escolhida e acompanhará seus movimentos. Para vários objetos, use Shift+seleção e botão direito → Fixar / ancorar….</p><label class="field"><span>Fixar em</span><select data-field="object-anchor"><option value="">Livre</option>${Object.values(doc.layout.entities).filter(e => ['wall','floor'].includes(e.kind)).map(e => { const socket = e.kind === 'wall' ? 'wall' : 'ceiling'; return `<option value="${socket}:${e.id}" ${record.anchor?.hostId === e.id && record.anchor.socket === socket ? 'selected' : ''}>${socket === 'wall' ? 'Parede' : 'Teto sob piso'} · ${esc(e.name)}</option>`; }).join('')}</select></label>${record.anchor ? `<div class="axis-fields">${record.anchor.offset.map((v,i) => numberField(`anchor-${i}`,['X local','Y local','Z local'][i],v)).join('')}</div><p class="microcopy">O objeto acompanha posição e rotação da parede ou piso escolhido. Escolha Livre para soltá-lo. Teto usa a face inferior do piso superior.</p>` : ''}</section>`;
+    if (record.kind === 'prop' || type === 'light' && record.type === 'point') fields += `<section><span class="eyebrow">FIXAR EM PAREDE / TETO</span><p class="microcopy">Escolha uma parede ou o piso do andar de cima. O objeto ficará junto à face escolhida e acompanhará seus movimentos. Para vários objetos, use Shift+seleção e botão direito → Fixar em parede / teto….</p><label class="field"><span>Fixar em</span><select data-field="object-anchor"><option value="">Livre</option>${Object.values(doc.layout.entities).filter(e => ['wall','floor'].includes(e.kind)).map(e => { const socket = e.kind === 'wall' ? 'wall' : 'ceiling'; return `<option value="${socket}:${e.id}" ${record.anchor?.hostId === e.id && record.anchor.socket === socket ? 'selected' : ''}>${socket === 'wall' ? 'Parede' : 'Teto sob piso'} · ${esc(e.name)}</option>`; }).join('')}</select></label>${record.anchor ? `<div class="axis-fields">${record.anchor.offset.map((v,i) => numberField(`anchor-${i}`,['X local','Y local','Z local'][i],v)).join('')}</div><p class="microcopy">O objeto acompanha posição e rotação da parede ou piso escolhido. Escolha Livre para soltá-lo. Teto usa a face inferior do piso superior.</p>` : ''}</section>`;
     if (record.vertices) fields += `<section><span class="eyebrow">CONTORNO LOCAL · X/Z</span>${record.vertices.map((p, i) => `<div class="field-grid">${numberField(`polygon-${i}-0`, `V${i + 1} · X`, p[0])}${numberField(`polygon-${i}-1`, `V${i + 1} · Z`, p[1])}</div>`).join('')}<p class="microcopy">O contorno não pode cruzar a si mesmo. Dimensões ajustam os vértices proporcionalmente.</p></section>`;
     if (record.kind === 'floor') fields += `<section><span class="eyebrow">DIMENSÕES · METROS</span><div class="field-grid">${numberField('width', 'Largura', record.width, { min: .1 })}${numberField('length', 'Comprimento', record.length, { min: .1 })}</div>${numberField('thickness', 'Espessura', record.thickness, { min: .01 })}</section>`;
     if (isAccess(record)) fields += `<section><span class="eyebrow">ACESSO ENTRE ALTURAS</span><div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .1 })}${numberField('length', 'Comprimento · m', record.length, { min: .1 })}</div>${numberField('height', 'Desnível · m', record.height, { min: .1 })}${record.kind === 'stairs' ? numberField('steps', 'Degraus', record.steps, { min: 1, max: 128, step: 1 }) : ''}<p class="microcopy">A base fica na altura Y; o acesso sobe no sentido Z local positivo. Use Rotacionar (R) para orientar e escolha este apoio para colocar tokens sobre ele.</p></section>`;
@@ -578,6 +590,7 @@ export async function startApplication() {
       type: found.type,
       id: selection,
       record: clone(found.record),
+      document: found.type === 'group' ? clone(store.document) : null,
       actor: found.type === 'token' && store.document.actors?.[found.record.actorId] ? clone(store.document.actors[found.record.actorId]) : null,
     };
     pasteCount = 0;
@@ -593,6 +606,11 @@ export async function startApplication() {
     pasteCount += 1;
     const step = store.document.layout.grid.cellSize || 1;
     const offset = [step * pasteCount, 0, step * pasteCount];
+    if(clipboard.type==='group') {
+      const before=new Set(Object.keys(store.document.layout.groups));
+      if(execute('group.paste',{ id:clipboard.id,document:clipboard.document,offset })) { const key=Object.keys(store.document.layout.groups).find(key => !before.has(key) && !store.document.layout.groups[key].parentId); selectObject(key ?? Object.keys(store.document.layout.groups).find(key => !before.has(key))); notify('Composição colada como uma unidade independente.'); }
+      return;
+    }
     const exists = locate(clipboard.id);
     if (exists && exists.type === clipboard.type) {
       const before = new Set([
@@ -969,6 +987,15 @@ export async function startApplication() {
 
   function changeField(input) {
     const field = input.dataset.field, value = input.type === 'checkbox' ? input.checked : ['number','range'].includes(input.type) ? Number(input.value) : input.value;
+    if (field.startsWith('assembly-')) {
+      const group=locate()?.record; if(!group?.anchored) return;
+      if(field==='assembly-name') { execute('group.update',{ id:group.id,patch:{ name:value } }); return; }
+      const transform=clone(group.transform);
+      if(field.startsWith('assembly-position-')) transform.position[Number(field.slice(18))]=value;
+      else if(field==='assembly-yaw') transform.rotation=quaternionFromYaw(value);
+      else if(field==='assembly-size') transform.scale=[value,value,value];
+      execute('group.transform',{ id:group.id,transform,snap:false },{ label:'Transformar composição' }); return;
+    }
     if (field === 'anchor-host') { anchorHostId = value; clearProposal(); renderInspector(); return; }
     if (field === 'active-level') {
       activeLevelId = value || null; const level = store.document.layout.levels?.[activeLevelId];
@@ -1094,6 +1121,16 @@ export async function startApplication() {
         execute(`${kind}.update`, { id: entry.id, patch: { [operation === 'visible' ? 'visible' : 'locked']: !entry[operation === 'visible' ? 'visible' : 'locked'] } }); break;
       }
       case 'level-remove': case 'layer-remove': execute(`${action.split('-')[0]}.remove`, { id: metadata.id }); break;
+      case 'assembly-select': selectObject(metadata.id); break;
+      case 'assembly-bind': {
+        const groupId=id(), names=[...selectedIds].map(key => locate(key)?.record).filter(Boolean).map(record => entryName(store.document,record));
+        if(execute('group.bind',{ id:groupId,ids:[...selectedIds],name:names.slice(0,2).join(' + ').slice(0,256) || 'Composição ancorada' },{ label:'Ancorar objetos juntos' })) { selectObject(groupId); tab='scene'; renderSidebar(); notify('Objetos ancorados como uma unidade. Desancore pelo botão na pasta.'); } break;
+      }
+      case 'assembly-unbind': {
+        const key=metadata.id ?? selection;
+        const member=assemblyMembers(store.document,key)[0];
+        if(execute('group.unbind',{ id:key },{ label:'Desancorar objetos' })) { selectObject(member?.id ?? null); renderSidebar(); notify('Objetos desancorados. Suas posições e a pasta foram preservadas.'); } break;
+      }
       case 'terrain-add': {
         const entity = createEntity('terrain', { ...terrainOptions, position: [0, buildHeight, 0], ...constructionSemantics() });
         if (execute('entity.add', { entity, snap: false })) { selectObject(entity.id); setTool('select'); viewport.frameSelection(entity.id); document.getElementById('inspector-content').scrollTop = 0; notify('Terreno criado. Os pincéis estão no topo do inspetor à direita: escolha um e clique em Ativar pincel.'); } break;
@@ -1203,10 +1240,15 @@ export async function startApplication() {
       }
       case 'token-place': placing = { type: 'token', name: document.getElementById('token-name')?.value || 'Personagem', color: document.getElementById('token-color')?.value || '#e4b76f' }; setTool('place'); break;
       case 'light-place': placing = { type: 'light' }; setTool('place'); break;
-      case 'object-delete': { const found = locate(); if (found && confirm(found.record.kind === 'floor' ? 'Excluir o piso e todos os elementos apoiados nele? Esta ação pode ser desfeita.' : found.record.kind === 'wall' ? 'Excluir esta parede e suas portas? Esta ação pode ser desfeita.' : 'Excluir este elemento? Esta ação pode ser desfeita.')) execute(`${found.type}.remove`, { id: selection }); break; }
+      case 'object-delete': { const found = locate(); if (found && confirm(found.type === 'group' ? 'Excluir a composição e todos os seus objetos? Esta ação pode ser desfeita.' : found.record.kind === 'floor' ? 'Excluir o piso e todos os elementos apoiados nele? Esta ação pode ser desfeita.' : found.record.kind === 'wall' ? 'Excluir esta parede e suas portas? Esta ação pode ser desfeita.' : 'Excluir este elemento? Esta ação pode ser desfeita.')) execute(found.type === 'group' ? 'group.delete' : `${found.type}.remove`, { id: selection }); break; }
       case 'object-copy': return copySelection();
       case 'object-paste': return pasteClipboard();
-      case 'object-duplicate': { const found = locate(); if (found) { const before = new Set([...Object.keys(store.document.layout.entities), ...Object.keys(store.document.tokens), ...Object.keys((store.document.look ?? store.document.defaultLook).lights)]); if (execute(`${found.type}.duplicate`, { id: selection })) { selection = [...Object.keys(store.document.layout.entities), ...Object.keys(store.document.tokens), ...Object.keys((store.document.look ?? store.document.defaultLook).lights)].find((key) => !before.has(key)); viewport.setSelection(selection); renderInspector(); } } break; }
+      case 'object-duplicate': {
+        const found=locate(); if(!found) break;
+        const keys=() => found.type==='group' ? Object.values(store.document.layout.groups).filter(group=>group.anchored).map(group=>group.id) : [...Object.keys(store.document.layout.entities),...Object.keys(store.document.tokens),...Object.keys((store.document.look ?? store.document.defaultLook).lights)];
+        const before=new Set(keys());
+        if(execute(`${found.type}.duplicate`,{ id:selection })) selectObject(keys().find(key=>!before.has(key))); break;
+      }
       case 'undo': store.undo(); break;
       case 'redo': store.redo(); break;
       case 'perspective': viewport.setTopView(false); break;
@@ -1285,7 +1327,9 @@ export async function startApplication() {
       const action = contextBtn.dataset.context;
       const targetId = contextTarget;
       hideContextMenu();
-      if (action === 'anchor') {
+      if (action === 'anchor') act('assembly-bind');
+      else if (action === 'unbind') act('assembly-unbind', { id: targetId });
+      else if (action === 'mount') {
         anchorEditing = true;
         anchorHostId = [...selectedIds].find(key => ['wall','floor'].includes(store.document.layout.entities[key]?.kind)) ?? locate()?.record.anchor?.hostId ?? '';
         renderInspector(); document.getElementById('inspector-content').scrollTop = 0;
@@ -1308,7 +1352,7 @@ export async function startApplication() {
 
     const treeMenuBtn = event.target.closest('[data-tree-menu]');
     if (treeMenuBtn) {
-      const id = treeMenuBtn.dataset.treeMenu;
+      const id = assemblyFor(store.document,treeMenuBtn.dataset.treeMenu)?.id ?? treeMenuBtn.dataset.treeMenu;
       const rect = treeMenuBtn.getBoundingClientRect();
       if (!selectedIds.has(id)) selectObject(id); selection = id; viewport.setSelection(selection, [...selectedIds]); renderInspector(); renderSceneTreeIfVisible();
       showContextMenu(rect.right + 4, rect.top, id); return;
@@ -1411,7 +1455,7 @@ export async function startApplication() {
     const entry = event.target.closest('.tree-entry');
     if (entry) {
       event.preventDefault();
-      const id = entry.dataset.select;
+      const id = assemblyFor(store.document,entry.dataset.select)?.id ?? entry.dataset.select;
       if (!selectedIds.has(id)) selectObject(id); selection = id; viewport.setSelection(selection, [...selectedIds]); renderInspector(); renderSceneTreeIfVisible();
       showContextMenu(event.clientX, event.clientY, id);
       return;
@@ -1458,7 +1502,9 @@ export async function startApplication() {
     if (groupTarget && draggedTreeId) {
       event.preventDefault();
       const targetGroupId = groupTarget.dataset.dropGroup || null;
-      const entity = store.document.layout.entities[draggedTreeId];
+      const assembly=assemblyFor(store.document,draggedTreeId);
+      if(assembly && assembly.id!==targetGroupId) execute('group.update',{ id:assembly.id,patch:{ parentId:targetGroupId } });
+      const entity = !assembly && store.document.layout.entities[draggedTreeId];
       if (entity && entity.groupId !== targetGroupId) {
         execute('entity.update', { id: draggedTreeId, patch: { groupId: targetGroupId } });
       }

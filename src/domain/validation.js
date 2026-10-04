@@ -268,10 +268,13 @@ export function validateDocument(document) {
     if (name === 'levels') number(entry.elevation, entryPath);
   });
   dictionary(document.layout.groups, 'layout.groups', seen, (group, groupPath) => {
-    keys(group, ['id', 'name', 'parentId', 'locked', 'audience', 'visible'], groupPath);
+    keys(group, ['id', 'name', 'parentId', 'locked', 'audience', 'visible', 'anchored', 'transform'], groupPath);
     text(group.name, `${groupPath}.name`); reference(group.parentId, document.layout.groups, `${groupPath}.parentId`);
     bool(group.locked, `${groupPath}.locked`); choice(group.audience, ['all', 'gm'], `${groupPath}.audience`);
     if (group.visible !== undefined) bool(group.visible, `${groupPath}.visible`);
+    if (group.anchored !== undefined) bool(group.anchored, `${groupPath}.anchored`);
+    if (group.anchored) { transform(group.transform, `${groupPath}.transform`); quaternion(group.transform.rotation, `${groupPath}.transform.rotation`, true); fail(group.transform.scale.every(value => Math.abs(value - group.transform.scale[0]) < 1e-8), 'A composição usa escala uniforme.', groupPath); }
+    else fail(group.transform === undefined, 'Transformação de grupo exige composição ancorada.', groupPath);
     const parents = new Set([group.id]); let parent = group.parentId;
     while (parent) { fail(!parents.has(parent), 'Ciclo de grupos.', groupPath); parents.add(parent); parent = document.layout.groups[parent]?.parentId; }
   });
