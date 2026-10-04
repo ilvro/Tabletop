@@ -1,0 +1,206 @@
+{
+  "name": "Luminária cirúrgica",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.14,
+      "radiusBottom": 0.14,
+      "height": 0.035,
+      "position": [
+        -0.33999999970197675,
+        0.017500000074505806,
+        0
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.024,
+      "radiusBottom": 0.024,
+      "height": 1.35,
+      "position": [
+        -0.33999999970197675,
+        0.7100000000745058,
+        0
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.65,
+        0.035,
+        0.04
+      ],
+      "position": [
+        -0.04999999970197677,
+        1.3850000000745057,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.25,
+      "radiusBottom": 0.25,
+      "height": 0.075,
+      "position": [
+        0.2300000002980232,
+        1.3300000000745058,
+        0
+      ],
+      "material": "white",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.038,
+      "radiusBottom": 0.038,
+      "height": 0.015,
+      "position": [
+        0.3700000002980232,
+        1.2850000000745057,
+        0
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.038,
+      "radiusBottom": 0.038,
+      "height": 0.015,
+      "position": [
+        0.30000000029802326,
+        1.2850000000745057,
+        0.12124355652982141
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.038,
+      "radiusBottom": 0.038,
+      "height": 0.015,
+      "position": [
+        0.16000000029802325,
+        1.2850000000745057,
+        0.12124355652982143
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.038,
+      "radiusBottom": 0.038,
+      "height": 0.015,
+      "position": [
+        0.09000000029802319,
+        1.2850000000745057,
+        1.7145055188062947e-17
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.038,
+      "radiusBottom": 0.038,
+      "height": 0.015,
+      "position": [
+        0.16000000029802314,
+        1.2850000000745057,
+        -0.1212435565298214
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.038,
+      "radiusBottom": 0.038,
+      "height": 0.015,
+      "position": [
+        0.30000000029802326,
+        1.2850000000745057,
+        -0.12124355652982141
+      ],
+      "material": "flame",
+      "segments": 12
+    }
+  ]
+}

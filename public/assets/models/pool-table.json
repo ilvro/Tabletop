@@ -1,0 +1,333 @@
+{
+  "name": "Mesa de sinuca",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        2.2,
+        0.08,
+        1.25
+      ],
+      "position": [
+        0,
+        0.7399999940395354,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.7000000000000001,
+        0.07
+      ],
+      "position": [
+        -1,
+        0.3499999940395355,
+        -0.525
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.7000000000000001,
+        0.07
+      ],
+      "position": [
+        -1,
+        0.3499999940395355,
+        0.525
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.7000000000000001,
+        0.07
+      ],
+      "position": [
+        1,
+        0.3499999940395355,
+        -0.525
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.7000000000000001,
+        0.07
+      ],
+      "position": [
+        1,
+        0.3499999940395355,
+        0.525
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.95,
+        0.015,
+        1.02
+      ],
+      "position": [
+        0,
+        0.7899999940395355,
+        0
+      ],
+      "material": "green"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        0.07,
+        1.25
+      ],
+      "position": [
+        -1.04,
+        0.8199999940395355,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        0.07,
+        1.25
+      ],
+      "position": [
+        1.04,
+        0.8199999940395355,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        2.2,
+        0.07,
+        0.1
+      ],
+      "position": [
+        0,
+        0.8199999940395355,
+        -0.575
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        2.2,
+        0.07,
+        0.1
+      ],
+      "position": [
+        0,
+        0.8199999940395355,
+        0.575
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.055,
+      "radiusBottom": 0.055,
+      "height": 0.02,
+      "position": [
+        -0.9,
+        0.8089999940395356,
+        -0.48
+      ],
+      "material": "black",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.055,
+      "radiusBottom": 0.055,
+      "height": 0.02,
+      "position": [
+        -0.9,
+        0.8089999940395356,
+        0.48
+      ],
+      "material": "black",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.055,
+      "radiusBottom": 0.055,
+      "height": 0.02,
+      "position": [
+        0,
+        0.8089999940395356,
+        -0.48
+      ],
+      "material": "black",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.055,
+      "radiusBottom": 0.055,
+      "height": 0.02,
+      "position": [
+        0,
+        0.8089999940395356,
+        0.48
+      ],
+      "material": "black",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.055,
+      "radiusBottom": 0.055,
+      "height": 0.02,
+      "position": [
+        0.9,
+        0.8089999940395356,
+        -0.48
+      ],
+      "material": "black",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.055,
+      "radiusBottom": 0.055,
+      "height": 0.02,
+      "position": [
+        0.9,
+        0.8089999940395356,
+        0.48
+      ],
+      "material": "black",
+      "segments": 12
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.027,
+      "position": [
+        -0.15,
+        0.8249999940395354,
+        0
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.027,
+      "position": [
+        -0.06499999999999999,
+        0.8249999940395354,
+        0.07
+      ],
+      "material": "red"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.027,
+      "position": [
+        0.020000000000000018,
+        0.8249999940395354,
+        0
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.027,
+      "position": [
+        0.10500000000000001,
+        0.8249999940395354,
+        0.07
+      ],
+      "material": "red"
+    }
+  ]
+}

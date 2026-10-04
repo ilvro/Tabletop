@@ -1,0 +1,243 @@
+{
+  "name": "Carteira escolar",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.6,
+        0.08,
+        0.45
+      ],
+      "position": [
+        0,
+        0.6799999982118606,
+        -0.2425000027567148
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.64,
+        0.07
+      ],
+      "position": [
+        -0.19999999999999998,
+        0.31999999821186065,
+        -0.3675000027567148
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.64,
+        0.07
+      ],
+      "position": [
+        -0.19999999999999998,
+        0.31999999821186065,
+        -0.1175000027567148
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.64,
+        0.07
+      ],
+      "position": [
+        0.19999999999999998,
+        0.31999999821186065,
+        -0.3675000027567148
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.64,
+        0.07
+      ],
+      "position": [
+        0.19999999999999998,
+        0.31999999821186065,
+        -0.1175000027567148
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.6,
+        0.045,
+        0.45
+      ],
+      "position": [
+        0,
+        0.7424999982118607,
+        -0.2425000027567148
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.45,
+        0.035,
+        0.42
+      ],
+      "position": [
+        0,
+        0.42999999821186063,
+        0.2374999972432852
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.45,
+        0.35,
+        0.04
+      ],
+      "position": [
+        0,
+        0.6199999982118607,
+        0.44749999724328515
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.41,
+        0.07
+      ],
+      "position": [
+        -0.125,
+        0.20499999821186066,
+        0.11249999724328519
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.41,
+        0.07
+      ],
+      "position": [
+        -0.125,
+        0.20499999821186066,
+        0.3624999972432852
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.41,
+        0.07
+      ],
+      "position": [
+        0.125,
+        0.20499999821186066,
+        0.11249999724328519
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.41,
+        0.07
+      ],
+      "position": [
+        0.125,
+        0.20499999821186066,
+        0.3624999972432852
+      ],
+      "material": "metal"
+    }
+  ]
+}

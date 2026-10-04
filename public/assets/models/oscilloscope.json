@@ -1,0 +1,157 @@
+{
+  "name": "Osciloscópio de bancada",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.42,
+        0.25,
+        0.32
+      ],
+      "position": [
+        0,
+        0.125,
+        -0.020500002168118953
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.17,
+        0.015
+      ],
+      "position": [
+        -0.075,
+        0.13,
+        0.14749999783188106
+      ],
+      "material": "screen"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.016,
+      "position": [
+        0.095,
+        0.075,
+        0.16449999783188105
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.016,
+      "position": [
+        0.155,
+        0.075,
+        0.16449999783188105
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.016,
+      "position": [
+        0.095,
+        0.17,
+        0.16449999783188105
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.016,
+      "position": [
+        0.155,
+        0.17,
+        0.16449999783188105
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.19,
+        0.006,
+        0.014
+      ],
+      "position": [
+        -0.075,
+        0.13,
+        0.15949999783188104
+      ],
+      "material": "white"
+    }
+  ]
+}

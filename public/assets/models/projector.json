@@ -1,0 +1,194 @@
+{
+  "name": "Projetor de slides",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.34,
+        0.19,
+        0.27
+      ],
+      "position": [
+        0,
+        0.12499999966472387,
+        -0.04100000128522514
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.065,
+      "radiusBottom": 0.065,
+      "height": 0.12,
+      "position": [
+        0,
+        0.12999999966472386,
+        0.12899999871477486
+      ],
+      "material": "black",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.01,
+      "position": [
+        0,
+        0.12999999966472386,
+        0.19599999871477486
+      ],
+      "material": "screen",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.12,
+      "radiusBottom": 0.12,
+      "height": 0.045,
+      "position": [
+        0,
+        0.24249999966472385,
+        -0.08100000128522514
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.03,
+        0.07
+      ],
+      "position": [
+        -0.07,
+        0.014999999664723873,
+        -0.07600000128522515
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.03,
+        0.07
+      ],
+      "position": [
+        -0.07,
+        0.014999999664723873,
+        -0.00600000128522514
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.03,
+        0.07
+      ],
+      "position": [
+        0.07,
+        0.014999999664723873,
+        -0.07600000128522515
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.03,
+        0.07
+      ],
+      "position": [
+        0.07,
+        0.014999999664723873,
+        -0.00600000128522514
+      ],
+      "material": "black"
+    }
+  ]
+}

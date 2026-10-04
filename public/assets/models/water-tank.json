@@ -1,0 +1,132 @@
+{
+  "name": "Reservatório de água",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.7,
+      "radiusBottom": 0.7,
+      "height": 1.15,
+      "position": [
+        -0.029999990165233636,
+        0.574999988079071,
+        0
+      ],
+      "material": "cloth",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.73,
+      "radiusBottom": 0.73,
+      "height": 0.055,
+      "position": [
+        -0.029999990165233636,
+        1.177499988079071,
+        0
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.12,
+      "radiusBottom": 0.12,
+      "height": 0.06,
+      "position": [
+        -0.029999990165233636,
+        1.2349999880790712,
+        0
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.03,
+      "radiusBottom": 0.03,
+      "height": 0.22,
+      "position": [
+        0.6500000098347665,
+        0.1699999880790711,
+        0
+      ],
+      "material": "metal",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    }
+  ]
+}

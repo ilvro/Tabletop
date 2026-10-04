@@ -1,0 +1,257 @@
+{
+  "name": "Gavetas de necrotério",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.7,
+        1.6,
+        2.1
+      ],
+      "position": [
+        0,
+        0.800000011920929,
+        -0.04250002361834049
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.76,
+        0.65,
+        0.035
+      ],
+      "position": [
+        -0.42,
+        0.4300000119209289,
+        1.0344999763816594
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.25,
+        0.035,
+        0.04
+      ],
+      "position": [
+        -0.42,
+        0.4300000119209289,
+        1.0724999763816596
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.15,
+        0.07,
+        0.015
+      ],
+      "position": [
+        -0.42,
+        0.6100000119209289,
+        1.0574999763816595
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.76,
+        0.65,
+        0.035
+      ],
+      "position": [
+        -0.42,
+        1.1700000119209288,
+        1.0344999763816594
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.25,
+        0.035,
+        0.04
+      ],
+      "position": [
+        -0.42,
+        1.1700000119209288,
+        1.0724999763816596
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.15,
+        0.07,
+        0.015
+      ],
+      "position": [
+        -0.42,
+        1.3500000119209288,
+        1.0574999763816595
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.76,
+        0.65,
+        0.035
+      ],
+      "position": [
+        0.42,
+        0.4300000119209289,
+        1.0344999763816594
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.25,
+        0.035,
+        0.04
+      ],
+      "position": [
+        0.42,
+        0.4300000119209289,
+        1.0724999763816596
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.15,
+        0.07,
+        0.015
+      ],
+      "position": [
+        0.42,
+        0.6100000119209289,
+        1.0574999763816595
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.76,
+        0.65,
+        0.035
+      ],
+      "position": [
+        0.42,
+        1.1700000119209288,
+        1.0344999763816594
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.25,
+        0.035,
+        0.04
+      ],
+      "position": [
+        0.42,
+        1.1700000119209288,
+        1.0724999763816596
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.15,
+        0.07,
+        0.015
+      ],
+      "position": [
+        0.42,
+        1.3500000119209288,
+        1.0574999763816595
+      ],
+      "material": "paper"
+    }
+  ]
+}

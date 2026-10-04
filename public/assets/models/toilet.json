@@ -1,0 +1,142 @@
+{
+  "name": "Vaso sanitário",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.2,
+      "radiusBottom": 0.17,
+      "height": 0.24,
+      "position": [
+        0,
+        0.11999999731779099,
+        0.062499996274709695
+      ],
+      "material": "white",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.23,
+      "radiusBottom": 0.23,
+      "height": 0.12,
+      "position": [
+        0,
+        0.299999997317791,
+        0.0724999962747097
+      ],
+      "material": "white",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.16,
+      "radiusBottom": 0.16,
+      "height": 0.012,
+      "position": [
+        0,
+        0.366999997317791,
+        0.0724999962747097
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.4,
+        0.4,
+        0.18
+      ],
+      "position": [
+        0,
+        0.439999997317791,
+        -0.1975000037252903
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.43,
+        0.04,
+        0.21
+      ],
+      "position": [
+        0,
+        0.659999997317791,
+        -0.1975000037252903
+      ],
+      "material": "white"
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "name": "Arco anômalo",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.24,
+        2,
+        0.35
+      ],
+      "position": [
+        -0.85,
+        1.000000000745058,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.24,
+        2,
+        0.35
+      ],
+      "position": [
+        0.85,
+        1.000000000745058,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.94,
+        0.24,
+        0.35
+      ],
+      "position": [
+        0,
+        2.1200000007450583,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.035,
+        1.9,
+        0.025
+      ],
+      "position": [
+        -0.712,
+        1.000000000745058,
+        0.19
+      ],
+      "material": "violet"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.035,
+        1.9,
+        0.025
+      ],
+      "position": [
+        0.712,
+        1.000000000745058,
+        0.19
+      ],
+      "material": "violet"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.45,
+        0.035,
+        0.025
+      ],
+      "position": [
+        0,
+        1.982000000745058,
+        0.19
+      ],
+      "material": "violet"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.4,
+        0.1,
+        0.5
+      ],
+      "position": [
+        -0.85,
+        0.05000000074505806,
+        0
+      ],
+      "material": "stone"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.4,
+        0.1,
+        0.5
+      ],
+      "position": [
+        0.85,
+        0.05000000074505806,
+        0
+      ],
+      "material": "stone"
+    }
+  ]
+}

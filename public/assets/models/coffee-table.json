@@ -1,0 +1,145 @@
+{
+  "name": "Mesa de centro",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.1,
+        0.08,
+        0.6
+      ],
+      "position": [
+        0,
+        0.38000000178813936,
+        0
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.33999999999999997,
+        0.07
+      ],
+      "position": [
+        -0.45000000000000007,
+        0.17000000178813934,
+        -0.19999999999999998
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.33999999999999997,
+        0.07
+      ],
+      "position": [
+        -0.45000000000000007,
+        0.17000000178813934,
+        0.19999999999999998
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.33999999999999997,
+        0.07
+      ],
+      "position": [
+        0.45000000000000007,
+        0.17000000178813934,
+        -0.19999999999999998
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.33999999999999997,
+        0.07
+      ],
+      "position": [
+        0.45000000000000007,
+        0.17000000178813934,
+        0.19999999999999998
+      ],
+      "material": "wood"
+    }
+  ]
+}

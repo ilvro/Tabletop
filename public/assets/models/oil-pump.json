@@ -1,0 +1,205 @@
+{
+  "name": "Cavalete de extração",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        2.4,
+        0.15,
+        1.1
+      ],
+      "position": [
+        -0.05030467353024359,
+        0.07500000298023224,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        1.9,
+        0.12
+      ],
+      "position": [
+        -0.4303046735302436,
+        1.0400000029802323,
+        0
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        0,
+        -0.25
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        1.9,
+        0.12
+      ],
+      "position": [
+        0.3296953264697564,
+        1.0400000029802323,
+        0
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        0,
+        0.25
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        2.5,
+        0.14,
+        0.2
+      ],
+      "position": [
+        -0.05030467353024359,
+        2.000000002980232,
+        0
+      ],
+      "material": "rust",
+      "rotation": [
+        0,
+        0,
+        -0.12
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.32,
+        0.55,
+        0.24
+      ],
+      "position": [
+        1.1396953264697562,
+        1.7700000029802323,
+        0
+      ],
+      "material": "rust"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.018,
+      "radiusBottom": 0.018,
+      "height": 1.8,
+      "position": [
+        1.1496953264697565,
+        0.9000000029802323,
+        0
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.45,
+        0.6
+      ],
+      "position": [
+        -0.8003046735302436,
+        0.40000000298023225,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.3,
+      "radiusBottom": 0.3,
+      "height": 0.08,
+      "position": [
+        -0.7103046735302436,
+        0.7800000029802323,
+        0.25
+      ],
+      "material": "dark",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    }
+  ]
+}

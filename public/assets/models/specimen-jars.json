@@ -1,0 +1,195 @@
+{
+  "name": "Frascos de espécimes",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.052,
+      "radiusBottom": 0.052,
+      "height": 0.17,
+      "position": [
+        -0.14,
+        0.08500000089406967,
+        -0.0005000000111758697
+      ],
+      "material": "screen",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.057,
+      "radiusBottom": 0.057,
+      "height": 0.024,
+      "position": [
+        -0.14,
+        0.18200000089406965,
+        -0.0005000000111758697
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.068,
+        0.055,
+        0.012
+      ],
+      "position": [
+        -0.14,
+        0.09000000089406966,
+        0.051499999988824124
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.052,
+      "radiusBottom": 0.052,
+      "height": 0.20500000000000002,
+      "position": [
+        0,
+        0.10250000089406967,
+        -0.0005000000111758697
+      ],
+      "material": "screen",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.057,
+      "radiusBottom": 0.057,
+      "height": 0.024,
+      "position": [
+        0,
+        0.21700000089406968,
+        -0.0005000000111758697
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.068,
+        0.055,
+        0.012
+      ],
+      "position": [
+        0,
+        0.09000000089406966,
+        0.051499999988824124
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.052,
+      "radiusBottom": 0.052,
+      "height": 0.24000000000000002,
+      "position": [
+        0.14,
+        0.12000000089406967,
+        -0.0005000000111758697
+      ],
+      "material": "screen",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.057,
+      "radiusBottom": 0.057,
+      "height": 0.024,
+      "position": [
+        0.14,
+        0.25200000089406965,
+        -0.0005000000111758697
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.068,
+        0.055,
+        0.012
+      ],
+      "position": [
+        0.14,
+        0.09000000089406966,
+        0.051499999988824124
+      ],
+      "material": "paper"
+    }
+  ]
+}

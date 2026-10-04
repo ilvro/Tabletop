@@ -1,0 +1,201 @@
+{
+  "name": "Poltrona de leitura",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.8,
+        0.18,
+        0.8
+      ],
+      "position": [
+        0,
+        0.24000000298023222,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.62,
+        0.15,
+        0.6
+      ],
+      "position": [
+        0,
+        0.40500000298023225,
+        0.05
+      ],
+      "material": "red"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.8,
+        0.6,
+        0.14
+      ],
+      "position": [
+        0,
+        0.7200000029802323,
+        -0.33
+      ],
+      "material": "red"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        0.4,
+        0.8
+      ],
+      "position": [
+        -0.36,
+        0.5000000029802323,
+        0
+      ],
+      "material": "red"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        0.4,
+        0.8
+      ],
+      "position": [
+        0.36,
+        0.5000000029802323,
+        0
+      ],
+      "material": "red"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.15,
+        0.07
+      ],
+      "position": [
+        -0.30000000000000004,
+        0.07500000298023224,
+        -0.30000000000000004
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.15,
+        0.07
+      ],
+      "position": [
+        -0.30000000000000004,
+        0.07500000298023224,
+        0.30000000000000004
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.15,
+        0.07
+      ],
+      "position": [
+        0.30000000000000004,
+        0.07500000298023224,
+        -0.30000000000000004
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.15,
+        0.07
+      ],
+      "position": [
+        0.30000000000000004,
+        0.07500000298023224,
+        0.30000000000000004
+      ],
+      "material": "wood"
+    }
+  ]
+}

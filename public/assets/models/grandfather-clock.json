@@ -1,0 +1,195 @@
+{
+  "name": "Relógio de pêndulo",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        1.75,
+        0.3
+      ],
+      "position": [
+        0,
+        0.875,
+        -0.008749996339902283
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.58,
+        0.1,
+        0.36
+      ],
+      "position": [
+        0,
+        1.8,
+        -0.008749996339902283
+      ],
+      "material": "wood"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.18,
+      "radiusBottom": 0.18,
+      "height": 0.025,
+      "position": [
+        0,
+        1.5,
+        0.16125000366009773
+      ],
+      "material": "paper",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.13,
+        0.015
+      ],
+      "position": [
+        0,
+        1.55,
+        0.18125000366009772
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.11,
+        0.012,
+        0.015
+      ],
+      "position": [
+        0.04,
+        1.5,
+        0.18125000366009772
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.29,
+        0.85,
+        0.025
+      ],
+      "position": [
+        0,
+        0.73,
+        0.15525000366009772
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.075,
+      "radiusBottom": 0.075,
+      "height": 0.02,
+      "position": [
+        0,
+        0.51,
+        0.17625000366009771
+      ],
+      "material": "metal",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.018,
+        0.42,
+        0.016
+      ],
+      "position": [
+        0,
+        0.76,
+        0.17625000366009771
+      ],
+      "material": "metal"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "name": "Relicário selado",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.36,
+        0.04,
+        0.26
+      ],
+      "position": [
+        0,
+        0.019999999552965164,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.29,
+        0.23,
+        0.19
+      ],
+      "position": [
+        0,
+        0.15499999955296517,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.35,
+        0.04,
+        0.25
+      ],
+      "position": [
+        0,
+        0.2899999995529651,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.25,
+        0.025
+      ],
+      "position": [
+        -0.145,
+        0.15499999955296517,
+        0.097
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.25,
+        0.025
+      ],
+      "position": [
+        0.145,
+        0.15499999955296517,
+        0.097
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.13,
+        0.043333333333333335,
+        0.016
+      ],
+      "position": [
+        0,
+        0.16999999910593036,
+        0.106
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.043333333333333335,
+        0.13,
+        0.018
+      ],
+      "position": [
+        0,
+        0.16999999910593036,
+        0.106
+      ],
+      "material": "paper"
+    }
+  ]
+}

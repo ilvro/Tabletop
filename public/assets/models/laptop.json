@@ -1,0 +1,145 @@
+{
+  "name": "Notebook de investigação",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.35,
+        0.025,
+        0.24
+      ],
+      "position": [
+        0,
+        0.012500000186264515,
+        1.2293457987699874e-9
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.34,
+        0.22,
+        0.02
+      ],
+      "position": [
+        0,
+        0.1325000001862645,
+        -0.1099999987706542
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.18,
+        0.01
+      ],
+      "position": [
+        0,
+        0.1325000001862645,
+        -0.09499999877065421
+      ],
+      "material": "screen"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.28,
+        0.007,
+        0.1
+      ],
+      "position": [
+        0,
+        0.029000000186264516,
+        -0.0149999987706542
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.075,
+        0.007,
+        0.045
+      ],
+      "position": [
+        0,
+        0.029000000186264516,
+        0.0700000012293458
+      ],
+      "material": "metal"
+    }
+  ]
+}

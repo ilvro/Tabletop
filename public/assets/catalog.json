@@ -1895,6 +1895,2103 @@
       ],
       "url": "/assets/models/suitcase.json",
       "previewUrl": "/assets/previews/suitcase.svg"
+    },
+    {
+      "id": "builtin-armchair",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Poltrona de leitura",
+      "category": "Mobiliário / Assentos",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Casa",
+        "Hotel",
+        "Biblioteca"
+      ],
+      "tags": [
+        "poltrona",
+        "tecido",
+        "leitura"
+      ],
+      "description": "Poltrona estofada para salas de espera e bibliotecas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.84,
+        0.81
+      ],
+      "bounds": [
+        0.84,
+        1.02,
+        0.8
+      ],
+      "url": "/assets/models/armchair.json",
+      "previewUrl": "/assets/previews/armchair.svg"
+    },
+    {
+      "id": "builtin-coffee-table",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Mesa de centro",
+      "category": "Mobiliário / Mesas",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Casa",
+        "Hotel"
+      ],
+      "tags": [
+        "mesa",
+        "madeira",
+        "sala"
+      ],
+      "description": "Mesa baixa para compor salas de estar.",
+      "supportHeight": 0.42000000178813934,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.11,
+        0.61
+      ],
+      "bounds": [
+        1.1,
+        0.42,
+        0.6
+      ],
+      "url": "/assets/models/coffee-table.json",
+      "previewUrl": "/assets/previews/coffee-table.svg"
+    },
+    {
+      "id": "builtin-bedside-table",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Criado-mudo",
+      "category": "Mobiliário / Dormitório",
+      "era": "Início do século XX",
+      "contexts": [
+        "Casa",
+        "Hotel",
+        "Asilo"
+      ],
+      "tags": [
+        "gaveta",
+        "madeira",
+        "quarto"
+      ],
+      "description": "Pequeno móvel com duas gavetas.",
+      "supportHeight": 0.5850000059604644,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.5,
+        0.47
+      ],
+      "bounds": [
+        0.5,
+        0.585,
+        0.468
+      ],
+      "url": "/assets/models/bedside-table.json",
+      "previewUrl": "/assets/previews/bedside-table.svg"
+    },
+    {
+      "id": "builtin-dresser",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cômoda de madeira",
+      "category": "Mobiliário / Armazenamento",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Casa",
+        "Hotel"
+      ],
+      "tags": [
+        "cômoda",
+        "gaveta",
+        "madeira"
+      ],
+      "description": "Cômoda de três gavetas para casarões.",
+      "supportHeight": 0.8950000119209289,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.15,
+        0.6
+      ],
+      "bounds": [
+        1.15,
+        0.895,
+        0.598
+      ],
+      "url": "/assets/models/dresser.json",
+      "previewUrl": "/assets/previews/dresser.svg"
+    },
+    {
+      "id": "builtin-mirror",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Espelho de moldura antiga",
+      "category": "Mobiliário / Decoração",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Casa",
+        "Hotel",
+        "Ritual"
+      ],
+      "tags": [
+        "espelho",
+        "parede",
+        "medo",
+        "decoração"
+      ],
+      "description": "Espelho cenográfico; pode ser fixado a uma parede.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.75,
+        0.11
+      ],
+      "bounds": [
+        0.74,
+        1.24,
+        0.107
+      ],
+      "url": "/assets/models/mirror.json",
+      "previewUrl": "/assets/previews/mirror.svg"
+    },
+    {
+      "id": "builtin-grandfather-clock",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Relógio de pêndulo",
+      "category": "Mobiliário / Decoração",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Casa",
+        "Hotel",
+        "Biblioteca"
+      ],
+      "tags": [
+        "relógio",
+        "tempo",
+        "madeira",
+        "morte"
+      ],
+      "description": "Relógio de madeira com mostrador e pêndulo estáticos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.58,
+        0.38
+      ],
+      "bounds": [
+        0.58,
+        1.85,
+        0.378
+      ],
+      "url": "/assets/models/grandfather-clock.json",
+      "previewUrl": "/assets/previews/grandfather-clock.svg"
+    },
+    {
+      "id": "builtin-toilet",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Vaso sanitário",
+      "category": "Mobiliário / Banheiro",
+      "era": "Contemporânea",
+      "contexts": [
+        "Casa",
+        "Hospital",
+        "Prisão"
+      ],
+      "tags": [
+        "banheiro",
+        "higiene",
+        "cerâmica"
+      ],
+      "description": "Vaso com caixa de descarga e assento.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.47,
+        0.61
+      ],
+      "bounds": [
+        0.46,
+        0.68,
+        0.605
+      ],
+      "url": "/assets/models/toilet.json",
+      "previewUrl": "/assets/previews/toilet.svg"
+    },
+    {
+      "id": "builtin-shower",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Box de chuveiro",
+      "category": "Mobiliário / Banheiro",
+      "era": "Contemporânea",
+      "contexts": [
+        "Casa",
+        "Hospital",
+        "Alojamento"
+      ],
+      "tags": [
+        "chuveiro",
+        "água",
+        "banheiro"
+      ],
+      "description": "Chuveiro em canto aberto, com base e paredes próprias.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.9,
+        0.9
+      ],
+      "bounds": [
+        0.9,
+        2,
+        0.9
+      ],
+      "url": "/assets/models/shower.json",
+      "previewUrl": "/assets/previews/shower.svg"
+    },
+    {
+      "id": "builtin-radiator",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Radiador de aquecimento",
+      "category": "Mobiliário / Equipamentos",
+      "era": "Início do século XX",
+      "contexts": [
+        "Casa",
+        "Hotel",
+        "Asilo"
+      ],
+      "tags": [
+        "radiador",
+        "metal",
+        "parede",
+        "calor"
+      ],
+      "description": "Radiador com oito aletas de ferro.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.81,
+        0.18
+      ],
+      "bounds": [
+        0.8,
+        0.66,
+        0.17
+      ],
+      "url": "/assets/models/radiator.json",
+      "previewUrl": "/assets/previews/radiator.svg"
+    },
+    {
+      "id": "builtin-desk-fan",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Ventilador de mesa",
+      "category": "Mobiliário / Equipamentos",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Escritório",
+        "Casa",
+        "Delegacia"
+      ],
+      "tags": [
+        "ventilador",
+        "metal",
+        "escritório"
+      ],
+      "description": "Ventilador com hélices estáticas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.38,
+        0.24
+      ],
+      "bounds": [
+        0.38,
+        0.6,
+        0.24
+      ],
+      "url": "/assets/models/desk-fan.json",
+      "previewUrl": "/assets/previews/desk-fan.svg"
+    },
+    {
+      "id": "builtin-reception-counter",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Balcão de recepção",
+      "category": "Comercial / Balcões",
+      "era": "Contemporânea",
+      "contexts": [
+        "Hospital",
+        "Hotel",
+        "Escritório"
+      ],
+      "tags": [
+        "balcão",
+        "recepção",
+        "atendimento"
+      ],
+      "description": "Balcão de atendimento com tampo largo.",
+      "supportHeight": 1.06,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.21,
+        0.81
+      ],
+      "bounds": [
+        2.2,
+        1.06,
+        0.8
+      ],
+      "url": "/assets/models/reception-counter.json",
+      "previewUrl": "/assets/previews/reception-counter.svg"
+    },
+    {
+      "id": "builtin-cash-register",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Caixa registradora",
+      "category": "Comercial / Equipamentos",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Loja",
+        "Restaurante",
+        "Posto de combustível"
+      ],
+      "tags": [
+        "caixa",
+        "dinheiro",
+        "comércio",
+        "analógico"
+      ],
+      "description": "Caixa com teclado, visor e gaveta de dinheiro.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.42,
+        0.39
+      ],
+      "bounds": [
+        0.42,
+        0.395,
+        0.38
+      ],
+      "url": "/assets/models/cash-register.json",
+      "previewUrl": "/assets/previews/cash-register.svg"
+    },
+    {
+      "id": "builtin-display-case",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Vitrine de relíquias",
+      "category": "Comercial / Exposição",
+      "era": "Início do século XX",
+      "contexts": [
+        "Museu",
+        "Loja",
+        "Biblioteca"
+      ],
+      "tags": [
+        "vitrine",
+        "relíquia",
+        "exposição",
+        "conhecimento"
+      ],
+      "description": "Vitrine aberta em armação com objetos expostos; sem vidro opaco sobre as peças.",
+      "supportHeight": 0.7600000143051148,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.15,
+        0.61
+      ],
+      "bounds": [
+        1.15,
+        1.208,
+        0.6
+      ],
+      "url": "/assets/models/display-case.json",
+      "previewUrl": "/assets/previews/display-case.svg"
+    },
+    {
+      "id": "builtin-vending-machine",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Máquina de bebidas",
+      "category": "Comercial / Equipamentos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Hospital",
+        "Escola",
+        "Estação"
+      ],
+      "tags": [
+        "bebidas",
+        "comércio",
+        "máquina",
+        "energia"
+      ],
+      "description": "Máquina com latas expostas, visor e abertura de retirada.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.86,
+        0.8
+      ],
+      "bounds": [
+        0.85,
+        1.8,
+        0.795
+      ],
+      "url": "/assets/models/vending-machine.json",
+      "previewUrl": "/assets/previews/vending-machine.svg"
+    },
+    {
+      "id": "builtin-supermarket-shelf",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Gôndola de mercado",
+      "category": "Comercial / Armazenamento",
+      "era": "Contemporânea",
+      "contexts": [
+        "Loja",
+        "Depósito"
+      ],
+      "tags": [
+        "prateleira",
+        "comércio",
+        "mantimentos"
+      ],
+      "description": "Prateleiras com embalagens para mercados e lojas abandonadas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.41,
+        0.45
+      ],
+      "bounds": [
+        1.4,
+        1.65,
+        0.45
+      ],
+      "url": "/assets/models/supermarket-shelf.json",
+      "previewUrl": "/assets/previews/supermarket-shelf.svg"
+    },
+    {
+      "id": "builtin-restaurant-booth",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Banco de lanchonete",
+      "category": "Comercial / Assentos",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Restaurante",
+        "Hotel"
+      ],
+      "tags": [
+        "banco",
+        "lanchonete",
+        "tecido"
+      ],
+      "description": "Assento comprido com encosto estofado para lanchonetes.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.4,
+        0.67
+      ],
+      "bounds": [
+        1.4,
+        0.995,
+        0.665
+      ],
+      "url": "/assets/models/restaurant-booth.json",
+      "previewUrl": "/assets/previews/restaurant-booth.svg"
+    },
+    {
+      "id": "builtin-bar-stool",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Banqueta de bar",
+      "category": "Comercial / Assentos",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Restaurante",
+        "Casa"
+      ],
+      "tags": [
+        "banqueta",
+        "bar",
+        "assento",
+        "metal"
+      ],
+      "description": "Banqueta alta com base e apoio para pés.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.44,
+        0.44
+      ],
+      "bounds": [
+        0.44,
+        0.81,
+        0.44
+      ],
+      "url": "/assets/models/bar-stool.json",
+      "previewUrl": "/assets/previews/bar-stool.svg"
+    },
+    {
+      "id": "builtin-pool-table",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Mesa de sinuca",
+      "category": "Comercial / Lazer",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Restaurante",
+        "Casa",
+        "Hotel"
+      ],
+      "tags": [
+        "sinuca",
+        "jogo",
+        "mesa",
+        "lazer"
+      ],
+      "description": "Mesa com tecido, caçapas e bolas cenográficas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.21,
+        1.26
+      ],
+      "bounds": [
+        2.2,
+        0.855,
+        1.25
+      ],
+      "url": "/assets/models/pool-table.json",
+      "previewUrl": "/assets/previews/pool-table.svg"
+    },
+    {
+      "id": "builtin-piano",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Piano de salão",
+      "category": "Mobiliário / Instrumentos",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Casa",
+        "Hotel",
+        "Escola"
+      ],
+      "tags": [
+        "piano",
+        "música",
+        "madeira",
+        "casarão"
+      ],
+      "description": "Piano vertical com teclado detalhado e corpo fechado.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.4,
+        0.68
+      ],
+      "bounds": [
+        1.4,
+        1.05,
+        0.67
+      ],
+      "url": "/assets/models/piano.json",
+      "previewUrl": "/assets/previews/piano.svg"
+    },
+    {
+      "id": "builtin-classroom-desk",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Carteira escolar",
+      "category": "Comercial / Escola",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Escola",
+        "Arquivo"
+      ],
+      "tags": [
+        "carteira",
+        "escola",
+        "mesa",
+        "estudo"
+      ],
+      "description": "Mesa com cadeira para salas de aula e escolas abandonadas.",
+      "supportHeight": 0.7649999982118607,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.61,
+        0.94
+      ],
+      "bounds": [
+        0.6,
+        0.795,
+        0.935
+      ],
+      "url": "/assets/models/classroom-desk.json",
+      "previewUrl": "/assets/previews/classroom-desk.svg"
+    },
+    {
+      "id": "builtin-typewriter",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Máquina de escrever",
+      "category": "Tecnologia / Analógica",
+      "era": "Início do século XX",
+      "contexts": [
+        "Arquivo",
+        "Escritório",
+        "Delegacia"
+      ],
+      "tags": [
+        "máquina de escrever",
+        "papel",
+        "investigação",
+        "analógico"
+      ],
+      "description": "Máquina com rolo, teclas e folha inserida.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.42,
+        0.34
+      ],
+      "bounds": [
+        0.42,
+        0.435,
+        0.33
+      ],
+      "url": "/assets/models/typewriter.json",
+      "previewUrl": "/assets/previews/typewriter.svg"
+    },
+    {
+      "id": "builtin-reel-recorder",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Gravador de rolo",
+      "category": "Tecnologia / Analógica",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Arquivo",
+        "Escritório",
+        "Estúdio"
+      ],
+      "tags": [
+        "gravador",
+        "áudio",
+        "fita",
+        "pista",
+        "analógico"
+      ],
+      "description": "Gravador com duas bobinas para pistas sonoras cenográficas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.48,
+        0.24
+      ],
+      "bounds": [
+        0.48,
+        0.48,
+        0.235
+      ],
+      "url": "/assets/models/reel-recorder.json",
+      "previewUrl": "/assets/previews/reel-recorder.svg"
+    },
+    {
+      "id": "builtin-vhs-recorder",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Videocassete com fitas",
+      "category": "Tecnologia / Analógica",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Casa",
+        "Delegacia",
+        "Estúdio"
+      ],
+      "tags": [
+        "videocassete",
+        "vhs",
+        "gravação",
+        "pista"
+      ],
+      "description": "Aparelho de vídeo com fita sobre a tampa.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.44,
+        0.32
+      ],
+      "bounds": [
+        0.43,
+        0.119,
+        0.313
+      ],
+      "url": "/assets/models/vhs-recorder.json",
+      "previewUrl": "/assets/previews/vhs-recorder.svg"
+    },
+    {
+      "id": "builtin-surveillance-monitor",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Central de monitores",
+      "category": "Tecnologia / Vigilância",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Delegacia",
+        "Bunker",
+        "Estação"
+      ],
+      "tags": [
+        "monitor",
+        "vigilância",
+        "segurança",
+        "energia"
+      ],
+      "description": "Quatro monitores de tubo em console de vigilância.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.5,
+        0.61
+      ],
+      "bounds": [
+        1.5,
+        1.64,
+        0.6
+      ],
+      "url": "/assets/models/surveillance-monitor.json",
+      "previewUrl": "/assets/previews/surveillance-monitor.svg"
+    },
+    {
+      "id": "builtin-oscilloscope",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Osciloscópio de bancada",
+      "category": "Tecnologia / Instrumentos",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Laboratório",
+        "Oficina",
+        "Bunker"
+      ],
+      "tags": [
+        "osciloscópio",
+        "medição",
+        "energia",
+        "pesquisa"
+      ],
+      "description": "Instrumento analógico para sinais e experimentos anômalos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.42,
+        0.37
+      ],
+      "bounds": [
+        0.42,
+        0.25,
+        0.361
+      ],
+      "url": "/assets/models/oscilloscope.json",
+      "previewUrl": "/assets/previews/oscilloscope.svg"
+    },
+    {
+      "id": "builtin-laptop",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Notebook de investigação",
+      "category": "Tecnologia / Computadores",
+      "era": "Contemporânea",
+      "contexts": [
+        "Escritório",
+        "Laboratório",
+        "Acampamento"
+      ],
+      "tags": [
+        "notebook",
+        "computador",
+        "dados",
+        "investigação"
+      ],
+      "description": "Notebook aberto para colocar sobre mesas ou bancadas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.35,
+        0.24
+      ],
+      "bounds": [
+        0.35,
+        0.242,
+        0.24
+      ],
+      "url": "/assets/models/laptop.json",
+      "previewUrl": "/assets/previews/laptop.svg"
+    },
+    {
+      "id": "builtin-projector",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Projetor de slides",
+      "category": "Tecnologia / Analógica",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Escola",
+        "Arquivo",
+        "Estúdio"
+      ],
+      "tags": [
+        "projetor",
+        "slides",
+        "pista",
+        "analógico"
+      ],
+      "description": "Projetor com lente e carrossel de slides estáticos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.35,
+        0.41
+      ],
+      "bounds": [
+        0.34,
+        0.265,
+        0.402
+      ],
+      "url": "/assets/models/projector.json",
+      "previewUrl": "/assets/previews/projector.svg"
+    },
+    {
+      "id": "builtin-antenna",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Antena de comunicação",
+      "category": "Tecnologia / Comunicação",
+      "era": "Contemporânea",
+      "contexts": [
+        "Bunker",
+        "Estação",
+        "Acampamento"
+      ],
+      "tags": [
+        "antena",
+        "comunicação",
+        "energia",
+        "rádio"
+      ],
+      "description": "Mastro com elementos de transmissão e braços de apoio.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.11,
+        0.56
+      ],
+      "bounds": [
+        1.1,
+        2.672,
+        0.55
+      ],
+      "url": "/assets/models/antenna.json",
+      "previewUrl": "/assets/previews/antenna.svg"
+    },
+    {
+      "id": "builtin-safe",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cofre de documentos",
+      "category": "Investigação / Armazenamento",
+      "era": "Início do século XX",
+      "contexts": [
+        "Escritório",
+        "Delegacia",
+        "Casa"
+      ],
+      "tags": [
+        "cofre",
+        "segredo",
+        "documentos",
+        "metal"
+      ],
+      "description": "Cofre cenográfico fechado com disco e manopla.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.65,
+        0.69
+      ],
+      "bounds": [
+        0.65,
+        0.85,
+        0.685
+      ],
+      "url": "/assets/models/safe.json",
+      "previewUrl": "/assets/previews/safe.svg"
+    },
+    {
+      "id": "builtin-weapon-case",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Estojo de equipamento tático",
+      "category": "Investigação / Equipamentos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Bunker",
+        "Delegacia",
+        "Alojamento"
+      ],
+      "tags": [
+        "estojo",
+        "tático",
+        "contenção",
+        "equipamento"
+      ],
+      "description": "Estojo fechado de transporte para cenários de agentes.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1,
+        0.4
+      ],
+      "bounds": [
+        1,
+        0.19,
+        0.4
+      ],
+      "url": "/assets/models/weapon-case.json",
+      "previewUrl": "/assets/previews/weapon-case.svg"
+    },
+    {
+      "id": "builtin-centrifuge",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Centrífuga de laboratório",
+      "category": "Saúde / Instrumentos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Laboratório",
+        "Hospital"
+      ],
+      "tags": [
+        "centrífuga",
+        "amostras",
+        "pesquisa",
+        "sangue"
+      ],
+      "description": "Instrumento compacto com tampa e painel de controle.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.41,
+        0.44
+      ],
+      "bounds": [
+        0.4,
+        0.27,
+        0.435
+      ],
+      "url": "/assets/models/centrifuge.json",
+      "previewUrl": "/assets/previews/centrifuge.svg"
+    },
+    {
+      "id": "builtin-specimen-jars",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Frascos de espécimes",
+      "category": "Saúde / Amostras",
+      "era": "Contemporânea",
+      "contexts": [
+        "Laboratório",
+        "Hospital",
+        "Ritual"
+      ],
+      "tags": [
+        "frascos",
+        "amostras",
+        "sangue",
+        "conservação"
+      ],
+      "description": "Três recipientes opacos com rótulos para bancadas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.4,
+        0.12
+      ],
+      "bounds": [
+        0.394,
+        0.264,
+        0.115
+      ],
+      "url": "/assets/models/specimen-jars.json",
+      "previewUrl": "/assets/previews/specimen-jars.svg"
+    },
+    {
+      "id": "builtin-chemical-rack",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Suporte de tubos de ensaio",
+      "category": "Saúde / Amostras",
+      "era": "Contemporânea",
+      "contexts": [
+        "Laboratório",
+        "Hospital"
+      ],
+      "tags": [
+        "tubos",
+        "química",
+        "amostras",
+        "pesquisa"
+      ],
+      "description": "Suporte com seis tubos para experimentos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.38,
+        0.16
+      ],
+      "bounds": [
+        0.38,
+        0.21,
+        0.16
+      ],
+      "url": "/assets/models/chemical-rack.json",
+      "previewUrl": "/assets/previews/chemical-rack.svg"
+    },
+    {
+      "id": "builtin-oxygen-tank",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cilindro de oxigênio",
+      "category": "Saúde / Equipamentos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Hospital",
+        "Laboratório",
+        "Ambulância"
+      ],
+      "tags": [
+        "oxigênio",
+        "tratamento",
+        "cilindro",
+        "metal"
+      ],
+      "description": "Cilindro com válvula e manômetro.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.32,
+        0.32
+      ],
+      "bounds": [
+        0.32,
+        1.192,
+        0.32
+      ],
+      "url": "/assets/models/oxygen-tank.json",
+      "previewUrl": "/assets/previews/oxygen-tank.svg"
+    },
+    {
+      "id": "builtin-autopsy-table",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Mesa de autópsia",
+      "category": "Saúde / Mobiliário",
+      "era": "Contemporânea",
+      "contexts": [
+        "Hospital",
+        "Necrotério",
+        "Laboratório"
+      ],
+      "tags": [
+        "autópsia",
+        "sangue",
+        "morte",
+        "medicina"
+      ],
+      "description": "Mesa metálica de perícia com bordas e sulcos.",
+      "supportHeight": 0.8599999856948852,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.86,
+        2.1
+      ],
+      "bounds": [
+        0.855,
+        0.925,
+        2.1
+      ],
+      "url": "/assets/models/autopsy-table.json",
+      "previewUrl": "/assets/previews/autopsy-table.svg"
+    },
+    {
+      "id": "builtin-mortuary-cabinet",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Gavetas de necrotério",
+      "category": "Saúde / Armazenamento",
+      "era": "Contemporânea",
+      "contexts": [
+        "Necrotério",
+        "Hospital"
+      ],
+      "tags": [
+        "necrotério",
+        "morte",
+        "contenção",
+        "metal"
+      ],
+      "description": "Módulo de quatro gavetas fechadas para necrotérios.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.71,
+        2.19
+      ],
+      "bounds": [
+        1.7,
+        1.6,
+        2.185
+      ],
+      "url": "/assets/models/mortuary-cabinet.json",
+      "previewUrl": "/assets/previews/mortuary-cabinet.svg"
+    },
+    {
+      "id": "builtin-surgical-lamp",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Luminária cirúrgica",
+      "category": "Saúde / Equipamentos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Hospital",
+        "Laboratório"
+      ],
+      "tags": [
+        "cirurgia",
+        "luz",
+        "teto",
+        "medicina"
+      ],
+      "description": "Lâmpada cenográfica articulada; adicione luz real separadamente.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.97,
+        0.5
+      ],
+      "bounds": [
+        0.96,
+        1.403,
+        0.5
+      ],
+      "url": "/assets/models/surgical-lamp.json",
+      "previewUrl": "/assets/previews/surgical-lamp.svg"
+    },
+    {
+      "id": "builtin-containment-pod",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cápsula de contenção",
+      "category": "Paranormal / Contenção",
+      "era": "Contemporânea",
+      "contexts": [
+        "Laboratório",
+        "Bunker",
+        "Ritual"
+      ],
+      "tags": [
+        "cápsula",
+        "contenção",
+        "energia",
+        "anomalia"
+      ],
+      "description": "Câmara opaca com estrutura metálica para fenômenos inventados pelo mestre.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1,
+        1.04
+      ],
+      "bounds": [
+        1,
+        1.89,
+        1.038
+      ],
+      "url": "/assets/models/containment-pod.json",
+      "previewUrl": "/assets/previews/containment-pod.svg"
+    },
+    {
+      "id": "builtin-pallet",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Palete de madeira",
+      "category": "Industrial / Armazenamento",
+      "era": "Contemporânea",
+      "contexts": [
+        "Depósito",
+        "Indústria",
+        "Garagem"
+      ],
+      "tags": [
+        "palete",
+        "madeira",
+        "carga"
+      ],
+      "description": "Palete vazado para empilhar caixas e equipamentos.",
+      "supportHeight": 0.14499999865889548,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.11,
+        0.81
+      ],
+      "bounds": [
+        1.1,
+        0.145,
+        0.8
+      ],
+      "url": "/assets/models/pallet.json",
+      "previewUrl": "/assets/previews/pallet.svg"
+    },
+    {
+      "id": "builtin-pallet-jack",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Carrinho de paletes",
+      "category": "Industrial / Transporte",
+      "era": "Contemporânea",
+      "contexts": [
+        "Depósito",
+        "Indústria"
+      ],
+      "tags": [
+        "paleteira",
+        "carga",
+        "transporte",
+        "metal"
+      ],
+      "description": "Paleteira manual com garfos, rodinhas e alça.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.66,
+        1.51
+      ],
+      "bounds": [
+        0.65,
+        0.985,
+        1.505
+      ],
+      "url": "/assets/models/pallet-jack.json",
+      "previewUrl": "/assets/previews/pallet-jack.svg"
+    },
+    {
+      "id": "builtin-tool-chest",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Carrinho de ferramentas",
+      "category": "Industrial / Oficina",
+      "era": "Contemporânea",
+      "contexts": [
+        "Garagem",
+        "Oficina",
+        "Indústria"
+      ],
+      "tags": [
+        "ferramentas",
+        "oficina",
+        "gaveta",
+        "metal"
+      ],
+      "description": "Armário de oficina com gavetas, rodas e tampo.",
+      "supportHeight": 0.8550000014901161,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.78,
+        0.51
+      ],
+      "bounds": [
+        0.78,
+        0.855,
+        0.5
+      ],
+      "url": "/assets/models/tool-chest.json",
+      "previewUrl": "/assets/previews/tool-chest.svg"
+    },
+    {
+      "id": "builtin-pipe-valve",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Tubulação com válvula",
+      "category": "Industrial / Infraestrutura",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Indústria",
+        "Bunker",
+        "Esgoto"
+      ],
+      "tags": [
+        "tubo",
+        "válvula",
+        "água",
+        "metal"
+      ],
+      "description": "Cano em L com volante de controle e flanges.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.76,
+        0.34
+      ],
+      "bounds": [
+        0.757,
+        1.285,
+        0.339
+      ],
+      "url": "/assets/models/pipe-valve.json",
+      "previewUrl": "/assets/previews/pipe-valve.svg"
+    },
+    {
+      "id": "builtin-power-panel",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Quadro elétrico",
+      "category": "Industrial / Infraestrutura",
+      "era": "Contemporânea",
+      "contexts": [
+        "Indústria",
+        "Bunker",
+        "Escola"
+      ],
+      "tags": [
+        "eletricidade",
+        "energia",
+        "parede",
+        "segurança"
+      ],
+      "description": "Painel de disjuntores para fixação em paredes.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.58,
+        0.21
+      ],
+      "bounds": [
+        0.58,
+        0.75,
+        0.204
+      ],
+      "url": "/assets/models/power-panel.json",
+      "previewUrl": "/assets/previews/power-panel.svg"
+    },
+    {
+      "id": "builtin-water-tank",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Reservatório de água",
+      "category": "Industrial / Infraestrutura",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fazenda",
+        "Indústria",
+        "Bunker"
+      ],
+      "tags": [
+        "reservatório",
+        "água",
+        "cilindro"
+      ],
+      "description": "Tanque fechado com tampa de inspeção e saída lateral.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.53,
+        1.47
+      ],
+      "bounds": [
+        1.52,
+        1.265,
+        1.46
+      ],
+      "url": "/assets/models/water-tank.json",
+      "previewUrl": "/assets/previews/water-tank.svg"
+    },
+    {
+      "id": "builtin-fuel-pump",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Bomba de combustível",
+      "category": "Industrial / Equipamentos",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Posto de combustível",
+        "Garagem",
+        "Rua"
+      ],
+      "tags": [
+        "combustível",
+        "bomba",
+        "estrada",
+        "máquina"
+      ],
+      "description": "Bomba antiga com visor, mangueira e bico estáticos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.69,
+        0.61
+      ],
+      "bounds": [
+        0.685,
+        1.53,
+        0.6
+      ],
+      "url": "/assets/models/fuel-pump.json",
+      "previewUrl": "/assets/previews/fuel-pump.svg"
+    },
+    {
+      "id": "builtin-oil-pump",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cavalete de extração",
+      "category": "Industrial / Máquinas",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Indústria",
+        "Deserto",
+        "Estrada"
+      ],
+      "tags": [
+        "petróleo",
+        "máquina",
+        "industrial",
+        "energia"
+      ],
+      "description": "Máquina de extração estática para instalações remotas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.6,
+        1.11
+      ],
+      "bounds": [
+        2.599,
+        2.219,
+        1.1
+      ],
+      "url": "/assets/models/oil-pump.json",
+      "previewUrl": "/assets/previews/oil-pump.svg"
+    },
+    {
+      "id": "builtin-dead-tree",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Árvore seca",
+      "category": "Exterior / Vegetação",
+      "era": "Atemporal",
+      "contexts": [
+        "Floresta",
+        "Cemitério",
+        "Ruínas"
+      ],
+      "tags": [
+        "árvore",
+        "seca",
+        "abandonado",
+        "morte"
+      ],
+      "description": "Tronco sem folhagem com galhos retorcidos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.25,
+        0.63
+      ],
+      "bounds": [
+        1.248,
+        2.611,
+        0.625
+      ],
+      "url": "/assets/models/dead-tree.json",
+      "previewUrl": "/assets/previews/dead-tree.svg"
+    },
+    {
+      "id": "builtin-stump",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Toco de árvore",
+      "category": "Exterior / Vegetação",
+      "era": "Atemporal",
+      "contexts": [
+        "Floresta",
+        "Fazenda",
+        "Acampamento"
+      ],
+      "tags": [
+        "toco",
+        "madeira",
+        "natureza"
+      ],
+      "description": "Tronco cortado com raízes aparentes.",
+      "supportHeight": 0.4649999986588955,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.62,
+        0.62
+      ],
+      "bounds": [
+        0.62,
+        0.465,
+        0.62
+      ],
+      "url": "/assets/models/stump.json",
+      "previewUrl": "/assets/previews/stump.svg"
+    },
+    {
+      "id": "builtin-bushes",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Moita de arbustos",
+      "category": "Exterior / Vegetação",
+      "era": "Atemporal",
+      "contexts": [
+        "Floresta",
+        "Casa",
+        "Vila"
+      ],
+      "tags": [
+        "arbusto",
+        "vegetação",
+        "natureza",
+        "cobertura"
+      ],
+      "description": "Moita baixa para jardins e caminhos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.34,
+        0.81
+      ],
+      "bounds": [
+        1.34,
+        0.8,
+        0.8
+      ],
+      "url": "/assets/models/bushes.json",
+      "previewUrl": "/assets/previews/bushes.svg"
+    },
+    {
+      "id": "builtin-iron-fence",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Grade de cemitério",
+      "category": "Exterior / Cercas",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Cemitério",
+        "Casa",
+        "Igreja"
+      ],
+      "tags": [
+        "grade",
+        "ferro",
+        "barreira",
+        "cemitério"
+      ],
+      "description": "Segmento independente de grade com pontas e pilares.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.08,
+        0.08
+      ],
+      "bounds": [
+        2.075,
+        1.45,
+        0.075
+      ],
+      "url": "/assets/models/iron-fence.json",
+      "previewUrl": "/assets/previews/iron-fence.svg"
+    },
+    {
+      "id": "builtin-mausoleum",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Mausoléu de pedra",
+      "category": "Religioso / Cemitério",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Cemitério",
+        "Ruínas"
+      ],
+      "tags": [
+        "mausoléu",
+        "morte",
+        "pedra",
+        "sepultura"
+      ],
+      "description": "Tumba cenográfica fechada com cobertura em degraus.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.3,
+        1.86
+      ],
+      "bounds": [
+        2.3,
+        2.76,
+        1.85
+      ],
+      "url": "/assets/models/mausoleum.json",
+      "previewUrl": "/assets/previews/mausoleum.svg"
+    },
+    {
+      "id": "builtin-ruined-column",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Coluna quebrada",
+      "category": "Exterior / Ruínas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Ruínas",
+        "Templo",
+        "Museu"
+      ],
+      "tags": [
+        "coluna",
+        "pedra",
+        "ruína",
+        "abandonado"
+      ],
+      "description": "Coluna partida com fragmento tombado ao lado.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.13,
+        0.65
+      ],
+      "bounds": [
+        1.125,
+        1.369,
+        0.65
+      ],
+      "url": "/assets/models/ruined-column.json",
+      "previewUrl": "/assets/previews/ruined-column.svg"
+    },
+    {
+      "id": "builtin-broken-wall",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Mureta desmoronada",
+      "category": "Exterior / Ruínas",
+      "era": "Atemporal",
+      "contexts": [
+        "Ruínas",
+        "Estrada",
+        "Casa"
+      ],
+      "tags": [
+        "mureta",
+        "ruína",
+        "pedra",
+        "cobertura"
+      ],
+      "description": "Trecho de alvenaria irregular com escombros.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.98,
+        0.77
+      ],
+      "bounds": [
+        1.971,
+        0.773,
+        0.764
+      ],
+      "url": "/assets/models/broken-wall.json",
+      "previewUrl": "/assets/previews/broken-wall.svg"
+    },
+    {
+      "id": "builtin-sewer-grate",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Grade de drenagem",
+      "category": "Urbano / Infraestrutura",
+      "era": "Contemporânea",
+      "contexts": [
+        "Rua",
+        "Esgoto",
+        "Indústria"
+      ],
+      "tags": [
+        "grade",
+        "esgoto",
+        "drenagem",
+        "metal"
+      ],
+      "description": "Grade rasa que pode ser colocada sobre pisos ou recortes.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.8,
+        0.61
+      ],
+      "bounds": [
+        0.8,
+        0.035,
+        0.6
+      ],
+      "url": "/assets/models/sewer-grate.json",
+      "previewUrl": "/assets/previews/sewer-grate.svg"
+    },
+    {
+      "id": "builtin-ritual-mask",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Máscara cerimonial",
+      "category": "Paranormal / Relíquias",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Ritual",
+        "Museu",
+        "Casa"
+      ],
+      "tags": [
+        "máscara",
+        "medo",
+        "relíquia",
+        "ocultismo"
+      ],
+      "description": "Máscara geométrica original, deitada para usar sobre mesas ou altares.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.3,
+        0.32
+      ],
+      "bounds": [
+        0.293,
+        0.065,
+        0.317
+      ],
+      "url": "/assets/models/ritual-mask.json",
+      "previewUrl": "/assets/previews/ritual-mask.svg"
+    },
+    {
+      "id": "builtin-reliquary",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Relicário selado",
+      "category": "Paranormal / Relíquias",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Igreja",
+        "Museu",
+        "Ritual"
+      ],
+      "tags": [
+        "relicário",
+        "relíquia",
+        "segredo",
+        "conhecimento"
+      ],
+      "description": "Caixa de relíquias com ornamentos e selo abstrato.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.37,
+        0.26
+      ],
+      "bounds": [
+        0.36,
+        0.31,
+        0.26
+      ],
+      "url": "/assets/models/reliquary.json",
+      "previewUrl": "/assets/previews/reliquary.svg"
+    },
+    {
+      "id": "builtin-stone-sarcophagus",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Sarcófago de pedra",
+      "category": "Paranormal / Relíquias",
+      "era": "Antiguidade",
+      "contexts": [
+        "Ruínas",
+        "Templo",
+        "Museu"
+      ],
+      "tags": [
+        "sarcófago",
+        "morte",
+        "pedra",
+        "relíquia"
+      ],
+      "description": "Sarcófago fechado com inscrições geométricas originais.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1,
+        2.21
+      ],
+      "bounds": [
+        1,
+        0.825,
+        2.2
+      ],
+      "url": "/assets/models/stone-sarcophagus.json",
+      "previewUrl": "/assets/previews/stone-sarcophagus.svg"
+    },
+    {
+      "id": "builtin-skull-display",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Crânio sobre pedestal",
+      "category": "Paranormal / Relíquias",
+      "era": "Atemporal",
+      "contexts": [
+        "Ritual",
+        "Laboratório",
+        "Museu"
+      ],
+      "tags": [
+        "crânio",
+        "morte",
+        "osso",
+        "pista"
+      ],
+      "description": "Crânio estilizado em base de exposição.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.31,
+        0.31
+      ],
+      "bounds": [
+        0.3,
+        0.3,
+        0.3
+      ],
+      "url": "/assets/models/skull-display.json",
+      "previewUrl": "/assets/previews/skull-display.svg"
+    },
+    {
+      "id": "builtin-effigy",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Efígie de palha",
+      "category": "Paranormal / Ritual",
+      "era": "Atemporal",
+      "contexts": [
+        "Fazenda",
+        "Floresta",
+        "Ritual"
+      ],
+      "tags": [
+        "efígie",
+        "palha",
+        "medo",
+        "ritual"
+      ],
+      "description": "Figura ritualística de palha com amarrações.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.11,
+        0.29
+      ],
+      "bounds": [
+        1.1,
+        1.7,
+        0.28
+      ],
+      "url": "/assets/models/effigy.json",
+      "previewUrl": "/assets/previews/effigy.svg"
+    },
+    {
+      "id": "builtin-anomalous-portal",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Arco anômalo",
+      "category": "Paranormal / Anomalias",
+      "era": "Atemporal",
+      "contexts": [
+        "Ritual",
+        "Ruínas",
+        "Bunker"
+      ],
+      "tags": [
+        "portal",
+        "energia",
+        "medo",
+        "anomalia"
+      ],
+      "description": "Arco aberto com bordas emissivas estáticas; miniaturas podem ocupar o vão.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.11,
+        0.5
+      ],
+      "bounds": [
+        2.1,
+        2.24,
+        0.5
+      ],
+      "url": "/assets/models/anomalous-portal.json",
+      "previewUrl": "/assets/previews/anomalous-portal.svg"
+    },
+    {
+      "id": "builtin-sedan",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Carro de passeio",
+      "category": "Veículos / Terrestres",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Rua",
+        "Estrada",
+        "Garagem"
+      ],
+      "tags": [
+        "carro",
+        "transporte",
+        "estrada",
+        "cobertura"
+      ],
+      "description": "Sedã genérico para ruas, estradas e estacionamentos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.81,
+        3.8
+      ],
+      "bounds": [
+        1.8,
+        1.54,
+        3.79
+      ],
+      "url": "/assets/models/sedan.json",
+      "previewUrl": "/assets/previews/sedan.svg"
+    },
+    {
+      "id": "builtin-delivery-van",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Furgão de carga",
+      "category": "Veículos / Terrestres",
+      "era": "Contemporânea",
+      "contexts": [
+        "Rua",
+        "Depósito",
+        "Garagem"
+      ],
+      "tags": [
+        "furgão",
+        "transporte",
+        "carga",
+        "cobertura"
+      ],
+      "description": "Furgão fechado para entregas e deslocamento de equipamentos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.99,
+        4.3
+      ],
+      "bounds": [
+        1.98,
+        2.175,
+        4.298
+      ],
+      "url": "/assets/models/delivery-van.json",
+      "previewUrl": "/assets/previews/delivery-van.svg"
+    },
+    {
+      "id": "builtin-ambulance",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Ambulância",
+      "category": "Veículos / Emergência",
+      "era": "Contemporânea",
+      "contexts": [
+        "Hospital",
+        "Rua",
+        "Estrada"
+      ],
+      "tags": [
+        "ambulância",
+        "resgate",
+        "medicina",
+        "transporte"
+      ],
+      "description": "Ambulância genérica com faixa e sinalizador estático.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.99,
+        4.3
+      ],
+      "bounds": [
+        1.98,
+        2.285,
+        4.298
+      ],
+      "url": "/assets/models/ambulance.json",
+      "previewUrl": "/assets/previews/ambulance.svg"
+    },
+    {
+      "id": "builtin-police-car",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Viatura de investigação",
+      "category": "Veículos / Emergência",
+      "era": "Contemporânea",
+      "contexts": [
+        "Delegacia",
+        "Rua",
+        "Estrada"
+      ],
+      "tags": [
+        "viatura",
+        "investigação",
+        "polícia",
+        "transporte"
+      ],
+      "description": "Viatura sem brasões oficiais, com sinalizador cenográfico.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.81,
+        3.8
+      ],
+      "bounds": [
+        1.8,
+        1.7,
+        3.79
+      ],
+      "url": "/assets/models/police-car.json",
+      "previewUrl": "/assets/previews/police-car.svg"
+    },
+    {
+      "id": "builtin-motorcycle",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Motocicleta",
+      "category": "Veículos / Terrestres",
+      "era": "Contemporânea",
+      "contexts": [
+        "Rua",
+        "Estrada",
+        "Garagem"
+      ],
+      "tags": [
+        "moto",
+        "transporte",
+        "estrada"
+      ],
+      "description": "Motocicleta de estrada com motor, banco, farol e descanso.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.57,
+        1.87
+      ],
+      "bounds": [
+        0.57,
+        0.978,
+        1.86
+      ],
+      "url": "/assets/models/motorcycle.json",
+      "previewUrl": "/assets/previews/motorcycle.svg"
+    },
+    {
+      "id": "builtin-rowboat",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Barco a remo",
+      "category": "Veículos / Aquáticos",
+      "era": "Início do século XX",
+      "contexts": [
+        "Lago",
+        "Porto",
+        "Fazenda"
+      ],
+      "tags": [
+        "barco",
+        "água",
+        "transporte",
+        "madeira"
+      ],
+      "description": "Barco aberto com bancos e remos, sem comportamento de navegação automático.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.41,
+        2.41
+      ],
+      "bounds": [
+        1.401,
+        0.46,
+        2.4
+      ],
+      "url": "/assets/models/rowboat.json",
+      "previewUrl": "/assets/previews/rowboat.svg"
     }
   ]
 }

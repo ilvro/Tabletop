@@ -1,0 +1,205 @@
+{
+  "name": "Ventilador de mesa",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.025,
+        0.24
+      ],
+      "position": [
+        0,
+        0.012500000186264515,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.025,
+      "radiusBottom": 0.025,
+      "height": 0.24,
+      "position": [
+        0,
+        0.1450000001862645,
+        0
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.19,
+      "radiusBottom": 0.19,
+      "height": 0.05,
+      "position": [
+        0,
+        0.4100000001862645,
+        0
+      ],
+      "material": "metal",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.145,
+      "radiusBottom": 0.145,
+      "height": 0.015,
+      "position": [
+        0,
+        0.4100000001862645,
+        0.033
+      ],
+      "material": "dark",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.25,
+        0.014
+      ],
+      "position": [
+        0,
+        0.4100000001862645,
+        0.048
+      ],
+      "material": "cloth",
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.25,
+        0.014
+      ],
+      "position": [
+        0,
+        0.4100000001862645,
+        0.048
+      ],
+      "material": "cloth",
+      "rotation": [
+        0,
+        0,
+        2.094
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.25,
+        0.014
+      ],
+      "position": [
+        0,
+        0.4100000001862645,
+        0.048
+      ],
+      "material": "cloth",
+      "rotation": [
+        0,
+        0,
+        4.189
+      ]
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.027,
+      "position": [
+        0,
+        0.4100000001862645,
+        0.067
+      ],
+      "material": "metal"
+    }
+  ]
+}

@@ -1,0 +1,287 @@
+{
+  "name": "Máquina de bebidas",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.85,
+        1.8,
+        0.72
+      ],
+      "position": [
+        0,
+        0.8999999761581421,
+        -0.037499993741512305
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.55,
+        1.05,
+        0.025
+      ],
+      "position": [
+        -0.09,
+        1.0999999761581423,
+        0.3375000062584877
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.16,
+      "position": [
+        -0.24,
+        0.7599999761581421,
+        0.3525000062584877
+      ],
+      "material": "white",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.16,
+      "position": [
+        -0.09,
+        0.7599999761581421,
+        0.3525000062584877
+      ],
+      "material": "red",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.16,
+      "position": [
+        0.06,
+        0.7599999761581421,
+        0.3525000062584877
+      ],
+      "material": "white",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.16,
+      "position": [
+        -0.24,
+        1.009999976158142,
+        0.3525000062584877
+      ],
+      "material": "red",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.16,
+      "position": [
+        -0.09,
+        1.009999976158142,
+        0.3525000062584877
+      ],
+      "material": "white",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.16,
+      "position": [
+        0.06,
+        1.009999976158142,
+        0.3525000062584877
+      ],
+      "material": "red",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.16,
+      "position": [
+        -0.24,
+        1.259999976158142,
+        0.3525000062584877
+      ],
+      "material": "white",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.16,
+      "position": [
+        -0.09,
+        1.259999976158142,
+        0.3525000062584877
+      ],
+      "material": "red",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.16,
+      "position": [
+        0.06,
+        1.259999976158142,
+        0.3525000062584877
+      ],
+      "material": "white",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.16,
+      "position": [
+        -0.24,
+        1.509999976158142,
+        0.3525000062584877
+      ],
+      "material": "red",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.16,
+      "position": [
+        -0.09,
+        1.509999976158142,
+        0.3525000062584877
+      ],
+      "material": "white",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.16,
+      "position": [
+        0.06,
+        1.509999976158142,
+        0.3525000062584877
+      ],
+      "material": "red",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        0.18,
+        0.025
+      ],
+      "position": [
+        0.31,
+        1.199999976158142,
+        0.3425000062584877
+      ],
+      "material": "screen"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.55,
+        0.15,
+        0.03
+      ],
+      "position": [
+        0,
+        0.2699999761581421,
+        0.3425000062584877
+      ],
+      "material": "black"
+    }
+  ]
+}

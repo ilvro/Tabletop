@@ -1,0 +1,147 @@
+{
+  "name": "Crânio sobre pedestal",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.08,
+        0.3
+      ],
+      "position": [
+        0,
+        0.03999999910593033,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.1,
+      "position": [
+        0,
+        0.19999999910593033,
+        0
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.13,
+        0.04,
+        0.1
+      ],
+      "position": [
+        0,
+        0.11499999910593034,
+        0.07
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.025,
+      "position": [
+        -0.04,
+        0.2049999991059303,
+        0.09
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.025,
+      "position": [
+        0.04,
+        0.2049999991059303,
+        0.09
+      ],
+      "material": "black"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.035,
+        0.014
+      ],
+      "position": [
+        0,
+        0.15999999910593032,
+        0.097
+      ],
+      "material": "dark"
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "name": "Antena de comunicação",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.55,
+        0.06,
+        0.55
+      ],
+      "position": [
+        0,
+        0.04169073299998513,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.035,
+      "radiusBottom": 0.035,
+      "height": 2.6,
+      "position": [
+        0,
+        1.3716907329999852,
+        0
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.1,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        1.661690732999985,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.8500000000000001,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        2.0616907329999847,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.6000000000000001,
+        0.025,
+        0.025
+      ],
+      "position": [
+        0,
+        2.461690732999985,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        1.4,
+        0.02
+      ],
+      "position": [
+        -0.22,
+        0.6716907329999852,
+        0
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        0,
+        0.3
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        1.4,
+        0.02
+      ],
+      "position": [
+        0.22,
+        0.6716907329999852,
+        0
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        0,
+        -0.3
+      ]
+    }
+  ]
+}
