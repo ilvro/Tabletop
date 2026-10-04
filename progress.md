@@ -82,12 +82,44 @@ Biblioteca de ambientes e emissor global de clima/partículas saíram das pendê
 
 Validação: 107 testes unitários/de integração, build e E2E da biblioteca (paginação completa com 161 cards) passaram. A regeneração apenas acrescentou registros ao catálogo; os 127 modelos/prévias anteriores ficaram idênticos.
 
+## Revisão das pendências e referências visuais — concluída
+
+- [x] Remover recursos entregues da seção de pendências do relatório detalhado; corrigir as menções antigas a três presets para os oito atuais.
+- [x] Comparar as sete imagens fornecidas com os recursos e limites do código, distinguindo conteúdo visual, ferramentas de autoria e acabamento de renderização.
+- [x] Registrar lacunas e uma ordem recomendada com critérios de conclusão em [docs/VISUAL_TARGET.md](docs/VISUAL_TARGET.md); sincronizar os três arquivos de progresso.
+
+Resultado: a maior diferença visual está nos modelos/materiais detalhados e na composição. GLBs estáticos texturizados permitem começar um interior piloto com a base existente. Na análise inicial, texturas para estruturas/terreno, prefabs de usuário, distribuição de vegetação, miniaturas 3D pela interface, poças e efeitos locais foram apontados como trabalho futuro; materiais e emissores por objeto são tratados no incremento abaixo.
+
+Validação desta revisão: consistência das seções e links locais da documentação; nenhum código alterado. As contagens de testes acima registram as validações anteriores.
+
+## Materiais texturizados e efeitos locais — concluídos
+
+Plano de implementação autorizado em 4 de outubro:
+
+1. [x] Biblioteca local de madeira, pedra, grama, metal, areia, tijolo, concreto e lama, com cor, rugosidade e relevo aparente; aplicação em estruturas/objetos por material e mistura nas camadas do terreno.
+2. [x] Controles de material, escala e relevo no inspetor, preservando documentos antigos, histórico, duplicação e apresentação.
+3. [x] Fogo e fumaça vinculados a objetos, com partículas animadas, luz do fogo, limites de custo, pausa e qualidade por janela.
+4. [x] Validar domínio, renderização real no navegador, edição/salvamento/projetor e descarte; documentar uso e atualizar as pendências reais.
+
+Validação final: build e 123 testes unitários/de integração passaram, assim como a suíte completa de 14 E2E. Após revisar acabamento por material, veios/filtro das texturas e seleção da fumaça, os cinco E2E de ambientes, materiais/efeitos e pintura do terreno passaram novamente. Os dois E2E de materiais/efeitos foram repetidos após o último ajuste de composição das chamas e preservação dos overrides de cena, e passaram.
+
+Verificados: oito materiais com pixels distintos, mistura no terreno, isolamento de cor/acabamento por material, prioridade de overrides, colocação/duplicação, animação sem editar histórico, pausa/movimento reduzido, qualidade por janela, câmera publicada independente e fidelidade após reiniciar navegador/servidor. Atlas e recursos dos emissores têm descarte verificado. Captura revisada: `test-results/materials-fire-smoke.png`. Servidores locais/Chromium executados fora do sandbox após bloqueio de loopback (`listen EPERM`); WebGL por software, sem benchmark presencial. Uso e limites: [docs/MATERIALS.md](docs/MATERIALS.md).
+
+Texturas em estruturas/objetos, mistura no terreno e emissores de fogo/fumaça por objeto ficam nas entregas. Importação de texturas avulsas/fotográficas, decals, múltiplas regiões de chuva/poeira/brasas e colisão continuam como pendências reais.
+
 ## Pendências atuais
 
+Somente trabalho ainda não concluído. A prioridade visual proposta está em [docs/VISUAL_TARGET.md](docs/VISUAL_TARGET.md).
+
+- Kits de modelos detalhados/texturizados, decoração e miniaturas estáticas para um mapa piloto; avaliação visual em câmera próxima.
+- Texturas fotográficas específicas, importação de texturas avulsas/variantes e decals de desgaste/sujeira.
+- Pincel de distribuição de vegetação/entulho, umidade e poças/água.
+- Fluxo dedicado de miniaturas 3D vinculadas a personagens/tokens; rig, poses e animação como evolução posterior.
+- Acabamento de contato/reflexos e otimizações para cenas densas (LOD, instanciamento e particionamento/streaming), conforme medição.
 - Acompanhamento automático de tokens; caminhos de câmera e colisão com paredes.
 - Avaliação presencial do movimento/legibilidade no notebook e projetor.
 - Pacote único de cena + assets (opcional).
 - Receitas e prefabs adicionais e auto-layout entre cômodos.
 - Coleções/variantes de assets, sockets específicos por asset e glTF com texturas externas.
 - Integrações Ficha/Jukebox e LAN, conforme [roadmap](docs/ROADMAP.md).
-- Volumetria com sombras/espalhamento por luz, múltiplos emissores associados a objetos/áreas, colisão de partículas e efeitos adicionais dependentes de benchmark.
+- Volumetria com sombras/espalhamento por luz, múltiplas regiões de chuva/poeira/brasas, colisão de partículas e efeitos adicionais dependentes de benchmark.

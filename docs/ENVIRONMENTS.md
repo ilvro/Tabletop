@@ -26,7 +26,7 @@ Cada janela usa um emissor com até 3.000 partículas, em uma única geometria: 
 
 **Pausar efeitos animados**, movimento reduzido do navegador e abas ocultas pausam nuvens, clima e flicker. **Volume, bloom, clima e nuvens nesta janela** reduz o custo localmente, preservando céu, luzes e névoa de distância. O projetor tem seu próprio botão de qualidade. Recursos do emissor/céu são descartados ao trocar a configuração ou fechar a janela.
 
-Chuva não colide com telhados e paredes: configure a região nas áreas externas. Fumaça é um efeito de pontos suaves, sem fluidos, colisão ou sombras volumétricas. Há um emissor global por cena; múltiplos emissores associados a objetos/áreas continuam como extensão. Benchmark no notebook/projetor real permanece pendente.
+Chuva não colide com telhados e paredes: configure a região nas áreas externas. Fumaça é um efeito de pontos suaves, sem fluidos, colisão ou sombras volumétricas. Há um emissor global de clima por cena e emissores locais de fogo/fumaça vinculados a objetos ([MATERIALS.md](MATERIALS.md)); múltiplas regiões de chuva/poeira/brasas e colisão continuam como extensão. Benchmark no notebook/projetor real permanece pendente.
 
 ## Objetos que acendem à noite
 
@@ -49,3 +49,7 @@ Um `EnvironmentDocument` de schema 2 guarda somente aparência global e parâmet
 Testes protegem conversão HSV, presets/snapshots, cores manuais de documentos antigos, bloqueios, histórico, vínculos/duplicação/projeção, validação e geometria determinística. O servidor verifica CRUD, concorrência, revisão, backups e reinício. Os roteiros de navegador verificam controles visíveis, materiais por slot, instâncias independentes, dia/noite, pausa/qualidade, biblioteca/prévia, reinício e câmera publicada independente. Um teste WebGL verifica pixels de sol/lua, nuvens animadas e chuva, além de descarte de geometrias.
 
 Validação final: Build de produção, 118 testes unitários/de integração e os 12 roteiros E2E verificados com sucesso. Após corrigir o encerramento da órbita durante animação contínua, os roteiros de câmera, autoria e ambientes foram repetidos e passaram. Execução em Chromium headless com WebGL por software; avaliação presencial no notebook/projetor continua pendente.
+
+## Materiais e efeitos por objeto
+
+Texturas de madeira/pedra/grama/metal/areia e outras superfícies, pintura de texturas no terreno e emissores locais de fogo/fumaça estão disponíveis no inspetor e em Construir. Compartilham pausa/qualidade por janela com a atmosfera, e acompanham o objeto independentemente do preset de horário. Veja [MATERIALS.md](MATERIALS.md).

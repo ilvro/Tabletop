@@ -21,7 +21,7 @@ function merge(record, patch) {
   if (patch.id !== undefined && patch.id !== record.id) throw new ValidationError('O ID não pode ser alterado.');
   if (patch.kind !== undefined && patch.kind !== record.kind) throw new ValidationError('O tipo não pode ser alterado.');
   const next = { ...record, ...clone(patch) };
-  for (const field of ['transform', 'material', 'fill', 'visualOverride', 'flicker', 'fog', 'volumetricFog', 'bloom', 'daylight', 'sky', 'weather', 'nightWindows']) {
+  for (const field of ['transform', 'material', 'fill', 'visualOverride', 'flicker', 'fog', 'volumetricFog', 'bloom', 'daylight', 'sky', 'weather', 'nightWindows', 'localEffect']) {
     if (patch[field] && record[field]) next[field] = { ...clone(record[field]), ...clone(patch[field]) };
   }
   return next;

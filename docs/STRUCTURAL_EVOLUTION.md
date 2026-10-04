@@ -76,3 +76,7 @@ A fixação em grupo está disponível em **Shift+seleção → botão direito �
 A composição tem um pivô na média das posições dos membros quando é criada; os objetos permanecem materializados em coordenadas mundiais. O adaptador Three.js monta um nó de transformação preservando a pose mundial de cada membro, enquanto o domínio aplica o mesmo delta a todos em uma única operação de histórico. Dependentes de apoio são incluídos na transformação sem deslocamento duplo. Composições podem conter outras composições; a seleção resolve a unidade mais externa. Escala é uniforme para preservar posições relativas sem introduzir cisalhamento. Fixações em parede/teto continuam independentes: quando um objeto está fixado a um suporte externo à seleção, inclua esse suporte ou solte a fixação antes de unir/mover a composição.
 
 Testes específicos: `tests/assemblies.test.js` e `tests/e2e/assemblies.test.js`, incluindo mesa + lamparina, arraste de um membro movendo o conjunto, rotação/tamanho, copiar/excluir/colar, desancorar pela pasta, undo/redo e save/reload. Captura: `test-results/assemblies.png`.
+
+## Materiais texturizados
+
+Além das camadas de cor, o terreno aceita texturas locais por camada, com mistura de cor/relevo aparente/rugosidade e tamanho em metros. Estruturas e props também possuem seleção de material texturizado no inspetor. Máscaras, reamostragem, histórico e apoios conservam o comportamento descrito acima. Uso: [MATERIALS.md](MATERIALS.md).

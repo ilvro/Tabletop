@@ -1,3 +1,4 @@
+import { terrainTextureMasks } from './surface-materials.js';
 import * as THREE from 'three';
 import { standardMaterial } from './asset-cache.js';
 import { floorContour } from '../domain/geometry.js';
@@ -53,6 +54,7 @@ export function createTerrain(entity) {
     indices.push(a, c, b, b, c, d);
   }
   const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3)); geometry.setIndex(indices); geometry.computeVertexNormals();
+  terrainTextureMasks(geometry,entity);
   const material = standardMaterial({ ...entity.material, color: entity.paintLayers?.length ? '#ffffff' : entity.material.color });
   material.flatShading = entity.flatShading ?? false;
   if (entity.paintLayers?.length) {
@@ -234,15 +236,18 @@ export function createToken(entity, actor) {
 export function applyMaterialOverrides(object, base, adjustments, tint = false) {
   object.traverse((child) => {
     if (!child.isMesh || child.userData.decorative) return;
-    const slot = child.userData.materialSlot ?? 'base';
-    const override = { ...base, ...adjustments?.[slot] };
     for (const material of Array.isArray(child.material) ? child.material : [child.material]) {
       if (!material?.isMeshStandardMaterial) continue;
-      if (base?.color) {
+      const slot = material.name || child.userData.materialSlot || 'base';
+      const selected = !base?.textureSlot || base.textureSlot === 'base' || base.textureSlot === slot;
+      // Scene overrides retain their legacy semantic slot and precedence, even for named GLB materials.
+      const adjustment = adjustments?.[child.userData.materialSlot ?? 'base'];
+      const override = { ...(selected ? base : undefined), ...adjustment };
+      if (selected && base?.color) {
         if (tint) material.color.multiply(new THREE.Color(base.color));
         else material.color.set(base.color);
       }
-      if (adjustments?.[slot]?.color) material.color.set(adjustments[slot].color);
+      if (adjustment?.color) material.color.set(adjustment.color);
       if (override.roughness != null) material.roughness = override.roughness;
       if (override.metalness != null) material.metalness = override.metalness;
       if (override.emissive) material.emissive.set(override.emissive);

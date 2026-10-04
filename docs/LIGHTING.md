@@ -35,13 +35,13 @@ Comece com densidade baixa e avalie os personagens e passagens no enquadramento 
 
 O projetor recebe as configurações filtradas, com fontes privadas excluídas. Editar atmosfera não publica a câmera de trabalho nem reinicia a transição publicada.
 
-**Volume, bloom, clima e nuvens nesta janela** desliga esses efeitos só no viewport atual. No projetor, o botão de luz ao lado de Tela cheia oferece o mesmo controle. Cada janela conserva sua escolha durante atualizações da cena; isso não altera o documento nem é salvo como qualidade da cena. O fog de distância continua disponível.
+**Volume, bloom, clima e nuvens nesta janela** (incluindo partículas locais de fogo/fumaça) desliga esses efeitos só no viewport atual. No projetor, o botão de luz ao lado de Tela cheia oferece o mesmo controle. Cada janela conserva sua escolha durante atualizações da cena; isso não altera o documento nem é salvo como qualidade da cena. O fog de distância continua disponível.
 
 O pipeline opcional cria buffers somente quando necessário, limita-os a um pixel físico por pixel CSS, usa bloom com mips reduzidos e libera os recursos ao desligar os efeitos ou destruir o viewport. A saída usa `OutputPass` para uma única conversão de cor/tone mapping. Cenas estáticas renderizam sob demanda; cintilação, nuvens e partículas visíveis/ativas ou movimento de câmera mantêm frames. Abas ocultas interrompem a animação, e a preferência de movimento reduzido pausa os efeitos animados. O relógio visual é local a cada viewport e não sincroniza música nem garante fases idênticas entre janelas.
 
 ## Limites e validação
 
-A volumetria entregue é uma camada homogênea com integração analítica e cor constante. Não calcula feixes de luz, espalhamento por fonte, sombras dentro da névoa, densidade variável, fluidos ou fumaça localizada. Superfícies transparentes que não escrevem profundidade não limitam a camada. Fog e escuridão não implementam fog of war ou sigilo.
+A volumetria entregue é uma camada homogênea com integração analítica e cor constante. Não calcula feixes de luz, espalhamento por fonte, sombras dentro da névoa, densidade variável, fluidos ou simulação física de fumaça. Fogo/fumaça visual vinculados a objetos estão disponíveis em [MATERIALS.md](MATERIALS.md). Superfícies transparentes que não escrevem profundidade não limitam a camada. Fog e escuridão não implementam fog of war ou sigilo.
 
 Não há benchmark presencial de GPU, notebook, projetor ou Jukebox simultâneo. O bloom é opcional e o controle local permite avaliar seu custo antes de usá-lo na sessão.
 

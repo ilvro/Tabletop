@@ -1,3 +1,4 @@
+import { SURFACE_MATERIALS } from './materials.js';
 /** Validated JSON is the boundary between editor, disk and future network adapters. */
 import { kelvinToColor } from './lighting.js';
 import { polygonIsSimple, polygonSize, floorContour, validHoles, pointInPolygon } from './geometry.js';
@@ -40,12 +41,28 @@ function transform(value, path, structural = false) {
   if (structural) fail(value.scale.every(v => Math.abs(v - 1) < 1e-8), 'Escala estrutural deve ser incorporada às dimensões.', path);
 }
 function material(value, path, partial = false) {
-  keys(value, ['color', 'roughness', 'metalness', 'emissive', 'emissiveIntensity'], path);
+  keys(value, ['color', 'roughness', 'metalness', 'emissive', 'emissiveIntensity', 'texture', 'textureSize', 'relief', 'textureSlot'], path);
   if (!partial || value.color !== undefined) color(value.color, `${path}.color`);
   for (const field of ['roughness', 'metalness']) if (!partial || value[field] !== undefined) number(value[field], `${path}.${field}`, 0, 1);
+  surfaceFields(value,path);
   if (value.emissive !== undefined) color(value.emissive, `${path}.emissive`);
   if (value.emissiveIntensity !== undefined) number(value.emissiveIntensity, `${path}.emissiveIntensity`, 0);
 }
+function surfaceFields(value,path) {
+  if(value.texture !== undefined) choice(value.texture,['none',...SURFACE_MATERIALS.map(m=>m.id)],`${path}.texture`);
+  if(value.textureSize !== undefined) number(value.textureSize,`${path}.textureSize`,.05,50);
+  if(value.relief !== undefined) number(value.relief,`${path}.relief`,0,.2);
+  if(value.textureSlot !== undefined) text(value.textureSlot,`${path}.textureSlot`,128);
+}
+function localEffect(value,path) {
+  keys(value,['type','enabled','count','size','offset','speed','opacity','color','seed','lightIntensity','hideModel'],path);
+  choice(value.type,['fire','smoke'],path); bool(value.enabled,path); bool(value.hideModel,path);
+  number(value.count,path,1,512); fail(Number.isInteger(value.count),'Quantidade deve ser inteira.',path);
+  vector(value.size,3,path,.1); value.size.forEach(v=>number(v,path,.1,20)); vector(value.offset,3,path);
+  number(value.speed,path,0,10); number(value.opacity,path,0,1); color(value.color,path); number(value.lightIntensity,path,0,500);
+  number(value.seed,path,0,4294967295); fail(Number.isInteger(value.seed),'Seed deve ser inteiro.',path);
+}
+
 function assetRef(value, path, nullable = false) {
   if (nullable && value === null) return;
   keys(value, ['id', 'revision'], path); identifier(value.id, `${path}.id`);
@@ -106,7 +123,7 @@ function entity(value, path, document) {
     window: ['wallId', 'offset', 'width', 'height', 'sill', 'style', 'material'],
     stairs: ['transform', 'width', 'length', 'height', 'steps', 'material', 'fromLevelId', 'toLevelId'],
     ramp: ['transform', 'width', 'length', 'height', 'material', 'fromLevelId', 'toLevelId'],
-    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight'],
+    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight', 'localEffect'],
   };
   choice(value.kind, Object.keys(fields), `${path}.kind`); keys(value, [...common, ...fields[value.kind]], path);
   text(value.name, `${path}.name`); bool(value.locked, `${path}.locked`); choice(value.audience, ['all', 'gm'], `${path}.audience`);
@@ -118,6 +135,11 @@ function entity(value, path, document) {
   if (!['door', 'window'].includes(value.kind)) transform(value.transform, `${path}.transform`, value.kind !== 'prop');
   material(value.material, `${path}.material`);
   semanticReferences(value, document, path);
+  if (value.localEffect !== undefined) {
+    localEffect(value.localEffect, `${path}.localEffect`);
+    const effects=Object.values(entities).filter(e=>e.localEffect?.enabled);
+    fail(effects.length<=32 && effects.reduce((sum,e)=>sum+(e.localEffect.count??0),0)<=4096,'Limite de 32 emissores e 4096 partículas locais por documento.',path);
+  }
   for (const field of fields[value.kind].filter(field => ['width', 'length', 'height', 'thickness'].includes(field))) positive(value[field], `${path}.${field}`);
   if (value.kind === 'prop') { assetRef(value.assetRef, `${path}.assetRef`); vector(value.footprint, 2, `${path}.footprint`); value.footprint.forEach((v, i) => positive(v, `${path}.footprint[${i}]`)); }
   if (value.vertices !== undefined) {
@@ -136,7 +158,8 @@ function entity(value, path, document) {
       fail(new Set(value.paintLayers.map(layer => layer?.id)).size === value.paintLayers.length, 'IDs de camadas de cor devem ser únicos.', path);
       value.paintLayers.forEach((layer, index) => {
         const lp = `${path}.paintLayers[${index}]`;
-        keys(layer, ['id','name','color','opacity','visible','weights'], lp);
+        keys(layer, ['id','name','color','opacity','visible','weights','texture','textureSize'], lp);
+        surfaceFields(layer,lp);
         identifier(layer.id, `${lp}.id`); text(layer.name, `${lp}.name`); color(layer.color, `${lp}.color`); number(layer.opacity, `${lp}.opacity`, 0, 1); bool(layer.visible, `${lp}.visible`);
         fail(Array.isArray(layer.weights) && layer.weights.length === value.heights.length, 'Máscara de pintura com tamanho incompatível.', lp);
         layer.weights.forEach((weight, i) => number(weight, `${lp}.weights[${i}]`, 0, 1));

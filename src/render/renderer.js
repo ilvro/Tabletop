@@ -1,3 +1,5 @@
+import { createSurfaceLibrary, applySurfaceTextures } from './surface-materials.js';
+import { createLocalEffect, updateLocalEffect } from './local-effects.js';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
@@ -123,6 +125,8 @@ export function createViewport(container, {
   const scene = new THREE.Scene();
   const effects = createEffectsPipeline(renderer, scene);
   const atmosphere = createAtmosphere(scene);
+  const surfaces = createSurfaceLibrary(), localEffects = new Map();
+  let localEffectsEnabled = true, animatedLocalEffects = false;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const onReducedMotion = () => invalidate();
   reducedMotion.addEventListener('change', onReducedMotion);
@@ -227,8 +231,10 @@ export function createViewport(container, {
     if (!paused) effectTime += elapsed;
     animatedLights = updateLightEffects(objects.values(), effectTime, paused);
     animatedAtmosphere = atmosphere.update(camera, effectTime, paused, height * renderer.getPixelRatio());
+    animatedLocalEffects = false;
+    for (const effect of localEffects.values()) animatedLocalEffects = updateLocalEffect(effect,effectTime,localEffectsEnabled,paused) || animatedLocalEffects;
     effects.render(camera, seconds);
-    if ((moving || orbitChanged || animatedLights || animatedAtmosphere) && !document.hidden) invalidate();
+    if ((moving || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects) && !document.hidden) invalidate();
     else lastFrameTime = null;
   }
   function attachOrbit(target) {
@@ -472,8 +478,10 @@ export function createViewport(container, {
     cache.createInstance(record).then((instance) => {
       if (!stillCurrent()) { disposeObject(instance); return; }
       parent.add(instance);
+      if(entity.localEffect?.enabled && entity.localEffect.type==='fire') instance.traverse(child=>{if(child.userData.materialSlot==='flame') child.visible=false;});
       applyMaterialOverrides(instance, entity.material, sceneDocument.look?.materialAdjustments?.[entity.id] ?? sceneDocument.defaultLook?.materialAdjustments?.[entity.id], true);
       const look = sceneDocument.look ?? sceneDocument.defaultLook;
+      applySurfaceTextures(instance, entity, surfaces);
       applyEnvironmentMaterials(instance, entity, look);
       applyMaterialOverrides(instance, undefined, look.materialAdjustments?.[entity.id]);
       tagEntity(parent, entity.id);
@@ -530,6 +538,7 @@ export function createViewport(container, {
     clearGroup(lighting);
     objects.clear();
     records.clear();
+    localEffects.clear();
     createGrid(next?.layout?.grid);
     if (!next) { cache.prune([]); scene.fog = null; effects.configure({}); atmosphere.configure({}, null); invalidate(true); return; }
     const look = next.look ?? next.defaultLook;
@@ -565,10 +574,15 @@ export function createViewport(container, {
       records.set(entity.id, entity);
       object.visible = visibleRecord(entity);
       if (entity.kind === 'prop') {
+        if(entity.localEffect?.enabled) { const effect=createLocalEffect(entity.localEffect); object.add(effect); localEffects.set(entity.id,effect); }
+        if(entity.localEffect?.hideModel) {
+          const proxy=new THREE.Mesh(new THREE.BoxGeometry(...entity.localEffect.size),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+          proxy.position.fromArray(entity.localEffect.offset); proxy.position.y+=entity.localEffect.size[1]/2; proxy.userData.decorative=true; object.add(proxy); tagEntity(object,entity.id); continue;
+        }
         const asset = assetRecord(entity.assetRef);
         if (asset) usedAssets.push(asset);
         installAsset(object, entity, entity.assetRef, generation);
-      } else { applyEnvironmentMaterials(object, entity, look); applyMaterialOverrides(object, undefined, look.materialAdjustments?.[entity.id]); }
+      } else { applySurfaceTextures(object, entity, surfaces); applyEnvironmentMaterials(object, entity, look); applyMaterialOverrides(object, undefined, look.materialAdjustments?.[entity.id]); }
     }
     for (const token of values(next.tokens)) {
       const actor = next.actors[token.actorId];
@@ -722,7 +736,7 @@ export function createViewport(container, {
     const openings = values(sceneDocument.layout.entities).filter(e => e.wallId === wall.id).map(e => e.id === opening.id ? opening : e);
     for (const [record, object] of [[wall, createWall(wall, openings, values(sceneDocument.layout.entities).filter(e => e.kind === 'wall'))], [opening, createWindow(opening, wall)]]) {
       disposeObject(objects.get(record.id)); content.add(object); objects.set(record.id, object);
-      object.visible = visibleRecord(record); applyEnvironmentMaterials(object, record, sceneDocument.look ?? sceneDocument.defaultLook); applyMaterialOverrides(object, undefined, (sceneDocument.look ?? sceneDocument.defaultLook).materialAdjustments?.[record.id]);
+      object.visible = visibleRecord(record); applySurfaceTextures(object,record,surfaces); applyEnvironmentMaterials(object, record, sceneDocument.look ?? sceneDocument.defaultLook); applyMaterialOverrides(object, undefined, (sceneDocument.look ?? sceneDocument.defaultLook).materialAdjustments?.[record.id]);
     }
     content.updateMatrixWorld(true); updateSelection(); invalidate(true);
   }
@@ -888,7 +902,7 @@ export function createViewport(container, {
   function replaceTerrain(record) {
     ground.position.y = Math.min(-.025, ...values(sceneDocument.layout.entities).filter(e => e.kind === 'terrain').map(e => { const terrain = e.id === record.id ? record : e; return terrain.transform.position[1] + Math.min(...terrain.heights) - .05; }));
     const previous = objects.get(record.id); if (previous) { content.remove(previous); disposeObject(previous); }
-    const object = createTerrain(record); content.add(object); objects.set(record.id, object); object.visible = visibleRecord(record); content.updateMatrixWorld(true); invalidate(true);
+    const object = createTerrain(record); applySurfaceTextures(object,record,surfaces); content.add(object); objects.set(record.id, object); object.visible = visibleRecord(record); content.updateMatrixWorld(true); invalidate(true);
   }
   function stampTerrain(position, render = true) {
     const brush = pointer.terrainBrush;
@@ -1045,8 +1059,9 @@ export function createViewport(container, {
       return { x: rect.left + (vector.x + 1) * rect.width / 2, y: rect.top + (1 - vector.y) * rect.height / 2, visible: vector.z >= -1 && vector.z <= 1 && Math.abs(vector.x) <= 1 && Math.abs(vector.y) <= 1 };
     },
     getMaterialSlots(id) { return materialSlots(objects.get(id)); },
-    setEffectsEnabled(value) { effects.setEnabled(value); atmosphere.setEnabled(value); invalidate(); },
-    getInfo() { return { atmosphere: atmosphere.info(), animatedAtmosphere,
+    setEffectsEnabled(value) { effects.setEnabled(value); atmosphere.setEnabled(value); localEffectsEnabled=value; invalidate(); },
+    getInfo() { return { atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
+      surfaceMaterials: [...objects].flatMap(([id,object])=>{const list=[]; object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material]) if(mat?.userData.surface) list.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.surface});});return list;}),
       environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },
     destroy() {
       destroyed = true;
@@ -1074,6 +1089,7 @@ export function createViewport(container, {
       reducedMotion.removeEventListener('change', onReducedMotion);
       effects.dispose();
       atmosphere.dispose();
+      surfaces.dispose();
       renderer.dispose();
       renderer.forceContextLoss();
       canvas.remove();

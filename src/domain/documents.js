@@ -58,6 +58,7 @@ export function createEntity(kind, options = {}) {
   return { ...common, transform: transform(options), assetRef: clone(options.assetRef ?? { id: 'builtin-crate', revision: 1 }),
     ...(options.supportHeight !== undefined ? { supportHeight: options.supportHeight } : {}),
     footprint: clone(options.footprint ?? [1, 1]), material: material('#ffffff', options.material),
+    ...(options.localEffect ? { localEffect: clone(options.localEffect) } : {}),
   };
 }
 
