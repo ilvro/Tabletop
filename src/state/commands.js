@@ -1,6 +1,7 @@
 import { clone, id, createLevel, createLayer } from '../domain/documents.js';
 import { assemblyMembers, assemblyClosure, assemblyFor, objectById, objectTransform, transformMatrix, transformByMatrix } from '../domain/assemblies.js';
-import { yawFromQuaternion, rotateXZ, snapPosition } from '../domain/coords.js';
+import { yawFromQuaternion, rotateXZ, snapPosition, multiplyQuaternions } from '../domain/coords.js';
+import { kelvinToColor } from '../domain/lighting.js';
 import { applyEnvironment } from '../domain/environments.js';
 import { ValidationError, validateDocument } from '../domain/validation.js';
 import { groupChain, isAccess, supportHeightAt, worldPoint, localPoint } from '../domain/geometry.js';
@@ -20,7 +21,7 @@ function merge(record, patch) {
   if (patch.id !== undefined && patch.id !== record.id) throw new ValidationError('O ID não pode ser alterado.');
   if (patch.kind !== undefined && patch.kind !== record.kind) throw new ValidationError('O tipo não pode ser alterado.');
   const next = { ...record, ...clone(patch) };
-  for (const field of ['transform', 'material', 'fill', 'visualOverride']) {
+  for (const field of ['transform', 'material', 'fill', 'visualOverride', 'flicker', 'fog', 'volumetricFog', 'bloom']) {
     if (patch[field] && record[field]) next[field] = { ...clone(record[field]), ...clone(patch[field]) };
   }
   return next;
@@ -72,7 +73,16 @@ function semanticPlacement(document, record, patch = {}, checkHost = true, initi
     const offset = [...record.anchor.offset]; if (record.anchor.socket === 'ceiling') offset[1] -= anchorHost.thickness;
     const position = worldPoint(anchorHost, offset);
     if (record.transform) { record.transform.position = position; record.transform.rotation = clone(anchorHost.transform.rotation); }
-    else { record.position = position; record.rotation = clone(anchorHost.transform.rotation); }
+    else {
+      record.position = position;
+      if (record.type === 'spot') {
+        if (patch.rotation) {
+          const [x, y, z, w] = anchorHost.transform.rotation;
+          record.anchor.rotation = multiplyQuaternions([-x, -y, -z, w], patch.rotation);
+        }
+        record.rotation = multiplyQuaternions(anchorHost.transform.rotation, record.anchor.rotation ?? [0, 0, 0, 1]);
+      } else record.rotation = clone(anchorHost.transform.rotation);
+    }
   }
 }
 function dependentIds(document, entityId) {
@@ -419,7 +429,12 @@ export function applyCommand(document, command) {
       snappedToken(token, next.layout.grid, payload.snap, next); put(next.tokens, token); break;
     }
     case 'light.add': { const light = clone(payload.light); semanticPlacement(next, light, { levelId: light.levelId ?? undefined }, true, true); editable({ ...light, locked: false }, undefined, next); put(look.lights, light); break; }
-    case 'light.update': { const before = requireRecord(look.lights, payload.id, 'Luz'); editable(before, payload.patch, next); const after = merge(before, payload.patch); semanticPlacement(next, after, payload.patch); editable({ ...after, locked: false }, undefined, next); look.lights[payload.id] = after; break; }
+    case 'light.update': { const before = requireRecord(look.lights, payload.id, 'Luz'); editable(before, payload.patch, next); const after = merge(before, payload.patch);
+      if (after.type === 'spot') { after.angle ??= Math.PI / 6; after.penumbra ??= .4; }
+      else if (payload.patch.type !== undefined) { delete after.angle; delete after.penumbra; if (after.anchor) delete after.anchor.rotation; }
+      if (payload.patch.temperature != null) after.color = kelvinToColor(payload.patch.temperature);
+      else if (payload.patch.color !== undefined) after.temperature = null;
+      semanticPlacement(next, after, payload.patch); editable({ ...after, locked: false }, undefined, next); look.lights[payload.id] = after; break; }
     case 'light.remove': editable(requireRecord(look.lights, payload.id, 'Luz'), undefined, next); delete look.lights[payload.id]; break;
     case 'light.duplicate': {
       const light = clone(requireRecord(look.lights, payload.id, 'Luz')); editable(light, undefined, next); light.id = id(); light.name += ' — cópia'; delete light.role;

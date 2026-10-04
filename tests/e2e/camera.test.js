@@ -22,6 +22,7 @@ test('WASD, focus safety, lenses, interruptible shots and independent projector 
   t.after(async () => { await browser?.close(); await new Promise(resolve => server.close(resolve)); await rm(dataDir, { recursive: true, force: true }); });
   browser = await chromium.launch({ executablePath: process.env.TABLETOP_BROWSER_PATH || chromium.executablePath(), headless: true, args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
   const page = await browser.newPage({ viewport: { width: 1600, height: 1000 } }), errors = [];
+  page.setDefaultTimeout(30_000);
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(`http://127.0.0.1:${server.address().port}/?diagnostics`);
   await page.waitForFunction(() => !!window.__tabletop);
@@ -52,14 +53,26 @@ test('WASD, focus safety, lenses, interruptible shots and independent projector 
   const beforeZoom = await camera(); await page.mouse.wheel(0, -180); await travelForward(beforeZoom);
   assert.ok((await camera()).orthographicHeight < beforeZoom.orthographicHeight);
   for (const button of ['middle', 'right']) {
+    await page.keyboard.down('Shift');
     const beforePress = await camera(); await page.mouse.down({ button }); await travelForward(beforePress);
     await page.mouse.move(mouseX + 30, mouseY, { steps: 4 });
     await travelForward(await camera());
     await page.mouse.up({ button }); await travelForward(await camera());
+    await page.keyboard.up('Shift');
     assert.equal(await page.locator('#context-menu').isVisible(), false, 'camera drag does not select or open a menu');
     await page.mouse.move(mouseX, mouseY);
   }
   await page.keyboard.up('w'); await settle();
+  const mouseDefaults = await page.evaluate(() => {
+    const canvas = document.querySelector('#viewport canvas');
+    const overlay = document.querySelector('.viewport-bottom .camera-strip');
+    return [canvas, overlay].map(target => {
+      const event = new MouseEvent('contextmenu', { bubbles: true, cancelable: true, button: 2, shiftKey: true });
+      target.dispatchEvent(event);
+      return event.defaultPrevented;
+    });
+  });
+  assert.ok(mouseDefaults.every(Boolean), 'Shift+right click cancels native menus on canvas and viewport overlays');
   assert.deepEqual(await snapshot(), original); assert.equal(await page.evaluate(() => window.__tabletop.editVersion()), version);
 
   // Right selection is deferred until release; dragging away and back is still a drag.
@@ -187,6 +200,32 @@ test('WASD, focus safety, lenses, interruptible shots and independent projector 
   const presented = await camera(); await page.keyboard.press('Escape'); await settle();
   sameCamera(await camera(), working);
   await popup.waitForFunction(target => Math.hypot(...window.__tabletop.camera().target.map((v, i) => v - target[i])) < 1e-6, presented.target);
+  // Real fullscreen lifecycle; mock only the OS/browser keyboard permission boundary.
+  await page.bringToFront();
+  await page.evaluate(() => {
+    window.__keyboardCalls = [];
+    Object.defineProperty(navigator, 'keyboard', { configurable: true, value: {
+      lock: async codes => { window.__keyboardCalls.push(codes); },
+      unlock: () => { window.__keyboardCalls.push('unlock'); },
+    } });
+  });
+  await action('fullscreen');
+  await page.waitForFunction(() => document.fullscreenElement && window.__keyboardCalls.some(Array.isArray));
+  assert.deepEqual(await page.evaluate(() => window.__keyboardCalls.find(Array.isArray)), ['KeyW', 'KeyA', 'KeyS', 'KeyD']);
+  assert.equal(await canvas.evaluate(node => node === document.activeElement), true);
+  await page.keyboard.press('Control+w');
+  assert.equal(page.isClosed(), false);
+  await action('fullscreen');
+  await page.waitForFunction(() => !document.fullscreenElement && window.__keyboardCalls.includes('unlock'));
+  await page.evaluate(() => { navigator.keyboard.lock = async () => { throw new DOMException('Denied', 'NotAllowedError'); }; });
+  await action('fullscreen');
+  await page.waitForFunction(() => document.body.textContent.includes('captura do teclado não foi autorizada'));
+  assert.ok(await page.evaluate(() => !!document.fullscreenElement), 'denied keyboard permission keeps fullscreen usable');
+  await action('fullscreen');
+  await page.evaluate(() => { Object.defineProperty(navigator, 'keyboard', { configurable: true, value: undefined }); });
+  await action('fullscreen');
+  await page.waitForFunction(() => document.body.textContent.includes('não oferece captura de teclado'));
+  await action('fullscreen');
   // Returning from presentation changes the viewport size; allow ResizeObserver and its render to finish.
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   await mkdir('test-results', { recursive: true }); await page.screenshot({ path: 'test-results/camera-controls.png' });

@@ -1,3 +1,6 @@
+import { Euler, Quaternion } from 'three';
+import { atmospherePanel, lightPanel } from '../ui/lighting-panels.js';
+import { FOG_DEFAULTS, VOLUME_DEFAULTS, BLOOM_DEFAULTS, FLICKER_DEFAULTS } from '../domain/lighting.js';
 import { createScene, createMap, createSceneFromMap, createMapFromScene, createEntity, createToken, createLight, createLevel, createLayer, clone, id, validateDocument, duplicateDocument, migrateDocument } from '../domain/documents.js';
 import { polygonSize, groupChain, isSupport, isAccess, supportHeightAt, constrainOpening, localPoint, isLocked } from '../domain/geometry.js';
 import { quaternionFromYaw, yawFromQuaternion } from '../domain/coords.js';
@@ -51,7 +54,7 @@ export async function startApplication() {
         <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (G)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (R)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (V)" aria-label="Escala"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
         <div id="welcome" class="welcome-card"><span class="eyebrow">UMA CENA COMEÇA COM UM ESPAÇO</span><h1>Sua próxima história<br/>começa aqui.</h1><p>Desenhe uma sala, escolha a luz e traga seus personagens para a mesa.</p>${button('room-draw', 'Desenhar minha primeira sala', 'room', 'primary')}<small>Ou use as medidas no painel Construir.</small></div>
         <div id="proposal-bar" class="proposal-bar" hidden></div>
-        <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}</div><span id="gesture-hint" class="gesture-hint">WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom</span></div>
+        <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet', 'title="Capturar WASD e suas combinações em tela cheia; Esc sai" aria-pressed="false"')}</div><span id="gesture-hint" class="gesture-hint">WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom</span></div>
         <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
       </main>
       <aside class="inspector"><div class="panel-heading"><span class="eyebrow">PROPRIEDADES</span>${icon('scale', 16)}</div><div id="inspector-content"></div></aside>
@@ -105,7 +108,7 @@ export async function startApplication() {
   const sessionId = id();
   const channel = typeof BroadcastChannel === 'function' ? new BroadcastChannel(`tabletop-presentation-${sessionId}`) : null;
   let sequence = 0, cameraSequence = 0, publishedDuration = 0;
-  let cameraDuration = 1.2, cameraSpeed = 6;
+  let cameraDuration = 1.2, cameraSpeed = 6, effectsEnabled = true;
 
   function notify(message, error = false, persistent = false) {
     const notice = document.getElementById('notice');
@@ -290,7 +293,7 @@ export async function startApplication() {
       if (store.document.layout.entities[surfaceId]?.levelId) pair.token.levelId = store.document.layout.entities[surfaceId].levelId;
       if (execute('token.add', { ...pair, snap })) newId = pair.token.id;
     } else if (placing.type === 'light') {
-      const light = createLight({ position: [position[0], position[1] + 2.2, position[2]], surfaceId, ...constructionSemantics() });
+      const light = createLight({ type: placing.lightType ?? 'point', position: [position[0], position[1] + 2.2, position[2]], surfaceId, ...constructionSemantics() });
       if (execute('light.add', { light })) newId = light.id;
     } else if (['stairs', 'ramp'].includes(placing.type)) {
       const candidateLevel = store.document.layout.levels?.[store.document.layout.entities[surfaceId]?.levelId ?? activeLevelId];
@@ -341,7 +344,7 @@ export async function startApplication() {
     root.querySelectorAll('[data-tab]').forEach((node) => node.classList.toggle('active', node.dataset.tab === tab));
     const panel = document.getElementById('side-content');
     if (tab === 'build') {
-      panel.innerHTML = `<section class="quick-section"><span class="eyebrow">QUICK BUILD</span><h2>Um espaço para a história.</h2><p class="muted">Desenhe no chão ou comece pelas medidas. Tudo continua editável.</p>${button('room-draw', 'Desenhar sala', 'room', 'wide accent-outline')}<form id="quick-form"><div class="field-grid">${numberField('room-width', 'Largura interna · m', roomOptions.width, { min: 1.4 })}${numberField('room-length', 'Comprimento · m', roomOptions.length, { min: 1 })}</div>${numberField('room-height', 'Altura das paredes · m', roomOptions.height, { min: 2.2 })}<span class="section-caption">SUGESTÕES OPCIONAIS</span>${checkField('room-door', 'Incluir uma porta', roomOptions.door)}${checkField('room-lighting', 'Adicionar iluminação', roomOptions.lighting)}<button class="primary wide" type="submit">${icon('eye')} Ver prévia</button></form></section><section><span class="eyebrow">CONSTRUIR MANUALMENTE</span><div class="construction-grid">${button('floor-add', 'Piso', 'floor')}${button('wall-add', 'Parede', 'wall')}${button('door-add', 'Porta', 'door')}${button('light-place', 'Luz', 'light')}</div></section><section><span class="eyebrow">PERSONAGENS</span><label class="field"><span>Nome do token</span><input id="token-name" value="Investigador" maxlength="256" /></label><div class="token-controls"><input id="token-color" aria-label="Cor do token" type="color" value="#e4b76f" />${button('token-place', 'Colocar token', 'token', 'wide')}</div><p class="microcopy">Para usar um retrato, importe uma imagem na biblioteca.</p></section><section><span class="eyebrow">GRID E PRECISÃO</span>${checkField('grid-visible', 'Mostrar grid', store.document.layout.grid.visible)}${checkField('grid-snap', 'Encaixar no grid', store.document.layout.grid.snap)}${numberField('grid-size', 'Célula · m', store.document.layout.grid.cellSize, { min: .1 })}</section>`;
+      panel.innerHTML = `<section class="quick-section"><span class="eyebrow">QUICK BUILD</span><h2>Um espaço para a história.</h2><p class="muted">Desenhe no chão ou comece pelas medidas. Tudo continua editável.</p>${button('room-draw', 'Desenhar sala', 'room', 'wide accent-outline')}<form id="quick-form"><div class="field-grid">${numberField('room-width', 'Largura interna · m', roomOptions.width, { min: 1.4 })}${numberField('room-length', 'Comprimento · m', roomOptions.length, { min: 1 })}</div>${numberField('room-height', 'Altura das paredes · m', roomOptions.height, { min: 2.2 })}<span class="section-caption">SUGESTÕES OPCIONAIS</span>${checkField('room-door', 'Incluir uma porta', roomOptions.door)}${checkField('room-lighting', 'Adicionar iluminação', roomOptions.lighting)}<button class="primary wide" type="submit">${icon('eye')} Ver prévia</button></form></section><section><span class="eyebrow">CONSTRUIR MANUALMENTE</span><div class="construction-grid">${button('floor-add', 'Piso', 'floor')}${button('wall-add', 'Parede', 'wall')}${button('door-add', 'Porta', 'door')}${button('light-place', 'Luz pontual', 'light')}${button('spot-place', 'Luz spot', 'light')}</div></section><section><span class="eyebrow">PERSONAGENS</span><label class="field"><span>Nome do token</span><input id="token-name" value="Investigador" maxlength="256" /></label><div class="token-controls"><input id="token-color" aria-label="Cor do token" type="color" value="#e4b76f" />${button('token-place', 'Colocar token', 'token', 'wide')}</div><p class="microcopy">Para usar um retrato, importe uma imagem na biblioteca.</p></section><section><span class="eyebrow">GRID E PRECISÃO</span>${checkField('grid-visible', 'Mostrar grid', store.document.layout.grid.visible)}${checkField('grid-snap', 'Encaixar no grid', store.document.layout.grid.snap)}${numberField('grid-size', 'Célula · m', store.document.layout.grid.cellSize, { min: .1 })}</section>`;
       panel.innerHTML += constructionPanel(store.document, { surfaceId: activeSurfaceId, height: buildHeight, polygon: tool === 'polygon' });
       panel.innerHTML += levelsPanel(store.document, { levelId: activeLevelId, layerId: activeLayerId, isolated: isolatedLevel });
       panel.innerHTML += terrainPanel(terrainOptions);
@@ -360,7 +363,7 @@ export async function startApplication() {
       renderAssetCards();
     } else {
       const currentLook = store.document.look ?? store.document.defaultLook;
-      panel.innerHTML = `<section><span class="eyebrow">AMBIENTE</span><h2>A luz conta a história.</h2><p class="muted">Um ponto de partida. Ajuste cada fonte como quiser.</p><div class="environment-options">${ENVIRONMENTS.map((preset) => `<button data-environment="${preset.id}" class="environment-card ${store.document.sourceEnvironment?.id === preset.id ? 'active' : ''}"><span class="environment-swatch ${preset.id}"></span><span><strong>${esc(preset.name)}</strong><small>${esc(preset.description || '')}</small></span>${icon('chevron', 14)}</button>`).join('')}</div>${colorField('background', 'Fundo', currentLook.background)}${numberField('fill-intensity', 'Preenchimento', currentLook.fill.intensity, { min: 0, step: .1 })}${colorField('fill-color', 'Cor do preenchimento', currentLook.fill.skyColor)}</section>${cameraPanel()}<section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-cut="${camera.id}" title="Cortar para este enquadramento" aria-label="Cortar para ${esc(camera.name)}">${icon('camera', 14)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
+      panel.innerHTML = `<section><span class="eyebrow">AMBIENTE</span><h2>A luz conta a história.</h2><p class="muted">Um ponto de partida. Ajuste cada fonte como quiser.</p><div class="environment-options">${ENVIRONMENTS.map((preset) => `<button data-environment="${preset.id}" class="environment-card ${store.document.sourceEnvironment?.id === preset.id ? 'active' : ''}"><span class="environment-swatch ${preset.id}"></span><span><strong>${esc(preset.name)}</strong><small>${esc(preset.description || '')}</small></span>${icon('chevron', 14)}</button>`).join('')}</div>${colorField('background', 'Fundo', currentLook.background)}${numberField('fill-intensity', 'Preenchimento', currentLook.fill.intensity, { min: 0, step: .1 })}${colorField('fill-color', 'Cor do preenchimento', currentLook.fill.skyColor)}</section>${atmospherePanel(currentLook, effectsEnabled, { numberField, colorField, checkField })}${cameraPanel()}<section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-cut="${camera.id}" title="Cortar para este enquadramento" aria-label="Cortar para ${esc(camera.name)}">${icon('camera', 14)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
       renderSceneTreeIfVisible();
     }
   }
@@ -497,7 +500,7 @@ export async function startApplication() {
     if (record.kind === 'floor') fields += `<section><span class="eyebrow">ABERTURAS E PAREDES</span><button data-action="floor-hole" class="wide">Recortar piso · vão de escada / pátio</button><p class="microcopy">Clique nos cantos do vão dentro deste piso; Enter conclui. O recorte atravessa sua espessura.</p><button data-action="contour-walls" class="wide">Criar paredes do contorno</button><p class="microcopy">Revise antes de aceitar. Paredes de bordas compartilhadas são reaproveitadas; encontros em L e T se ajustam automaticamente.</p></section>`;
     if (record.kind === 'terrain') fields += `<details data-disclosure="terrain-object-settings" ${terrainObjectSettingsOpen ? 'open' : ''}><summary>Posição, organização e apresentação</summary>`;
     if (position) {
-      fields += `<section><span class="eyebrow">POSIÇÃO · METROS</span><div class="axis-fields">${position.map((value, axis) => numberField(`position-${axis}`, ['X', 'Y · altura', 'Z'][axis], value)).join('')}</div>${numberField('object-yaw', 'Rotação Y · graus', yawFromQuaternion(record.transform?.rotation ?? record.rotation), { step: 15 })}</section>`;
+      fields += `<section><span class="eyebrow">POSIÇÃO · METROS</span><div class="axis-fields">${position.map((value, axis) => numberField(`position-${axis}`, ['X', 'Y · altura', 'Z'][axis], value)).join('')}</div>${numberField('object-yaw', 'Rotação Y · graus', type === 'light' ? new Euler().setFromQuaternion(new Quaternion(...record.rotation), 'YXZ').y * 180 / Math.PI : yawFromQuaternion(record.transform.rotation), { step: 15 })}</section>`;
     }
     if (type === 'entity' || type === 'token' || type === 'light') {
       fields += `<section><span class="eyebrow">ORGANIZAÇÃO</span><label class="field"><span>Pasta / Grupo</span><select data-field="entity-group"><option value="">(Sem pasta / Raiz)</option>${Object.values(doc.layout.groups).map((g) => `<option value="${g.id}" ${record.groupId === g.id ? 'selected' : ''}>${esc(g.name)}</option>`).join('')}</select></label></section>`;
@@ -507,7 +510,7 @@ export async function startApplication() {
 
     if (record.kind === 'floor' && record.holes?.length) fields += `<section><span class="eyebrow">RECORTES DO PISO</span>${record.holes.map((ring,h) => `<details><summary>Furo ${h + 1} · ${ring.length} vértices</summary>${ring.map((p,i) => `<div class="field-grid">${numberField(`hole-${h}-${i}-0`,'X local',p[0])}${numberField(`hole-${h}-${i}-1`,'Z local',p[1])}</div>`).join('')}<button data-action="hole-remove" data-index="${h}">Remover recorte</button></details>`).join('')}</section>`;
     if (isAccess(record)) fields += `<section><span class="eyebrow">ANDARES CONECTADOS</span>${[['fromLevelId','Origem'],['toLevelId','Destino']].map(([field,label]) => `<label class="field"><span>${label}</span><select data-field="${field}"><option value="">Sem associação</option>${Object.values(doc.layout.levels ?? {}).map(l => `<option value="${l.id}" ${record[field] === l.id ? 'selected' : ''}>${esc(l.name)} · ${l.elevation} m</option>`).join('')}</select></label>`).join('')}<p class="microcopy">Quando os dois andares estão associados, base e desnível acompanham suas alturas.</p></section>`;
-    if (record.kind === 'prop' || type === 'light' && record.type === 'point') fields += `<section><span class="eyebrow">FIXAR EM PAREDE / TETO</span><p class="microcopy">Escolha uma parede ou o piso do andar de cima. O objeto ficará junto à face escolhida e acompanhará seus movimentos. Para vários objetos, use Shift+seleção e botão direito → Fixar em parede / teto….</p><label class="field"><span>Fixar em</span><select data-field="object-anchor"><option value="">Livre</option>${Object.values(doc.layout.entities).filter(e => ['wall','floor'].includes(e.kind)).map(e => { const socket = e.kind === 'wall' ? 'wall' : 'ceiling'; return `<option value="${socket}:${e.id}" ${record.anchor?.hostId === e.id && record.anchor.socket === socket ? 'selected' : ''}>${socket === 'wall' ? 'Parede' : 'Teto sob piso'} · ${esc(e.name)}</option>`; }).join('')}</select></label>${record.anchor ? `<div class="axis-fields">${record.anchor.offset.map((v,i) => numberField(`anchor-${i}`,['X local','Y local','Z local'][i],v)).join('')}</div><p class="microcopy">O objeto acompanha posição e rotação da parede ou piso escolhido. Escolha Livre para soltá-lo. Teto usa a face inferior do piso superior.</p>` : ''}</section>`;
+    if (record.kind === 'prop' || type === 'light' && ['point', 'spot'].includes(record.type)) fields += `<section><span class="eyebrow">FIXAR EM PAREDE / TETO</span><p class="microcopy">Escolha uma parede ou o piso do andar de cima. O objeto ficará junto à face escolhida e acompanhará seus movimentos. Para vários objetos, use Shift+seleção e botão direito → Fixar em parede / teto….</p><label class="field"><span>Fixar em</span><select data-field="object-anchor"><option value="">Livre</option>${Object.values(doc.layout.entities).filter(e => ['wall','floor'].includes(e.kind)).map(e => { const socket = e.kind === 'wall' ? 'wall' : 'ceiling'; return `<option value="${socket}:${e.id}" ${record.anchor?.hostId === e.id && record.anchor.socket === socket ? 'selected' : ''}>${socket === 'wall' ? 'Parede' : 'Teto sob piso'} · ${esc(e.name)}</option>`; }).join('')}</select></label>${record.anchor ? `<div class="axis-fields">${record.anchor.offset.map((v,i) => numberField(`anchor-${i}`,['X local','Y local','Z local'][i],v)).join('')}</div><p class="microcopy">O objeto acompanha posição e rotação da parede ou piso escolhido. Escolha Livre para soltá-lo. Teto usa a face inferior do piso superior.</p>` : ''}</section>`;
     if (record.vertices) fields += `<section><span class="eyebrow">CONTORNO LOCAL · X/Z</span>${record.vertices.map((p, i) => `<div class="field-grid">${numberField(`polygon-${i}-0`, `V${i + 1} · X`, p[0])}${numberField(`polygon-${i}-1`, `V${i + 1} · Z`, p[1])}</div>`).join('')}<p class="microcopy">O contorno não pode cruzar a si mesmo. Dimensões ajustam os vértices proporcionalmente.</p></section>`;
     if (record.kind === 'floor') fields += `<section><span class="eyebrow">DIMENSÕES · METROS</span><div class="field-grid">${numberField('width', 'Largura', record.width, { min: .1 })}${numberField('length', 'Comprimento', record.length, { min: .1 })}</div>${numberField('thickness', 'Espessura', record.thickness, { min: .01 })}</section>`;
     if (isAccess(record)) fields += `<section><span class="eyebrow">ACESSO ENTRE ALTURAS</span><div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .1 })}${numberField('length', 'Comprimento · m', record.length, { min: .1 })}</div>${numberField('height', 'Desnível · m', record.height, { min: .1 })}${record.kind === 'stairs' ? numberField('steps', 'Degraus', record.steps, { min: 1, max: 128, step: 1 }) : ''}<p class="microcopy">A base fica na altura Y; o acesso sobe no sentido Z local positivo. Use Rotacionar (R) para orientar e escolha este apoio para colocar tokens sobre ele.</p></section>`;
@@ -516,7 +519,7 @@ export async function startApplication() {
     if (record.kind === 'window') fields += `<section><span class="eyebrow">JANELA HOSPEDADA</span><p class="microcopy">Com Mover (G), arraste a janela na parede. Alt permite ajuste livre. O recorte acompanha a janela.</p><label class="field"><span>Parede</span><select data-field="window-wall">${Object.values(doc.layout.entities).filter(e => e.kind === 'wall').map(e => `<option value="${e.id}" ${record.wallId === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select></label>${numberField('offset', 'Posição na parede · m', record.offset, { min: 0 })}<div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .1 })}${numberField('height', 'Altura · m', record.height, { min: .1 })}</div>${numberField('sill', 'Peitoril · m', record.sill, { min: 0 })}<label class="field"><span>Representação</span><select data-field="style"><option value="glass" ${record.style === 'glass' ? 'selected' : ''}>Vidro</option><option value="bars" ${record.style === 'bars' ? 'selected' : ''}>Grades</option><option value="open" ${record.style === 'open' ? 'selected' : ''}>Vão livre</option></select></label></section>`;
     if (type === 'token' || record.kind === 'prop') fields += `<section><span class="eyebrow">ESCALA VISUAL</span><div class="axis-fields">${record.transform.scale.map((value, axis) => numberField(`scale-${axis}`, ['X', 'Y', 'Z'][axis], value, { min: .01 })).join('')}</div>${type === 'token' ? `<span class="eyebrow">BASE · METROS</span><div class="field-grid">${numberField('footprint-0', 'Largura', record.footprint[0], { min: .1 })}${numberField('footprint-1', 'Profundidade', record.footprint[1], { min: .1 })}</div>${colorField('token-color', 'Cor do personagem', actor.color)}` : ''}</section>`;
     if (record.material && record.kind !== 'terrain') fields += `<section><span class="eyebrow">MATERIAL</span>${colorField('material-color', record.kind === 'prop' ? 'Matiz do asset' : 'Cor', record.material.color)}${numberField('material-roughness', 'Rugosidade', record.material.roughness, { min: 0, max: 1 })}</section>`;
-    if (type === 'light') fields += `<section><span class="eyebrow">ILUMINAÇÃO</span>${colorField('light-color', 'Cor da fonte', record.color)}${numberField('light-intensity', 'Intensidade', record.intensity, { min: 0, step: record.type === 'point' ? 5 : .1 })}${record.type === 'point' ? numberField('light-distance', 'Alcance · m', record.distance, { min: 0, step: 1 }) : ''}${checkField('light-shadow', 'Projetar sombras', record.shadowEnabled)}</section>`;
+    if (type === 'light') fields += lightPanel(record, { numberField, colorField, checkField });
     fields += `<section><span class="eyebrow">APRESENTAÇÃO</span>${checkField('object-secret', 'Somente para o mestre', record.audience === 'gm')}${record.locked === undefined ? '' : checkField('object-locked', 'Bloquear edição', record.locked)}</section>${record.kind === 'terrain' ? '</details>' : ''}<div class="object-actions">${button('object-copy', 'Copiar', 'copy')}${button('object-duplicate', 'Duplicar', 'copy')}${button('object-delete', 'Excluir', 'trash', 'danger')}</div>`;
     if (record.kind !== 'terrain') fields += `<details class="object-adjustments" ${adjustmentsOpen ? 'open' : ''}><summary>Alinhar e ajustar objetos</summary>${polishPanel(1, polishOptions, doc)}</details>`;
     panel.innerHTML = isLocked(doc, record) ? `<p class="microcopy">Elemento, pasta, andar ou camada bloqueados. Desbloqueie na organização da cena para editar.</p>${fields}` : fields;
@@ -1068,8 +1071,28 @@ export async function startApplication() {
     }
     if (field === 'background') { execute('look.update', { patch: { background: value } }); return; }
     if (field.startsWith('fill-')) { execute('look.update', { patch: { fill: { [field === 'fill-color' ? 'skyColor' : 'intensity']: value } } }); return; }
+    if (field === 'viewport-effects') { effectsEnabled = value; viewport.setEffectsEnabled(value); return; }
+    if (field === 'effects-paused') { execute('look.update', { patch: { effectsPaused: value } }); return; }
+    for (const [prefix, key, defaults] of [['fog-', 'fog', FOG_DEFAULTS], ['volume-', 'volumetricFog', VOLUME_DEFAULTS], ['bloom-', 'bloom', BLOOM_DEFAULTS]]) {
+      if (field.startsWith(prefix)) {
+        const look = store.document.look ?? store.document.defaultLook;
+        execute('look.update', { patch: { [key]: { ...defaults, ...look[key], [field.slice(prefix.length)]: value } } }); return;
+      }
+    }
     const found = locate(); if (!found) return;
     const { type, record } = found; let patch = {}, actorPatch;
+    if (type === 'light' && field.startsWith('flicker-')) {
+      execute('light.update', { id: record.id, patch: { flicker: { ...FLICKER_DEFAULTS, ...record.flicker, [field.slice(8)]: value } } }); return;
+    }
+    if (type === 'light' && field === 'light-type') {
+      execute('light.update', { id: record.id, patch: { type: value } }); return;
+    }
+    if (type === 'light' && field === 'light-useTemperature') { execute('light.update', { id: record.id, patch: { temperature: value ? 6500 : null } }); return; }
+    if (type === 'light' && field === 'light-pitch') {
+      const angles = new Euler().setFromQuaternion(new Quaternion(...record.rotation), 'YXZ');
+      angles.x = value * Math.PI / 180;
+      execute('light.update', { id: record.id, patch: { rotation: new Quaternion().setFromEuler(angles).toArray() } }); return;
+    }
     if (isAccess(record) && record.fromLevelId && record.toLevelId && (field === 'height' || field === 'position-1')) { notify('Este acesso acompanha os andares. Ajuste suas alturas ou remova uma associação para editar o desnível manualmente.'); renderInspector(); return; }
     if (field === 'terrain-height') { const heights = [...record.heights]; heights[terrainCell] = value; execute('entity.update', { id: record.id, patch: { heights } }); return; }
     if (field === 'object-level' || field === 'object-layer') { execute(`${type}.update`, { id: record.id, patch: { [field === 'object-level' ? 'levelId' : 'layerId']: value || null } }); return; }
@@ -1109,7 +1132,8 @@ export async function startApplication() {
     } else if (field === 'object-yaw') {
       if (type === 'light') {
         const [x, y, z, w] = record.rotation;
-        const half = (value - yawFromQuaternion(record.rotation)) * Math.PI / 360;
+        const yaw = new Euler().setFromQuaternion(new Quaternion(...record.rotation), 'YXZ').y * 180 / Math.PI;
+        const half = (value - yaw) * Math.PI / 360;
         const s = Math.sin(half), c = Math.cos(half);
         patch.rotation = [c * x + s * z, c * y + s * w, c * z - s * x, c * w - s * y];
       } else patch.transform = { rotation: quaternionFromYaw(value) };
@@ -1118,7 +1142,7 @@ export async function startApplication() {
     else if (field.startsWith('footprint-')) { const footprint = [...record.footprint]; footprint[Number(field.slice(-1))] = value; patch.footprint = footprint; }
     else if (field === 'token-color') actorPatch = { color: value };
     else if (field.startsWith('material-')) patch.material = { [field.slice(9)]: value };
-    else if (field.startsWith('light-')) patch[{ 'light-color': 'color', 'light-intensity': 'intensity', 'light-distance': 'distance', 'light-shadow': 'shadowEnabled' }[field]] = value;
+    else if (field.startsWith('light-')) patch[{ 'light-color': 'color', 'light-intensity': 'intensity', 'light-distance': 'distance', 'light-shadow': 'shadowEnabled', 'light-enabled': 'enabled', 'light-temperature': 'temperature', 'light-angle': 'angle', 'light-penumbra': 'penumbra' }[field]] = field === 'light-angle' ? value * Math.PI / 360 : value;
     else if (field === 'object-secret') patch.audience = value ? 'gm' : 'all';
     else if (field === 'object-locked') patch.locked = value;
     else if (field === 'entity-group') { execute(`${type}.update`, { id: record.id, patch: { groupId: value || null } }); return; }
@@ -1263,6 +1287,7 @@ export async function startApplication() {
         if (execute('entity.add', { entity })) { selection = entity.id; viewport.setSelection(selection); renderInspector(); } break;
       }
       case 'token-place': placing = { type: 'token', name: document.getElementById('token-name')?.value || 'Personagem', color: document.getElementById('token-color')?.value || '#e4b76f' }; setTool('place'); break;
+      case 'spot-place': placing = { type: 'light', lightType: 'spot' }; setTool('place'); break;
       case 'light-place': placing = { type: 'light' }; setTool('place'); break;
       case 'object-delete': { const found = locate(); if (found && confirm(found.type === 'group' ? 'Excluir a composição e todos os seus objetos? Esta ação pode ser desfeita.' : found.record.kind === 'floor' ? 'Excluir o piso e todos os elementos apoiados nele? Esta ação pode ser desfeita.' : found.record.kind === 'wall' ? 'Excluir esta parede e suas portas? Esta ação pode ser desfeita.' : 'Excluir este elemento? Esta ação pode ser desfeita.')) execute(found.type === 'group' ? 'group.delete' : `${found.type}.remove`, { id: selection }); break; }
       case 'object-copy': return copySelection();
@@ -1296,7 +1321,25 @@ export async function startApplication() {
         else { const presented = viewport.getCamera(); viewport.setDocument(store.document); if (workingCamera) viewport.setCamera(workingCamera); publishCamera(presented, 0); }
         document.body.classList.toggle('presenting', isPresentation); document.getElementById('presentation-controls').hidden = !isPresentation;
         viewport.setPresentation(isPresentation); updateView({ type: 'saved' }); break;
-      case 'fullscreen': if (!document.fullscreenElement) await document.documentElement.requestFullscreen(); else await document.exitFullscreen(); break;
+      case 'fullscreen':
+        if (document.fullscreenElement) await document.exitFullscreen();
+        else {
+          await document.documentElement.requestFullscreen();
+          viewport.stopCameraMotion();
+          document.querySelector('#viewport canvas')?.focus({ preventScroll: true });
+          if (navigator.keyboard?.lock) {
+            try {
+              // Reserved browser shortcuts need Keyboard Lock, not just preventDefault.
+              // Keep Esc unclaimed so leaving fullscreen remains immediate.
+              await navigator.keyboard.lock(['KeyW', 'KeyA', 'KeyS', 'KeyD']);
+              if (!document.fullscreenElement) navigator.keyboard.unlock();
+              else notify('WASD capturado: Ctrl+W controla a câmera. Esc sai da tela cheia.');
+            } catch {
+              notify('Tela cheia ativa, mas a captura do teclado não foi autorizada. Ctrl+W ainda pode fechar a aba; use Page Down para descer.', true);
+            }
+          } else notify('Este navegador não oferece captura de teclado. Ctrl+W ainda pode fechar a aba; use Page Down para descer.', true);
+        }
+        break;
       case 'asset-import': document.getElementById('asset-file').click(); break;
       case 'save-current-as-map': return saveCurrentAsMap();
       case 'dialog-new-scene': {
@@ -1480,6 +1523,17 @@ export async function startApplication() {
     const key = event.target.dataset?.buildSection;
     if (key && event.target.isConnected) { if (event.target.open) openBuildSections.add(key); else openBuildSections.delete(key); }
   }, true);
+  root.addEventListener('contextmenu', (event) => {
+    if (event.target.closest('.workspace')) event.preventDefault();
+  }, { capture: true });
+  document.addEventListener('fullscreenchange', () => {
+    const fullscreen = Boolean(document.fullscreenElement);
+    root.querySelectorAll('[data-action="fullscreen"]').forEach(button => {
+      button.setAttribute('aria-pressed', String(fullscreen));
+      button.querySelector('span').textContent = fullscreen ? 'Sair da tela cheia' : 'Tela cheia';
+    });
+    if (!fullscreen) { navigator.keyboard?.unlock?.(); viewport.stopCameraMotion(); }
+  });
   root.addEventListener('contextmenu', (event) => {
     if (!initialized) return;
     const entry = event.target.closest('.tree-entry');
@@ -1687,7 +1741,7 @@ function startPresentation(root, sessionId) {
   if (!/^[a-zA-Z0-9_-]{1,120}$/.test(sessionId)) throw new Error('Endereço de apresentação inválido.');
   if (typeof BroadcastChannel !== 'function') throw new Error('Este navegador não suporta a apresentação em segunda janela.');
   document.body.classList.add('presentation-window');
-  root.innerHTML = `<div id="presentation-viewport"></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button>`;
+  root.innerHTML = `<div id="presentation-viewport"></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><button id="presentation-effects" class="presentation-fullscreen" style="right:60px" title="Volume e bloom nesta janela" aria-label="Volume e bloom nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button>`;
   const viewport = createViewport(document.getElementById('presentation-viewport'), {
     onError: (error) => { document.getElementById('presentation-message').textContent = error.message; },
     navigationEnabled: false,
@@ -1713,6 +1767,8 @@ function startPresentation(root, sessionId) {
       document.title = `${data.document.name} — apresentação`; document.getElementById('presentation-message').hidden = true; clearInterval(retry);
     } catch (error) { document.getElementById('presentation-message').textContent = error.message; }
   };
+  let effectsEnabled = true;
+  document.getElementById('presentation-effects').onclick = event => { effectsEnabled = !effectsEnabled; viewport.setEffectsEnabled(effectsEnabled); event.currentTarget.setAttribute('aria-pressed', String(effectsEnabled)); };
   document.getElementById('presentation-fullscreen').onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
   window.addEventListener('pagehide', () => { clearInterval(retry); channel.close(); viewport.destroy(); });
   request();

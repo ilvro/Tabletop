@@ -1,4 +1,5 @@
 /** Validated JSON is the boundary between editor, disk and future network adapters. */
+import { kelvinToColor } from './lighting.js';
 import { polygonIsSimple, polygonSize, floorContour, validHoles, pointInPolygon } from './geometry.js';
 export class ValidationError extends Error {
   constructor(message, path = '') {
@@ -75,11 +76,15 @@ function semanticReferences(value, document, path) {
   if (semantics.some(key => value[key] !== undefined)) fail(document.schemaVersion === 2, 'Organização e sockets exigem schema 2.', path);
   for (const [field, collection] of [['levelId', 'levels'], ['layerId', 'layers']]) if (value[field] !== undefined) reference(value[field], document.layout[collection] ?? {}, `${path}.${field}`);
   if (value.anchor != null) {
-    keys(value.anchor, ['hostId', 'socket', 'offset'], `${path}.anchor`);
+    keys(value.anchor, ['hostId', 'socket', 'offset', 'rotation'], `${path}.anchor`);
     reference(value.anchor.hostId, document.layout.entities, `${path}.anchor.hostId`, false);
     choice(value.anchor.socket, ['wall', 'ceiling'], `${path}.anchor.socket`); vector(value.anchor.offset, 3, `${path}.anchor.offset`);
+    if (value.anchor.rotation !== undefined) {
+      fail(value.type === 'spot', 'Orientação local do socket exige luz spot.', path);
+      quaternion(value.anchor.rotation, `${path}.anchor.rotation`);
+    }
     const host = document.layout.entities[value.anchor.hostId];
-    fail(value.kind === 'prop' || value.type === 'point', 'Somente props e luzes locais podem usar sockets.', path);
+    fail(value.kind === 'prop' || ['point', 'spot'].includes(value.type), 'Somente props e luzes locais podem usar sockets.', path);
     fail(host.kind === (value.anchor.socket === 'wall' ? 'wall' : 'floor'), 'Host incompatível com o socket.', path);
     fail(!value.surfaceId, 'Âncora e apoio não podem controlar o mesmo objeto.', path);
     if (host.kind === 'wall') {
@@ -206,27 +211,62 @@ function composition(value, path, document) {
     text(b.name, path); bool(b.locked, path); choice(b.audience, ['all', 'gm'], path);
     for (const field of ['groupId', 'surfaceId']) if (b[field] !== null) identifier(b[field], path);
     const current = slot.kind === 'entity' ? document.layout.entities[slot.id] : (document.look ?? document.defaultLook).lights[slot.id];
-    if (current) fail(slot.kind === 'light' ? current.type === 'point' : current.kind === 'prop', 'Slot aponta para um tipo incompatível.', path);
+    if (current) fail(slot.kind === 'light' ? ['point', 'spot', 'directional'].includes(current.type) : current.kind === 'prop', 'Slot aponta para um tipo incompatível.', path);
   }
 }
 
 function look(value, path, document, seen) {
-  keys(value, ['background', 'fill', 'lights', 'materialAdjustments'], path); color(value.background, `${path}.background`);
+  keys(value, ['background', 'fill', 'lights', 'materialAdjustments', 'fog', 'volumetricFog', 'bloom', 'effectsPaused'], path); color(value.background, `${path}.background`);
   keys(value.fill, ['skyColor', 'groundColor', 'intensity'], `${path}.fill`);
   color(value.fill.skyColor, `${path}.fill.skyColor`); color(value.fill.groundColor, `${path}.fill.groundColor`);
   number(value.fill.intensity, `${path}.fill.intensity`, 0);
   dictionary(value.lights, `${path}.lights`, seen, (light, lightPath) => {
-    keys(light, ['id', 'name', 'type', 'position', 'rotation', 'color', 'intensity', 'distance', 'shadowEnabled', 'audience', 'role', 'groupId', 'surfaceId', 'locked', ...semantics], lightPath);
+    keys(light, ['id', 'name', 'type', 'position', 'rotation', 'color', 'intensity', 'distance', 'shadowEnabled', 'audience', 'role', 'groupId', 'surfaceId', 'locked', 'enabled', 'temperature', 'angle', 'penumbra', 'flicker', ...semantics], lightPath);
     semanticReferences(light, document, lightPath);
-    text(light.name, `${lightPath}.name`); choice(light.type, ['directional', 'point'], `${lightPath}.type`);
+    text(light.name, `${lightPath}.name`); choice(light.type, ['directional', 'point', 'spot'], `${lightPath}.type`);
     vector(light.position, 3, `${lightPath}.position`); quaternion(light.rotation, `${lightPath}.rotation`);
     color(light.color, `${lightPath}.color`); number(light.intensity, `${lightPath}.intensity`, 0); number(light.distance, `${lightPath}.distance`, 0);
     bool(light.shadowEnabled, `${lightPath}.shadowEnabled`); choice(light.audience, ['all', 'gm'], `${lightPath}.audience`);
+    if (light.enabled !== undefined) bool(light.enabled, `${lightPath}.enabled`);
+    if (light.temperature != null) {
+      number(light.temperature, `${lightPath}.temperature`, 1000, 40000);
+      fail(light.color.toLowerCase() === kelvinToColor(light.temperature), 'Cor deve corresponder à temperatura salva.', lightPath);
+    }
+    if (light.type === 'spot') {
+      number(light.angle, `${lightPath}.angle`, .01, Math.PI / 2);
+      number(light.penumbra, `${lightPath}.penumbra`, 0, 1);
+    } else fail(light.angle === undefined && light.penumbra === undefined, 'Cone e penumbra exigem uma luz spot.', lightPath);
+    if (light.flicker !== undefined) {
+      const f = light.flicker, p = `${lightPath}.flicker`;
+      keys(f, ['enabled', 'pattern', 'amplitude', 'frequency', 'seed'], p);
+      bool(f.enabled, p); choice(f.pattern, ['candle', 'fluorescent'], p);
+      number(f.amplitude, p, 0, 1); number(f.frequency, p, .1, 20);
+      fail(Number.isInteger(f.seed) && f.seed >= 0 && f.seed <= 2147483647, 'Seed deve ser inteiro de 0 a 2147483647.', p);
+    }
     if (light.role !== undefined) text(light.role, `${lightPath}.role`, 64);
     if (light.locked !== undefined) bool(light.locked, `${lightPath}.locked`);
     if (light.groupId !== undefined) reference(light.groupId, document.layout.groups, `${lightPath}.groupId`);
     supportReference(light.surfaceId, document, `${lightPath}.surfaceId`);
   });
+  if (value.effectsPaused !== undefined) bool(value.effectsPaused, `${path}.effectsPaused`);
+  if (value.fog !== undefined) {
+    const f = value.fog, p = `${path}.fog`;
+    keys(f, ['enabled', 'mode', 'color', 'near', 'far', 'density'], p);
+    bool(f.enabled, p); choice(f.mode, ['linear', 'exp2'], p); color(f.color, p);
+    number(f.near, p, 0); positive(f.far, p); fail(f.far > f.near, 'Fim deve ser maior que o início da névoa.', p);
+    number(f.density, p, 0, 1);
+  }
+  if (value.volumetricFog !== undefined) {
+    const f = value.volumetricFog, p = `${path}.volumetricFog`;
+    keys(f, ['enabled', 'color', 'density', 'baseHeight', 'height', 'maxDistance'], p);
+    bool(f.enabled, p); color(f.color, p); number(f.density, p, 0, 1); number(f.baseHeight, p);
+    number(f.height, p, .1, 1000); number(f.maxDistance, p, 1, 1200);
+  }
+  if (value.bloom !== undefined) {
+    const b = value.bloom, p = `${path}.bloom`;
+    keys(b, ['enabled', 'strength', 'radius', 'threshold'], p);
+    bool(b.enabled, p); number(b.strength, p, 0, 1); number(b.radius, p, 0, 1); number(b.threshold, p, 0, 10);
+  }
   record(value.materialAdjustments, `${path}.materialAdjustments`);
   for (const [entityId, slots] of Object.entries(value.materialAdjustments)) {
     reference(entityId, document.layout.entities, `${path}.materialAdjustments.${entityId}`, false);

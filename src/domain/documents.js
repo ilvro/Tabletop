@@ -1,5 +1,6 @@
 import { validateDocument, ValidationError } from './validation.js';
 import { polygonSize } from './geometry.js';
+import { kelvinToColor } from './lighting.js';
 import { migrateDocument } from './migrations.js';
 export { migrateDocument };
 export { validateDocument, ValidationError };
@@ -77,9 +78,13 @@ export function createToken(options = {}) {
 
 export function createLight(options = {}) {
   return {
-    id: options.id ?? id(), name: options.name ?? (options.type === 'directional' ? 'Luz principal' : 'Luz local'),
+    id: options.id ?? id(), name: options.name ?? (options.type === 'directional' ? 'Luz principal' : options.type === 'spot' ? 'Luz spot' : 'Luz local'),
     type: options.type ?? 'point', position: clone(options.position ?? [0, 2.3, 0]),
-    rotation: clone(options.rotation ?? [0, 0, 0, 1]), color: options.color ?? '#ffdfae',
+    rotation: clone(options.rotation ?? [0, 0, 0, 1]), color: options.temperature != null ? kelvinToColor(options.temperature) : options.color ?? '#ffdfae',
+    ...(options.temperature !== undefined ? { temperature: options.temperature } : {}),
+    ...(options.enabled !== undefined ? { enabled: options.enabled } : {}),
+    ...(options.flicker ? { flicker: clone(options.flicker) } : {}),
+    ...(options.type === 'spot' ? { angle: options.angle ?? Math.PI / 6, penumbra: options.penumbra ?? .4 } : {}),
     intensity: options.intensity ?? 40, distance: options.distance ?? 12,
     shadowEnabled: options.shadowEnabled ?? false, audience: options.audience ?? 'all',
     groupId: options.groupId ?? null, surfaceId: options.surfaceId ?? null, locked: options.locked ?? false,

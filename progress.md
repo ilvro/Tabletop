@@ -1,6 +1,17 @@
 # Tabletop — andamento
 
-Atualizado em 3 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 4 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+
+## Conflitos com o navegador — concluído
+
+- [x] Bloquear menu nativo por captura na área 3D, incluindo overlays, e padrões de botões direito/meio no canvas.
+- [x] Disponibilizar Tela cheia no editor com Keyboard Lock de WASD e suas combinações, preservando Esc para saída e liberando captura ao sair.
+- [x] Avisar quando captura é recusada ou indisponível; Page Down desce sem Ctrl.
+- [x] Validar build, testes e E2E de câmera com Shift + mouse, fullscreen e captura recusada/ausente.
+
+Validação: build, 98 testes unitários/de integração e E2E de câmera passaram. O E2E confirmou Shift durante navegação e arrastes, cancelamento de contexto no canvas/overlays, fullscreen real, foco no canvas, solicitação de captura WASD, liberação ao sair e avisos de recusa/ausência de API, além da publicação independente. A janela do mestre é trazida à frente antes de solicitar fullscreen após o teste do projetor.
+
+Limite: preventDefault sozinho não garante bloquear Ctrl+W em uma aba normal. Captura real depende de fullscreen iniciado pelo botão, suporte/permissão do Chrome e teclas permitidas pelo sistema operacional. E2E headless simula a fronteira de permissão de Keyboard Lock; validação dessa permissão e atalhos reservados no Chrome com interface permanece presencial.
 
 ## Ctrl combinado com navegação — concluído
 
@@ -33,10 +44,24 @@ Validação: 97 testes unitários/de integração, build e oito E2E passaram. O 
 
 Último ajuste validado com build e E2E de câmera: transições atualizam lente/frustum sem redimensionar o buffer de desenho quando o viewport conserva seu tamanho. Captura final: `test-results/camera-controls.png`.
 
-## Pendências preservadas
+## Iluminação e imersão avançada — concluída
+
+- [x] Conferir arquitetura, especificação de imersão e implementação atual; preservar os ajustes locais de câmera.
+- [x] Luz spot editável (direção, cone, penumbra, alcance e sombras) e temperatura Kelvin com cor reproduzível.
+- [x] Flicker determinístico com seed, amplitude/frequência e pausa, sem gravar frames no histórico.
+- [x] Fog de distância, névoa volumétrica por altura e bloom opcional, com controles e descarte de recursos GPU.
+- [x] Validar comandos, persistência, projeção, renderização e fluxos pela interface; sincronizar os relatórios.
+
+Validação final em 4 de outubro: build de produção, 107 testes unitários/de integração e os dez E2E passaram. Os dois E2E de iluminação foram repetidos após o ajuste final de rotação numérica, confirmando que o yaw conserva a inclinação do spot. Verificados: edição, Kelvin/cor, animação sem mudar documento/histórico, pausa/movimento reduzido, fog/volume/bloom, descarte de buffers, qualidade e câmera independentes do projetor e fidelidade após reiniciar navegador/servidor. Pixels WebGL confirmam limite de profundidade, câmeras perspectiva/ortográfica, distância máxima do volume e limiar de bloom. Uso e limites: [docs/LIGHTING.md](docs/LIGHTING.md).
+
+Spots, Kelvin, flicker, fog de distância, névoa por altura e bloom saíram das pendências. A névoa volumétrica entregue é uma camada homogênea limitada pela geometria opaca; feixes e sombras volumétricas continuam futuros. A avaliação presencial no notebook/projetor permanece necessária.
+
+## Pendências atuais
 
 - Acompanhamento automático de tokens; caminhos de câmera e colisão com paredes.
 - Avaliação presencial do movimento/legibilidade no notebook e projetor.
 - Pacote único de cena + assets (opcional).
-- Receitas/prefabs/ambientes adicionais, variantes e sockets específicos por asset.
-- Iluminação/efeitos avançados, integrações Ficha/Jukebox e LAN, conforme [roadmap](docs/ROADMAP.md).
+- Receitas e prefabs adicionais, biblioteca reutilizável de ambientes e auto-layout entre cômodos.
+- Coleções/variantes de assets, sockets específicos por asset e glTF com texturas externas.
+- Integrações Ficha/Jukebox e LAN, conforme [roadmap](docs/ROADMAP.md).
+- Volumetria com sombras/espalhamento por luz, partículas e efeitos adicionais dependentes de benchmark.

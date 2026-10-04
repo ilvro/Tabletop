@@ -1,6 +1,6 @@
 # Tabletop — imersão e apresentação
 
-Data: 3 de outubro de 2026. Pesquisa e proposta da Fase 2; nenhuma cena, efeito ou integração foi implementado. [Arquitetura](ARCHITECTURE.md), [autoria](MAP_AUTHORING.md) e [roadmap](ROADMAP.md) completam esta especificação.
+Data: 3 de outubro de 2026. Pesquisa/proposta da Fase 2, com base visual, câmera e incremento de iluminação/imersão implementados. Integrações externas permanecem pendentes. Uso atual: [LIGHTING.md](LIGHTING.md) e [CAMERA.md](CAMERA.md). [Arquitetura](ARCHITECTURE.md), [autoria](MAP_AUTHORING.md) e [roadmap](ROADMAP.md) completam esta especificação.
 
 ## 1. Filosofia visual
 
@@ -55,6 +55,8 @@ A revisão do pacote local confirmou os caminhos para luzes, loaders, instancing
 Não exigir WebGPU, TSL ou uma nova engine para o slice. Encapsular renderer e pipeline permite reavaliar tecnologias se o benchmark demonstrar uma limitação concreta.
 
 ## 4. Iluminação como ferramenta de autoria
+
+**Entregue:** fontes spot com direção/cone/penumbra/sombras, Kelvin aproximado e cor direta, flicker determinístico com pausa e estado ligado. Sockets genéricos de parede/teto incluem spots com orientação relativa ao host. [LIGHTING.md](LIGHTING.md) descreve os controles atuais; as demais propostas abaixo mantêm o contexto de planejamento.
 
 Cada fonte é uma entidade visual serializável em look, com ID, tipo, estado ativo, cor, intensidade e parâmetros pertinentes. O editor mostra helper/gizmo e inspector; a apresentação mostra apenas o efeito e a fonte visual quando houver um prop correspondente.
 
@@ -130,6 +132,8 @@ Salvar o look concreto permite reabrir sem biblioteca ou gerador. Ajustes locais
 
 ## 8. Atmosfera, fog, partículas e pequenos efeitos
 
+**Entregue:** fog linear/exponencial por distância e volume homogêneo por altura com profundidade opaca, densidade, cor e distância máxima. Não há feixes ou sombras volumétricas. Partículas, emissores e volumetria com espalhamento permanecem futuros; ver [LIGHTING.md](LIGHTING.md).
+
 Fog/FogExp2 oferecem névoa dependente de distância. Não representam densidade por altura, fumaça localizada, espalhamento volumétrico ou visibilidade de jogador. [Fog](https://threejs.org/docs/pages/Fog.html), [FogExp2](https://threejs.org/docs/pages/FogExp2.html).
 
 Prioridades qualitativas propostas; custos precisam ser medidos:
@@ -157,6 +161,8 @@ Evitar um mesh, timer ou objeto DOM por partícula. Não simular fluidos para fu
 Flicker e luz animada usam curvas/padrões com seed, amplitude e frequência. Um scheduler visual avalia efeitos ativos; não gera comando/save a cada frame. O mestre pode pausar/desligar efeitos e selecionar variação suave. Tempo visual e tempo musical são separados.
 
 ## 9. Pós-processamento
+
+**Entregue:** bloom opcional com força/raio/limiar, OutputPass, buffers limitados a pixel ratio 1 e liberação ao desligar/destruir. Cada janela pode suprimir volume/bloom sem alterar o look. O custo no notebook/projetor real ainda precisa de medição.
 
 O MVP deve parecer bom sem depender de cadeia de efeitos. Depois, adotar uma cadeia curta, com efeitos desligáveis: correção sutil, bloom limitado e antialiasing medido. Profundidade de campo, grão, glitch e aberração cromática são opções de apresentação, sem comprometer a leitura tática por padrão.
 

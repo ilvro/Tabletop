@@ -1,12 +1,13 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
-**Data:** 3 de outubro de 2026  
-**Status do Projeto:** Vertical Slice validado; evolução estrutural, polish e primeiro incremento de câmera cinematográfica entregues
+**Data:** 4 de outubro de 2026
+
+**Status do Projeto:** Vertical Slice validado; evolução estrutural, polish câmera cinematográfica e iluminação/imersão avançada entregues
 **Documentos de Referência:** [`ROADMAP.md`](ROADMAP.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`MAP_AUTHORING.md`](MAP_AUTHORING.md), [`IMMERSION.md`](IMMERSION.md), [`VERTICAL_SLICE.md`](VERTICAL_SLICE.md) e [`INVESTIGACAO_E_ARQUITETURA.md`](../INVESTIGACAO_E_ARQUITETURA.md).
 
 ---
 
-**Câmera cinematográfica:** WASD com aceleração/desaceleração, Shift rápido, Page Up/Down e Espaço/Ctrl para altura na perspectiva, velocidade e lente; órbita suave, transições de presets/publicação com duração, pausa e corte. Zoom, pan e órbita preservam o movimento por teclado, e o botão direito seleciona somente ao soltar sem arrastar. Ctrl+WASD tem prioridade sobre atalhos do navegador/editor na perspectiva com foco no canvas. Projetor mantém câmera independente e edições de conteúdo não reiniciam transições. A apresentação na mesma janela aceita navegação e restaura a câmera de trabalho ao voltar à edição. G/R/V substituem W/R/S para transformar objetos. Acompanhamento automático/caminhos e benchmark no projetor permanecem pendentes. Uso: [CAMERA.md](CAMERA.md). Andamento contínuo: [progress.md](../progress.md).
+**Câmera cinematográfica:** WASD com aceleração/desaceleração, Shift rápido, Page Up/Down e Espaço/Ctrl para altura na perspectiva, velocidade e lente; órbita suave, transições de presets/publicação com duração, pausa e corte. Zoom, pan e órbita preservam o movimento por teclado, e o botão direito seleciona somente ao soltar sem arrastar. Ctrl+WASD tem prioridade sobre atalhos de edição na perspectiva com foco no canvas; atalhos reservados do Chrome exigem Tela cheia pelo botão e permissão de captura WASD. Menu nativo cancelado na área 3D, incluindo overlays. Projetor mantém câmera independente e edições de conteúdo não reiniciam transições. A apresentação na mesma janela aceita navegação e restaura a câmera de trabalho ao voltar à edição. G/R/V substituem W/R/S para transformar objetos. Acompanhamento automático/caminhos e benchmark no projetor permanecem pendentes. Uso: [CAMERA.md](CAMERA.md). Andamento contínuo: [progress.md](../progress.md).
 
 **Biblioteca expandida:** 127 assets originais locais (121 além do kit inicial, incluindo 66 na segunda ampliação), para investigação/horror paranormal em diferentes épocas e cenários. Categorias hierárquicas, busca sem acentos, filtros combinados por época/cenário/tags, favoritos e classificação editável de assets internos/importados, salva no servidor sem alterar referências de cenas. Uso e limites em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
 
@@ -24,7 +25,7 @@
 
 O projeto **Tabletop** alcançou com êxito a entrega e estabilização do seu **primeiro Vertical Slice funcional (MVP)**. 
 
-O sistema já é capaz de criar salas 3D a partir do vazio no computador do mestre, aplicar assistência paramétrica (*Quick Build*) com prévia e aceite em transação única, editar manualmente todos os elementos com precisão métrica e *snap*, gerenciar tokens com retratos ou cores, dispor de iluminação ambiente/direcional/pontual com sombras e corte de paredes (*cutaway*), além de projetar a visão dos jogadores em segunda tela limpa com câmera independente via `BroadcastChannel`. Toda a persistência conta com histórico completo (*undo/redo*), versionamento com detecção de conflitos (HTTP 409), gravação atômica com rotação de backups e recuperação de falhas via IndexedDB.
+O sistema já é capaz de criar salas 3D a partir do vazio no computador do mestre, aplicar assistência paramétrica (*Quick Build*) com prévia e aceite em transação única, editar manualmente todos os elementos com precisão métrica e *snap*, gerenciar tokens com retratos ou cores, dispor de iluminação ambiente/direcional/pontual/spot com sombras, temperatura Kelvin, cintilação, névoa por distância/altura e bloom opcional e corte de paredes (*cutaway*), além de projetar a visão dos jogadores em segunda tela limpa com câmera independente via `BroadcastChannel`. Toda a persistência conta com histórico completo (*undo/redo*), versionamento com detecção de conflitos (HTTP 409), gravação atômica com rotação de backups e recuperação de falhas via IndexedDB.
 
 Este relatório compara o estado atual do código-fonte em relação aos objetivos traçados nos documentos arquiteturais para mapear com clareza **o que já está pronto** e **o que permanece pendente** para os marcos seguintes (fechamento de MVP, V2, V3 e além).
 
@@ -40,7 +41,7 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Snap sensível ao *footprint* dos tokens (1×1 m, 2×2 m, etc.). Tecla `Alt` permite movimentação livre em tempo real sem alterar a grade.
   - Funções de conversão matemática entre ângulos de Euler (Yaw) e quatérnions.
 - **Validação Estrutural e Tipagem (`validation.js`):** Validação profunda que rejeita dados com valores não finitos (`NaN`/`Infinity`), referências órfãs, extensões não permitidas ou mídias *inline* em base64.
-- **Presets de Ambiente (`environments.js`):** Presets `warm` (acolhedor), `moonlight` (luar) e `neutral` (neutro), com preenchimento, luz direcional e cor de fundo. Neblina permanece pendente.
+- **Presets de Ambiente (`environments.js`):** Presets `warm` (acolhedor), `moonlight` (luar) e `neutral` (neutro), com preenchimento, luz direcional e cor de fundo. Fog linear/exponencial, névoa homogênea por altura e bloom são ajustes opcionais independentes dos presets; ver [LIGHTING.md](LIGHTING.md).
 
 ### 2.2. Estado, Comandos e Histórico (`src/state/`)
 - **Arquitetura de Comandos Puros (`commands.js`):** Todas as mutações no documento acontecem via comandos registrados (`entity.add`, `entity.update`, `entity.remove`, `entity.duplicate`, `group.add`, `group.update`, `group.remove`, `token.add`, `token.update`, `token.remove`, `token.duplicate`, `light.add`, `light.update`, `light.remove`, `environment.apply`, `camera.save`, `camera.remove`, `door.setAngle`, `proposal.accept`, `grid.update`).
@@ -87,7 +88,7 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Controle de abertura de portas (ângulo interativo), posição/peitoril de janelas e troca da parede hospedeira.
   - Dimensões e desnível de escadas/rampas; quantidade de degraus e escolha explícita do apoio para tokens.
   - Seleção e movimentação rápida de pasta/grupo para qualquer entidade.
-  - Ajuste de cores de tokens e parâmetros de luzes (intensidade, raio, cor).
+  - Ajuste de cores de tokens e parâmetros de luzes (tipo, intensidade, alcance, cor/Kelvin, direção spot, cone, penumbra, sombras e cintilação).
   - Ferramentas de cópia e colagem (`Ctrl+C` / `Ctrl+V`), duplicação (`Ctrl+D`) e exclusão (`Delete`/`Backspace`).
 - **Interface Gráfica de Gestão da Mesa (Painel Flutuante Multitabs, Não-Bloqueante e Arrastável):**
   - **Design Não-Bloqueante & Arrastável:** O painel não trava a tela nem aplica camada escura, permitindo que o mestre veja a mesa 3D, inspecione a sala, orbite a câmera e selecione onde colocar tokens. O cabeçalho pode ser arrastado com o mouse para reposicionar o painel livremente, e o fechamento responde imediatamente pelo botão **X**, pela tecla <kbd>Esc</kbd> ou ao alternar pelo botão do cabeçalho.
@@ -117,8 +118,8 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
   - Modal de recuperação no carregamento caso o navegador feche inesperadamente ou falhe a gravação no disco.
 
 ### 2.8. Testes Automatizados e Qualidade
-- **98 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição; catálogo acrescenta resolução dos 127 modelos/prévias, filtros combinados, metadados validados, concorrência, persistência e referências preservadas; câmera acrescenta direção relativa/superior, normalização de diagonais, integração temporal da velocidade, Espaço/ambos os Ctrl na perspectiva e trajetos sem colapso do raio.
-- **Oito testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxos da Fase 3 e da evolução estrutural pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor; biblioteca acrescenta filtros, tags personalizadas, favoritos, novos props e classificação de importados após reinício. Execução sequencial com Chromium headless e WebGL por software; inclui composição mesa + lamparina, transformações conjuntas e desancoragem pela pasta. O E2E de câmera cobre WASD durante zoom/pan/órbita, seleção no release sem arraste, altura com Espaço/ambos os Ctrl, foco/atalhos, lente, publicação independente, transições sem reinício por edições, pausa/corte, interrupção, redução de movimento e persistência de presets. Não representa benchmark no notebook/projetor.
+- **107 testes unitários e de integração (`npm test`):** Regras implementadas de domínio, snap, cenas/mapas, aberturas, projeção, pastas, histórico, concorrência e backups; Fase 3 acrescenta migração, polígonos côncavos, janelas empilhadas, apoios/ciclos, regeneração com overrides/exclusões, conservação de dependentes e polish; as correções acrescentam recorte de janela movida em parede rotacionada, bloqueio da parede hospedeira, geometria/validação de acessos e altura dos tokens após snap/edição; catálogo acrescenta resolução dos 127 modelos/prévias, filtros combinados, metadados validados, concorrência, persistência e referências preservadas; câmera acrescenta direção relativa/superior, normalização de diagonais, integração temporal da velocidade, Espaço/ambos os Ctrl na perspectiva e trajetos sem colapso do raio. A iluminação acrescenta validação/Kelvin, histórico, flicker determinístico, direção do spot/socket, regeneração e projeção filtrada.
+- **Dez testes E2E com Playwright (`npm run test:e2e`):** Criação/edição, assets, apresentação, recuperação entre abas e fluxos da Fase 3 e da evolução estrutural pela UI, incluindo desenho de dois polígonos sem reload, janela colocada por clique e arrastada com undo/redo, escadas/rampas e tokens apoiados; comparação do documento após reiniciar navegador e servidor; biblioteca acrescenta filtros, tags personalizadas, favoritos, novos props e classificação de importados após reinício. Execução sequencial com Chromium headless e WebGL por software; inclui composição mesa + lamparina, transformações conjuntas e desancoragem pela pasta. O E2E de câmera cobre WASD durante zoom/pan/órbita, seleção no release sem arraste, altura com Espaço/ambos os Ctrl, foco/atalhos, lente, publicação independente, transições sem reinício por edições, pausa/corte, interrupção, redução de movimento e persistência de presets. Os dois E2E de iluminação acrescentam edição/persistência após reinício, pausa/movimento reduzido, qualidade independente e descarte de buffers, além de pixels WebGL de profundidade/volume/bloom. Não representa benchmark no notebook/projetor.
 
 ---
 
@@ -129,6 +130,16 @@ Este relatório compara o estado atual do código-fonte em relação aos objetiv
 - **Ancoragem estrutural:** props/luzes em sockets locais de paredes ou na face inferior de pisos superiores, com transporte/deleção dos dependentes e edição numérica.
 - **Polish local:** paletas de material por instância, frente voltada à referência, revisão de folgas com deslocamentos propostos, luminária em canto livre, distribuição/normalização de luzes e enquadramento da referência. Prévia com motivos/conflitos, preservação de protegidos e aceite atômico.
 - **Persistência:** campos opcionais do schema 2 validados e preservados em cenas/mapas, duplicação, backups e reinício; projeção pública filtra níveis/camadas e dependentes privados.
+
+---
+
+### 2.10. Iluminação e Imersão Avançada ([LIGHTING.md](LIGHTING.md))
+- **Spot e temperatura:** fontes editáveis por tipo, posição, direção, cone/penumbra, alcance, estado e sombra; Kelvin aproximado convertido para a cor sRGB salva. Cor direta desativa Kelvin. Spots usam gizmo, sockets parede/teto com direção relativa ao host, composições e polish.
+- **Flicker:** padrões determinísticos para vela/tocha e fluorescente defeituosa, amplitude/frequência/seed, pausa global e desligamento por fonte; avaliação visual sem comandos ou salvamento por frame. Abas ocultas e movimento reduzido pausam a animação.
+- **Fog e volume:** névoa linear/exponencial por distância; camada volumétrica homogênea por altura, densidade, cor e distância máxima. Integração analítica do raio até a primeira geometria opaca, nas duas projeções. Feixes, espalhamento e sombras volumétricas continuam como extensão futura.
+- **Bloom e qualidade:** pipeline opcional com OutputPass, buffers limitados a pixel ratio 1 e mips reduzidos; desligamento local independente por janela e descarte dos recursos ao desligar/destruir. Fog de distância permanece disponível.
+- **Dados e apresentação:** campos opcionais do schema 2, com validação profunda, undo/redo, mapas/cenas/duplicação e filtragem de fontes privadas. Editar look não publica câmera nem reinicia transições do projetor.
+- **Validação final em 4 de outubro:** build, 107 testes unitários/de integração e dez E2E passaram. Os dois E2E de iluminação foram repetidos após o ajuste de yaw que preserva a inclinação do spot. Nove testes novos de domínio/renderização e dois E2E cobrem edição pela UI, parâmetros preservados após reinício, animação sem mudança no documento, pausa/movimento reduzido, recursos GPU sem acumulação e pixels reais de profundidade/volume/bloom. A avaliação presencial no notebook/projetor permanece pendente.
 
 ---
 
@@ -153,14 +164,13 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 2. **Evoluções adicionais da Biblioteca (`MAP_AUTHORING.md` - Seção 15):**
    - Catálogo ampliado, categorias hierárquicas, tags editáveis, busca, filtros por épocas/cenários e favoritos já entregues: [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
    - Coleções formais além de tags/favoritos e variantes de texturas/materiais por asset.
-   - Metadados de ancoragem (*anchors/sockets*) para fixação automática de itens em paredes ou tetos.
+   - Sockets específicos por asset e metadados para fixação automática; sockets genéricos de parede/teto já estão entregues.
    - Suporte a importação de modelos glTF com diretórios de texturas externas.
-3. **Iluminação e Imersão Avançada (`IMMERSION.md` - Seções 4 a 9):**
-   - Luzes do tipo *Spot* (holofote/foco cônico) com ângulo de abertura e suavidade de penumbra configuráveis.
-   - Simulação de temperatura de cor de iluminação em escala Kelvin.
-   - Efeitos de cintilação animada (*flicker*) para tochas, velas e lâmpadas fluorescentes defeituosas.
-   - Névoa volumétrica e *fog* de distância configurável no ambiente.
-   - Efeitos leves de pós-processamento opcionais (como *bloom* sutil calibrado para não pesar a GPU).
+3. **Extensões futuras de imersão (`IMMERSION.md` - Seções 7 a 9):**
+   - Biblioteca de ambientes reutilizáveis com bindings e aplicação por diff.
+   - Partículas, chuva/fumaça localizada e emissores com vínculo espacial.
+   - Volumetria com feixes, densidade variável, sombras e espalhamento por fonte, condicionada a benchmark. O volume homogêneo por altura já está entregue.
+   - Efeitos adicionais e medição de bloom/sombras no notebook e projetor reais.
 4. **Câmera Cinematográfica (`IMMERSION.md` - Seção 10):**
    - **Entregue:** navegação WASD, lente/velocidade, órbita suave e transições entre enquadramentos salvos/publicados, com duração, interrupção e corte imediato ([CAMERA.md](CAMERA.md)).
    - **Pendente:** acompanhamento automático de tokens em movimento, caminhos/colisão de câmera e avaliação presencial no projetor.
@@ -227,8 +237,8 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 | **Seleção Múltipla e Polish** | `MAP_AUTHORING.md` §14 | **Concluído** (materiais, orientação, passagens, cantos e luzes) | `polish.js`, `renderer.js` |
 | **Terreno Esculpido e Furos em Pisos** | `MAP_AUTHORING.md` §7 | **Concluído** (heightmap limitado e recortes poligonais) | `terrain.js`, `geometry.js`, `scene-objects.js` |
 | **Camadas e Sockets Estruturais** | `MAP_AUTHORING.md` §8–9 | **Concluído** (parede/teto) | `commands.js`, `application.js` |
-| **Luz Spot, Flicker e Temperatura** | `IMMERSION.md` §4 | **Pendente** | Previsto para V2 |
-| **Fog de Distância e Pós-Processamento** | `IMMERSION.md` §8, §9 | **Pendente** | Previsto para V2 |
+| **Luz Spot, Flicker e Temperatura** | `IMMERSION.md` §4 | **Concluído** | `lighting.js`, `validation.js`, `lighting-panels.js`; [LIGHTING.md](LIGHTING.md) |
+| **Fog de Distância, Volume por Altura e Bloom** | `IMMERSION.md` §8, §9 | **Concluído** (volume homogêneo limitado pela profundidade, bloom opcional) | `renderer.js`, `effects.js`; [LIGHTING.md](LIGHTING.md) |
 | **Navegação WASD e Transições Suaves de Câmera** | `IMMERSION.md` §10 | **Concluído** (duração, pausa/corte, lente e projetor independente) | `camera-motion.js`, `renderer.js`, `application.js`; [CAMERA.md](CAMERA.md) |
 | **Acompanhamento de Tokens e Caminhos de Câmera** | `IMMERSION.md` §10 | **Pendente** | Incrementos posteriores; avaliação presencial pendente |
 | **Integração com Jukebox e Ficha** | `ARCHITECTURE.md` §11 | **Pendente** | Fronteiras definidas em `src/integrations/` |
@@ -241,6 +251,6 @@ O planejamento dos documentos arquiteturais (`ROADMAP.md`, `ARCHITECTURE.md`, `M
 
 Para manter a ordem de implementação técnica eficiente e alinhada ao cronograma:
 
-1. **Validar a autoria estrutural no uso presencial:** experimentar relevo, vãos de escada e construção por andares no notebook/projetor; os controles e testes já estão entregues.
+1. **Validar autoria e imersão no uso presencial:** experimentar relevo, vãos de escada e construção por andares no notebook/projetor; os controles e testes já estão entregues. Medir spot/sombras, flicker, fog/volume e bloom com editor/projetor ativos; ajustar legibilidade e custo.
 2. **Autoria assistida:** Avaliar as três receitas e os 127 assets no projetor; depois ampliar receitas, sockets específicos por asset e prefabs reutilizáveis. Regeneração e polish já têm a fundação funcional.
 3. **Pacote de Transporte (Opcional):** Se desejado, implementar compactação/descompactação em `.zip` de cena + assets para envio facilitado entre computadores.

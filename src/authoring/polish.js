@@ -51,7 +51,7 @@ function extendedPolish(document, options, version, catalog) {
       proposal.report.reasons.push(`${item.name}: frente orientada para ${reference.name}.`);
     }
   } else if (mode === 'lighting') {
-    const points = editableItems.filter(item => item.type === 'point');
+    const points = editableItems.filter(item => ['point', 'spot'].includes(item.type));
     if (!points.length) throw new ValidationError('Selecione luzes locais na árvore.');
     const intensity = points.reduce((sum, item) => sum + item.intensity, 0) / points.length;
     for (const light of points) proposal.updates.push({ kind: 'light', id: light.id, patch: { intensity, color: points[0].color } });
@@ -101,7 +101,7 @@ export function proposePolish(document, options = {}, expectedEditVersion = 0, c
   if (!Array.isArray(ids) || new Set(ids).size !== ids.length || ids.length < 2 || ids.length > 256) throw new ValidationError('Selecione de 2 a 256 props/tokens.');
   if (!['align', 'distribute', 'rotation'].includes(mode) || !['x', 'z'].includes(axis) || !['center', 'min', 'max'].includes(alignment) || !Number.isFinite(angle) || angle < 0 || angle > 30 || !Number.isInteger(seed)) throw new ValidationError('Ajuste de polish inválido.');
   const index = axis === 'x' ? 0 : 2;
-  const items = ids.map(key => document.layout.entities[key] ?? document.tokens?.[key] ?? (document.look ?? document.defaultLook).lights[key]).map(item => item?.type === 'point' ? { ...item, transform: { position: item.position, rotation: item.rotation, scale: [1,1,1] }, footprint: [.2,.2] } : item);
+  const items = ids.map(key => document.layout.entities[key] ?? document.tokens?.[key] ?? (document.look ?? document.defaultLook).lights[key]).map(item => ['point', 'spot'].includes(item?.type) ? { ...item, transform: { position: item.position, rotation: item.rotation, scale: [1,1,1] }, footprint: [.2,.2] } : item);
   if (items.some(item => !item?.transform || item.kind && item.kind !== 'prop' || item.anchor || isLocked(document, item))) throw new ValidationError('Polish aceita props, tokens e luzes locais desbloqueados e sem âncora.');
   const selected = new Set(ids);
   if (items.some(item => selected.has(item.surfaceId))) throw new ValidationError('Ajuste o apoio e seus dependentes separadamente.');
@@ -125,6 +125,6 @@ export function proposePolish(document, options = {}, expectedEditVersion = 0, c
     // Rotate about world Y without erasing a manually tilted prop.
     proposals[i].patch.transform.rotation = [c * x + s * z, c * y + s * w, c * z - s * x, c * w - s * y];
   });
-  proposals.forEach((operation, i) => { if (items[i].type === 'point') { operation.kind = 'light'; operation.patch = { position: operation.patch.transform.position, rotation: operation.patch.transform.rotation }; } });
+  proposals.forEach((operation, i) => { if (['point', 'spot'].includes(items[i].type)) { operation.kind = 'light'; operation.patch = { position: operation.patch.transform.position, rotation: operation.patch.transform.rotation }; } });
   return { id: id(), expectedEditVersion, label: { align: 'Alinhar seleção', distribute: 'Distribuir seleção', rotation: 'Variar rotação' }[mode], entities: [], lights: [], groups: [], areas: [], updates: proposals, removals: [], report: { kept: [], suppressed: [], omissions: [], conflicts: [], reasons: [`${proposals.length} elementos: ${mode === 'align' ? 'alinhar à primeira referência' : mode === 'distribute' ? 'uniformizar intervalos sem mover as extremidades' : 'aplicar rotação limitada pela variação escolhida'}.`] } };
 }

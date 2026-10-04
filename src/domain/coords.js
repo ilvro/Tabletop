@@ -8,6 +8,13 @@ export function yawFromQuaternion([x, y, z, w]) {
   return Math.atan2(2 * (w * y + x * z), 1 - 2 * (y * y + z * z)) * 180 / Math.PI;
 }
 
+export function multiplyQuaternions([ax, ay, az, aw], [bx, by, bz, bw]) {
+  return [aw * bx + ax * bw + ay * bz - az * by,
+    aw * by - ax * bz + ay * bw + az * bx,
+    aw * bz + ax * by - ay * bx + az * bw,
+    aw * bw - ax * bx - ay * by - az * bz];
+}
+
 /** Footprints are physical metres; non-cell multiples use pivot snapping. */
 export function snapPosition(position, grid, footprint) {
   if (!grid.snap) return [...position];

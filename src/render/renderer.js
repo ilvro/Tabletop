@@ -7,6 +7,8 @@ import { groupChain, isLocked, isVisible, isSupport, isAccess, supportHeightAt, 
 import { createAssetCache, disposeObject, standardMaterial } from './asset-cache.js';
 import { applyTransform, readTransform, tagEntity, createFloor, createTerrain, createAccess, createWall, createDoor, createWindow, createToken, applyMaterialOverrides } from './scene-objects.js';
 import { sculptTerrain, paintTerrain, terrainBrushOutline } from '../authoring/terrain.js';
+import { createLightObject, updateLightEffects } from './lighting.js';
+import { createEffectsPipeline } from './effects.js';
 import { advanceVelocity, navigationDirection, interpolateCamera } from './camera-motion.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
@@ -116,6 +118,11 @@ export function createViewport(container, {
   Object.assign(hint.style, { position: 'absolute', left: '18px', bottom: '18px', pointerEvents: 'none', padding: '8px 12px', color: '#e8eddf', background: 'rgba(12,28,29,.86)', borderRadius: '8px', font: '12px system-ui', display: 'none' });
   container.append(hint);
   const scene = new THREE.Scene();
+  const effects = createEffectsPipeline(renderer, scene);
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const onReducedMotion = () => invalidate();
+  reducedMotion.addEventListener('change', onReducedMotion);
+  let effectTime = 0, animatedLights = false;
   scene.background = new THREE.Color('#25373a');
   const content = new THREE.Group();
   const lighting = new THREE.Group();
@@ -209,8 +216,12 @@ export function createViewport(container, {
     orbitMoving = Boolean(orbitChanged);
     updateCutaway();
     if (selectionBox.visible) selectionBox.update();
-    renderer.render(scene, camera);
-    if (moving || orbitChanged) invalidate();
+    const effectsPaused = sceneDocument?.look?.effectsPaused ?? sceneDocument?.defaultLook?.effectsPaused;
+    const paused = Boolean(effectsPaused || reducedMotion.matches || document.hidden);
+    if (!paused) effectTime += seconds;
+    animatedLights = updateLightEffects(objects.values(), effectTime, paused);
+    effects.render(camera, seconds);
+    if ((moving || orbitChanged || animatedLights) && !document.hidden) invalidate();
     else lastFrameTime = null;
   }
   function attachOrbit(target) {
@@ -247,6 +258,7 @@ export function createViewport(container, {
     if (camera.isPerspectiveCamera) camera.aspect = width / height;
     else { camera.left = -orthoHeight * width / height / 2; camera.right = orthoHeight * width / height / 2; camera.top = orthoHeight / 2; camera.bottom = -orthoHeight / 2; }
     camera.updateProjectionMatrix();
+    effects.resize(width, height);
     invalidate();
   }
   const observer = new ResizeObserver(resize);
@@ -363,7 +375,7 @@ export function createViewport(container, {
     selectionBox.visible = Boolean(object?.visible && !presentation);
     if (selectionBox.visible) selectionBox.setFromObject(object);
     if (object?.visible && record && !presentation && selectedIds.length <= 1 && !isLocked(sceneDocument, record) && ['move', 'rotate', 'scale'].includes(tool) && !['door', 'window'].includes(record.kind)) {
-      const isLight = record.type === 'directional' || record.type === 'point';
+      const isLight = ['directional', 'point', 'spot'].includes(record.type);
       if (!(isLight && (tool === 'scale' || (tool === 'rotate' && record.type === 'point')))) {
         transform.setMode({ move: 'translate', rotate: 'rotate', scale: 'scale' }[tool]);
         transform.setSpace(tool === 'scale' ? 'local' : 'world');
@@ -461,30 +473,7 @@ export function createViewport(container, {
   }
 
   function createLight(record, parent, helper = true) {
-    const wrapper = new THREE.Group();
-    wrapper.position.fromArray(record.position);
-    wrapper.quaternion.fromArray(record.rotation ?? [0, 0, 0, 1]).normalize();
-    const source = record.type === 'point' ? new THREE.PointLight(record.color, record.intensity, record.distance ?? 12, 2) : new THREE.DirectionalLight(record.color, record.intensity);
-    source.castShadow = Boolean(record.shadowEnabled);
-    source.shadow.mapSize.set(1024, 1024);
-    source.shadow.normalBias = 0.035;
-    source.shadow.bias = -0.00008;
-    source.shadow.camera.near = 0.1;
-    if (record.type === 'directional') {
-      const target = new THREE.Object3D();
-      target.position.set(0, -1, 0);
-      wrapper.add(target);
-      source.target = target;
-    } else source.shadow.camera.far = record.distance || 30;
-    wrapper.add(source);
-    if (helper) {
-      const indicator = new THREE.Mesh(new THREE.SphereGeometry(0.14, 12, 8), new THREE.MeshBasicMaterial({ color: record.color, wireframe: true, depthTest: false }));
-      indicator.userData.editHelper = true;
-      indicator.visible = !presentation;
-      indicator.renderOrder = 5;
-      wrapper.add(indicator);
-    }
-    wrapper.userData.source = source;
+    const wrapper = createLightObject(record, { helper, presentation });
     tagEntity(wrapper, record.id);
     parent.add(wrapper);
     return wrapper;
@@ -492,7 +481,7 @@ export function createViewport(container, {
   function updateShadowBounds() {
     const bounds = new THREE.Box3().setFromObject(content);
     const radius = bounds.isEmpty() ? 15 : Math.max(8, bounds.getSize(new THREE.Vector3()).length() * 0.65);
-    for (const wrapper of lighting.children) {
+    for (const wrapper of objects.values()) {
       const source = wrapper.userData.source;
       if (!source?.isDirectionalLight) continue;
       Object.assign(source.shadow.camera, { left: -radius, right: radius, top: radius, bottom: -radius, far: radius * 6 + 100 });
@@ -530,9 +519,12 @@ export function createViewport(container, {
     objects.clear();
     records.clear();
     createGrid(next?.layout?.grid);
-    if (!next) { cache.prune([]); invalidate(true); return; }
+    if (!next) { cache.prune([]); scene.fog = null; effects.configure({}); invalidate(true); return; }
     const look = next.look ?? next.defaultLook;
     scene.background.set(look.background);
+    scene.fog = !look.fog?.enabled ? null : look.fog.mode === 'exp2'
+      ? new THREE.FogExp2(look.fog.color, look.fog.density) : new THREE.Fog(look.fog.color, look.fog.near, look.fog.far);
+    effects.configure(look);
     ground.material.color.set(look.fill?.groundColor ?? '#283934');
     lighting.add(new THREE.HemisphereLight(look.fill?.skyColor ?? '#dbe7e4', look.fill?.groundColor ?? '#524938', look.fill?.intensity ?? 1));
     const entities = values(next.layout.entities);
@@ -747,7 +739,7 @@ export function createViewport(container, {
         if (!start) return;
         pointer.opening = record; pointer.wallStart = start; pointer.entityId = id;
         controls.enabled = false; canvas.setPointerCapture(event.pointerId);
-      } else if (id && record && selectedIds.length <= 1 && !['door', 'window'].includes(record.kind) && !isLocked(sceneDocument, record) && record.type !== 'directional' && record.type !== 'point') {
+      } else if (id && record && selectedIds.length <= 1 && !['door', 'window'].includes(record.kind) && !isLocked(sceneDocument, record) && !['directional', 'point', 'spot'].includes(record.type)) {
         if (selectedId !== id) {
           onSelect(id);
           // A host may rebuild its viewport when selection changes.
@@ -919,7 +911,7 @@ export function createViewport(container, {
     if (event.key === 'Escape') cancelGesture();
   }
   function onKeyUp(event) { altHeld = event.altKey; fastNavigation = event.shiftKey; navigationKeys.delete(event.code); }
-  function onVisibilityChange() { if (document.hidden) { onNavigationBlur(); if (!transition) stopCameraMotion(); lastFrameTime = null; } }
+  function onVisibilityChange() { if (document.hidden) { onNavigationBlur(); if (!transition) stopCameraMotion(); lastFrameTime = null; } else invalidate(); }
   function drawPolygon() {
     polygonLine.geometry.dispose();
     const points = polygonPoints.map(p => new THREE.Vector3(p[0], p[1] + .035, p[2]));
@@ -976,7 +968,13 @@ export function createViewport(container, {
   canvas.addEventListener('pointerup', finishContextPointer, { capture: true });
   canvas.addEventListener('pointercancel', cancelGesture);
   canvas.addEventListener('lostpointercapture', () => { contextPointer = null; if (pointer) cancelGesture(); });
-  canvas.addEventListener('contextmenu', handleContextMenu);
+  // Cancel before controls or other canvas listeners can stop propagation.
+  container.addEventListener('contextmenu', handleContextMenu, { capture: true });
+  function preventMouseDefault(event) {
+    if (event.button === 1 || event.button === 2) event.preventDefault();
+  }
+  canvas.addEventListener('mousedown', preventMouseDefault);
+  canvas.addEventListener('auxclick', preventMouseDefault);
   window.addEventListener('keydown', onKeyDown);
   window.addEventListener('keyup', onKeyUp);
   function onNavigationBlur() { resetNavigation(); contextPointer = null; }
@@ -1015,7 +1013,7 @@ export function createViewport(container, {
       preview.visible = !enabled;
       brushLine.visible = false;
       if (gridObject) gridObject.visible = !enabled && Boolean(sceneDocument?.layout?.grid?.visible);
-      lighting.traverse((child) => { if (child.userData.editHelper) child.visible = !enabled; });
+      scene.traverse((child) => { if (child.userData.editHelper) child.visible = !enabled; });
       updateSelection();
       invalidate();
     },
@@ -1030,7 +1028,8 @@ export function createViewport(container, {
       const rect = canvas.getBoundingClientRect();
       return { x: rect.left + (vector.x + 1) * rect.width / 2, y: rect.top + (1 - vector.y) * rect.height / 2, visible: vector.z >= -1 && vector.z <= 1 && Math.abs(vector.x) <= 1 && Math.abs(vector.y) <= 1 };
     },
-    getInfo() { return { objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },
+    setEffectsEnabled(value) { effects.setEnabled(value); invalidate(); },
+    getInfo() { return { effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },
     destroy() {
       destroyed = true;
       previewGeneration++;
@@ -1038,6 +1037,9 @@ export function createViewport(container, {
       generation += 1;
       if (renderRequest != null) cancelAnimationFrame(renderRequest);
       observer.disconnect();
+      container.removeEventListener('contextmenu', handleContextMenu, { capture: true });
+      canvas.removeEventListener('mousedown', preventMouseDefault);
+      canvas.removeEventListener('auxclick', preventMouseDefault);
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
       window.removeEventListener('blur', onNavigationBlur);
@@ -1051,6 +1053,8 @@ export function createViewport(container, {
       disposeObject(ground);
       disposeObject(selectionBox);
       cache.destroy();
+      reducedMotion.removeEventListener('change', onReducedMotion);
+      effects.dispose();
       renderer.dispose();
       renderer.forceContextLoss();
       canvas.remove();

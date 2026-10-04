@@ -90,7 +90,7 @@ O slice implementou os passos 1–4 e persistência/recuperação do passo 5. Tr
 
 Objetivo: reduzir trabalho repetitivo e ampliar controle do cenário, mantendo o modelo de comandos e a liberdade do slice.
 
-**Fase 3, primeiro incremento entregue:** pisos poligonais/plataformas, janelas posicionadas por clique/arraste com vãos físicos sincronizados, escadas/rampas paramétricas com apoio de tokens, apoio explícito em pisos/móveis, visibilidade/bloqueio herdados de pastas; receitas de escritório/reunião/depósito, luzes distribuídas e regeneração com overrides/exclusões; seleção múltipla, alinhamento, distribuição e variação de rotação com prévia. Schema 2 com migração de v1 em memória e gravação explícita. Detalhes e roteiro: [PHASE_3.md](PHASE_3.md). Isso não conclui todo o marco V2: junções, andares completos, biblioteca de prefabs/ambientes, evolução visual e integrações continuam pendentes.
+**Fase 3, primeiro incremento entregue:** pisos poligonais/plataformas, janelas posicionadas por clique/arraste com vãos físicos sincronizados, escadas/rampas paramétricas com apoio de tokens, apoio explícito em pisos/móveis, visibilidade/bloqueio herdados de pastas; receitas de escritório/reunião/depósito, luzes distribuídas e regeneração com overrides/exclusões; seleção múltipla, alinhamento, distribuição e variação de rotação com prévia. Schema 2 com migração de v1 em memória e gravação explícita. Detalhes e roteiro: [PHASE_3.md](PHASE_3.md). Isso não conclui todo o marco V2: biblioteca de prefabs/ambientes e integrações continuam pendentes. Junções/andares/terreno e o incremento visual de spot/Kelvin/flicker/fog/volume por altura/bloom já foram entregues; ver [STRUCTURAL_EVOLUTION.md](STRUCTURAL_EVOLUTION.md) e [LIGHTING.md](LIGHTING.md).
 
 | Área | Evolução |
 | --- | --- |
@@ -100,7 +100,7 @@ Objetivo: reduzir trabalho repetitivo e ampliar controle do cenário, mantendo o
 | Smart Build | Cama/acessórios, mesa/cadeiras, luminárias distribuídas, auto-decoration e auto-layout em escopo selecionado. |
 | Polish | Alinhamento/distribuição, variantes de material e revisão de passagens/decoração com preview. |
 | Ambientes | Biblioteca de EnvironmentDocument, bindings por papel e snapshots editáveis por cena. |
-| Visual | Spot, temperatura, flicker, fog de distância, emissores leves e bloom opcional se justificado pelo benchmark. |
+| Visual | Entregues: spot, Kelvin, flicker, fog de distância, volume homogêneo por altura e bloom opcional ([LIGHTING.md](LIGHTING.md)). Pendentes: emissores/partículas, volumetria com sombras e benchmark presencial. |
 | Câmera | Entregues: WASD/Shift/altura, lente/velocidade, órbita suave, foco nos bounds da seleção, presets/transições interrompíveis e corte imediato ([CAMERA.md](CAMERA.md)). Pendentes: acompanhamento automático de tokens, caminhos/colisão e avaliação no projetor. |
 
 Integrações são entregas independentes dentro desse marco, após seus pré-requisitos:
@@ -171,7 +171,7 @@ Testes implementados e futuros devem proteger comportamento e perda de trabalho,
 | Integrações | Concorrência/repetição de recursos, identidade, áudio real, falhas/desconexão e ausência de efeitos externos no undo. |
 | Performance | Roteiro/snapshots reproduzíveis, notebook/projetor, mix real do Jukebox e dispositivos móveis quando usados. |
 
-Domínio, projeção, geometria e servidor contam com 49 testes. Os três roteiros de navegador verificam autoria, assets, apresentação, revisão/recuperação e a Fase 3: regeneração preservada, janela, piso elevado, apoios, seleção múltipla/polish e fidelidade após reiniciar. Build de produção foi executado. Escolher metas de frame/resposta/memória somente após baseline; ver [benchmark](IMMERSION.md). Teste com áudio, projetor e notebook reais continua pendente.
+Domínio, projeção, geometria e servidor contam com 107 testes. Os dez roteiros de navegador verificam autoria, assets, apresentação, revisão/recuperação e a Fase 3: regeneração preservada, janela, piso elevado, apoios, seleção múltipla/polish e fidelidade após reiniciar. Build de produção foi executado. Escolher metas de frame/resposta/memória somente após baseline; ver [benchmark](IMMERSION.md). Teste com áudio, projetor e notebook reais continua pendente.
 
 ## 8. Riscos e decisões pendentes
 
@@ -192,7 +192,7 @@ Domínio, projeção, geometria e servidor contam com 49 testes. Os três roteir
 | Tamanho típico de mapa | Nenhum limite arbitrário. | Sala, corredor/andares e externo representativos. |
 | Escopo crescer demais | Slice completo pequeno antes de biblioteca procedural ampla. | Critérios de MVP cumpridos e avaliados. |
 
-As pendências devem ser resolvidas pelo piloto do slice e por dados reais na fase correspondente. A implementação confirmou estruturas paramétricas, propostas materializadas e câmera publicada independente; ainda não fornece evidência para sistemas visuais avançados ou LAN.
+As pendências devem ser resolvidas pelo piloto do slice e por dados reais na fase correspondente. A implementação confirmou estruturas paramétricas, propostas materializadas e câmera publicada independente; o incremento de iluminação/imersão tem validação automatizada, mas falta benchmark presencial; LAN permanece futura.
 
 ## 9. Matriz de cobertura do pedido
 
@@ -211,4 +211,4 @@ As pendências devem ser resolvidas pelo piloto do slice e por dados reais na fa
 | Performance com notebook/projetor/áudio e benchmark sem metas inventadas | IMMERSION, seções 13–14. |
 | MVP, V2, V3, futuro, riscos e validações | Este documento, seções 3–8. |
 
-Próximo incremento estrutural: junções/paredes compartilhadas, níveis e acessos. Catálogo ampliado para 127 assets, com classificação e filtros persistentes; avaliar com o mestre no projetor antes de ampliar receitas e composição procedural. Transporte e biblioteca de ambientes continuam pendentes. [PHASE_3.md](PHASE_3.md) distingue esta entrega dos recursos futuros.
+Junções/paredes compartilhadas, níveis, acessos e terreno já foram entregues; próximos incrementos estruturais dependem do uso presencial. Catálogo ampliado para 127 assets, com classificação e filtros persistentes; avaliar com o mestre no projetor antes de ampliar receitas e composição procedural. Transporte e biblioteca de ambientes continuam pendentes. [PHASE_3.md](PHASE_3.md) distingue esta entrega dos recursos futuros.

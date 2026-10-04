@@ -24,7 +24,7 @@ export function applyEnvironment(document, presetId) {
       rotation: [0.27059805, 0.27059805, 0, 0.92387953], shadowEnabled: true, distance: 0 });
     look.lights[key.id] = key; keys = [key];
   }
-  for (const key of keys) { key.color = recipe.color; key.intensity = recipe.intensity; }
+  for (const key of keys) { key.color = recipe.color; key.temperature = null; key.intensity = recipe.intensity; }
   if (next.documentType === 'scene') next.sourceEnvironment = { id: presetId, revision: 1 };
   return validateDocument(next);
 }

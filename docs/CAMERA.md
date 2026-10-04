@@ -24,7 +24,15 @@ WASD não muda a ferramenta nem o documento. Zoom, pan e órbita preservam as te
 
 Diagonais têm a mesma velocidade dos movimentos retos. Ao soltar as teclas, a câmera desacelera; ao sair do viewport, trocar de janela, usar Cmd/Alt ou executar um atalho de edição com Ctrl, as teclas e a velocidade são limpas. Durante arraste de objetos/gizmo/pincel, a navegação fica suspensa.
 
-Na perspectiva com foco no canvas, Ctrl desce e combina com WASD e Shift, independentemente da ordem em que as teclas são pressionadas. Ctrl+A/D/S/W são controles de câmera nesse contexto: não selecionam texto, duplicam objetos, salvam a cena nem acionam atalhos do navegador. Soltar Ctrl conserva o movimento das demais teclas. Para salvar ou duplicar, use os botões ou dê foco a outro controle do editor antes do atalho. Campos de texto conservam Ctrl+A e os demais atalhos nativos; Ctrl+V/C/Z e outros atalhos de edição continuam disponíveis.
+Na perspectiva com foco no canvas, Ctrl desce e combina com WASD e Shift, independentemente da ordem em que as teclas são pressionadas. Ctrl+A/D/S/W são controles de câmera nesse contexto: não selecionam texto, duplicam objetos, salvam a cena e cancelam os padrões que chegam à página. Ctrl+W pode ser reservado pelo navegador em uma aba normal. Soltar Ctrl conserva o movimento das demais teclas. Para salvar ou duplicar, use os botões ou dê foco a outro controle do editor antes do atalho. Campos de texto conservam Ctrl+A e os demais atalhos nativos; Ctrl+V/C/Z e outros atalhos de edição continuam disponíveis.
+
+## Tela cheia e atalhos do navegador
+
+Use **Tela cheia** na barra inferior do editor ou nos controles da apresentação na mesma janela. O botão entra em fullscreen pela API e solicita captura de W/A/S/D e suas combinações (incluindo Ctrl+W), com foco no canvas. No Chrome, aceite a permissão de captura de teclado quando solicitada. Esc continua livre para sair imediatamente; sair de fullscreen libera a captura e interrompe o movimento.
+
+Uma aba comum e fullscreen iniciado por F11 não garantem a captura de atalhos reservados. Se a captura for recusada ou não existir, o editor avisa: **Page Down** desce sem combinar Ctrl com WASD. A captura não desativa todos os atalhos do sistema ou navegador. Campos de texto mantêm seus controles de edição. O menu nativo é cancelado na área da mesa (inclusive overlays), e o menu de objetos continua abrindo somente ao soltar o botão direito sem arrastar. Firefox tem uma exceção própria para Shift + botão direito que pode ignorar o evento da página.
+
+Referências: [Keyboard Lock no Chrome](https://developer.chrome.com/docs/capabilities/web-apis/keyboard-lock) e [evento contextmenu](https://developer.mozilla.org/en-US/docs/Web/API/Element/contextmenu_event). O E2E verifica fullscreen real e simula permissão de Keyboard Lock para cobrir sucesso, recusa e ausência de suporte; atalhos reservados do Chrome com interface precisam de validação presencial.
 
 ## Preparar e apresentar um enquadramento
 

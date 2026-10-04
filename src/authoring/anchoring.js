@@ -13,7 +13,7 @@ export function proposeAnchoring(document, { ids, hostId }, expectedEditVersion)
     const entity = document.layout.entities[key], light = (document.look ?? document.defaultLook).lights[key];
     const item = entity ?? light;
     if (!item) throw new ValidationError('Objeto selecionado não encontrado.');
-    if (key === hostId || !((entity?.kind === 'prop') || light?.type === 'point')) {
+    if (key === hostId || !((entity?.kind === 'prop') || ['point', 'spot'].includes(light?.type))) {
       proposal.report.omissions.push(`${item.name}: usado apenas como referência; fixação disponível para objetos e luzes locais.`); continue;
     }
     if (isLocked(document, item)) { proposal.report.kept.push(key); proposal.report.reasons.push(`${item.name}: bloqueado, preservado.`); continue; }
