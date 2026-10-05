@@ -1,6 +1,7 @@
+import {assertRockSculpt,isSculptableRock} from './rock-sculpt.js';
 import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES } from './materials.js';
 import { WATER_RANGES, isVegetationAsset } from './landscape.js';
-import { ROCK_FORMS, ROCK_RANGES, rockDefaults } from './rocks.js';
+import { ROCK_FORMS, ROCK_RANGES, CLIFF_RANGES, rockDefaults } from './rocks.js';
 /** Validated JSON is the boundary between editor, disk and future network adapters. */
 import { kelvinToColor } from './lighting.js';
 import { polygonIsSimple, polygonSize, floorContour, validHoles, pointInPolygon } from './geometry.js';
@@ -151,7 +152,7 @@ function entity(value, path, document) {
     window: ['wallId', 'offset', 'width', 'height', 'sill', 'style', 'material'],
     stairs: ['transform', 'width', 'length', 'height', 'steps', 'material', 'fromLevelId', 'toLevelId'],
     ramp: ['transform', 'width', 'length', 'height', 'material', 'fromLevelId', 'toLevelId'],
-    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight', 'localEffect', 'rockShape', 'vegetationSeed'],
+    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight', 'localEffect', 'rockShape', 'rockSculpt', 'vegetationSeed'],
   };
   choice(value.kind, Object.keys(fields), `${path}.kind`); keys(value, [...common, ...fields[value.kind]], path);
   text(value.name, `${path}.name`); bool(value.locked, `${path}.locked`); choice(value.audience, ['all', 'gm'], `${path}.audience`);
@@ -171,13 +172,21 @@ function entity(value, path, document) {
     keys(value.water,['state',...Object.keys(WATER_RANGES)],`${path}.water`); choice(value.water.state,['water','ice'],`${path}.water.state`);
     for(const [key,[min,max]] of Object.entries(WATER_RANGES)) number(value.water[key],`${path}.water.${key}`,min,max);
   }
+  if(value.rockSculpt !== undefined) {
+    fail(isSculptableRock(value),'A escultura exige uma rocha editável.',`${path}.rockSculpt`);
+    try {assertRockSculpt(value.rockSculpt);} catch(error) {throw new ValidationError(error.message,`${path}.rockSculpt`);}
+  }
   if(value.rockShape !== undefined) {
     fail(value.kind==='prop' && !!rockDefaults(value.assetRef?.id),'A geometria editável exige uma rocha do kit de montanha.',`${path}.rockShape`);
     const r=value.rockShape,rp=`${path}.rockShape`;
-    keys(r,['form',...Object.keys(ROCK_RANGES)],rp);choice(r.form,ROCK_FORMS,`${rp}.form`);
+    keys(r,['form',...Object.keys(ROCK_RANGES),...Object.keys(CLIFF_RANGES)],rp);choice(r.form,ROCK_FORMS,`${rp}.form`);
     for(const [key,[min,max]] of Object.entries(ROCK_RANGES)) {
       number(r[key],`${rp}.${key}`,min,max);
       if(key!=='irregularity') fail(Number.isInteger(r[key]),'Deve ser inteiro.',`${rp}.${key}`);
+    }
+    for(const [key,[min,max]] of Object.entries(CLIFF_RANGES)) if(r[key]!==undefined) {
+      number(r[key],`${rp}.${key}`,min,max);
+      if(key==='terraces') fail(Number.isInteger(r[key]),'Deve ser inteiro.',`${rp}.${key}`);
     }
   }
   semanticReferences(value, document, path);

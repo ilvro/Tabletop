@@ -1,0 +1,339 @@
+{
+  "name": "Lanterna de parede · suporte e corrente",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.85,
+        0.16
+      ],
+      "position": [
+        -0.3749999888241291,
+        0.42500000000000004,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.4,
+        "woodPattern": "grain",
+        "textureBrightness": 0.7,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.86,
+        0.12,
+        0.16
+      ],
+      "position": [
+        -0.024999988824129127,
+        0.825,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.4,
+        "woodPattern": "grain",
+        "textureBrightness": 0.7,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.65,
+        0.1
+      ],
+      "position": [
+        -0.1249999888241291,
+        0.5549999999999999,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.4,
+        "woodPattern": "grain",
+        "textureBrightness": 0.7,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        0,
+        -0.7
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.034,
+      "tube": 0.008,
+      "segments": 16,
+      "sides": 6,
+      "position": [
+        0.30500001117587094,
+        0.7250000000000001,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.034,
+      "tube": 0.008,
+      "segments": 16,
+      "sides": 6,
+      "position": [
+        0.30500001117587094,
+        0.675,
+        0
+      ],
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.034,
+      "tube": 0.008,
+      "segments": 16,
+      "sides": 6,
+      "position": [
+        0.30500001117587094,
+        0.625,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.034,
+      "tube": 0.008,
+      "segments": 16,
+      "sides": 6,
+      "position": [
+        0.30500001117587094,
+        0.5750000000000002,
+        0
+      ],
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.034,
+      "tube": 0.008,
+      "segments": 16,
+      "sides": 6,
+      "position": [
+        0.30500001117587094,
+        0.5250000000000001,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.035,
+        0.28
+      ],
+      "position": [
+        0.30500001117587094,
+        0.14500000000000002,
+        0
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.035,
+        0.28
+      ],
+      "position": [
+        0.30500001117587094,
+        0.395,
+        0
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.25,
+        0.02
+      ],
+      "position": [
+        0.18500001117587095,
+        0.27,
+        -0.11
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.25,
+        0.02
+      ],
+      "position": [
+        0.18500001117587095,
+        0.27,
+        0.11
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.25,
+        0.02
+      ],
+      "position": [
+        0.42500001117587094,
+        0.27,
+        -0.11
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.25,
+        0.02
+      ],
+      "position": [
+        0.42500001117587094,
+        0.27,
+        0.11
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.13,
+        0.17,
+        0.13
+      ],
+      "position": [
+        0.30500001117587094,
+        0.27,
+        0
+      ],
+      "material": "flame",
+      "surface": null
+    }
+  ],
+  "mergeParts": true
+}

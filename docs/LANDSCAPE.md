@@ -2,9 +2,11 @@
 
 Implementado em 5 de outubro de 2026. Recursos locais disponíveis também no GitHub Pages, sem buscar texturas externas. Ficha/Jukebox continuam adiados.
 
+O catálogo atual tem 188 peças; o kit adicional de paredões, pináculo, ruínas, madeira, cordas e raízes está em [MOUNTAIN_KIT.md](MOUNTAIN_KIT.md).
+
 ## Arquitetura e vegetação
 
-Em **Assets**, busque Montanha ou Ruínas. O catálogo mantém os 165 modelos anteriores e acrescenta 11 peças, totalizando 176: muro de alvenaria irregular, arco de pedra com vão real, contraforte, passarela de tábuas/corrimão, telhado de duas águas, lanterna de trilha, abeto, pinheiro ramificado, árvore seca, samambaia e capim seco. Alvenaria/aduelas e tábuas são peças geométricas separadas; plantas usam ramificações e lâminas/frondes, com texturas procedurais de casca e folhagem. Materiais internos conservam acabamento por slot; no inspetor, selecione um material para recolorir/substituir sua textura.
+Em **Assets**, busque Montanha ou Ruínas. O catálogo mantém os 165 modelos anteriores e acrescenta 11 peças, totalizando 176 naquele incremento: muro de alvenaria irregular, arco de pedra com vão real, contraforte, passarela de tábuas/corrimão, telhado de duas águas, lanterna de trilha, abeto, pinheiro ramificado, árvore seca, samambaia e capim seco. Alvenaria/aduelas e tábuas são peças geométricas separadas; plantas usam ramificações e lâminas/frondes, com texturas procedurais de casca e folhagem. Materiais internos conservam acabamento por slot; no inspetor, selecione um material para recolorir/substituir sua textura.
 
 O kit é cenográfico: arcos não criam vínculos estruturais de parede/porta, lanternas emissivas precisam de luz pontual para iluminar o entorno. Para tokens atravessarem a passarela, sobreponha um piso/plataforma ao tabuleiro ou anote sua superfície de apoio; o apoio não é inferido da malha.
 

@@ -1,6 +1,6 @@
 # Catálogo de assets e classificação
 
-Implementado em 3 de outubro de 2026. A aba **Assets** oferece **176 modelos 3D locais**, incluindo os seis objetos do kit inicial e **170 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
+Implementado em 3 de outubro de 2026. A aba **Assets** oferece **188 modelos 3D locais**, incluindo os seis objetos do kit inicial e **182 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
 
 No GitHub Pages, o mesmo catálogo é servido pelo build estático; imports, classificação e favoritos ficam no navegador, com persistência após reabrir. No modo Node ficam no servidor local. Publicação e limites de transporte: [GITHUB_PAGES.md](GITHUB_PAGES.md).
 
@@ -67,7 +67,7 @@ As novas peças usam malhas fechadas de rocha, com faces quebradas, ondulações
 
 Selecione uma peça para abrir **Geometria da rocha**:
 
-- **Formação do volume:** fraturada, arredondada/granito ou estratificada.
+- **Formação do volume:** fraturada, arredondada/granito, estratificada, paredão ou pináculo.
 - **Irregularidade do volume:** controla ondulações e deformação, de 0 a 1.
 - **Detalhe da malha:** 2–8; valores maiores acrescentam triângulos. Não modifica o detalhe da textura.
 - **Variação da forma · seed:** 0–65535; a mesma configuração reproduz a mesma malha.
@@ -75,12 +75,20 @@ Selecione uma peça para abrir **Geometria da rocha**:
 
 Cada instância guarda seus parâmetros: duplicação, histórico, mapas, JSON, servidor/Pages e apresentação conservam a forma. Alterar a geometria preserva as dimensões anotadas e o pivot na base; use escala X/Y/Z para mudar largura, altura e profundidade. Formação do volume e padrão da textura são controles independentes.
 
-O paredão pode ser combinado com outras peças, girado e redimensionado para formar bordas de trilhas e desfiladeiros. A malha tem saliências reais que o terreno por alturas não representa, mas não é uma ferramenta de escultura livre nem gera cavernas/topologia arbitrária. As peças são cenográficas: não oferecem apoio automático para tokens nem colisão da câmera. Para áreas transitáveis, use terreno, pisos/plataformas e acessos existentes. Neve é cobertura visual, sem acúmulo físico ou avaliação de teto.
+O paredão pode ser combinado com outras peças, girado e redimensionado para formar bordas de trilhas e desfiladeiros. A malha tem saliências reais que o terreno por alturas não representa, mas não é uma ferramenta de escultura livre nem gera cavernas/topologia arbitrária. As peças são cenográficas: não oferecem apoio automático para tokens nem colisão da câmera. Para áreas transitáveis, use terreno, pisos/plataformas e acessos existentes. Neve com espessura e avaliação de exposição está disponível; uso e limites em [LANDSCAPE.md](LANDSCAPE.md).
 
-`rockShape` é um campo opcional de props restrito aos quatro IDs do kit, com `form`, `irregularity`, `detail` e `seed`. A validação rejeita parâmetros inválidos antes de confirmar a edição. O algoritmo usa malhas soldadas com até 1620 triângulos por componente; entulho e paredões têm vários componentes. Geometria/material são próprios de cada instância e descartados ao reconstruir/remover; o catálogo em cache conserva a receita, sem geometria compartilhada editável. Custo depende da quantidade e do detalhe; LOD/instanciamento e benchmark presencial continuam futuros.
+`rockShape` é um campo opcional de props restrito aos oito IDs geológicos do kit, com `form`, `irregularity`, `detail` e `seed`. A validação rejeita parâmetros inválidos antes de confirmar a edição. As formas anteriores usam até 1620 triângulos por componente; paredões/pináculos usam menos de 4000, inclusive no detalhe máximo; entulho e paredões têm vários componentes. Geometria/material são próprios de cada instância e descartados ao reconstruir/remover; o catálogo em cache conserva a receita, sem geometria compartilhada editável. Custo depende da quantidade e do detalhe; LOD/instanciamento e benchmark presencial continuam futuros.
 
 Pipeline: `scripts/library-mountain.js`, `src/render/rock-geometry.js` e o gerador geral da biblioteca. Os testes conferem fechamento de bordas, números finitos, raycast, bounds/pivot sob variações, determinismo, pixels WebGL, descarte, controles e persistência. Resultados em [progress.md](../progress.md).
 
 ## Arquitetura e vegetação alpinas
 
 Onze peças com materiais internos de rocha/madeira/casca/folhagem, arco com vão real, plantas ramificadas e variação geométrica. Distribuição com prévia, água/gelo e neve com volume: [LANDSCAPE.md](LANDSCAPE.md). Os 165 modelos anteriores conservam seus IDs, receitas e aparência.
+
+## Paredões e kit de montanha ampliado
+
+Doze peças acrescentadas em 5 de outubro: quatro formações de paredão/pináculo com geometria própria e oito complementos de ruína/madeira/cordas/lanterna/raízes/destroços. Saliências, camadas e erosão são parâmetros opcionais por instância; materiais e neve permanecem independentes. As peças novas agrupam malhas por material/acabamento para reduzir draw calls. A plataforma oferece apoio anotado no tabuleiro; as demais peças são cenográficas. Lista, controles, composição e limites: [MOUNTAIN_KIT.md](MOUNTAIN_KIT.md).
+
+## Escultura com pincel
+
+As oito peças geológicas também recebem edição manual diretamente na superfície: topo, laterais e saliências. Propriedades → Pincel de superfície/T; o gesto conserva os parâmetros e é salvo na instância. [ROCK_SCULPT.md](ROCK_SCULPT.md) documenta ferramentas, história, custo e limites.

@@ -42,3 +42,7 @@ O nível é horizontal, sem solver de inundação, corrente física ou cascatas.
 ## Fluidez e acessibilidade
 
 Controles têm unidades, labels, foco visível, texto com quebra e contraste maior. Botões têm alvos maiores em telas estreitas. Arraste de janela usa captura de ponteiro, `requestAnimationFrame` e somente transformação CSS; não recria a cena 3D durante a movimentação. As janelas animam somente opacidade na abertura e no fechamento; tarefas têm fade de 100 ms apenas ao serem abertas pelo usuário, sem reiniciar o efeito a cada edição. Não há animação de altura nem desfoque de fundo nas janelas flutuantes. `prefers-reduced-motion` desliga transições/animações da interface, inclusive as controladas por JavaScript. Estas escolhas não substituem benchmark no notebook/projetor de uso.
+
+## Escultura de superfícies
+
+Rocha/paredão geológico selecionado mostra Pincel de superfície aberto no topo de Propriedades. Esculpir esta superfície/T ativa o mesmo fluxo usado no terreno; o cursor acompanha a face atingida e permite elevar/rebaixar, projetar/recuar, suavizar e aplainar. Um traço = um desfazer; Esc cancela e retorna à seleção. Pintura de camadas/água conserva seu alcance no terreno. Controles paramétricos e materiais continuam disponíveis. Uso e limites: [ROCK_SCULPT.md](ROCK_SCULPT.md).

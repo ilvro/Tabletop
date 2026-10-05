@@ -2,6 +2,32 @@
 
 Atualizado em 5 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Escultura direta nas superfícies — concluída
+
+- [x] Pincel por raycast em rochas/paredões, incluindo faces verticais e topo; conservar controles paramétricos.
+- [x] Elevar/rebaixar, projetar/recuar, suavizar e aplainar; cursor orientado pela superfície, prévia durante arraste e um traço por undo.
+- [x] Persistir traços locais, refinar a malha com orçamento fixo, conservar escala/rotação/material/neve e cancelar sem gravar.
+- [x] Unificar ativação T para terreno/rocha, permitir trocar a superfície apontada sem forçar o terreno selecionado e tornar o pincel visível nas propriedades.
+- [x] Validar deformação/limites, histórico/mapas/Pages/projetor, recursos e revisar um recorte; sincronizar guias e resumos.
+
+Validação final: 154 testes unitários/de integração, builds local/Pages e cinco cenários E2E afetados passaram: editor/projetor, dois de Pages/IndexedDB, pixels/descarte e regressão de pintura/terreno. Verificados topo/face, troca de superfície, cancelamento, undo/redo, duplicação, salvar/reabrir e ativação T com apenas rochas em composição ancorada, sem terreno. Cache CPU limitado a seis templates, com clones independentes e prune/destruição, validado. Captura revisada: `test-results/rock-sculpt-editor.png`. A suíte completa de navegador não foi repetida neste incremento; Chromium/WebGL por software verifica funcionamento, sem estabelecer desempenho no hardware real. Uso e limites: [docs/ROCK_SCULPT.md](docs/ROCK_SCULPT.md).
+
+A escultura de malha mantém a topologia fechada do asset; não é um sistema de voxels, união booleana ou abertura de cavernas. Pintura de camadas/água conserva o fluxo de terreno. O objetivo imediato é desenhar e corrigir formas locais diretamente nas superfícies, inclusive onde a seed atual abaixa um pico.
+
+## Paredões e kit de montanha — concluído
+
+- [x] Malhas próprias de paredão/pináculo, com faces verticais, topo quebrado e saliências/reentrâncias reais. As quatro rochas anteriores conservam sua geometria.
+- [x] Controles de saliências, camadas e erosão por instância; campos opcionais validados, histórico, materiais/neve e dimensões/base conservados.
+- [x] Quatro formações geológicas e oito complementos de ruínas/madeira/cordas/lanterna/raízes/destroços, com materiais locais e prévias. Catálogo de 188 assets; os 176 arquivos anteriores permanecem iguais.
+- [x] Validar fechamento/orientação/raycast, vãos, escala, apoio da plataforma, GPU, edição/salvamento/projetor e GitHub Pages; revisar recorte e conjunto das peças.
+- [x] Sincronizar guias, arquitetura, visual target e os três resumos, separando entregas de pendências.
+
+Validação final: 150 testes unitários/de integração, builds local/Pages e cinco cenários E2E afetados passaram. GPU/pixels/descarte foi repetido após conferir o seed da segunda face do canto e acrescentar a prévia conjunta das 12 peças. Verificados extremos, malhas fechadas e orientadas, tampas sem T-junctions, faces inferiores reais, bounds/base, determinismo e concordância entre prévia/instância padrão; janela e interior vazados, elos vazados, tabuleiro com apoio; edições inválidas atômicas, undo/redo/reset/duplicação/mapas/JSON, salvamento/reabertura e projetor com câmera independente. Pages coloca/edita/persiste o novo paredão sem API. As oito peças complementares usam até quatro draw calls cada no recorte isolado e liberam geometria ao remover.
+
+Capturas revisadas: `test-results/mountain-kit.png` (editor, ruína/neve/plataforma) e `test-results/mountain-kit-catalog.png` (12 peças). A revisão levou a camadas com alturas/projeções variadas, fissuras e blocos angulares de alvenaria. O primeiro fixture foi corrigido para ambiente completo; o roteiro antigo de montanha excedeu o tempo quando dois navegadores estavam concorrendo, e passou em sequência (125 s). A suíte completa de navegador não foi repetida neste incremento. Chromium/WebGL por software verifica funcionamento, sem estabelecer desempenho no notebook/projetor reais.
+
+Uso e limites em [docs/MOUNTAIN_KIT.md](docs/MOUNTAIN_KIT.md). Paredões continuam cenográficos; terreno mantém uma altura por X/Z. Lanternas exigem luz local e cordas são estáticas. Materiais fotográficos/decals, montes locais de neve e acabamento de contato/água seguem próximos incrementos; as novas peças foram retiradas das lacunas do visual target. Ficha/Jukebox continuam adiados.
+
 ## Consistência dos demais painéis e animações — concluída
 
 - [x] Agrupar Cena em Atmosfera, Câmera e apresentação, Elementos e documento, com tarefas recolhíveis.

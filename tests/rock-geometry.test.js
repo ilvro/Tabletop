@@ -37,6 +37,8 @@ test('new rock recipes retain metric bounds and base pivot when shape, detail an
   const {assets}=JSON.parse(await readFile(new URL('../public/assets/catalog.json',import.meta.url),'utf8'));
   for(const id of Object.keys(ROCK_PRESETS)) {
     const record=assets.find(a=>a.id===id),recipe=JSON.parse(await readFile(new URL(`../public${record.url}`,import.meta.url),'utf8'));
+    const preview=recipeInstance(recipe),placed=recipeInstance(recipe,rockDefaults(id));
+    try {assert.deepEqual(preview.children.map(m=>m.geometry.attributes.position.array),placed.children.map(m=>m.geometry.attributes.position.array),'catalog preview and default instance use the same seeds');} finally {disposeObject(preview);disposeObject(placed);}
     for(const form of ['fractured','rounded','strata']) {
       const instance=recipeInstance(recipe,{...rockDefaults(id),form,seed:123,detail:4},record.bounds);
       try {

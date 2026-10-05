@@ -1,0 +1,3237 @@
+{
+  "name": "Torre arruinada · janela e interior aberto",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1.5,
+        0,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 311,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1,
+        0,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 312,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -0.5,
+        0,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 313,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        0,
+        0,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 314,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        0.5,
+        0,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 315,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1,
+        0,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 316,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1.5,
+        0,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 317,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1.5,
+        0.41,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 324,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1,
+        0.41,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 325,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -0.5,
+        0.41,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 326,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        0,
+        0.41,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 327,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        0.5,
+        0.41,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 328,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1,
+        0.41,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 329,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1.5,
+        0.41,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 330,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1.5,
+        0.82,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 337,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1,
+        0.82,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 338,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -0.5,
+        0.82,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 339,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        0,
+        0.82,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 340,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        0.5,
+        0.82,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 341,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1,
+        0.82,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 342,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1.5,
+        0.82,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 343,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1.5,
+        1.23,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 350,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1,
+        1.23,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 351,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1,
+        1.23,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 355,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1.5,
+        1.23,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 356,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1.5,
+        1.64,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 363,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1,
+        1.64,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 364,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1,
+        1.64,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 368,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1.5,
+        1.64,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 369,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1.5,
+        2.05,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 376,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1,
+        2.05,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 377,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1,
+        2.05,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 381,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1.5,
+        2.05,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 382,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1.5,
+        2.46,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 389,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1,
+        2.46,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 390,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -0.5,
+        2.46,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 391,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        0,
+        2.46,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 392,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        0.5,
+        2.46,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 393,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1,
+        2.46,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 394,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        1.5,
+        2.46,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 395,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1.5,
+        2.8699999999999997,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 402,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -1,
+        2.8699999999999997,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 403,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.45,
+        0.38,
+        0.6
+      ],
+      "position": [
+        -0.5,
+        2.8699999999999997,
+        1.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 404,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 433,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 434,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 435,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0,
+        -0.7875000536441803
+      ],
+      "form": "cliff",
+      "seed": 436,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0,
+        -1.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 437,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0.41,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 446,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0.41,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 447,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0.41,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 448,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0.41,
+        -0.7875000536441803
+      ],
+      "form": "cliff",
+      "seed": 449,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0.41,
+        -1.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 450,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0.82,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 459,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0.82,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 460,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0.82,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 461,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0.82,
+        -0.7875000536441803
+      ],
+      "form": "cliff",
+      "seed": 462,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        0.82,
+        -1.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 463,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        1.23,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 472,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        1.23,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 473,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        1.23,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 474,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        1.23,
+        -0.7875000536441803
+      ],
+      "form": "cliff",
+      "seed": 475,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        1.23,
+        -1.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 476,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        1.64,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 485,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        1.64,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 486,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        1.64,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 487,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        1.64,
+        -0.7875000536441803
+      ],
+      "form": "cliff",
+      "seed": 488,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        1.64,
+        -1.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 489,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        2.05,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 498,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        2.05,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 499,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        2.05,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 500,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        2.05,
+        -0.7875000536441803
+      ],
+      "form": "cliff",
+      "seed": 501,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        2.05,
+        -1.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 502,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        2.46,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 511,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        2.46,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 512,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        -1.6,
+        2.46,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 513,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 467,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 468,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 469,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0,
+        -0.7875000536441803
+      ],
+      "form": "cliff",
+      "seed": 470,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0,
+        -1.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 471,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0.41,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 480,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0.41,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 481,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0.41,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 482,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0.41,
+        -0.7875000536441803
+      ],
+      "form": "cliff",
+      "seed": 483,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0.41,
+        -1.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 484,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0.82,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 493,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0.82,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 494,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0.82,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 495,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0.82,
+        -0.7875000536441803
+      ],
+      "form": "cliff",
+      "seed": 496,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        0.82,
+        -1.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 497,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        1.23,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 506,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        1.23,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 507,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        1.23,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 508,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        1.23,
+        -0.7875000536441803
+      ],
+      "form": "cliff",
+      "seed": 509,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        1.23,
+        -1.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 510,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        1.64,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 519,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        1.64,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 520,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        1.64,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 521,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        1.64,
+        -0.7875000536441803
+      ],
+      "form": "cliff",
+      "seed": 522,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        1.64,
+        -1.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 523,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        2.05,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 532,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        2.05,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 533,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        2.05,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 534,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        2.05,
+        -0.7875000536441803
+      ],
+      "form": "cliff",
+      "seed": 535,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        2.05,
+        -1.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 536,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        2.46,
+        0.7124999463558197
+      ],
+      "form": "cliff",
+      "seed": 545,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        2.46,
+        0.2124999463558197
+      ],
+      "form": "cliff",
+      "seed": 546,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6,
+        0.38,
+        0.45
+      ],
+      "position": [
+        1.6,
+        2.46,
+        -0.2875000536441803
+      ],
+      "form": "cliff",
+      "seed": 547,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    }
+  ],
+  "mergeParts": true
+}

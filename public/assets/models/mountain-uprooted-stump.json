@@ -1,0 +1,522 @@
+{
+  "name": "Toco quebrado · raízes expostas",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.35,
+      "radiusTop": 0.27,
+      "height": 0.8,
+      "segments": 9,
+      "position": [
+        0.05407354235649109,
+        0.4000000059604646,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1,
+        "textureBrightness": 0.7,
+        "relief": 0.035
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.18,
+          0.25,
+          0
+        ],
+        [
+          0.55,
+          0.14,
+          0
+        ],
+        [
+          0.9,
+          0.07,
+          0
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 24,
+      "sides": 6,
+      "position": [
+        0.05407354235649109,
+        5.9604645663569045e-9,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1,
+        "textureBrightness": 0.7,
+        "relief": 0.035
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.35,
+        0.08
+      ],
+      "position": [
+        0.27407354235649106,
+        0.8500000059604645,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.4,
+        "woodPattern": "grain",
+        "textureBrightness": 0.7,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.15,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.11222816433457204,
+          0.25,
+          0.14072966684424537
+        ],
+        [
+          0.3429193910223035,
+          0.14,
+          0.43000731535741643
+        ],
+        [
+          0.685838782044607,
+          0.07,
+          0.8600146307148329
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 24,
+      "sides": 6,
+      "position": [
+        0.05407354235649109,
+        5.9604645663569045e-9,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1,
+        "textureBrightness": 0.7,
+        "relief": 0.035
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.43999999999999995,
+        0.08
+      ],
+      "position": [
+        0.1912412987654125,
+        0.8500000059604645,
+        0.17200292614296656
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.4,
+        "woodPattern": "grain",
+        "textureBrightness": 0.7,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.09352347027881004,
+        0.8975979010256552,
+        0.15636629649360598
+      ]
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.04005376811213658,
+          0.25,
+          0.17548702419272824
+        ],
+        [
+          -0.12238651367597289,
+          0.14,
+          0.5362103517000031
+        ],
+        [
+          -0.28927721414320867,
+          0.07,
+          1.2674062858363708
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 24,
+      "sides": 6,
+      "position": [
+        0.05407354235649109,
+        5.9604645663569045e-9,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1,
+        "textureBrightness": 0.7,
+        "relief": 0.035
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.53,
+        0.08
+      ],
+      "position": [
+        0.005118936886101932,
+        0.8500000059604645,
+        0.21448414068000118
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.4,
+        "woodPattern": "grain",
+        "textureBrightness": 0.7,
+        "relief": 0.025
+      },
+      "rotation": [
+        -0.033378140093447146,
+        1.7951958020513104,
+        0.19498558243636474
+      ]
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.16217439622243543,
+          0.25,
+          0.07809907304116048
+        ],
+        [
+          -0.4955328773463305,
+          0.14,
+          0.23863605651465705
+        ],
+        [
+          -0.8108719811121772,
+          0.07,
+          0.3904953652058024
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 24,
+      "sides": 6,
+      "position": [
+        0.05407354235649109,
+        5.9604645663569045e-9,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1,
+        "textureBrightness": 0.7,
+        "relief": 0.035
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.35,
+        0.08
+      ],
+      "position": [
+        -0.1441396085820411,
+        0.8500000059604645,
+        0.09545442260586282
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.4,
+        "woodPattern": "grain",
+        "textureBrightness": 0.7,
+        "relief": 0.025
+      },
+      "rotation": [
+        -0.13514533018536284,
+        2.6927937030769655,
+        0.08677674782351165
+      ]
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.16217439622243543,
+          0.25,
+          -0.07809907304116044
+        ],
+        [
+          -0.49553287734633056,
+          0.14,
+          -0.2386360565146569
+        ],
+        [
+          -0.9910657546926611,
+          0.07,
+          -0.4772721130293138
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 24,
+      "sides": 6,
+      "position": [
+        0.05407354235649109,
+        5.9604645663569045e-9,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1,
+        "textureBrightness": 0.7,
+        "relief": 0.035
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.43999999999999995,
+        0.08
+      ],
+      "position": [
+        -0.1441396085820411,
+        0.8500000059604645,
+        -0.09545442260586276
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.4,
+        "woodPattern": "grain",
+        "textureBrightness": 0.7,
+        "relief": 0.025
+      },
+      "rotation": [
+        -0.13514533018536287,
+        3.5903916041026207,
+        -0.08677674782351161
+      ]
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.04005376811213662,
+          0.25,
+          -0.17548702419272824
+        ],
+        [
+          -0.12238651367597303,
+          0.14,
+          -0.5362103517000031
+        ],
+        [
+          -0.28927721414320895,
+          0.07,
+          -1.2674062858363708
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 24,
+      "sides": 6,
+      "position": [
+        0.05407354235649109,
+        5.9604645663569045e-9,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1,
+        "textureBrightness": 0.7,
+        "relief": 0.035
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.53,
+        0.08
+      ],
+      "position": [
+        0.005118936886101877,
+        0.8500000059604645,
+        -0.21448414068000118
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.4,
+        "woodPattern": "grain",
+        "textureBrightness": 0.7,
+        "relief": 0.025
+      },
+      "rotation": [
+        -0.03337814009344719,
+        4.487989505128276,
+        -0.19498558243636474
+      ]
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.112228164334572,
+          0.25,
+          -0.14072966684424537
+        ],
+        [
+          0.3429193910223034,
+          0.14,
+          -0.4300073153574165
+        ],
+        [
+          0.5611408216728601,
+          0.07,
+          -0.703648334221227
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 24,
+      "sides": 6,
+      "position": [
+        0.05407354235649109,
+        5.9604645663569045e-9,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1,
+        "textureBrightness": 0.7,
+        "relief": 0.035
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.35,
+        0.08
+      ],
+      "position": [
+        0.19124129876541243,
+        0.8500000059604645,
+        -0.17200292614296658
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.4,
+        "woodPattern": "grain",
+        "textureBrightness": 0.7,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.09352347027881,
+        5.385587406153931,
+        -0.156366296493606
+      ]
+    }
+  ],
+  "mergeParts": true
+}

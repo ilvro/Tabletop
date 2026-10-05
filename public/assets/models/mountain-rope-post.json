@@ -1,0 +1,172 @@
+{
+  "name": "Poste de trilha · cordas e ferragens",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.18,
+        1.7,
+        0.18
+      ],
+      "position": [
+        0,
+        0.8500000238418582,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.4,
+        "woodPattern": "grain",
+        "textureBrightness": 0.7,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.11,
+      "tube": 0.027,
+      "segments": 16,
+      "sides": 6,
+      "position": [
+        0,
+        1.2200000238418582,
+        0
+      ],
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.11,
+      "tube": 0.027,
+      "segments": 16,
+      "sides": 6,
+      "position": [
+        0,
+        1.3000000238418583,
+        0
+      ],
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "material": "paper"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.08,
+      "tube": 0.015,
+      "segments": 16,
+      "sides": 6,
+      "position": [
+        0.13,
+        1.2700000238418583,
+        0
+      ],
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.32,
+        0.1,
+        0.32
+      ],
+      "position": [
+        0,
+        0.05000002384185827,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    }
+  ],
+  "mergeParts": true
+}

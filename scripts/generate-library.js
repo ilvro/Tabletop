@@ -5,6 +5,7 @@ import { recipeInstance, disposeObject } from '../src/render/asset-cache.js';
 import { addLibraryExpansion } from './library-expansion.js';
 import { addLibraryExpansion3 } from './library-expansion-3.js';
 import { addMountainLibrary } from './library-mountain.js';
+import { addMountainKit } from './library-mountain-kit.js';
 import { addAlpineLibrary } from './library-alpine.js';
 
 const materials = {
@@ -101,6 +102,7 @@ addLibraryExpansion({ add, b, c, s, legs, table, wheels, shelf, ring, modern, re
 addLibraryExpansion3({ add, b, c, s, legs, table, wheels, modern, retro, historic, colonial, timeless });
 addMountainLibrary({add,timeless});
 const alpineIds=addAlpineLibrary({add,timeless,ancient});
+for(const id of addMountainKit({add,timeless,ancient}))alpineIds.add(id);
 
 function preview(object) {
   object.updateMatrixWorld(true);

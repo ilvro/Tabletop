@@ -5559,6 +5559,383 @@
       ],
       "url": "/assets/models/dry-grass.json",
       "previewUrl": "/assets/previews/dry-grass.svg"
+    },
+    {
+      "id": "builtin-mountain-cliff-face",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Paredão natural · face quebrada",
+      "category": "Exterior / Montanha",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "rocha",
+        "geologia",
+        "paredão"
+      ],
+      "description": "Face vertical com saliências, reentrâncias, fissuras e topo irregular. Frente +Z; edite camadas, erosão e seed.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        8,
+        3.46
+      ],
+      "bounds": [
+        8,
+        7,
+        3.45
+      ],
+      "url": "/assets/models/mountain-cliff-face.json",
+      "previewUrl": "/assets/previews/mountain-cliff-face.svg"
+    },
+    {
+      "id": "builtin-mountain-cliff-corner",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Paredão natural · canto de desfiladeiro",
+      "category": "Exterior / Montanha",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "rocha",
+        "geologia",
+        "paredão"
+      ],
+      "description": "Duas faces em L com canto aberto, útil para corredores, curvas e encontros de paredões. Frente +Z / +X.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        6,
+        6
+      ],
+      "bounds": [
+        6,
+        6,
+        6
+      ],
+      "url": "/assets/models/mountain-cliff-corner.json",
+      "previewUrl": "/assets/previews/mountain-cliff-corner.svg"
+    },
+    {
+      "id": "builtin-mountain-cliff-overhang",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Paredão natural · saliência profunda",
+      "category": "Exterior / Montanha",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "rocha",
+        "geologia",
+        "paredão"
+      ],
+      "description": "Camadas projetadas e faces inferiores reais para bordas, abrigos e neve sobre saliências. Não cria apoio automático de tokens.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        6,
+        4.45
+      ],
+      "bounds": [
+        6,
+        5,
+        4.45
+      ],
+      "url": "/assets/models/mountain-cliff-overhang.json",
+      "previewUrl": "/assets/previews/mountain-cliff-overhang.svg"
+    },
+    {
+      "id": "builtin-mountain-rock-spire",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Pináculo natural · torre de rocha",
+      "category": "Exterior / Montanha",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "rocha",
+        "geologia",
+        "paredão"
+      ],
+      "description": "Formação alta que afina no topo, com camadas quebradas. Varie seed, dimensões e erosão para quebrar repetição.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.2,
+        2.8
+      ],
+      "bounds": [
+        3.2,
+        9,
+        2.8
+      ],
+      "url": "/assets/models/mountain-rock-spire.json",
+      "previewUrl": "/assets/previews/mountain-rock-spire.svg"
+    },
+    {
+      "id": "builtin-mountain-ruin-tower",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Torre arruinada · janela e interior aberto",
+      "category": "Arquitetura / Ruínas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "kit de montanha",
+        "cenário"
+      ],
+      "description": "Fragmento em U com vão de janela e topo quebrado. Interior e fundo abertos; escale e combine com arcos/muros. Cenográfico.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.8,
+        3.03
+      ],
+      "bounds": [
+        3.8,
+        3.25,
+        3.025
+      ],
+      "url": "/assets/models/mountain-ruin-tower.json",
+      "previewUrl": "/assets/previews/mountain-ruin-tower.svg"
+    },
+    {
+      "id": "builtin-mountain-ruin-corner",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Canto de ruína · pedras antigas",
+      "category": "Arquitetura / Ruínas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "kit de montanha",
+        "cenário"
+      ],
+      "description": "Alvenaria em L, juntas abertas e alturas variadas para bases de torres e muros antigos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.99,
+        2.99
+      ],
+      "bounds": [
+        2.98,
+        1.87,
+        2.98
+      ],
+      "url": "/assets/models/mountain-ruin-corner.json",
+      "previewUrl": "/assets/previews/mountain-ruin-corner.svg"
+    },
+    {
+      "id": "builtin-mountain-timber-platform",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Plataforma de montanha · tabuleiro com apoios",
+      "category": "Arquitetura / Madeira",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "kit de montanha",
+        "cenário"
+      ],
+      "description": "Tábuas, vigas, pés e escoras. Tabuleiro plano a 1,2 m da base; oferece apoio anotado para tokens.",
+      "supportHeight": 1.200000011920929,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3,
+        3
+      ],
+      "bounds": [
+        3,
+        1.2,
+        3
+      ],
+      "url": "/assets/models/mountain-timber-platform.json",
+      "previewUrl": "/assets/previews/mountain-timber-platform.svg"
+    },
+    {
+      "id": "builtin-mountain-rope-span",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Corda suspensa · trecho curvo",
+      "category": "Arquitetura / Madeira",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "kit de montanha",
+        "cenário"
+      ],
+      "description": "Corda com flecha real entre ancoragens. Use escala/rotação e postes; peça estática sem física.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        5.16,
+        0.06
+      ],
+      "bounds": [
+        5.16,
+        0.856,
+        0.06
+      ],
+      "url": "/assets/models/mountain-rope-span.json",
+      "previewUrl": "/assets/previews/mountain-rope-span.svg"
+    },
+    {
+      "id": "builtin-mountain-rope-post",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Poste de trilha · cordas e ferragens",
+      "category": "Arquitetura / Madeira",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "kit de montanha",
+        "cenário"
+      ],
+      "description": "Poste amarrado com argola lateral para cordas de trilha; combine com corda suspensa.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.32,
+        0.32
+      ],
+      "bounds": [
+        0.32,
+        1.7,
+        0.32
+      ],
+      "url": "/assets/models/mountain-rope-post.json",
+      "previewUrl": "/assets/previews/mountain-rope-post.svg"
+    },
+    {
+      "id": "builtin-mountain-wall-lantern",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Lanterna de parede · suporte e corrente",
+      "category": "Arquitetura / Madeira",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "kit de montanha",
+        "cenário"
+      ],
+      "description": "Braço de madeira, escora, elos vazados e núcleo emissivo. Posicione na parede e acrescente luz pontual quente para iluminar o entorno.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.91,
+        0.29
+      ],
+      "bounds": [
+        0.91,
+        0.885,
+        0.28
+      ],
+      "url": "/assets/models/mountain-wall-lantern.json",
+      "previewUrl": "/assets/previews/mountain-wall-lantern.svg"
+    },
+    {
+      "id": "builtin-mountain-uprooted-stump",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Toco quebrado · raízes expostas",
+      "category": "Exterior / Vegetação alpina",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "kit de montanha",
+        "cenário"
+      ],
+      "description": "Tronco partido, lascas e raízes curvas para bordas de ruínas, trilhas e paredões.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.94,
+        2.57
+      ],
+      "bounds": [
+        1.93,
+        1.116,
+        2.563
+      ],
+      "url": "/assets/models/mountain-uprooted-stump.json",
+      "previewUrl": "/assets/previews/mountain-uprooted-stump.svg"
+    },
+    {
+      "id": "builtin-mountain-cart-wreck",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Destroços de carroça · madeira e rodas",
+      "category": "Arquitetura / Madeira",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "kit de montanha",
+        "cenário"
+      ],
+      "description": "Tábuas partidas, eixo e rodas com aro e raios para trilhas abandonadas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.17,
+        2.62
+      ],
+      "bounds": [
+        2.165,
+        0.893,
+        2.619
+      ],
+      "url": "/assets/models/mountain-cart-wreck.json",
+      "previewUrl": "/assets/previews/mountain-cart-wreck.svg"
     }
   ]
 }

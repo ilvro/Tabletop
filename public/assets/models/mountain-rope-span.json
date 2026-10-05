@@ -1,0 +1,152 @@
+{
+  "name": "Corda suspensa · trecho curvo",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -2.5,
+          0.75,
+          0
+        ],
+        [
+          -1.25,
+          0.2,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          1.25,
+          0.2,
+          0
+        ],
+        [
+          2.5,
+          0.75,
+          0
+        ]
+      ],
+      "radius": 0.03,
+      "segments": 24,
+      "sides": 6,
+      "position": [
+        0,
+        0.025980761274695396,
+        0
+      ],
+      "material": "paper",
+      "surface": null
+    },
+    {
+      "shape": "ring",
+      "radius": 0.065,
+      "tube": 0.015,
+      "segments": 16,
+      "sides": 6,
+      "position": [
+        -2.5,
+        0.7759807612746954,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.065,
+      "tube": 0.015,
+      "segments": 16,
+      "sides": 6,
+      "position": [
+        2.5,
+        0.7759807612746954,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal"
+    }
+  ],
+  "mergeParts": true
+}

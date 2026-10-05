@@ -1,5 +1,7 @@
+import {sculptRockInstance} from './rock-sculpt.js';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { createRopeGeometry,createRingGeometry } from './mountain-primitives.js';
 import { createRockGeometry } from './rock-geometry.js';
 import { createArchGeometry,createFoliageGeometry } from './landscape-geometry.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
@@ -48,12 +50,15 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null, ve
         case 'box': geometry = new THREE.BoxGeometry(...part.size); break;
         case 'cylinder': geometry = new THREE.CylinderGeometry(part.radiusTop, part.radiusBottom, part.height, part.segments ?? 16, 1, part.openEnded ?? false); break;
         case 'sphere': geometry = new THREE.SphereGeometry(part.radius, 16, 12); break;
-        case 'rock': geometry = createRockGeometry({ ...part, ...(rockShape ? { ...rockShape, seed:(rockShape.seed+(part.seedOffset??0))%65536 } : {}) }); break;
+        case 'rock': geometry = createRockGeometry({ ...part, ...(rockShape && !part.fixedRock ? { ...rockShape, seed:(rockShape.seed+(part.seedOffset??0))%65536 } : {}) }); break;
+        case 'rope': geometry=createRopeGeometry(part);break;
+        case 'ring': geometry=createRingGeometry(part);break;
         case 'arch': geometry=createArchGeometry(part);break;
         case 'foliage': geometry=createFoliageGeometry({...part,...(vegetationSeed!=null?{seed:(vegetationSeed+(part.seed??0))%65536}:{})});break;
         default: throw new Error(`Forma de receita não suportada: ${part.shape}.`);
       }
       const mesh = new THREE.Mesh(geometry, standardMaterial(recipe.materials?.[part.material]));
+      mesh.material.flatShading=!!geometry.userData.faceted;
       if(surfacePreset(part.surface?.texture)) {mesh.material.userData.recipePreviewColor=recipe.materials?.[part.material]?.color;mesh.material.color.set('#ffffff');mesh.material.roughness=surfacePreset(part.surface.texture).roughness;mesh.material.metalness=surfacePreset(part.surface.texture).metalness;mesh.material.userData.recipeSurface=structuredClone(part.surface);}
       mesh.position.fromArray(part.position ?? [0, 0, 0]);
       if (part.rotation) mesh.rotation.set(...part.rotation);
@@ -67,14 +72,15 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null, ve
   if(recipe.mergeParts) {
     const batches=new Map();group.updateMatrixWorld(true);
     for(const mesh of group.children) {
-      const key=JSON.stringify([mesh.userData.materialSlot,mesh.material.userData.recipeSurface]);
-      if(!batches.has(key))batches.set(key,{material:mesh.material.clone(),slot:mesh.userData.materialSlot,geometries:[]});
+      const key=JSON.stringify([mesh.userData.materialSlot,mesh.material.userData.recipeSurface,mesh.material.flatShading]);
+      if(!batches.has(key))batches.set(key,{material:mesh.material.clone(),slot:mesh.userData.materialSlot,rocks:[],geometries:[]});
       const geometry=mesh.geometry.index?mesh.geometry.toNonIndexed():mesh.geometry.clone();geometry.applyMatrix4(mesh.matrix);
       if(!geometry.attributes.uv)geometry.setAttribute('uv',new THREE.Float32BufferAttribute(new Float32Array(geometry.attributes.position.count*2),2));
       batches.get(key).geometries.push(geometry);
+      if(mesh.geometry.userData.rock)batches.get(key).rocks.push({...mesh.geometry.userData.rock,triangles:(mesh.geometry.index?.count??mesh.geometry.attributes.position.count)/3});
     }
     for(const mesh of [...group.children])disposeObject(mesh);
-    for(const batch of batches.values()) {const geometry=mergeGeometries(batch.geometries);for(const g of batch.geometries)g.dispose();const mesh=new THREE.Mesh(geometry,batch.material);mesh.userData.materialSlot=batch.slot;mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);}
+    for(const batch of batches.values()) {const geometry=mergeGeometries(batch.geometries);if(batch.rocks.length)geometry.userData.rocks=batch.rocks;for(const g of batch.geometries)g.dispose();const mesh=new THREE.Mesh(geometry,batch.material);mesh.userData.materialSlot=batch.slot;mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);}
   }
   if((rockShape || vegetationSeed!=null) && metricBounds) {
     group.updateMatrixWorld(true);
@@ -111,7 +117,7 @@ function modelInstance(original, record) {
 }
 
 export function createAssetCache() {
-  const entries = new Map();
+  const entries = new Map(), sculpted = new Map();
   const modelLoader = new GLTFLoader();
   const textureLoader = new THREE.TextureLoader();
   let destroyed = false;
@@ -163,17 +169,31 @@ export function createAssetCache() {
   }
 
   return {
-    async createInstance(record, rockShape = null, vegetationSeed = null) {
+    async createInstance(record, rockShape = null, vegetationSeed = null, rockSculpt = null) {
       const resource = await load(record);
-      if (record.type === 'recipe') return recipeInstance(resource,rockShape,record.bounds,vegetationSeed);
+      if (record.type === 'recipe') {
+        if(!rockSculpt?.stamps.length)return recipeInstance(resource,rockShape,record.bounds,vegetationSeed);
+        // CPU templates avoid replaying long sculpt histories on unrelated scene edits.
+        const assetKey=keyOf(record),key=JSON.stringify([assetKey,record.bounds,rockShape,vegetationSeed,rockSculpt]);
+        let entry=sculpted.get(key);
+        if(!entry) {
+          const instance=recipeInstance(resource,rockShape,record.bounds,vegetationSeed);
+          try {entry={assetKey,root:sculptRockInstance(instance,rockSculpt)};}catch(error){disposeObject(instance);throw error;}
+        } else sculpted.delete(key);
+        sculpted.set(key,entry);
+        while(sculpted.size>6){const oldest=sculpted.keys().next().value;disposeObject(sculpted.get(oldest).root);sculpted.delete(oldest);}
+        const instance=entry.root.clone(true);instance.traverse(mesh=>{if(mesh.isMesh){mesh.geometry=mesh.geometry.clone();mesh.material=Array.isArray(mesh.material)?mesh.material.map(m=>m.clone()):mesh.material.clone();}});
+        return instance;
+      }
       if (record.type === 'glb' || record.type === 'model') return modelInstance(resource, record);
       throw new Error('Uma imagem precisa da representação de token.');
     },
     texture: load,
     prune(records) {
       const used = new Set(records.map(keyOf));
+      for(const [key,entry] of sculpted)if(!used.has(entry.assetKey)){disposeObject(entry.root);sculpted.delete(key);}
       for (const [key, entry] of entries) if (!used.has(key)) { entries.delete(key); release(entry); }
     },
-    destroy() { destroyed = true; for (const entry of entries.values()) release(entry); entries.clear(); },
+    destroy() { destroyed = true; for(const entry of sculpted.values())disposeObject(entry.root);sculpted.clear();for (const entry of entries.values()) release(entry); entries.clear(); },
   };
 }

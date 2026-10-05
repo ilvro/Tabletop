@@ -1,3 +1,5 @@
+import {rockSculptPanel} from '../ui/rock-sculpt-panel.js';
+import {isSculptableRock,ROCK_SCULPT_MODES} from '../domain/rock-sculpt.js';
 import { proposeWaterBrush, proposeWaterBed } from '../authoring/water.js';
 import { floatingWindow } from '../ui/floating-window.js';
 import { groupDisclosures, sectionDisclosure, rememberDisclosures, restoreDisclosures, animateDisclosures } from '../ui/panel-disclosures.js';
@@ -249,6 +251,7 @@ export async function startApplication() {
     },
     onOpeningMove: (objectId, patch) => execute('entity.update', { id: objectId, patch }),
     onWaterStroke: (objectId, points, options) => { try { showAuthorshipProposal(proposeWaterBrush(store.document,objectId,points,options,store.editVersion)); } catch(error) { notify(error.message,true); } },
+    onRockStroke:(objectId,patch)=>execute('entity.update',{id:objectId,patch,snap:false},{label:'Esculpir superfície de rocha'}),
     onTerrainStroke: (objectId, patch) => execute('entity.update', { id: objectId, patch, snap: false }, { label: patch.paintLayers ? 'Pintar terreno' : 'Esculpir terreno' }),
     onRoomDraw: (rectangle) => { roomOptions = { ...roomOptions, ...rectangle }; tab = 'build'; makeProposal(); renderSidebar(); },
     onPolygonDraw: (points) => {
@@ -287,7 +290,7 @@ export async function startApplication() {
   });
   function selectObject(value, additive = false) {
     anchorEditing = false;
-    value = assemblyFor(store.document,value)?.id ?? value;
+    value = tool==='terrain'&&isSculptableRock(store.document.layout.entities[value])?value:assemblyFor(store.document,value)?.id??value;
     if (!additive) selectedIds.clear();
     if (value) { if (additive && selectedIds.has(value)) selectedIds.delete(value); else selectedIds.add(value); }
     selection = [...selectedIds].at(-1) ?? null;
@@ -298,6 +301,7 @@ export async function startApplication() {
       if (tab === 'build') renderSidebar();
     }
     if(selection && window.innerWidth<=900) {root.querySelector('.app-shell').classList.remove('inspector-collapsed');root.querySelector('.app-shell').classList.add('sidebar-collapsed');syncPanelToggles();}
+    if(tool==='terrain'&&isSculptableRock(store.document.layout.entities[selection])&&terrainBrush.mode==='rock'){terrainBrush.mode='push';viewport.setTerrainBrush(terrainBrush);renderToolContext();}
     viewport.setSelection(selection, [...selectedIds]); renderInspector(); renderSceneTreeIfVisible();
     if (store.document.layout.entities[selection]?.kind === 'terrain') document.getElementById('inspector-content').scrollTop = 0;
   }
@@ -322,7 +326,7 @@ export async function startApplication() {
   function renderToolContext() {
     const next=tool;
     const context=document.getElementById('tool-context'); context.hidden=['select','move','rotate','scale'].includes(next);
-    context.innerHTML=`<span>${esc(next==='terrain'?`Pincel · ${({raise:'Elevar',lower:'Rebaixar',smooth:'Suavizar',flatten:'Nivelar',rock:'Rocha natural',paint:'Pintar camada',erase:'Apagar camada',water:'Água'})[terrainBrush.mode]} · ${terrainBrush.radius} m`:next==='polygon'?'Desenhar contorno':next==='room'?'Desenhar sala':'Colocar objeto')}</span><button data-action=tool-select class=quiet>Concluir · Q</button>`;
+    context.innerHTML=`<span>${esc(next==='terrain'?`Pincel · ${({push:'Projetar face',pull:'Recuar face',raise:'Elevar',lower:'Rebaixar',smooth:'Suavizar',flatten:'Nivelar',rock:'Rocha natural',paint:'Pintar camada',erase:'Apagar camada',water:'Água'})[terrainBrush.mode]} · ${terrainBrush.radius} m`:next==='polygon'?'Desenhar contorno':next==='room'?'Desenhar sala':'Colocar objeto')}</span><button data-action=tool-select class=quiet>Concluir · Q</button>`;
   }
   function clearProposal() { cancelEnvironmentPreview(); proposal = null; viewport.setPreview(null); document.getElementById('proposal-bar').hidden = true; }
   function makeProposal() {
@@ -354,7 +358,7 @@ export async function startApplication() {
     } else {
       const asset = placing.asset;
       const geological=rockDefaults(asset.id);
-      const entity = createEntity('prop', { ...(isVegetationAsset(asset.id)?{vegetationSeed:0}:{}), ...(geological ? {material:{...surfacePatch('rock'),rockPattern:geological.form==='strata'?'strata':geological.form==='rounded'?'granite':'fractured'},rockShape:geological} : {}), name: asset.name, position, surfaceId, assetRef: { id: asset.id, revision: asset.revision }, footprint: asset.footprint ?? [1, 1], ...constructionSemantics(), ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}), ...(placing.localEffect || asset.id==='builtin-campfire' ? { localEffect: clone(placing.localEffect??LOCAL_EFFECT_DEFAULTS) } : {}) });
+      const entity = createEntity('prop', { ...(isVegetationAsset(asset.id)?{vegetationSeed:0}:{}), ...(geological ? {material:{...surfacePatch('rock'),rockPattern:['strata','cliff','spire'].includes(geological.form)?'strata':geological.form==='rounded'?'granite':'fractured'},rockShape:geological} : {}), name: asset.name, position, surfaceId, assetRef: { id: asset.id, revision: asset.revision }, footprint: asset.footprint ?? [1, 1], ...constructionSemantics(), ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}), ...(placing.localEffect || asset.id==='builtin-campfire' ? { localEffect: clone(placing.localEffect??LOCAL_EFFECT_DEFAULTS) } : {}) });
       if (execute('entity.add', { entity, snap })) newId = entity.id;
     }
     if (newId) { setTool('move'); selectObject(newId); notify('Adicionado à cena. Você pode mover, girar e editar.'); }
@@ -579,6 +583,7 @@ export async function startApplication() {
     const name = actor?.name ?? record.name;
     const position = record.transform?.position ?? record.position;
     let fields = `<div class="object-title"><span class="object-icon">${icon(type === 'token' ? 'token' : type === 'light' ? 'light' : record.kind === 'door' ? 'door' : 'room', 24)}</span><span><small>${type === 'token' ? 'TOKEN' : type === 'light' ? 'LUZ' : ({ water: record.water?.state==='ice'?'GELO':'ÁGUA', terrain: 'TERRENO', floor: 'PISO', wall: 'PAREDE', door: 'PORTA', window: 'JANELA', stairs: 'ESCADA', ramp: 'RAMPA', prop: 'ASSET' }[record.kind])}</small><strong>${esc(name)}</strong></span></div><label class="field"><span>Nome</span><input data-field="object-name" value="${esc(name)}" maxlength="256" /></label>`;
+    if(isSculptableRock(record))fields+=rockSculptPanel(record,terrainBrush,tool==='terrain',{numberField});
     if (record.kind === 'terrain') {
       if(!record.paintLayers?.length) terrainMaterialTarget='base';
       if (!record.paintLayers?.some(layer => layer.id === terrainBrush.layerId)) terrainBrush.layerId = record.paintLayers?.[0]?.id ?? '';
@@ -628,7 +633,7 @@ export async function startApplication() {
         const title = section.querySelector(':scope > .eyebrow')?.textContent.trim();
         if (!title) continue;
         const label = title.toLocaleLowerCase('pt-BR').replace(/^./u, char => char.toLocaleUpperCase('pt-BR'));
-        const expanded = /POSIÇÃO|DIMENSÕES|ILUMINAÇÃO|MATERIAL E TEXTURA|ACESSO ENTRE ALTURAS|FOGO E FUMAÇA|ÁGUA \/ GELO/.test(title);
+        const expanded = /PINCEL DE SUPERFÍCIE|POSIÇÃO|DIMENSÕES|ILUMINAÇÃO|MATERIAL E TEXTURA|ACESSO ENTRE ALTURAS|FOGO E FUMAÇA|ÁGUA \/ GELO/.test(title);
         sectionDisclosure(section, title, label, expanded);
       }
       if (found?.record.kind !== 'terrain') restoreDisclosures(panel, inspectorDisclosures);
@@ -1450,19 +1455,35 @@ export async function startApplication() {
         try {showAuthorshipProposal(proposeWaterBed(store.document,terrainId,selection,store.editVersion));}catch(error){notify(error.message,true);}break;
       }
       case 'terrain-water-brush': terrainBrush.mode='water'; terrainBrush.shape='circle'; terrainBrush.snap=false; await act('terrain-sculpt'); break;
+      case 'rock-sculpt': {
+        if(!isSculptableRock(locate()?.record))break;
+        if(!ROCK_SCULPT_MODES.includes(terrainBrush.mode))terrainBrush.mode='raise';
+        terrainBrush.shape='circle';terrainBrush.snap=false;await act('terrain-sculpt');break;
+      }
+      case 'rock-sculpt-clear': {
+        const record=locate()?.record;if(!isSculptableRock(record))break;
+        const asset=assets.find(asset=>asset.id===record.assetRef.id);
+        execute('entity.update',{id:record.id,patch:{rockSculpt:{stamps:[]},...(asset?.footprint?{footprint:asset.footprint}:{})},snap:false},{label:'Limpar escultura manual'});break;
+      }
       case 'terrain-sculpt': {
+        const rock=store.document.layout.entities[selection];
+        if(isSculptableRock(rock)) {
+          if(isLocked(store.document,rock)){notify('Desbloqueie a rocha antes de esculpir.',true);break;}
+          if(!ROCK_SCULPT_MODES.includes(terrainBrush.mode))terrainBrush.mode='raise';
+          clearProposal();viewport.setTerrainBrush(terrainBrush);setTool('terrain');renderInspector();notify('Pincel ativo: arraste na superfície da rocha ou no terreno. Esc cancela o traço.');break;
+        }
         let terrain = store.document.layout.entities[selection];
         if (terrain?.kind !== 'terrain') {
           const support = store.document.layout.entities[activeSurfaceId];
           const terrains = Object.values(store.document.layout.entities).filter(e => e.kind === 'terrain' && !isLocked(store.document, e));
           terrain = support?.kind === 'terrain' ? support : terrains.length === 1 ? terrains[0] : null;
         }
-        if (!terrain || terrain.kind !== 'terrain' || isLocked(store.document, terrain)) { notify('Selecione um terreno desbloqueado para ativar o pincel (T).', true); break; }
+        if (!terrain || terrain.kind !== 'terrain' || isLocked(store.document, terrain)) { const rock=Object.values(store.document.layout.entities).find(e=>isSculptableRock(e)&&!isLocked(store.document,e));if(rock){if(!ROCK_SCULPT_MODES.includes(terrainBrush.mode))terrainBrush.mode='raise';clearProposal();viewport.setTerrainBrush(terrainBrush);setTool('terrain');selectObject(rock.id);notify('Pincel ativo: aponte para uma rocha/paredão.');}else notify('Selecione um terreno ou uma rocha/paredão desbloqueado para o pincel (T).',true);break; }
         if (selectedIds.size !== 1 || selection !== terrain.id) selectObject(terrain.id);
         if (['paint','erase'].includes(terrainBrush.mode) && !terrain.paintLayers?.some(layer => layer.id === terrainBrush.layerId && layer.visible)) { notify('Crie ou escolha uma camada de cor visível antes de pintar.', true); break; }
         const paintLayer=terrain.paintLayers?.find(layer=>layer.id===terrainBrush.layerId);
         if (['paint','erase'].includes(terrainBrush.mode) && paintLayer?.distribution && paintLayer.distribution.mode!=='paint') { notify('Esta camada é automática. Escolha Pintura manual em Editar material para usar o pincel.',true); break; }
-        clearProposal(); viewport.setTerrainBrush(terrainBrush); setTool('terrain'); renderInspector(); notify('Pincel ativo: arraste no terreno. T ou Q retorna à seleção; Esc cancela.'); break;
+        clearProposal(); viewport.setTerrainBrush(terrainBrush); setTool('terrain'); renderInspector(); notify('Pincel ativo: arraste no terreno ou em rochas/paredões. T ou Q retorna à seleção; Esc cancela.'); break;
       }
       case 'floor-hole': {
         const floor = store.document.layout.entities[selection]; if (floor?.kind !== 'floor') { notify('Selecione o piso para recortar.', true); break; }

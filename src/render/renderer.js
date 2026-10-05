@@ -1,3 +1,5 @@
+import {isSculptableRock,ROCK_SCULPT_LIMIT} from '../domain/rock-sculpt.js';
+import {prepareRockSculpt,applyRockStamp,rockBrushStamp,sculptFootprint} from './rock-sculpt.js';
 import { hasPhysicalSnow } from '../domain/snow.js';
 import { createWater, updateWater } from './water.js';
 import { addPhysicalSnow, clearPhysicalSnow, snowOccluders, createExposureTest } from './physical-snow.js';
@@ -94,7 +96,7 @@ export function setupUniformScaleGizmo(transform) {
 export function createViewport(container, {
   onSelect = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
   onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
-  onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {}, onWaterStroke = () => {}, onMaterialSlots = () => {},
+  onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {}, onRockStroke = () => {}, onWaterStroke = () => {}, onMaterialSlots = () => {},
   navigationEnabled = true,
 } = {}) {
   const canvas = document.createElement('canvas');
@@ -483,7 +485,7 @@ export function createViewport(container, {
       }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } });
       return;
     }
-    cache.createInstance(record,entity.rockShape,entity.vegetationSeed).then((instance) => {
+    cache.createInstance(record,entity.rockShape,entity.vegetationSeed,entity.rockSculpt).then((instance) => {
       if (!stillCurrent()) { disposeObject(instance); return; }
       parent.add(instance);
       if(entity.localEffect?.enabled && entity.localEffect.type==='fire') instance.traverse(child=>{if(child.userData.materialSlot==='flame') child.visible=false;});
@@ -675,7 +677,7 @@ export function createViewport(container, {
       } else if (entity.kind === 'prop') {
         object = new THREE.Group(); applyTransform(object, entity.transform);
         const parent = object, asset = assetRecord(entity.assetRef);
-        if (asset) cache.createInstance(asset,entity.rockShape,entity.vegetationSeed).then(instance => {
+        if (asset) cache.createInstance(asset,entity.rockShape,entity.vegetationSeed,entity.rockSculpt).then(instance => {
           if (destroyed || previewVersion !== previewGeneration) { disposeObject(instance); return; }
           applyMaterialOverrides(instance, entity.material, null, true); ghost(instance); parent.add(instance); invalidate();
         }).catch(error => { if (previewVersion === previewGeneration) report(error); });
@@ -773,8 +775,20 @@ export function createViewport(container, {
     altHeld = event.altKey;
     pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
     if (tool === 'terrain') {
-      const hit = pick(event), record = records.get(hit?.object.userData.entityId);
-      if (record?.kind !== 'terrain' || record.id !== selectedId || isLocked(sceneDocument, record)) { pointer = null; report('Selecione o terreno e pinte sobre ele.'); return; }
+      const hit=surfaceBrushHit(event),record=records.get(hit?.object.userData.entityId);
+      if(!record||isLocked(sceneDocument,record)||(record.kind!=='terrain'&&!isSculptableRock(record))) {pointer=null;report('Aponte para um terreno ou uma rocha/paredão desbloqueado.');return;}
+      if(isSculptableRock(record)&&['paint','erase','water'].includes(terrainBrush.mode)){pointer=null;report('Para esculpir a rocha, escolha Elevar, Rebaixar ou Projetar face. Pintura de camadas e água usam o terreno.');return;}
+      if(record.id!==selectedId) {onSelect(record.id);pointer??={id:event.pointerId,x:event.clientX,y:event.clientY,moved:false};}
+      if(isSculptableRock(record)) {
+        if((record.rockSculpt?.stamps.length??0)>=ROCK_SCULPT_LIMIT){pointer=null;report('Esta rocha atingiu 512 amostras. Continue em outra peça ou desfaça/limpe traços.');return;}
+        pointer.rock=structuredClone(record);pointer.terrainBrush={...terrainBrush};pointer.rockObject=objects.get(record.id);
+        pointer.rockMeshes=prepareRockSculpt(pointer.rockObject);pointer.rockBefore=pointer.rockMeshes.map(mesh=>mesh.geometry.attributes.position.array.slice());
+        pointer.snow=[];pointer.rockObject.traverse(child=>{if(child.userData.physicalSnow){pointer.snow.push([child,child.visible]);child.visible=false;}});
+        pointer.lastStamp=hit.point.toArray();pointer.planePoint=pointer.lastStamp;pointer.planeNormal=surfaceNormal(hit);pointer.strokeChanged=false;
+        try {stampRock(hit.point.toArray(),pointer.planeNormal);}catch(error){cancelGesture();report(error);return;}
+        controls.enabled=false;canvas.setPointerCapture(event.pointerId);return;
+      }
+      if(['paint','erase'].includes(terrainBrush.mode)&&!record.paintLayers?.some(layer=>layer.id===terrainBrush.layerId&&layer.visible&&(!layer.distribution||layer.distribution.mode==='paint'))){pointer=null;report('Selecione uma camada manual visível deste terreno para pintar.');return;}
       pointer.terrain = structuredClone(record); pointer.terrainBefore = record; pointer.terrainBrush = { ...terrainBrush }; pointer.lastStamp = hit.point.toArray(); pointer.waterPoints = [];
       try { stampTerrain(hit.point.toArray()); } catch (error) { pointer = null; report(error); return; }
       controls.enabled = false; canvas.setPointerCapture(event.pointerId);
@@ -814,21 +828,29 @@ export function createViewport(container, {
   }
   function onPointerMove(event) {
     altHeld = event.altKey;
-    if (tool === 'terrain' && !presentation) {
-      const record = pointer?.terrain ?? records.get(selectedId), object = objects.get(selectedId);
-      if (record?.kind === 'terrain' && object) {
-        rayFromEvent(event); const hit = raycaster.intersectObject(object, true).find(h => h.face?.normal.y > 0);
-        brushLine.visible = Boolean(hit);
-        if (hit) {
-          const points = terrainBrushOutline(record, hit.point.toArray(), pointer?.terrainBrush ?? terrainBrush).map(point => { point[1] = supportHeightAt(record, point) + .03; return new THREE.Vector3(...point); });
-          brushLine.geometry.dispose(); brushLine.geometry = new THREE.BufferGeometry().setFromPoints(points);
-        }
-        invalidate();
-      }
+    if(tool==='terrain'&&!presentation) {
+      const hit=surfaceBrushHit(event,pointer?.rock?.id??pointer?.terrain?.id),record=records.get(hit?.object.userData.entityId);
+      brushLine.visible=!!hit&&(record?.kind==='terrain'||isSculptableRock(record))&&!isLocked(sceneDocument,record);
+      if(brushLine.visible) {
+        const brush=pointer?.terrainBrush??terrainBrush;let points;
+        if(isSculptableRock(record)) {
+          const normal=new THREE.Vector3(...surfaceNormal(hit)),u=new THREE.Vector3(0,1,0);if(Math.abs(normal.y)>.9)u.set(1,0,0);u.cross(normal).normalize();const w=normal.clone().cross(u);
+          points=Array.from({length:49},(_,i)=>hit.point.clone().addScaledVector(u,Math.cos(i/48*Math.PI*2)*brush.radius).addScaledVector(w,Math.sin(i/48*Math.PI*2)*brush.radius).addScaledVector(normal,.025));
+        } else points=terrainBrushOutline(record,hit.point.toArray(),brush).map(point=>{point[1]=supportHeightAt(record,point)+.03;return new THREE.Vector3(...point);});
+        brushLine.geometry.dispose();brushLine.geometry=new THREE.BufferGeometry().setFromPoints(points);invalidate();
+      } else invalidate();
     }
     if (!pointer || pointer.id !== event.pointerId || presentation) return;
     pointer.moved ||= Math.hypot(event.clientX - pointer.x, event.clientY - pointer.y) > 4;
-    if (pointer.terrain) {
+    if(pointer.rock) {
+      const hit=surfaceBrushHit(event,pointer.rock.id);if(!hit)return;
+      const point=hit.point.toArray(),previous=pointer.lastStamp,distance=Math.hypot(...point.map((v,i)=>v-previous[i])),spacing=Math.max(.05,pointer.terrainBrush.radius/4);
+      if(distance>=spacing) {
+        const steps=Math.min(8,Math.ceil(distance/spacing)),normal=pointer.terrainBrush.mode==='flatten'?pointer.planeNormal:surfaceNormal(hit);
+        for(let i=1;i<=steps;i++)stampRock(previous.map((v,axis)=>v+(point[axis]-v)*i/steps),normal);
+        pointer.lastStamp=point;updateSelection();invalidate(true);
+      }
+    } else if (pointer.terrain) {
       const hits = (() => { rayFromEvent(event); return raycaster.intersectObject(objects.get(pointer.terrain.id), true); })();
       const hit = hits.find(h => h.face?.normal.y > 0); if (!hit) return;
       const point = hit.point.toArray(), previous = pointer.lastStamp;
@@ -883,7 +905,11 @@ export function createViewport(container, {
     controls.enabled = navigationEnabled;
     hint.style.display = 'none';
     if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
-    if (gesture.terrain) {
+    if(gesture.rock) {
+      const version=generation;
+      try {if(gesture.strokeChanged)onRockStroke(gesture.rock.id,{rockSculpt:gesture.rock.rockSculpt,footprint:sculptFootprint(gesture.rockObject)});}catch(error){report(error);}
+      if(version===generation)setDocument(sceneDocument);
+    } else if (gesture.terrain) {
       const version = generation;
       try { if(gesture.terrainBrush.mode==='water') { clearGroup(preview); if(gesture.waterOverflow) report('Traço longo demais. Faça traços menores e separados.'); else onWaterStroke(gesture.terrain.id,gesture.waterPoints,gesture.terrainBrush); } else onTerrainStroke(gesture.terrain.id, ['paint','erase'].includes(gesture.terrainBrush.mode) ? { paintLayers: gesture.terrain.paintLayers } : { heights: gesture.terrain.heights }); } catch (error) { report(error); }
       if (version === generation) setDocument(sceneDocument);
@@ -916,6 +942,7 @@ export function createViewport(container, {
     invalidate();
   }
   function cancelPointer() {
+    if(pointer?.rockBefore) {for(let i=0;i<pointer.rockMeshes.length;i++){const g=pointer.rockMeshes[i].geometry;g.attributes.position.array.set(pointer.rockBefore[i]);g.attributes.position.needsUpdate=true;g.computeVertexNormals();g.computeBoundingBox();g.computeBoundingSphere();}for(const [snow,visible] of pointer.snow)snow.visible=visible;updateSelection();}
     if (pointer?.terrainBefore) replaceTerrain(pointer.terrainBefore);
     if (pointer?.object && pointer.initial) applyTransform(pointer.object, pointer.initial);
     if (pointer?.opening) previewOpening(pointer.opening);
@@ -929,6 +956,23 @@ export function createViewport(container, {
     ground.position.y = Math.min(-.025, ...values(sceneDocument.layout.entities).filter(e => e.kind === 'terrain').map(e => { const terrain = e.id === record.id ? record : e; return terrain.transform.position[1] + Math.min(...terrain.heights) - .05; }));
     const previous = objects.get(record.id); if (previous) { content.remove(previous); disposeObject(previous); }
     const object = createTerrain(record); applySurfaceTextures(object,record,surfaces); content.add(object); objects.set(record.id, object); object.visible = visibleRecord(record); content.updateMatrixWorld(true); invalidate(true);
+  }
+  function surfaceNormal(hit) {return hit.face.normal.clone().applyMatrix3(new THREE.Matrix3().getNormalMatrix(hit.object.matrixWorld)).normalize().toArray();}
+  function surfaceBrushHit(event,id=null) {
+    rayFromEvent(event);
+    // Respect nearer occluders; ignore only helper/derived snow meshes.
+    const hit=raycaster.intersectObjects([...objects.values()],true).find(h=>h.object.userData.entityId&&!h.object.userData.decorative&&visibleInHierarchy(h.object));
+    if(id&&hit?.object.userData.entityId!==id)return null;
+    const record=records.get(hit?.object.userData.entityId);
+    if(record?.kind==='terrain'&&surfaceNormal(hit)[1]<=0)return null;
+    return hit;
+  }
+  function stampRock(point,normal) {
+    const stamps=pointer.rock.rockSculpt?.stamps??[];
+    if(stamps.length>=ROCK_SCULPT_LIMIT){hint.textContent='Limite de amostras atingido · solte para salvar o traço';return;}
+    const stamp=rockBrushStamp(pointer.rock,point,normal,pointer.terrainBrush,pointer.planePoint);
+    if(applyRockStamp(pointer.rockMeshes,stamp)) {pointer.rock.rockSculpt={stamps:[...stamps,stamp]};pointer.strokeChanged=true;}
+    hint.textContent=`Esculpindo superfície · ${pointer.terrainBrush.radius} m · solte para aplicar · Esc cancela`;hint.style.display='';invalidate(true);
   }
   function stampTerrain(position, render = true) {
     const brush = pointer.terrainBrush;
@@ -945,7 +989,7 @@ export function createViewport(container, {
     if (['paint','erase'].includes(brush.mode)) pointer.terrain.paintLayers = paintTerrain(pointer.terrain, position, brush);
     else {
       const before=pointer.terrain.heights;
-      pointer.terrain.heights = sculptTerrain(pointer.terrain, position, brush);
+      pointer.terrain.heights = sculptTerrain(pointer.terrain, position, {...brush,mode:brush.mode==='push'?'raise':brush.mode==='pull'?'lower':brush.mode});
       if(brush.protectFloors) {
         const protectedHeights=protectTerrainFloors(pointer.terrain,sceneDocument.layout.entities);
         pointer.terrain.heights=pointer.terrain.heights.map((h,i)=>h===before[i]?h:protectedHeights[i]);
@@ -955,10 +999,12 @@ export function createViewport(container, {
     hint.textContent = `Pincel ${brush.radius} m · solte para aplicar · Esc cancela`; hint.style.display = '';
   }
   function cancelGesture() {
+    const rockGesture=!!pointer?.rock;
     contextPointer = null;
     if (transform.dragging) { gizmoCancelled = true; transform.reset(); transform.pointerUp(null); }
     if (pointer?.roomStart || pointer?.terrainBrush?.mode==='water') clearGroup(preview);
     cancelPointer();
+    if(rockGesture)setDocument(sceneDocument);
     invalidate(true);
   }
   function onKeyDown(event) {
@@ -1104,7 +1150,8 @@ export function createViewport(container, {
     getMaterialSlots(id) { return materialSlots(objects.get(id)); },
     setEffectsEnabled(value) { effects.setEnabled(value); atmosphere.setEnabled(value); localEffectsEnabled=value; invalidate(); },
     getInfo() { return { atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
-      rockGeometries: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.geometry?.userData.rock) list.push({id,...child.geometry.userData.rock,triangles:(child.geometry.index?.count??child.geometry.attributes.position.count)/3});});return list;}),
+      sculptedRocks:[...objects].flatMap(([id,object])=>{let vertices=0,triangles=0;object.traverse(m=>{if(m.geometry?.userData.sculptPrepared){vertices+=m.geometry.attributes.position.count;triangles+=m.geometry.index.count/3;}});return vertices?[{id,vertices,triangles,samples:records.get(id)?.rockSculpt?.stamps.length??0,bounds:new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3()).toArray()}]:[];}),
+      rockGeometries: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.geometry?.userData.rock) list.push({id,...child.geometry.userData.rock,triangles:(child.geometry.index?.count??child.geometry.attributes.position.count)/3});for(const rock of child.geometry?.userData.rocks??[])list.push({id,...rock});});return list;}),
       snowCoats:[...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.userData.physicalSnow)list.push({id,triangles:child.geometry.attributes.position.count/3});});return list;}), snowTriangles, animatedWater, waterSurfaces:[...records.values()].filter(r=>r.kind==='water').map(r=>({id:r.id,...r.water})),
       surfaceMaterials: [...objects].flatMap(([id,object])=>{const list=[]; object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material]) if(mat?.userData.surface) list.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.surface});});return list;}),
       environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },

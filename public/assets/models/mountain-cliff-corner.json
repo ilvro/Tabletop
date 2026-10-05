@@ -1,0 +1,139 @@
+{
+  "name": "Paredão natural · canto de desfiladeiro",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "seed": 173,
+      "irregularity": 0.6,
+      "detail": 5,
+      "overhang": 0.35,
+      "terraces": 7,
+      "erosion": 0.7,
+      "size": [
+        6,
+        6,
+        2
+      ],
+      "position": [
+        -7.152557368605983e-8,
+        0,
+        -2.0000000953674317
+      ],
+      "seedOffset": 0,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "seed": 192,
+      "irregularity": 0.6,
+      "detail": 5,
+      "overhang": 0.35,
+      "terraces": 7,
+      "erosion": 0.7,
+      "size": [
+        6,
+        5.6,
+        2
+      ],
+      "position": [
+        -2.000000071525574,
+        0,
+        -9.536743161842054e-8
+      ],
+      "seedOffset": 19,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      },
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ]
+    }
+  ],
+  "mergeParts": true
+}

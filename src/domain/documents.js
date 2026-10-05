@@ -64,6 +64,7 @@ export function createEntity(kind, options = {}) {
     footprint: clone(options.footprint ?? [1, 1]), material: material('#ffffff', options.material),
     ...(options.localEffect ? { localEffect: clone(options.localEffect) } : {}),
     ...(options.vegetationSeed !== undefined ? {vegetationSeed:options.vegetationSeed} : {}),
+    ...(options.rockSculpt ? {rockSculpt:clone(options.rockSculpt)} : {}),
     ...(options.rockShape ? { rockShape: clone(options.rockShape) } : {}),
   };
 }
