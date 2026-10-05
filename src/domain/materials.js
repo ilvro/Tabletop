@@ -1,7 +1,7 @@
 /** Stable IDs are persisted; texture pixels are generated locally and never embedded in documents. */
 export const SURFACE_MATERIALS = [
   { id: 'wood', name: 'Madeira', roughness: .72, metalness: 0, size: 2, relief: .035 },
-  { id: 'stone', name: 'Pedra', roughness: .9, metalness: 0, size: 2, relief: .065 },
+  { id: 'stone', name: 'Pedra · blocos de alvenaria', roughness: .9, metalness: 0, size: 2, relief: .065 },
   { id: 'grass', name: 'Grama', roughness: .95, metalness: 0, size: 1, relief: .025 },
   { id: 'metal', name: 'Metal', roughness: .38, metalness: .85, size: 1, relief: .012 },
   { id: 'sand', name: 'Areia', roughness: .95, metalness: 0, size: 2, relief: .025 },

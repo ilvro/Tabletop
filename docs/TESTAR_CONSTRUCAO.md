@@ -30,7 +30,7 @@ O formato é a área afetada pelo pincel. A dureza controla a transição da for
 4. Escolha **Apagar pintura da camada** e passe um pincel pequeno onde quer deixar rastros. Isso revela a grama que ficou embaixo.
 5. Troque a cor da camada **Neve** para outra cor: somente as regiões pintadas mudam. Você pode alterar a opacidade, ocultar uma camada, reordená-la ou removê-la. Tudo pode ser desfeito.
 
-Até oito camadas de cor são compostas em ordem; as últimas cobrem as primeiras. São camadas de pintura sobre a mesma malha, independentes das camadas de organização da cena. Apagar uma camada não remove alturas nem a pintura das outras. As cores são interpoladas entre vértices; a resolução da malha limita a largura e precisão dos rastros. Essas camadas aplicam cores, sem texturas de neve/grama ou vegetação automática.
+Até oito camadas de cor são compostas em ordem; as últimas cobrem as primeiras. São camadas de pintura sobre a mesma malha, independentes das camadas de organização da cena. Apagar uma camada não remove alturas nem a pintura das outras. As cores são interpoladas entre vértices; a resolução da malha limita a largura e precisão dos rastros. As camadas aceitam também texturas de neve/grama em Editar material e propriedades; não distribuem vegetação automaticamente.
 
 ## 2. Ancorar objetos juntos: mesa + lamparina
 
@@ -104,3 +104,13 @@ Recorte, posicionamento do acesso e associação dos andares são ações separa
 5. Desfaça/refaça, salve e reabra a cena. As configurações devem permanecer. Abra o projetor e edite a madeira: o material muda e a câmera publicada conserva seu enquadramento.
 
 Quantidade de tábuas é por repetição, não por objeto inteiro. Relevo altera a iluminação aparente; não muda geometria ou colisão. Detalhes em [MATERIALS.md](MATERIALS.md).
+
+
+## Terreno natural, tamanho e construções
+
+1. Selecione um terreno e escolha **Esculpir rocha natural**. Ajuste formação, tamanho em metros, seed e força. Ative com T e arraste: alturas reais devem mudar, e outro ponto do mapa deve receber outra parte do desenho. Ctrl+Z desfaz todo o traço. Escolha Rocha natural no material da camada para o acabamento; Pedra · blocos de alvenaria deve continuar separada.
+2. Em **Área do terreno**, deixe Expandir/recortar e aumente a largura. O desenho existente deve manter sua escala, sujeito à reamostragem; a área nova continua as bordas. Desfaça, escolha Esticar e repita: o desenho inteiro deve se alongar. Alturas/máscaras devem ser restauradas por undo.
+3. Com um piso sobre o terreno, use **Prévia · ajustar sob construções**. Cancelar conserva o documento. Aceitar rebaixa o terreno sob o piso e sua margem; piso/parede permanecem iguais. Reaplicar não deve aprofundar o mesmo ajuste. Pisos rotacionados usam o contorno real; o centro de furos grandes continua livre.
+4. Em Construir → Terreno e relevo, escolha dimensões/centro, abra Presets de paisagem e gere a prévia de Montanha · rocha e neve. Nada deve entrar no documento antes de aceitar. Com Respeitar pisos ligado, a montanha não deve atravessar pisos existentes. A composição aceita continua editável manualmente, sem regeneração vinculada.
+5. Pinte uma textura em camada visível e compare Relevo aparente em 0 e 0,2, olhando perto com luz lateral: detalhes de iluminação devem mudar, sem mover vértices. Com todas as texturas desligadas, o controle deve ficar desativado. Para alterar a silhueta, use escultura.
+6. Salve e reabra; confira alturas, máscaras e dimensões. Abra a segunda tela, edite o terreno e confira atualização visual sem mudar a câmera do projetor.

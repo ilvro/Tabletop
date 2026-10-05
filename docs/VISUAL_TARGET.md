@@ -104,3 +104,6 @@ Prioridades para aproximar esta imagem:
 Primeiro recorte recomendado: uma trilha, uma ruína acessível, um paredão e poucas árvores. Avaliar enquadramento próximo e superior, apoio dos tokens, salvamento/reabertura e projetor antes de ampliar a montanha. Esta revisão registra análise e prioridades, sem implementar recursos novos.
 
 Incremento de 5 de outubro: kit original de rocha fraturada, granito, paredão estratificado e entulho, com forma/irregularidade/detalhe/seed por instância, dimensões/base preservadas e materiais/neve existentes. O kit inicial de geometria de rochas saiu das pendências; expansão de conteúdo autoral, arquitetura/vegetação, água/gelo, decals, acúmulo físico de neve e desempenho presencial continuam futuros. Uso: [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
+
+
+O incremento de autoria do terreno acrescenta relevo rochoso diretamente no heightmap (formação/tamanho/seed com campo espacial), expansão em metros, proteção sob pisos e prévia do preset de montanha. Textura Rocha natural e Pedra · blocos de alvenaria ficam explicitamente separadas; microrelevo continua sendo detalhe de iluminação, enquanto os pincéis mudam a geometria. Isso reduz a dependência de repetir props, mas o limite de 64 divisões e uma altura por XZ continua exigindo composição com malhas para grandes saliências, cavernas e paredões complexos.

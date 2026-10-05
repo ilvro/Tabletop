@@ -68,9 +68,16 @@ const sampleFunctions = `
   }
   vec4 tileSample(sampler2D atlas, vec2 p, float index, float rotation) {
     float c=cos(rotation), s=sin(rotation);
-    vec2 f = fract(mat2(c,-s,s,c)*(p-vec2(.5))+vec2(.5)); f = (f * 255.0 + .5) / 256.0;
+    vec2 raw=mat2(c,-s,s,c)*(p-vec2(.5))+vec2(.5);
+    // Differentiate before wrapping: fract() otherwise picks coarse atlas mips at every repeat.
+    vec2 dx=dFdx(raw)*255.0, dy=dFdy(raw)*255.0;
+    float footprint=max(1.0,max(length(dx),length(dy)));
+    float scale=min(1.0,128.0/footprint); dx*=scale; dy*=scale;
+    // Keep the complete bilinear/trilinear footprint inside this tile, including coarse mips.
+    float border=exp2(ceil(log2(min(footprint,128.0))))*.5/256.0;
+    vec2 f=clamp((fract(raw)*255.0+.5)/256.0,vec2(border),vec2(1.0-border));
     vec2 offset=vec2(mod(index,surfaceLayout.x),floor(index/surfaceLayout.x));
-    return texture2D(atlas,(f+offset)/surfaceLayout);
+    return textureGrad(atlas,(f+offset)/surfaceLayout,dx/256.0/surfaceLayout,dy/256.0/surfaceLayout);
   }
   vec4 surfaceSample(sampler2D atlas, float index, float size, float rotation) {
     vec3 w = pow(abs(surfaceGeometryNormal()), vec3(4.0)); w /= max(.0001,w.x+w.y+w.z);

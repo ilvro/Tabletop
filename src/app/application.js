@@ -15,7 +15,7 @@ import { createSceneStore } from '../state/scene-store.js';
 import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
 import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
-import { resampleTerrain } from '../authoring/terrain.js';
+import { resampleTerrain, resizeTerrain, protectTerrainFloors } from '../authoring/terrain.js';
 import { proposeAnchoring } from '../authoring/anchoring.js';
 import { proposePolish } from '../authoring/polish.js';
 import { proposeContourWalls } from '../authoring/structures.js';
@@ -111,7 +111,7 @@ export async function startApplication() {
   const openBuildSections = new Set(['room']);
   let polishOptions = { mode: 'align', axis: 'x', alignment: 'center', angle: 5, seed: 1, palette: 'natural', clearance: .8, referenceId: '' };
   let activeLevelId = null, activeLayerId = null, isolatedLevel = false, polygonHoleHost = null, terrainCell = 0;
-  let terrainOptions = { width: 20, length: 20, segments: 32 }, terrainBrush = { mode: 'raise', radius: 2, strength: .25, target: 0, shape: 'circle', hardness: 0, snap: false, layerId: '' };
+  let terrainOptions = { width: 20, length: 20, segments: 32, x: 0, z: 0, protectFloors: true }, terrainResizeMode = 'extend', terrainBrush = { mode: 'raise', radius: 2, strength: .25, target: 0, shape: 'circle', hardness: 0, snap: false, layerId: '', rockPattern: 'fractured', rockSize: 3, rockSeed: 42, protectFloors: true };
   const constructionSemantics = () => ({ levelId: activeLevelId, layerId: activeLayerId });
   let contextTarget = null, draggedTreeId = null;
   const store = createSceneStore(createScene('Minha primeira cena'));
@@ -508,7 +508,7 @@ export async function startApplication() {
     if (record.kind === 'terrain') {
       if (!record.paintLayers?.some(layer => layer.id === terrainBrush.layerId)) terrainBrush.layerId = record.paintLayers?.[0]?.id ?? '';
       viewport.setTerrainBrush(terrainBrush);
-      fields += terrainInspector(record, terrainBrush, Math.min(terrainCell, record.heights.length - 1), tool === 'terrain', terrainAdvancedOpen, terrainLayerEditorOpen);
+      fields += terrainInspector(record, terrainBrush, Math.min(terrainCell, record.heights.length - 1), tool === 'terrain', terrainAdvancedOpen, terrainLayerEditorOpen, terrainResizeMode);
       fields += materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField });
     }
     if (record.kind === 'floor') fields += `<section><span class="eyebrow">ABERTURAS E PAREDES</span><button data-action="floor-hole" class="wide">Recortar piso · vão de escada / pátio</button><p class="microcopy">Clique nos cantos do vão dentro deste piso; Enter conclui. O recorte atravessa sua espessura.</p><button data-action="contour-walls" class="wide">Criar paredes do contorno</button><p class="microcopy">Revise antes de aceitar. Paredes de bordas compartilhadas são reaproveitadas; encontros em L e T se ajustam automaticamente.</p></section>`;
@@ -1055,6 +1055,12 @@ export async function startApplication() {
       const keyId = field.slice(prefix.length); if (execute(type, { id: keyId, patch: { [key]: value } }) && key === 'elevation' && activeLevelId === keyId) { buildHeight = value; roomOptions.center[1] = value; viewport.setWorkplaneHeight(value); renderSidebar(); } return;
     }
     if (field.startsWith('terrain-new-')) { terrainOptions[field.slice(12)] = value; return; }
+    if(field==='terrain-resize-mode') {terrainResizeMode=value;return;}
+    if(['width','length'].includes(field) && locate()?.record.kind==='terrain') {
+      const terrain=locate().record;
+      try {execute('entity.update',{id:terrain.id,patch:resizeTerrain(terrain,{[field]:value,mode:terrainResizeMode}),snap:false},{label:terrainResizeMode==='extend'?'Expandir área do terreno':'Esticar terreno'});} catch(error) {notify(error.message,true);renderInspector();}
+      return;
+    }
     if (field === 'terrain-paint-layer') { terrainBrush.layerId = value; viewport.setTerrainBrush(terrainBrush); renderInspector(); return; }
     if (field.startsWith('terrain-distribution-')) {
       const terrain=locate()?.record;
@@ -1076,7 +1082,7 @@ export async function startApplication() {
     if (field.startsWith('brush-')) {
       const next = { ...terrainBrush, [field.slice(6)]: value };
       if (field === 'brush-mode' && ['smooth','flatten','paint','erase'].includes(value)) next.strength = Math.min(1, next.strength);
-      if (!Number.isFinite(next.radius) || next.radius <= 0 || next.radius > 100 || !Number.isFinite(next.strength) || next.strength <= 0 || next.strength > 10 || !Number.isFinite(next.target)) { notify('Raio e força devem ser positivos; força máxima 10.', true); renderInspector(); return; }
+      if (!Number.isFinite(next.radius) || next.radius <= 0 || next.radius > 100 || !Number.isFinite(next.strength) || next.strength <= 0 || next.strength > 10 || !Number.isFinite(next.target) || !Number.isFinite(next.rockSize) || next.rockSize<.1 || next.rockSize>100 || !Number.isInteger(next.rockSeed) || next.rockSeed<0 || next.rockSeed>65535) { notify('Confira raio, força, tamanho da formação (0,1–100 m) e variação inteira (0–65535).', true); renderInspector(); return; }
       terrainBrush = next; viewport.setTerrainBrush(terrainBrush); if (['brush-mode','brush-shape','brush-hardness'].includes(field)) renderInspector(); return;
     }
     if (field === 'terrain-cell') { terrainCell = Math.max(0, Math.min((locate()?.record.heights?.length ?? 1) - 1, Math.floor(value))); renderInspector(); return; }
@@ -1307,9 +1313,18 @@ export async function startApplication() {
         break;
       }
       case 'terrain-add': case 'terrain-mountain': {
-        const options={ ...terrainOptions, position: [0, buildHeight, 0], ...constructionSemantics() };
+        const options={ width:terrainOptions.width,length:terrainOptions.length,segments:terrainOptions.segments,position: [terrainOptions.x, buildHeight, terrainOptions.z], ...constructionSemantics() };
         const entity = action==='terrain-mountain' ? createMountainTerrain(options) : createEntity('terrain',options);
+        if(terrainOptions.protectFloors) entity.heights=protectTerrainFloors(entity,store.document.layout.entities);
+        if(action==='terrain-mountain') {
+          showAuthorshipProposal({id:id(),expectedEditVersion:store.editVersion,label:'Preset de montanha · rocha e neve',entities:[entity],lights:[],groups:[],areas:[],updates:[],removals:[],report:{reasons:[terrainOptions.protectFloors?'Relevo limitado sob os pisos existentes, com margem para os triângulos da malha.':'Respeitar pisos está desligado: revise sobreposições com construções.','Preset independente: alturas, materiais e máscaras continuam editáveis; não há regeneração vinculada.']}});
+          viewport.framePreview(); break;
+        }
         if (execute('entity.add', { entity, snap: false })) { selectObject(entity.id); setTool('select'); viewport.frameSelection(entity.id); document.getElementById('inspector-content').scrollTop = 0; notify('Terreno criado. Os pincéis estão no topo do inspetor à direita: escolha um e clique em Ativar pincel.'); } break;
+      }
+      case 'terrain-protect-floors': {
+        const terrain=locate()?.record;if(terrain?.kind!=='terrain') break;
+        showAuthorshipProposal({id:id(),expectedEditVersion:store.editVersion,label:'Ajustar terreno sob construções',entities:[],lights:[],groups:[],areas:[],updates:[{kind:'entity',id:terrain.id,patch:{heights:protectTerrainFloors(terrain,store.document.layout.entities)}}],removals:[],report:{reasons:['Rebaixa somente o terreno que ultrapassa a face inferior dos pisos, com margem e transição nas bordas. Pisos, paredes e objetos independentes são preservados.']}});break;
       }
       case 'terrain-layer-add': {
         const terrain = locate()?.record; if (terrain?.kind !== 'terrain') break;
@@ -1398,6 +1413,7 @@ export async function startApplication() {
         if (execute('proposal.accept', { proposal: proposed })) {
           clearProposal(); const floor = proposed.entities?.find(entity => entity.kind === 'floor');
           if (floor) { viewport.frameScene(); activeSurfaceId = floor.id; smartFloorId = floor.id; selectObject(floor.id); }
+          else if(proposed.entities?.some(entity=>entity.kind==='terrain')) {const terrain=proposed.entities.find(entity=>entity.kind==='terrain');selectObject(terrain.id);viewport.frameSelection(terrain.id);}
           else { viewport.setSelection(selection, [...selectedIds]); renderInspector(); }
           renderSidebar(); notify('Proposta aceita. Os elementos continuam editáveis.');
         } break;

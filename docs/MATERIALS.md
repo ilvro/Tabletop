@@ -9,7 +9,7 @@ Selecione piso, parede, porta, janela, escada, rampa, terreno ou objeto. No insp
 A escolha aplica a cor branca de matiz e o acabamento inicial do material. Depois ajuste:
 
 - **Tamanho do padrão · m:** tamanho de uma repetição. Menor produz detalhes menores; maior amplia o padrão.
-- **Relevo aparente · m:** intensidade do detalhe na iluminação, sem alterar geometria, colisão ou apoio.
+- **Relevo aparente · microdetalhe em m:** simula fissuras/veios na iluminação (bump), sem elevar vértices nem alterar silhueta, colisão ou apoio. Zero desliga; aparece melhor de perto e com luz lateral. Sem textura no material ou numa camada visível, o controle fica desativado: cor lisa não tem mapa de detalhe. No terreno, esse parâmetro controla também o detalhe das camadas; a cobertura tem intensidade própria.
 - **Cor da textura:** recolore o material preservando os detalhes. Ao escolher uma cor, **Aplicação da cor** muda da paleta original para **Recolorir · preservar detalhes**. Também é possível escolher **Multiplicar pela cor** ou voltar à **Paleta original**.
 - **Brilho:** 1 conserva a aparência original, valores menores escurecem e valores maiores clareiam; 0 deixa a textura preta. Para madeira escura, experimente 0,5–0,7.
 - **Rotação do padrão:** gira o desenho em graus sobre cada face projetada.
@@ -35,7 +35,7 @@ Selecionar outra textura reinicia os ajustes de cor/desenho/brilho para os valor
 
 **Sem textura adicional** remove a substituição e volta a usar os mapas originais de um GLB, conservando seus ajustes de cor/rugosidade/metalicidade. Documentos e assets compartilhados não são modificados por outra instância.
 
-As dez texturas são procedurais originais, geradas localmente, com cor, altura e rugosidade. Não dependem de internet ou downloads. São um primeiro acervo de superfícies; modelos detalhados e materiais fotográficos específicos continuam úteis para aproximar as referências.
+As dez texturas são procedurais originais, geradas localmente, com cor, altura e rugosidade. O filtro usa derivadas antes de repetir o padrão e uma margem conforme o nível de detalhe, evitando linhas de repetição e mistura com cores de outras texturas no atlas. Não dependem de internet ou downloads. São um primeiro acervo de superfícies; modelos detalhados e materiais fotográficos específicos continuam úteis para aproximar as referências.
 
 ## Pintar materiais no terreno
 
@@ -81,11 +81,11 @@ Os resultados finais desta implementação são registrados em [progress.md](../
 
 ## Composição de montanha: rocha, neve e camadas automáticas
 
-Incremento de 4 de outubro de 2026. **Rocha natural** é uma superfície sem blocos de alvenaria: oferece formações fraturada, estratificada e granito, intensidade das fissuras, rotação, densidade/seed e os mesmos ajustes de cor/brilho. **Pedra** mantém seu desenho anterior em blocos. **Neve** acrescenta granulação e ondulações suaves, com cor, rugosidade e relevo aparente próprios.
+Incremento de 4 de outubro de 2026. **Rocha natural** é uma superfície sem blocos de alvenaria: oferece formações fraturada, estratificada e granito, intensidade das fissuras, rotação, densidade/seed e os mesmos ajustes de cor/brilho. **Pedra · blocos de alvenaria** mantém seu desenho anterior em blocos, separado da rocha natural; os IDs e mapas existentes não mudam. **Neve** acrescenta granulação e ondulações suaves, com cor, rugosidade e relevo aparente próprios.
 
 ### Começar um terreno
 
-Em **Construir → Terreno e relevo**, ajuste largura/comprimento/resolução e clique em **Montanha · rocha e neve**. O resultado é um terreno comum com alturas editáveis, uma camada de rocha, neve automática nas partes menos inclinadas e uma trilha de lama pintada. Não existe dependência de um gerador após criar: escultura, pintura, undo/redo, mapas e salvamento usam o documento normal.
+Em **Construir → Terreno e relevo**, ajuste largura/comprimento/resolução e centro X/Z. Abra **Presets de paisagem · construção assistida** e clique em **Prévia · Montanha · rocha e neve**; revise e aceite ou cancele. O documento só muda ao aceitar. **Respeitar pisos das construções**, ligado inicialmente, limita o terreno sob os pisos existentes. O resultado é um terreno comum com alturas editáveis, rocha natural, neve automática nas partes menos inclinadas e uma trilha de lama pintada. É um preset assistido, sem receita de regeneração vinculada: você pode construir manualmente a mesma composição com alturas e camadas, e editar tudo depois.
 
 Para compor seu próprio terreno:
 
@@ -110,3 +110,16 @@ A cobertura tem cor, tamanho da textura, quantidade, relevo e distribuição pr�
 `material.coverage` é opcional/nulo; quando ativo guarda `texture`, `color`, `textureSize`, `amount`, `relief` e os campos de distribuição. `paintLayers[].distribution` é opcional e guarda `mode`, `slopeAngle`, `slopeFade`, `heightEnabled`, `minHeight`, `heightFade`, `variation`, `variationSize` e `seed`. Campos ausentes conservam a pintura/aparência anterior. Novos parâmetros de textura: `rockPattern` e `rockCracks`. Todos são validados antes de confirmar comandos/imports/salvamento; acompanham histórico, mapas, duplicação e projeção filtrada.
 
 As novas texturas usam o mesmo atlas/cache por viewport; cobertura não adiciona uma malha ou draw call. Distribuição é calculada por fragmento, com custo adicional de amostras/ruído. Não representa um benchmark presencial. Resultados de testes e limites de hardware estão em [progress.md](../progress.md).
+
+
+## Esculpir rocha e ampliar o terreno
+
+Incremento de 5 de outubro de 2026. **Esculpir rocha natural** altera o heightmap, não só a textura. Escolha formação fraturada (cristas/fissuras), estratificada (patamares) ou granito (ondulações), tamanho das formações em metros, seed e força. Arraste para acrescentar variação às alturas existentes; passar novamente aumenta o efeito. O desenho usa posição mundial, evitando a mesma silhueta em cada carimbo. Tudo se materializa em alturas comuns; não existe gerador ligado ao terreno depois. Para mudar apenas o acabamento, selecione **Rocha natural** em **Editar material e propriedades** da camada. Forma do relevo e formação da textura são ajustes independentes.
+
+Para encostas naturais, comece com pincel circular e bordas suaves. Quadrado + dureza 100% + encaixe + Nivelar serve para patamares; as células são trianguladas e as bordas podem ter transições. Para alvenaria regular/pavimento, prefira Piso/Plataforma com textura **Pedra · blocos de alvenaria**; ela conserva espessura e limites retos. **Suave / Facetas marcadas** muda a iluminação das faces, não as alturas; a malha define a geometria possível. Formações menores que a célula não terão resolução suficiente. O terreno continua tendo uma altura por XZ, sem saliências ou cavernas; para isso, componha com as peças rochosas.
+
+No inspetor, **Área do terreno** mostra largura/comprimento fora das opções avançadas. **Expandir / recortar** reamostra em metros locais, conserva a escala da área existente e continua alturas e pintura das bordas na área nova, em torno do mesmo centro. Aumenta as divisões até o limite de 64; reamostragem pode perder detalhes, especialmente nesse limite. Reduzir recorta. **Esticar** mantém as amostras e alonga toda a composição. Ambas as opções preservam posição/rotação, materiais e distribuição das camadas; undo restaura o terreno anterior. Terrenos grandes podem ser divididos em peças, sem encaixe automático entre elas.
+
+**Respeitar pisos ao esculpir** limita os vértices alterados pelo pincel sob pisos, com margem de uma diagonal de célula para evitar triângulos atravessando a construção. Usa o contorno real e a rotação do piso, inclusive furos; perto das bordas de furos a margem ainda pode rebaixar terreno. O piso sólido mais baixo prevalece. A margem tem transição; reaplicar não aprofunda a proteção. Pisos/parede/objetos independentes não são deslocados, e dependentes apoiados no terreno acompanham a altura confirmada. Não há proteção automática contra props/GLBs ou paredes sem piso. Edição numérica de alturas, movimento, mudanças de malha/tamanho e novas construções não reaplicam proteção automaticamente.
+
+Para corrigir um terreno existente que atravessa um prédio, use **Prévia · ajustar sob construções**, revise e aceite. Desativar a proteção permite esculpir livremente. Proteção não é vínculo persistente com prédios nem solver de colisão; ao mover uma construção ou reduzir a resolução, revise o resultado e reaplique quando necessário.

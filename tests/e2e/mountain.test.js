@@ -38,6 +38,8 @@ test('mountain starter is available in UI; natural rock and snow render, remain 
   const action=async name=>(await reveal(page.locator(`[data-action="${name}"]`).first())).click();
   await action('open');await page.locator(`[data-open="${scene.id}"]`).click();await page.waitForFunction(id=>window.__tabletop.snapshot().id===id,scene.id);
   await page.locator('[data-tab="build"]').click();await action('terrain-mountain');
+  assert.equal((await page.evaluate(()=>Object.values(window.__tabletop.snapshot().layout.entities).filter(e=>e.kind==='terrain'))).length,1);
+  await action('accept-proposal');
   assert.equal((await page.evaluate(()=>Object.values(window.__tabletop.snapshot().layout.entities).filter(e=>e.kind==='terrain'))).length,2);
   await action('undo');assert.equal((await page.evaluate(()=>Object.values(window.__tabletop.snapshot().layout.entities).filter(e=>e.kind==='terrain'))).length,1);
   await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${terrain.id}"]`).click();await page.locator('#viewport canvas').focus();await page.keyboard.press('f');

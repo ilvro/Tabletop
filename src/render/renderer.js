@@ -8,7 +8,7 @@ import { snapPosition, yawFromQuaternion } from '../domain/coords.js';
 import { groupChain, isLocked, isVisible, isSupport, isAccess, supportHeightAt, constrainOpening } from '../domain/geometry.js';
 import { createAssetCache, disposeObject, standardMaterial } from './asset-cache.js';
 import { applyTransform, readTransform, tagEntity, createFloor, createTerrain, createAccess, createWall, createDoor, createWindow, createToken, applyMaterialOverrides } from './scene-objects.js';
-import { sculptTerrain, paintTerrain, terrainBrushOutline } from '../authoring/terrain.js';
+import { sculptTerrain, paintTerrain, terrainBrushOutline, protectTerrainFloors } from '../authoring/terrain.js';
 import { createAtmosphere, applyEnvironmentMaterials, materialSlots } from './atmosphere.js';
 import { primaryLight } from '../domain/environments.js';
 import { environmentBindingActive } from '../domain/lighting.js';
@@ -352,6 +352,7 @@ export function createViewport(container, {
     const object = objects.get(id);
     if (object) frameBounds(new THREE.Box3().setFromObject(object));
   }
+  function framePreview() { if(preview.children.length) frameBounds(new THREE.Box3().setFromObject(preview)); }
   function frameScene() { const bounds = new THREE.Box3(); for (const [key, object] of objects) if (object.visible && !records.get(key)?.type) bounds.expandByObject(object); frameBounds(bounds); }
 
   function entityRecord(id) { return records.get(id); }
@@ -907,7 +908,14 @@ export function createViewport(container, {
   function stampTerrain(position, render = true) {
     const brush = pointer.terrainBrush;
     if (['paint','erase'].includes(brush.mode)) pointer.terrain.paintLayers = paintTerrain(pointer.terrain, position, brush);
-    else pointer.terrain.heights = sculptTerrain(pointer.terrain, position, brush);
+    else {
+      const before=pointer.terrain.heights;
+      pointer.terrain.heights = sculptTerrain(pointer.terrain, position, brush);
+      if(brush.protectFloors) {
+        const protectedHeights=protectTerrainFloors(pointer.terrain,sceneDocument.layout.entities);
+        pointer.terrain.heights=pointer.terrain.heights.map((h,i)=>h===before[i]?h:protectedHeights[i]);
+      }
+    }
     if (render) replaceTerrain(pointer.terrain);
     hint.textContent = `Pincel ${brush.radius} m · solte para aplicar · Esc cancela`; hint.style.display = '';
   }
@@ -1047,7 +1055,7 @@ export function createViewport(container, {
       updateSelection();
       invalidate();
     },
-    getCamera, setCamera, setTopView, frameSelection, frameScene, stopCameraMotion,
+    getCamera, setCamera, setTopView, frameSelection, frameScene, framePreview, stopCameraMotion,
     setNavigationSpeed(value) { if (Number.isFinite(value)) navigationSpeed = Math.max(.2, Math.min(40, value)); },
     setFov(value) { if (!Number.isFinite(value)) return; const next = Math.max(20, Math.min(90, value)); stopCameraMotion(); if (camera.isPerspectiveCamera) { camera.fov = next; camera.updateProjectionMatrix(); onCameraChange(getCamera()); invalidate(); } else lastPerspective = { ...lastPerspective, fov: next }; },
     setCutaway(enabled) { cutaway = enabled; invalidate(true); },

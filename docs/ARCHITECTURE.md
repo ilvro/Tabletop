@@ -85,6 +85,8 @@ flowchart LR
 
 O domínio calcula coordenadas, valida estruturas, associa referências e aplica mudanças sem DOM ou Three.js. Os geradores recebem um snapshot e um catálogo de metadados; devolvem propostas, não meshes como documento final.
 
+A autoria de terreno materializa expansão/recorte e relevo rochoso em alturas/máscaras comuns, sem dados de gerador persistente. O campo de rocha usa posição mundial; proteção de pisos aplica um limite absoluto abaixo dos contornos sólidos, com margem de triângulo e transição idempotente. O preset de montanha e ajuste sob construções passam pela proposta validada, sem escrita antes de aceitar. Ver [MATERIALS.md](MATERIALS.md).
+
 O kit de rochas usa rockShape opcional por prop para formação/irregularidade/detalhe/seed. O catálogo em cache conserva receitas; rock-geometry.js gera malhas próprias da instância, normalizadas aos bounds/base anotados e descartadas com ela. Modelos anteriores não são modificados. Uso/limites: [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
 
 O renderer mantém uma associação de ID para objetos Three.js, reconstrói geometrias paramétricas e atualiza entidades afetadas. Cache de bounds e índice espacial são dados derivados: podem ser reconstruídos, sem serem a única descrição do mapa.
