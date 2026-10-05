@@ -312,3 +312,5 @@ Para aproximar os mapas das referências fornecidas, a ordem recomendada é:
 4. **Efeitos e acabamento:** avaliar oclusão ambiente, reflexos, LOD/instanciamento e volumetria conforme o resultado e o hardware.
 
 O pacote de transporte, integrações e LAN continuam no planejamento, com prioridade independente do objetivo visual. A proposta detalhada está em [VISUAL_TARGET.md](VISUAL_TARGET.md).
+
+Integração Git do Pages: quatro commits remotos conciliados com a implementação local; workflow único pages.yml, base relativa e remoção de data/ do .gitignore preservada. Build estático e 127 testes passaram após o merge.

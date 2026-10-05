@@ -143,3 +143,7 @@ Somente trabalho ainda não concluído. A prioridade visual proposta está em [d
 - Coleções/variantes de assets, sockets específicos por asset e glTF com texturas externas.
 - Integrações Ficha/Jukebox e LAN, conforme [roadmap](docs/ROADMAP.md).
 - Volumetria com sombras/espalhamento por luz, múltiplas regiões de chuva/poeira/brasas, colisão de partículas e efeitos adicionais dependentes de benchmark.
+
+## Integração das alterações remotas — concluída
+
+Os quatro commits remotos foram integrados preservando a remoção de data/ do .gitignore. A base relativa continua atendendo /Tabletop/ e outros diretórios. O workflow antigo foi substituído pelo pages.yml, evitando duas publicações concorrentes e mantendo Node 22, build:pages e persistência no navegador. Validação: build:pages e os 127 testes unitários/de integração passaram após a resolução dos conflitos. Integração registrada em um merge, preservando os históricos local e remoto.
