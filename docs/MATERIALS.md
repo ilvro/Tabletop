@@ -4,7 +4,7 @@ Implementação em 4 de outubro de 2026. As configurações acompanham mapas/cen
 
 ## Aplicar uma textura
 
-Selecione piso, parede, porta, janela, escada, rampa, terreno ou objeto. No inspetor, abra **Material e textura** e escolha madeira, pedra, grama, metal, areia, tijolo, concreto lama, rocha natural ou neve.
+Selecione piso, parede, porta, janela, escada, rampa, terreno ou objeto. No inspetor, abra **Material e textura** e escolha madeira, pedra, grama, metal, areia, tijolo, concreto, lama, rocha natural ou neve.
 
 A escolha aplica a cor branca de matiz e o acabamento inicial do material. Depois ajuste:
 
@@ -105,7 +105,7 @@ A cobertura tem cor, tamanho da textura, quantidade, relevo e distribuição pr�
 
 ### Limites e dados
 
-É cobertura visual de material, sem adicionar volume, alterar colisão ou acumular neve fisicamente. Não verifica exposição ao céu: objetos sob um teto também podem receber cobertura; desligue-a ou restrinja os materiais dessas instâncias. Neve caindo, gelo, água, rochas com geometria detalhada e decals continuam posteriores.
+É cobertura visual de material, sem adicionar volume, alterar colisão ou acumular neve fisicamente. Não verifica exposição ao céu: objetos sob um teto também podem receber cobertura; desligue-a ou restrinja os materiais dessas instâncias. Neve caindo, gelo, água, kits de arquitetura/vegetação detalhados e decals continuam posteriores. As quatro peças de rocha com geometria editável estão em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
 
 `material.coverage` é opcional/nulo; quando ativo guarda `texture`, `color`, `textureSize`, `amount`, `relief` e os campos de distribuição. `paintLayers[].distribution` é opcional e guarda `mode`, `slopeAngle`, `slopeFade`, `heightEnabled`, `minHeight`, `heightFade`, `variation`, `variationSize` e `seed`. Campos ausentes conservam a pintura/aparência anterior. Novos parâmetros de textura: `rockPattern` e `rockCracks`. Todos são validados antes de confirmar comandos/imports/salvamento; acompanham histórico, mapas, duplicação e projeção filtrada.
 

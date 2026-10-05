@@ -1,6 +1,6 @@
 # Tabletop no GitHub Pages
 
-O build estático oferece editor, 161 assets locais, materiais/efeitos, cenas/mapas/ambientes, importação de PNG/JPEG/WebP e GLB estático, classificação/favoritos, histórico, recuperação e apresentação. Funciona em `https://<usuário>.github.io/<repositório>/` e em domínio próprio, com caminhos relativos ao diretório publicado.
+O build estático oferece editor, 165 assets locais, materiais/efeitos, cenas/mapas/ambientes, importação de PNG/JPEG/WebP e GLB estático, classificação/favoritos, histórico, recuperação e apresentação. Funciona em `https://<usuário>.github.io/<repositório>/` e em domínio próprio, com caminhos relativos ao diretório publicado.
 
 ## Publicar com GitHub Actions
 

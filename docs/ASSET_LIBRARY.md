@@ -1,6 +1,6 @@
 # Catálogo de assets e classificação
 
-Implementado em 3 de outubro de 2026. A aba **Assets** oferece **161 modelos 3D locais**, incluindo os seis objetos do kit inicial e **155 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
+Implementado em 3 de outubro de 2026. A aba **Assets** oferece **165 modelos 3D locais**, incluindo os seis objetos do kit inicial e **159 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
 
 No GitHub Pages, o mesmo catálogo é servido pelo build estático; imports, classificação e favoritos ficam no navegador, com persistência após reabrir. No modo Node ficam no servidor local. Publicação e limites de transporte: [GITHUB_PAGES.md](GITHUB_PAGES.md).
 
@@ -47,7 +47,7 @@ A projeção dos jogadores recebe os dados necessários à renderização dos as
 
 ## Modelos e limites
 
-Os modelos são receitas estáticas de primitivas, com materiais próprios e prévias SVG geradas da mesma geometria. Execute `node scripts/generate-library.js` na raiz para regenerar os 155 modelos novos, suas prévias e o catálogo. Os IDs do kit inicial permanecem iguais; footprints antigos foram corrigidos para abranger a geometria.
+Os modelos são receitas estáticas de primitivas e malhas geológicas procedurais, com materiais próprios e prévias SVG geradas da mesma geometria. Execute `node scripts/generate-library.js` na raiz para regenerar os 159 modelos adicionais, suas prévias e o catálogo. Os IDs do kit inicial permanecem iguais; footprints antigos foram corrigidos para abranger a geometria.
 
 Mesas, bancos, cama, pia, bancada, maca, carrinhos, altar e outros móveis têm altura de apoio anotada. A segunda ampliação inclui apoios na mesa de centro, criado-mudo, cômoda, balcão, vitrine, carteira escolar, mesa de autópsia, palete e toco. Veículos, dispositivos, móveis fechados e túmulos são estáticos e cenográficos; portas e mecanismos não possuem interação automática. Props de parede/teto usam a fixação manual do inspetor. A terceira ampliação anota apoio no fichário de biblioteca. Velas, cristais, fogueira, poste, lareira, lustre, candelabro, lampião, fliperama e luz da filmadora têm emissive estático na receita. Novas fogueiras colocadas pelo editor recebem chamas animadas e luz própria; outros objetos podem receber fogo/fumaça pelo inspetor. Instâncias antigas conservam sua aparência até edição explícita. Texturas locais também podem substituir um material nomeado do objeto: [MATERIALS.md](MATERIALS.md).
 
@@ -56,3 +56,25 @@ Esta entrega inclui catálogo, categorias hierárquicas, busca, tags editáveis,
 ## Verificação
 
 `npm test` valida modelos/prévias, bounds/footprints/apoios, filtros, metadados, persistência, concorrência e conservação das referências de cenas. `tests/e2e/asset-library.test.js` percorre filtros, edição de tags, favoritos, paginação completa, filtros de veículos, colocação de moto e maca, importação e reinício do navegador/servidor; captura em `test-results/asset-library.png`. O teste do editor existente cobre o kit original, apresentação e save/reload. Chromium com WebGL por software não é um benchmark no projetor.
+
+## Kit de montanha: geometria editável
+
+Entregue em 5 de outubro de 2026: **Rocha fraturada**, **Matacão de granito**, **Paredão estratificado** e **Entulho rochoso**. Procure esses nomes em Assets, ou filtre por **Exterior / Montanha** e cenário **Montanha**. São quatro modelos originais adicionais; os 161 anteriores conservam seus arquivos, registros, IDs e aparência.
+
+As novas peças usam malhas fechadas de rocha, com faces quebradas, ondulações e estratos de geometria. Não são combinações de cilindros. Prévias SVG são produzidas das mesmas malhas utilizadas no editor. Ao colocar pela biblioteca, recebem o material **Rocha natural** e o padrão correspondente. Cobertura de neve continua opcional em Material e textura.
+
+Selecione uma peça para abrir **Geometria da rocha**:
+
+- **Formação do volume:** fraturada, arredondada/granito ou estratificada.
+- **Irregularidade do volume:** controla ondulações e deformação, de 0 a 1.
+- **Detalhe da malha:** 2–8; valores maiores acrescentam triângulos. Não modifica o detalhe da textura.
+- **Variação da forma · seed:** 0–65535; a mesma configuração reproduz a mesma malha.
+- **Restaurar forma do modelo:** restaura apenas os parâmetros da geometria. Material, neve, posição e escala permanecem.
+
+Cada instância guarda seus parâmetros: duplicação, histórico, mapas, JSON, servidor/Pages e apresentação conservam a forma. Alterar a geometria preserva as dimensões anotadas e o pivot na base; use escala X/Y/Z para mudar largura, altura e profundidade. Formação do volume e padrão da textura são controles independentes.
+
+O paredão pode ser combinado com outras peças, girado e redimensionado para formar bordas de trilhas e desfiladeiros. A malha tem saliências reais que o terreno por alturas não representa, mas não é uma ferramenta de escultura livre nem gera cavernas/topologia arbitrária. As peças são cenográficas: não oferecem apoio automático para tokens nem colisão da câmera. Para áreas transitáveis, use terreno, pisos/plataformas e acessos existentes. Neve é cobertura visual, sem acúmulo físico ou avaliação de teto.
+
+`rockShape` é um campo opcional de props restrito aos quatro IDs do kit, com `form`, `irregularity`, `detail` e `seed`. A validação rejeita parâmetros inválidos antes de confirmar a edição. O algoritmo usa malhas soldadas com até 1620 triângulos por componente; entulho e paredões têm vários componentes. Geometria/material são próprios de cada instância e descartados ao reconstruir/remover; o catálogo em cache conserva a receita, sem geometria compartilhada editável. Custo depende da quantidade e do detalhe; LOD/instanciamento e benchmark presencial continuam futuros.
+
+Pipeline: `scripts/library-mountain.js`, `src/render/rock-geometry.js` e o gerador geral da biblioteca. Os testes conferem fechamento de bordas, números finitos, raycast, bounds/pivot sob variações, determinismo, pixels WebGL, descarte, controles e persistência. Resultados em [progress.md](../progress.md).

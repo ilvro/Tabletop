@@ -6,12 +6,14 @@ import path from 'node:path';
 import { once } from 'node:events';
 import { chromium } from 'playwright';
 import { createApp } from '../../server/app.js';
+import { rockDefaults } from '../../src/domain/rocks.js';
 import { createScene, createEntity } from '../../src/domain/documents.js';
 import { createMountainTerrain } from '../../src/authoring/mountain.js';
 import { surfacePatch, coverageDefaults } from '../../src/domain/materials.js';
 import { applyEnvironment } from '../../src/domain/environments.js';
 import { supportHeightAt } from '../../src/domain/geometry.js';
 import { reveal } from './controls.js';
+import express from 'express';
 
 test('mountain starter is available in UI; natural rock and snow render, remain editable and persist',{timeout:150_000},async t=>{
   const dataDir=await mkdtemp(path.join(os.tmpdir(),'tabletop-mountain-'));
@@ -25,11 +27,11 @@ test('mountain starter is available in UI; natural rock and snow render, remain 
   scene.look.volumetricFog.enabled=false;scene.look.fog.density=.008;scene.layout.grid.visible=false;
   const add=(id,x,z,scale,texture='rock')=>{
     const y=supportHeightAt(terrain,[x,0,z]);
-    const entity=createEntity('prop',{name:id,position:[x,y,z],transform:{position:[x,y,z],rotation:[0,0,0,1],scale},assetRef:{id:`builtin-${id}`,revision:1},material:{...surfacePatch(texture),coverage:coverageDefaults()}});
+    const entity=createEntity('prop',{name:id,position:[x,y,z],transform:{position:[x,y,z],rotation:[0,0,0,1],scale},assetRef:{id:`builtin-${id}`,revision:1},...(rockDefaults(`builtin-${id}`)?{rockShape:rockDefaults(`builtin-${id}`)}:{}),material:{...surfacePatch(texture),coverage:coverageDefaults()}});
     if(id==='pine') entity.material={color:'#ffffff',roughness:.9,metalness:0,textureSlot:'green',coverage:coverageDefaults()};
-    scene.layout.entities[entity.id]=entity;
+    scene.layout.entities[entity.id]=entity;return entity;
   };
-  for(const [x,z,s] of [[-4,-3,[3,5,3]],[6,1,[3,4,3]],[-7,7,[2,3,2]],[5,-7,[3,6,3]]]) add('rock',x,z,s);
+  const cliff=add('stratified-cliff',-4,-3,[1,1,1]);add('stratified-cliff',6,1,[1,1,1]);add('mountain-boulder',-7,7,[1.3,1.3,1.3]);add('granite-boulder',5,-7,[1.3,1.3,1.3]);add('rock-scree',2,2,[1,1,1]);
   add('ruined-column',4,6,[2,2,2],'stone');add('pine',7,-4,[1.4,1.4,1.4]);add('pine',-7,3,[1,1,1]);
   assert.equal((await fetch(`${origin}/api/tabletop/scenes`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({document:scene})})).status,201);
   await page.goto(`${origin}/?diagnostics`);await page.waitForFunction(()=>!!window.__tabletop);
@@ -40,9 +42,58 @@ test('mountain starter is available in UI; natural rock and snow render, remain 
   await action('undo');assert.equal((await page.evaluate(()=>Object.values(window.__tabletop.snapshot().layout.entities).filter(e=>e.kind==='terrain'))).length,1);
   await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${terrain.id}"]`).click();await page.locator('#viewport canvas').focus();await page.keyboard.press('f');
   await page.waitForFunction(()=>window.__tabletop.stats().surfaceMaterials.filter(m=>m.coverage?.texture==='snow').length>=5);
-  await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/mountain-surfaces.png'});
+  const field=async(name,value)=>{const node=await reveal(page.locator(`[data-field="${name}"]`).first());await node.fill(String(value));await node.press('Tab');};
+  await page.locator(`[data-select="${cliff.id}"]`).click();
+  await field('rock-seed',123);await field('rock-irregularity',.85);await field('rock-detail',4);
+  const edited=await page.evaluate(id=>window.__tabletop.snapshot().layout.entities[id],cliff.id);assert.equal(edited.rockShape.seed,123);assert.deepEqual(edited.material,cliff.material);assert.deepEqual(edited.transform,cliff.transform);
+  await action('undo');assert.equal(await page.evaluate(id=>window.__tabletop.snapshot().layout.entities[id].rockShape.detail,cliff.id),7);await action('redo');
+  await action('rock-reset');assert.equal(await page.evaluate(id=>window.__tabletop.snapshot().layout.entities[id].rockShape.seed,cliff.id),43);await action('undo');
+  const [projector]=await Promise.all([page.waitForEvent('popup'),action('presentation-window')]);projector.on('pageerror',e=>errors.push(e.message));
+  await projector.waitForFunction(id=>window.__tabletop?.stats().rockGeometries.some(g=>g.id===id&&g.seed===123&&g.detail===4),cliff.id);const camera=await projector.evaluate(()=>window.__tabletop.camera());
+  await page.bringToFront();await field('rock-seed',321);await projector.waitForFunction(id=>window.__tabletop.stats().rockGeometries.some(g=>g.id===id&&g.seed===321),cliff.id);assert.deepEqual(await projector.evaluate(()=>window.__tabletop.camera()),camera);
+  await action('object-duplicate');assert.equal(await page.evaluate(()=>Object.values(window.__tabletop.snapshot().layout.entities).filter(e=>e.rockShape?.seed===321).length),2);await action('undo');
+  await page.locator('[data-tab="assets"]').click();await page.getByLabel('Buscar assets',{exact:true}).fill('rocha fraturada');await page.locator('[data-asset="builtin-mountain-boulder"]').click();
+  const target=await page.evaluate(()=>window.__tabletop.project([0,0,5]));await page.mouse.click(target.x,target.y);
+  await page.waitForFunction(()=>Object.values(window.__tabletop.snapshot().layout.entities).filter(e=>e.assetRef?.id==='builtin-mountain-boulder').length===2);
+  const placed=await page.evaluate(()=>Object.values(window.__tabletop.snapshot().layout.entities).find(e=>e.assetRef?.id==='builtin-mountain-boulder'&&e.material.rockPattern==='fractured'));
+  assert.equal(placed.material.texture,'rock');assert.equal(placed.rockShape.seed,17);
+  await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${terrain.id}"]`).click();await page.locator('#viewport canvas').focus();await page.keyboard.press('f');
+  await page.waitForFunction(()=>window.__tabletop.stats().triangles>3000);
+  await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/mountain-rock-geometry.png'});
   const snapshot=await page.evaluate(()=>window.__tabletop.snapshot());assert.deepEqual(snapshot.layout.entities[terrain.id].heights,terrain.heights);
   await action('save');await page.waitForFunction(()=>!document.querySelector('#save-status').classList.contains('unsaved')&&!document.querySelector('[data-action="save"]').disabled);
   await page.reload();await page.waitForFunction(id=>window.__tabletop?.snapshot().id===id,scene.id);
   assert.deepEqual((await page.evaluate(()=>window.__tabletop.snapshot())).layout,snapshot.layout);assert.deepEqual(errors,[]);
+});
+
+test('geological variants change real WebGL pixels and release instance geometry without losing shared surfaces',{timeout:90_000},async t=>{
+  const app=express();app.get('/',(_req,res)=>res.type('html').send('<link rel="icon" href="data:,"><script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script>'));
+  app.use('/three',express.static(path.resolve('node_modules/three')));app.use('/src',express.static(path.resolve('src')));app.use('/assets',express.static(path.resolve('public/assets')));
+  const server=app.listen(0,'127.0.0.1');await once(server,'listening');
+  const browser=await chromium.launch({executablePath:process.env.TABLETOP_BROWSER_PATH||chromium.executablePath(),headless:true,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+  t.after(async()=>{await browser.close();await new Promise(r=>server.close(r));});const page=await browser.newPage(),errors=[];
+  page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});await page.goto(`http://127.0.0.1:${server.address().port}`);
+  const result=await page.evaluate(async()=>{
+    const THREE=await import('three'),{createAssetCache,disposeObject}=await import('/src/render/asset-cache.js'),{createSurfaceLibrary,applySurfaceTextures}=await import('/src/render/surface-materials.js'),{surfacePatch,coverageDefaults}=await import('/src/domain/materials.js'),{rockDefaults,ROCK_PRESETS}=await import('/src/domain/rocks.js');
+    const catalog=await(await fetch('/assets/catalog.json')).json(),cache=createAssetCache(),library=createSurfaceLibrary();
+    const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true});renderer.setSize(320,320);renderer.outputColorSpace=THREE.SRGBColorSpace;document.body.append(renderer.domElement);
+    const scene=new THREE.Scene();scene.background=new THREE.Color('#222222');scene.add(new THREE.HemisphereLight('#ffffff','#888888',2));const light=new THREE.DirectionalLight('#ffffff',3);light.position.set(4,6,5);scene.add(light);
+    const camera=new THREE.PerspectiveCamera(40,1,.1,100);camera.position.set(7,5,10);camera.lookAt(0,2,0);
+    const capture=()=>{renderer.render(scene,camera);const bytes=new Uint8Array(320*320*4),gl=renderer.getContext();gl.readPixels(0,0,320,320,gl.RGBA,gl.UNSIGNED_BYTE,bytes);let hash=2166136261,brightness=0;for(let i=0;i<bytes.length;i++){hash=Math.imul(hash^bytes[i],16777619);if(i%4!==3)brightness+=bytes[i];}return{hash:hash>>>0,brightness};};
+    const plain=new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial());scene.add(plain);capture();disposeObject(plain);capture();const baseline={geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures};
+    const draw=async(id,patch={},snow=false)=>{
+      const record=catalog.assets.find(a=>a.id===id),shape={...rockDefaults(id),...patch},instance=await cache.createInstance(record,shape);
+      applySurfaceTextures(instance,{kind:'prop',material:{...surfacePatch('rock'),...(snow?{coverage:{...coverageDefaults(),variation:0}}:{})}},library);scene.add(instance);
+      const image=capture();let triangles=0;instance.traverse(child=>{if(child.geometry)triangles+=(child.geometry.index?.count??child.geometry.attributes.position.count)/3;});
+      disposeObject(instance);capture();return{...image,triangles,geometries:renderer.info.memory.geometries};
+    };
+    const variants=[];for(const id of Object.keys(ROCK_PRESETS)) variants.push(await draw(id));
+    const forms=[];for(const form of ['fractured','rounded','strata'])forms.push(await draw('builtin-mountain-boulder',{form}));
+    const seed=await draw('builtin-mountain-boulder',{seed:123}),coarse=await draw('builtin-mountain-boulder',{detail:2}),fine=await draw('builtin-mountain-boulder',{detail:8}),snow=await draw('builtin-mountain-boulder',{},true);
+    library.dispose();cache.destroy();capture();const memory={geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures};renderer.dispose();
+    return{variants,forms,seed,coarse,fine,snow,memory,baseline};
+  });
+  assert.equal(new Set(result.variants.map(v=>v.hash)).size,4);assert.equal(new Set(result.forms.map(v=>v.hash)).size,3);
+  assert.notEqual(result.seed.hash,result.variants[0].hash);assert.ok(result.coarse.triangles<result.fine.triangles);assert.notEqual(result.coarse.hash,result.fine.hash);
+  assert.ok(result.snow.brightness>result.variants[0].brightness);assert.ok(result.variants.every(v=>v.geometries===0));assert.deepEqual(result.memory,result.baseline);assert.deepEqual(errors,[]);
 });

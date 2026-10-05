@@ -1,0 +1,286 @@
+{
+  "name": "Entulho rochoso",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "rock",
+      "size": [
+        1.1,
+        0.65,
+        0.9
+      ],
+      "position": [
+        0.0933541981651475,
+        0.0515561555252476,
+        -0.10264100577740753
+      ],
+      "material": "stone",
+      "form": "fractured",
+      "seed": 61,
+      "irregularity": 0.8,
+      "detail": 3,
+      "seedOffset": 0
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.35,
+        0.25,
+        0.35
+      ],
+      "position": [
+        0.5933541981651476,
+        0.0515561555252476,
+        -0.10264100577740753
+      ],
+      "material": "stone",
+      "form": "fractured",
+      "seed": 64,
+      "irregularity": 0.8,
+      "detail": 3,
+      "seedOffset": 3,
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.52,
+        0.45,
+        0.43999999999999995
+      ],
+      "position": [
+        0.6378264196787891,
+        0.0515561555252476,
+        0.4418312157362341
+      ],
+      "material": "stone",
+      "form": "fractured",
+      "seed": 75,
+      "irregularity": 0.8,
+      "detail": 3,
+      "seedOffset": 14,
+      "rotation": [
+        0,
+        0.7853981633974483,
+        0.15
+      ]
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.69,
+        0.25,
+        0.53
+      ],
+      "position": [
+        0.09335419816514758,
+        0.0515561555252476,
+        0.9373589942225925
+      ],
+      "material": "stone",
+      "form": "fractured",
+      "seed": 86,
+      "irregularity": 0.8,
+      "detail": 3,
+      "seedOffset": 25,
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ]
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.35,
+        0.45,
+        0.62
+      ],
+      "position": [
+        -0.2601991924281262,
+        0.0515561555252476,
+        0.25091238481586625
+      ],
+      "material": "stone",
+      "form": "fractured",
+      "seed": 97,
+      "irregularity": 0.8,
+      "detail": 3,
+      "seedOffset": 36,
+      "rotation": [
+        0,
+        2.356194490192345,
+        0.15
+      ]
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.52,
+        0.25,
+        0.35
+      ],
+      "position": [
+        -0.6766458018348525,
+        0.0515561555252476,
+        -0.10264100577740744
+      ],
+      "material": "stone",
+      "form": "fractured",
+      "seed": 108,
+      "irregularity": 0.8,
+      "detail": 3,
+      "seedOffset": 47,
+      "rotation": [
+        0,
+        3.141592653589793,
+        0
+      ]
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.69,
+        0.45,
+        0.43999999999999995
+      ],
+      "position": [
+        -0.6420368542688621,
+        0.0515561555252476,
+        -0.8380320582114169
+      ],
+      "material": "stone",
+      "form": "fractured",
+      "seed": 119,
+      "irregularity": 0.8,
+      "detail": 3,
+      "seedOffset": 58,
+      "rotation": [
+        0,
+        3.9269908169872414,
+        0.15
+      ]
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.35,
+        0.25,
+        0.53
+      ],
+      "position": [
+        0.09335419816514741,
+        0.0515561555252476,
+        -0.6026410057774075
+      ],
+      "material": "stone",
+      "form": "fractured",
+      "seed": 130,
+      "irregularity": 0.8,
+      "detail": 3,
+      "seedOffset": 69,
+      "rotation": [
+        0,
+        4.71238898038469,
+        0
+      ]
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.52,
+        0.45,
+        0.62
+      ],
+      "position": [
+        0.6378264196787891,
+        0.0515561555252476,
+        -0.6471132272910493
+      ],
+      "material": "stone",
+      "form": "fractured",
+      "seed": 141,
+      "irregularity": 0.8,
+      "detail": 3,
+      "seedOffset": 80,
+      "rotation": [
+        0,
+        5.497787143782138,
+        0.15
+      ]
+    }
+  ]
+}

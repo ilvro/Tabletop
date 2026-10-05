@@ -4,7 +4,7 @@ Revisão em 4 de outubro de 2026, a partir das sete imagens de Tabletop de Ordem
 
 ## O que determina o resultado visual
 
-A maior diferença está no conteúdo visual e na montagem: modelos com formas detalhadas, materiais texturizados, arquitetura coerente, vegetação e muitos objetos pequenos que contam a história do lugar. A biblioteca atual cobre vários temas, mas seus 161 modelos são receitas de caixas, cilindros e esferas com materiais de cor, rugosidade, metalicidade e emissão, agora com substituição por dez texturas procedurais locais. Isso ajuda a montar a disposição dos objetos; aumentar apenas a quantidade de receitas não produz o acabamento visto nos escritórios, na catedral ou no terreno lamacento.
+A maior diferença está no conteúdo visual e na montagem: modelos com formas detalhadas, materiais texturizados, arquitetura coerente, vegetação e muitos objetos pequenos que contam a história do lugar. A biblioteca atual cobre vários temas, mas os 161 modelos anteriores são receitas de caixas, cilindros e esferas com materiais de cor, rugosidade, metalicidade e emissão, agora com substituição por dez texturas procedurais locais. O catálogo agora inclui quatro peças de rocha com malha irregular e geometria editável, totalizando 165 modelos. Isso ajuda a montar a disposição dos objetos; aumentar apenas a quantidade de receitas não produz o acabamento visto nos escritórios, na catedral ou no terreno lamacento.
 
 A base de autoria e atmosfera já permite construir pisos, paredes, vãos e andares, esculpir terreno, posicionar objetos, ajustar luzes/sombras, escolher tarde/noite, exibir céu/lua, acender materiais por horário e publicar uma câmera independente. É possível começar um cenário mais detalhado hoje importando modelos estáticos com texturas embutidas no GLB. Ainda é necessário produzir ou obter esses modelos e compor o mapa.
 
@@ -95,10 +95,12 @@ Disponível: escultura e pintura do terreno, estruturas e plataformas, escadas/r
 
 Prioridades para aproximar esta imagem:
 
-1. Kit de rochas/paredões, ruínas e arquitetura antiga, pinheiros e lanternas com geometria e materiais detalhados. Terreno por alturas não representa saliências, cavernas ou paredões com reentrâncias; usar malhas específicas para esses volumes.
+1. Kit inicial de rochas/paredões entregue com quatro peças de malha irregular e parâmetros por instância. Expandir arquitetura antiga/ruínas, pinheiros e lanternas com geometria e materiais detalhados. Terreno por alturas não representa saliências/cavernas; o novo kit acrescenta volumes reais, sem escultura livre ou geração de cavernas.
 2. Material de neve e cobertura visual por inclinação/altura entregues; continuar com acúmulo geométrico/exposição ao céu, gelo e neve caindo conforme a necessidade do piloto.
 3. Água para córrego/poças, com transparência, movimento e resposta à iluminação; uma superfície colorida funciona apenas como representação provisória.
 4. Distribuição de vegetação/entulho e prefabs reutilizáveis para acelerar a montagem. Colocação manual continua possível.
 5. Medição no hardware de uso e acabamento de contato/reflexos conforme a cena exigir.
 
 Primeiro recorte recomendado: uma trilha, uma ruína acessível, um paredão e poucas árvores. Avaliar enquadramento próximo e superior, apoio dos tokens, salvamento/reabertura e projetor antes de ampliar a montanha. Esta revisão registra análise e prioridades, sem implementar recursos novos.
+
+Incremento de 5 de outubro: kit original de rocha fraturada, granito, paredão estratificado e entulho, com forma/irregularidade/detalhe/seed por instância, dimensões/base preservadas e materiais/neve existentes. O kit inicial de geometria de rochas saiu das pendências; expansão de conteúdo autoral, arquitetura/vegetação, água/gelo, decals, acúmulo físico de neve e desempenho presencial continuam futuros. Uso: [ASSET_LIBRARY.md](ASSET_LIBRARY.md).

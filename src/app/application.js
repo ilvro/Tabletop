@@ -1,3 +1,5 @@
+import { rockDefaults } from '../domain/rocks.js';
+import { rockPanel } from '../ui/rock-panel.js';
 import { createMountainTerrain } from '../authoring/mountain.js';
 import { materialPanel, localEffectPanel } from '../ui/material-panels.js';
 import { surfacePatch, layerSurfacePatch, textureFieldPatch, coverageDefaults, distributionOptions, LOCAL_EFFECT_DEFAULTS, smokeDefaults } from '../domain/materials.js';
@@ -312,7 +314,8 @@ export async function startApplication() {
       if (execute('entity.add', { entity, snap })) newId = entity.id;
     } else {
       const asset = placing.asset;
-      const entity = createEntity('prop', { name: asset.name, position, surfaceId, assetRef: { id: asset.id, revision: asset.revision }, footprint: asset.footprint ?? [1, 1], ...constructionSemantics(), ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}), ...(placing.localEffect || asset.id==='builtin-campfire' ? { localEffect: clone(placing.localEffect??LOCAL_EFFECT_DEFAULTS) } : {}) });
+      const geological=rockDefaults(asset.id);
+      const entity = createEntity('prop', { ...(geological ? {material:{...surfacePatch('rock'),rockPattern:geological.form==='strata'?'strata':geological.form==='rounded'?'granite':'fractured'},rockShape:geological} : {}), name: asset.name, position, surfaceId, assetRef: { id: asset.id, revision: asset.revision }, footprint: asset.footprint ?? [1, 1], ...constructionSemantics(), ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}), ...(placing.localEffect || asset.id==='builtin-campfire' ? { localEffect: clone(placing.localEffect??LOCAL_EFFECT_DEFAULTS) } : {}) });
       if (execute('entity.add', { entity, snap })) newId = entity.id;
     }
     if (newId) { setTool('move'); selectObject(newId); notify('Adicionado à cena. Você pode mover, girar e editar.'); }
@@ -530,6 +533,7 @@ export async function startApplication() {
     if (record.kind === 'window') fields += `<section><span class="eyebrow">JANELA HOSPEDADA</span><p class="microcopy">Com Mover (G), arraste a janela na parede. Alt permite ajuste livre. O recorte acompanha a janela.</p><label class="field"><span>Parede</span><select data-field="window-wall">${Object.values(doc.layout.entities).filter(e => e.kind === 'wall').map(e => `<option value="${e.id}" ${record.wallId === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select></label>${numberField('offset', 'Posição na parede · m', record.offset, { min: 0 })}<div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .1 })}${numberField('height', 'Altura · m', record.height, { min: .1 })}</div>${numberField('sill', 'Peitoril · m', record.sill, { min: 0 })}<label class="field"><span>Representação</span><select data-field="style"><option value="glass" ${record.style === 'glass' ? 'selected' : ''}>Vidro</option><option value="bars" ${record.style === 'bars' ? 'selected' : ''}>Grades</option><option value="open" ${record.style === 'open' ? 'selected' : ''}>Vão livre</option></select></label></section>`;
     if (type === 'token' || record.kind === 'prop') fields += `<section><span class="eyebrow">ESCALA VISUAL</span><div class="axis-fields">${record.transform.scale.map((value, axis) => numberField(`scale-${axis}`, ['X', 'Y', 'Z'][axis], value, { min: .01 })).join('')}</div>${type === 'token' ? `<span class="eyebrow">BASE · METROS</span><div class="field-grid">${numberField('footprint-0', 'Largura', record.footprint[0], { min: .1 })}${numberField('footprint-1', 'Profundidade', record.footprint[1], { min: .1 })}</div>${colorField('token-color', 'Cor do personagem', actor.color)}` : ''}</section>`;
     if (record.material && record.kind !== 'terrain') fields += materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField });
+    if (record.kind === 'prop') fields += rockPanel(record,{numberField});
     if (record.kind === 'prop') fields += localEffectPanel(record, { numberField, colorField, checkField });
     if (type === 'light') fields += lightPanel(record, { numberField, colorField, checkField });
     if (type === 'light' || ['prop','window'].includes(record.kind)) fields += bindingPanel(record, doc.look ?? doc.defaultLook, viewport.getMaterialSlots(record.id), openAtmosphereSections, { numberField, colorField, checkField });
@@ -1198,6 +1202,9 @@ export async function startApplication() {
     else if (field.startsWith('footprint-')) { const footprint = [...record.footprint]; footprint[Number(field.slice(-1))] = value; patch.footprint = footprint; }
     else if (field === 'token-color') actorPatch = { color: value };
     else if (field.startsWith('material-')) patch.material = field === 'material-texture' ? surfacePatch(value) : textureFieldPatch(record.material, field.slice(9), value);
+    else if (field.startsWith('rock-') && rockDefaults(record.assetRef?.id)) {
+      patch.rockShape={...(record.rockShape??rockDefaults(record.assetRef.id)),[field.slice(5)]:value};
+    }
     else if (field.startsWith('coverage-')) {
       const member=field.slice(9), current=record.material.coverage;
       patch.material={coverage: member==='texture' ? (value==='none'?null:coverageDefaults(value)) : {...current,[member]:value}};
@@ -1293,6 +1300,11 @@ export async function startApplication() {
         const key=metadata.id ?? selection;
         const member=assemblyMembers(store.document,key)[0];
         if(execute('group.unbind',{ id:key },{ label:'Desancorar objetos' })) { selectObject(member?.id ?? null); renderSidebar(); notify('Objetos desancorados. Suas posições e a pasta foram preservadas.'); } break;
+      }
+      case 'rock-reset': {
+        const record=locate()?.record, defaults=rockDefaults(record?.assetRef?.id);
+        if(defaults) execute('entity.update',{id:record.id,patch:{rockShape:defaults},snap:false},{label:'Restaurar forma da rocha'});
+        break;
       }
       case 'terrain-add': case 'terrain-mountain': {
         const options={ ...terrainOptions, position: [0, buildHeight, 0], ...constructionSemantics() };

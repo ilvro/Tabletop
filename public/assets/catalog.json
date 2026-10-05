@@ -5082,6 +5082,136 @@
       ],
       "url": "/assets/models/bicycle.json",
       "previewUrl": "/assets/previews/bicycle.svg"
+    },
+    {
+      "id": "builtin-mountain-boulder",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Rocha fraturada",
+      "category": "Exterior / Montanha",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "rocha",
+        "montanha",
+        "pedra",
+        "geologia"
+      ],
+      "description": "Rocha com faces quebradas e volume irregular. Forma, irregularidade, detalhe e seed editáveis no inspetor.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3,
+        2.01
+      ],
+      "bounds": [
+        3,
+        2,
+        2
+      ],
+      "url": "/assets/models/mountain-boulder.json",
+      "previewUrl": "/assets/previews/mountain-boulder.svg"
+    },
+    {
+      "id": "builtin-granite-boulder",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Matacão de granito",
+      "category": "Exterior / Montanha",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "rocha",
+        "montanha",
+        "pedra",
+        "geologia"
+      ],
+      "description": "Matacão arredondado com saliências e depressões; base métrica. Aplique granito no material de rocha natural.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.21,
+        2.5
+      ],
+      "bounds": [
+        3.2,
+        2.2,
+        2.5
+      ],
+      "url": "/assets/models/granite-boulder.json",
+      "previewUrl": "/assets/previews/granite-boulder.svg"
+    },
+    {
+      "id": "builtin-stratified-cliff",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Paredão estratificado",
+      "category": "Exterior / Montanha",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "rocha",
+        "montanha",
+        "pedra",
+        "geologia",
+        "paredão",
+        "estratos"
+      ],
+      "description": "Paredão com camadas e saliências reais. Combine peças por rotação/escala para compor um desfiladeiro.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        5.7,
+        3.15
+      ],
+      "bounds": [
+        5.7,
+        6,
+        3.15
+      ],
+      "url": "/assets/models/stratified-cliff.json",
+      "previewUrl": "/assets/previews/stratified-cliff.svg"
+    },
+    {
+      "id": "builtin-rock-scree",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Entulho rochoso",
+      "category": "Exterior / Montanha",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "rocha",
+        "montanha",
+        "pedra",
+        "geologia"
+      ],
+      "description": "Conjunto de pedras irregulares para bordas de trilhas e ruínas. Sem espalhamento automático.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.08,
+        2.57
+      ],
+      "bounds": [
+        2.078,
+        0.702,
+        2.565
+      ],
+      "url": "/assets/models/rock-scree.json",
+      "previewUrl": "/assets/previews/rock-scree.svg"
     }
   ]
 }

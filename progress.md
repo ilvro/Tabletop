@@ -1,6 +1,6 @@
 # Tabletop — andamento
 
-Atualizado em 4 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 5 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
 ## Conflitos com o navegador — concluído
 
@@ -131,7 +131,7 @@ Uso/publicação e limites em [docs/GITHUB_PAGES.md](docs/GITHUB_PAGES.md); READ
 
 Somente trabalho ainda não concluído. A prioridade visual proposta está em [docs/VISUAL_TARGET.md](docs/VISUAL_TARGET.md).
 
-- Kits de modelos detalhados/texturizados, decoração e miniaturas estáticas para um mapa piloto; avaliação visual em câmera próxima.
+- Arquitetura antiga/ruínas, vegetação detalhada, decoração e miniaturas estáticas para o mapa piloto; expansão do kit de conteúdo e avaliação visual em câmera próxima.
 - Texturas fotográficas específicas, importação de texturas avulsas/variantes e decals de desgaste/sujeira.
 - Pincel de distribuição de vegetação/entulho, umidade e poças/água.
 - Fluxo dedicado de miniaturas 3D vinculadas a personagens/tokens; rig, poses e animação como evolução posterior.
@@ -163,4 +163,15 @@ Construir → Terreno e relevo → Montanha · rocha e neve cria um terreno comu
 
 Validação final: builds local/Pages, 131 testes unitários/de integração e seis E2E afetados passaram (materiais/efeitos/UI/pixels, montanha, pintura do terreno e os dois de Pages/IndexedDB). Pixels verificam neve clara sobre base escura, laterais e faces inferiores expostas, quantidade zero, limite de altura, manchas/seed, normais transformadas e distribuição automática com máscara manual vazia. UI verifica edição, undo/redo, salvamento/reabertura, cobertura/presets no projetor sem mudar sua câmera, botão de montanha e regressão de pintura. Captura revisada: test-results/mountain-surfaces.png. A suíte completa de 17 E2E não foi repetida neste incremento; Chromium/WebGL por software não estabelece benchmark presencial.
 
-Limites: cobertura visual sem volume físico ou teste de exposição ao céu; objetos sob teto também podem receber cobertura. Acervo de rochas existente conserva suas formas simplificadas. Kit de rochas/paredões detalhados, água/gelo, neve caindo, vegetação distribuída, decals e benchmark continuam pendentes. Uso em docs/MATERIALS.md; VISUAL_TARGET.md e resumos sincronizados. Jukebox/Ficha permanecem adiados.
+Limites: cobertura visual sem volume físico ou teste de exposição ao céu; objetos sob teto também podem receber cobertura. Os modelos antigos de rochas conservam suas formas simplificadas; o novo kit de malhas irregulares foi entregue no incremento abaixo. Água/gelo, neve caindo, vegetação distribuída, decals e benchmark continuam pendentes. Uso em docs/MATERIALS.md; VISUAL_TARGET.md e resumos sincronizados. Jukebox/Ficha permanecem adiados.
+
+## Geometria de rochas e paredões — concluída
+
+Plano de 5 de outubro: acrescentar um kit original de rochas irregulares, granito, paredão estratificado e entulho; preservar todos os assets anteriores. Gerar malhas fechadas com limites de detalhe e dimensões métricas, pivot na base e prévias da própria geometria. Expor forma/irregularidade/detalhe/seed por instância, conservando transform, materiais, neve, histórico, mapas e apresentação. Validar geometria/raycast, biblioteca, edição/reabertura/projetor e Pages; atualizar visual target e resumos. Água, acúmulo físico de neve e integração Ficha/Jukebox continuam posteriores.
+
+
+Entregue em 5 de outubro: quatro assets adicionais (Rocha fraturada, Matacão de granito, Paredão estratificado e Entulho rochoso), totalizando 165. Malhas fechadas e soldadas com volumes/faces irregulares, ondulações e estratos; limites de detalhe, bounds métricos, pivot na base e prévias SVG da geometria real. Todos os 161 registros/modelos/prévias anteriores permaneceram idênticos. Geometria da rocha expõe formação, irregularidade, detalhe 2–8, seed e restauração por instância. Colocação aplica rocha natural/padrão correspondente; edição conserva dimensões/base, transform, material/neve, histórico, duplicação, mapas, JSON e projeção filtrada. Cache conserva receitas; cada instância possui e descarta suas malhas/materiais.
+
+Validação final: builds local/Pages, 134 testes unitários/de integração e sete E2E afetados passaram (montanha/UI/projetor, pixels/descarte de rochas, dois Pages/IndexedDB, biblioteca e dois materiais/efeitos). Verificados fechamento de bordas, números finitos, raycast, bounds/base com mudanças de seed/forma/detalhe, determinismo, comandos inválidos atômicos, formas diferentes em pixels WebGL, detalhe/cobertura de neve e liberação de recursos. UI verifica colocar pela biblioteca, editar/restaurar/undo/duplicar, salvamento/reabertura e geometria recebida pelo projetor sem alterar a câmera; Pages salva/reabre uma rocha personalizada sem API. Após reduzir o trabalho da geração, builds, suíte de 134 e o E2E de pixels foram repetidos; os três testes específicos passaram novamente após revisão do tratamento de falhas. Captura revisada: test-results/mountain-rock-geometry.png. A suíte completa de 18 E2E não foi repetida; WebGL por software não representa benchmark presencial.
+
+Pendências reais: ampliar arquitetura/vegetação/decoração, água/gelo, decals, acúmulo físico/exposição ao céu e neve caindo; distribuição/LOD/instanciamento conforme medição. O novo kit é cenográfico, sem apoio automático de tokens, colisão de câmera, escultura livre ou geração de cavernas. Uso em docs/ASSET_LIBRARY.md; VISUAL_TARGET.md, README, Pages, arquitetura e resumos sincronizados. Ficha/Jukebox continuam adiados.

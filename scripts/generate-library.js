@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { recipeInstance, disposeObject } from '../src/render/asset-cache.js';
 import { addLibraryExpansion } from './library-expansion.js';
 import { addLibraryExpansion3 } from './library-expansion-3.js';
+import { addMountainLibrary } from './library-mountain.js';
 
 const materials = {
   wood: { color: '#79553e', roughness: .84 }, dark: { color: '#292b30', roughness: .8 },
@@ -97,6 +98,7 @@ add('suitcase', 'Mala de viagem antiga', 'Investigação / Equipamentos', histor
 
 addLibraryExpansion({ add, b, c, s, legs, table, wheels, shelf, ring, modern, retro, historic, colonial, ancient, timeless });
 addLibraryExpansion3({ add, b, c, s, legs, table, wheels, modern, retro, historic, colonial, timeless });
+addMountainLibrary({add,timeless});
 
 function preview(object) {
   object.updateMatrixWorld(true);

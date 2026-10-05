@@ -59,6 +59,7 @@ export function createEntity(kind, options = {}) {
     ...(options.supportHeight !== undefined ? { supportHeight: options.supportHeight } : {}),
     footprint: clone(options.footprint ?? [1, 1]), material: material('#ffffff', options.material),
     ...(options.localEffect ? { localEffect: clone(options.localEffect) } : {}),
+    ...(options.rockShape ? { rockShape: clone(options.rockShape) } : {}),
   };
 }
 

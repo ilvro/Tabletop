@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { createRockGeometry } from './rock-geometry.js';
 
 /** Resource owners are explicit: cached models own shared textures; each instance owns its geometry/material. */
 export function disposeObject(object, { includeSharedTextures = false } = {}) {
@@ -34,24 +35,33 @@ export function standardMaterial(properties = {}) {
   });
 }
 
-export function recipeInstance(recipe) {
+export function recipeInstance(recipe, rockShape = null, metricBounds = null) {
   if (!Array.isArray(recipe.parts) || recipe.parts.length > 200) throw new Error('Receita de asset inválida.');
   const group = new THREE.Group();
-  for (const part of recipe.parts) {
-    let geometry;
-    switch (part.shape) {
-      case 'box': geometry = new THREE.BoxGeometry(...part.size); break;
-      case 'cylinder': geometry = new THREE.CylinderGeometry(part.radiusTop, part.radiusBottom, part.height, part.segments ?? 16, 1, part.openEnded ?? false); break;
-      case 'sphere': geometry = new THREE.SphereGeometry(part.radius, 16, 12); break;
-      default: disposeObject(group); throw new Error(`Forma de receita não suportada: ${part.shape}.`);
+  try {
+    for (const part of recipe.parts) {
+      let geometry;
+      switch (part.shape) {
+        case 'box': geometry = new THREE.BoxGeometry(...part.size); break;
+        case 'cylinder': geometry = new THREE.CylinderGeometry(part.radiusTop, part.radiusBottom, part.height, part.segments ?? 16, 1, part.openEnded ?? false); break;
+        case 'sphere': geometry = new THREE.SphereGeometry(part.radius, 16, 12); break;
+        case 'rock': geometry = createRockGeometry({ ...part, ...(rockShape ? { ...rockShape, seed:(rockShape.seed+(part.seedOffset??0))%65536 } : {}) }); break;
+        default: throw new Error(`Forma de receita não suportada: ${part.shape}.`);
+      }
+      const mesh = new THREE.Mesh(geometry, standardMaterial(recipe.materials?.[part.material]));
+      mesh.position.fromArray(part.position ?? [0, 0, 0]);
+      if (part.rotation) mesh.rotation.set(...part.rotation);
+      mesh.userData.materialSlot = part.material ?? 'base';
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      group.add(mesh);
     }
-    const mesh = new THREE.Mesh(geometry, standardMaterial(recipe.materials?.[part.material]));
-    mesh.position.fromArray(part.position ?? [0, 0, 0]);
-    if (part.rotation) mesh.rotation.set(...part.rotation);
-    mesh.userData.materialSlot = part.material ?? 'base';
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    group.add(mesh);
+  } catch(error) {disposeObject(group);throw error;}
+  if(rockShape && metricBounds) {
+    group.updateMatrixWorld(true);
+    const bounds=new THREE.Box3().setFromObject(group),size=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3());
+    group.scale.set(metricBounds[0]/size.x,metricBounds[1]/size.y,metricBounds[2]/size.z);
+    group.position.set(-center.x*group.scale.x,-bounds.min.y*group.scale.y,-center.z*group.scale.z);
   }
   return group;
 }
@@ -134,9 +144,9 @@ export function createAssetCache() {
   }
 
   return {
-    async createInstance(record) {
+    async createInstance(record, rockShape = null) {
       const resource = await load(record);
-      if (record.type === 'recipe') return recipeInstance(resource);
+      if (record.type === 'recipe') return recipeInstance(resource,rockShape,record.bounds);
       if (record.type === 'glb' || record.type === 'model') return modelInstance(resource, record);
       throw new Error('Uma imagem precisa da representação de token.');
     },
