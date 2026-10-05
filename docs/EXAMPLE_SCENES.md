@@ -2,19 +2,25 @@
 
 ## Carregar e editar
 
-Em **Abrir → Cenas → Cenas de exemplo**, escolha **Passagem da montanha · ruínas na neve**. O carregamento cria uma cópia independente e ainda não salva. Use **Salvar** para guardá-la no servidor local ou, no GitHub Pages, neste navegador. O exemplo original continua disponível; carregá-lo novamente cria outra cópia, sem substituir seu trabalho.
+Em **Abrir → Cenas → Cenas de exemplo**, escolha **Subida da montanha · caverna e ruínas**. O carregamento cria uma cópia independente e ainda não salva. Use **Salvar** para guardá-la no servidor local ou, no GitHub Pages, neste navegador. O exemplo original continua disponível; carregá-lo novamente cria outra cópia, sem substituir seu trabalho.
 
 A montagem usa entidades e materiais comuns do editor: terreno com alturas e uma camada de terra pintada, água/gelo, rochas paramétricas, arquitetura, madeira, vegetação, cobertura de neve e luzes locais. Não existe uma imagem de fundo simulando o mapa. Você pode navegar, selecionar cada peça, mudar materiais, esculpir com **T**, excluir, duplicar, salvar como mapa ou apresentar na segunda tela. Os objetos estão em seis pastas organizacionais, desbloqueados e sem ancoragem conjunta.
 
-## Passagem da montanha
+## Subida da montanha
 
-93 elementos em uma área de 36 × 58 metros: caminho nevado junto ao rio, paredões com seeds/dimensões diferentes, saliências, pináculos, torres partidas, passagem de pedra, passarela, plataforma, cordas, lanternas, abetos, raízes, capim e destroços. O leito permanece abaixo da água, inclusive das cristas das ondas. A passarela tem um piso fino de apoio sobre o tabuleiro; selecione esse piso como superfície para atravessar com tokens. Rochas e ruínas permanecem cenográficas, sem inferência automática de apoio/colisão.
+85 elementos em uma área de 40 × 58 metros. A trilha sobe aproximadamente dez metros pela encosta direita; um lago glacial ocupa a base, a caverna abre lateralmente à esquerda e a ponte elevada liga as margens de uma ravina à frente. Ruínas em diferentes níveis, abetos, raízes, capim e destroços completam a montagem. Esta composição substitui o corredor entre paredes paralelas da primeira versão, após a correção da leitura da referência enviada pelo usuário, de Icewind Dale/D&D.
+
+A caverna tem arco rochoso irregular, paredes, teto e fundo escuro recuado: existe espaço entre essas superfícies, não uma imagem de entrada. É um asset modular de abrigo, com terreno nivelado sob a abertura; não acrescenta um editor de cavernas ao heightmap. Escultura do terreno não remove automaticamente o teto nem mantém o interior livre depois de alterar alturas. O paredão de fundo encontra o volume posterior do abrigo, integrando a boca à montanha. Os relevos e estruturas vizinhos deixam o acesso e o interior livres.
+
+A ponte tem um piso fino de apoio sobre o tabuleiro, extremidades na altura dos acessos, pilares abaixo das vigas e passagem livre de alvenaria; selecione esse piso como superfície para atravessar com tokens. Rochas, ruínas e caverna são cenográficas, sem inferência automática de apoio/colisão. O leito do lago permanece abaixo das ondas; o gelo ocupa a margem.
+
+Três lanternas **arredondadas** substituem as quadradas: base circular, oito hastes, tampa cônica, alça e elos conectados ao suporte. Cada luz pontual coincide com o núcleo emissivo. Os braços de madeira foram posicionados sobre a geometria real dos paredões/ruínas por raycast durante a autoria; não há vínculo automático depois de carregar ou mover as peças. A lanterna quadrada de parede continua na biblioteca e recebeu elos adicionais/argola para fechar o vão da corrente, conservando ID e dimensões.
 
 As câmeras estão em **Cena → Câmera e apresentação → Enquadramentos**:
 
-1. **Chegada ao desfiladeiro** — abertura que aproxima a composição da referência.
-2. **Rio e torre antiga** — vista mais próxima do rio e da torre esquerda.
-3. **Passarela e ruínas** — continuação da trilha.
+1. **Subida, caverna e ponte** — composição principal da encosta.
+2. **Entrada lateral da caverna** — revisão próxima da abertura e do abrigo.
+3. **Ponte e continuação da subida** — acesso elevado e ruínas ao fundo.
 4. **Visão geral para construir** — visão ampla do conjunto.
 5. **Mapa superior** — navegação ortográfica da área.
 
@@ -24,7 +30,7 @@ Há neve com volume no terreno, paredões próximos, saliência, madeira e gelo.
 
 ## Diferença para a referência e plano seguinte
 
-A cena aproxima a disposição dos elementos e a atmosfera; o acabamento permanece estilizado. A revisão revelou a necessidade de materiais menos repetitivos, vegetação mais densa e desgaste localizado para alcançar o detalhe fotográfico da imagem. Esta entrega acrescenta somente o asset de ruína necessário à montagem; os recursos abaixo não foram implementados.
+A cena aproxima a disposição dos elementos e a atmosfera; o acabamento permanece estilizado. A revisão revelou a necessidade de materiais menos repetitivos, vegetação mais densa e desgaste localizado para alcançar o detalhe fotográfico da imagem. O piloto acrescentou a ruína alta e, nesta revisão, a lanterna arredondada e a entrada de caverna; os recursos abaixo não foram implementados.
 
 | Ordem | Proposta | Critério de conclusão |
 | --- | --- | --- |
@@ -42,6 +48,6 @@ O catálogo de exemplos fica em `src/data/example-scenes.js`. Para acrescentar u
 
 `node scripts/generate-example-scenes.js` reproduz a cena de montanha de maneira determinística. `node scripts/preview-example-scene.js`, depois de `npm run build`, abre o exemplo pela interface e captura o renderizador para gerar a prévia e recortes em `test-results/`. A prévia final precisa ser incluída nos builds local/Pages. Alterações da composição são feitas no gerador e materializadas no JSON, com revisão visual antes de substituir o exemplo distribuído.
 
-Validação concluída: 157 testes unitários/de integração, builds local/Pages e quatro cenários E2E afetados aprovados. A nova galeria foi revisada em 390 px; cópias, edição/histórico, salvar/reabrir, falha de carregamento, catálogo sem API e projetor independente foram verificados. O recorte final possui 170 chamadas de desenho e 279.944 triângulos, contra 208/433.856 na montagem inicial; a distribuição da neve usa controles existentes.
+A revisão foi verificada por 159 testes de domínio/integração, com repetição dos cinco testes do exemplo após os ajustes finais de encaixe e passagem da ponte. O teste de geometria verifica subida, leito, entrada vazada, apoios, fixação dos suportes nas paredes e posição das luzes. Quatro cenários E2E afetados passaram: exemplo no servidor, exemplo no Pages, biblioteca/importação/projetor sem API e conflitos/IndexedDB. O fluxo completo do exemplo no Pages passou novamente após os ajustes finais da ponte/caverna. Builds local/Pages aprovados; as câmeras principal e da caverna foram revisadas no renderizador. Recorte com movimento reduzido: 156 chamadas de desenho, 222.058 triângulos e 17 texturas, sem benchmark presencial. A suíte completa de navegador não foi repetida. Medidas e histórico de ajustes estão em progress.md. A captura é produzida no renderizador real, sem imagem de fundo.
 
 Validação e medidas do recorte são registradas em [progress.md](../progress.md). Testes com Chromium/WebGL por software não substituem medição no hardware de uso.

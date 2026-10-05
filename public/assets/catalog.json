@@ -5426,12 +5426,12 @@
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "footprint": [
         3.46,
-        3.2
+        3.13
       ],
       "bounds": [
         3.459,
         4.5,
-        3.196
+        3.128
       ],
       "url": "/assets/models/alpine-fir.json",
       "previewUrl": "/assets/previews/alpine-fir.svg"
@@ -5457,12 +5457,12 @@
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "footprint": [
         3.68,
-        3.29
+        3.26
       ],
       "bounds": [
         3.675,
         3.5,
-        3.281
+        3.259
       ],
       "url": "/assets/models/alpine-pine.json",
       "previewUrl": "/assets/previews/alpine-pine.svg"
@@ -5876,6 +5876,68 @@
       "previewUrl": "/assets/previews/mountain-wall-lantern.svg"
     },
     {
+      "id": "builtin-mountain-round-lantern",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Lanterna arredondada · tampa cônica e corrente",
+      "category": "Arquitetura / Madeira",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "kit de montanha",
+        "cenário"
+      ],
+      "description": "Corpo circular, oito hastes, tampa cônica, alça e elos conectados ao braço de madeira. Núcleo emissivo; acrescente luz pontual no centro do corpo.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.17,
+        0.47
+      ],
+      "bounds": [
+        1.165,
+        1.007,
+        0.47
+      ],
+      "url": "/assets/models/mountain-round-lantern.json",
+      "previewUrl": "/assets/previews/mountain-round-lantern.svg"
+    },
+    {
+      "id": "builtin-mountain-cave-mouth",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Entrada de caverna · abrigo rochoso",
+      "category": "Exterior / Montanha",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "kit de montanha",
+        "cenário"
+      ],
+      "description": "Boca aberta para +Z, teto e paredes reais, recessos de aproximadamente seis metros e fundo fechado. Posicione sobre terreno plano; não escava automaticamente o terreno.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        6.91,
+        6.73
+      ],
+      "bounds": [
+        6.9,
+        6.1,
+        6.725
+      ],
+      "url": "/assets/models/mountain-cave-mouth.json",
+      "previewUrl": "/assets/previews/mountain-cave-mouth.svg"
+    },
+    {
       "id": "builtin-mountain-uprooted-stump",
       "revision": 1,
       "type": "recipe",
@@ -5936,6 +5998,37 @@
       ],
       "url": "/assets/models/mountain-cart-wreck.json",
       "previewUrl": "/assets/previews/mountain-cart-wreck.svg"
+    },
+    {
+      "id": "builtin-mountain-ruin-high-wall",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Ruína alta de montanha · torre partida",
+      "category": "Arquitetura / Ruínas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "montanha",
+        "kit de montanha",
+        "cenário"
+      ],
+      "description": "Alvenaria alta com 22 fiadas de pedra, janela vertical real, laterais e fundo aberto. Feita para a cena de desfiladeiro; evita esticar as pedras de uma torre pequena.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        4.33,
+        2.77
+      ],
+      "bounds": [
+        4.328,
+        7.924,
+        2.767
+      ],
+      "url": "/assets/models/mountain-ruin-high-wall.json",
+      "previewUrl": "/assets/previews/mountain-ruin-high-wall.svg"
     }
   ]
 }

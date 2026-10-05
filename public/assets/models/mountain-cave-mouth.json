@@ -1,0 +1,2031 @@
+{
+  "name": "Entrada de caverna · abrigo rochoso",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        -2.45,
+        0.44000009536743306,
+        1.9874999523162842
+      ],
+      "form": "cliff",
+      "seed": 5107,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        -2.45,
+        1.190000095367433,
+        1.9874999523162842
+      ],
+      "form": "cliff",
+      "seed": 5108,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        -2.45,
+        1.940000095367433,
+        1.9874999523162842
+      ],
+      "form": "cliff",
+      "seed": 5109,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        2.45,
+        0.44000009536743306,
+        1.9874999523162842
+      ],
+      "form": "cliff",
+      "seed": 5121,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        2.45,
+        1.190000095367433,
+        1.9874999523162842
+      ],
+      "form": "cliff",
+      "seed": 5122,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        2.45,
+        1.940000095367433,
+        1.9874999523162842
+      ],
+      "form": "cliff",
+      "seed": 5123,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8,
+      "outerRadius": 3,
+      "start": -0.012,
+      "end": 0.2363994752564138,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8776888429983987,
+      "outerRadius": 3.1156269822500633,
+      "start": 0.21239947525641378,
+      "end": 0.4607989505128276,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.721558180482777,
+      "outerRadius": 3.061860164618576,
+      "start": 0.4367989505128276,
+      "end": 0.6851984257692414,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8015132510435916,
+      "outerRadius": 2.917468060897923,
+      "start": 0.6611984257692414,
+      "end": 0.9095979010256552,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8769139017279453,
+      "outerRadius": 2.8939854413135815,
+      "start": 0.8855979010256552,
+      "end": 1.133997376282069,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7208273816025497,
+      "outerRadius": 3.025814398570538,
+      "start": 1.109997376282069,
+      "end": 1.3583968515384828,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8030260742499025,
+      "outerRadius": 3.119825201444953,
+      "start": 1.3343968515384828,
+      "end": 1.5827963267948966,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.876117214802864,
+      "outerRadius": 3.0382918034819224,
+      "start": 1.5587963267948965,
+      "end": 1.8071958020513104,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7201189669776646,
+      "outerRadius": 2.9006608237097216,
+      "start": 1.7831958020513103,
+      "end": 2.031595277307724,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8045380419026134,
+      "outerRadius": 2.9085619699297163,
+      "start": 2.007595277307724,
+      "end": 2.255994752564138,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8752990074682452,
+      "outerRadius": 3.050420044419197,
+      "start": 2.231994752564138,
+      "end": 2.4803942278205513,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7194331368962288,
+      "outerRadius": 3.1184126357129536,
+      "start": 2.4563942278205513,
+      "end": 2.7047937030769655,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.806048726527293,
+      "outerRadius": 3.012930438275933,
+      "start": 2.6807937030769655,
+      "end": 2.9291931783333798,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8744595110535842,
+      "outerRadius": 2.8885051184718757,
+      "start": 2.9051931783333798,
+      "end": 3.153592653589793,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        1.9874999523162842
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        -2.45,
+        0.44000009536743306,
+        -0.01250004768371582
+      ],
+      "form": "cliff",
+      "seed": 5144,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        -2.45,
+        1.190000095367433,
+        -0.01250004768371582
+      ],
+      "form": "cliff",
+      "seed": 5145,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        -2.45,
+        1.940000095367433,
+        -0.01250004768371582
+      ],
+      "form": "cliff",
+      "seed": 5146,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        2.45,
+        0.44000009536743306,
+        -0.01250004768371582
+      ],
+      "form": "cliff",
+      "seed": 5158,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        2.45,
+        1.190000095367433,
+        -0.01250004768371582
+      ],
+      "form": "cliff",
+      "seed": 5159,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        2.45,
+        1.940000095367433,
+        -0.01250004768371582
+      ],
+      "form": "cliff",
+      "seed": 5160,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8757323886327106,
+      "outerRadius": 3.1009765181769477,
+      "start": -0.012,
+      "end": 0.2363994752564138,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8037422596189963,
+      "outerRadius": 3.0894846254612065,
+      "start": 0.21239947525641378,
+      "end": 0.4607989505128276,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7204890809851863,
+      "outerRadius": 2.946897546804618,
+      "start": 0.4367989505128276,
+      "end": 0.6851984257692414,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.876539295856571,
+      "outerRadius": 2.88210568648508,
+      "start": 0.6611984257692414,
+      "end": 0.9095979010256552,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8022297882908023,
+      "outerRadius": 2.9900292716619004,
+      "start": 0.8855979010256552,
+      "end": 1.133997376282069,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7212093042780414,
+      "outerRadius": 3.1125599972129687,
+      "start": 1.109997376282069,
+      "end": 1.3583968515384828,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8773245633370848,
+      "outerRadius": 3.0701900631470114,
+      "start": 1.3343968515384828,
+      "end": 1.5827963267948966,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8007166865407342,
+      "outerRadius": 2.924991522132854,
+      "start": 1.5587963267948965,
+      "end": 1.8071958020513104,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7219518038462978,
+      "outerRadius": 2.889680576920239,
+      "start": 1.7831958020513103,
+      "end": 2.031595277307724,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8780879690577503,
+      "outerRadius": 3.015987844970393,
+      "start": 2.007595277307724,
+      "end": 2.255994752564138,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7992033821638638,
+      "outerRadius": 3.1188728826833843,
+      "start": 2.231994752564138,
+      "end": 2.4803942278205513,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7227163697651064,
+      "outerRadius": 3.0476088687756735,
+      "start": 2.4563942278205513,
+      "end": 2.7047937030769655,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8788292971829803,
+      "outerRadius": 2.906597750575884,
+      "start": 2.6807937030769655,
+      "end": 2.9291931783333798,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7976903030125497,
+      "outerRadius": 2.902421146600622,
+      "start": 2.9051931783333798,
+      "end": 3.153592653589793,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -0.01250004768371582
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        -2.45,
+        0.44000009536743306,
+        -2.012500047683716
+      ],
+      "form": "cliff",
+      "seed": 5181,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        -2.45,
+        1.190000095367433,
+        -2.012500047683716
+      ],
+      "form": "cliff",
+      "seed": 5182,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        -2.45,
+        1.940000095367433,
+        -2.012500047683716
+      ],
+      "form": "cliff",
+      "seed": 5183,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        2.45,
+        0.44000009536743306,
+        -2.012500047683716
+      ],
+      "form": "cliff",
+      "seed": 5195,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        2.45,
+        1.190000095367433,
+        -2.012500047683716
+      ],
+      "form": "cliff",
+      "seed": 5196,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.3,
+        0.88,
+        2.15
+      ],
+      "position": [
+        2.45,
+        1.940000095367433,
+        -2.012500047683716
+      ],
+      "form": "cliff",
+      "seed": 5197,
+      "detail": 2,
+      "irregularity": 0.5,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      },
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8818367684143114,
+      "outerRadius": 3.1091156912190816,
+      "start": -0.012,
+      "end": 0.2363994752564138,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.726355060004203,
+      "outerRadius": 2.98107051670281,
+      "start": 0.21239947525641378,
+      "end": 0.4607989505128276,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7925219537464254,
+      "outerRadius": 2.8807570795639843,
+      "start": 0.4367989505128276,
+      "end": 0.6851984257692414,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8811954650380664,
+      "outerRadius": 2.955134800220372,
+      "start": 0.6611984257692414,
+      "end": 0.9095979010256552,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.725495617782291,
+      "outerRadius": 3.0952401436618984,
+      "start": 0.8855979010256552,
+      "end": 1.133997376282069,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.794031029238392,
+      "outerRadius": 3.095818453514819,
+      "start": 1.109997376282069,
+      "end": 1.3583968515384828,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8805312054926453,
+      "outerRadius": 2.9560225044897686,
+      "start": 1.3343968515384828,
+      "end": 1.5827963267948966,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7246572399782227,
+      "outerRadius": 2.8806536894155212,
+      "start": 1.5587963267948965,
+      "end": 1.8071958020513104,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.795541792320947,
+      "outerRadius": 2.980127498946203,
+      "start": 1.7831958020513103,
+      "end": 2.031595277307724,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8798441775823116,
+      "outerRadius": 3.1087145690770157,
+      "start": 2.007595277307724,
+      "end": 2.255994752564138,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7238401636242346,
+      "outerRadius": 3.078034540818854,
+      "start": 2.231994752564138,
+      "end": 2.4803942278205513,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.797053815860224,
+      "outerRadius": 2.9330337274455864,
+      "start": 2.4563942278205513,
+      "end": 2.7047937030769655,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.8791345755485651,
+      "outerRadius": 2.8861386602498253,
+      "start": 2.6807937030769655,
+      "end": 2.9291931783333798,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "arch",
+      "innerRadius": 1.7230446197300637,
+      "outerRadius": 3.0060507225368176,
+      "start": 2.9051931783333798,
+      "end": 3.153592653589793,
+      "depth": 2.15,
+      "segments": 3,
+      "position": [
+        0,
+        2.050000095367433,
+        -2.012500047683716
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.4,
+        "rockPattern": "strata",
+        "textureBrightness": 1.05,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        6,
+        4.3,
+        0.4
+      ],
+      "position": [
+        0,
+        2.150000095367433,
+        -3.162500047683716
+      ],
+      "material": "black",
+      "surface": null
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.4,
+        1.3,
+        1.5
+      ],
+      "position": [
+        2.75,
+        2.050000095367433,
+        2.237499952316284
+      ],
+      "form": "fractured",
+      "seed": 5411,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.4,
+        1.3,
+        1.5
+      ],
+      "position": [
+        2.615405419811672,
+        2.899796829898538,
+        2.237499952316284
+      ],
+      "form": "fractured",
+      "seed": 5412,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.4,
+        1.3,
+        1.5
+      ],
+      "position": [
+        2.2247967345311057,
+        3.6664095391717337,
+        2.237499952316284
+      ],
+      "form": "fractured",
+      "seed": 5413,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.4,
+        1.3,
+        1.5
+      ],
+      "position": [
+        1.616409443804301,
+        4.274796829898539,
+        2.237499952316284
+      ],
+      "form": "fractured",
+      "seed": 5414,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.4,
+        1.3,
+        1.5
+      ],
+      "position": [
+        0.8497967345311055,
+        4.6654055151791045,
+        2.237499952316284
+      ],
+      "form": "fractured",
+      "seed": 5415,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.4,
+        1.3,
+        1.5
+      ],
+      "position": [
+        1.6838893488276108e-16,
+        4.800000095367433,
+        2.237499952316284
+      ],
+      "form": "fractured",
+      "seed": 5416,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.4,
+        1.3,
+        1.5
+      ],
+      "position": [
+        -0.8497967345311052,
+        4.665405515179105,
+        2.237499952316284
+      ],
+      "form": "fractured",
+      "seed": 5417,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.4,
+        1.3,
+        1.5
+      ],
+      "position": [
+        -1.6164094438043008,
+        4.274796829898539,
+        2.237499952316284
+      ],
+      "form": "fractured",
+      "seed": 5418,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.4,
+        1.3,
+        1.5
+      ],
+      "position": [
+        -2.2247967345311053,
+        3.6664095391717346,
+        2.237499952316284
+      ],
+      "form": "fractured",
+      "seed": 5419,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.4,
+        1.3,
+        1.5
+      ],
+      "position": [
+        -2.615405419811672,
+        2.8997968298985386,
+        2.237499952316284
+      ],
+      "form": "fractured",
+      "seed": 5420,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        1.4,
+        1.3,
+        1.5
+      ],
+      "position": [
+        -2.75,
+        2.0500000953674333,
+        2.237499952316284
+      ],
+      "form": "fractured",
+      "seed": 5421,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.9,
+        0.45,
+        0.75
+      ],
+      "position": [
+        -2,
+        0.16000009536743307,
+        1.4874999523162842
+      ],
+      "form": "fractured",
+      "seed": 5309,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.9,
+        0.45,
+        0.75
+      ],
+      "position": [
+        -2.3,
+        0.16000009536743307,
+        1.9874999523162842
+      ],
+      "form": "fractured",
+      "seed": 5310,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.9,
+        0.45,
+        0.75
+      ],
+      "position": [
+        -2.6,
+        0.16000009536743307,
+        2.487499952316284
+      ],
+      "form": "fractured",
+      "seed": 5311,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.9,
+        0.45,
+        0.75
+      ],
+      "position": [
+        -2.9,
+        0.16000009536743307,
+        2.987499952316284
+      ],
+      "form": "fractured",
+      "seed": 5312,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.9,
+        0.45,
+        0.75
+      ],
+      "position": [
+        2,
+        0.16000009536743307,
+        1.4874999523162842
+      ],
+      "form": "fractured",
+      "seed": 5331,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.9,
+        0.45,
+        0.75
+      ],
+      "position": [
+        2.3,
+        0.16000009536743307,
+        1.9874999523162842
+      ],
+      "form": "fractured",
+      "seed": 5332,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.9,
+        0.45,
+        0.75
+      ],
+      "position": [
+        2.6,
+        0.16000009536743307,
+        2.487499952316284
+      ],
+      "form": "fractured",
+      "seed": 5333,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.9,
+        0.45,
+        0.75
+      ],
+      "position": [
+        2.9,
+        0.16000009536743307,
+        2.987499952316284
+      ],
+      "form": "fractured",
+      "seed": 5334,
+      "detail": 2,
+      "irregularity": 0.75,
+      "fixedRock": true,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.3,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.2,
+        "relief": 0.045
+      }
+    }
+  ],
+  "mergeParts": true
+}

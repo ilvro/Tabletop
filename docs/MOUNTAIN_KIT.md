@@ -55,3 +55,14 @@ Os 176 assets anteriores mantêm IDs, arquivos e aparência; 12 receitas/prévia
 ## Complemento da cena de exemplo
 
 O piloto de montanha acrescenta uma ruína alta com fiadas proporcionais e janela real, elevando o catálogo a 189 assets. O kit original acima mantém os arquivos e as dimensões. A composição pronta está em Abrir → Cenas → Cenas de exemplo; [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md) descreve montagem, uso e limites.
+
+## Revisão da encosta, caverna e lanternas
+
+Dois assets originais adicionais elevam o catálogo atual a 191:
+
+- **Lanterna arredondada · tampa cônica e corrente**: corpo circular, oito hastes, tampa cônica, alça e corrente de elos intercalados. A argola superior entra no braço de madeira; a última argola liga a corrente à tampa. Acrescente luz pontual no centro emissivo, como no exemplo.
+- **Entrada de caverna · abrigo rochoso**: entrada para +Z com seções de arco, volumes rochosos irregulares, laterais, teto e fundo escuro recuado. A abertura é realmente vazada. Use sobre terreno nivelado; a peça não escava nem protege automaticamente o heightmap. É um abrigo cenográfico, não uma ferramenta de cavernas ou um apoio anotado.
+
+A lanterna de parede quadrada recebeu dois elos e uma argola inferior para corrigir a corrente interrompida. Conserva o ID, o pivot e as dimensões. Os demais modelos anteriores não mudaram. O exemplo distribuído agora representa uma subida da montanha, com caverna lateral e ponte elevada; cópias pessoais não são substituídas. Uso em [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).
+
+Validação da revisão: suíte de 159 testes de domínio/integração, quatro cenários E2E afetados e builds local/Pages aprovados. Os cinco testes do exemplo e o fluxo completo do exemplo no Pages passaram novamente após os encaixes finais: passagem da ponte livre de alvenaria, apoios, vazio da caverna, suporte de madeira sobre a superfície real e luz no corpo das lanternas. Capturas do renderizador em `test-results/mountain-example-reference.png` e `test-results/mountain-example-cave.png`. A suíte completa de navegador não foi repetida.

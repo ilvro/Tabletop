@@ -44,7 +44,7 @@ export function addAlpineLibrary({add,timeless,ancient}) {
     for(let tier=0;tier<6;tier++)for(let j=0;j<6;j++) {
       const angle=j*Math.PI/3+tier*.47,length=width*(1-tier/7)*.47,y=.7+tier*(height-.9)/6;
       parts.push(cylinder(.035*(1-tier/8),length,[Math.cos(angle)*length/2,y,Math.sin(angle)*length/2],'wood',bark,[0,-angle,Math.PI/2-.15]));
-      if(!bare)parts.push({shape:'foliage',style:'needles',size:[length*1.1,.35+(5-tier)*.05,length*.65],count:48,seed:seed+tier*37+j*11,position:[Math.cos(angle)*length*.6,y-.1,Math.sin(angle)*length*.6],rotation:[0,-angle,0],material:'green',surface:leaves});
+      if(!bare)parts.push({shape:'foliage',style:'needles',size:[length*1.1,.35+(5-tier)*.05,length*.65],count:160,seed:seed+tier*37+j*11,position:[Math.cos(angle)*length*.6,y-.1,Math.sin(angle)*length*.6],rotation:[0,-angle,0],material:'green',surface:leaves});
       else parts.push(cylinder(.013,length*.6,[Math.cos(angle)*length*.9,y+.08,Math.sin(angle)*length*.9],'wood',bark,[.1,-angle,1.0]));
     }
     ids.push(model(id,name,parts,'Exterior / Vegetação alpina','Tronco com casca, raízes e ramificação; folhagem com lâminas individuais. Variação geométrica editável, sem volumes cônicos de copa.',true));

@@ -216,6 +216,16 @@ dialog p { font-size: 12px; line-height: 1.65; color: #acb6b9; }
 .saved-scene small { display: block; font-size: 10px; color: #929ea3; margin-top: 6px; }
 .empty-dialog { padding: 24px 5px; text-align: center; font-size: 12px; color: #8e9fa3; }
 .empty-dialog p { margin-top: 8px; }
+.example-scenes { display: grid; min-width: 0; gap: 8px; padding-bottom: 16px; border-bottom: 1px solid #434d51; }
+.example-scenes h3, .example-scenes p { margin: 0; }
+.example-scene-card { display: flex; min-width: 0; width: 100%; gap: 14px; padding: 12px; text-align: left; background: #20272a; border: 1px solid #434d51; border-radius: 8px; color: #edf2f0; }
+.example-scene-card:hover { border-color: #91a89c; }
+.example-scene-card img { min-width: 0; max-width: 100%; width: 42%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 5px; align-self: center; }
+.example-scene-card > span { min-width: 0; display: grid; align-content: center; gap: 8px; }
+.example-scene-card strong { font-size: 13px; }
+.example-scene-card small { font-size: 11px; color: #a7b7ba; line-height: 1.5; }
+.example-scene-card b { font-size: 11px; color: #e4c38e; }
+@media (max-width: 520px) { .example-scene-card { flex-direction: column; } .example-scene-card img { width: 100%; } }
 .presenting .app-shell { display: block; }
 .presenting .app-header, .presenting .sidebar, .presenting .inspector, .presenting .statusbar, .presenting .viewport-top, .presenting .viewport-bottom { display: none; }
 .presenting .workspace { height: 100dvh; }

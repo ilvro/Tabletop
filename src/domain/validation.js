@@ -366,7 +366,7 @@ function look(value, path, document, seen) {
   if (value.weather !== undefined) {
     const w = value.weather, p = `${path}.weather`;
     keys(w, ['type', 'count', 'center', 'size', 'color', 'opacity', 'particleSize', 'speed', 'wind', 'seed'], p);
-    choice(w.type, ['none', 'rain', 'dust', 'embers', 'smoke'], p);
+    choice(w.type, ['none', 'rain', 'dust', 'embers', 'smoke', 'snow'], p);
     fail(Number.isInteger(w.count) && w.count >= 0 && w.count <= 3000, 'Quantidade deve ser inteiro de 0 a 3000.', p);
     vector(w.center, 3, p); vector(w.size, 3, p); w.size.forEach(v => number(v, p, .1, 1000));
     color(w.color, p); number(w.opacity, p, 0, 1); number(w.particleSize, p, .005, 3); number(w.speed, p, 0, 100);

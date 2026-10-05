@@ -49,4 +49,4 @@ Rocha/paredão geológico selecionado mostra Pincel de superfície aberto no top
 
 ## Cenas de exemplo em Abrir
 
-Cenas de exemplo ficam acima das cenas pessoais, com uma prévia real. Carregar abre uma cópia independente ainda não salva; Salvar cria um registro pessoal e o original continua disponível. A passagem da montanha oferece cinco enquadramentos, terreno/água/neve e peças editáveis, organizadas em pastas. [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md) documenta o uso e os próximos passos visuais.
+Cenas de exemplo ficam acima das cenas pessoais, com uma prévia real. Carregar abre uma cópia independente ainda não salva; Salvar cria um registro pessoal e o original continua disponível. A subida da montanha oferece cinco enquadramentos, caverna lateral, ponte elevada, lanternas arredondadas e terreno/água/neve editáveis, organizadas em pastas. [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md) documenta o uso e os próximos passos visuais.

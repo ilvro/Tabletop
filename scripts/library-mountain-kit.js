@@ -69,11 +69,43 @@ export function addMountainKit({add,timeless,ancient}) {
     box([.18,1.7,.18],[0,.85,0]),ring(.11,.027,[0,1.22,0],[Math.PI/2,0,0],'paper'),ring(.11,.027,[0,1.3,0],[Math.PI/2,0,0],'paper'),ring(.08,.015,[.13,1.27,0],[0,Math.PI/2,0]),box([.32,.1,.32],[0,.05,0],'stone',masonry)
   ],'Arquitetura / Madeira','Poste amarrado com argola lateral para cordas de trilha; combine com corda suspensa.');
   const lantern=[box([.16,.85,.16],[0,1.05,0]),box([.86,.12,.16],[.35,1.45,0]),box([.1,.65,.1],[.25,1.18,0],'wood',wood,[0,0,-.7])];
-  for(let i=0;i<5;i++)lantern.push(ring(.034,.008,[.68,1.35-i*.05,0],[0,i%2*Math.PI/2,0]));
+  for(let i=0;i<7;i++)lantern.push(ring(.034,.008,[.68,1.35-i*.05,0],[0,i%2*Math.PI/2,0]));
+  lantern.push(ring(.027,.008,[.68,1.063,0],[0,Math.PI/2,0]));
   for(const y of [.77,1.02])lantern.push(box([.3,.035,.28],[.68,y,0],'metal',null));
   for(const x of [-.12,.12])for(const z of [-.11,.11])lantern.push(box([.02,.25,.02],[.68+x,.895,z],'metal',null));
   lantern.push(box([.13,.17,.13],[.68,.895,0],'flame',null));
   model('mountain-wall-lantern','Lanterna de parede · suporte e corrente',lantern,'Arquitetura / Madeira','Braço de madeira, escora, elos vazados e núcleo emissivo. Posicione na parede e acrescente luz pontual quente para iluminar o entorno.');
+  const cylinder=(bottom,top,height,position,material='dark')=>({shape:'cylinder',radiusBottom:bottom,radiusTop:top,height,segments:24,position,material});
+  const roundLantern=[box([.16,.85,.16],[0,1.05,0]),box([1.06,.12,.16],[.45,1.5,0]),box([.1,.75,.1],[.32,1.19,0],'wood',wood,[0,0,-.85]),
+    ring(.04,.009,[.85,1.435,0],[0,Math.PI/2,0]),
+    cylinder(.19,.21,.055,[.85,.58,0]),cylinder(.21,.18,.055,[.85,.905,0]),
+    cylinder(.235,.035,.16,[.85,1.005,0]),cylinder(.035,.025,.035,[.85,1.095,0]),
+    ring(.065,.009,[.85,1.125,0],[0,Math.PI/2,0]),cylinder(.105,.085,.25,[.85,.745,0],'flame')];
+  for(let i=0;i<5;i++)roundLantern.push(ring(.034,.008,[.85,1.395-i*.05,0],[0,i%2*Math.PI/2,0]));
+  for(let i=0;i<8;i++) {
+    const a=i*Math.PI/4;
+    roundLantern.push(cylinder(.011,.011,.3,[.85+Math.cos(a)*.175,.745,Math.sin(a)*.175]));
+  }
+  model('mountain-round-lantern','Lanterna arredondada · tampa cônica e corrente',roundLantern,'Arquitetura / Madeira',
+    'Corpo circular, oito hastes, tampa cônica, alça e elos conectados ao braço de madeira. Núcleo emissivo; acrescente luz pontual no centro do corpo.');
+
+  // Three overlapping rocky arch sections enclose a real recess, with an open front.
+  // No heightfield is filled into the opening; the rear wall closes the scenic alcove.
+  const cave=[];
+  for(let section=0;section<3;section++) {
+    const z=-section*2;
+    for(const sign of [-1,1])for(let row=0;row<3;row++)cave.push(block([1.3,.88,2.15],[sign*2.45,.44+row*.75,z],5107+section*37+row+(sign+1)*7));
+    for(let i=0;i<14;i++)cave.push({shape:'arch',innerRadius:1.8+.09*Math.sin(i*2.1+section),outerRadius:3+.12*Math.sin(i*1.3+section),
+      start:i*Math.PI/14-.012,end:(i+1)*Math.PI/14+.012,depth:2.15,segments:3,position:[0,2.05,z],material:'stone',surface:stone});
+  }
+  cave.push(box([6,4.3,.4],[0,2.15,-5.15],'black',null));
+  for(let i=0;i<11;i++) {
+    const angle=i*Math.PI/10;
+    cave.push(rubble([1.4,1.3,1.5],[Math.cos(angle)*2.75,2.05+Math.sin(angle)*2.75,.25],5411+i));
+  }
+  for(const sign of [-1,1])for(let i=0;i<4;i++)cave.push(rubble([.9,.45,.75],[sign*(2+i*.3),.16,-.5+i*.5],5309+i+(sign+1)*11));
+  model('mountain-cave-mouth','Entrada de caverna · abrigo rochoso',cave,'Exterior / Montanha',
+    'Boca aberta para +Z, teto e paredes reais, recessos de aproximadamente seis metros e fundo fechado. Posicione sobre terreno plano; não escava automaticamente o terreno.');
   const roots=[{shape:'cylinder',radiusBottom:.35,radiusTop:.27,height:.8,segments:9,position:[0,.4,0],material:'wood',surface:bark}];
   for(let i=0;i<7;i++) {
     const a=i*Math.PI*2/7,cos=Math.cos(a),sin=Math.sin(a),length=.9+(i%3)*.2;
@@ -89,5 +121,21 @@ export function addMountainKit({add,timeless,ancient}) {
   }
   wreck.push(box([1.9,.1,.12],[0,.34,.6]),box([.12,.1,1.8],[.3,.11,-.6],'wood',wood,[0,-.4,0]));
   model('mountain-cart-wreck','Destroços de carroça · madeira e rodas',wreck,'Arquitetura / Madeira','Tábuas partidas, eixo e rodas com aro e raios para trilhas abandonadas.');
+  // Tall shell with stone courses at natural scale, rather than a stretched small tower.
+  const highWall=[];
+  for(let row=0;row<22;row++)for(let col=0;col<6;col++) {
+    if(row>=6 && row<=16 && col>=2 && col<=3)continue;
+    if(row>20+(col%3))continue;
+    const jitter=Math.sin(row*19+col*7),width=.695+(col%3)*.005;
+    highWall.push(box([width,.345,.65+(col%3)*.02],[-1.8+col*.72+(row%2)*.025,row*.36+.175,jitter*.025],
+      'stone',{...masonry,textureBrightness:.95},[jitter*.018,0,jitter*.01]));
+  }
+  for(const sign of [-1,1])for(let row=0;row<20;row++)for(let col=0;col<2;col++) {
+    if(row>17 && col>0)continue;
+    highWall.push(box([.65,.345,.695],[sign*1.82,row*.36+.175,-.65-col*.72],'stone',{...masonry,textureBrightness:.95}));
+  }
+  for(let i=0;i<7;i++)highWall.push(rubble([.35+(i%3)*.1,.18,.3],[i*.48-1.6,0,.7+(i%2)*.2],877+i));
+  model('mountain-ruin-high-wall','Ruína alta de montanha · torre partida',highWall,'Arquitetura / Ruínas',
+    'Alvenaria alta com 22 fiadas de pedra, janela vertical real, laterais e fundo aberto. Feita para a cena de desfiladeiro; evita esticar as pedras de uma torre pequena.');
   return ids;
 }

@@ -1,4 +1,5 @@
 import {rockSculptPanel} from '../ui/rock-sculpt-panel.js';
+import { EXAMPLE_SCENES, loadExampleScene } from '../data/example-scenes.js';
 import {isSculptableRock,ROCK_SCULPT_MODES} from '../domain/rock-sculpt.js';
 import { proposeWaterBrush, proposeWaterBed } from '../authoring/water.js';
 import { floatingWindow } from '../ui/floating-window.js';
@@ -807,6 +808,19 @@ export async function startApplication() {
 
   function closeDialog() { documentsWindow.close(); }
 
+  async function openExample(exampleId) {
+    if (!canSwitch()) return;
+    const ticket=++openTicket, sourceId=store.document.id, sourceVersion=store.editVersion;
+    notify('Carregando cena de exemplo…');
+    const doc=await loadExampleScene(exampleId);
+    if(ticket!==openTicket)return;
+    if(store.document.id!==sourceId||store.editVersion!==sourceVersion) {notify('A cena atual mudou durante o carregamento. Suas alterações foram preservadas; abra o exemplo novamente.',true);return;}
+    selection=null;clearProposal();setTool('select');
+    store.replace(doc,{saved:false});viewport.frameScene();
+    const camera=Object.values(doc.cameraPresets)[0];if(camera)viewport.setCamera(camera);
+    closeDialog();notify('Exemplo aberto como cópia editável. Use Salvar para guardar sua cena.');
+  }
+
   async function openScene(sceneId) {
     if (!canSwitch()) return;
     const ticket = ++openTicket, sourceId = store.document.id, sourceVersion = store.editVersion;
@@ -950,6 +964,14 @@ export async function startApplication() {
 
     if (dialogTab === 'scenes') {
       container.innerHTML = `
+        <section class="example-scenes" aria-labelledby="example-scenes-title">
+          <h3 id="example-scenes-title" class="eyebrow">CENAS DE EXEMPLO</h3>
+          <p class="microcopy">Carregue uma cópia para explorar, editar e salvar como sua cena.</p>
+          ${EXAMPLE_SCENES.map(example=>`<button type="button" class="example-scene-card" data-open-example="${example.id}">
+            <img src="${applicationURL(example.preview)}" alt="" width="320" height="180" loading="lazy" />
+            <span><strong>${esc(example.name)}</strong><small>${esc(example.description)}</small><b>Carregar cena</b></span>
+          </button>`).join('')}
+        </section>
         <div class="tab-toolbar">
           <span class="eyebrow">${savedScenes.length} cena(s) salva(s)</span>
           <div class="tab-toolbar-actions">
@@ -1764,6 +1786,7 @@ export async function startApplication() {
     }
     if (node.dataset.cameraDelete) { execute('camera.remove', { id: node.dataset.cameraDelete }); return; }
     if (node.dataset.open) { openScene(node.dataset.open).catch((error) => notify(error.message, true)); return; }
+    if (node.dataset.openExample) { openExample(node.dataset.openExample).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.openMap) { openMap(node.dataset.openMap).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.instantiateMap) { instantiateMap(node.dataset.instantiateMap).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.duplicateSceneId) { duplicateDocFromList(node.dataset.duplicateSceneId, 'scene'); return; }

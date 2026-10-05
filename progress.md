@@ -2,6 +2,32 @@
 
 Atualizado em 5 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Revisão da referência · subida, caverna e lanternas — concluída
+
+- [x] Identificar a corrente interrompida e corrigir a leitura da referência: encosta ascendente, caverna lateral e ponte elevada.
+- [x] Acrescentar lanterna arredondada e entrada de caverna com vão real; corrigir a corrente da lanterna existente.
+- [x] Reconstruir o exemplo com relevo ascendente e encaixes coerentes; revisar as câmeras e a prévia no renderizador.
+- [x] Validar geometria, apoios, carregamento/Pages e persistência; sincronizar guias e resumos.
+
+A revisão tem 85 elementos em 40 × 58 m, com subida de aproximadamente dez metros, três lanternas circulares e cinco câmeras. Suportes encaixados por raycast na geometria dos paredões/ruínas; luzes posicionadas nos núcleos. Suíte final de 159 testes de domínio/integração aprovada; os cinco testes do exemplo passaram novamente depois de afastar a torre do acesso à ponte e limitar os pilares abaixo das vigas. Verificados encaixes dos suportes/luzes, subida, passagem da ponte livre de alvenaria e vazio da caverna. Quatro cenários E2E afetados aprovados: exemplo no servidor, exemplo no Pages, catálogo/importação/salvamento/projetor sob /Tabletop/ sem API e repositório IndexedDB/conflitos. Após os últimos ajustes da ponte e do paredão da caverna, os cinco testes do exemplo e o fluxo completo do exemplo no Pages passaram novamente. Cópias independentes, edição/histórico, salvar/reabrir e câmera do projetor independente verificados. A suíte completa de navegador não foi repetida.
+
+A montagem anterior foi interpretada como vale/corredor e foi substituída no exemplo distribuído. Cópias pessoais já salvas permanecem independentes. A revisão usa entidades comuns e dois assets originais; a caverna é um abrigo modular com teto, laterais e fundo, sem alterar o contrato de uma altura por X/Z do terreno.
+
+Capturas finais revisadas: `test-results/mountain-example-reference.png` e `test-results/mountain-example-cave.png`; prévia real atualizada em `public/scenes/snowy-mountain-pass.jpg`. Builds local/Pages aprovados após incluir a prévia final; JSON, modelos e imagem conferidos idênticos a public nos dois builds. Recorte com movimento reduzido: 156 chamadas de desenho, 222.058 triângulos e 17 texturas. Sem benchmark presencial. O acabamento continua estilizado; materiais autorais, desgaste/neve regional, vegetação densa e contato/reflexos continuam no plano de [docs/EXAMPLE_SCENES.md](docs/EXAMPLE_SCENES.md). Jukebox/Ficha permanecem adiados. Guias e três relatórios de progresso sincronizados.
+
+## Cena de exemplo · primeira montagem — histórico, substituída pela revisão acima
+
+- [x] Compor terreno nevado, leito e rio, paredões, ruínas, madeira, vegetação e enquadramentos com entidades comuns/editáveis.
+- [x] Disponibilizar exemplo em Abrir como cópia independente, com prévia real e caminhos compatíveis com Pages.
+- [x] Revisar a composição no renderizador, corrigir montagem e verificar apoios, persistência e projetor.
+- [x] Sincronizar documentação e registrar limitações e próximos passos constatados na cena.
+
+Montagem revisada com 93 elementos, cinco câmeras e seis pastas. Um asset de ruína alta foi acrescentado para evitar esticar as fiadas da torre pequena; os 188 assets anteriores mantêm arquivos e IDs. O original distribuído fica separado das cenas pessoais; carregar cria um rascunho novo sem sobrescrever documentos. Validação final: suíte de 157 testes unitários/de integração, builds local/Pages e quatro cenários E2E afetados aprovados: exemplo no servidor, exemplo no Pages, fluxo anterior de Pages/imports/projetor e repositório IndexedDB/conflitos. Os três testes do novo arquivo foram repetidos após distribuir a neve entre volume próximo e cobertura visual de fundo. Verificados terreno/leito, referências locais, determinismo, janela real da nova ruína, cópias independentes, edição/undo/redo, salvar/reabrir, original preservado, erro de fetch sem perder a cena, URLs sob /Tabletop/ sem API e câmera independente do projetor. Galeria de 390 px revisada em `test-results/example-gallery-mobile.png`. A suíte completa de navegador não foi repetida.
+
+As primeiras execuções ajustaram comparação de câmera para tolerância numérica, espera pela lista assíncrona e indicador de alterações oculto no cabeçalho compacto. O cartão recebeu limites de largura e a verificação espera o reposicionamento da janela ao mudar de tamanho. A execução animada simultânea ficou pesada em SwiftShader; os fluxos completos passaram com movimento reduzido, sem alterar o JSON da cena. O teste da suíte pelo sandbox não abriu portas; a chamada direta autorizada de `node --test` passou.
+
+Captura revisada: `test-results/mountain-example-reference.png`; prévia real em `public/scenes/snowy-mountain-pass.jpg`. Neve com volume concentrada no primeiro plano: recorte passou de 208 chamadas/433.856 triângulos para 170 chamadas/279.944 triângulos, com 15 texturas, sem benchmark presencial. A composição permanece estilizada; plano de edição incremental, materiais/desgaste regional, vegetação e contato/água em [docs/EXAMPLE_SCENES.md](docs/EXAMPLE_SCENES.md), comunicado antes de implementar novas ferramentas.
+
 ## Escultura direta nas superfícies — concluída
 
 - [x] Pincel por raycast em rochas/paredões, incluindo faces verticais e topo; conservar controles paramétricos.

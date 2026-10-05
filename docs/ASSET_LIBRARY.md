@@ -1,6 +1,6 @@
 # Catálogo de assets e classificação
 
-Implementado em 3 de outubro de 2026. A aba **Assets** oferece **189 modelos 3D locais**, incluindo os seis objetos do kit inicial e **183 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
+Implementado em 3 de outubro de 2026. A aba **Assets** oferece **191 modelos 3D locais**, incluindo os seis objetos do kit inicial e **185 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
 
 No GitHub Pages, o mesmo catálogo é servido pelo build estático; imports, classificação e favoritos ficam no navegador, com persistência após reabrir. No modo Node ficam no servidor local. Publicação e limites de transporte: [GITHUB_PAGES.md](GITHUB_PAGES.md).
 
@@ -95,4 +95,4 @@ As oito peças geológicas também recebem edição manual diretamente na superf
 
 ## Asset do piloto de montanha
 
-A cena de exemplo acrescenta **Ruína alta de montanha · torre partida**, em Arquitetura / Ruínas: 22 fiadas, janela vertical vazada, laterais/fundo aberto e geometria agrupada. Evita esticar a torre pequena para simular uma construção alta. Catálogo atual: 189 assets. A composição pode ser aberta em Abrir; guia em [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).
+A cena de exemplo acrescenta **Ruína alta de montanha · torre partida**, em Arquitetura / Ruínas: 22 fiadas, janela vertical vazada, laterais/fundo aberto e geometria agrupada. Evita esticar a torre pequena para simular uma construção alta. Catálogo atual: 191 assets, incluindo também a lanterna arredondada com corrente conectada e a entrada de caverna com vão real. A composição pode ser aberta em Abrir; guia em [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).
