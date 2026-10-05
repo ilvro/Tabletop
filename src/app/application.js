@@ -1,5 +1,6 @@
+import { createMountainTerrain } from '../authoring/mountain.js';
 import { materialPanel, localEffectPanel } from '../ui/material-panels.js';
-import { surfacePatch, layerSurfacePatch, textureFieldPatch, LOCAL_EFFECT_DEFAULTS, smokeDefaults } from '../domain/materials.js';
+import { surfacePatch, layerSurfacePatch, textureFieldPatch, coverageDefaults, distributionOptions, LOCAL_EFFECT_DEFAULTS, smokeDefaults } from '../domain/materials.js';
 import { Euler, Quaternion, Vector3 } from 'three';
 import { environmentPanel, bindingPanel } from '../ui/environment-panels.js';
 import { atmospherePanel, lightPanel } from '../ui/lighting-panels.js';
@@ -1051,6 +1052,12 @@ export async function startApplication() {
     }
     if (field.startsWith('terrain-new-')) { terrainOptions[field.slice(12)] = value; return; }
     if (field === 'terrain-paint-layer') { terrainBrush.layerId = value; viewport.setTerrainBrush(terrainBrush); renderInspector(); return; }
+    if (field.startsWith('terrain-distribution-')) {
+      const terrain=locate()?.record;
+      if(terrain?.kind!=='terrain') return;
+      const key=field.slice('terrain-distribution-'.length);
+      execute('entity.update',{id:terrain.id,patch:{paintLayers:terrain.paintLayers.map(layer=>layer.id===terrainBrush.layerId?{...layer,distribution:{...distributionOptions(layer.distribution),[key]:value}}:layer)},snap:false},{label:'Distribuir superfície do terreno'}); return;
+    }
     if (field.startsWith('terrain-layer-')) {
       const terrain = locate()?.record, layers = terrain?.paintLayers;
       if (terrain?.kind !== 'terrain' || !layers?.some(layer => layer.id === terrainBrush.layerId)) return;
@@ -1191,6 +1198,10 @@ export async function startApplication() {
     else if (field.startsWith('footprint-')) { const footprint = [...record.footprint]; footprint[Number(field.slice(-1))] = value; patch.footprint = footprint; }
     else if (field === 'token-color') actorPatch = { color: value };
     else if (field.startsWith('material-')) patch.material = field === 'material-texture' ? surfacePatch(value) : textureFieldPatch(record.material, field.slice(9), value);
+    else if (field.startsWith('coverage-')) {
+      const member=field.slice(9), current=record.material.coverage;
+      patch.material={coverage: member==='texture' ? (value==='none'?null:coverageDefaults(value)) : {...current,[member]:value}};
+    }
     else if (field.startsWith('effect-') && record.kind === 'prop') {
       const config = clone(record.localEffect ?? LOCAL_EFFECT_DEFAULTS), member=field.slice(7);
       if(member === 'type') patch.localEffect = value === 'none' ? { ...config, enabled:false } : config.type === value ? { ...config, enabled:true } : { ...(value==='smoke'?smokeDefaults():LOCAL_EFFECT_DEFAULTS), hideModel:config.hideModel, enabled:true };
@@ -1283,8 +1294,9 @@ export async function startApplication() {
         const member=assemblyMembers(store.document,key)[0];
         if(execute('group.unbind',{ id:key },{ label:'Desancorar objetos' })) { selectObject(member?.id ?? null); renderSidebar(); notify('Objetos desancorados. Suas posições e a pasta foram preservadas.'); } break;
       }
-      case 'terrain-add': {
-        const entity = createEntity('terrain', { ...terrainOptions, position: [0, buildHeight, 0], ...constructionSemantics() });
+      case 'terrain-add': case 'terrain-mountain': {
+        const options={ ...terrainOptions, position: [0, buildHeight, 0], ...constructionSemantics() };
+        const entity = action==='terrain-mountain' ? createMountainTerrain(options) : createEntity('terrain',options);
         if (execute('entity.add', { entity, snap: false })) { selectObject(entity.id); setTool('select'); viewport.frameSelection(entity.id); document.getElementById('inspector-content').scrollTop = 0; notify('Terreno criado. Os pincéis estão no topo do inspetor à direita: escolha um e clique em Ativar pincel.'); } break;
       }
       case 'terrain-layer-add': {
@@ -1319,6 +1331,8 @@ export async function startApplication() {
         if (!terrain || terrain.kind !== 'terrain' || isLocked(store.document, terrain)) { notify('Selecione um terreno desbloqueado para ativar o pincel (T).', true); break; }
         if (selectedIds.size !== 1 || selection !== terrain.id) selectObject(terrain.id);
         if (['paint','erase'].includes(terrainBrush.mode) && !terrain.paintLayers?.some(layer => layer.id === terrainBrush.layerId && layer.visible)) { notify('Crie ou escolha uma camada de cor visível antes de pintar.', true); break; }
+        const paintLayer=terrain.paintLayers?.find(layer=>layer.id===terrainBrush.layerId);
+        if (['paint','erase'].includes(terrainBrush.mode) && paintLayer?.distribution && paintLayer.distribution.mode!=='paint') { notify('Esta camada é automática. Escolha Pintura manual em Editar material para usar o pincel.',true); break; }
         clearProposal(); viewport.setTerrainBrush(terrainBrush); setTool('terrain'); renderInspector(); notify('Pincel ativo: arraste no terreno. T ou Q retorna à seleção; Esc cancela.'); break;
       }
       case 'floor-hole': {

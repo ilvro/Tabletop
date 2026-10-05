@@ -47,7 +47,7 @@ test('terrain texture painting preserves masks, ordering, resampling and old col
 });
 
 test('procedural atlases are distinct and shared only within a viewport, with slot isolation and explicit disposal', () => {
-  const atlas=generateSurfaceAtlas(); assert.equal(atlas.albedo.length,256*256*8*4); assert.notDeepEqual(atlas.albedo.slice(0,256*256*4),atlas.albedo.slice(256*256*4,256*256*8));
+  const atlas=generateSurfaceAtlas(); assert.equal(atlas.albedo.length,256*256*SURFACE_MATERIALS.length*4); assert.notDeepEqual(atlas.albedo.slice(0,256*256*4),atlas.albedo.slice(256*256*4,256*256*8));
   const library=createSurfaceLibrary(), group=new THREE.Group();
   for(const slot of ['wood','metal']) { const mesh=new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial({color:'#eeeeee',roughness:.22,metalness:.9})); mesh.userData.materialSlot=slot; group.add(mesh); }
   const other=group.children[0].material.clone(), prop=createEntity('prop',{material:{...surfacePatch('wood'),textureSlot:'wood'}});

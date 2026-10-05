@@ -4,7 +4,7 @@ Implementação em 4 de outubro de 2026. As configurações acompanham mapas/cen
 
 ## Aplicar uma textura
 
-Selecione piso, parede, porta, janela, escada, rampa, terreno ou objeto. No inspetor, abra **Material e textura** e escolha madeira, pedra, grama, metal, areia, tijolo, concreto ou lama.
+Selecione piso, parede, porta, janela, escada, rampa, terreno ou objeto. No inspetor, abra **Material e textura** e escolha madeira, pedra, grama, metal, areia, tijolo, concreto lama, rocha natural ou neve.
 
 A escolha aplica a cor branca de matiz e o acabamento inicial do material. Depois ajuste:
 
@@ -35,7 +35,7 @@ Selecionar outra textura reinicia os ajustes de cor/desenho/brilho para os valor
 
 **Sem textura adicional** remove a substituição e volta a usar os mapas originais de um GLB, conservando seus ajustes de cor/rugosidade/metalicidade. Documentos e assets compartilhados não são modificados por outra instância.
 
-As oito texturas são procedurais originais, geradas localmente, com cor, altura e rugosidade. Não dependem de internet ou downloads. São um primeiro acervo de superfícies; modelos detalhados e materiais fotográficos específicos continuam úteis para aproximar as referências.
+As dez texturas são procedurais originais, geradas localmente, com cor, altura e rugosidade. Não dependem de internet ou downloads. São um primeiro acervo de superfícies; modelos detalhados e materiais fotográficos específicos continuam úteis para aproximar as referências.
 
 ## Pintar materiais no terreno
 
@@ -78,3 +78,35 @@ Modelos fotográficos, upload de texturas avulsas/coleções de variantes nomead
 Os testes de domínio cobrem rejeição atômica, histórico, duplicação/mapas, filtragem de emissores privados, máscaras/reamostragem do terreno, isolamento por material, seeds e descarte. Os testes de navegador cobrem controles reais, colocação, pausa/qualidade, reabertura e projetor independente. A verificação WebGL compara pixels dos oito materiais, variantes de madeira/metal, recoloração verde e escurecimento, terreno personalizado misturado e fogo/fumaça animados; verifica compatibilidade visual sem os novos campos e liberação das texturas. A UI verifica persistência no projetor/reabertura, desfazer e máscaras conservadas.
 
 Os resultados finais desta implementação são registrados em [progress.md](../progress.md). Capturas do fluxo: `test-results/materials-fire-smoke.png` e `test-results/custom-materials.png`. Chromium com WebGL por software não representa benchmark no notebook/projetor.
+
+## Composição de montanha: rocha, neve e camadas automáticas
+
+Incremento de 4 de outubro de 2026. **Rocha natural** é uma superfície sem blocos de alvenaria: oferece formações fraturada, estratificada e granito, intensidade das fissuras, rotação, densidade/seed e os mesmos ajustes de cor/brilho. **Pedra** mantém seu desenho anterior em blocos. **Neve** acrescenta granulação e ondulações suaves, com cor, rugosidade e relevo aparente próprios.
+
+### Começar um terreno
+
+Em **Construir → Terreno e relevo**, ajuste largura/comprimento/resolução e clique em **Montanha · rocha e neve**. O resultado é um terreno comum com alturas editáveis, uma camada de rocha, neve automática nas partes menos inclinadas e uma trilha de lama pintada. Não existe dependência de um gerador após criar: escultura, pintura, undo/redo, mapas e salvamento usam o documento normal.
+
+Para compor seu próprio terreno:
+
+1. Selecione o terreno e a camada inicial. Abra **Editar material e propriedades**, escolha **Rocha natural** e ajuste seu tamanho/cor/formação.
+2. Use **Nova camada de material**, escolha **Neve** e mude **Distribuição da superfície** para **Faces superiores / pouca inclinação**. Essa camada aparece mesmo com a máscara manual vazia.
+3. Ajuste **Inclinação limite** (por exemplo 40°) e **Transição da inclinação** (por exemplo 12°). Neve cobre terrenos planos e desaparece gradualmente nas encostas.
+4. Se quiser neve apenas no alto, ative **Limitar pela altura no mapa** e ajuste Y mínimo/transição. A altura é mundial, inclusive ao mover o terreno.
+5. Ajuste irregularidade, tamanho das manchas em metros e seed. Acrescente uma camada manual acima para trilhas, sujeira ou outras intervenções.
+
+Cada camada aceita **Pintura manual**, **Faces superiores**, **Encostas** ou **Toda a superfície**. Modos automáticos substituem temporariamente a máscara na renderização; conservam seus valores e sua reamostragem. Voltar à pintura manual recupera a máscara anterior. O pincel de pintura/apagar pede que se escolha Pintura manual; os pincéis de escultura continuam disponíveis. Ordem, visibilidade e opacidade das oito camadas continuam funcionando.
+
+### Cobrir rochas e construções
+
+Selecione um objeto ou estrutura. Em **Material e textura → Cobertura sobre a superfície**, escolha **Neve**. Ela cobre as faces superiores sobre o material atual, inclusive materiais/texturas originais de um GLB. É possível escolher outras superfícies, como grama ou lama.
+
+A cobertura tem cor, tamanho da textura, quantidade, relevo e distribuição próprios. Ela respeita a escolha **Aplicar acabamento em** nos modelos, permitindo cobrir só a pedra ou a folhagem. Alterar a textura base conserva a cobertura; **Sem cobertura** a remove e desfazer a restaura. Cor escura na base não escurece a neve. Inclinação usa as normais transformadas, incluindo rotação, escala não uniforme e facetas do terreno; textura e variação usam metros no mundo.
+
+### Limites e dados
+
+É cobertura visual de material, sem adicionar volume, alterar colisão ou acumular neve fisicamente. Não verifica exposição ao céu: objetos sob um teto também podem receber cobertura; desligue-a ou restrinja os materiais dessas instâncias. Neve caindo, gelo, água, rochas com geometria detalhada e decals continuam posteriores.
+
+`material.coverage` é opcional/nulo; quando ativo guarda `texture`, `color`, `textureSize`, `amount`, `relief` e os campos de distribuição. `paintLayers[].distribution` é opcional e guarda `mode`, `slopeAngle`, `slopeFade`, `heightEnabled`, `minHeight`, `heightFade`, `variation`, `variationSize` e `seed`. Campos ausentes conservam a pintura/aparência anterior. Novos parâmetros de textura: `rockPattern` e `rockCracks`. Todos são validados antes de confirmar comandos/imports/salvamento; acompanham histórico, mapas, duplicação e projeção filtrada.
+
+As novas texturas usam o mesmo atlas/cache por viewport; cobertura não adiciona uma malha ou draw call. Distribuição é calculada por fragmento, com custo adicional de amostras/ruído. Não representa um benchmark presencial. Resultados de testes e limites de hardware estão em [progress.md](../progress.md).

@@ -44,11 +44,22 @@ test('textured materials, terrain layers and local fire/smoke render through UI,
   const materials=(await stats()).surfaceMaterials.filter(m=>m.id===prop.id);assert.ok(materials.length);assert.ok(materials.every(m=>m.slot==='wood'));
   await select('material-texture','metal');await select('material-metalPattern','diamond');await field('material-metalWear',40);
   assert.equal((await snapshot()).layout.entities[prop.id].material.metalWear,.4);
+  await select('material-texture','rock');await select('material-rockPattern','strata');await field('material-rockCracks',.8);
+  await select('coverage-texture','snow');await field('coverage-slopeAngle',35);await field('coverage-amount',.7);
+  assert.equal((await snapshot()).layout.entities[prop.id].material.coverage.amount,.7);
+  await action('undo');assert.equal((await snapshot()).layout.entities[prop.id].material.coverage.amount,1);await action('redo');
   await page.locator(`[data-select="${terrain.id}"]`).click();await select('terrain-layer-texture','grass');await field('terrain-layer-textureSize',.75);
   assert.equal((await snapshot()).layout.entities[terrain.id].paintLayers[0].texture,'grass');
   const mask=(await snapshot()).layout.entities[terrain.id].paintLayers[0].weights;
   await field('terrain-layer-textureColor','#447788');await field('terrain-layer-textureBrightness',.75);await field('terrain-layer-textureRotation',90);await field('terrain-layer-patternDensity',2);assert.equal(await page.locator('[data-texture-options="terrain-layer-"]').evaluate(node=>node.open),true);await field('terrain-layer-textureSeed',12);
   assert.deepEqual((await snapshot()).layout.entities[terrain.id].paintLayers[0].weights,mask);
+  await select('terrain-layer-texture','rock');await select('terrain-layer-rockPattern','fractured');
+  await action('terrain-layer-add');await select('terrain-layer-texture','snow');await select('terrain-distribution-mode','top');
+  await field('terrain-distribution-slopeAngle',30);await check('terrain-distribution-heightEnabled');await field('terrain-distribution-minHeight',.5);await field('terrain-distribution-variationSize',4);
+  assert.deepEqual((await snapshot()).layout.entities[terrain.id].paintLayers[0].weights,mask);
+  assert.equal((await snapshot()).layout.entities[terrain.id].paintLayers[1].distribution.minHeight,.5);
+  await select('terrain-distribution-mode','paint');assert.ok((await snapshot()).layout.entities[terrain.id].paintLayers[1].weights.every(w=>w===0));await action('undo');
+
   await page.locator(`[data-select="${floor.id}"]`).click();
   await page.locator('[data-tab="build"]').click();await action('fire-place');
   let point=await page.evaluate(()=>window.__tabletop.project([0,0,0]));await page.mouse.click(point.x,point.y);
@@ -64,6 +75,7 @@ test('textured materials, terrain layers and local fire/smoke render through UI,
   const paused=(await stats()).effectTime;await page.waitForTimeout(120);assert.equal((await stats()).effectTime,paused);
   await mkdir('test-results',{recursive:true});await page.locator('#viewport canvas').screenshot({path:'test-results/materials-fire-smoke.png'});
   const [projector]=await Promise.all([page.waitForEvent('popup'),action('presentation-window')]);projector.on('pageerror',e=>errors.push(e.message));await projector.waitForFunction(()=>window.__tabletop?.stats().localEffects.length===2);
+  await projector.waitForFunction(id=>window.__tabletop.stats().surfaceMaterials.some(m=>m.id===id&&m.coverage?.texture==='snow'),prop.id);
   const camera=await projector.evaluate(()=>window.__tabletop.camera());
   await page.bringToFront();await page.locator(`[data-select="${floor.id}"]`).click();await select('material-texture','stone');await projector.waitForFunction(id=>window.__tabletop.stats().surfaceMaterials.some(m=>m.id===id&&m.texture==='stone'),floor.id);assert.deepEqual(await projector.evaluate(()=>window.__tabletop.camera()),camera);
   const textureCount=(await stats()).textures;
@@ -87,7 +99,7 @@ test('all surface presets change real GPU pixels; terrain blends masks and local
   const server=app.listen(0,'127.0.0.1');await once(server,'listening');const browser=await launch(),page=await browser.newPage();const errors=[];
   t.after(async()=>{await browser.close();await new Promise(r=>server.close(r));});page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});await page.goto(`http://127.0.0.1:${server.address().port}`);
   const result=await page.evaluate(async()=>{
-    const THREE=await import('three'),{createSurfaceLibrary,applySurfaceTextures}=await import('/src/render/surface-materials.js'),{createEntity}=await import('/src/domain/documents.js'),{createFloor,createTerrain}=await import('/src/render/scene-objects.js'),{SURFACE_MATERIALS,surfacePatch,LOCAL_EFFECT_DEFAULTS,smokeDefaults}=await import('/src/domain/materials.js'),{createLocalEffect,updateLocalEffect}=await import('/src/render/local-effects.js'),{disposeObject}=await import('/src/render/asset-cache.js');
+    const THREE=await import('three'),{createSurfaceLibrary,applySurfaceTextures}=await import('/src/render/surface-materials.js'),{createEntity}=await import('/src/domain/documents.js'),{createFloor,createTerrain}=await import('/src/render/scene-objects.js'),{SURFACE_MATERIALS,surfacePatch,coverageDefaults,distributionOptions,LOCAL_EFFECT_DEFAULTS,smokeDefaults}=await import('/src/domain/materials.js'),{createLocalEffect,updateLocalEffect}=await import('/src/render/local-effects.js'),{disposeObject}=await import('/src/render/asset-cache.js');
     const renderer=new THREE.WebGLRenderer({preserveDrawingBuffer:true});renderer.setSize(240,240);renderer.outputColorSpace=THREE.SRGBColorSpace;document.body.append(renderer.domElement);
     const scene=new THREE.Scene();scene.background=new THREE.Color('#222222');scene.add(new THREE.HemisphereLight('#ffffff','#888888',3));const light=new THREE.DirectionalLight('#ffffff',3);light.position.set(3,5,2);scene.add(light);
     const camera=new THREE.PerspectiveCamera(45,1,.1,100);camera.position.set(0,4,3);camera.lookAt(0,0,0);const library=createSurfaceLibrary();
@@ -109,11 +121,41 @@ test('all surface presets change real GPU pixels; terrain blends masks and local
     const fullView=createTerrain(fullTerrain);applySurfaceTextures(fullView,fullTerrain,library);scene.add(fullView);const fullBlend=capture();disposeObject(fullView);
     fullTerrain.paintLayers[7].textureColor='#408830';fullTerrain.paintLayers[7].textureColorMode='replace';
     const fullEdited=createTerrain(fullTerrain);applySurfaceTextures(fullEdited,fullTerrain,library);scene.add(fullEdited);const fullEditedBlend=capture();disposeObject(fullEdited);
+    const coating=(position,coverage,scale=[1,1,1],angle=0)=>{
+      const entity=createEntity('prop',{material:{...surfacePatch('rock'),color:'#39434c',coverage}});
+      const mesh=new THREE.Mesh(new THREE.BoxGeometry(3,2,3),new THREE.MeshStandardMaterial({color:entity.material.color,roughness:.9,metalness:0}));
+      mesh.scale.set(...scale);mesh.rotation.z=angle;applySurfaceTextures(mesh,entity,library);scene.add(mesh);
+      camera.up.set(...(position[1]===0?[0,1,0]:[0,0,-1]));camera.position.set(...position);camera.lookAt(0,0,0);
+      const hash=capture(),channels=[...lastChannels];disposeObject(mesh);return {hash,channels};
+    };
+    const cover={...coverageDefaults(),variation:0};
+    const topBare=coating([0,6,0],null),topSnow=coating([0,6,0],cover),sideBare=coating([0,0,6],null),sideSnow=coating([0,0,6],cover);
+    const bottomBare=coating([0,-6,0],null),bottomSnow=coating([0,-6,0],cover);
+    const noSnow=coating([0,6,0],{...cover,amount:0}),highSnow=coating([0,6,0],{...cover,heightEnabled:true,minHeight:100});
+    const patchy=coating([0,6,0],{...cover,variation:1}),patchySeed=coating([0,6,0],{...cover,variation:1,seed:123});
+    const tiltedBare=coating([0,6,0],null,[2,.5,1],Math.PI/3),tiltedSnow=coating([0,6,0],{...cover,slopeAngle:20},[2,.5,1],Math.PI/3);
+    const autoTerrain=(mode,heightEnabled=false,minHeight=0)=>{
+      const entity=createEntity('terrain',{width:4,length:4,segments:4,material:surfacePatch('rock')});
+      entity.heights=entity.heights.map((_,i)=>i%5*.8);
+      entity.paintLayers=[{id:'snow',name:'Snow',color:'#ffffff',texture:'snow',visible:true,opacity:1,weights:Array(25).fill(0),distribution:{...distributionOptions(),mode,variation:0,heightEnabled,minHeight}}];
+      const object=createTerrain(entity);applySurfaceTextures(object,entity,library);scene.add(object);camera.up.set(0,1,0);camera.position.set(0,6,6);camera.lookAt(0,1,0);const hash=capture();disposeObject(object);return hash;
+    };
+    const autoPaint=autoTerrain('paint'),autoTop=autoTerrain('top'),autoSteep=autoTerrain('steep'),autoAll=autoTerrain('all'),autoHigh=autoTerrain('all',true,100);
+    const composition={topBare,topSnow,sideBare,sideSnow,bottomBare,bottomSnow,noSnow,highSnow,patchy,patchySeed,tiltedBare,tiltedSnow,autoPaint,autoTop,autoSteep,autoAll,autoHigh};
+    camera.up.set(0,1,0);
     const fire=createLocalEffect(LOCAL_EFFECT_DEFAULTS),smoke=createLocalEffect(smokeDefaults());fire.position.x=-.7;smoke.position.x=.7;scene.add(fire,smoke);camera.position.set(0,2,6);camera.lookAt(0,1,0);
     updateLocalEffect(fire,1,true,false);updateLocalEffect(smoke,1,true,false);const first=capture();updateLocalEffect(fire,1.8,true,false);updateLocalEffect(smoke,1.8,true,false);const second=capture();
-    updateLocalEffect(fire,1.8,false,false);updateLocalEffect(smoke,1.8,false,false);const hidden=capture();disposeObject(fire);disposeObject(smoke);library.dispose();capture();const textures=renderer.info.memory.textures;renderer.dispose();return {hashes,blend,customBlend,fullBlend,fullEditedBlend,original,dark,green,gray,woodVariants,metals,legacy,first,second,hidden,textures,baseline};
+    updateLocalEffect(fire,1.8,false,false);updateLocalEffect(smoke,1.8,false,false);const hidden=capture();disposeObject(fire);disposeObject(smoke);library.dispose();capture();const textures=renderer.info.memory.textures;renderer.dispose();return {composition,hashes,blend,customBlend,fullBlend,fullEditedBlend,original,dark,green,gray,woodVariants,metals,legacy,first,second,hidden,textures,baseline};
   });
-  assert.equal(new Set(result.hashes).size,8);
+  assert.equal(new Set(result.hashes).size,10);
+  const c=result.composition,sum=v=>v.channels.reduce((a,b)=>a+b,0);
+  assert.ok(sum(c.topSnow)>sum(c.topBare)*1.7,'snow visibly covers upward faces despite dark base tint');
+  assert.equal(c.sideBare.hash,c.sideSnow.hash,'vertical faces remain exposed');assert.equal(c.bottomBare.hash,c.bottomSnow.hash,'undersides remain exposed');
+  assert.equal(c.topBare.hash,c.noSnow.hash,'zero coverage restores the base');assert.equal(c.topBare.hash,c.highSnow.hash,'world height limits remove coverage');
+  assert.notEqual(c.topSnow.hash,c.patchy.hash);assert.notEqual(c.patchy.hash,c.patchySeed.hash);
+  assert.equal(c.tiltedBare.hash,c.tiltedSnow.hash,'slope uses transformed normals on rotated, nonuniformly scaled meshes');
+  assert.notEqual(c.autoPaint,c.autoTop,'automatic distribution works with empty manual masks');assert.notEqual(c.autoTop,c.autoSteep);assert.notEqual(c.autoAll,c.autoHigh);assert.equal(c.autoPaint,c.autoHigh);
+
   assert.equal(result.original.hash,result.legacy.hash);assert.ok(result.dark.channels.reduce((a,b)=>a+b,0)<result.original.channels.reduce((a,b)=>a+b,0)*.8);
   assert.ok(Math.max(...result.gray.channels)-Math.min(...result.gray.channels)<1,'zero saturation removes the original color');assert.notEqual(result.fullBlend,result.fullEditedBlend,'the eighth custom layer changes pixels in a nine-style atlas');
   assert.ok(result.green.channels[1]>result.green.channels[0]*1.2,'recoloring produces a visibly green material');

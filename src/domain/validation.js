@@ -41,12 +41,29 @@ function transform(value, path, structural = false) {
   if (structural) fail(value.scale.every(v => Math.abs(v - 1) < 1e-8), 'Escala estrutural deve ser incorporada às dimensões.', path);
 }
 function material(value, path, partial = false) {
-  keys(value, ['color', 'roughness', 'metalness', 'emissive', 'emissiveIntensity', 'texture', 'textureSize', 'relief', 'textureSlot', ...TEXTURE_OPTION_FIELDS], path);
+  keys(value, ['color', 'roughness', 'metalness', 'emissive', 'emissiveIntensity', 'texture', 'textureSize', 'relief', 'textureSlot', 'coverage', ...TEXTURE_OPTION_FIELDS], path);
   if (!partial || value.color !== undefined) color(value.color, `${path}.color`);
   for (const field of ['roughness', 'metalness']) if (!partial || value[field] !== undefined) number(value[field], `${path}.${field}`, 0, 1);
   surfaceFields(value,path);
+  if (value.coverage !== undefined && value.coverage !== null) {
+    const c = value.coverage, cp = `${path}.coverage`;
+    keys(c, ['texture','color','textureSize','amount','relief', ...distributionFields], cp);
+    choice(c.texture, SURFACE_MATERIALS.map(m=>m.id), `${cp}.texture`);
+    color(c.color, `${cp}.color`); number(c.textureSize, `${cp}.textureSize`, .05, 50);
+    number(c.amount, `${cp}.amount`, 0, 1); number(c.relief, `${cp}.relief`, 0, .2);
+    distribution(c, cp, false);
+  }
   if (value.emissive !== undefined) color(value.emissive, `${path}.emissive`);
   if (value.emissiveIntensity !== undefined) number(value.emissiveIntensity, `${path}.emissiveIntensity`, 0);
+}
+const distributionFields = ['mode','slopeAngle','slopeFade','heightEnabled','minHeight','heightFade','variation','variationSize','seed'];
+function distribution(value, path, paint = true) {
+  choice(value.mode, paint ? ['paint','top','steep','all'] : ['top','steep','all'], `${path}.mode`);
+  for (const [key,min,max] of [['slopeAngle',0,90],['slopeFade',.5,45],['minHeight',-1000,1000],['heightFade',.01,100],['variation',0,1],['variationSize',.05,100],['seed',0,65535]]) {
+    number(value[key],`${path}.${key}`,min,max);
+  }
+  bool(value.heightEnabled,`${path}.heightEnabled`);
+  fail(Number.isInteger(value.seed),'Seed deve ser inteiro.',`${path}.seed`);
 }
 function surfaceFields(value,path) {
   if(value.texture !== undefined) choice(value.texture,['none',...SURFACE_MATERIALS.map(m=>m.id)],`${path}.texture`);
@@ -164,7 +181,11 @@ function entity(value, path, document) {
       fail(new Set(value.paintLayers.map(layer => layer?.id)).size === value.paintLayers.length, 'IDs de camadas de cor devem ser únicos.', path);
       value.paintLayers.forEach((layer, index) => {
         const lp = `${path}.paintLayers[${index}]`;
-        keys(layer, ['id','name','color','opacity','visible','weights','texture','textureSize', ...TEXTURE_OPTION_FIELDS], lp);
+        keys(layer, ['id','name','color','opacity','visible','weights','texture','textureSize','distribution', ...TEXTURE_OPTION_FIELDS], lp);
+        if (layer.distribution !== undefined) {
+          keys(layer.distribution, distributionFields, `${lp}.distribution`);
+          distribution(layer.distribution, `${lp}.distribution`);
+        }
         surfaceFields(layer,lp);
         identifier(layer.id, `${lp}.id`); text(layer.name, `${lp}.name`); color(layer.color, `${lp}.color`); number(layer.opacity, `${lp}.opacity`, 0, 1); bool(layer.visible, `${lp}.visible`);
         fail(Array.isArray(layer.weights) && layer.weights.length === value.heights.length, 'Máscara de pintura com tamanho incompatível.', lp);

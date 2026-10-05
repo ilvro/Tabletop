@@ -63,6 +63,7 @@ export function paintTerrain(terrain, position, options = {}) {
   const settings = brushSettings(options);
   const layer = terrain.paintLayers?.find(entry => entry.id === settings.layerId);
   if (terrain.kind !== 'terrain' || !['paint','erase'].includes(settings.mode) || !layer || !layer.visible) throw new ValidationError('Escolha uma camada de cor visível para pintar.');
+  if (layer.distribution && layer.distribution.mode !== 'paint') throw new ValidationError('Esta camada usa distribuição automática. Escolha Pintura manual em Editar material para pintar ou apagar.');
   const point = terrainBrushCenter(terrain, position, settings);
   return terrain.paintLayers.map(entry => entry.id !== layer.id ? structuredClone(entry) : { ...structuredClone(entry), weights: entry.weights.map((weight, index) => Math.max(0, Math.min(1, weight + (settings.mode === 'erase' ? -1 : 1) * Math.min(1, settings.strength) * weightAt(terrain, index, point, settings)))) });
 }

@@ -1,10 +1,10 @@
 # Cenários detalhados — comparação com as referências
 
-Revisão em 4 de outubro de 2026, a partir das sete imagens de Tabletop de Ordem Paranormal fornecidas pelo usuário e do código atual do projeto. Este documento registra lacunas e uma ordem recomendada de trabalho, atualizado após a implementação de [materiais texturizados e emissores locais](MATERIALS.md).
+Revisão em 4 de outubro de 2026, a partir das sete imagens de Tabletop de Ordem Paranormal fornecidas pelo usuário e do código atual do projeto. Este documento registra lacunas e uma ordem recomendada de trabalho, atualizado após materiais personalizáveis, emissores locais e composição de terreno/rochas com neve; uso em [MATERIALS.md](MATERIALS.md).
 
 ## O que determina o resultado visual
 
-A maior diferença está no conteúdo visual e na montagem: modelos com formas detalhadas, materiais texturizados, arquitetura coerente, vegetação e muitos objetos pequenos que contam a história do lugar. A biblioteca atual cobre vários temas, mas seus 161 modelos são receitas de caixas, cilindros e esferas com materiais de cor, rugosidade, metalicidade e emissão, agora com substituição por oito texturas procedurais locais. Isso ajuda a montar a disposição dos objetos; aumentar apenas a quantidade de receitas não produz o acabamento visto nos escritórios, na catedral ou no terreno lamacento.
+A maior diferença está no conteúdo visual e na montagem: modelos com formas detalhadas, materiais texturizados, arquitetura coerente, vegetação e muitos objetos pequenos que contam a história do lugar. A biblioteca atual cobre vários temas, mas seus 161 modelos são receitas de caixas, cilindros e esferas com materiais de cor, rugosidade, metalicidade e emissão, agora com substituição por dez texturas procedurais locais. Isso ajuda a montar a disposição dos objetos; aumentar apenas a quantidade de receitas não produz o acabamento visto nos escritórios, na catedral ou no terreno lamacento.
 
 A base de autoria e atmosfera já permite construir pisos, paredes, vãos e andares, esculpir terreno, posicionar objetos, ajustar luzes/sombras, escolher tarde/noite, exibir céu/lua, acender materiais por horário e publicar uma câmera independente. É possível começar um cenário mais detalhado hoje importando modelos estáticos com texturas embutidas no GLB. Ainda é necessário produzir ou obter esses modelos e compor o mapa.
 
@@ -28,7 +28,7 @@ As imagens mostram o resultado final. Elas não permitem determinar o motor, os 
 - Produzir kits coerentes de interiores, fachadas urbanas, ruínas/ritual e exterior, com escala métrica, pivot na base e materiais nomeados.
 - Usar texturas de cor, relevo aparente por normal map e rugosidade para madeira, metal, concreto, tecido e desgaste. Os GLBs importados preservam seus materiais/texturas; não é preciso implementar um novo carregador para começar com arquivos compatíveis.
 - Adicionar pequenos objetos de decoração: papéis, livros, cabos, utensílios, ferramentas, lixo e detalhes pessoais. Parte do catálogo já representa esses temas, mas precisa de modelos com o acabamento adequado para câmera próxima.
-- Ampliar os oito materiais procedurais locais com importação de texturas avulsas/fotográficas e superfícies autorais. Variações procedurais de madeira/metal, recoloração/brilho/orientação, aplicação em estruturas/receitas, tamanho em metros e mistura por camada do terreno estão disponíveis em [MATERIALS.md](MATERIALS.md).
+- Ampliar os materiais procedurais locais com importação de texturas avulsas/fotográficas e superfícies autorais. Variações procedurais de madeira/metal, recoloração/brilho/orientação, aplicação em estruturas/receitas, tamanho em metros e mistura por camada do terreno estão disponíveis em [MATERIALS.md](MATERIALS.md).
 - Acrescentar decals, como manchas, inscrições, rachaduras e sujeira, para variar superfícies sem criar um modelo inteiro para cada variação.
 
 ### 2. Terreno, vegetação e superfícies molhadas
@@ -36,6 +36,7 @@ As imagens mostram o resultado final. Elas não permitem determinar o motor, os 
 As camadas pintáveis agora misturam cores e texturas procedurais de lama, grama e pedra, com relevo aparente e variação de rugosidade. A última imagem ainda exige materiais autorais, vegetação e superfícies molhadas mais detalhadas.
 
 - Ampliar o acervo do terreno com texturas autorais/fotográficas, conservando escala, máscaras e transições disponíveis.
+- Camadas por inclinação/altura, rocha natural, neve e cobertura visual por objeto estão disponíveis em [MATERIALS.md](MATERIALS.md); geometria de acúmulo/exposição ao céu continua futura.
 - Pincel de distribuição de vegetação/entulho com densidade, seed, variação de escala/rotação, apoio na superfície e possibilidade de editar/remover o resultado.
 - Materiais de umidade e poças/água, avaliando a solução de reflexos adequada ao hardware. Reduzir rugosidade sozinho não entrega todo o aspecto do chão molhado.
 - Resolução do relevo e densidade de objetos ajustadas ao tamanho do mapa e ao orçamento de renderização, medidos em uma cena piloto.
@@ -85,3 +86,19 @@ Integrações Ficha/Jukebox, LAN, caminhos de câmera e importadores de outros V
 - [Ambientes e horários](ENVIRONMENTS.md) e [iluminação](LIGHTING.md); implementação em [`renderer.js`](../src/render/renderer.js) e [`effects.js`](../src/render/effects.js).
 - Fluxo de importação/colocação em [`application.js`](../src/app/application.js); rejeição de dependências, rigs e animações em [`server/assets.js`](../server/assets.js).
 - Pendências gerais e cobertura em [PROGRESSO.md](PROGRESSO.md); andamento em [progress.md](../progress.md).
+
+## Piloto atual: montanha com construções antigas
+
+Referência adicional fornecida em 4 de outubro de 2026: percurso nevado entre paredões rochosos, construções antigas, pinheiros, água e lanternas, com névoa clara separando os planos. Este piloto passa à frente do escritório na ordem recomendada; as demais etapas continuam como possibilidades posteriores. Jukebox e Ficha ficam adiados por orientação do usuário.
+
+Disponível: escultura e pintura do terreno, estruturas e plataformas, escadas/rampas, pedra/madeira personalizáveis, pinheiro/rochas/coluna quebrada simplificados no catálogo, importação de GLB estático com texturas embutidas, névoa, iluminação fria e luzes quentes locais. Há agora material próprio de neve, camadas automáticas por inclinação/altura e cobertura visual nas faces superiores dos objetos. Acúmulo com volume físico e exposição ao céu continuam futuros.
+
+Prioridades para aproximar esta imagem:
+
+1. Kit de rochas/paredões, ruínas e arquitetura antiga, pinheiros e lanternas com geometria e materiais detalhados. Terreno por alturas não representa saliências, cavernas ou paredões com reentrâncias; usar malhas específicas para esses volumes.
+2. Material de neve e cobertura visual por inclinação/altura entregues; continuar com acúmulo geométrico/exposição ao céu, gelo e neve caindo conforme a necessidade do piloto.
+3. Água para córrego/poças, com transparência, movimento e resposta à iluminação; uma superfície colorida funciona apenas como representação provisória.
+4. Distribuição de vegetação/entulho e prefabs reutilizáveis para acelerar a montagem. Colocação manual continua possível.
+5. Medição no hardware de uso e acabamento de contato/reflexos conforme a cena exigir.
+
+Primeiro recorte recomendado: uma trilha, uma ruína acessível, um paredão e poucas árvores. Avaliar enquadramento próximo e superior, apoio dos tokens, salvamento/reabertura e projetor antes de ampliar a montanha. Esta revisão registra análise e prioridades, sem implementar recursos novos.

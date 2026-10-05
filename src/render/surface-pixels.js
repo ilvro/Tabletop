@@ -11,6 +11,17 @@ function noise(u, v, frequency, seed) {
   const at = (dx, dy) => hash((ix + dx) % frequency, (iy + dy) % frequency, seed);
   return THREE.MathUtils.lerp(THREE.MathUtils.lerp(at(0,0), at(1,0), fx), THREE.MathUtils.lerp(at(0,1), at(1,1), fx), fy);
 }
+function fracture(u, v, frequency, seed) {
+  const x=u*frequency, y=v*frequency, ix=Math.floor(x), iy=Math.floor(y);
+  let first=Infinity, second=Infinity;
+  for(let j=-1;j<=1;j++) for(let i=-1;i<=1;i++) {
+    const hx=((ix+i)%frequency+frequency)%frequency, hy=((iy+j)%frequency+frequency)%frequency;
+    const dx=ix+i+.15+.7*hash(hx,hy,seed)-x, dy=iy+j+.15+.7*hash(hx,hy,seed+9)-y;
+    const d=Math.hypot(dx,dy);
+    if(d<first) {second=first;first=d;} else if(d<second) second=d;
+  }
+  return Math.max(0,1-(second-first)*18);
+}
 
 /** Original seamless procedural tiles: albedo + packed height/roughness/metalness, with no network dependency. */
 export function generateSurfaceTile(settings) {
@@ -78,6 +89,26 @@ export function generateSurfaceTile(settings) {
         const crack = Math.max(0,.1-Math.abs(noise(u,v,frequency(16),9+seed)-.5))*3;
         rgb = [65+n*32+fine*10,43+n*22+fine*6,25+n*17]; height = .35+n*.4+fine*.2-crack; rough = .3+n*.55; break;
       }
+      case 'rock': {
+        const broad=noise(u,v,frequency(3),73+seed), medium=noise(u,v,frequency(16),19+seed);
+        let crack=fracture(u+n*.025,v+n*.025,frequency(5),31+seed)*options.rockCracks;
+        let structure=broad*.32+medium*.18;
+        if(options.rockPattern==='strata') {
+          const band=Math.sin((v*frequency(9)+n*.6)*Math.PI*2);
+          crack=Math.pow(Math.max(0,-band),12)*options.rockCracks;
+          structure+=band*.12;
+        }
+        if(options.rockPattern==='granite') {crack*=.15;structure=medium*.08+grain*.24;}
+        const value=.63+broad*.28+fine*.14-crack*.28;
+        rgb=[143*value+grain*10,146*value+grain*9,148*value+grain*8];
+        height=.26+structure+fine*.15-crack*.25; rough=.75+fine*.23; break;
+      }
+      case 'snow': {
+        const drift=noise(u,v,frequency(3),83+seed), powder=noise(u,v,frequency(32),15+seed);
+        const value=.87+drift*.08+powder*.035+grain*.015;
+        rgb=[242*value,248*value,255*value];
+        height=.42+drift*.2+powder*.07+grain*.025; rough=.78+fine*.2; break;
+      }
     }
     const index = (y*SIZE+x)*4;
     for(let c=0;c<3;c++) albedo[index+c]=Math.max(0,Math.min(255,Math.round(rgb[c])));
@@ -91,6 +122,7 @@ export function surfaceStyleKey(settings) {
   const o=textureOptions(settings), key=[settings.texture,o.textureSeed,o.patternDensity];
   if(settings.texture==='wood') key.push(o.woodPattern,o.woodBoards,o.woodGap,o.woodGrain);
   if(settings.texture==='metal') key.push(o.metalPattern,o.metalWear);
+  if(settings.texture==='rock') key.push(o.rockPattern,o.rockCracks);
   return JSON.stringify(key);
 }
 const tiles=new Map();

@@ -8,6 +8,8 @@ export const SURFACE_MATERIALS = [
   { id: 'brick', name: 'Tijolo', roughness: .88, metalness: 0, size: 2, relief: .045 },
   { id: 'concrete', name: 'Concreto', roughness: .92, metalness: 0, size: 2, relief: .025 },
   { id: 'mud', name: 'Lama', roughness: .58, metalness: 0, size: 2, relief: .04 },
+  { id: 'rock', name: 'Rocha natural', roughness: .92, metalness: 0, size: 3, relief: .09 },
+  { id: 'snow', name: 'Neve', roughness: .86, metalness: 0, size: 2, relief: .018 },
 ];
 /** Optional parameters preserve the appearance of existing documents. */
 export const TEXTURE_DEFAULTS = Object.freeze({
@@ -15,16 +17,19 @@ export const TEXTURE_DEFAULTS = Object.freeze({
   textureContrast: 1, textureSaturation: 1, textureRotation: 0, textureSeed: 0,
   patternDensity: 1, woodPattern: 'planks', woodBoards: 5, woodDirection: 'horizontal',
   woodGap: .025, woodGrain: .5, metalPattern: 'brushed', metalWear: .15,
+  rockPattern: 'fractured', rockCracks: .6,
 });
 export const TEXTURE_OPTION_FIELDS = Object.keys(TEXTURE_DEFAULTS);
 export const TEXTURE_RANGES = {
   textureBrightness: [0, 2], textureContrast: [0, 2], textureSaturation: [0, 2],
   textureRotation: [0, 360], textureSeed: [0, 65535], patternDensity: [.25, 4],
   woodBoards: [1, 32], woodGap: [0, .15], woodGrain: [0, 1], metalWear: [0, 1],
+  rockCracks: [0, 1],
 };
 export const TEXTURE_CHOICES = {
   textureColorMode: ['original', 'tint', 'replace'], woodPattern: ['planks', 'grain', 'parquet'],
   woodDirection: ['horizontal', 'vertical'], metalPattern: ['brushed', 'smooth', 'diamond', 'corrugated', 'rusted'],
+  rockPattern: ['fractured', 'strata', 'granite'],
 };
 export const textureOptions = settings => Object.fromEntries(TEXTURE_OPTION_FIELDS.map(key => [key, settings?.[key] ?? TEXTURE_DEFAULTS[key]]));
 /** Inspector percentages are presentation only; documents store fractions. */
@@ -38,6 +43,17 @@ export function layerSurfacePatch(id) {
   return preset ? { texture: id, textureSize: preset.size, color: '#ffffff', ...TEXTURE_DEFAULTS } : { texture: 'none' };
 }
 export const surfacePreset = id => SURFACE_MATERIALS.find(item => item.id === id);
+/** Paint masks remain stored when switching temporarily to automatic distribution. */
+export const DISTRIBUTION_DEFAULTS = Object.freeze({
+  mode: 'paint', slopeAngle: 40, slopeFade: 12, heightEnabled: false,
+  minHeight: 0, heightFade: 2, variation: .25, variationSize: 3, seed: 42,
+});
+export const distributionOptions = settings => ({ ...DISTRIBUTION_DEFAULTS, ...settings });
+export function coverageDefaults(texture = 'snow') {
+  const preset = surfacePreset(texture);
+  return { ...DISTRIBUTION_DEFAULTS, mode: 'top', texture, color: '#ffffff',
+    textureSize: preset?.size ?? 2, amount: 1, relief: preset?.relief ?? .018 };
+}
 export function surfacePatch(id) {
   const preset = surfacePreset(id);
   return preset ? { ...TEXTURE_DEFAULTS, texture: id, textureSize: preset.size, relief: preset.relief, color: '#ffffff', roughness: preset.roughness, metalness: preset.metalness } : { texture: 'none' };

@@ -80,3 +80,7 @@ Testes específicos: `tests/assemblies.test.js` e `tests/e2e/assemblies.test.js`
 ## Materiais texturizados
 
 Além das camadas de cor, o terreno aceita texturas locais por camada, com mistura de cor/relevo aparente/rugosidade e tamanho em metros. Estruturas e props também possuem seleção de material texturizado no inspetor. Máscaras, reamostragem, histórico e apoios conservam o comportamento descrito acima. Uso: [MATERIALS.md](MATERIALS.md).
+
+## Composição automática de superfícies
+
+Terreno e relevo oferece agora **Montanha · rocha e neve**, que cria alturas e camadas comuns editáveis. Camadas podem usar pintura ou distribuição por inclinação/altura, com transições e manchas em metros; máscaras manuais ficam guardadas. Rocha natural e neve também estão disponíveis nos materiais. Uso, cobertura por objeto e limites: [MATERIALS.md](MATERIALS.md).

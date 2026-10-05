@@ -1,0 +1,48 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtemp, rm, mkdir } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { once } from 'node:events';
+import { chromium } from 'playwright';
+import { createApp } from '../../server/app.js';
+import { createScene, createEntity } from '../../src/domain/documents.js';
+import { createMountainTerrain } from '../../src/authoring/mountain.js';
+import { surfacePatch, coverageDefaults } from '../../src/domain/materials.js';
+import { applyEnvironment } from '../../src/domain/environments.js';
+import { supportHeightAt } from '../../src/domain/geometry.js';
+import { reveal } from './controls.js';
+
+test('mountain starter is available in UI; natural rock and snow render, remain editable and persist',{timeout:150_000},async t=>{
+  const dataDir=await mkdtemp(path.join(os.tmpdir(),'tabletop-mountain-'));
+  const server=(await createApp({dataDir})).listen(0,'127.0.0.1');await once(server,'listening');
+  const browser=await chromium.launch({executablePath:process.env.TABLETOP_BROWSER_PATH||chromium.executablePath(),headless:true,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+  t.after(async()=>{await browser.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true});});
+  const page=await browser.newPage({viewport:{width:1600,height:1000}}),origin=`http://127.0.0.1:${server.address().port}`,errors=[];
+  page.setDefaultTimeout(25_000);page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});page.on('dialog',d=>d.accept());
+  const terrain=createMountainTerrain({width:24,length:28,segments:32});
+  let scene=createScene('Montanha · composição de superfícies');scene.layout.entities[terrain.id]=terrain;scene=applyEnvironment(scene,'fog');
+  scene.look.volumetricFog.enabled=false;scene.look.fog.density=.008;scene.layout.grid.visible=false;
+  const add=(id,x,z,scale,texture='rock')=>{
+    const y=supportHeightAt(terrain,[x,0,z]);
+    const entity=createEntity('prop',{name:id,position:[x,y,z],transform:{position:[x,y,z],rotation:[0,0,0,1],scale},assetRef:{id:`builtin-${id}`,revision:1},material:{...surfacePatch(texture),coverage:coverageDefaults()}});
+    if(id==='pine') entity.material={color:'#ffffff',roughness:.9,metalness:0,textureSlot:'green',coverage:coverageDefaults()};
+    scene.layout.entities[entity.id]=entity;
+  };
+  for(const [x,z,s] of [[-4,-3,[3,5,3]],[6,1,[3,4,3]],[-7,7,[2,3,2]],[5,-7,[3,6,3]]]) add('rock',x,z,s);
+  add('ruined-column',4,6,[2,2,2],'stone');add('pine',7,-4,[1.4,1.4,1.4]);add('pine',-7,3,[1,1,1]);
+  assert.equal((await fetch(`${origin}/api/tabletop/scenes`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({document:scene})})).status,201);
+  await page.goto(`${origin}/?diagnostics`);await page.waitForFunction(()=>!!window.__tabletop);
+  const action=async name=>(await reveal(page.locator(`[data-action="${name}"]`).first())).click();
+  await action('open');await page.locator(`[data-open="${scene.id}"]`).click();await page.waitForFunction(id=>window.__tabletop.snapshot().id===id,scene.id);
+  await page.locator('[data-tab="build"]').click();await action('terrain-mountain');
+  assert.equal((await page.evaluate(()=>Object.values(window.__tabletop.snapshot().layout.entities).filter(e=>e.kind==='terrain'))).length,2);
+  await action('undo');assert.equal((await page.evaluate(()=>Object.values(window.__tabletop.snapshot().layout.entities).filter(e=>e.kind==='terrain'))).length,1);
+  await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${terrain.id}"]`).click();await page.locator('#viewport canvas').focus();await page.keyboard.press('f');
+  await page.waitForFunction(()=>window.__tabletop.stats().surfaceMaterials.filter(m=>m.coverage?.texture==='snow').length>=5);
+  await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/mountain-surfaces.png'});
+  const snapshot=await page.evaluate(()=>window.__tabletop.snapshot());assert.deepEqual(snapshot.layout.entities[terrain.id].heights,terrain.heights);
+  await action('save');await page.waitForFunction(()=>!document.querySelector('#save-status').classList.contains('unsaved')&&!document.querySelector('[data-action="save"]').disabled);
+  await page.reload();await page.waitForFunction(id=>window.__tabletop?.snapshot().id===id,scene.id);
+  assert.deepEqual((await page.evaluate(()=>window.__tabletop.snapshot())).layout,snapshot.layout);assert.deepEqual(errors,[]);
+});

@@ -141,9 +141,26 @@ Somente trabalho ainda não concluído. A prioridade visual proposta está em [d
 - Pacote único de cena + assets (opcional).
 - Receitas e prefabs adicionais e auto-layout entre cômodos.
 - Coleções/variantes de assets, sockets específicos por asset e glTF com texturas externas.
-- Integrações Ficha/Jukebox e LAN, conforme [roadmap](docs/ROADMAP.md).
+- LAN, conforme [roadmap](docs/ROADMAP.md). Integrações Ficha/Jukebox adiadas por orientação do usuário.
 - Volumetria com sombras/espalhamento por luz, múltiplas regiões de chuva/poeira/brasas, colisão de partículas e efeitos adicionais dependentes de benchmark.
 
 ## Integração das alterações remotas — concluída
 
 Os quatro commits remotos foram integrados preservando a remoção de data/ do .gitignore. A base relativa continua atendendo /Tabletop/ e outros diretórios. O workflow antigo foi substituído pelo pages.yml, evitando duas publicações concorrentes e mantendo Node 22, build:pages e persistência no navegador. Validação: build:pages e os 127 testes unitários/de integração passaram após a resolução dos conflitos. Integração registrada em um merge, preservando os históricos local e remoto.
+
+## Análise do primeiro mapa de montanha — concluída
+
+Referência e prioridades registradas em docs/VISUAL_TARGET.md. O piloto atual substitui a prioridade anterior de escritório: trilha, ruína, paredão e pinheiros. Lacunas apontadas nesta análise: kit detalhado de montanha/arquitetura antiga, neve acumulada/material próprio, água, distribuição de vegetação e prefabs. Material de neve e cobertura visual foram entregues no incremento de composição abaixo; volume físico continua futuro. Pintura branca, terreno esculpido, estruturas, importação GLB, névoa e iluminação já permitem uma primeira versão simplificada. Jukebox e Ficha ficam adiados. Revisão documental; nenhum recurso novo implementado ou teste de código executado nesta análise.
+
+## Composição de terreno e rochas — concluída
+
+Plano autorizado: acrescentar rocha natural e neve ao acervo procedural; distribuir camadas do terreno por inclinação/altura com transições e variação em metros; aplicar cobertura independente (por exemplo neve nas faces superiores) em rochas/estruturas/GLBs. Preservar pintura manual, materiais existentes, apoios, histórico, salvamento e projetor. Validar pixels WebGL, controles e persistência antes de concluir. Este incremento melhora superfícies; água, kits detalhados e geometria de acúmulo continuam posteriores.
+
+
+Entregue: dez superfícies locais, com rocha natural fraturada/estratificada/granito e neve; fissuras, densidade, seed, cor/brilho e relevo editáveis. Camadas do terreno agora alternam entre pintura manual e distribuição automática por faces superiores, encostas ou toda a superfície, com limite/transição de inclinação e altura mundial, irregularidade/tamanho de manchas/seed. Máscaras manuais, ordem/opacidade, reamostragem e apoios permanecem preservados. Cobertura independente sobre material original de estruturas/props/GLBs, por slot, com textura/cor/quantidade/relevo próprios. Normais corretas sob rotação/escala não uniforme e facetas.
+
+Construir → Terreno e relevo → Montanha · rocha e neve cria um terreno comum com alturas, rocha, neve automática e trilha manual, sem regeneração posterior ou alteração de outras entidades. UI mantém as opções recolhíveis abertas; pintura em camada automática orienta retornar à pintura manual.
+
+Validação final: builds local/Pages, 131 testes unitários/de integração e seis E2E afetados passaram (materiais/efeitos/UI/pixels, montanha, pintura do terreno e os dois de Pages/IndexedDB). Pixels verificam neve clara sobre base escura, laterais e faces inferiores expostas, quantidade zero, limite de altura, manchas/seed, normais transformadas e distribuição automática com máscara manual vazia. UI verifica edição, undo/redo, salvamento/reabertura, cobertura/presets no projetor sem mudar sua câmera, botão de montanha e regressão de pintura. Captura revisada: test-results/mountain-surfaces.png. A suíte completa de 17 E2E não foi repetida neste incremento; Chromium/WebGL por software não estabelece benchmark presencial.
+
+Limites: cobertura visual sem volume físico ou teste de exposição ao céu; objetos sob teto também podem receber cobertura. Acervo de rochas existente conserva suas formas simplificadas. Kit de rochas/paredões detalhados, água/gelo, neve caindo, vegetação distribuída, decals e benchmark continuam pendentes. Uso em docs/MATERIALS.md; VISUAL_TARGET.md e resumos sincronizados. Jukebox/Ficha permanecem adiados.
