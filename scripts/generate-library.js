@@ -5,6 +5,7 @@ import { recipeInstance, disposeObject } from '../src/render/asset-cache.js';
 import { addLibraryExpansion } from './library-expansion.js';
 import { addLibraryExpansion3 } from './library-expansion-3.js';
 import { addMountainLibrary } from './library-mountain.js';
+import { addAlpineLibrary } from './library-alpine.js';
 
 const materials = {
   wood: { color: '#79553e', roughness: .84 }, dark: { color: '#292b30', roughness: .8 },
@@ -99,6 +100,7 @@ add('suitcase', 'Mala de viagem antiga', 'Investigação / Equipamentos', histor
 addLibraryExpansion({ add, b, c, s, legs, table, wheels, shelf, ring, modern, retro, historic, colonial, ancient, timeless });
 addLibraryExpansion3({ add, b, c, s, legs, table, wheels, modern, retro, historic, colonial, timeless });
 addMountainLibrary({add,timeless});
+const alpineIds=addAlpineLibrary({add,timeless,ancient});
 
 function preview(object) {
   object.updateMatrixWorld(true);
@@ -116,7 +118,7 @@ function preview(object) {
       const normal = new THREE.Vector3().subVectors(points[1], points[0]).cross(new THREE.Vector3().subVectors(points[2], points[0])).normalize();
       if (normal.dot(new THREE.Vector3().subVectors(camera.position, points[0])) <= 0) continue;
       const projected = points.map(p => p.clone().project(camera));
-      const color = mesh.material.color.clone().multiplyScalar(.55 + .45 * Math.max(0, normal.dot(light)));
+      const color = (mesh.material.userData.recipePreviewColor?new THREE.Color(mesh.material.userData.recipePreviewColor):mesh.material.color.clone()).multiplyScalar(.55 + .45 * Math.max(0, normal.dot(light)));
       triangles.push({ z: projected.reduce((sum, p) => sum + p.z, 0) / 3, points: projected.map(p => `${(80 + p.x * 78).toFixed(2)},${(77 - p.y * 78).toFixed(2)}`).join(' '), color: `#${color.getHexString()}` });
     }
   });
@@ -137,7 +139,7 @@ for (const [i, asset] of originals.entries()) {
   disposeObject(object);
 }
 for (const asset of assets) {
-  const recipe = { name: asset.name, unit: 'meter', pivot: 'base-center', materials, parts: asset.parts };
+  const recipe = { name: asset.name, unit: 'meter', pivot: 'base-center', materials, parts: asset.parts, ...(alpineIds.has(asset.id)?{mergeParts:true}:{}) };
   const object = recipeInstance(recipe);
   let bounds = new THREE.Box3().setFromObject(object);
   // Move the geometry to an exact base pivot, preserving annotated support heights.

@@ -4,7 +4,7 @@ Implementação em 4 de outubro de 2026. As configurações acompanham mapas/cen
 
 ## Aplicar uma textura
 
-Selecione piso, parede, porta, janela, escada, rampa, terreno ou objeto. No inspetor, abra **Material e textura** e escolha madeira, pedra, grama, metal, areia, tijolo, concreto, lama, rocha natural ou neve.
+Selecione piso, parede, porta, janela, escada, rampa, terreno ou objeto. No inspetor, abra **Material e textura** e escolha madeira, pedra, grama, metal, areia, tijolo, concreto, lama, rocha natural, neve, casca, folhagem ou gelo.
 
 A escolha aplica a cor branca de matiz e o acabamento inicial do material. Depois ajuste:
 
@@ -35,7 +35,7 @@ Selecionar outra textura reinicia os ajustes de cor/desenho/brilho para os valor
 
 **Sem textura adicional** remove a substituição e volta a usar os mapas originais de um GLB, conservando seus ajustes de cor/rugosidade/metalicidade. Documentos e assets compartilhados não são modificados por outra instância.
 
-As dez texturas são procedurais originais, geradas localmente, com cor, altura e rugosidade. O filtro usa derivadas antes de repetir o padrão e uma margem conforme o nível de detalhe, evitando linhas de repetição e mistura com cores de outras texturas no atlas. Não dependem de internet ou downloads. São um primeiro acervo de superfícies; modelos detalhados e materiais fotográficos específicos continuam úteis para aproximar as referências.
+As treze texturas são procedurais originais, geradas localmente, com cor, altura e rugosidade. O filtro usa derivadas antes de repetir o padrão e uma margem conforme o nível de detalhe, evitando linhas de repetição e mistura com cores de outras texturas no atlas. Não dependem de internet ou downloads. São um primeiro acervo de superfícies; modelos detalhados e materiais fotográficos específicos continuam úteis para aproximar as referências.
 
 ## Pintar materiais no terreno
 
@@ -105,11 +105,11 @@ A cobertura tem cor, tamanho da textura, quantidade, relevo e distribuição pr�
 
 ### Limites e dados
 
-É cobertura visual de material, sem adicionar volume, alterar colisão ou acumular neve fisicamente. Não verifica exposição ao céu: objetos sob um teto também podem receber cobertura; desligue-a ou restrinja os materiais dessas instâncias. Neve caindo, gelo, água, kits de arquitetura/vegetação detalhados e decals continuam posteriores. As quatro peças de rocha com geometria editável estão em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
+Com espessura zero, a cobertura é visual e não verifica exposição ao céu. A opção de espessura da neve acrescenta geometria e verificação de abrigo, com máscara persistida para o terreno e atualização automática nos objetos; água/gelo e kit alpino estão disponíveis. Neve caindo e decals continuam posteriores. Uso e limites: [LANDSCAPE.md](LANDSCAPE.md). As quatro peças de rocha editáveis estão em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
 
 `material.coverage` é opcional/nulo; quando ativo guarda `texture`, `color`, `textureSize`, `amount`, `relief` e os campos de distribuição. `paintLayers[].distribution` é opcional e guarda `mode`, `slopeAngle`, `slopeFade`, `heightEnabled`, `minHeight`, `heightFade`, `variation`, `variationSize` e `seed`. Campos ausentes conservam a pintura/aparência anterior. Novos parâmetros de textura: `rockPattern` e `rockCracks`. Todos são validados antes de confirmar comandos/imports/salvamento; acompanham histórico, mapas, duplicação e projeção filtrada.
 
-As novas texturas usam o mesmo atlas/cache por viewport; cobertura não adiciona uma malha ou draw call. Distribuição é calculada por fragmento, com custo adicional de amostras/ruído. Não representa um benchmark presencial. Resultados de testes e limites de hardware estão em [progress.md](../progress.md).
+As novas texturas usam o mesmo atlas/cache por viewport; cobertura visual não adiciona uma malha ou draw call; neve com espessura acrescenta geometria e custo de exposição. Distribuição é calculada por fragmento, com custo adicional de amostras/ruído. Não representa um benchmark presencial. Resultados de testes e limites de hardware estão em [progress.md](../progress.md).
 
 
 ## Esculpir rocha e ampliar o terreno
@@ -123,3 +123,9 @@ No inspetor, **Área do terreno** mostra largura/comprimento fora das opções a
 **Respeitar pisos ao esculpir** limita os vértices alterados pelo pincel sob pisos, com margem de uma diagonal de célula para evitar triângulos atravessando a construção. Usa o contorno real e a rotação do piso, inclusive furos; perto das bordas de furos a margem ainda pode rebaixar terreno. O piso sólido mais baixo prevalece. A margem tem transição; reaplicar não aprofunda a proteção. Pisos/parede/objetos independentes não são deslocados, e dependentes apoiados no terreno acompanham a altura confirmada. Não há proteção automática contra props/GLBs ou paredes sem piso. Edição numérica de alturas, movimento, mudanças de malha/tamanho e novas construções não reaplicam proteção automaticamente.
 
 Para corrigir um terreno existente que atravessa um prédio, use **Prévia · ajustar sob construções**, revise e aceite. Desativar a proteção permite esculpir livremente. Proteção não é vínculo persistente com prédios nem solver de colisão; ao mover uma construção ou reduzir a resolução, revise o resultado e reaplique quando necessário.
+
+## Casca, folhagem, gelo e neve física
+
+Casca de árvore, Folhagem · nervuras e Gelo · fissuras ampliam o acervo para treze superfícies, conservando IDs e tiles anteriores. Receitas alpinas podem definir acabamento próprio por peça/slot; aplicar outra textura no inspetor substitui apenas os slots selecionados.
+
+Cobertura de neve aceita `physicalThickness` opcional (0–1,5 m, padrão zero) e `exposedOnly` (padrão true). Com espessura, terrain ganha alturas derivadas e atualiza apoios; objetos ganham malhas de cobertura respeitando exposição ao céu e slot. `terrain.snowMask` é persistida e reamostrada, com recalculo explícito depois de alterar abrigos. `relief` permanece microrelevo de iluminação. Uso, limites físicos, água/gelo e validação: [LANDSCAPE.md](LANDSCAPE.md).

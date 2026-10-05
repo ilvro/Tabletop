@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { createRockGeometry } from './rock-geometry.js';
+import { createArchGeometry,createFoliageGeometry } from './landscape-geometry.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { surfacePreset } from '../domain/materials.js';
 
 /** Resource owners are explicit: cached models own shared textures; each instance owns its geometry/material. */
 export function disposeObject(object, { includeSharedTextures = false } = {}) {
@@ -35,7 +38,7 @@ export function standardMaterial(properties = {}) {
   });
 }
 
-export function recipeInstance(recipe, rockShape = null, metricBounds = null) {
+export function recipeInstance(recipe, rockShape = null, metricBounds = null, vegetationSeed = null) {
   if (!Array.isArray(recipe.parts) || recipe.parts.length > 200) throw new Error('Receita de asset inválida.');
   const group = new THREE.Group();
   try {
@@ -46,18 +49,34 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null) {
         case 'cylinder': geometry = new THREE.CylinderGeometry(part.radiusTop, part.radiusBottom, part.height, part.segments ?? 16, 1, part.openEnded ?? false); break;
         case 'sphere': geometry = new THREE.SphereGeometry(part.radius, 16, 12); break;
         case 'rock': geometry = createRockGeometry({ ...part, ...(rockShape ? { ...rockShape, seed:(rockShape.seed+(part.seedOffset??0))%65536 } : {}) }); break;
+        case 'arch': geometry=createArchGeometry(part);break;
+        case 'foliage': geometry=createFoliageGeometry({...part,...(vegetationSeed!=null?{seed:(vegetationSeed+(part.seed??0))%65536}:{})});break;
         default: throw new Error(`Forma de receita não suportada: ${part.shape}.`);
       }
       const mesh = new THREE.Mesh(geometry, standardMaterial(recipe.materials?.[part.material]));
+      if(surfacePreset(part.surface?.texture)) {mesh.material.userData.recipePreviewColor=recipe.materials?.[part.material]?.color;mesh.material.color.set('#ffffff');mesh.material.roughness=surfacePreset(part.surface.texture).roughness;mesh.material.metalness=surfacePreset(part.surface.texture).metalness;mesh.material.userData.recipeSurface=structuredClone(part.surface);}
       mesh.position.fromArray(part.position ?? [0, 0, 0]);
       if (part.rotation) mesh.rotation.set(...part.rotation);
+      if(vegetationSeed!=null && part.rotation) {const jitter=(Math.sin(vegetationSeed*1.19+group.children.length*7.13)-Math.sin(group.children.length*7.13))*.09;mesh.rotation.y+=jitter;mesh.rotation.z+=jitter*.5;}
       mesh.userData.materialSlot = part.material ?? 'base';
       mesh.castShadow = true;
       mesh.receiveShadow = true;
       group.add(mesh);
     }
   } catch(error) {disposeObject(group);throw error;}
-  if(rockShape && metricBounds) {
+  if(recipe.mergeParts) {
+    const batches=new Map();group.updateMatrixWorld(true);
+    for(const mesh of group.children) {
+      const key=JSON.stringify([mesh.userData.materialSlot,mesh.material.userData.recipeSurface]);
+      if(!batches.has(key))batches.set(key,{material:mesh.material.clone(),slot:mesh.userData.materialSlot,geometries:[]});
+      const geometry=mesh.geometry.index?mesh.geometry.toNonIndexed():mesh.geometry.clone();geometry.applyMatrix4(mesh.matrix);
+      if(!geometry.attributes.uv)geometry.setAttribute('uv',new THREE.Float32BufferAttribute(new Float32Array(geometry.attributes.position.count*2),2));
+      batches.get(key).geometries.push(geometry);
+    }
+    for(const mesh of [...group.children])disposeObject(mesh);
+    for(const batch of batches.values()) {const geometry=mergeGeometries(batch.geometries);for(const g of batch.geometries)g.dispose();const mesh=new THREE.Mesh(geometry,batch.material);mesh.userData.materialSlot=batch.slot;mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);}
+  }
+  if((rockShape || vegetationSeed!=null) && metricBounds) {
     group.updateMatrixWorld(true);
     const bounds=new THREE.Box3().setFromObject(group),size=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3());
     group.scale.set(metricBounds[0]/size.x,metricBounds[1]/size.y,metricBounds[2]/size.z);
@@ -144,9 +163,9 @@ export function createAssetCache() {
   }
 
   return {
-    async createInstance(record, rockShape = null) {
+    async createInstance(record, rockShape = null, vegetationSeed = null) {
       const resource = await load(record);
-      if (record.type === 'recipe') return recipeInstance(resource,rockShape,record.bounds);
+      if (record.type === 'recipe') return recipeInstance(resource,rockShape,record.bounds,vegetationSeed);
       if (record.type === 'glb' || record.type === 'model') return modelInstance(resource, record);
       throw new Error('Uma imagem precisa da representação de token.');
     },

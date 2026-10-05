@@ -21,7 +21,7 @@ function merge(record, patch) {
   if (patch.id !== undefined && patch.id !== record.id) throw new ValidationError('O ID não pode ser alterado.');
   if (patch.kind !== undefined && patch.kind !== record.kind) throw new ValidationError('O tipo não pode ser alterado.');
   const next = { ...record, ...clone(patch) };
-  for (const field of ['transform', 'material', 'fill', 'visualOverride', 'flicker', 'fog', 'volumetricFog', 'bloom', 'daylight', 'sky', 'weather', 'nightWindows', 'localEffect']) {
+  for (const field of ['transform', 'material', 'water', 'fill', 'visualOverride', 'flicker', 'fog', 'volumetricFog', 'bloom', 'daylight', 'sky', 'weather', 'nightWindows', 'localEffect']) {
     if (patch[field] && record[field]) next[field] = { ...clone(record[field]), ...clone(patch[field]) };
   }
   return next;
@@ -31,9 +31,9 @@ function put(collection, record) {
   collection[record.id] = clone(record);
 }
 function bakeStructuralScale(entity) {
-  if (!['floor', 'terrain', 'wall', 'stairs', 'ramp'].includes(entity.kind)) return;
+  if (!['floor', 'terrain', 'wall', 'stairs', 'ramp', 'water'].includes(entity.kind)) return;
   const [x, y, z] = entity.transform.scale;
-  if (entity.kind === 'floor') { entity.width *= x; entity.length *= z; entity.thickness *= y; if (entity.vertices) entity.vertices = entity.vertices.map(p => [p[0] * x, p[1] * z]); if (entity.holes) entity.holes = entity.holes.map(ring => ring.map(p => [p[0] * x, p[1] * z])); }
+  if (entity.kind === 'floor' || entity.kind === 'water') { entity.width *= x; entity.length *= z; if(entity.kind==='water') entity.depth *= y; else entity.thickness *= y; if (entity.vertices) entity.vertices = entity.vertices.map(p => [p[0] * x, p[1] * z]); if (entity.holes) entity.holes = entity.holes.map(ring => ring.map(p => [p[0] * x, p[1] * z])); }
   else if (entity.kind === 'terrain') { entity.width *= x; entity.length *= z; entity.heights = entity.heights.map(h => h * y); }
   else if (isAccess(entity)) { entity.width *= x; entity.height *= y; entity.length *= z; }
   else { entity.length *= x; entity.height *= y; entity.thickness *= z; }
@@ -231,7 +231,7 @@ function carrySupports(document, previous, next) {
     const s = Math.sin(half), c = Math.cos(half);
     transform.rotation = [c * x + s * z, c * y + s * w, c * z - s * x, c * w - s * y];
   };
-  if (before.every((v, i) => v === after[i]) && Math.abs(deltaYaw) < 1e-8 && !(isAccess(next) && ['height', 'length', 'steps'].some(key => previous[key] !== next[key])) && !(next.kind === 'terrain' && ['heights', 'width', 'length'].some(key => JSON.stringify(previous[key]) !== JSON.stringify(next[key])))) return;
+  if (before.every((v, i) => v === after[i]) && Math.abs(deltaYaw) < 1e-8 && !(isAccess(next) && ['height', 'length', 'steps'].some(key => previous[key] !== next[key])) && !(next.kind === 'terrain' && ['heights', 'width', 'length', 'material', 'snowMask'].some(key => JSON.stringify(previous[key]) !== JSON.stringify(next[key])))) return;
   const supports = dependentIds(document, previous.id); supports.delete(previous.id);
   const heightDeltas = new Map();
   const settle = record => {
@@ -382,7 +382,7 @@ export function applyCommand(document, command) {
       if (before.holes && !payload.patch.holes && (payload.patch.width !== undefined || payload.patch.length !== undefined)) after.holes = before.holes.map(ring => ring.map(([x, z]) => [x * after.width / before.width, z * after.length / before.length]));
       if (after.transform && payload.patch.transform?.position) after.transform.position = snapPosition(after.transform.position, snappingGrid(next.layout.grid, payload.snap));
       settleOnAccess(next, after);
-      if (['floor', 'terrain', 'wall', 'prop', 'stairs', 'ramp'].includes(before.kind)) carrySupports(next, before, after);
+      if (['floor', 'terrain', 'wall', 'prop', 'stairs', 'ramp', 'water'].includes(before.kind)) carrySupports(next, before, after);
       if (before.kind === 'floor' && (before.width !== after.width || before.length !== after.length)) {
         for (const area of Object.values(next.layout.areas)) if (area.surfaceId === before.id) {
           area.width *= after.width / before.width; area.length *= after.length / before.length;

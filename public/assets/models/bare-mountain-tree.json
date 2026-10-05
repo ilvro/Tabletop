@@ -1,0 +1,1865 @@
+{
+  "name": "Árvore seca de montanha",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.14,
+      "radiusTop": 0.07700000000000001,
+      "height": 3.8,
+      "segments": 9,
+      "position": [
+        0,
+        1.8999999761581416,
+        0.020593643188476562
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0.013750000000000002,
+      "height": 0.7,
+      "segments": 9,
+      "position": [
+        0.25,
+        0.11999997615814173,
+        0.020593643188476562
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        0,
+        1.3
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0.013750000000000002,
+      "height": 0.7,
+      "segments": 9,
+      "position": [
+        0.07883059059881717,
+        0.11999997615814173,
+        0.2578397980273731
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        0,
+        1.3
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0.013750000000000002,
+      "height": 0.7,
+      "segments": 9,
+      "position": [
+        -0.20028590388673342,
+        0.11999997615814173,
+        0.17021167921446567
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        0,
+        1.3
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0.013750000000000002,
+      "height": 0.7,
+      "segments": 9,
+      "position": [
+        -0.2051398393348902,
+        0.11999997615814173,
+        -0.12229668649710937
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        0,
+        1.3
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0.013750000000000002,
+      "height": 0.7,
+      "segments": 9,
+      "position": [
+        0.07091554636580656,
+        0.11999997615814173,
+        -0.21913742547730805
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        0,
+        1.3
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.035,
+      "radiusTop": 0.019250000000000003,
+      "height": 1.3159999999999998,
+      "segments": 9,
+      "position": [
+        0.6579999999999999,
+        0.6999999761581417,
+        0.020593643188476562
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        0,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.7895999999999999,
+      "segments": 9,
+      "position": [
+        1.1844,
+        0.7799999761581417,
+        0.020593643188476562
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        0,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.035,
+      "radiusTop": 0.019250000000000003,
+      "height": 1.3159999999999998,
+      "segments": 9,
+      "position": [
+        0.329,
+        0.6999999761581417,
+        0.590438358878637
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -1.0471975511965976,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.7895999999999999,
+      "segments": 9,
+      "position": [
+        0.5922000000000001,
+        0.7799999761581417,
+        1.0463141314307656
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -1.0471975511965976,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.035,
+      "radiusTop": 0.019250000000000003,
+      "height": 1.3159999999999998,
+      "segments": 9,
+      "position": [
+        -0.3289999999999998,
+        0.6999999761581417,
+        0.5904383588786372
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -2.0943951023931953,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.7895999999999999,
+      "segments": 9,
+      "position": [
+        -0.5921999999999996,
+        0.7799999761581417,
+        1.0463141314307656
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -2.0943951023931953,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.035,
+      "radiusTop": 0.019250000000000003,
+      "height": 1.3159999999999998,
+      "segments": 9,
+      "position": [
+        -0.6579999999999999,
+        0.6999999761581417,
+        0.020593643188476642
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -3.141592653589793,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.7895999999999999,
+      "segments": 9,
+      "position": [
+        -1.1844,
+        0.7799999761581417,
+        0.020593643188476708
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -3.141592653589793,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.035,
+      "radiusTop": 0.019250000000000003,
+      "height": 1.3159999999999998,
+      "segments": 9,
+      "position": [
+        -0.32900000000000024,
+        0.6999999761581417,
+        -0.5492510725016839
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -4.1887902047863905,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.7895999999999999,
+      "segments": 9,
+      "position": [
+        -0.5922000000000004,
+        0.7799999761581417,
+        -1.0051268450538124
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -4.1887902047863905,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.035,
+      "radiusTop": 0.019250000000000003,
+      "height": 1.3159999999999998,
+      "segments": 9,
+      "position": [
+        0.329,
+        0.6999999761581417,
+        -0.5492510725016839
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -5.235987755982989,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.7895999999999999,
+      "segments": 9,
+      "position": [
+        0.5922000000000001,
+        0.7799999761581417,
+        -1.0051268450538124
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -5.235987755982989,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.030625000000000003,
+      "radiusTop": 0.016843750000000005,
+      "height": 1.128,
+      "segments": 9,
+      "position": [
+        0.5028445145421655,
+        1.183333309491475,
+        0.27602150814227105
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -0.47,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.6768,
+      "segments": 9,
+      "position": [
+        0.9051201261758979,
+        1.2633333094914752,
+        0.48036380010530666
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -0.47,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.030625000000000003,
+      "radiusTop": 0.016843750000000005,
+      "height": 1.128,
+      "segments": 9,
+      "position": [
+        0.030215237386675878,
+        1.183333309491475,
+        0.5837836994125427
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -1.5171975511965976,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.6768,
+      "segments": 9,
+      "position": [
+        0.05438742729601658,
+        1.2633333094914752,
+        1.0343357443917958
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -1.5171975511965976,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.030625000000000003,
+      "radiusTop": 0.016843750000000005,
+      "height": 1.128,
+      "segments": 9,
+      "position": [
+        -0.47262927715548964,
+        1.183333309491475,
+        0.3283558344587482
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -2.5643951023931955,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.6768,
+      "segments": 9,
+      "position": [
+        -0.8507326988798813,
+        1.2633333094914752,
+        0.5745655874749656
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -2.5643951023931955,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.030625000000000003,
+      "radiusTop": 0.016843750000000005,
+      "height": 1.128,
+      "segments": 9,
+      "position": [
+        -0.5028445145421655,
+        1.183333309491475,
+        -0.2348342217653177
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -3.611592653589793,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.6768,
+      "segments": 9,
+      "position": [
+        -0.9051201261758979,
+        1.2633333094914752,
+        -0.43917651372835315
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -3.611592653589793,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.030625000000000003,
+      "radiusTop": 0.016843750000000005,
+      "height": 1.128,
+      "segments": 9,
+      "position": [
+        -0.030215237386676193,
+        1.183333309491475,
+        -0.5425964130355896
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -4.65879020478639,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.6768,
+      "segments": 9,
+      "position": [
+        -0.05438742729601715,
+        1.2633333094914752,
+        -0.9931484580148426
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -4.65879020478639,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.030625000000000003,
+      "radiusTop": 0.016843750000000005,
+      "height": 1.128,
+      "segments": 9,
+      "position": [
+        0.47262927715548964,
+        1.183333309491475,
+        -0.2871685480817952
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -5.705987755982989,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.6768,
+      "segments": 9,
+      "position": [
+        0.8507326988798813,
+        1.2633333094914752,
+        -0.5333783010980127
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -5.705987755982989,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.026250000000000002,
+      "radiusTop": 0.014437500000000002,
+      "height": 0.94,
+      "segments": 9,
+      "position": [
+        0.2772003717646162,
+        1.6666666428248083,
+        0.40014595037888023
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -0.94,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.564,
+      "segments": 9,
+      "position": [
+        0.49896066917630916,
+        1.7466666428248083,
+        0.7037877961312032
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -0.94,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.026250000000000002,
+      "radiusTop": 0.014437500000000002,
+      "height": 0.94,
+      "segments": 9,
+      "position": [
+        -0.1901017542095765,
+        1.6666666428248083,
+        0.45043236067032666
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -1.9871975511965976,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.564,
+      "segments": 9,
+      "position": [
+        -0.3421831575772377,
+        1.7466666428248083,
+        0.7943033346558067
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -1.9871975511965976,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.026250000000000002,
+      "radiusTop": 0.014437500000000002,
+      "height": 0.94,
+      "segments": 9,
+      "position": [
+        -0.46730212597419274,
+        1.6666666428248083,
+        0.07088005347992306
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -3.034395102393195,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.564,
+      "segments": 9,
+      "position": [
+        -0.8411438267535469,
+        1.7466666428248083,
+        0.11110918171308026
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -3.034395102393195,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.026250000000000002,
+      "radiusTop": 0.014437500000000002,
+      "height": 0.94,
+      "segments": 9,
+      "position": [
+        -0.27720037176461637,
+        1.6666666428248083,
+        -0.35895866400192694
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -4.081592653589793,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.564,
+      "segments": 9,
+      "position": [
+        -0.4989606691763095,
+        1.7466666428248083,
+        -0.6626005097542498
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -4.081592653589793,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.026250000000000002,
+      "radiusTop": 0.014437500000000002,
+      "height": 0.94,
+      "segments": 9,
+      "position": [
+        0.19010175420957656,
+        1.6666666428248083,
+        -0.40924507429337353
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -5.128790204786391,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.564,
+      "segments": 9,
+      "position": [
+        0.34218315757723783,
+        1.7466666428248083,
+        -0.7531160482788536
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -5.128790204786391,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.026250000000000002,
+      "radiusTop": 0.014437500000000002,
+      "height": 0.94,
+      "segments": 9,
+      "position": [
+        0.46730212597419274,
+        1.6666666428248083,
+        -0.029692767102969572
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -6.175987755982989,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.564,
+      "segments": 9,
+      "position": [
+        0.8411438267535469,
+        1.7466666428248083,
+        -0.06992189533612649
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -6.175987755982989,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.021875000000000002,
+      "radiusTop": 0.012031250000000002,
+      "height": 0.7519999999999999,
+      "segments": 9,
+      "position": [
+        0.060199221144616545,
+        2.1499999761581416,
+        0.39174328116968427
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -1.41,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.45119999999999993,
+      "segments": 9,
+      "position": [
+        0.10835859806030979,
+        2.2299999761581417,
+        0.6886629915546505
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -1.41,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.021875000000000002,
+      "radiusTop": 0.012031250000000002,
+      "height": 0.7519999999999999,
+      "segments": 9,
+      "position": [
+        -0.2913254045248153,
+        2.1499999761581416,
+        0.2583025169783557
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -2.4571975511965976,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.45119999999999993,
+      "segments": 9,
+      "position": [
+        -0.5243857281446676,
+        2.2299999761581417,
+        0.448469616010259
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -2.4571975511965976,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.021875000000000002,
+      "radiusTop": 0.012031250000000002,
+      "height": 0.7519999999999999,
+      "segments": 9,
+      "position": [
+        -0.35152462566943193,
+        2.1499999761581416,
+        -0.11284712100285185
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -3.504395102393195,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.45119999999999993,
+      "segments": 9,
+      "position": [
+        -0.6327443262049774,
+        2.2299999761581417,
+        -0.2195997323559146
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -3.504395102393195,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.021875000000000002,
+      "radiusTop": 0.012031250000000002,
+      "height": 0.7519999999999999,
+      "segments": 9,
+      "position": [
+        -0.06019922114461652,
+        2.1499999761581416,
+        -0.35055599479273114
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -4.551592653589793,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.45119999999999993,
+      "segments": 9,
+      "position": [
+        -0.10835859806030973,
+        2.2299999761581417,
+        -0.6474757051776974
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -4.551592653589793,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.021875000000000002,
+      "radiusTop": 0.012031250000000002,
+      "height": 0.7519999999999999,
+      "segments": 9,
+      "position": [
+        0.2913254045248153,
+        2.1499999761581416,
+        -0.2171152306014026
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -5.598790204786391,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.45119999999999993,
+      "segments": 9,
+      "position": [
+        0.5243857281446676,
+        2.2299999761581417,
+        -0.4072823296333059
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -5.598790204786391,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.021875000000000002,
+      "radiusTop": 0.012031250000000002,
+      "height": 0.7519999999999999,
+      "segments": 9,
+      "position": [
+        0.3515246256694318,
+        2.1499999761581416,
+        0.15403440737980525
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -6.645987755982989,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.45119999999999993,
+      "segments": 9,
+      "position": [
+        0.6327443262049773,
+        2.2299999761581417,
+        0.26078701873286825
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -6.645987755982989,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.0175,
+      "radiusTop": 0.009625000000000002,
+      "height": 0.564,
+      "segments": 9,
+      "position": [
+        -0.08581264823887295,
+        2.633333309491475,
+        0.2892201299730664
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -1.88,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.3384,
+      "segments": 9,
+      "position": [
+        -0.15446276682997132,
+        2.713333309491475,
+        0.5041213194007383
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -1.88,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.0175,
+      "radiusTop": 0.009625000000000002,
+      "height": 0.564,
+      "segments": 9,
+      "position": [
+        -0.2755436858042561,
+        2.633333309491475,
+        0.08059095323988966
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -2.9271975511965973,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.3384,
+      "segments": 9,
+      "position": [
+        -0.495978634447661,
+        2.713333309491475,
+        0.12858880128102013
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -2.9271975511965973,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.0175,
+      "radiusTop": 0.009625000000000002,
+      "height": 0.564,
+      "segments": 9,
+      "position": [
+        -0.1897310375653832,
+        2.633333309491475,
+        -0.1880355335447003
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -3.974395102393195,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.3384,
+      "segments": 9,
+      "position": [
+        -0.34151586761768976,
+        2.713333309491475,
+        -0.35493887493124177
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -3.974395102393195,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.0175,
+      "radiusTop": 0.009625000000000002,
+      "height": 0.564,
+      "segments": 9,
+      "position": [
+        0.08581264823887293,
+        2.633333309491475,
+        -0.24803284359611333
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -5.021592653589793,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.3384,
+      "segments": 9,
+      "position": [
+        0.15446276682997126,
+        2.713333309491475,
+        -0.4629340330237853
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -5.021592653589793,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.0175,
+      "radiusTop": 0.009625000000000002,
+      "height": 0.564,
+      "segments": 9,
+      "position": [
+        0.27554368580425603,
+        2.633333309491475,
+        -0.03940366686293655
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -6.06879020478639,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.3384,
+      "segments": 9,
+      "position": [
+        0.4959786344476609,
+        2.713333309491475,
+        -0.08740151490406704
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -6.06879020478639,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.0175,
+      "radiusTop": 0.009625000000000002,
+      "height": 0.564,
+      "segments": 9,
+      "position": [
+        0.18973103756538312,
+        2.633333309491475,
+        0.22922281992165347
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -7.115987755982989,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.3384,
+      "segments": 9,
+      "position": [
+        0.34151586761768965,
+        2.713333309491475,
+        0.396126161308195
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -7.115987755982989,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013125000000000001,
+      "radiusTop": 0.007218750000000001,
+      "height": 0.37599999999999995,
+      "segments": 9,
+      "position": [
+        -0.13211005843342807,
+        3.116666642824808,
+        0.15435063351315534
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -2.3499999999999996,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.22559999999999997,
+      "segments": 9,
+      "position": [
+        -0.23779810518017053,
+        3.196666642824808,
+        0.26135622577289835
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -2.3499999999999996,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013125000000000001,
+      "radiusTop": 0.007218750000000001,
+      "height": 0.37599999999999995,
+      "segments": 9,
+      "position": [
+        -0.18189198077163524,
+        3.116666642824808,
+        -0.02693852834797931
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -3.397197551196597,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.22559999999999997,
+      "segments": 9,
+      "position": [
+        -0.32740556538894344,
+        3.196666642824808,
+        -0.064964265577144
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -3.397197551196597,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013125000000000001,
+      "radiusTop": 0.007218750000000001,
+      "height": 0.37599999999999995,
+      "segments": 9,
+      "position": [
+        -0.04978192233820728,
+        3.116666642824808,
+        -0.1606955186726581
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -4.4443951023931945,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.22559999999999997,
+      "segments": 9,
+      "position": [
+        -0.08960746020877311,
+        3.196666642824808,
+        -0.30572684816156587
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -4.4443951023931945,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013125000000000001,
+      "radiusTop": 0.007218750000000001,
+      "height": 0.37599999999999995,
+      "segments": 9,
+      "position": [
+        0.13211005843342805,
+        3.116666642824808,
+        -0.11316334713620224
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -5.491592653589793,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.22559999999999997,
+      "segments": 9,
+      "position": [
+        0.2377981051801705,
+        3.196666642824808,
+        -0.22016893939594528
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -5.491592653589793,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013125000000000001,
+      "radiusTop": 0.007218750000000001,
+      "height": 0.37599999999999995,
+      "segments": 9,
+      "position": [
+        0.18189198077163524,
+        3.116666642824808,
+        0.06812581472493241
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -6.53879020478639,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.22559999999999997,
+      "segments": 9,
+      "position": [
+        0.32740556538894344,
+        3.196666642824808,
+        0.10615155195409709
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -6.53879020478639,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013125000000000001,
+      "radiusTop": 0.007218750000000001,
+      "height": 0.37599999999999995,
+      "segments": 9,
+      "position": [
+        0.04978192233820715,
+        3.116666642824808,
+        0.20188280504961129
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -7.5859877559829885,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013,
+      "radiusTop": 0.00715,
+      "height": 0.22559999999999997,
+      "segments": 9,
+      "position": [
+        0.08960746020877287,
+        3.196666642824808,
+        0.34691413453851905
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0.1,
+        -7.5859877559829885,
+        1
+      ]
+    }
+  ],
+  "mergeParts": true
+}

@@ -33,6 +33,19 @@ export function generateSurfaceTile(settings) {
     const u = x / SIZE, v = y / SIZE, n = noise(u,v,frequency(8),layer+1+seed), fine = noise(u,v,frequency(64),layer+11+seed), grain = hash(x,y,layer+23+seed);
     let rgb, height = n * .65 + fine * .35, rough = .7 + .3 * fine, metal = 1;
     switch (preset.id) {
+      case 'bark': {
+        const ridge=Math.sin(u*Math.PI*2*frequency(20)+n*3);
+        const furrow=Math.pow(Math.max(0,-ridge),4), value=.65+n*.3-furrow*.28;
+        rgb=[115*value,86*value,58*value];height=.65-furrow*.5+fine*.12;rough=.85+fine*.15;break;
+      }
+      case 'foliage': {
+        const main=Math.exp(-Math.abs(u-.5)*70),vein=Math.pow(Math.max(0,Math.cos((v+Math.abs(u-.5)*.8)*Math.PI*2*frequency(12))),18);
+        rgb=[28+n*25+vein*9,65+n*48+vein*15,24+n*18];height=.4+main*.15+vein*.06;rough=.7+fine*.25;break;
+      }
+      case 'ice': {
+        const crack=fracture(u+n*.02,v+n*.02,frequency(4),121+seed);
+        rgb=[102+n*50+crack*65,165+n*42+crack*40,190+n*38+crack*28];height=.6-crack*.4+fine*.03;rough=.12+crack*.35+fine*.08;break;
+      }
       case 'wood': {
         let a=u, b=v;
         if (options.woodPattern==='parquet') {

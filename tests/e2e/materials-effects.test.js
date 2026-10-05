@@ -1,3 +1,4 @@
+import { SURFACE_MATERIALS } from '../../src/domain/materials.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, rm, mkdir } from 'node:fs/promises';
@@ -147,7 +148,7 @@ test('all surface presets change real GPU pixels; terrain blends masks and local
     updateLocalEffect(fire,1,true,false);updateLocalEffect(smoke,1,true,false);const first=capture();updateLocalEffect(fire,1.8,true,false);updateLocalEffect(smoke,1.8,true,false);const second=capture();
     updateLocalEffect(fire,1.8,false,false);updateLocalEffect(smoke,1.8,false,false);const hidden=capture();disposeObject(fire);disposeObject(smoke);library.dispose();capture();const textures=renderer.info.memory.textures;renderer.dispose();return {composition,hashes,blend,customBlend,fullBlend,fullEditedBlend,original,dark,green,gray,woodVariants,metals,legacy,first,second,hidden,textures,baseline};
   });
-  assert.equal(new Set(result.hashes).size,10);
+  assert.equal(new Set(result.hashes).size,SURFACE_MATERIALS.length);
   const c=result.composition,sum=v=>v.channels.reduce((a,b)=>a+b,0);
   assert.ok(sum(c.topSnow)>sum(c.topBare)*1.7,'snow visibly covers upward faces despite dark base tint');
   assert.equal(c.sideBare.hash,c.sideSnow.hash,'vertical faces remain exposed');assert.equal(c.bottomBare.hash,c.bottomSnow.hash,'undersides remain exposed');

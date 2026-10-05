@@ -1,4 +1,5 @@
 import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES } from './materials.js';
+import { WATER_RANGES, isVegetationAsset } from './landscape.js';
 import { ROCK_FORMS, ROCK_RANGES, rockDefaults } from './rocks.js';
 /** Validated JSON is the boundary between editor, disk and future network adapters. */
 import { kelvinToColor } from './lighting.js';
@@ -48,11 +49,13 @@ function material(value, path, partial = false) {
   surfaceFields(value,path);
   if (value.coverage !== undefined && value.coverage !== null) {
     const c = value.coverage, cp = `${path}.coverage`;
-    keys(c, ['texture','color','textureSize','amount','relief', ...distributionFields], cp);
+    keys(c, ['texture','color','textureSize','amount','relief','physicalThickness','exposedOnly', ...distributionFields], cp);
     choice(c.texture, SURFACE_MATERIALS.map(m=>m.id), `${cp}.texture`);
     color(c.color, `${cp}.color`); number(c.textureSize, `${cp}.textureSize`, .05, 50);
     number(c.amount, `${cp}.amount`, 0, 1); number(c.relief, `${cp}.relief`, 0, .2);
     distribution(c, cp, false);
+    if(c.physicalThickness !== undefined) number(c.physicalThickness,`${cp}.physicalThickness`,0,c.texture==='snow'?1.5:0);
+    if(c.exposedOnly !== undefined) bool(c.exposedOnly,`${cp}.exposedOnly`);
   }
   if (value.emissive !== undefined) color(value.emissive, `${path}.emissive`);
   if (value.emissiveIntensity !== undefined) number(value.emissiveIntensity, `${path}.emissiveIntensity`, 0);
@@ -140,14 +143,15 @@ const common = ['id', 'name', 'kind', 'groupId', 'surfaceId', 'locked', 'audienc
 function entity(value, path, document) {
   const { entities, groups } = document.layout;
   const fields = {
+    water: ['transform','width','length','depth','vertices','material','water'],
     floor: ['transform', 'width', 'length', 'thickness', 'material', 'vertices', 'holes'],
-    terrain: ['transform', 'width', 'length', 'segments', 'heights', 'material', 'paintLayers', 'flatShading'],
+    terrain: ['transform', 'width', 'length', 'segments', 'heights', 'material', 'paintLayers', 'flatShading', 'snowMask'],
     wall: ['transform', 'length', 'height', 'thickness', 'material', 'floorIds'],
     door: ['wallId', 'offset', 'width', 'height', 'sill', 'hinge', 'initialAngle', 'material'],
     window: ['wallId', 'offset', 'width', 'height', 'sill', 'style', 'material'],
     stairs: ['transform', 'width', 'length', 'height', 'steps', 'material', 'fromLevelId', 'toLevelId'],
     ramp: ['transform', 'width', 'length', 'height', 'material', 'fromLevelId', 'toLevelId'],
-    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight', 'localEffect', 'rockShape'],
+    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight', 'localEffect', 'rockShape', 'vegetationSeed'],
   };
   choice(value.kind, Object.keys(fields), `${path}.kind`); keys(value, [...common, ...fields[value.kind]], path);
   text(value.name, `${path}.name`); bool(value.locked, `${path}.locked`); choice(value.audience, ['all', 'gm'], `${path}.audience`);
@@ -158,6 +162,15 @@ function entity(value, path, document) {
   fail(value.surfaceId !== value.id, 'Uma superfície não pode apoiar a si mesma.', path);
   if (!['door', 'window'].includes(value.kind)) transform(value.transform, `${path}.transform`, value.kind !== 'prop');
   material(value.material, `${path}.material`);
+  if(value.vegetationSeed !== undefined) {
+    fail(value.kind==='prop' && isVegetationAsset(value.assetRef?.id),'Variação geométrica exige vegetação alpina.',path);
+    number(value.vegetationSeed,path,0,65535); fail(Number.isInteger(value.vegetationSeed),'Seed deve ser inteiro.',path);
+  }
+  if(value.kind==='water') {
+    fail(document.schemaVersion===2,'Água/gelo exige schema 2.',path); number(value.depth,path,.02,20);
+    keys(value.water,['state',...Object.keys(WATER_RANGES)],`${path}.water`); choice(value.water.state,['water','ice'],`${path}.water.state`);
+    for(const [key,[min,max]] of Object.entries(WATER_RANGES)) number(value.water[key],`${path}.water.${key}`,min,max);
+  }
   if(value.rockShape !== undefined) {
     fail(value.kind==='prop' && !!rockDefaults(value.assetRef?.id),'A geometria editável exige uma rocha do kit de montanha.',`${path}.rockShape`);
     const r=value.rockShape,rp=`${path}.rockShape`;
@@ -176,7 +189,7 @@ function entity(value, path, document) {
   for (const field of fields[value.kind].filter(field => ['width', 'length', 'height', 'thickness'].includes(field))) positive(value[field], `${path}.${field}`);
   if (value.kind === 'prop') { assetRef(value.assetRef, `${path}.assetRef`); vector(value.footprint, 2, `${path}.footprint`); value.footprint.forEach((v, i) => positive(v, `${path}.footprint[${i}]`)); }
   if (value.vertices !== undefined) {
-    fail(document.schemaVersion === 2 && value.kind === 'floor' && polygonIsSimple(value.vertices), 'O contorno do piso deve ser um polígono simples de 3 a 64 vértices.', path);
+    fail(document.schemaVersion === 2 && ['floor','water'].includes(value.kind) && polygonIsSimple(value.vertices), 'O contorno do piso deve ser um polígono simples de 3 a 64 vértices.', path);
     fail(polygonSize(value.vertices).every((size, i) => Math.abs(size - [value.width, value.length][i]) < 1e-6), 'Dimensões devem corresponder ao contorno do piso.', path);
   }
   if (value.holes !== undefined) fail(document.schemaVersion === 2 && value.kind === 'floor' && validHoles(floorContour(value), value.holes), 'Furos devem ser polígonos internos, separados e sem cruzamentos.', path);
@@ -185,6 +198,7 @@ function entity(value, path, document) {
     number(value.segments, `${path}.segments`, 2, 64); fail(Number.isInteger(value.segments), 'Resolução deve ser inteira.', path);
     fail(Array.isArray(value.heights) && value.heights.length === (value.segments + 1) ** 2, 'Heightmap com tamanho incompatível.', path);
     value.heights.forEach((height, i) => number(height, `${path}.heights[${i}]`, -1000, 1000));
+    if(value.snowMask !== undefined) { fail(Array.isArray(value.snowMask) && value.snowMask.length===value.heights.length,'Máscara de exposição com tamanho incompatível.',path);value.snowMask.forEach(v=>number(v,path,0,1)); }
     if (value.flatShading !== undefined) bool(value.flatShading, `${path}.flatShading`);
     if (value.paintLayers !== undefined) {
       fail(Array.isArray(value.paintLayers) && value.paintLayers.length <= 8, 'O terreno aceita até 8 camadas de cor.', path);
@@ -235,7 +249,7 @@ function supportReference(value, document, path) {
   if (value === undefined || value === null) return;
   reference(value, document.layout.entities, path, false);
   const host = document.layout.entities[value];
-  fail(host.kind === 'floor' || document.schemaVersion === 2 && (['terrain', 'stairs', 'ramp'].includes(host.kind) || host.kind === 'prop' && host.supportHeight > 0), 'O apoio precisa ser um piso, terreno, acesso ou prop com superfície anotada.', path);
+  fail(host.kind === 'floor' || document.schemaVersion === 2 && ((['terrain', 'stairs', 'ramp'].includes(host.kind) || host.kind==='water' && host.water.state==='ice') || host.kind === 'prop' && host.supportHeight > 0), 'O apoio precisa ser um piso, terreno, acesso, gelo sólido ou prop com superfície anotada.', path);
   if (host.kind === 'prop') quaternion(host.transform.rotation, `${path}.rotation`, true);
 }
 

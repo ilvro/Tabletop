@@ -1,3 +1,6 @@
+import { landscapePanel, waterPanel } from '../ui/landscape-panels.js';
+import { proposeVegetation } from '../authoring/vegetation.js';
+import { isVegetationAsset } from '../domain/landscape.js';
 import { rockDefaults } from '../domain/rocks.js';
 import { rockPanel } from '../ui/rock-panel.js';
 import { createMountainTerrain } from '../authoring/mountain.js';
@@ -110,7 +113,8 @@ export async function startApplication() {
   let anchorEditing = false, anchorHostId = '';
   const openBuildSections = new Set(['room']);
   let polishOptions = { mode: 'align', axis: 'x', alignment: 'center', angle: 5, seed: 1, palette: 'natural', clearance: .8, referenceId: '' };
-  let activeLevelId = null, activeLayerId = null, isolatedLevel = false, polygonHoleHost = null, terrainCell = 0;
+  let activeLevelId = null, activeLayerId = null, isolatedLevel = false, polygonHoleHost = null, polygonKind='floor', terrainCell = 0;
+  let vegetationOptions={terrainId:'',assetId:'builtin-alpine-fir',count:16,seed:42,scaleMin:.7,scaleMax:1.2,slopeMax:35};
   let terrainOptions = { width: 20, length: 20, segments: 32, x: 0, z: 0, protectFloors: true }, terrainResizeMode = 'extend', terrainBrush = { mode: 'raise', radius: 2, strength: .25, target: 0, shape: 'circle', hardness: 0, snap: false, layerId: '', rockPattern: 'fractured', rockSize: 3, rockSeed: 42, protectFloors: true };
   const constructionSemantics = () => ({ levelId: activeLevelId, layerId: activeLayerId });
   let contextTarget = null, draggedTreeId = null;
@@ -229,8 +233,8 @@ export async function startApplication() {
       }
       const origin = points[0];
       const vertices = points.map(p => [p[0] - origin[0], p[2] - origin[2]]);
-      const entity = createEntity('floor', { name: 'Piso poligonal', vertices, position: origin, ...constructionSemantics() });
-      if (execute('entity.add', { entity, snap: false })) { setTool('select'); activeSurfaceId = entity.id; selectObject(entity.id); renderSidebar(); }
+      const entity = createEntity(polygonKind, { name: polygonKind==='water'?'Rio / lago':'Piso poligonal', vertices, position: origin, ...constructionSemantics() });
+      if (execute('entity.add', { entity, snap: false })) { setTool('select'); if(isSupport(entity)) activeSurfaceId = entity.id; selectObject(entity.id); renderSidebar(); }
     },
     onError: (error) => notify(error?.message ?? String(error), true, true),
     onContextMenu: (event, hit) => {
@@ -315,7 +319,7 @@ export async function startApplication() {
     } else {
       const asset = placing.asset;
       const geological=rockDefaults(asset.id);
-      const entity = createEntity('prop', { ...(geological ? {material:{...surfacePatch('rock'),rockPattern:geological.form==='strata'?'strata':geological.form==='rounded'?'granite':'fractured'},rockShape:geological} : {}), name: asset.name, position, surfaceId, assetRef: { id: asset.id, revision: asset.revision }, footprint: asset.footprint ?? [1, 1], ...constructionSemantics(), ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}), ...(placing.localEffect || asset.id==='builtin-campfire' ? { localEffect: clone(placing.localEffect??LOCAL_EFFECT_DEFAULTS) } : {}) });
+      const entity = createEntity('prop', { ...(isVegetationAsset(asset.id)?{vegetationSeed:0}:{}), ...(geological ? {material:{...surfacePatch('rock'),rockPattern:geological.form==='strata'?'strata':geological.form==='rounded'?'granite':'fractured'},rockShape:geological} : {}), name: asset.name, position, surfaceId, assetRef: { id: asset.id, revision: asset.revision }, footprint: asset.footprint ?? [1, 1], ...constructionSemantics(), ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}), ...(placing.localEffect || asset.id==='builtin-campfire' ? { localEffect: clone(placing.localEffect??LOCAL_EFFECT_DEFAULTS) } : {}) });
       if (execute('entity.add', { entity, snap })) newId = entity.id;
     }
     if (newId) { setTool('move'); selectObject(newId); notify('Adicionado à cena. Você pode mover, girar e editar.'); }
@@ -360,8 +364,9 @@ export async function startApplication() {
       panel.innerHTML += constructionPanel(store.document, { surfaceId: activeSurfaceId, height: buildHeight, polygon: tool === 'polygon' });
       panel.innerHTML += levelsPanel(store.document, { levelId: activeLevelId, layerId: activeLayerId, isolated: isolatedLevel });
       panel.innerHTML += terrainPanel(terrainOptions);
+      panel.innerHTML += landscapePanel(store.document,vegetationOptions,assets,{numberField});
       panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition());
-      const tasks = [['room','Sala'],['manual','Peças avulsas'],['characters','Personagens'],['grid','Grid e precisão'],['structures','Pisos, paredes e acessos'],['levels','Andares e camadas'],['terrain','Terreno e relevo'],['furnishing','Mobiliar cômodo']];
+      const tasks = [['room','Sala'],['manual','Peças avulsas'],['characters','Personagens'],['grid','Grid e precisão'],['structures','Pisos, paredes e acessos'],['levels','Andares e camadas'],['terrain','Terreno e relevo'],['landscape','Paisagem · água e vegetação'],['furnishing','Mobiliar cômodo']];
       const taskSections = [...panel.children].map((section, i) => ({ section, key: tasks[i][0], label: tasks[i][1] }));
       taskSections.sort((a,b) => a.label.localeCompare(b.label, 'pt-BR'));
       taskSections.forEach(({ section, key, label }) => {
@@ -504,13 +509,14 @@ export async function startApplication() {
     const actor = type === 'token' ? doc.actors[record.actorId] : null;
     const name = actor?.name ?? record.name;
     const position = record.transform?.position ?? record.position;
-    let fields = `<div class="object-title"><span class="object-icon">${icon(type === 'token' ? 'token' : type === 'light' ? 'light' : record.kind === 'door' ? 'door' : 'room', 24)}</span><span><small>${type === 'token' ? 'TOKEN' : type === 'light' ? 'LUZ' : ({ terrain: 'TERRENO', floor: 'PISO', wall: 'PAREDE', door: 'PORTA', window: 'JANELA', stairs: 'ESCADA', ramp: 'RAMPA', prop: 'ASSET' }[record.kind])}</small><strong>${esc(name)}</strong></span></div><label class="field"><span>Nome</span><input data-field="object-name" value="${esc(name)}" maxlength="256" /></label>`;
+    let fields = `<div class="object-title"><span class="object-icon">${icon(type === 'token' ? 'token' : type === 'light' ? 'light' : record.kind === 'door' ? 'door' : 'room', 24)}</span><span><small>${type === 'token' ? 'TOKEN' : type === 'light' ? 'LUZ' : ({ water: record.water?.state==='ice'?'GELO':'ÁGUA', terrain: 'TERRENO', floor: 'PISO', wall: 'PAREDE', door: 'PORTA', window: 'JANELA', stairs: 'ESCADA', ramp: 'RAMPA', prop: 'ASSET' }[record.kind])}</small><strong>${esc(name)}</strong></span></div><label class="field"><span>Nome</span><input data-field="object-name" value="${esc(name)}" maxlength="256" /></label>`;
     if (record.kind === 'terrain') {
       if (!record.paintLayers?.some(layer => layer.id === terrainBrush.layerId)) terrainBrush.layerId = record.paintLayers?.[0]?.id ?? '';
       viewport.setTerrainBrush(terrainBrush);
       fields += terrainInspector(record, terrainBrush, Math.min(terrainCell, record.heights.length - 1), tool === 'terrain', terrainAdvancedOpen, terrainLayerEditorOpen, terrainResizeMode);
       fields += materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField });
     }
+    if(record.kind==='water') fields+=waterPanel(record,{numberField,colorField});
     if (record.kind === 'floor') fields += `<section><span class="eyebrow">ABERTURAS E PAREDES</span><button data-action="floor-hole" class="wide">Recortar piso · vão de escada / pátio</button><p class="microcopy">Clique nos cantos do vão dentro deste piso; Enter conclui. O recorte atravessa sua espessura.</p><button data-action="contour-walls" class="wide">Criar paredes do contorno</button><p class="microcopy">Revise antes de aceitar. Paredes de bordas compartilhadas são reaproveitadas; encontros em L e T se ajustam automaticamente.</p></section>`;
     if (record.kind === 'terrain') fields += `<details data-disclosure="terrain-object-settings" ${terrainObjectSettingsOpen ? 'open' : ''}><summary>Posição, organização e apresentação</summary>`;
     if (position) {
@@ -532,7 +538,8 @@ export async function startApplication() {
     if (record.kind === 'door') fields += `<section><span class="eyebrow">ABERTURA NA PAREDE</span>${numberField('offset', 'Posição na parede · m', record.offset, { min: 0 })}<div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .2 })}${numberField('height', 'Altura · m', record.height, { min: .2 })}</div>${numberField('door-angle', 'Ângulo atual · graus', (doc.sessionState?.doors?.[record.id] ?? record.initialAngle) * 180 / Math.PI, { step: 15 })}<label class="field"><span>Dobradiça</span><select data-field="hinge"><option value="left" ${record.hinge === 'left' ? 'selected' : ''}>Esquerda</option><option value="right" ${record.hinge === 'right' ? 'selected' : ''}>Direita</option></select></label>${button('door-toggle', 'Abrir / fechar', 'door', 'wide')}<p class="microcopy">O vão pertence à parede. A folha pode ser aberta sem alterar o mapa.</p></section>`;
     if (record.kind === 'window') fields += `<section><span class="eyebrow">JANELA HOSPEDADA</span><p class="microcopy">Com Mover (G), arraste a janela na parede. Alt permite ajuste livre. O recorte acompanha a janela.</p><label class="field"><span>Parede</span><select data-field="window-wall">${Object.values(doc.layout.entities).filter(e => e.kind === 'wall').map(e => `<option value="${e.id}" ${record.wallId === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select></label>${numberField('offset', 'Posição na parede · m', record.offset, { min: 0 })}<div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .1 })}${numberField('height', 'Altura · m', record.height, { min: .1 })}</div>${numberField('sill', 'Peitoril · m', record.sill, { min: 0 })}<label class="field"><span>Representação</span><select data-field="style"><option value="glass" ${record.style === 'glass' ? 'selected' : ''}>Vidro</option><option value="bars" ${record.style === 'bars' ? 'selected' : ''}>Grades</option><option value="open" ${record.style === 'open' ? 'selected' : ''}>Vão livre</option></select></label></section>`;
     if (type === 'token' || record.kind === 'prop') fields += `<section><span class="eyebrow">ESCALA VISUAL</span><div class="axis-fields">${record.transform.scale.map((value, axis) => numberField(`scale-${axis}`, ['X', 'Y', 'Z'][axis], value, { min: .01 })).join('')}</div>${type === 'token' ? `<span class="eyebrow">BASE · METROS</span><div class="field-grid">${numberField('footprint-0', 'Largura', record.footprint[0], { min: .1 })}${numberField('footprint-1', 'Profundidade', record.footprint[1], { min: .1 })}</div>${colorField('token-color', 'Cor do personagem', actor.color)}` : ''}</section>`;
-    if (record.material && record.kind !== 'terrain') fields += materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField });
+    if (record.material && record.kind !== 'terrain' && record.water?.state!=='water') fields += materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField });
+    if(record.kind==='prop' && isVegetationAsset(record.assetRef.id)) fields+=`<section><span class="eyebrow">VEGETAÇÃO · GEOMETRIA</span>${numberField('vegetationSeed','Variação geométrica',record.vegetationSeed??0,{min:0,max:65535,step:1})}<p class="microcopy">Varia ramificação e folhagem, preservando o tamanho e a base. Escala e rotação continuam independentes.</p></section>`;
     if (record.kind === 'prop') fields += rockPanel(record,{numberField});
     if (record.kind === 'prop') fields += localEffectPanel(record, { numberField, colorField, checkField });
     if (type === 'light') fields += lightPanel(record, { numberField, colorField, checkField });
@@ -1054,6 +1061,7 @@ export async function startApplication() {
     for (const [prefix, type, key] of [['level-name-', 'level.update', 'name'], ['level-elevation-', 'level.update', 'elevation'], ['layer-name-', 'layer.update', 'name']]) if (field.startsWith(prefix)) {
       const keyId = field.slice(prefix.length); if (execute(type, { id: keyId, patch: { [key]: value } }) && key === 'elevation' && activeLevelId === keyId) { buildHeight = value; roomOptions.center[1] = value; viewport.setWorkplaneHeight(value); renderSidebar(); } return;
     }
+    if(field.startsWith('vegetation-')) {vegetationOptions[field.slice(11)]=value;renderSidebar();return;}
     if (field.startsWith('terrain-new-')) { terrainOptions[field.slice(12)] = value; return; }
     if(field==='terrain-resize-mode') {terrainResizeMode=value;return;}
     if(['width','length'].includes(field) && locate()?.record.kind==='terrain') {
@@ -1208,12 +1216,14 @@ export async function startApplication() {
     else if (field.startsWith('footprint-')) { const footprint = [...record.footprint]; footprint[Number(field.slice(-1))] = value; patch.footprint = footprint; }
     else if (field === 'token-color') actorPatch = { color: value };
     else if (field.startsWith('material-')) patch.material = field === 'material-texture' ? surfacePatch(value) : textureFieldPatch(record.material, field.slice(9), value);
+    else if(field.startsWith('water-') && record.kind==='water') patch.water={[field.slice(6)]:value};
     else if (field.startsWith('rock-') && rockDefaults(record.assetRef?.id)) {
       patch.rockShape={...(record.rockShape??rockDefaults(record.assetRef.id)),[field.slice(5)]:value};
     }
     else if (field.startsWith('coverage-')) {
       const member=field.slice(9), current=record.material.coverage;
       patch.material={coverage: member==='texture' ? (value==='none'?null:coverageDefaults(value)) : {...current,[member]:value}};
+      if(record.kind==='terrain' && patch.material.coverage?.physicalThickness>0 && patch.material.coverage.exposedOnly!==false)patch.snowMask=viewport.computeSnowExposure(record.id);
     }
     else if (field.startsWith('effect-') && record.kind === 'prop') {
       const config = clone(record.localEffect ?? LOCAL_EFFECT_DEFAULTS), member=field.slice(7);
@@ -1312,6 +1322,10 @@ export async function startApplication() {
         if(defaults) execute('entity.update',{id:record.id,patch:{rockShape:defaults},snap:false},{label:'Restaurar forma da rocha'});
         break;
       }
+      case 'vegetation-preview': try {showAuthorshipProposal(proposeVegetation(store.document,vegetationOptions,store.editVersion,assets));}catch(error){notify(error.message,true);}break;
+      case 'water-add': {const entity=createEntity('water',{position:[0,buildHeight,0],...constructionSemantics()});if(execute('entity.add',{entity,snap:false})){selectObject(entity.id);document.getElementById('welcome').hidden=true;}break;}
+      case 'water-draw': polygonKind='water';polygonHoleHost=null;clearProposal();viewport.setWorkplaneHeight(buildHeight);setTool('polygon');document.getElementById('welcome').hidden=true;notify('Clique no contorno do rio/lago; Enter conclui.');break;
+      case 'snow-exposure': {const terrain=store.document.layout.entities[selection];if(terrain?.kind!=='terrain'){notify('Selecione um terreno para recalcular a máscara. A neve dos objetos verifica o céu automaticamente.');break;}execute('entity.update',{id:terrain.id,patch:{snowMask:viewport.computeSnowExposure(terrain.id)}},{label:'Exposição da neve ao céu'});break;}
       case 'terrain-add': case 'terrain-mountain': {
         const options={ width:terrainOptions.width,length:terrainOptions.length,segments:terrainOptions.segments,position: [terrainOptions.x, buildHeight, terrainOptions.z], ...constructionSemantics() };
         const entity = action==='terrain-mountain' ? createMountainTerrain(options) : createEntity('terrain',options);
@@ -1381,7 +1395,7 @@ export async function startApplication() {
         try { showAuthorshipProposal(proposePolish(store.document, { ...polishOptions, ids: selectedIds.size ? [...selectedIds] : selection ? [selection] : [] }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
-      case 'polygon-draw': clearProposal(); polygonHoleHost = null; viewport.setWorkplaneHeight(buildHeight); setTool('polygon'); document.getElementById('welcome').hidden = true; renderSidebar(); break;
+      case 'polygon-draw': polygonKind='floor'; clearProposal(); polygonHoleHost = null; viewport.setWorkplaneHeight(buildHeight); setTool('polygon'); document.getElementById('welcome').hidden = true; renderSidebar(); break;
       case 'polygon-finish': viewport.finishPolygon(); break;
       case 'platform-add': {
         const entity = createEntity('floor', { name: 'Plataforma', width: 3, length: 3, position: [0, buildHeight || 1, 0], thickness: .25, ...constructionSemantics() });

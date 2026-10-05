@@ -1,6 +1,6 @@
 # Catálogo de assets e classificação
 
-Implementado em 3 de outubro de 2026. A aba **Assets** oferece **165 modelos 3D locais**, incluindo os seis objetos do kit inicial e **159 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
+Implementado em 3 de outubro de 2026. A aba **Assets** oferece **176 modelos 3D locais**, incluindo os seis objetos do kit inicial e **170 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
 
 No GitHub Pages, o mesmo catálogo é servido pelo build estático; imports, classificação e favoritos ficam no navegador, com persistência após reabrir. No modo Node ficam no servidor local. Publicação e limites de transporte: [GITHUB_PAGES.md](GITHUB_PAGES.md).
 
@@ -78,3 +78,7 @@ O paredão pode ser combinado com outras peças, girado e redimensionado para fo
 `rockShape` é um campo opcional de props restrito aos quatro IDs do kit, com `form`, `irregularity`, `detail` e `seed`. A validação rejeita parâmetros inválidos antes de confirmar a edição. O algoritmo usa malhas soldadas com até 1620 triângulos por componente; entulho e paredões têm vários componentes. Geometria/material são próprios de cada instância e descartados ao reconstruir/remover; o catálogo em cache conserva a receita, sem geometria compartilhada editável. Custo depende da quantidade e do detalhe; LOD/instanciamento e benchmark presencial continuam futuros.
 
 Pipeline: `scripts/library-mountain.js`, `src/render/rock-geometry.js` e o gerador geral da biblioteca. Os testes conferem fechamento de bordas, números finitos, raycast, bounds/pivot sob variações, determinismo, pixels WebGL, descarte, controles e persistência. Resultados em [progress.md](../progress.md).
+
+## Arquitetura e vegetação alpinas
+
+Onze peças com materiais internos de rocha/madeira/casca/folhagem, arco com vão real, plantas ramificadas e variação geométrica. Distribuição com prévia, água/gelo e neve com volume: [LANDSCAPE.md](LANDSCAPE.md). Os 165 modelos anteriores conservam seus IDs, receitas e aparência.

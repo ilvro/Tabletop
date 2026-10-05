@@ -1,3 +1,7 @@
+import { hasPhysicalSnow } from '../domain/snow.js';
+import { createWater, updateWater } from './water.js';
+import { addPhysicalSnow, clearPhysicalSnow, snowOccluders, createExposureTest } from './physical-snow.js';
+import { worldPoint } from '../domain/geometry.js';
 import { createSurfaceLibrary, applySurfaceTextures } from './surface-materials.js';
 import { createLocalEffect, updateLocalEffect } from './local-effects.js';
 import * as THREE from 'three';
@@ -130,6 +134,7 @@ export function createViewport(container, {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const onReducedMotion = () => invalidate();
   reducedMotion.addEventListener('change', onReducedMotion);
+  let snowDirty=false, snowTriangles=0, animatedWater=false;
   let effectTime = 0, animatedLights = false, animatedAtmosphere = false;
   scene.background = new THREE.Color('#25373a');
   const content = new THREE.Group();
@@ -233,8 +238,10 @@ export function createViewport(container, {
     animatedAtmosphere = atmosphere.update(camera, effectTime, paused, height * renderer.getPixelRatio());
     animatedLocalEffects = false;
     for (const effect of localEffects.values()) animatedLocalEffects = updateLocalEffect(effect,effectTime,localEffectsEnabled,paused) || animatedLocalEffects;
+    if(snowDirty) rebuildSnow();
+    animatedWater=false;for(const object of objects.values())animatedWater=updateWater(object,effectTime,paused)||animatedWater;
     effects.render(camera, seconds);
-    if ((moving || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects) && !document.hidden) invalidate();
+    if ((moving || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
     else lastFrameTime = null;
   }
   function attachOrbit(target) {
@@ -394,7 +401,7 @@ export function createViewport(container, {
       if (!(isLight && (tool === 'scale' || (tool === 'rotate' && record.type === 'point')))) {
         transform.setMode({ move: 'translate', rotate: 'rotate', scale: 'scale' }[tool]);
         transform.setSpace(tool === 'scale' ? 'local' : 'world');
-        transform.showX = tool !== 'rotate' || !(record.kind === 'assembly' || record.kind === 'wall' || record.kind === 'floor' || record.kind === 'terrain' || isAccess(record) || sceneDocument?.tokens?.[record.id]);
+        transform.showX = tool !== 'rotate' || !(record.kind === 'assembly' || record.kind === 'wall' || record.kind === 'floor' || record.kind === 'terrain' || record.kind === 'water' || isAccess(record) || sceneDocument?.tokens?.[record.id]);
         transform.showY = !(tool === 'scale' && record.kind === 'floor');
         transform.showZ = transform.showX;
         transform.setTranslationSnap(null); // Footprint/origin snapping belongs to the domain.
@@ -476,7 +483,7 @@ export function createViewport(container, {
       }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } });
       return;
     }
-    cache.createInstance(record,entity.rockShape).then((instance) => {
+    cache.createInstance(record,entity.rockShape,entity.vegetationSeed).then((instance) => {
       if (!stillCurrent()) { disposeObject(instance); return; }
       parent.add(instance);
       if(entity.localEffect?.enabled && entity.localEffect.type==='fire') instance.traverse(child=>{if(child.userData.materialSlot==='flame') child.visible=false;});
@@ -488,7 +495,7 @@ export function createViewport(container, {
       tagEntity(parent, entity.id);
       updateSelection();
       onMaterialSlots(entity.id);
-      updateShadowBounds();
+      updateShadowBounds();snowDirty=true;
       invalidate(true);
     }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } });
   }
@@ -557,7 +564,8 @@ export function createViewport(container, {
     const usedAssets = [];
     for (const entity of entities) {
       let object;
-      if (entity.kind === 'floor') object = createFloor(entity);
+      if (entity.kind === 'water') object = createWater(entity);
+      else if (entity.kind === 'floor') object = createFloor(entity);
       else if (entity.kind === 'terrain') object = createTerrain(entity);
       else if (isAccess(entity)) object = createAccess(entity);
       else if (entity.kind === 'wall') object = createWall(entity, doors.filter((door) => door.wallId === entity.id), entities.filter(e => e.kind === 'wall'));
@@ -583,7 +591,7 @@ export function createViewport(container, {
         const asset = assetRecord(entity.assetRef);
         if (asset) usedAssets.push(asset);
         installAsset(object, entity, entity.assetRef, generation);
-      } else { applySurfaceTextures(object, entity, surfaces); applyEnvironmentMaterials(object, entity, look); applyMaterialOverrides(object, undefined, look.materialAdjustments?.[entity.id]); }
+      } else { if(entity.water?.state!=='water') applySurfaceTextures(object, entity.kind==='water'?{...entity,material:{...entity.material,texture:entity.material.texture&&entity.material.texture!=='none'?entity.material.texture:'ice'}}:entity, surfaces); applyEnvironmentMaterials(object, entity, look); applyMaterialOverrides(object, undefined, look.materialAdjustments?.[entity.id]); }
     }
     for (const token of values(next.tokens)) {
       const actor = next.actors[token.actorId];
@@ -618,9 +626,25 @@ export function createViewport(container, {
     }
     cache.prune(usedAssets);
     content.updateMatrixWorld(true);
-    updateShadowBounds();
+    updateShadowBounds();snowDirty=true;
     updateSelection();
     invalidate(true);
+  }
+
+  function exposureForScene(omitId=null) {
+    content.updateMatrixWorld(true);return createExposureTest(snowOccluders([...objects].filter(([id])=>id!==omitId && records.get(id)?.kind && records.get(id)?.kind!=='assembly' && visibleRecord(records.get(id),true)).map(([,o])=>o)));
+  }
+  function rebuildSnow() {
+    snowDirty=false;snowTriangles=0;for(const object of objects.values())clearPhysicalSnow(object);
+    if(![...records.values()].some(hasPhysicalSnow))return;
+    const exposure=exposureForScene();
+    for(const [id,object] of objects) {const record=records.get(id);if(record?.kind && visibleRecord(record,true))snowTriangles+=addPhysicalSnow(object,record,surfaces,exposure).triangles;}
+    content.updateMatrixWorld(true);renderer.shadowMap.needsUpdate=true;
+  }
+  function computeSnowExposure(terrainId) {
+    const terrain=records.get(terrainId);if(terrain?.kind!=='terrain')throw new Error('Selecione um terreno.');
+    const exposure=exposureForScene(terrainId),n=terrain.segments;
+    return terrain.heights.map((h,i)=>exposure(worldPoint(terrain,[(i%(n+1)/n-.5)*terrain.width,h,(Math.floor(i/(n+1))/n-.5)*terrain.length])));
   }
 
   function setPreview(proposal) {
@@ -638,7 +662,8 @@ export function createViewport(container, {
     });
     for (const entity of entities) {
       let object;
-      if (entity.kind === 'floor') object = createFloor(entity);
+      if (entity.kind === 'water') object = createWater(entity);
+      else if (entity.kind === 'floor') object = createFloor(entity);
       else if (entity.kind === 'terrain') object = createTerrain(entity);
       else if (isAccess(entity)) object = createAccess(entity);
       else if (entity.kind === 'wall') object = createWall(entity, doors.filter((door) => door.wallId === entity.id), [...values(sceneDocument.layout.entities).filter(e => e.kind === 'wall' && !entities.some(p => p.id === e.id)), ...entities.filter(e => e.kind === 'wall')]);
@@ -650,7 +675,7 @@ export function createViewport(container, {
       } else if (entity.kind === 'prop') {
         object = new THREE.Group(); applyTransform(object, entity.transform);
         const parent = object, asset = assetRecord(entity.assetRef);
-        if (asset) cache.createInstance(asset,entity.rockShape).then(instance => {
+        if (asset) cache.createInstance(asset,entity.rockShape,entity.vegetationSeed).then(instance => {
           if (destroyed || previewVersion !== previewGeneration) { disposeObject(instance); return; }
           applyMaterialOverrides(instance, entity.material, null, true); ghost(instance); parent.add(instance); invalidate();
         }).catch(error => { if (previewVersion === previewGeneration) report(error); });
@@ -687,7 +712,7 @@ export function createViewport(container, {
   }
   function pick(event) {
     rayFromEvent(event);
-    let nearest = raycaster.intersectObjects([...objects.values()], true).find((hit) => hit.object.userData.entityId && !hit.object.userData.decorative && visibleInHierarchy(hit.object));
+    let nearest = raycaster.intersectObjects([...objects.values()], true).find((hit) => hit.object.userData.entityId && (!hit.object.userData.decorative || hit.object.userData.physicalSnow || hit.object.userData.terrainSnowEdge) && visibleInHierarchy(hit.object));
     // Empty and barred windows remain selectable through their aperture, without
     // adding invisible geometry that would make the physical opening solid.
     for (const opening of records.values()) {
@@ -1021,7 +1046,7 @@ export function createViewport(container, {
   document.addEventListener('visibilitychange', onVisibilityChange);
 
   return {
-    setDocument,
+    setDocument, computeSnowExposure,
     pick(event) {
       const hit = pick(event);
       return hit ? { entityId: hit.object.userData.entityId, point: hit.point.toArray() } : null;
@@ -1070,6 +1095,7 @@ export function createViewport(container, {
     setEffectsEnabled(value) { effects.setEnabled(value); atmosphere.setEnabled(value); localEffectsEnabled=value; invalidate(); },
     getInfo() { return { atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
       rockGeometries: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.geometry?.userData.rock) list.push({id,...child.geometry.userData.rock,triangles:(child.geometry.index?.count??child.geometry.attributes.position.count)/3});});return list;}),
+      snowCoats:[...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.userData.physicalSnow)list.push({id,triangles:child.geometry.attributes.position.count/3});});return list;}), snowTriangles, animatedWater, waterSurfaces:[...records.values()].filter(r=>r.kind==='water').map(r=>({id:r.id,...r.water})),
       surfaceMaterials: [...objects].flatMap(([id,object])=>{const list=[]; object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material]) if(mat?.userData.surface) list.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.surface});});return list;}),
       environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },
     destroy() {

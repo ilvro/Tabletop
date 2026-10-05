@@ -10,6 +10,9 @@ export const SURFACE_MATERIALS = [
   { id: 'mud', name: 'Lama', roughness: .58, metalness: 0, size: 2, relief: .04 },
   { id: 'rock', name: 'Rocha natural', roughness: .92, metalness: 0, size: 3, relief: .09 },
   { id: 'snow', name: 'Neve', roughness: .86, metalness: 0, size: 2, relief: .018 },
+  { id: 'bark', name: 'Casca de árvore', roughness: .95, metalness: 0, size: 1, relief: .055 },
+  { id: 'foliage', name: 'Folhagem · nervuras', roughness: .85, metalness: 0, size: .5, relief: .012 },
+  { id: 'ice', name: 'Gelo · fissuras', roughness: .2, metalness: 0, size: 3, relief: .025 },
 ];
 /** Optional parameters preserve the appearance of existing documents. */
 export const TEXTURE_DEFAULTS = Object.freeze({
@@ -52,7 +55,7 @@ export const distributionOptions = settings => ({ ...DISTRIBUTION_DEFAULTS, ...s
 export function coverageDefaults(texture = 'snow') {
   const preset = surfacePreset(texture);
   return { ...DISTRIBUTION_DEFAULTS, mode: 'top', texture, color: '#ffffff',
-    textureSize: preset?.size ?? 2, amount: 1, relief: preset?.relief ?? .018 };
+    textureSize: preset?.size ?? 2, amount: 1, relief: preset?.relief ?? .018, physicalThickness:0, exposedOnly:true };
 }
 export function surfacePatch(id) {
   const preset = surfacePreset(id);

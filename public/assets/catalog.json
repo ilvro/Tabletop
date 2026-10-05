@@ -5212,6 +5212,353 @@
       ],
       "url": "/assets/models/rock-scree.json",
       "previewUrl": "/assets/previews/rock-scree.svg"
+    },
+    {
+      "id": "builtin-ruin-masonry-wall",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Muro de ruína · alvenaria irregular",
+      "category": "Arquitetura / Ruínas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "arquitetura",
+        "ruína",
+        "alvenaria",
+        "montanha"
+      ],
+      "description": "Blocos irregulares separados com juntas e topo quebrado. Material de rocha original; combine módulos por rotação/escala.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.97,
+        0.56
+      ],
+      "bounds": [
+        3.96,
+        1.89,
+        0.55
+      ],
+      "url": "/assets/models/ruin-masonry-wall.json",
+      "previewUrl": "/assets/previews/ruin-masonry-wall.svg"
+    },
+    {
+      "id": "builtin-ruin-stone-arch",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Arco de pedra · passagem antiga",
+      "category": "Arquitetura / Ruínas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "arquitetura",
+        "ruína",
+        "alvenaria",
+        "montanha"
+      ],
+      "description": "Aduelas curvas com vão real e pilares de blocos. Cenográfico: não substitui paredes/portas estruturais.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.08,
+        0.67
+      ],
+      "bounds": [
+        3.08,
+        3.57,
+        0.66
+      ],
+      "url": "/assets/models/ruin-stone-arch.json",
+      "previewUrl": "/assets/previews/ruin-stone-arch.svg"
+    },
+    {
+      "id": "builtin-ruin-buttress",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Contraforte de ruína",
+      "category": "Arquitetura / Ruínas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "arquitetura",
+        "ruína",
+        "alvenaria",
+        "montanha"
+      ],
+      "description": "Pilar escalonado em blocos irregulares para torres, corredores e fachadas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1,
+        1.11
+      ],
+      "bounds": [
+        1,
+        2.42,
+        1.1
+      ],
+      "url": "/assets/models/ruin-buttress.json",
+      "previewUrl": "/assets/previews/ruin-buttress.svg"
+    },
+    {
+      "id": "builtin-mountain-timber-bridge",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Passarela antiga · tábuas e corrimão",
+      "category": "Arquitetura / Madeira",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "arquitetura",
+        "ruína",
+        "alvenaria",
+        "montanha"
+      ],
+      "description": "Tábuas individuais, vigas e corrimão. Coloque um piso/plataforma de apoio sobre o tabuleiro para tokens.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.19,
+        3.91
+      ],
+      "bounds": [
+        2.18,
+        1.35,
+        3.9
+      ],
+      "url": "/assets/models/mountain-timber-bridge.json",
+      "previewUrl": "/assets/previews/mountain-timber-bridge.svg"
+    },
+    {
+      "id": "builtin-mountain-roof",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Telhado rústico · duas águas",
+      "category": "Arquitetura / Madeira",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "arquitetura",
+        "ruína",
+        "alvenaria",
+        "montanha"
+      ],
+      "description": "Cobertura inclinada com tábuas e cumeeira, útil para abrigos e pórticos. Recebe neve física conforme exposição.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.3,
+        3.02
+      ],
+      "bounds": [
+        3.3,
+        1.624,
+        3.019
+      ],
+      "url": "/assets/models/mountain-roof.json",
+      "previewUrl": "/assets/previews/mountain-roof.svg"
+    },
+    {
+      "id": "builtin-mountain-lantern-post",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Lanterna de trilha · suporte rústico",
+      "category": "Arquitetura / Madeira",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "arquitetura",
+        "ruína",
+        "alvenaria",
+        "montanha"
+      ],
+      "description": "Armação vazada e núcleo emissivo. Adicione luz pontual para iluminar a trilha.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.74,
+        0.24
+      ],
+      "bounds": [
+        0.74,
+        1.55,
+        0.24
+      ],
+      "url": "/assets/models/mountain-lantern-post.json",
+      "previewUrl": "/assets/previews/mountain-lantern-post.svg"
+    },
+    {
+      "id": "builtin-alpine-fir",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Abeto alpino · ramificado",
+      "category": "Exterior / Vegetação alpina",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "vegetação",
+        "natureza",
+        "montanha"
+      ],
+      "description": "Tronco com casca, raízes e ramificação; folhagem com lâminas individuais. Variação geométrica editável, sem volumes cônicos de copa.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.46,
+        3.2
+      ],
+      "bounds": [
+        3.459,
+        4.5,
+        3.196
+      ],
+      "url": "/assets/models/alpine-fir.json",
+      "previewUrl": "/assets/previews/alpine-fir.svg"
+    },
+    {
+      "id": "builtin-alpine-pine",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Pinheiro de montanha · ramificado",
+      "category": "Exterior / Vegetação alpina",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "vegetação",
+        "natureza",
+        "montanha"
+      ],
+      "description": "Tronco com casca, raízes e ramificação; folhagem com lâminas individuais. Variação geométrica editável, sem volumes cônicos de copa.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.68,
+        3.29
+      ],
+      "bounds": [
+        3.675,
+        3.5,
+        3.281
+      ],
+      "url": "/assets/models/alpine-pine.json",
+      "previewUrl": "/assets/previews/alpine-pine.svg"
+    },
+    {
+      "id": "builtin-bare-mountain-tree",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Árvore seca de montanha",
+      "category": "Exterior / Vegetação alpina",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "vegetação",
+        "natureza",
+        "montanha"
+      ],
+      "description": "Tronco com casca, raízes e ramificação; folhagem com lâminas individuais. Variação geométrica editável, sem volumes cônicos de copa.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.05,
+        2.65
+      ],
+      "bounds": [
+        3.047,
+        3.8,
+        2.642
+      ],
+      "url": "/assets/models/bare-mountain-tree.json",
+      "previewUrl": "/assets/previews/bare-mountain-tree.svg"
+    },
+    {
+      "id": "builtin-alpine-fern",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Samambaia alpina",
+      "category": "Exterior / Vegetação alpina",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "vegetação",
+        "natureza",
+        "montanha"
+      ],
+      "description": "Frondes curvadas e folíolos individuais para bordas de rochas e ruínas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.1,
+        1.09
+      ],
+      "bounds": [
+        1.093,
+        0.65,
+        1.083
+      ],
+      "url": "/assets/models/alpine-fern.json",
+      "previewUrl": "/assets/previews/alpine-fern.svg"
+    },
+    {
+      "id": "builtin-dry-grass",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Tufo de capim seco",
+      "category": "Exterior / Vegetação alpina",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Ruínas",
+        "Floresta"
+      ],
+      "tags": [
+        "vegetação",
+        "natureza",
+        "montanha"
+      ],
+      "description": "Lâminas curvas separadas, com variação de altura e direção, para trilhas e neve.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.86,
+        0.72
+      ],
+      "bounds": [
+        0.85,
+        0.65,
+        0.71
+      ],
+      "url": "/assets/models/dry-grass.json",
+      "previewUrl": "/assets/previews/dry-grass.svg"
     }
   ]
 }

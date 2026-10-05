@@ -1,3 +1,4 @@
+import { physicalSnowHeights } from './snow.js';
 import { rotateXZ, yawFromQuaternion } from './coords.js';
 
 const cross = (a, b, c) => (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
@@ -80,7 +81,7 @@ export const isLocked = (document, record) => Boolean(record.locked || groupChai
 export const isVisible = (document, record) => !groupChain(document, record.groupId).some(g => g.visible === false) && document.layout.levels?.[record.levelId]?.visible !== false && document.layout.layers?.[record.layerId]?.visible !== false;
 
 export const isAccess = record => ['stairs', 'ramp'].includes(record?.kind);
-export const isSupport = record => ['floor', 'terrain'].includes(record?.kind) || isAccess(record) || record?.supportHeight > 0;
+export const isSupport = record => ['floor', 'terrain'].includes(record?.kind) || record?.kind==='water' && record.water?.state==='ice' || isAccess(record) || record?.supportHeight > 0;
 
 /** Accesses rise along local +Z; their pivot is the center of the lower base. */
 export function supportHeightAt(host, position) {
@@ -114,7 +115,8 @@ export function terrainHeightAt(terrain, position) {
   const p = localPoint(terrain, position), n = terrain.segments;
   const gx = Math.max(0, Math.min(n, (p[0] / terrain.width + .5) * n)), gz = Math.max(0, Math.min(n, (p[2] / terrain.length + .5) * n));
   const x = Math.min(n - 1, Math.floor(gx)), z = Math.min(n - 1, Math.floor(gz)), u = gx - x, v = gz - z;
-  const a = terrain.heights[z * (n + 1) + x], b = terrain.heights[z * (n + 1) + x + 1], c = terrain.heights[(z + 1) * (n + 1) + x], d = terrain.heights[(z + 1) * (n + 1) + x + 1];
+  const heights = physicalSnowHeights(terrain);
+  const a = heights[z * (n + 1) + x], b = heights[z * (n + 1) + x + 1], c = heights[(z + 1) * (n + 1) + x], d = heights[(z + 1) * (n + 1) + x + 1];
   return u + v <= 1 ? a + u * (b - a) + v * (c - a) : d + (1 - u) * (c - d) + (1 - v) * (b - d);
 }
 

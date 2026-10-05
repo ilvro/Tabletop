@@ -1,0 +1,237 @@
+{
+  "name": "Lanterna de trilha · suporte rústico",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        1.5,
+        0.14
+      ],
+      "position": [
+        -0.2900000177323818,
+        0.75,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.5,
+        "woodPattern": "grain",
+        "textureBrightness": 0.8,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.7,
+        0.1,
+        0.12
+      ],
+      "position": [
+        -0.020000017732381803,
+        1.5,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.5,
+        "woodPattern": "grain",
+        "textureBrightness": 0.8,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.012,
+      "radiusTop": 0.006600000000000001,
+      "height": 0.35,
+      "segments": 9,
+      "position": [
+        0.2299999822676182,
+        1.33,
+        0
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.28,
+        0.05,
+        0.24
+      ],
+      "position": [
+        0.2299999822676182,
+        0.93,
+        0
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.28,
+        0.05,
+        0.24
+      ],
+      "position": [
+        0.2299999822676182,
+        1.13,
+        0
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.24,
+        0.02
+      ],
+      "position": [
+        0.11999998226761821,
+        1.03,
+        -0.09
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.24,
+        0.02
+      ],
+      "position": [
+        0.11999998226761821,
+        1.03,
+        0.09
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.24,
+        0.02
+      ],
+      "position": [
+        0.3399999822676182,
+        1.03,
+        -0.09
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.24,
+        0.02
+      ],
+      "position": [
+        0.3399999822676182,
+        1.03,
+        0.09
+      ],
+      "material": "metal",
+      "surface": null
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.15,
+        0.12
+      ],
+      "position": [
+        0.2299999822676182,
+        1.03,
+        0
+      ],
+      "material": "flame",
+      "surface": null
+    }
+  ],
+  "mergeParts": true
+}

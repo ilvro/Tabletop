@@ -1,3 +1,4 @@
+import { terrainSnow } from '../domain/snow.js';
 import { terrainTextureMasks } from './surface-materials.js';
 import * as THREE from 'three';
 import { standardMaterial } from './asset-cache.js';
@@ -47,14 +48,15 @@ export function createFloor(entity) {
 }
 
 export function createTerrain(entity) {
-  const n = entity.segments, positions = [], indices = [];
-  for (let z = 0; z <= n; z++) for (let x = 0; x <= n; x++) positions.push((x / n - .5) * entity.width, entity.heights[z * (n + 1) + x], (z / n - .5) * entity.length);
+  const n = entity.segments, positions = [], indices = [], snow=terrainSnow(entity);
+  for (let z = 0; z <= n; z++) for (let x = 0; x <= n; x++) positions.push((x / n - .5) * entity.width, snow.heights[z * (n + 1) + x], (z / n - .5) * entity.length);
   for (let z = 0; z < n; z++) for (let x = 0; x < n; x++) {
     const a = z * (n + 1) + x, b = a + 1, c = a + n + 1, d = c + 1;
     indices.push(a, c, b, b, c, d);
   }
   const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3)); geometry.setIndex(indices); geometry.computeVertexNormals();
   terrainTextureMasks(geometry,entity);
+  geometry.setAttribute('surfaceSnowWeight',new THREE.Float32BufferAttribute(snow.weights??entity.heights.map(()=>1),1));
   const material = standardMaterial({ ...entity.material, color: entity.paintLayers?.length ? '#ffffff' : entity.material.color });
   material.flatShading = entity.flatShading ?? false;
   if (entity.paintLayers?.length) {
@@ -69,6 +71,12 @@ export function createTerrain(entity) {
   }
   const group = new THREE.Group(), mesh = new THREE.Mesh(geometry, material);
   mesh.castShadow = true; mesh.receiveShadow = true; mesh.userData.materialSlot = 'base'; group.add(mesh);
+  if(snow.weights) {
+    const border=[];for(let x=0;x<n;x++)border.push([x,x+1],[n*(n+1)+x+1,n*(n+1)+x]);for(let z=0;z<n;z++)border.push([(z+1)*(n+1),z*(n+1)],[z*(n+1)+n,(z+1)*(n+1)+n]);
+    const sides=[];const at=(i,top)=>[(i%(n+1)/n-.5)*entity.width,top?snow.heights[i]:entity.heights[i],(Math.floor(i/(n+1))/n-.5)*entity.length];
+    for(const [a,b] of border) {if(snow.weights[a]+snow.weights[b]<.001)continue;for(const p of [at(a,false),at(b,false),at(b,true),at(a,false),at(b,true),at(a,true)])sides.push(...p);}
+    if(sides.length){const edge=new THREE.BufferGeometry();edge.setAttribute('position',new THREE.Float32BufferAttribute(sides,3));edge.computeVertexNormals();const skirt=new THREE.Mesh(edge,standardMaterial({color:entity.material.coverage.color,roughness:.86}));skirt.userData.decorative=true;skirt.userData.terrainSnowEdge=true;skirt.castShadow=true;skirt.receiveShadow=true;group.add(skirt);}
+  }
   applyTransform(group, entity.transform); return tagEntity(group, entity.id);
 }
 

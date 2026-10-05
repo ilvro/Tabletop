@@ -101,7 +101,7 @@ export function resampleTerrain(terrain, segments) {
     const at = (x, z) => values[z * (terrain.segments + 1) + x];
     return (at(x0,z0) * (1-tx) + at(x1,z0) * tx) * (1-tz) + (at(x0,z1) * (1-tx) + at(x1,z1) * tx) * tz;
   });
-  return { segments, heights: sample(terrain.heights), ...(terrain.paintLayers ? { paintLayers: terrain.paintLayers.map(layer => ({ ...structuredClone(layer), weights: sample(layer.weights) })) } : {}) };
+  return { segments, heights: sample(terrain.heights), ...(terrain.snowMask?{snowMask:sample(terrain.snowMask)}:{}), ...(terrain.paintLayers ? { paintLayers: terrain.paintLayers.map(layer => ({ ...structuredClone(layer), weights: sample(layer.weights) })) } : {}) };
 }
 
 /** Expanding samples in local metres; stretching explicitly keeps normalized heights/masks. */
@@ -116,7 +116,7 @@ export function resizeTerrain(terrain,{width=terrain.width,length=terrain.length
     const at=(a,b)=>values[b*(terrain.segments+1)+a];
     return (at(x0,z0)*(1-tx)+at(x1,z0)*tx)*(1-tz)+(at(x0,z1)*(1-tx)+at(x1,z1)*tx)*tz;
   });
-  return {width,length,segments,heights:sample(terrain.heights),...(terrain.paintLayers?{paintLayers:terrain.paintLayers.map(layer=>({...structuredClone(layer),weights:sample(layer.weights)}))}:{})};
+  return {width,length,segments,heights:sample(terrain.heights),...(terrain.snowMask?{snowMask:sample(terrain.snowMask)}:{}),...(terrain.paintLayers?{paintLayers:terrain.paintLayers.map(layer=>({...structuredClone(layer),weights:sample(layer.weights)}))}:{})};
 }
 
 function edgeDistance(point,polygon) {

@@ -1,6 +1,6 @@
 # Tabletop no GitHub Pages
 
-O build estático oferece editor, 165 assets locais, materiais/efeitos, cenas/mapas/ambientes, importação de PNG/JPEG/WebP e GLB estático, classificação/favoritos, histórico, recuperação e apresentação. Funciona em `https://<usuário>.github.io/<repositório>/` e em domínio próprio, com caminhos relativos ao diretório publicado.
+O build estático oferece editor, 176 assets locais, materiais/efeitos, cenas/mapas/ambientes, importação de PNG/JPEG/WebP e GLB estático, classificação/favoritos, histórico, recuperação e apresentação. Funciona em `https://<usuário>.github.io/<repositório>/` e em domínio próprio, com caminhos relativos ao diretório publicado.
 
 ## Publicar com GitHub Actions
 
@@ -40,3 +40,5 @@ Esses limites decorrem do armazenamento escolhido: [GitHub Pages serve arquivos 
 `vite.config.js` gera base `./` e seleciona persistência no navegador em modo `pages`. `paths.js` resolve catálogo/assets/favicons/projetor no diretório da aplicação; `browser-repository.js` implementa a interface do repositório com validação, referências, revisão, transações e descarte de URLs temporárias. `api.js` mantém a API local; builds normais também reconhecem o domínio `github.io`.
 
 Builds em `dist/` e `dist-pages/` são independentes. Teste estático: `node --test tests/e2e/pages.test.js` depois de `npm run build:pages`. O servidor da fixture serve apenas arquivos, sem `/api/tabletop`, no subdiretório `/Tabletop/`. Testes verificam UI real, biblioteca/importação, salvamento/reabertura, mapas/ambientes, projetor, isolamento de diretórios e conflitos/falhas atômicas. Resultado atualizado em [progress.md](../progress.md).
+
+Arquitetura/vegetação alpina, distribuição, água/gelo e neve com espessura usam recursos locais e documentos serializáveis; disponíveis no build estático. Uso: [LANDSCAPE.md](LANDSCAPE.md).

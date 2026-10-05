@@ -4,7 +4,7 @@ Revisão em 4 de outubro de 2026, a partir das sete imagens de Tabletop de Ordem
 
 ## O que determina o resultado visual
 
-A maior diferença está no conteúdo visual e na montagem: modelos com formas detalhadas, materiais texturizados, arquitetura coerente, vegetação e muitos objetos pequenos que contam a história do lugar. A biblioteca atual cobre vários temas, mas os 161 modelos anteriores são receitas de caixas, cilindros e esferas com materiais de cor, rugosidade, metalicidade e emissão, agora com substituição por dez texturas procedurais locais. O catálogo agora inclui quatro peças de rocha com malha irregular e geometria editável, totalizando 165 modelos. Isso ajuda a montar a disposição dos objetos; aumentar apenas a quantidade de receitas não produz o acabamento visto nos escritórios, na catedral ou no terreno lamacento.
+A maior diferença está no conteúdo visual e na montagem: modelos com formas detalhadas, materiais texturizados, arquitetura coerente, vegetação e muitos objetos pequenos que contam a história do lugar. A biblioteca atual cobre vários temas, mas os 161 modelos anteriores são receitas de caixas, cilindros e esferas com materiais de cor, rugosidade, metalicidade e emissão, agora com substituição por treze texturas procedurais locais. O catálogo agora inclui quatro peças de rocha com malha irregular e geometria editável, e onze peças de arquitetura/vegetação alpina, totalizando 176 modelos. Isso ajuda a montar a disposição dos objetos; aumentar apenas a quantidade de receitas não produz o acabamento visto nos escritórios, na catedral ou no terreno lamacento.
 
 A base de autoria e atmosfera já permite construir pisos, paredes, vãos e andares, esculpir terreno, posicionar objetos, ajustar luzes/sombras, escolher tarde/noite, exibir céu/lua, acender materiais por horário e publicar uma câmera independente. É possível começar um cenário mais detalhado hoje importando modelos estáticos com texturas embutidas no GLB. Ainda é necessário produzir ou obter esses modelos e compor o mapa.
 
@@ -36,9 +36,9 @@ As imagens mostram o resultado final. Elas não permitem determinar o motor, os 
 As camadas pintáveis agora misturam cores e texturas procedurais de lama, grama e pedra, com relevo aparente e variação de rugosidade. A última imagem ainda exige materiais autorais, vegetação e superfícies molhadas mais detalhadas.
 
 - Ampliar o acervo do terreno com texturas autorais/fotográficas, conservando escala, máscaras e transições disponíveis.
-- Camadas por inclinação/altura, rocha natural, neve e cobertura visual por objeto estão disponíveis em [MATERIALS.md](MATERIALS.md); geometria de acúmulo/exposição ao céu continua futura.
-- Pincel de distribuição de vegetação/entulho com densidade, seed, variação de escala/rotação, apoio na superfície e possibilidade de editar/remover o resultado.
-- Materiais de umidade e poças/água, avaliando a solução de reflexos adequada ao hardware. Reduzir rugosidade sozinho não entrega todo o aspecto do chão molhado.
+- Camadas por inclinação/altura, rocha natural, neve e cobertura visual por objeto estão disponíveis em [MATERIALS.md](MATERIALS.md); neve com espessura e exposição ao céu estão disponíveis em [LANDSCAPE.md](LANDSCAPE.md).
+- Distribuição com prévia, seed, variação de escala/rotação/geometria, exclusão de construções e apoio no terreno entregue para cinco plantas alpinas. Pincel regional, entulho e expansão de espécies continuam pendentes.
+- Água poligonal animada e gelo sólido entregues. Materiais de umidade e reflexos dos objetos na água continuam dependentes da solução adequada ao hardware. Reduzir rugosidade sozinho não entrega todo o aspecto do chão molhado.
 - Resolução do relevo e densidade de objetos ajustadas ao tamanho do mapa e ao orçamento de renderização, medidos em uma cena piloto.
 
 ### 3. Montagem reutilizável
@@ -91,14 +91,14 @@ Integrações Ficha/Jukebox, LAN, caminhos de câmera e importadores de outros V
 
 Referência adicional fornecida em 4 de outubro de 2026: percurso nevado entre paredões rochosos, construções antigas, pinheiros, água e lanternas, com névoa clara separando os planos. Este piloto passa à frente do escritório na ordem recomendada; as demais etapas continuam como possibilidades posteriores. Jukebox e Ficha ficam adiados por orientação do usuário.
 
-Disponível: escultura e pintura do terreno, estruturas e plataformas, escadas/rampas, pedra/madeira personalizáveis, pinheiro/rochas/coluna quebrada simplificados no catálogo, importação de GLB estático com texturas embutidas, névoa, iluminação fria e luzes quentes locais. Há agora material próprio de neve, camadas automáticas por inclinação/altura e cobertura visual nas faces superiores dos objetos. Acúmulo com volume físico e exposição ao céu continuam futuros.
+Disponível: escultura e pintura do terreno, estruturas e plataformas, escadas/rampas, pedra/madeira personalizáveis, pinheiro/rochas/coluna quebrada simplificados no catálogo, importação de GLB estático com texturas embutidas, névoa, iluminação fria e luzes quentes locais. Há agora material próprio de neve, camadas automáticas por inclinação/altura e cobertura visual nas faces superiores dos objetos. Neve com espessura, exposição ao céu, plantas ramificadas, distribuição com prévia e água/gelo estão disponíveis; uso em [LANDSCAPE.md](LANDSCAPE.md).
 
 Prioridades para aproximar esta imagem:
 
-1. Kit inicial de rochas/paredões entregue com quatro peças de malha irregular e parâmetros por instância. Expandir arquitetura antiga/ruínas, pinheiros e lanternas com geometria e materiais detalhados. Terreno por alturas não representa saliências/cavernas; o novo kit acrescenta volumes reais, sem escultura livre ou geração de cavernas.
-2. Material de neve e cobertura visual por inclinação/altura entregues; continuar com acúmulo geométrico/exposição ao céu, gelo e neve caindo conforme a necessidade do piloto.
-3. Água para córrego/poças, com transparência, movimento e resposta à iluminação; uma superfície colorida funciona apenas como representação provisória.
-4. Distribuição de vegetação/entulho e prefabs reutilizáveis para acelerar a montagem. Colocação manual continua possível.
+1. Kit inicial de rochas/paredões entregue com quatro peças de malha irregular e parâmetros por instância. Kit inicial de arquitetura antiga/ruínas, pinheiros e lanternas texturizados entregue; expandir variedade e decoração conforme o mapa exigir. Terreno por alturas não representa saliências/cavernas; o novo kit acrescenta volumes reais, sem escultura livre ou geração de cavernas.
+2. Material de neve e cobertura visual por inclinação/altura entregues; acúmulo geométrico/exposição ao céu e gelo entregues; neve caindo permanece futura conforme necessidade do piloto.
+3. Água poligonal para córrego/poças entregue, com transparência, ondas e resposta à iluminação; reflexos dos objetos/refração continuam futuros.
+4. Distribuição de cinco plantas com prévia entregue. Pincel regional/entulho e prefabs reutilizáveis seguem futuros. Colocação manual continua possível.
 5. Medição no hardware de uso e acabamento de contato/reflexos conforme a cena exigir.
 
 Primeiro recorte recomendado: uma trilha, uma ruína acessível, um paredão e poucas árvores. Avaliar enquadramento próximo e superior, apoio dos tokens, salvamento/reabertura e projetor antes de ampliar a montanha. Esta revisão registra análise e prioridades, sem implementar recursos novos.
@@ -107,3 +107,5 @@ Incremento de 5 de outubro: kit original de rocha fraturada, granito, paredão e
 
 
 O incremento de autoria do terreno acrescenta relevo rochoso diretamente no heightmap (formação/tamanho/seed com campo espacial), expansão em metros, proteção sob pisos e prévia do preset de montanha. Textura Rocha natural e Pedra · blocos de alvenaria ficam explicitamente separadas; microrelevo continua sendo detalhe de iluminação, enquanto os pincéis mudam a geometria. Isso reduz a dependência de repetir props, mas o limite de 64 divisões e uma altura por XZ continua exigindo composição com malhas para grandes saliências, cavernas e paredões complexos.
+
+Incremento alpino de 5 de outubro: kit com 11 peças texturizadas, vegetação ramificada variável e distribuição assistida, água/gelo com contorno editável e neve com espessura/exposição. Os recortes iniciais de arquitetura/vegetação, água/gelo e neve física saíram das pendências. Permanecem variedade/decoração autoral, decals, neve caindo, materiais fotográficos, apoios nevados de props/pisos/gelo, reflexos/refração, prefabs e desempenho presencial. [LANDSCAPE.md](LANDSCAPE.md) registra uso e limites; [progress.md](../progress.md) registra validação.

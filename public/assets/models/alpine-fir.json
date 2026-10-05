@@ -1,0 +1,2009 @@
+{
+  "name": "Abeto alpino · ramificado",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.14,
+      "radiusTop": 0.07700000000000001,
+      "height": 4.5,
+      "segments": 9,
+      "position": [
+        0,
+        2.25,
+        0.06200563907623291
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0.013750000000000002,
+      "height": 0.7,
+      "segments": 9,
+      "position": [
+        0.25,
+        0.12,
+        0.06200563907623291
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        0,
+        1.3
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0.013750000000000002,
+      "height": 0.7,
+      "segments": 9,
+      "position": [
+        0.07883059059881717,
+        0.12,
+        0.29925179391512946
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        0,
+        1.3
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0.013750000000000002,
+      "height": 0.7,
+      "segments": 9,
+      "position": [
+        -0.20028590388673342,
+        0.12,
+        0.21162367510222202
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        0,
+        1.3
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0.013750000000000002,
+      "height": 0.7,
+      "segments": 9,
+      "position": [
+        -0.2051398393348902,
+        0.12,
+        -0.08088469060935302
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        0,
+        1.3
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0.013750000000000002,
+      "height": 0.7,
+      "segments": 9,
+      "position": [
+        0.07091554636580656,
+        0.12,
+        -0.1777254295895517
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        0,
+        1.3
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.035,
+      "radiusTop": 0.019250000000000003,
+      "height": 1.504,
+      "segments": 9,
+      "position": [
+        0.752,
+        0.7,
+        0.06200563907623291
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        0,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.6544,
+        0.6,
+        0.9776
+      ],
+      "count": 48,
+      "seed": 71,
+      "position": [
+        0.9024,
+        0.6,
+        0.06200563907623291
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.035,
+      "radiusTop": 0.019250000000000003,
+      "height": 1.504,
+      "segments": 9,
+      "position": [
+        0.3760000000000001,
+        0.7,
+        0.7132567427221307
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -1.0471975511965976,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.6544,
+        0.6,
+        0.9776
+      ],
+      "count": 48,
+      "seed": 82,
+      "position": [
+        0.4512000000000001,
+        0.6,
+        0.8435069634513103
+      ],
+      "rotation": [
+        0,
+        -1.0471975511965976,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.035,
+      "radiusTop": 0.019250000000000003,
+      "height": 1.504,
+      "segments": 9,
+      "position": [
+        -0.37599999999999983,
+        0.7,
+        0.7132567427221308
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -2.0943951023931953,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.6544,
+        0.6,
+        0.9776
+      ],
+      "count": 48,
+      "seed": 93,
+      "position": [
+        -0.45119999999999977,
+        0.6,
+        0.8435069634513104
+      ],
+      "rotation": [
+        0,
+        -2.0943951023931953,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.035,
+      "radiusTop": 0.019250000000000003,
+      "height": 1.504,
+      "segments": 9,
+      "position": [
+        -0.752,
+        0.7,
+        0.062005639076233
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -3.141592653589793,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.6544,
+        0.6,
+        0.9776
+      ],
+      "count": 48,
+      "seed": 104,
+      "position": [
+        -0.9024,
+        0.6,
+        0.06200563907623302
+      ],
+      "rotation": [
+        0,
+        -3.141592653589793,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.035,
+      "radiusTop": 0.019250000000000003,
+      "height": 1.504,
+      "segments": 9,
+      "position": [
+        -0.37600000000000033,
+        0.7,
+        -0.5892454645696649
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -4.1887902047863905,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.6544,
+        0.6,
+        0.9776
+      ],
+      "count": 48,
+      "seed": 115,
+      "position": [
+        -0.4512000000000004,
+        0.6,
+        -0.7194956852988444
+      ],
+      "rotation": [
+        0,
+        -4.1887902047863905,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.035,
+      "radiusTop": 0.019250000000000003,
+      "height": 1.504,
+      "segments": 9,
+      "position": [
+        0.3760000000000001,
+        0.7,
+        -0.5892454645696649
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -5.235987755982989,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.6544,
+        0.6,
+        0.9776
+      ],
+      "count": 48,
+      "seed": 126,
+      "position": [
+        0.4512000000000001,
+        0.6,
+        -0.7194956852988444
+      ],
+      "rotation": [
+        0,
+        -5.235987755982989,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.030625000000000003,
+      "radiusTop": 0.016843750000000005,
+      "height": 1.2891428571428574,
+      "segments": 9,
+      "position": [
+        0.5746794451910464,
+        1.2999999999999998,
+        0.35392319902342667
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -0.47,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.4180571428571431,
+        0.55,
+        0.8379428571428573
+      ],
+      "count": 48,
+      "seed": 108,
+      "position": [
+        0.6896153342292557,
+        1.1999999999999997,
+        0.4123067110128654
+      ],
+      "rotation": [
+        0,
+        -0.47,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.030625000000000003,
+      "radiusTop": 0.016843750000000005,
+      "height": 1.2891428571428574,
+      "segments": 9,
+      "position": [
+        0.03453169987048672,
+        1.2999999999999998,
+        0.7056514176180229
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -1.5171975511965976,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.4180571428571431,
+        0.55,
+        0.8379428571428573
+      ],
+      "count": 48,
+      "seed": 119,
+      "position": [
+        0.041438039844584065,
+        1.1999999999999997,
+        0.8343805733263808
+      ],
+      "rotation": [
+        0,
+        -1.5171975511965976,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.030625000000000003,
+      "radiusTop": 0.016843750000000005,
+      "height": 1.2891428571428574,
+      "segments": 9,
+      "position": [
+        -0.5401477453205598,
+        1.2999999999999998,
+        0.4137338576708292
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -2.5643951023931955,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.4180571428571431,
+        0.55,
+        0.8379428571428573
+      ],
+      "count": 48,
+      "seed": 130,
+      "position": [
+        -0.6481772943846716,
+        1.1999999999999997,
+        0.4840795013897485
+      ],
+      "rotation": [
+        0,
+        -2.5643951023931955,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.030625000000000003,
+      "radiusTop": 0.016843750000000005,
+      "height": 1.2891428571428574,
+      "segments": 9,
+      "position": [
+        -0.5746794451910465,
+        1.2999999999999998,
+        -0.22991192087096063
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -3.611592653589793,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.4180571428571431,
+        0.55,
+        0.8379428571428573
+      ],
+      "count": 48,
+      "seed": 141,
+      "position": [
+        -0.6896153342292558,
+        1.1999999999999997,
+        -0.2882954328603993
+      ],
+      "rotation": [
+        0,
+        -3.611592653589793,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.030625000000000003,
+      "radiusTop": 0.016843750000000005,
+      "height": 1.2891428571428574,
+      "segments": 9,
+      "position": [
+        -0.03453169987048709,
+        1.2999999999999998,
+        -0.581640139465557
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -4.65879020478639,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.4180571428571431,
+        0.55,
+        0.8379428571428573
+      ],
+      "count": 48,
+      "seed": 152,
+      "position": [
+        -0.04143803984458451,
+        1.1999999999999997,
+        -0.710369295173915
+      ],
+      "rotation": [
+        0,
+        -4.65879020478639,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.030625000000000003,
+      "radiusTop": 0.016843750000000005,
+      "height": 1.2891428571428574,
+      "segments": 9,
+      "position": [
+        0.5401477453205598,
+        1.2999999999999998,
+        -0.28972257951836344
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -5.705987755982989,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.4180571428571431,
+        0.55,
+        0.8379428571428573
+      ],
+      "count": 48,
+      "seed": 163,
+      "position": [
+        0.6481772943846716,
+        1.1999999999999997,
+        -0.3600682232372827
+      ],
+      "rotation": [
+        0,
+        -5.705987755982989,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.026250000000000002,
+      "radiusTop": 0.014437500000000002,
+      "height": 1.0742857142857143,
+      "segments": 9,
+      "position": [
+        0.3168004248738471,
+        1.9,
+        0.4957797044366943
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -0.94,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.1817142857142857,
+        0.5,
+        0.6982857142857143
+      ],
+      "count": 48,
+      "seed": 145,
+      "position": [
+        0.3801605098486165,
+        1.7999999999999998,
+        0.5825345175087865
+      ],
+      "rotation": [
+        0,
+        -0.94,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.026250000000000002,
+      "radiusTop": 0.014437500000000002,
+      "height": 1.0742857142857143,
+      "segments": 9,
+      "position": [
+        -0.21725914766808746,
+        1.9,
+        0.5532498876269187
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -1.9871975511965976,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.1817142857142857,
+        0.5,
+        0.6982857142857143
+      ],
+      "count": 48,
+      "seed": 156,
+      "position": [
+        -0.26071097720170494,
+        1.7999999999999998,
+        0.6514987373370559
+      ],
+      "rotation": [
+        0,
+        -1.9871975511965976,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.026250000000000002,
+      "radiusTop": 0.014437500000000002,
+      "height": 1.0742857142857143,
+      "segments": 9,
+      "position": [
+        -0.5340595725419346,
+        1.9,
+        0.11947582226645748
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -3.034395102393195,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.1817142857142857,
+        0.5,
+        0.6982857142857143
+      ],
+      "count": 48,
+      "seed": 167,
+      "position": [
+        -0.6408714870503215,
+        1.7999999999999998,
+        0.13096985890450238
+      ],
+      "rotation": [
+        0,
+        -3.034395102393195,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.026250000000000002,
+      "radiusTop": 0.014437500000000002,
+      "height": 1.0742857142857143,
+      "segments": 9,
+      "position": [
+        -0.3168004248738473,
+        1.9,
+        -0.37176842628422824
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -4.081592653589793,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.1817142857142857,
+        0.5,
+        0.6982857142857143
+      ],
+      "count": 48,
+      "seed": 178,
+      "position": [
+        -0.38016050984861677,
+        1.7999999999999998,
+        -0.45852323935632044
+      ],
+      "rotation": [
+        0,
+        -4.081592653589793,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.026250000000000002,
+      "radiusTop": 0.014437500000000002,
+      "height": 1.0742857142857143,
+      "segments": 9,
+      "position": [
+        0.21725914766808752,
+        1.9,
+        -0.4292386094744529
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -5.128790204786391,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.1817142857142857,
+        0.5,
+        0.6982857142857143
+      ],
+      "count": 48,
+      "seed": 189,
+      "position": [
+        0.260710977201705,
+        1.7999999999999998,
+        -0.5274874591845901
+      ],
+      "rotation": [
+        0,
+        -5.128790204786391,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.026250000000000002,
+      "radiusTop": 0.014437500000000002,
+      "height": 1.0742857142857143,
+      "segments": 9,
+      "position": [
+        0.5340595725419346,
+        1.9,
+        0.004535455886008753
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -6.175987755982989,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        1.1817142857142857,
+        0.5,
+        0.6982857142857143
+      ],
+      "count": 48,
+      "seed": 200,
+      "position": [
+        0.6408714870503215,
+        1.7999999999999998,
+        -0.006958580752036078
+      ],
+      "rotation": [
+        0,
+        -6.175987755982989,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.021875000000000002,
+      "radiusTop": 0.012031250000000002,
+      "height": 0.8594285714285713,
+      "segments": 9,
+      "position": [
+        0.06879910987956177,
+        2.5,
+        0.48617665391189885
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -1.41,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.9453714285714285,
+        0.44999999999999996,
+        0.5586285714285714
+      ],
+      "count": 48,
+      "seed": 182,
+      "position": [
+        0.08255893185547412,
+        2.4,
+        0.571010856879032
+      ],
+      "rotation": [
+        0,
+        -1.41,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.021875000000000002,
+      "radiusTop": 0.012031250000000002,
+      "height": 0.8594285714285713,
+      "segments": 9,
+      "position": [
+        -0.3329433194569318,
+        2.5,
+        0.33367292340752336
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -2.4571975511965976,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.9453714285714285,
+        0.44999999999999996,
+        0.5586285714285714
+      ],
+      "count": 48,
+      "seed": 193,
+      "position": [
+        -0.39953198334831813,
+        2.4,
+        0.3880063802737814
+      ],
+      "rotation": [
+        0,
+        -2.4571975511965976,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.021875000000000002,
+      "radiusTop": 0.012031250000000002,
+      "height": 0.8594285714285713,
+      "segments": 9,
+      "position": [
+        -0.4017424293364936,
+        2.5,
+        -0.09049809142814244
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -3.504395102393195,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.9453714285714285,
+        0.44999999999999996,
+        0.5586285714285714
+      ],
+      "count": 48,
+      "seed": 204,
+      "position": [
+        -0.4820909152037923,
+        2.4,
+        -0.1209988375290175
+      ],
+      "rotation": [
+        0,
+        -3.504395102393195,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.021875000000000002,
+      "radiusTop": 0.012031250000000002,
+      "height": 0.8594285714285713,
+      "segments": 9,
+      "position": [
+        -0.06879910987956173,
+        2.5,
+        -0.36216537575943303
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -4.551592653589793,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.9453714285714285,
+        0.44999999999999996,
+        0.5586285714285714
+      ],
+      "count": 48,
+      "seed": 215,
+      "position": [
+        -0.08255893185547407,
+        2.4,
+        -0.44699957872656615
+      ],
+      "rotation": [
+        0,
+        -4.551592653589793,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.021875000000000002,
+      "radiusTop": 0.012031250000000002,
+      "height": 0.8594285714285713,
+      "segments": 9,
+      "position": [
+        0.3329433194569318,
+        2.5,
+        -0.2096616452550576
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -5.598790204786391,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.9453714285714285,
+        0.44999999999999996,
+        0.5586285714285714
+      ],
+      "count": 48,
+      "seed": 226,
+      "position": [
+        0.39953198334831813,
+        2.4,
+        -0.26399510212131566
+      ],
+      "rotation": [
+        0,
+        -5.598790204786391,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.021875000000000002,
+      "radiusTop": 0.012031250000000002,
+      "height": 0.8594285714285713,
+      "segments": 9,
+      "position": [
+        0.40174242933649357,
+        2.5,
+        0.21450936958060857
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -6.645987755982989,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.9453714285714285,
+        0.44999999999999996,
+        0.5586285714285714
+      ],
+      "count": 48,
+      "seed": 237,
+      "position": [
+        0.48209091520379227,
+        2.4,
+        0.2450101156814837
+      ],
+      "rotation": [
+        0,
+        -6.645987755982989,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.0175,
+      "radiusTop": 0.009625000000000002,
+      "height": 0.6445714285714287,
+      "segments": 9,
+      "position": [
+        -0.0980715979872834,
+        3.0999999999999996,
+        0.3690073382586214
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -1.88,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.7090285714285716,
+        0.39999999999999997,
+        0.41897142857142866
+      ],
+      "count": 48,
+      "seed": 219,
+      "position": [
+        -0.11768591758474008,
+        2.9999999999999996,
+        0.4304076780950991
+      ],
+      "rotation": [
+        0,
+        -1.88,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.0175,
+      "radiusTop": 0.009625000000000002,
+      "height": 0.6445714285714287,
+      "segments": 9,
+      "position": [
+        -0.31490706949057845,
+        3.0999999999999996,
+        0.13057399342070503
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -2.9271975511965973,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.7090285714285716,
+        0.39999999999999997,
+        0.41897142857142866
+      ],
+      "count": 48,
+      "seed": 230,
+      "position": [
+        -0.37788848338869413,
+        2.9999999999999996,
+        0.14428766428959944
+      ],
+      "rotation": [
+        0,
+        -2.9271975511965973,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.0175,
+      "radiusTop": 0.009625000000000002,
+      "height": 0.6445714285714287,
+      "segments": 9,
+      "position": [
+        -0.21683547150329513,
+        3.0999999999999996,
+        -0.17642770576168354
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -3.974395102393195,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.7090285714285716,
+        0.39999999999999997,
+        0.41897142857142866
+      ],
+      "count": 48,
+      "seed": 241,
+      "position": [
+        -0.2602025658039541,
+        2.9999999999999996,
+        -0.22411437472926682
+      ],
+      "rotation": [
+        0,
+        -3.974395102393195,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.0175,
+      "radiusTop": 0.009625000000000002,
+      "height": 0.6445714285714287,
+      "segments": 9,
+      "position": [
+        0.09807159798728336,
+        3.0999999999999996,
+        -0.2449960601061556
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -5.021592653589793,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.7090285714285716,
+        0.39999999999999997,
+        0.41897142857142866
+      ],
+      "count": 48,
+      "seed": 252,
+      "position": [
+        0.11768591758474004,
+        2.9999999999999996,
+        -0.3063963999426333
+      ],
+      "rotation": [
+        0,
+        -5.021592653589793,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.0175,
+      "radiusTop": 0.009625000000000002,
+      "height": 0.6445714285714287,
+      "segments": 9,
+      "position": [
+        0.31490706949057845,
+        3.0999999999999996,
+        -0.006562715268239247
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -6.06879020478639,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.7090285714285716,
+        0.39999999999999997,
+        0.41897142857142866
+      ],
+      "count": 48,
+      "seed": 263,
+      "position": [
+        0.37788848338869413,
+        2.9999999999999996,
+        -0.020276386137133673
+      ],
+      "rotation": [
+        0,
+        -6.06879020478639,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.0175,
+      "radiusTop": 0.009625000000000002,
+      "height": 0.6445714285714287,
+      "segments": 9,
+      "position": [
+        0.21683547150329507,
+        3.0999999999999996,
+        0.30043898391414947
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -7.115987755982989,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.7090285714285716,
+        0.39999999999999997,
+        0.41897142857142866
+      ],
+      "count": 48,
+      "seed": 274,
+      "position": [
+        0.26020256580395407,
+        2.9999999999999996,
+        0.34812565288173275
+      ],
+      "rotation": [
+        0,
+        -7.115987755982989,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013125000000000001,
+      "radiusTop": 0.007218750000000001,
+      "height": 0.42971428571428566,
+      "segments": 9,
+      "position": [
+        -0.1509829239239178,
+        3.7,
+        0.2148707708758658
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -2.3499999999999996,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.47268571428571426,
+        0.35,
+        0.2793142857142857
+      ],
+      "count": 48,
+      "seed": 256,
+      "position": [
+        -0.18117950870870134,
+        3.6,
+        0.24544379723579238
+      ],
+      "rotation": [
+        0,
+        -2.3499999999999996,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013125000000000001,
+      "radiusTop": 0.007218750000000001,
+      "height": 0.42971428571428566,
+      "segments": 9,
+      "position": [
+        -0.20787654945329742,
+        3.7,
+        0.0076831573202833445
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -3.397197551196597,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.47268571428571426,
+        0.35,
+        0.2793142857142857
+      ],
+      "count": 48,
+      "seed": 267,
+      "position": [
+        -0.2494518593439569,
+        3.6,
+        -0.0031813390309065603
+      ],
+      "rotation": [
+        0,
+        -3.397197551196597,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013125000000000001,
+      "radiusTop": 0.007218750000000001,
+      "height": 0.42971428571428566,
+      "segments": 9,
+      "position": [
+        -0.05689362552937975,
+        3.7,
+        -0.14518197447934958
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -4.4443951023931945,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.47268571428571426,
+        0.35,
+        0.2793142857142857
+      ],
+      "count": 48,
+      "seed": 278,
+      "position": [
+        -0.0682723506352557,
+        3.6,
+        -0.18661949719046605
+      ],
+      "rotation": [
+        0,
+        -4.4443951023931945,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013125000000000001,
+      "radiusTop": 0.007218750000000001,
+      "height": 0.42971428571428566,
+      "segments": 9,
+      "position": [
+        0.15098292392391777,
+        3.7,
+        -0.09085949272339999
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -5.491592653589793,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.47268571428571426,
+        0.35,
+        0.2793142857142857
+      ],
+      "count": 48,
+      "seed": 289,
+      "position": [
+        0.1811795087087013,
+        3.6,
+        -0.12143251908332656
+      ],
+      "rotation": [
+        0,
+        -5.491592653589793,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013125000000000001,
+      "radiusTop": 0.007218750000000001,
+      "height": 0.42971428571428566,
+      "segments": 9,
+      "position": [
+        0.20787654945329742,
+        3.7,
+        0.11632812083218244
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -6.53879020478639,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.47268571428571426,
+        0.35,
+        0.2793142857142857
+      ],
+      "count": 48,
+      "seed": 300,
+      "position": [
+        0.2494518593439569,
+        3.6,
+        0.12719261718337235
+      ],
+      "rotation": [
+        0,
+        -6.53879020478639,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.013125000000000001,
+      "radiusTop": 0.007218750000000001,
+      "height": 0.42971428571428566,
+      "segments": 9,
+      "position": [
+        0.0568936255293796,
+        3.7,
+        0.2691932526318154
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 1.2,
+        "relief": 0.035
+      },
+      "rotation": [
+        0,
+        -7.5859877559829885,
+        1.4207963267948966
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "needles",
+      "size": [
+        0.47268571428571426,
+        0.35,
+        0.2793142857142857
+      ],
+      "count": 48,
+      "seed": 311,
+      "position": [
+        0.06827235063525551,
+        3.6,
+        0.31063077534293193
+      ],
+      "rotation": [
+        0,
+        -7.5859877559829885,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    }
+  ],
+  "mergeParts": true
+}

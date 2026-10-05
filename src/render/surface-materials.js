@@ -161,10 +161,15 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
     }
     let finish='diffuseColor.rgb *= surfaceColor; float surfaceBumpHeight=surfaceHeight*surfaceRelief;';
     if(coverPreset) {
-      const weight=distribution(shader,'coverage',coverage), index=atlas.index(coverage);
+      let weight=distribution(shader,'coverage',coverage); const index=atlas.index(coverage);
+      if(terrain && coverage.physicalThickness>0) {
+        shader.vertexShader='attribute float surfaceSnowWeight; varying float snowWeight;\n'+shader.vertexShader;
+        shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nsnowWeight=surfaceSnowWeight;');
+        shader.fragmentShader='varying float snowWeight;\n'+shader.fragmentShader; weight='snowWeight';
+      }
       shader.uniforms.coverageTint={value:new THREE.Color(coverage.color)};
       shader.fragmentShader='uniform vec3 coverageTint;\n'+shader.fragmentShader;
-      finish+=`float coverWeight=${weight}*${Number(coverage.amount).toFixed(6)};
+      finish+=`float coverWeight=${weight}*${Number(terrain && coverage.physicalThickness>0?1:coverage.amount).toFixed(6)};
         vec3 coverColor=surfaceSample(surfaceAlbedo,${index}.0,${Number(coverage.textureSize).toFixed(6)},0.0).rgb*coverageTint;
         vec4 coverDetails=surfaceSample(surfaceDetails,${index}.0,${Number(coverage.textureSize).toFixed(6)},0.0);
         diffuseColor.rgb=mix(diffuseColor.rgb,coverColor,coverWeight);
@@ -185,13 +190,19 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
 }
 
 export function applySurfaceTextures(object, entity, library) {
-  const settings=entity.material;
+  const settings=entity.kind!=='terrain' && entity.material?.coverage?.physicalThickness>0 ? {...entity.material,coverage:null} : entity.material;
   if (!settings) return;
   object.traverse(child => {
     if(!child.isMesh || child.userData.decorative) return;
     for(const material of Array.isArray(child.material)?child.material:[child.material]) {
       const slot=material?.name || child.userData.materialSlot || 'base';
-      if(!material?.isMeshStandardMaterial || settings.textureSlot && settings.textureSlot!=='base' && settings.textureSlot!==slot) continue;
+      if(!material?.isMeshStandardMaterial) continue;
+      const selected=!settings.textureSlot || settings.textureSlot==='base' || settings.textureSlot===slot;
+      if(material.userData.recipeSurface && (!selected || !surfacePreset(settings.texture))) {
+        applySurfaceMaterial(material,{...material.userData.recipeSurface,...(selected?{coverage:settings.coverage}: {})},library);
+        continue;
+      }
+      if(!selected) continue;
       if(surfacePreset(settings.texture)) { material.map=null; material.normalMap=null; material.bumpMap=null; material.roughnessMap=null; material.color.set(settings.color); }
       applySurfaceMaterial(material,settings,library,entity.kind==='terrain'?entity:null);
     }

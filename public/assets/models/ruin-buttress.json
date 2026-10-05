@@ -1,0 +1,272 @@
+{
+  "name": "Contraforte de ruína",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "rock",
+      "size": [
+        0.8,
+        0.32,
+        0.9
+      ],
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "form": "fractured",
+      "seed": 102,
+      "detail": 2,
+      "irregularity": 0.6,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.3,
+        "relief": 0.06
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.74,
+        0.32,
+        0.8300000000000001
+      ],
+      "position": [
+        0,
+        0.35,
+        0
+      ],
+      "form": "fractured",
+      "seed": 103,
+      "detail": 2,
+      "irregularity": 0.6,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.3,
+        "relief": 0.06
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.68,
+        0.32,
+        0.76
+      ],
+      "position": [
+        0,
+        0.7,
+        0
+      ],
+      "form": "fractured",
+      "seed": 104,
+      "detail": 2,
+      "irregularity": 0.6,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.3,
+        "relief": 0.06
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.6200000000000001,
+        0.32,
+        0.69
+      ],
+      "position": [
+        0,
+        1.0499999999999998,
+        0
+      ],
+      "form": "fractured",
+      "seed": 105,
+      "detail": 2,
+      "irregularity": 0.6,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.3,
+        "relief": 0.06
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.56,
+        0.32,
+        0.62
+      ],
+      "position": [
+        0,
+        1.4,
+        0
+      ],
+      "form": "fractured",
+      "seed": 106,
+      "detail": 2,
+      "irregularity": 0.6,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.3,
+        "relief": 0.06
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.5,
+        0.32,
+        0.55
+      ],
+      "position": [
+        0,
+        1.75,
+        0
+      ],
+      "form": "fractured",
+      "seed": 107,
+      "detail": 2,
+      "irregularity": 0.6,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.3,
+        "relief": 0.06
+      }
+    },
+    {
+      "shape": "rock",
+      "size": [
+        0.44000000000000006,
+        0.32,
+        0.48
+      ],
+      "position": [
+        0,
+        2.0999999999999996,
+        0
+      ],
+      "form": "fractured",
+      "seed": 108,
+      "detail": 2,
+      "irregularity": 0.6,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.3,
+        "relief": 0.06
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        1,
+        0.13,
+        1.1
+      ],
+      "position": [
+        0,
+        0.065,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2,
+        "rockPattern": "fractured",
+        "textureBrightness": 1.3,
+        "relief": 0.06
+      }
+    }
+  ],
+  "mergeParts": true
+}

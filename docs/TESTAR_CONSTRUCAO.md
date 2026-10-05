@@ -114,3 +114,11 @@ Quantidade de tábuas é por repetição, não por objeto inteiro. Relevo altera
 4. Em Construir → Terreno e relevo, escolha dimensões/centro, abra Presets de paisagem e gere a prévia de Montanha · rocha e neve. Nada deve entrar no documento antes de aceitar. Com Respeitar pisos ligado, a montanha não deve atravessar pisos existentes. A composição aceita continua editável manualmente, sem regeneração vinculada.
 5. Pinte uma textura em camada visível e compare Relevo aparente em 0 e 0,2, olhando perto com luz lateral: detalhes de iluminação devem mudar, sem mover vértices. Com todas as texturas desligadas, o controle deve ficar desativado. Para alterar a silhueta, use escultura.
 6. Salve e reabra; confira alturas, máscaras e dimensões. Abra a segunda tela, edite o terreno e confira atualização visual sem mudar a câmera do projetor.
+
+## Paisagem alpina
+
+1. Em Assets, busque Montanha: coloque arco, muro irregular, telhado, passarela e plantas ramificadas; confira o vão do arco e materiais separados. Edite a variação geométrica de uma planta; posição/base e tamanho devem permanecer.
+2. Em Construir → Paisagem · água e vegetação, escolha terreno/planta e gere a prévia. Cancelar preserva o documento; aceitar cria props individuais e Ctrl+Z desfaz o conjunto. Revise exclusões de construções/água e variação de escala/rotação.
+3. Crie água ou desenhe contorno com Enter. Edite ondas e cor, pause os efeitos e alterne gelo/água. O gelo oferece apoio; descongelar com dependentes deve ser rejeitado até desvinculá-los.
+4. Escolha cobertura Neve e espessura 0,3 m. Terreno/objetos devem ganhar altura/volume; o relevo base continua editável. Coloque teto sobre uma parte; recalcule exposição do terreno e compare área aberta/abrigada. Objetos verificam abrigo automaticamente, incluindo frestas reais.
+5. Salve/reabra, teste undo/redo e abra o projetor. Mudanças de paisagem chegam ao projetor sem mover sua câmera; ondas pausadas não alteram o histórico. Instruções completas e limitações: [LANDSCAPE.md](LANDSCAPE.md).
