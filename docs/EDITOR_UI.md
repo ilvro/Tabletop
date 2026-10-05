@@ -4,15 +4,19 @@ Atualizado em 5 de outubro de 2026. Este guia descreve a interface implementada;
 
 ## Encontrar uma ferramenta
 
-**Construir** organiza tarefas em quatro contextos: **Paisagem** (terreno, água e vegetação), **Construções** (sala, superfícies/acessos, peças e mobiliário), **Personagens** e **Organização** (andares, camadas de organização e grid). As tarefas conservam sua abertura durante edições. Selecionar terreno torna Paisagem acessível. **Cena** reúne atmosfera, câmera e árvore de objetos.
+**Construir** organiza tarefas em quatro contextos: **Paisagem** (terreno, água e vegetação), **Construções** (sala, superfícies/acessos, peças e mobiliário), **Personagens** e **Organização** (andares, camadas de organização e grid). As tarefas conservam sua abertura durante edições. Selecionar terreno torna Paisagem acessível. **Cena** usa o mesmo padrão de grupos e tarefas recolhíveis: **Atmosfera** (ambientes/horários, sol/lua, céu, clima, objetos noturnos e névoa/bloom/qualidade), **Câmera e apresentação** (navegação, enquadramentos e publicação), **Elementos e documento** (árvore de objetos, pastas e cópia da cena).
 
 Ao ativar um desenho, colocação ou pincel, a barra sobre a cena informa a ferramenta e permite voltar à seleção. Um pincel ativo mostra seus controles primeiro nas Propriedades. **Ferramentas** e **Propriedades**, no cabeçalho, recolhem os painéis para liberar espaço; ao entrar em telas estreitas os painéis se recolhem e podem ser abertos sobre a cena, um por vez. Selecionar um objeto abre suas propriedades nessa tela. Ao ampliar a janela, a abertura dos painéis de desktop é restaurada. O suporte da câmera continua mouse/teclado; isto não implementa navegação 3D por gestos de toque.
 
+## Propriedades de objetos e luzes
+
+Posição, dimensões, material, iluminação, apoio, organização e apresentação usam títulos recolhíveis com o mesmo indicador de abertura de Construir/Cena. Posição, dimensões e os controles principais de iluminação/material/água começam abertos; organização, vínculos e operações auxiliares começam recolhidos. O terreno conserva seu fluxo específico de pincéis e alcance por camada/base. A abertura das tarefas de Cena e propriedades é conservada durante edições e trocas de painel na sessão. Os estados não entram no documento, no histórico ou na câmera publicada. Campos em edição e rolagem são conservados durante a atualização dos controles, inclusive em composições ancoradas; selecionar outro objeto retorna ao início de suas propriedades.
+
 ## Assets e Abrir
 
-**Assets** abre uma biblioteca flutuante. Busque, filtre, importe, classifique ou favorite como antes. Escolher um asset fecha a janela para liberar a colocação na cena; abrir novamente conserva os filtros. **Abrir** reúne cenas, mapas, tokens e documentos em outra janela flutuante.
+**Assets** abre uma biblioteca flutuante. Busque, filtre, importe, classifique ou favorite como antes. Escolher um asset fecha a janela para liberar a colocação na cena; abrir novamente conserva os filtros. Importar um arquivo conserva o painel Construir/Cena que estava por baixo da biblioteca. **Abrir** reúne cenas, mapas, tokens e documentos em outra janela flutuante.
 
-Arraste pelo título. Pelo teclado, foque o título com Tab e use as setas (10 px; Shift = 40 px). **↺** reposiciona a janela; **×** ou Esc fecha. As janelas não bloqueiam o restante do editor, ficam dentro da tela ao redimensionar e guardam sua posição somente neste navegador. Mover uma janela não altera histórico, documento ou câmera publicada. Janelas de recuperação/classificação continuam modais quando necessário.
+Arraste pelo título. Pelo teclado, foque o título com Tab e use as setas (10 px; Shift = 40 px). **↺** reposiciona a janela; **×** ou Esc fecha. As janelas não bloqueiam o restante do editor, ficam dentro da tela ao redimensionar e guardam sua posição somente neste navegador. Mover uma janela não altera histórico, documento ou câmera publicada. A abertura tem fade de **100 ms** e o fechamento de **80 ms**, também por Esc e ao escolher um asset. Durante a saída, a janela já deixa de receber foco/cliques; reabrir antes de terminar cancela a saída. Movimento reduzido torna abertura/fechamento imediatos. Janelas de recuperação/classificação continuam modais quando necessário.
 
 ## Material de uma camada
 
@@ -37,4 +41,4 @@ O nível é horizontal, sem solver de inundação, corrente física ou cascatas.
 
 ## Fluidez e acessibilidade
 
-Controles têm unidades, labels, foco visível, texto com quebra e contraste maior. Botões têm alvos maiores em telas estreitas. Arraste de janela usa captura de ponteiro, `requestAnimationFrame` e somente transformação CSS; não recria a cena 3D durante a movimentação. A entrada das janelas e a abertura de tarefas usam fades curtos, sem animação contínua. `prefers-reduced-motion` desliga transições/animações da interface. Estas escolhas não substituem benchmark no notebook/projetor de uso.
+Controles têm unidades, labels, foco visível, texto com quebra e contraste maior. Botões têm alvos maiores em telas estreitas. Arraste de janela usa captura de ponteiro, `requestAnimationFrame` e somente transformação CSS; não recria a cena 3D durante a movimentação. As janelas animam somente opacidade na abertura e no fechamento; tarefas têm fade de 100 ms apenas ao serem abertas pelo usuário, sem reiniciar o efeito a cada edição. Não há animação de altura nem desfoque de fundo nas janelas flutuantes. `prefers-reduced-motion` desliga transições/animações da interface, inclusive as controladas por JavaScript. Estas escolhas não substituem benchmark no notebook/projetor de uso.

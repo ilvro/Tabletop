@@ -1,6 +1,6 @@
 # Ambientes, horários e clima
 
-Implementado em 4 de outubro de 2026. Abra **Cena**: os presets e os controles de sol/lua ficam diretamente nessa aba. Complementa [LIGHTING.md](LIGHTING.md) e [CAMERA.md](CAMERA.md).
+Implementado em 4 de outubro de 2026. Abra **Cena → Atmosfera**: **Ambientes e horários** reúne presets e ambientes salvos; **Sol / lua e cor da luz**, **Céu e nuvens** e **Clima e partículas** são tarefas recolhíveis. Elas conservam a abertura durante edições. Complementa [LIGHTING.md](LIGHTING.md) e [CAMERA.md](CAMERA.md).
 
 ## Preparar uma cena
 

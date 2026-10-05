@@ -2,6 +2,18 @@
 
 Atualizado em 5 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Consistência dos demais painéis e animações — concluída
+
+- [x] Agrupar Cena em Atmosfera, Câmera e apresentação, Elementos e documento, com tarefas recolhíveis.
+- [x] Padronizar indicadores e títulos recolhíveis também nas propriedades de objetos e luzes, conservando abertura, foco e rolagem nas edições.
+- [x] Trocar fade de entrada por transições controladas de 100 ms na abertura e 80 ms no fechamento de Assets/Abrir; permitir reabertura durante a saída e respeitar movimento reduzido.
+- [x] Preservar o painel de edição ao importar assets, restaurar foco/rolagem em composições e cancelar fades em curso ao ativar movimento reduzido.
+- [x] Validar navegação, fechamento/reabertura, propriedades, histórico e câmera no navegador; sincronizar guias e resumos.
+
+Validação final: 147 testes unitários/de integração e builds local/GitHub Pages passaram na versão final. Os 25 cenários E2E foram aprovados entre a suíte completa e repetições dos fluxos afetados. A suíte inicial aprovou 23/25: controles principais de Água/Gelo passaram a iniciar abertos e o roteiro Pages abre explicitamente a tarefa; o teste de recursos passou a esperar o frame do mestre antes de medir texturas, independentemente do projetor. A repetição de oito cenários aprovou sete; a nova asserção de importação foi corrigida para comparar a aba realmente selecionada após recarregar (Construir), e a biblioteca passou na repetição final.
+
+Verificados: grupos/tarefas de Cena, abertura por teclado, estado conservado nas edições e trocas de aba, propriedades de objetos/luzes/composições, histórico, câmera do projetor independente, importação sem trocar o painel de edição, janelas com fade de 100/80 ms, saída sem interação, cancelamento/reabertura durante fechamento, foco devolvido, limites de Abrir, telas de 390 px e movimento reduzido. Fades de tarefas não reiniciam ao editar parâmetros. Capturas revisadas: `test-results/panel-consistency.png` e `panel-consistency-mobile.png`. Guia atualizado: [docs/EDITOR_UI.md](docs/EDITOR_UI.md), com os caminhos de câmera, iluminação, ambientes e assets sincronizados. Testes de navegador em Chromium/WebGL por software; servidores locais executados fora do sandbox após `listen EPERM`.
+
 ## Reformulação dos fluxos de edição — concluída
 
 - [x] Construção organizada por contexto (Paisagem, Construções, Personagens e Organização), com feedback da ferramenta ativa.

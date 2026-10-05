@@ -6,7 +6,7 @@ Para **sol/lua, Kelvin/HSV direto na aba Cena, horários, céu, nuvens, chuva e 
 
 ## Luzes
 
-Em **Construir → Peças avulsas**, escolha **Luz pontual** ou **Luz spot** e clique no piso. A fonte nasce 2,2 m acima do apoio. Selecione a luz no canvas ou na árvore da aba Cena e use o inspetor:
+Em **Construir → Construções → Peças avulsas**, escolha **Luz pontual** ou **Luz spot** e clique no piso. A fonte nasce 2,2 m acima do apoio. Selecione a luz no canvas ou na árvore da aba Cena e use o inspetor:
 
 - **Tipo de luz:** pontual, spot ou direcional. A troca conserva ID, posição e os ajustes comuns; cone e penumbra só existem em spot.
 - **Luz ligada**, cor, intensidade, alcance e sombras. Alcance zero significa ilimitado nas fontes locais.
@@ -20,7 +20,7 @@ Sombras são opcionais por fonte, com mapas de 1.024 pixels. Sombras pontuais ex
 
 ## Atmosfera
 
-Na aba **Cena → Atmosfera e efeitos**, abra o controle correspondente:
+Em **Cena → Atmosfera → Névoa, bloom e qualidade**, abra o controle correspondente:
 
 | Efeito | Parâmetros e comportamento |
 | --- | --- |

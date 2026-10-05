@@ -7,6 +7,31 @@ export function floatingWindow(dialog, { trigger, position = [280, 96] } = {}) {
   let x = Number.isFinite(saved?.[0]) ? saved[0] : position[0];
   let y = Number.isFinite(saved?.[1]) ? saved[1] : position[1];
   let gesture = null, frame = 0;
+  let animation = null, closing = false;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function cancelAnimation() {
+    animation?.cancel(); animation = null;
+  }
+  function fade(from, to, duration, done) {
+    cancelAnimation();
+    if (reducedMotion.matches || !dialog.animate) { done?.(); return; }
+    const current = dialog.animate([{ opacity: from }, { opacity: to }], { duration, easing: 'ease-out', fill: 'forwards' });
+    animation = current;
+    current.finished.then(() => {
+      if (animation !== current) return;
+      animation = null; done?.(); current.cancel();
+    }).catch(() => {}); // Reopening or closing again cancels the previous transition.
+  }
+  function close() {
+    if (!dialog.open || closing) return;
+    const opacity = Number(getComputedStyle(dialog).opacity);
+    closing = true; dialog.inert = true; dialog.classList.add('window-closing');
+    trigger?.setAttribute('aria-expanded', 'false');
+    if (dialog.contains(document.activeElement)) trigger?.focus({ preventScroll: true });
+    fade(opacity, 0, 80, () => {
+      dialog.close(); closing = false; dialog.inert = false; dialog.classList.remove('window-closing');
+    });
+  }
   function layout() {
     frame = 0;
     if (!dialog.open) return;
@@ -44,10 +69,24 @@ export function floatingWindow(dialog, { trigger, position = [280, 96] } = {}) {
   dialog.addEventListener('close', () => {
     if(dialog.open) return; // Ignore a queued close event after the window has reopened.
     trigger?.setAttribute('aria-expanded', 'false');
+    cancelAnimation(); closing = false; dialog.inert = false; dialog.classList.remove('window-closing');
     if (dialog.contains(document.activeElement) || document.activeElement === document.body) trigger?.focus({ preventScroll: true });
   });
+  dialog.addEventListener('cancel', event => { event.preventDefault(); close(); });
+  reducedMotion.addEventListener('change', () => {
+    if (!reducedMotion.matches) return;
+    cancelAnimation();
+    if (closing) { dialog.close(); closing = false; dialog.inert = false; dialog.classList.remove('window-closing'); }
+  });
   return {
-    open() { if (!dialog.open) dialog.show(); layout(); trigger?.setAttribute('aria-expanded', 'true'); },
-    close() { dialog.close(); trigger?.setAttribute('aria-expanded', 'false'); },
+    open() {
+      const entering = !dialog.open || closing;
+      const opacity = dialog.open ? Number(getComputedStyle(dialog).opacity) : 0;
+      if (!dialog.open) dialog.show();
+      closing = false; dialog.inert = false; dialog.classList.remove('window-closing');
+      layout(); trigger?.setAttribute('aria-expanded', 'true');
+      if (entering) fade(opacity, 1, 100);
+    },
+    close,
   };
 }

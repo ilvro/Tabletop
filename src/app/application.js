@@ -1,5 +1,6 @@
 import { proposeWaterBrush, proposeWaterBed } from '../authoring/water.js';
 import { floatingWindow } from '../ui/floating-window.js';
+import { groupDisclosures, sectionDisclosure, rememberDisclosures, restoreDisclosures, animateDisclosures } from '../ui/panel-disclosures.js';
 import { landscapePanel, waterPanel } from '../ui/landscape-panels.js';
 import { proposeVegetation } from '../authoring/vegetation.js';
 import { isVegetationAsset } from '../domain/landscape.js';
@@ -106,6 +107,7 @@ export async function startApplication() {
   let dialogTab = 'scenes';
   let savedEnvironments = [], selectedEnvironmentId = '', environmentPreview = null, skyReturnCamera = null;
   const openAtmosphereSections = new Set();
+  const sceneDisclosures = new Map(), inspectorDisclosures = new Map();
   let libraryFilters = { search: '', category: '', era: '', context: '', tags: [], favorites: false };
   let libraryLimit = 24, editingAsset = null;
   let proposal = null, placing = null, saving = false, isPresentation = false, cutaway = true;
@@ -135,6 +137,7 @@ export async function startApplication() {
   });
   const assetsWindow = floatingWindow(document.getElementById('assets-dialog'), { trigger: root.querySelector('[data-tab=assets]'), position: [280,96] });
   const documentsWindow = floatingWindow(document.getElementById('documents-dialog'), { trigger: root.querySelector('[data-action=open]'), position: [280,96] });
+  animateDisclosures(root);
   let polishOptions = { mode: 'align', axis: 'x', alignment: 'center', angle: 5, seed: 1, palette: 'natural', clearance: .8, referenceId: '' };
   let activeLevelId = null, activeLayerId = null, isolatedLevel = false, polygonHoleHost = null, polygonKind='floor', terrainCell = 0;
   let vegetationOptions={terrainId:'',assetId:'builtin-alpine-fir',count:16,seed:42,scaleMin:.7,scaleMax:1.2,slopeMax:35};
@@ -392,6 +395,10 @@ export async function startApplication() {
     root.querySelectorAll('[data-tab]').forEach((node) => { const active = node.dataset.tab === tab; node.classList.toggle('active', active); if (node.dataset.tab !== 'assets') node.setAttribute('aria-pressed', String(active)); });
     if (document.getElementById('assets-dialog').open) renderAssets();
     const panel = document.getElementById('side-content');
+    const scroll = panel.scrollTop;
+    const focused = panel.contains(document.activeElement) ? document.activeElement.dataset.field : null;
+    if (panel.dataset.currentTab === 'scene') rememberDisclosures(panel, sceneDisclosures);
+    panel.dataset.currentTab = tab;
     if (tab === 'build') {
       panel.innerHTML = `<section class="quick-section"><span class="eyebrow">QUICK BUILD</span><h2>Um espaço para a história.</h2><p class="muted">Desenhe no chão ou comece pelas medidas. Tudo continua editável.</p>${button('room-draw', 'Desenhar sala', 'room', 'wide accent-outline')}<form id="quick-form"><div class="field-grid">${numberField('room-width', 'Largura interna · m', roomOptions.width, { min: 1.4 })}${numberField('room-length', 'Comprimento · m', roomOptions.length, { min: 1 })}</div>${numberField('room-height', 'Altura das paredes · m', roomOptions.height, { min: 2.2 })}<span class="section-caption">SUGESTÕES OPCIONAIS</span>${checkField('room-door', 'Incluir uma porta', roomOptions.door)}${checkField('room-lighting', 'Adicionar iluminação', roomOptions.lighting)}<button class="primary wide" type="submit">${icon('eye')} Ver prévia</button></form></section><section><span class="eyebrow">CONSTRUIR MANUALMENTE</span><div class="construction-grid">${button('floor-add', 'Piso', 'floor')}${button('wall-add', 'Parede', 'wall')}${button('door-add', 'Porta', 'door')}${button('light-place', 'Luz pontual', 'light')}${button('spot-place', 'Luz spot', 'light')}${button('fire-place', 'Fogueira', 'light')}${button('smoke-place', 'Fumaça', 'light')}</div></section><section><span class="eyebrow">PERSONAGENS</span><label class="field"><span>Nome do token</span><input id="token-name" value="Investigador" maxlength="256" /></label><div class="token-controls"><input id="token-color" aria-label="Cor do token" type="color" value="#e4b76f" />${button('token-place', 'Colocar token', 'token', 'wide')}</div><p class="microcopy">Para usar um retrato, importe uma imagem na biblioteca.</p></section><section><span class="eyebrow">GRID E PRECISÃO</span>${checkField('grid-visible', 'Mostrar grid', store.document.layout.grid.visible)}${checkField('grid-snap', 'Encaixar no grid', store.document.layout.grid.snap)}${numberField('grid-size', 'Célula · m', store.document.layout.grid.cellSize, { min: .1 })}</section>`;
       panel.innerHTML += constructionPanel(store.document, { surfaceId: activeSurfaceId, height: buildHeight, polygon: tool === 'polygon' });
@@ -416,8 +423,24 @@ export async function startApplication() {
     } else {
       const currentLook = store.document.look ?? store.document.defaultLook;
       panel.innerHTML = `${environmentPanel(store.document, savedEnvironments, selectedEnvironmentId, openAtmosphereSections, { numberField, colorField, checkField })}${atmospherePanel(currentLook, effectsEnabled, { numberField, colorField, checkField }, openAtmosphereSections)}${cameraPanel()}<section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-cut="${camera.id}" title="Cortar para este enquadramento" aria-label="Cortar para ${esc(camera.name)}">${icon('camera', 14)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
+      groupDisclosures(panel, [
+        { key: 'atmosphere', title: 'Atmosfera', description: 'Ambientes, iluminação, céu e efeitos', open: true, tasks: [
+          [0,'presets','Ambientes e horários',true], [1,'sun','Sol / lua e cor da luz'], [2,'sky','Céu e nuvens'],
+          [3,'weather','Clima e partículas'], [4,'night','Objetos que acendem à noite'], [5,'effects','Névoa, bloom e qualidade'],
+        ] },
+        { key: 'cameras', title: 'Câmera e apresentação', description: 'Navegação, enquadramentos e projetor', tasks: [
+          [6,'navigation','Câmera cinematográfica',true], [7,'shots','Enquadramentos e publicação',true],
+        ] },
+        { key: 'elements', title: 'Elementos e documento', description: 'Objetos, pastas e cópias da cena', open: true, tasks: [
+          [9,'objects','Elementos da cena',true], [8,'document','Documento'],
+        ] },
+      ]);
+      restoreDisclosures(panel, sceneDisclosures);
+      panel.insertAdjacentHTML('afterbegin', '<div class="workflow-intro"><span class="eyebrow">PREPARAR SUA CENA</span><p>Abra um grupo para ajustar a atmosfera, preparar a apresentação ou organizar os objetos.</p></div>');
       renderSceneTreeIfVisible();
     }
+    if (focused) panel.querySelector(`[data-field="${focused}"]`)?.focus({ preventScroll: true });
+    panel.scrollTop = scroll;
   }
   function renderAssets() {
     const panel = document.getElementById('assets-content'), scroll = panel.scrollTop;
@@ -529,6 +552,9 @@ export async function startApplication() {
     if (!selection) selectedIds.clear();
     if (selectedIds.size > 1) { document.getElementById('inspector-content').innerHTML = `<section><span class="eyebrow">UNIR OBJETOS</span><button class="wide primary" data-action="assembly-bind">Ancorar objetos juntos</button><p class="microcopy">Cria uma composição que se seleciona, move e gira como uma unidade. Desancore pela pasta para editar os objetos individualmente.</p></section>` + polishPanel(selectedIds.size, polishOptions, store.document); viewport.setSelection(selection, [...selectedIds]); return; }
     const panel = document.getElementById('inspector-content'), found = locate();
+    const scroll = panel.dataset.objectId === selection ? panel.scrollTop : 0;
+    panel.dataset.objectId = selection ?? '';
+    rememberDisclosures(panel, inspectorDisclosures);
     const focused = panel.contains(document.activeElement) ? document.activeElement.dataset.field : null;
     const geometryDisclosures = new Map([...panel.querySelectorAll('[data-disclosure=terrain-area]')].map(node=>[node.dataset.disclosure,node.open]));
     const textureDisclosures = new Map([...panel.querySelectorAll('[data-texture-options]')].map(node => [node.dataset.textureOptions, node.open]));
@@ -543,6 +569,9 @@ export async function startApplication() {
     if (type === 'group') {
       const members = assemblyMembers(doc,record.id), t=record.transform;
       panel.innerHTML=`<div class="object-title"><strong>${esc(record.name)}</strong><small>COMPOSIÇÃO ANCORADA · ${members.length} objetos</small></div><label class="field"><span>Nome da pasta</span><input data-field="assembly-name" value="${esc(record.name)}" maxlength="256"/></label><p class="microcopy">Clique em qualquer membro para selecionar todos. Mover (G), Rotacionar (R) e Escalar (S) atuam na composição inteira.</p><section><span class="eyebrow">POSIÇÃO DA COMPOSIÇÃO</span><div class="axis-fields">${t.position.map((value,i) => numberField(`assembly-position-${i}`,['X','Y · altura','Z'][i],value)).join('')}</div>${numberField('assembly-yaw','Rotação Y · graus',yawFromQuaternion(t.rotation),{ step:15 })}${numberField('assembly-size','Tamanho uniforme',t.scale[0],{ min:.01 })}</section><details><summary>Objetos da composição</summary><ul>${members.map(member => `<li>${esc(entryName(doc,member))}</li>`).join('')}</ul></details><button class="wide" data-action="assembly-unbind" data-id="${record.id}">Desancorar objetos</button><p class="microcopy">Desancorar conserva as posições e a pasta; seus objetos voltam a ser selecionados individualmente.</p><div class="object-actions">${button('object-copy','Copiar','copy')}${button('object-duplicate','Duplicar','copy')}${button('object-delete','Excluir','trash','danger')}</div>`;
+      organizeInspector();
+      if (focused) panel.querySelector(`[data-field="${focused}"]`)?.focus({ preventScroll: true });
+      panel.scrollTop = scroll;
       return;
     }
 
@@ -590,7 +619,20 @@ export async function startApplication() {
     panel.innerHTML = isLocked(doc, record) ? `<p class="microcopy">Elemento, pasta, andar ou camada bloqueados. Desbloqueie na organização da cena para editar.</p>${fields}` : fields;
     for(const [key,open] of geometryDisclosures) {const node=panel.querySelector(`[data-disclosure=${key}]`);if(node)node.open=open;}
     for (const node of panel.querySelectorAll('[data-texture-options]')) node.open = textureDisclosures.get(node.dataset.textureOptions) ?? false;
+    organizeInspector();
     if(focused) panel.querySelector(`[data-field="${focused}"]`)?.focus({preventScroll:true});
+    panel.scrollTop = scroll;
+
+    function organizeInspector() {
+      if (found?.record.kind !== 'terrain') for (const section of [...panel.children].filter(node => node.tagName === 'SECTION')) {
+        const title = section.querySelector(':scope > .eyebrow')?.textContent.trim();
+        if (!title) continue;
+        const label = title.toLocaleLowerCase('pt-BR').replace(/^./u, char => char.toLocaleUpperCase('pt-BR'));
+        const expanded = /POSIÇÃO|DIMENSÕES|ILUMINAÇÃO|MATERIAL E TEXTURA|ACESSO ENTRE ALTURAS|FOGO E FUMAÇA|ÁGUA \/ GELO/.test(title);
+        sectionDisclosure(section, title, label, expanded);
+      }
+      if (found?.record.kind !== 'terrain') restoreDisclosures(panel, inspectorDisclosures);
+    }
   }
 
   function updateView(event = {}) {
@@ -1064,7 +1106,7 @@ export async function startApplication() {
         });
       }
       const asset = await repository.importAsset(file);
-      assets = await repository.assets(); viewport.setAssets(assets); tab = 'assets'; renderSidebar();
+      assets = await repository.assets(); viewport.setAssets(assets); renderSidebar();
       placing = asset.type === 'image' ? { type: 'token', name: asset.name.replace(/\.[^.]+$/, ''), color: '#e4b76f', assetRef: { id: asset.id, revision: asset.revision } } : { type: 'prop', asset };
       setTool('place'); notify('Asset guardado. Clique no piso para colocá-lo.');
     } catch (error) { notify(`O asset não foi importado: ${error.message}`, true); }

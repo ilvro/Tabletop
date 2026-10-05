@@ -53,7 +53,7 @@ test('GitHub Pages works under a repository path without an API: catalog, import
   await page.locator('#asset-file').setInputFiles({name:'Marcador.glb',mimeType:'model/gltf-binary',buffer:staticGLB()});await page.waitForFunction(()=>document.getElementById('gesture-hint').textContent.includes('Clique no piso'));await world([-1,0,1]);await page.waitForFunction(()=>Object.values(window.__tabletop.snapshot().layout.entities).some(e=>e.name==='Marcador.glb'));
   // The landscape tools and their new records must also work in a static project path.
   await page.locator('[data-tab="build"]').click();await action('water-add');
-  await page.locator('[data-field="water-state"]').selectOption('ice');
+  await (await reveal(page.locator('[data-field="water-state"]'))).selectOption('ice');
   const ice=Object.values((await snapshot()).layout.entities).find(e=>e.kind==='water');
   const depth=await reveal(page.locator('[data-field="depth"]'));await depth.fill('.55');await depth.press('Tab');
   const coverage=await reveal(page.locator('[data-field="coverage-texture"]'));await coverage.selectOption('snow');

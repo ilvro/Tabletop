@@ -2,6 +2,8 @@
 
 Implementada em 3 de outubro de 2026. O mestre controla a câmera de trabalho; o projetor recebe somente enquadramentos publicados. Andamento e pendências: [progress.md](../progress.md).
 
+Os controles ficam em **Cena → Câmera e apresentação → Câmera cinematográfica**; câmeras salvas, segunda tela e publicação ficam em **Enquadramentos e publicação**. Os dois blocos são recolhíveis e conservam a abertura durante as edições.
+
 ## Navegação
 
 Clique na mesa para dar foco ao viewport. Funciona na perspectiva, na vista superior e na apresentação na mesma janela.
@@ -36,11 +38,11 @@ Referências: [Keyboard Lock no Chrome](https://developer.chrome.com/docs/capabi
 
 ## Preparar e apresentar um enquadramento
 
-Em **Cena → Câmera cinematográfica**:
+Em **Cena → Câmera e apresentação → Câmera cinematográfica**:
 
 1. Ajuste **Velocidade** (0,2–40 m/s) e **Lente** (FOV vertical de 20–90 graus). Um FOV menor concentra o enquadramento; maior inclui mais cenário. Na vista superior, o FOV prepara a lente usada ao retornar à perspectiva.
 2. Escolha **Troca de enquadramento**: corte imediato, 0,6 s, 1,2 s, 2,5 s ou 4 s.
-3. Navegue e use **Salvar câmera atual**. O preset guarda posição, alvo, projeção e lente/altura ortográfica nos campos existentes do schema 2. É preciso salvar a cena para conservá-lo no disco.
+3. Abra **Enquadramentos e publicação**, navegue e use **Salvar câmera atual**. O preset guarda posição, alvo, projeção e lente/altura ortográfica nos campos existentes do schema 2. É preciso salvar a cena para conservá-lo no disco.
 4. Clique no nome de um enquadramento para ativá-lo no editor e publicá-lo com a duração escolhida. O botão de câmera ao lado do nome corta diretamente para esse preset.
 5. **Publicar câmera atual** publica o ponto atual para a segunda tela. **Parar transição** conserva e publica o ponto intermediário; **Cortar agora** chega imediatamente ao destino da transição e o publica.
 

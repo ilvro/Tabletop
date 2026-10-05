@@ -81,7 +81,10 @@ test('library filters, editable classification, favorites, imports and placement
   await page.getByLabel('Filtrar por tag', { exact: true }).selectOption('minha campanha');
   assert.equal(await page.locator('[data-asset="builtin-gurney"]').count(), 1);
   await page.locator('[data-library-clear]').click();
+  const editorTab = await page.locator('.tabs [aria-pressed="true"]').getAttribute('data-tab');
   await page.locator('#asset-file').setInputFiles({ name: 'Retrato.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=', 'base64') });
+  await page.waitForFunction(() => document.getElementById('gesture-hint').textContent.includes('Clique no piso'));
+  assert.equal(await page.locator(`[data-tab="${editorTab}"]`).getAttribute('aria-pressed'), 'true', 'asset import preserves the underlying editor panel');
   await page.getByLabel('Buscar assets', { exact: true }).fill('Retrato.png');
   await page.getByLabel('Editar tags de Retrato.png', { exact: true }).click();
   await page.getByLabel('Tags do asset', { exact: true }).fill('npc, minha campanha');

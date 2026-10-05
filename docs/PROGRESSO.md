@@ -1,5 +1,7 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Consistência dos painéis e animações — concluída (5 de outubro):** Cena organizada em Atmosfera, Câmera e apresentação, Elementos e documento; propriedades de objetos/luzes com títulos recolhíveis uniformes e abertura/foco/rolagem conservados durante edições. Assets/Abrir com fade de 100 ms ao abrir e 80 ms ao fechar, reabertura durante a saída, movimento reduzido e sem fade reiniciado a cada edição. Importar assets conserva o painel escolhido. Controles principais de Água/Gelo iniciam abertos. Validação: 147 testes unitários/de integração, 25 cenários E2E aprovados por suíte/repetições e builds local/Pages. Uso: [EDITOR_UI.md](EDITOR_UI.md); resultados: [progress.md](../progress.md).
+
 **Reformulação da interface — concluída (5 de outubro):** tarefas em Paisagem, Construções, Personagens e Organização; materiais com alcance por camada/base, personalização avançada recolhível e pincéis ativos no topo; Assets/Abrir flutuantes com arraste/setas e posição local; água com contorno/escavação em uma proposta desfazível e ajuste de leito existente; painéis exclusivos em tela estreita, contraste/foco e fades que respeitam movimento reduzido. 147 testes unitários/de integração e 24 cenários E2E aprovados por suíte/repetições, além de builds local/Pages. Resultados em [progress.md](../progress.md); uso/limites em [EDITOR_UI.md](EDITOR_UI.md).
 
 **Data:** 5 de outubro de 2026

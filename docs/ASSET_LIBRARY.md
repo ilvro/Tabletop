@@ -23,6 +23,8 @@ No GitHub Pages, o mesmo catálogo é servido pelo build estático; imports, cla
 
 As épocas incluem **Antiguidade**, **Colonial / século XIX**, **Início do século XX**, **Décadas de 1970–1990**, **Contemporânea** e **Atemporal**. São classificações de uso cenográfico. Os cenários incluem hospital, laboratório, delegacia, bunker, fazenda, floresta, igreja, ruínas e outros.
 
+Assets abre uma janela flutuante arrastável, com fade de 100 ms ao abrir e 80 ms ao fechar por botão, Esc ou escolha de asset. A posição e os filtros são conservados; movimento reduzido desliga os fades. Controles de janela e acessibilidade em [EDITOR_UI.md](EDITOR_UI.md).
+
 ## Encontrar e colocar
 
 1. Abra **Assets** e busque por nome, descrição, material, uso ou tema. A busca ignora acentos e maiúsculas e combina todas as palavras digitadas.

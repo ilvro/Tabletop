@@ -37,7 +37,7 @@ test('editor scopes layer materials, moves non-modal libraries, paints water wit
   await page.locator('[data-tab=assets]').click();const dialog=page.locator('#assets-dialog'),handle=dialog.locator('[data-window-handle]');const a=await dialog.boundingBox(),h=await handle.boundingBox();
   await page.mouse.move(h.x+50,h.y+20);await page.mouse.down();await page.mouse.move(h.x+170,h.y+60,{steps:8});await page.mouse.up();let b=await dialog.boundingBox();assert.ok(b.x>a.x+100 && b.y>a.y+30);
   await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/editor-ui-assets.png'});await handle.focus();await page.keyboard.press('ArrowLeft');await page.waitForTimeout(80);const c=await dialog.boundingBox();assert.ok(c.x<b.x-8);
-  await page.keyboard.press('Escape');assert.equal(await dialog.getAttribute('open'),null);assert.equal(await page.locator('[data-tab=assets]').getAttribute('aria-expanded'),'false');
+  await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});assert.equal(await dialog.getAttribute('open'),null);assert.equal(await page.locator('[data-tab=assets]').getAttribute('aria-expanded'),'false');
   await action('open');const documents=page.locator('#documents-dialog');await documents.waitFor({state:'visible'});await documents.locator('[data-window-handle]').focus();const d=await documents.boundingBox();await page.keyboard.press('Shift+ArrowRight');const e=await documents.boundingBox();assert.ok(e.x>=d.x+39);await page.keyboard.press('Escape');
   assert.deepEqual(await snapshot(),state);assert.deepEqual(await page.evaluate(()=>window.__tabletop.camera()),camera);
   // A terrain gesture produces a proposal; accepting creates editable water and lowers its bed.

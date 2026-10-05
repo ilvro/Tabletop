@@ -79,13 +79,19 @@ test('textured materials, terrain layers and local fire/smoke render through UI,
   await projector.waitForFunction(id=>window.__tabletop.stats().surfaceMaterials.some(m=>m.id===id&&m.coverage?.texture==='snow'),prop.id);
   const camera=await projector.evaluate(()=>window.__tabletop.camera());
   await page.bringToFront();await page.locator(`[data-select="${floor.id}"]`).click();await select('material-texture','stone');await projector.waitForFunction(id=>window.__tabletop.stats().surfaceMaterials.some(m=>m.id===id&&m.texture==='stone'),floor.id);assert.deepEqual(await projector.evaluate(()=>window.__tabletop.camera()),camera);
+  // GPU counters update when the master's renderer draws, independently of the projector.
+  const masterFrame=()=>page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+  await masterFrame();
   const textureCount=(await stats()).textures;
   for(const id of ['sand','metal','brick','concrete','wood']) await select('material-texture',id);
-  assert.ok((await stats()).textures<=textureCount+2,'atlas resources stay bounded while switching');
+  await masterFrame();
+  let currentTextures=(await stats()).textures;
+  assert.ok(currentTextures<=textureCount+2,`atlas resources stay bounded while switching: ${textureCount} → ${currentTextures}`);
   for(const boards of [7,11,16,8]) await field('material-woodBoards',boards);
   await select('material-woodPattern','parquet');await select('material-woodDirection','vertical');await field('material-textureColor','#855b36');await field('material-textureBrightness',.7);
   await projector.waitForFunction(id=>window.__tabletop.stats().surfaceMaterials.some(m=>m.id===id&&m.options.woodBoards===8&&m.options.woodPattern==='parquet'&&m.options.textureBrightness===.7),floor.id);
-  assert.deepEqual(await projector.evaluate(()=>window.__tabletop.camera()),camera);assert.ok((await stats()).textures<=textureCount+2,'changing patterns releases previous variant atlases');
+  await masterFrame();currentTextures=(await stats()).textures;
+  assert.deepEqual(await projector.evaluate(()=>window.__tabletop.camera()),camera);assert.ok(currentTextures<=textureCount+2,`changing patterns releases previous variant atlases: ${textureCount} → ${currentTextures}`);
   await page.locator('#viewport canvas').screenshot({path:'test-results/custom-materials.png'});
   await check('viewport-effects',false);await page.waitForFunction(()=>window.__tabletop.stats().localEffects.every(e=>e.count===0));assert.ok((await projector.evaluate(()=>window.__tabletop.stats())).localEffects.some(e=>e.count>0));await check('viewport-effects');
   await check('effects-paused',false);await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>!window.__tabletop.stats().animatedLocalEffects);await page.emulateMedia({reducedMotion:'no-preference'});await check('effects-paused');
