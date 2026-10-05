@@ -16,6 +16,8 @@ Evolução posterior: gestão de mapas/tokens/documentos, pastas, renomeação e
 - Master View, modo de apresentação na mesma aplicação e segunda janela local limpa. A câmera publicada é independente da câmera de edição. A projeção filtra elementos/apoios/atores e referências de assets ocultos antes de transmitir o snapshot.
 - Comandos, undo/redo, IDs estáveis, salvar/listar/carregar, copiar a cena atual e excluir cenas salvas. Servidor com revisão, conflito, escrita temporária/rename e cinco backups por documento. Rascunho IndexedDB por aba, com recuperação explícita.
 
+Para hospedagem estática no GitHub Pages, use o build `pages` e a persistência no navegador: [GITHUB_PAGES.md](GITHUB_PAGES.md). O procedimento abaixo usa o servidor local.
+
 ## Executar
 
 Requer Node.js 22.12 ou superior e navegador com WebGL 2. Dentro de `Tabletop/`:

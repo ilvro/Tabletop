@@ -1,5 +1,5 @@
 import { materialPanel, localEffectPanel } from '../ui/material-panels.js';
-import { surfacePatch, layerSurfacePatch, textureFieldPatch, surfacePreset, LOCAL_EFFECT_DEFAULTS, smokeDefaults } from '../domain/materials.js';
+import { surfacePatch, layerSurfacePatch, textureFieldPatch, LOCAL_EFFECT_DEFAULTS, smokeDefaults } from '../domain/materials.js';
 import { Euler, Quaternion, Vector3 } from 'three';
 import { environmentPanel, bindingPanel } from '../ui/environment-panels.js';
 import { atmospherePanel, lightPanel } from '../ui/lighting-panels.js';
@@ -19,6 +19,7 @@ import { proposeContourWalls } from '../authoring/structures.js';
 import { constructionPanel, smartBuildPanel, polishPanel, proposalReport, levelsPanel, terrainPanel, terrainInspector, anchoringPanel } from '../ui/authoring-panels.js';
 import { createViewport } from '../render/renderer.js';
 import { repository, ApiError } from '../data/api.js';
+import { applicationURL, storageScope } from '../data/paths.js';
 import { drafts } from '../data/drafts.js';
 import { icon, escapeHTML as esc } from '../ui/icons.js';
 import { projectPresentation, presentationAssets } from './presentation.js';
@@ -31,9 +32,10 @@ const colorField = (field, label, value) => `<label class="field color-field"><s
 const checkField = (field, label, checked) => `<label class="check"><input type="checkbox" data-field="${field}" ${checked ? 'checked' : ''}/><span>${label}</span></label>`;
 const contentJSON = (doc) => { const { revision, createdAt, updatedAt, ...body } = doc; return JSON.stringify(body); };
 const entryName = (doc, entry) => doc.actors?.[entry.actorId]?.name ?? entry.name;
+const lastSceneKey = `tabletop-last-scene${storageScope()==='/'?'':':'+storageScope()}`;
 const lastScene = {
-  read() { try { return localStorage.getItem('tabletop-last-scene'); } catch { return null; } },
-  write(value) { try { localStorage.setItem('tabletop-last-scene', value); } catch { /* Optional preference, independent of a confirmed disk write. */ } },
+  read() { try { return localStorage.getItem(lastSceneKey); } catch { return null; } },
+  write(value) { try { localStorage.setItem(lastSceneKey, value); } catch { /* Optional preference, independent of a confirmed disk write. */ } },
 };
 
 export async function startApplication() {
@@ -43,14 +45,14 @@ export async function startApplication() {
   root.innerHTML = `
     <div class="app-shell">
       <header class="app-header">
-        <a class="brand" href="/" aria-label="Tabletop"><span class="brand-mark">T</span><span>TABLETOP<small>CRIAR. PREPARAR. APRESENTAR.</small></span></a>
+        <a class="brand" href="${esc(applicationURL(''))}" aria-label="Tabletop"><span class="brand-mark">T</span><span>TABLETOP<small>CRIAR. PREPARAR. APRESENTAR.</small></span></a>
         <div class="document-heading"><span id="doc-type-eyebrow" class="eyebrow">SUA MESA / CENA</span><input id="scene-name" aria-label="Nome da cena" maxlength="256" disabled /></div>
         <div class="header-actions"><span id="save-status" role="status" class="save-status"></span>${button('new', 'Nova', 'plus', 'quiet')}${button('open', 'Abrir', 'folder', 'quiet')}${button('present', 'Apresentar', 'display', 'quiet')}${button('save', 'Salvar', 'save', 'primary', 'id="save-scene"')}</div>
       </header>
       <aside class="sidebar">
         <nav class="tabs" aria-label="Painéis"><button data-tab="build" class="active">Construir</button><button data-tab="assets">Assets</button><button data-tab="scene">Cena</button></nav>
         <div id="side-content" class="side-content"></div>
-        <footer class="sidebar-footer"><span class="local-dot"></span> Sua mesa, no seu computador.</footer>
+        <footer class="sidebar-footer"><span class="local-dot"></span> ${repository.storage==='browser'?'Dados salvos neste navegador.':'Sua mesa, no seu computador.'}</footer>
       </aside>
       <main class="workspace">
         <div id="viewport" aria-label="Viewport 3D"></div>
@@ -320,7 +322,7 @@ export async function startApplication() {
     const doc = clone(store.document), dirty = store.dirty;
     const meaningful = store.editVersion > 0 || doc.revision > 0;
     draftQueue = draftQueue.catch(() => {}).then(() => dirty && meaningful ? drafts.write(doc) : drafts.clear()).catch((error) => {
-      if (!draftWarningShown) { draftWarningShown = true; notify(`A recuperação automática não está disponível: ${error.message}. Salve no servidor.`, true); }
+      if (!draftWarningShown) { draftWarningShown = true; notify(`A recuperação automática não está disponível: ${error.message}. Use Salvar ou baixe o JSON pela Gestão da Mesa.`, true); }
     });
   }
   function broadcast() {
@@ -365,7 +367,7 @@ export async function startApplication() {
       panel.insertAdjacentHTML('afterbegin', '<p class="microcopy">Abra uma tarefa. Edite o elemento selecionado no inspetor à direita.</p>');
 
     } else if (tab === 'assets') {
-      panel.innerHTML = assetLibraryPanel(assets, libraryFilters);
+      panel.innerHTML = assetLibraryPanel(assets, libraryFilters, repository.storage);
       renderAssetCards();
     } else {
       const currentLook = store.document.look ?? store.document.defaultLook;
@@ -567,7 +569,7 @@ export async function startApplication() {
     document.getElementById('redo').disabled = !store.canRedo;
     document.getElementById('undo').title = `Desfazer${store.undoLabel ? `: ${store.undoLabel}` : ''} (Ctrl+Z)`;
     const status = document.getElementById('save-status');
-    status.textContent = saving ? 'Salvando…' : store.dirty ? 'Alterações locais' : `Salvo · revisão ${doc.revision}`;
+    status.textContent = saving ? 'Salvando…' : store.dirty ? 'Alterações locais' : `${repository.storage==='browser'?'Salvo neste navegador':'Salvo'} · revisão ${doc.revision}`;
     status.classList.toggle('unsaved', store.dirty); document.getElementById('save-scene').disabled = saving;
     document.getElementById('scene-summary').textContent = `${Object.keys(doc.layout?.entities || {}).length} elementos · ${Object.keys(doc.tokens || {}).length} tokens · ${Object.keys(doc.look?.lights || doc.defaultLook?.lights || {}).length} luzes · grid ${doc.layout?.grid?.cellSize ?? 1} m`;
     renderInspector(); renderSidebar(); broadcast();
@@ -591,7 +593,7 @@ export async function startApplication() {
       if (store.document.id !== sentDocument.id) return false;
       store.markSaved(receipt, sentVersion);
       lastScene.write(receipt.id);
-      flushDraft(); notify(store.dirty ? 'Versão salva. Há alterações posteriores ainda locais.' : `${isMap ? 'Mapa salvo' : 'Cena salva'} no computador.`);
+      flushDraft(); notify(store.dirty ? 'Versão salva. Há alterações posteriores ainda locais.' : `${isMap ? 'Mapa salvo' : 'Cena salva'} ${repository.storage==='browser'?'neste navegador':'no computador'}.`);
       await refreshSaved().catch(() => notify(`${isMap ? 'Mapa salvo' : 'Cena salva'}. A lista não pôde ser atualizada agora.`, true)); return true;
     } catch (error) {
       const conflict = error instanceof ApiError && error.status === 409;
@@ -599,7 +601,7 @@ export async function startApplication() {
       flushDraft(); return false;
     } finally { saving = false; updateView({ type: 'saved' }); }
   }
-  function canSwitch() { return !saving && (!store.dirty || confirm('Há alterações locais. Continuar sem salvar no servidor?')); }
+  function canSwitch() { return !saving && (!store.dirty || confirm(`Há alterações locais. Continuar sem salvar ${repository.storage==='browser'?'no navegador':'no servidor'}?`)); }
   async function duplicateScene() {
     if (saving) return;
     const sourceId = store.document.id, sourceVersion = store.editVersion;
@@ -1418,7 +1420,7 @@ export async function startApplication() {
       case 'presentation-window': {
         publishedCamera ??= viewport.getCamera();
         const diagnostics = new URLSearchParams(location.search).has('diagnostics') ? '&diagnostics' : '';
-        const opened = window.open(`/?presentation=${sessionId}${diagnostics}`, `tabletop-${sessionId}`);
+        const opened = window.open(applicationURL(`?presentation=${sessionId}${diagnostics}`), `tabletop-${sessionId}`);
         if (!opened) notify('A janela foi bloqueada. Permita pop-ups para abrir a segunda tela.', true);
         else broadcast(); break;
       }
@@ -1813,11 +1815,11 @@ export async function startApplication() {
       window.addEventListener('mouseup', onMouseUp);
     });
   }
-  window.addEventListener('pagehide', () => { flushDraft(); channel?.close(); viewport.destroy(); });
+  window.addEventListener('pagehide', () => { flushDraft(); channel?.close(); viewport.destroy(); repository.dispose?.(); });
   window.addEventListener('beforeunload', (event) => { if (store.dirty) { event.preventDefault(); event.returnValue = ''; } });
 
   const initial = await Promise.allSettled([repository.assets(), repository.list('scene'), repository.list('map'), drafts.read(), repository.list('environment')]);
-  if (initial[0].status === 'fulfilled') assets = initial[0].value; else notify('O servidor local está indisponível. Inicie com npm run dev ou npm start; o trabalho continua como rascunho.', true, true);
+  if (initial[0].status === 'fulfilled') assets = initial[0].value; else notify(repository.storage==='browser'?`Não foi possível carregar os assets: ${initial[0].reason.message}`:'O servidor local está indisponível. Inicie com npm run dev ou npm start; o trabalho continua como rascunho.', true, true);
   if (initial[1].status === 'fulfilled') savedScenes = initial[1].value;
   if (initial[2].status === 'fulfilled') savedMaps = initial[2].value;
   if (initial[3].status === 'fulfilled') recovery = initial[3].value;
@@ -1839,7 +1841,7 @@ export async function startApplication() {
   store.subscribe(updateView); updateView({ type: 'saved' }); viewport.frameScene();
   const firstCamera = Object.values(store.document.cameraPresets || {})[0]; if (firstCamera) viewport.setCamera(firstCamera);
   if (recovery) {
-    document.getElementById('recovery-description').textContent = `“${recovery.document.name}” possui um rascunho local de ${new Date(recovery.savedAt).toLocaleString('pt-BR')}. Restaurar não sobrescreve a versão salva no servidor.`;
+    document.getElementById('recovery-description').textContent = `“${recovery.document.name}” possui um rascunho local de ${new Date(recovery.savedAt).toLocaleString('pt-BR')}. Restaurar não sobrescreve a versão salva ${repository.storage==='browser'?'neste navegador':'no servidor'}.`;
     document.getElementById('recovery-dialog').showModal();
   }
   // Read-only diagnostics for browser verification; no backdoor mutations.

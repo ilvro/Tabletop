@@ -3,7 +3,9 @@ import { defineConfig } from 'vite';
 const frontendPort = Number(process.env.TABLETOP_UI_PORT ?? 5173);
 if (!Number.isInteger(frontendPort) || frontendPort < 1 || frontendPort > 65535) throw new Error('TABLETOP_UI_PORT deve estar entre 1 e 65535.');
 
-export default defineConfig({
+export default defineConfig(({mode})=>({
+  base: './',
+  define: { 'import.meta.env.VITE_TABLETOP_STORAGE': JSON.stringify(mode==='pages'?'browser':'server') },
   server: {
     host: '127.0.0.1',
     port: frontendPort,
@@ -14,6 +16,7 @@ export default defineConfig({
     watch: { ignored: ['**/data/**'] },
   },
   build: {
+    outDir: mode==='pages'?'dist-pages':'dist',
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -23,4 +26,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

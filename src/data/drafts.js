@@ -1,6 +1,8 @@
-const DB_NAME = 'tabletop-recovery-v1';
+import { storageScope } from './paths.js';
+const scope = storageScope()==='/'?'':':'+storageScope();
+const DB_NAME = 'tabletop-recovery-v1'+scope;
 const STORE_NAME = 'drafts';
-const SLOT_KEY = 'tabletop-recovery-slot';
+const SLOT_KEY = 'tabletop-recovery-slot'+scope;
 const LEGACY_SLOT = 'working-copy';
 let sessionSlot;
 let lastWriteTime = 0;

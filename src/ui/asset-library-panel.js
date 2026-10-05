@@ -4,7 +4,7 @@ import { catalogFacets, filterAssets } from '../domain/asset-library.js';
 // A classification edit can remove the last matching option while a filter is active.
 const options = (values, current, empty) => `<option value="">${empty}</option>${(current && !values.includes(current) ? [...values, current] : values).map(value => `<option value="${esc(value)}" ${current === value ? 'selected' : ''}>${esc(value)}</option>`).join('')}`;
 
-export function assetLibraryPanel(assets, filters) {
+export function assetLibraryPanel(assets, filters, storage = 'server') {
   const facets = catalogFacets(assets);
   return `<div class="section-intro"><span class="eyebrow">BIBLIOTECA / INVESTIGAÇÃO PARANORMAL</span><h2>Prepare cada cenário.</h2><p class="muted">Objetos de diferentes épocas para sua mesa. Escolha um asset e clique no apoio para colocá-lo.</p></div>
     <input id="asset-search" type="search" aria-label="Buscar assets" placeholder="Nome, uso ou tema…" value="${esc(filters.search)}" />
@@ -21,7 +21,7 @@ export function assetLibraryPanel(assets, filters) {
     <div id="asset-cards" class="asset-grid"></div>
     <button type="button" data-library-more class="wide quiet" hidden>Mostrar mais assets</button>
     <button type="button" data-action="asset-import" class="wide accent-outline">Importar imagem ou GLB</button>
-    <p class="microcopy">Use “Tags” para classificar objetos e ★ para salvar favoritos. A biblioteca fica no servidor local.</p>`;
+    <p class="microcopy">Use “Tags” para classificar objetos e ★ para salvar favoritos. A biblioteca fica ${storage==='browser'?'neste navegador':'no servidor local'}.</p>`;
 }
 
 export function assetCards(assets, filters, limit) {

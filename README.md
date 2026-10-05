@@ -15,6 +15,8 @@ Ver [execução, testes e limitações](docs/VERTICAL_SLICE.md), [construção/S
 
 Câmera: WASD navega, Shift acelera, Page Up/Down altera altura; na perspectiva, Espaço sobe e Ctrl desce. Zoom, pan e órbita podem ser usados enquanto anda. Botão direito seleciona ao soltar sem arrastar. G/R/V movem/giram/escalam objetos. Lente, velocidade e transições ficam em **Cena**: [controles](docs/CAMERA.md). [Andamento e pendências](progress.md).
 
-Dados locais ficam em `data/`, ignorados pelo Git. Jukebox e Ficha continuam independentes.
+Dados do servidor local ficam em `data/`, ignorados pelo Git. Jukebox e Ficha continuam independentes.
+
+**GitHub Pages:** `npm run build:pages` gera `dist-pages/`, com assets e persistência no navegador, sem API Node. `npm run preview:pages` permite conferir. O workflow `.github/workflows/pages.yml` publica o build; escolha **Settings → Pages → Source → GitHub Actions** no repositório. Uso, armazenamento e limites em [GITHUB_PAGES.md](docs/GITHUB_PAGES.md).
 
 Ambientes: **Cena** oferece presets de dia/tarde/noite, neblina, chuva, pântano e calor, com sol/lua, Kelvin/HSV, céu/nuvens, partículas e biblioteca própria. Objetos podem acender por horário: [controles e limites](docs/ENVIRONMENTS.md).

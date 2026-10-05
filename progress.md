@@ -107,11 +107,25 @@ Verificados: oito materiais com pixels distintos, mistura no terreno, isolamento
 
 Texturas em estruturas/objetos, mistura no terreno e emissores de fogo/fumaça por objeto ficam nas entregas. Importação de texturas avulsas/fotográficas, decals, múltiplas regiões de chuva/poeira/brasas e colisão continuam como pendências reais.
 
-## Personalização dos materiais — em andamento
+## Personalização dos materiais — concluída
 
 Pedido de 4 de outubro de 2026: tornar o desenho e a cor das texturas editáveis. Plano: controles de recoloração, brilho, contraste, saturação e rotação; quantidade/orientação/juntas/veios da madeira; padrões e desgaste do metal; densidade e seed das demais superfícies. Os ajustes serão opcionais para preservar documentos existentes e estarão disponíveis em materiais e camadas do terreno.
 
-Implementado: campos opcionais validados, controles compartilhados de materiais/camadas, recoloração no shader, variantes de madeira e metal, densidade/seed e atlas compactos com descarte por referência. Build, 126 testes unitários/de integração e três E2E afetados passaram. Verificados: controles reais de madeira/metal/terreno, recoloração e escurecimento nos pixels WebGL, máscaras conservadas, desfazer/refazer, salvamento/reabertura, projetor/câmera independente e descarte dos atlas. Em revisão final: preservação do bloco avançado aberto, compatibilidade visual de documentos sem os novos campos e renderização com oito camadas personalizadas. Uso atualizado em docs/MATERIALS.md; resumos serão sincronizados ao concluir.
+Entregue: recoloração preservando detalhes, paleta original/multiplicação, brilho/contraste/saturação, rotação, densidade e seed; madeira com tábuas por repetição, orientação, juntas/veios, madeira contínua e parquet; metal escovado/liso/xadrez/ondulado/enferrujado e oxidação. Controles por material e camada do terreno; opções avançadas conservam sua abertura durante a edição. Campos opcionais preservam documentos antigos, máscaras, histórico, duplicação/mapas, JSON, salvamento e projetor.
+
+Atlas personalizados compactos compartilham desenhos equivalentes e são liberados ao descartar seu último material; cache CPU limitado a 32 tiles. Cor e orientação usam parâmetros de shader. Uso e limites em [docs/MATERIALS.md](docs/MATERIALS.md); roteiro manual em [docs/TESTAR_CONSTRUCAO.md](docs/TESTAR_CONSTRUCAO.md).
+
+Validação final: build, 126 testes unitários/de integração e três E2E afetados passaram. Os oito testes específicos e dois E2E de materiais/efeitos foram repetidos após a revisão final e passaram. Pixels WebGL verificam recoloração verde, escurecimento, saturação zero, padrões distintos de madeira/metal, compatibilidade sem os novos campos, base com oito camadas personalizadas e descarte. UI verifica controles, desfazer/refazer, máscaras, reinício/salvamento, projetor e câmera independente. Captura revisada: `test-results/custom-materials.png`. WebGL por software; sem benchmark presencial. Resumos PROGRESSO.md e docs/PROGRESSO.md sincronizados.
+
+## GitHub Pages — concluído
+
+Pedido de 4 de outubro de 2026: corrigir assets ausentes e permitir uso normal em hospedagem estática. Diagnóstico: caminhos absolutos apontam à raiz do domínio e a biblioteca/persistência dependem de `/api/tabletop`, que só existe no servidor Node local. Plano: caminhos relativos ao diretório publicado, repositório IndexedDB para cenas/mapas/ambientes/assets/classificação, manutenção do backend local, build/workflow do Pages e teste de navegador servindo apenas arquivos em subdiretório.
+
+Entregue: base relativa do build e resolução de catálogo/assets/favicons/projetor no diretório publicado; biblioteca IndexedDB para cenas/mapas/ambientes/imports/classificação, com validação de documentos/referências, revisões e conflitos entre abas, transações com backups limitados e URLs Blob temporárias recriadas ao reabrir. Biblioteca, rascunhos e última cena ficam isolados por origem/diretório; UI identifica salvamento no navegador. O modo com API Node continua disponível. Build estático em dist-pages/, preview e workflow de GitHub Pages prontos.
+
+Validação final: builds local e estático, 127 testes unitários/de integração e quatro E2E afetados passaram (Pages/IndexedDB, biblioteca e recuperação local). O teste estático serviu arquivos em /Tabletop/ sem API, verificando paths HTTP, previews/modelos, imports PNG/GLB, cenas/mapas/ambientes, salvamento após fechar/reabrir navegador, projetor/câmera independente e isolamento em outro diretório/raiz. Transações verificaram conflitos de documentos/classificação, refs inválidas, backups limitados e rollback em falha de espaço. Os 161 modelos e suas prévias estão presentes no build. Captura: test-results/github-pages.png. Chromium/WebGL por software; sem benchmark presencial.
+
+Uso/publicação e limites em [docs/GITHUB_PAGES.md](docs/GITHUB_PAGES.md); README/arquitetura e resumos PROGRESSO.md/docs/PROGRESSO.md sincronizados. Workflow validado localmente; envio do código e seleção de GitHub Actions em Settings → Pages são necessários para atualizar a publicação online. Dados pessoais ficam neste navegador; transporte de cena+assets e sincronização entre computadores continuam fora desta entrega.
 
 ## Pendências atuais
 

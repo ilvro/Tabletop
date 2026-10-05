@@ -194,6 +194,10 @@ Trocar “dia” por “apagão” muda look, mantendo layout e tokens. Uma aç�
 
 No MVP atores são locais e tokens podem usar imagens reais importadas ou discos com nome/cor. O campo de vínculo é reservado para uma integração implementada e validada posteriormente; a UI não exibe PV sincronizado sem autoridade real.
 
+### 6.6. Hospedagem estática
+
+O mesmo editor possui dois adaptadores de repositório. O modo local usa a API Node e `data/`; o build `pages` usa IndexedDB por origem/diretório da aplicação, sem chamar a API. `browser-repository.js` valida documentos/referências, confere revisão e grava com backups limitados na mesma transação; Blobs de assets importados e classificação são persistidos separadamente. URLs Blob pertencem ao runtime, não ao documento. `paths.js` resolve recursos no diretório publicado; rascunhos/última cena também são isolados por caminho, preservando as chaves antigas na raiz. O protocolo de apresentação e a separação de câmera permanecem iguais. Publicação, transporte e limites: [GITHUB_PAGES.md](GITHUB_PAGES.md).
+
 ## 7. Comandos, transações e undo/redo
 
 Cada comando durável identifica documento, `commandId`, tipo, alvos, payload e versão local esperada do estado em edição. A revisão de disco permanece separada: várias edições locais podem ocorrer entre dois salvamentos.
