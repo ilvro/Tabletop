@@ -138,6 +138,9 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
     const baseSample=channel=>`surfaceSample(${channel},surfaceIndex,surfaceSize,baseSurfaceRotation)`;
     let compose = `vec3 surfaceColor = vec3(1.0); float surfaceHeight = .5, surfaceRoughness = 1.0, surfaceMetalness = 1.0;
       if(surfaceIndex >= 0.0) { surfaceColor = ${customize(baseSample('surfaceAlbedo')+'.rgb')}; vec4 d = ${baseSample('surfaceDetails')}; surfaceHeight=d.r; surfaceRoughness=d.g; surfaceMetalness=d.b; }`;
+    // A world-space mineral field prevents repeated tiles from repeating their broad colour.
+    const organic=(s,color,height)=>s.texture==='rock'&&s.rockPattern==='organic'?`{float mineral=surfaceNoise(surfacePosition/${Number((s.textureSize??3)*1.8).toFixed(6)}+vec3(${Number((s.textureSeed??0)*.017).toFixed(6)})); ${color}*=.72+mineral*.55; ${height}+=(mineral-.5)*.12;}`:'';
+    compose+=organic(settings,'surfaceColor','surfaceHeight');
     if(texturedTerrain) {
       shader.vertexShader = 'attribute vec4 surfaceMaskA, surfaceMaskB; varying vec4 maskA, maskB;\n'+shader.vertexShader;
       shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nmaskA=surfaceMaskA; maskB=surfaceMaskB;');
@@ -154,6 +157,7 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
           const custom=customization(shader,`paint${i}`,layer);
           const sample=channel=>`surfaceSample(${channel},${index}.0,${Number(layer.textureSize??p.size).toFixed(6)},paint${i}Rotation)`;
           compose += `c *= ${custom(sample('surfaceAlbedo')+'.rgb')}; vec4 d=${sample('surfaceDetails')}; h=d.r; r=d.g; m=d.b;`;
+          compose+=organic(layer,'c','h');
         }
         if(!p && preset) compose += `c *= ${customize(baseSample('surfaceAlbedo')+'.rgb')}; vec4 d=${baseSample('surfaceDetails')}; h=d.r; r=d.g; m=d.b;`;
         compose += 'surfaceColor=mix(surfaceColor,c,w); surfaceHeight=mix(surfaceHeight,h,w); surfaceRoughness=mix(surfaceRoughness,r,w); surfaceMetalness=mix(surfaceMetalness,m,w); }';

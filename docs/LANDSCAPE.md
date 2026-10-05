@@ -2,7 +2,9 @@
 
 Implementado em 5 de outubro de 2026. Recursos locais disponíveis também no GitHub Pages, sem buscar texturas externas. Ficha/Jukebox continuam adiados.
 
-O catálogo atual tem 189 peças; o kit adicional de paredões, pináculo, ruínas, madeira, cordas e raízes está em [MOUNTAIN_KIT.md](MOUNTAIN_KIT.md).
+O catálogo atual tem 193 peças; o kit adicional de paredões, pináculo, ruínas, madeira, cordas e raízes está em [MOUNTAIN_KIT.md](MOUNTAIN_KIT.md).
+
+O complemento de [rocha e neve orgânicas](ORGANIC_WINTER.md) acrescenta duas formações, depósitos conectados com vento/espessura e queda animada de neve corrigida. O kit de plantas descrito abaixo conserva sua geometria; vegetação mais volumosa continua pendente.
 
 ## Arquitetura e vegetação
 

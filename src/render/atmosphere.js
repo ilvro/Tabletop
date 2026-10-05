@@ -80,20 +80,26 @@ export function createWeatherGeometry(config) {
   return geometry;
 }
 const particleVertex = `attribute float along;
-  uniform float time, speed, particleSize, viewportHeight, perspective, rain;
+  uniform float time, speed, particleSize, viewportHeight, perspective, rain, snow, falling;
   uniform vec3 regionSize, regionCenter;
   uniform vec2 wind;
   varying float life;
   void main() {
-    float age = fract(position.y + time * speed / regionSize.y * mix(1.0, -1.0, rain));
+    float fallSpeed = mix(1.0, .75 + position.x * .5, snow);
+    float age = fract(position.y + time * speed * fallSpeed / regionSize.y * mix(1.0, -1.0, falling));
     float drift = sin(time * speed * .2 + position.z * 20.0) * (1.0 - rain) * .2;
-    vec3 p = vec3((fract(position.x + (time * wind.x + drift) / regionSize.x) - .5) * regionSize.x,
+    float eddyPhase = time * (speed * .6 + length(wind) * .08);
+    vec2 eddy = snow * (.25 + min(length(wind) * .12, 1.5)) * vec2(sin(eddyPhase + position.z * 37.0), cos(eddyPhase * .76 + position.x * 29.0));
+    vec2 gust = snow * wind * .35 * sin(time * .45);
+    vec2 displacement = time * wind + eddy + gust;
+    vec3 p = vec3((fract(position.x + (displacement.x + drift) / regionSize.x) - .5) * regionSize.x,
       max(0.0, age * regionSize.y - along * (.25 + particleSize * 8.0)),
-      (fract(position.z + time * wind.y / regionSize.z) - .5) * regionSize.z) + regionCenter;
+      (fract(position.z + displacement.y / regionSize.z) - .5) * regionSize.z) + regionCenter;
     life = sin(age * 3.14159265);
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mv;
-    gl_PointSize = clamp(particleSize * viewportHeight * projectionMatrix[1][1] / (2.0 * mix(1.0, max(.1, -mv.z), perspective)), 1.0, 64.0);
+    float flakeSize = mix(1.0, .55 + position.z * 1.15, snow);
+    gl_PointSize = clamp(particleSize * flakeSize * viewportHeight * projectionMatrix[1][1] / (2.0 * mix(1.0, max(.1, -mv.z), perspective)), 1.0, 64.0);
   }`;
 const particleFragment = `uniform vec3 particleColor;
   uniform float opacity, rain, smoke;
@@ -133,7 +139,7 @@ export function createAtmosphere(scene) {
       const material = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, vertexShader: particleVertex, fragmentShader: particleFragment, defines: rain ? { RAIN: '' } : {},
         blending: w.type === 'embers' ? THREE.AdditiveBlending : THREE.NormalBlending,
         uniforms: { time: { value: 0 }, speed: { value: w.speed }, particleSize: { value: w.particleSize }, viewportHeight: { value: 1 }, perspective: { value: 1 },
-          rain: { value: rain ? 1 : 0 }, smoke: { value: w.type === 'smoke' ? 1 : 0 }, regionSize: { value: new THREE.Vector3(...w.size) }, regionCenter: { value: new THREE.Vector3(...w.center) },
+          rain: { value: rain ? 1 : 0 }, snow:{value:w.type==='snow'?1:0},falling:{value:rain||w.type==='snow'?1:0}, smoke: { value: w.type === 'smoke' ? 1 : 0 }, regionSize: { value: new THREE.Vector3(...w.size) }, regionCenter: { value: new THREE.Vector3(...w.center) },
           wind: { value: new THREE.Vector2(...w.wind) }, particleColor: { value: new THREE.Color(w.color) }, opacity: { value: w.opacity } } });
       const geometry = createWeatherGeometry(w);
       particles = rain ? new THREE.LineSegments(geometry, material) : new THREE.Points(geometry, material);

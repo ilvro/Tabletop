@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { hasPhysicalSnow, snowWeight } from '../domain/snow.js';
 import { surfacePatch } from '../domain/materials.js';
 import { applySurfaceMaterial } from './surface-materials.js';
+import {createSnowDeposit} from './snow-deposit.js';
 
 export function snowOccluders(objects) {
   const result=[];for(const object of objects) object.traverse(child=>{
@@ -45,6 +46,11 @@ export function addPhysicalSnow(object,record,library,exposure) {
   if(!hasPhysicalSnow(record) || record.kind==='terrain' || record.water?.state==='water')return {triangles:0};
   const c=record.material.coverage, selected=record.material.textureSlot, positions=[], matrix=new THREE.Matrix4().copy(object.matrixWorld).invert();
   const meshes=[];object.traverse(child=>{if(child.isMesh && !child.userData.decorative && child.geometry?.attributes.position)meshes.push(child);});
+  if(c.snowStyle==='organic') {
+    const geometry=createSnowDeposit(meshes,c,exposure,matrix,selected??'base');
+    if(!geometry)return {triangles:0};
+    return attachSnow(geometry,object,record,library);
+  }
   const exposedCache=new Map();
   const exposed=p=> {if(c.exposedOnly===false)return 1;const key=p.map(v=>Math.round(v*20)).join(',');if(!exposedCache.has(key))exposedCache.set(key,exposure(p));return exposedCache.get(key);};
   const emit=(a,b,d)=>{for(const p of [a,b,d])positions.push(...new THREE.Vector3(...p).applyMatrix4(matrix).toArray());};
@@ -72,8 +78,11 @@ export function addPhysicalSnow(object,record,library,exposure) {
   }
   if(!positions.length)return {triangles:0};
   const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.computeVertexNormals();geometry.computeBoundingSphere();
-  const settings={...surfacePatch('snow'),color:c.color,textureSize:c.textureSize,relief:c.relief};
+  return attachSnow(geometry,object,record,library);
+}
+function attachSnow(geometry,object,record,library) {
+  const c=record.material.coverage,settings={...surfacePatch('snow'),color:c.color,textureSize:c.textureSize,relief:c.relief};
   const material=new THREE.MeshStandardMaterial({color:c.color,roughness:.86});applySurfaceMaterial(material,settings,library);
   const snow=new THREE.Mesh(geometry,material);snow.castShadow=true;snow.receiveShadow=true;snow.userData={decorative:true,physicalSnow:true,entityId:record.id};object.add(snow);
-  return {triangles:positions.length/9};
+  return {triangles:(geometry.index?.count??geometry.attributes.position.count)/3};
 }

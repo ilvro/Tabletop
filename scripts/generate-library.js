@@ -7,6 +7,7 @@ import { addLibraryExpansion3 } from './library-expansion-3.js';
 import { addMountainLibrary } from './library-mountain.js';
 import { addMountainKit } from './library-mountain-kit.js';
 import { addAlpineLibrary } from './library-alpine.js';
+import {addOrganicRocks} from './library-organic-rocks.js';
 
 const materials = {
   wood: { color: '#79553e', roughness: .84 }, dark: { color: '#292b30', roughness: .8 },
@@ -103,6 +104,7 @@ addLibraryExpansion3({ add, b, c, s, legs, table, wheels, modern, retro, histori
 addMountainLibrary({add,timeless});
 const alpineIds=addAlpineLibrary({add,timeless,ancient});
 for(const id of addMountainKit({add,timeless,ancient}))alpineIds.add(id);
+for(const id of addOrganicRocks({add,timeless}))alpineIds.add(id);
 
 function preview(object) {
   object.updateMatrixWorld(true);

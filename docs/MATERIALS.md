@@ -107,7 +107,7 @@ A cobertura tem cor, tamanho da textura, quantidade, relevo e distribuição pr�
 
 ### Limites e dados
 
-Com espessura zero, a cobertura é visual e não verifica exposição ao céu. A opção de espessura da neve acrescenta geometria e verificação de abrigo, com máscara persistida para o terreno e atualização automática nos objetos; água/gelo e kit alpino estão disponíveis. Neve caindo e decals continuam posteriores. Uso e limites: [LANDSCAPE.md](LANDSCAPE.md). As quatro peças de rocha editáveis estão em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
+Com espessura zero, a cobertura é visual e não verifica exposição ao céu. A opção de espessura da neve acrescenta geometria e verificação de abrigo, com máscara persistida para o terreno e atualização automática nos objetos; água/gelo e kit alpino estão disponíveis. A queda de neve foi corrigida no emissor global; depósitos orgânicos opcionais estão em [ORGANIC_WINTER.md](ORGANIC_WINTER.md). Decals continuam pendentes. Uso e limites: [LANDSCAPE.md](LANDSCAPE.md). As quatro peças de rocha editáveis estão em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
 
 `material.coverage` é opcional/nulo; quando ativo guarda `texture`, `color`, `textureSize`, `amount`, `relief` e os campos de distribuição. `paintLayers[].distribution` é opcional e guarda `mode`, `slopeAngle`, `slopeFade`, `heightEnabled`, `minHeight`, `heightFade`, `variation`, `variationSize` e `seed`. Campos ausentes conservam a pintura/aparência anterior. Novos parâmetros de textura: `rockPattern` e `rockCracks`. Todos são validados antes de confirmar comandos/imports/salvamento; acompanham histórico, mapas, duplicação e projeção filtrada.
 
@@ -131,3 +131,9 @@ Para corrigir um terreno existente que atravessa um prédio, use **Prévia · aj
 Casca de árvore, Folhagem · nervuras e Gelo · fissuras ampliam o acervo para treze superfícies, conservando IDs e tiles anteriores. Receitas alpinas podem definir acabamento próprio por peça/slot; aplicar outra textura no inspetor substitui apenas os slots selecionados.
 
 Cobertura de neve aceita `physicalThickness` opcional (0–1,5 m, padrão zero) e `exposedOnly` (padrão true). Com espessura, terrain ganha alturas derivadas e atualiza apoios; objetos ganham malhas de cobertura respeitando exposição ao céu e slot. `terrain.snowMask` é persistida e reamostrada, com recalculo explícito depois de alterar abrigos. `relief` permanece microrelevo de iluminação. Uso, limites físicos, água/gelo e validação: [LANDSCAPE.md](LANDSCAPE.md).
+
+## Rocha e neve orgânicas
+
+O padrão **Orgânica · mineral e fissuras locais** (`rockPattern: 'organic'`) acrescenta variação mineral em várias escalas e um campo espacial amplo, sem o desenho de blocos de alvenaria. Continua procedural; mapas fotográficos/importados não foram acrescentados neste incremento. As formas do volume são opções independentes em Geometria da rocha.
+
+Cobertura de neve oferece **Forma do acúmulo → Depósitos orgânicos · contínuos**, com `snowStyle`, `snowDrift`, `snowDriftScale` e `snowWindDirection` opcionais. Nos objetos, vértices compartilhados e bordas afinadas substituem os prismas independentes; no terreno, o campo de espessura também altera a superfície de apoio derivada. Ausência desses campos conserva a camada antiga. Uso, intervalos, precipitação e limites em [ORGANIC_WINTER.md](ORGANIC_WINTER.md).

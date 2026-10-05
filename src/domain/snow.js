@@ -19,6 +19,20 @@ export function snowWeight(position, normalY, settings) {
   return clamp(w*(1-d.variation*.5+d.variation*.5*n))*(settings.amount??1);
 }
 export const hasPhysicalSnow = record => record?.material?.coverage?.texture==='snow' && record.material.coverage.physicalThickness>0;
+/** Optional: old scenes retain the original layer. Wind is an authoring field, not a simulation clock. */
+export const SNOW_SHAPE_DEFAULTS=Object.freeze({snowStyle:'legacy',snowDrift:.65,snowDriftScale:2,snowWindDirection:0});
+export const SNOW_SHAPE_RANGES={snowDrift:[0,1],snowDriftScale:[.2,20],snowWindDirection:[0,360]};
+export const snowShapeOptions=c=>({...SNOW_SHAPE_DEFAULTS,...c});
+export function snowDriftFactor(position,normal,settings) {
+  if(settings.snowStyle!=='organic')return 1;
+  const c=snowShapeOptions(settings),angle=c.snowWindDirection*Math.PI/180,cos=Math.cos(angle),sin=Math.sin(angle),scale=c.snowDriftScale;
+  const [x,y,z]=position,q=[(x*cos+z*sin)/scale,y/scale,(z*cos-x*sin)/scale];
+  const seed=(c.seed??42)*.037;
+  const broad=noise([q[0]*.8+seed,q[1]*.65,q[2]*1.7+seed]),fine=noise(q.map((v,i)=>v*3.7+seed+i*9));
+  const lee=Math.max(0,-normal[0]*cos-normal[2]*sin);
+  return 1+c.snowDrift*((broad-.5)*.85+(fine-.5)*.2+lee*.45);
+}
+export const snowDepth=(position,normal,c)=>c.physicalThickness*snowWeight(position,normal[1],c)*snowDriftFactor(position,normal,c);
 const cache=new WeakMap();
 export function terrainSnow(terrain) {
   const c=terrain.material.coverage;
@@ -35,10 +49,12 @@ export function terrainSnow(terrain) {
     }
   }
   const yaw=yawFromQuaternion(terrain.transform.rotation);
+  const depths=[];
   const weights=terrain.heights.map((h,i)=> {
     const world=rotateXZ(p(i),yaw).map((v,j)=>v+terrain.transform.position[j]);
-    return snowWeight(world,normals[i][1]/Math.hypot(...normals[i]),c)*(c.exposedOnly!==false?(terrain.snowMask?.[i]??1):1);
+    const length=Math.hypot(...normals[i]),localNormal=normals[i].map(v=>v/length),normal=rotateXZ(localNormal,yaw),mask=c.exposedOnly!==false?(terrain.snowMask?.[i]??1):1;
+    const weight=snowWeight(world,normal[1],c)*mask;depths.push(c.physicalThickness*weight*snowDriftFactor(world,normal,c));return weight;
   });
-  const result={signature,base:terrain.heights,mask:terrain.snowMask,weights,heights:terrain.heights.map((h,i)=>h+c.physicalThickness*weights[i])};cache.set(terrain,result);return result;
+  const result={signature,base:terrain.heights,mask:terrain.snowMask,weights,heights:terrain.heights.map((h,i)=>h+depths[i])};cache.set(terrain,result);return result;
 }
 export const physicalSnowHeights = terrain => terrainSnow(terrain).heights;

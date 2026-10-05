@@ -1,5 +1,7 @@
 # Cenas de exemplo
 
+**Estado visual em 5 de outubro:** o usuário rejeitou o acabamento da cena de montanha. A montagem descrita abaixo continua disponível como entrega funcional, mas não atingiu a referência. Foi elaborado o [plano de rocha orgânica, neve e reconstrução completa](ORGANIC_WINTER_PLAN.md); os novos recursos e a nova composição ainda estão pendentes.
+
 ## Carregar e editar
 
 Em **Abrir → Cenas → Cenas de exemplo**, escolha **Subida da montanha · caverna e ruínas**. O carregamento cria uma cópia independente e ainda não salva. Use **Salvar** para guardá-la no servidor local ou, no GitHub Pages, neste navegador. O exemplo original continua disponível; carregá-lo novamente cria outra cópia, sem substituir seu trabalho.
@@ -30,17 +32,18 @@ Há neve com volume no terreno, paredões próximos, saliência, madeira e gelo.
 
 ## Diferença para a referência e plano seguinte
 
-A cena aproxima a disposição dos elementos e a atmosfera; o acabamento permanece estilizado. A revisão revelou a necessidade de materiais menos repetitivos, vegetação mais densa e desgaste localizado para alcançar o detalhe fotográfico da imagem. O piloto acrescentou a ruína alta e, nesta revisão, a lanterna arredondada e a entrada de caverna; os recursos abaixo não foram implementados.
+A comparação do usuário não considerou satisfatórias a composição nem a aparência. O problema exige mudar a formação das rochas, a continuidade da neve, a massa da vegetação e o relevo do terreno, além dos materiais. A revisão funcional acrescentou a ruína alta, a lanterna arredondada e a entrada de caverna, mas não resolveu esse acabamento.
 
 | Ordem | Proposta | Critério de conclusão |
 | --- | --- | --- |
-| 0 | Medir edição/câmeras neste piloto e avaliar reconstrução incremental de objetos e neve | Editar um objeto sem reconstruir os demais; medir tempo de confirmação, memória e frames no editor/projetor, preservando histórico e apoios |
-| 1 | Materiais autorais de rocha, alvenaria, casca, madeira e neve; se necessário, biblioteca/importação de mapas de cor, normal e rugosidade por slot | Comparar as mesmas câmeras; escala em metros, clones independentes, armazenamento local e caminhos no Pages, sem mudar materiais de cenas anteriores |
-| 2 | Variação local de desgaste e neve: pintura regional sobre malhas ou decals, com máscara persistida e edição por pincel | Marcas diferentes no mesmo paredão, bordas da trilha sujas e montes escolhidos pelo mestre; undo/redo, salvar/reabrir e projetor |
-| 3 | Vegetação com massas mais densas de agulhas e neve sobre ramos; otimizar instâncias/LOD conforme medição | Silhueta de abeto convincente na câmera próxima, sem repetição visível ou aumento desnecessário de draw calls |
-| 4 | Avaliar contato/sombras e reflexos da água usando esta cena como piloto | Comparar pixels e custo no notebook/projetor antes de escolher um novo passe de renderização |
+| 0 | Auditar modelos/objetos suspeitos e registrar recortes/custo de edição | Distinguir falha de carregamento, seleção e destroços pouco legíveis; conferir servidor e Pages |
+| 1 | Protótipo de paredão orgânico e material detalhado de rocha | Silhueta e fraturas irregulares, sem faixas alinhadas ou textura de alvenaria; escultura manual e mapas antigos preservados |
+| 2 | Depósitos conectados de neve, edição local e tempestade | Sem prismas/costuras evidentes; neve sobre saliências e flocos caindo com vento, pausa e persistência |
+| 3 | Abeto volumoso, galhos naturais, barril de madeira e caixas antigas | Modelos legíveis de perto, copa densa e neve sobre ramos; medir e otimizar recursos antes de expandir |
+| 4 | Reconstruir terreno e composição inteira com os recursos validados | Encosta, caverna lateral, água e ponte; comparação próxima/principal/ampla e travessia utilizável |
+| 5 | Revisar acabamento, prévia e entrega | Carregamento real dos modelos, edição/Pages/projetor e capturas do renderizador; custo medido e limites registrados |
 
-Não se exige novo sistema de terreno para carregar ou editar esta montagem. A necessidade de união de malhas/cavernas deve ser avaliada somente se outra área do mapa a exigir. [VISUAL_TARGET.md](VISUAL_TARGET.md) mantém as prioridades gerais.
+Detalhamento e critérios de cada etapa: [ORGANIC_WINTER_PLAN.md](ORGANIC_WINTER_PLAN.md). O terreno continua com uma altura por X/Z; saliências e a caverna usam malhas. União booleana/voxels e reflexos avançados não são pré-requisitos automáticos para corrigir a geometria artificial. [VISUAL_TARGET.md](VISUAL_TARGET.md) mantém as prioridades gerais.
 
 ## Acrescentar outros exemplos
 

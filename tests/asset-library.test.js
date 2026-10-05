@@ -17,7 +17,7 @@ test('expanded catalog resolves every local model and preview with metric bounds
     assert.ok(asset.tags.length && asset.contexts.length && asset.era, asset.id);
     const recipe = JSON.parse(await readFile(new URL(asset.url.slice(1), publicRoot), 'utf8'));
     assert.equal(recipe.unit, 'meter'); assert.equal(recipe.pivot, 'base-center');
-    assert.ok(recipe.parts.length > 1 && recipe.parts.length <= 200, asset.id);
+    assert.ok(recipe.parts.length > 0 && recipe.parts.length <= 200, asset.id);
     const preview = await readFile(new URL(asset.previewUrl.slice(1), publicRoot), 'utf8');
     assert.match(preview, /<svg/); assert.doesNotMatch(preview, /NaN|Infinity/);
     const object = recipeInstance(recipe);

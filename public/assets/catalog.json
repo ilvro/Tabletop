@@ -6029,6 +6029,72 @@
       ],
       "url": "/assets/models/mountain-ruin-high-wall.json",
       "previewUrl": "/assets/previews/mountain-ruin-high-wall.svg"
+    },
+    {
+      "id": "builtin-organic-rock",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Rocha orgânica · afloramento irregular",
+      "category": "Exterior / Montanha",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Caverna",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "rocha orgânica",
+        "rocha natural",
+        "geologia",
+        "paredão",
+        "erosão"
+      ],
+      "description": "Volume irregular com fraturas locais em três dimensões. Esculpível com T; em cobertura, escolha depósitos orgânicos de neve.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.21,
+        2.8
+      ],
+      "bounds": [
+        3.2,
+        2.5,
+        2.8
+      ],
+      "url": "/assets/models/organic-rock.json",
+      "previewUrl": "/assets/previews/organic-rock.svg"
+    },
+    {
+      "id": "builtin-organic-cliff",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Paredão orgânico · fraturas e erosão",
+      "category": "Exterior / Montanha",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Caverna",
+        "Trilha nevada"
+      ],
+      "tags": [
+        "rocha orgânica",
+        "rocha natural",
+        "geologia",
+        "paredão",
+        "erosão"
+      ],
+      "description": "Volume irregular com fraturas locais em três dimensões. Esculpível com T; em cobertura, escolha depósitos orgânicos de neve.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        8,
+        3.41
+      ],
+      "bounds": [
+        8,
+        7,
+        3.4
+      ],
+      "url": "/assets/models/organic-cliff.json",
+      "previewUrl": "/assets/previews/organic-cliff.svg"
     }
   ]
 }

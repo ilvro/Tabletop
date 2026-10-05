@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { ROCK_FORMS, ROCK_RANGES, CLIFF_DEFAULTS, CLIFF_RANGES } from '../domain/rocks.js';
+import { createOrganicRock } from './organic-rock.js';
 
 const fract=x=>x-Math.floor(x);
 const hash=(x,y,z,seed)=>fract(Math.sin(x*127.1+y*311.7+z*74.7+seed*19.19)*43758.5453);
@@ -24,6 +25,7 @@ export function createRockGeometry({size=[2,1.6,1.5],form='fractured',seed=17,ir
     if(!Number.isFinite(value)||value<min||value>max||key==='terraces'&&!Number.isInteger(value)) throw new Error('Parâmetros de paredão inválidos.');
   }
   if(form==='cliff'||form==='spire') return cliffGeometry({size,form,seed,irregularity,detail,overhang,terraces,erosion});
+  if(form==='organic'||form==='organic-cliff')return createOrganicRock({size,form,seed,irregularity,detail,overhang,terraces,erosion});
   const source=new THREE.IcosahedronGeometry(1,detail);
   source.deleteAttribute('normal');source.deleteAttribute('uv');
   const geometry=mergeVertices(source,1e-5);source.dispose();

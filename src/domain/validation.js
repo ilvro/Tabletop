@@ -2,6 +2,7 @@ import {assertRockSculpt,isSculptableRock} from './rock-sculpt.js';
 import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES } from './materials.js';
 import { WATER_RANGES, isVegetationAsset } from './landscape.js';
 import { ROCK_FORMS, ROCK_RANGES, CLIFF_RANGES, rockDefaults } from './rocks.js';
+import {SNOW_SHAPE_DEFAULTS,SNOW_SHAPE_RANGES} from './snow.js';
 /** Validated JSON is the boundary between editor, disk and future network adapters. */
 import { kelvinToColor } from './lighting.js';
 import { polygonIsSimple, polygonSize, floorContour, validHoles, pointInPolygon } from './geometry.js';
@@ -50,13 +51,18 @@ function material(value, path, partial = false) {
   surfaceFields(value,path);
   if (value.coverage !== undefined && value.coverage !== null) {
     const c = value.coverage, cp = `${path}.coverage`;
-    keys(c, ['texture','color','textureSize','amount','relief','physicalThickness','exposedOnly', ...distributionFields], cp);
+    keys(c, ['texture','color','textureSize','amount','relief','physicalThickness','exposedOnly',...Object.keys(SNOW_SHAPE_DEFAULTS), ...distributionFields], cp);
     choice(c.texture, SURFACE_MATERIALS.map(m=>m.id), `${cp}.texture`);
     color(c.color, `${cp}.color`); number(c.textureSize, `${cp}.textureSize`, .05, 50);
     number(c.amount, `${cp}.amount`, 0, 1); number(c.relief, `${cp}.relief`, 0, .2);
     distribution(c, cp, false);
     if(c.physicalThickness !== undefined) number(c.physicalThickness,`${cp}.physicalThickness`,0,c.texture==='snow'?1.5:0);
     if(c.exposedOnly !== undefined) bool(c.exposedOnly,`${cp}.exposedOnly`);
+    for(const key of Object.keys(SNOW_SHAPE_DEFAULTS))if(c[key]!==undefined) {
+      fail(c.texture==='snow','Depósitos orgânicos exigem cobertura de neve.',`${cp}.${key}`);
+      if(key==='snowStyle')choice(c[key],['legacy','organic'],`${cp}.${key}`);
+      else number(c[key],`${cp}.${key}`,...SNOW_SHAPE_RANGES[key]);
+    }
   }
   if (value.emissive !== undefined) color(value.emissive, `${path}.emissive`);
   if (value.emissiveIntensity !== undefined) number(value.emissiveIntensity, `${path}.emissiveIntensity`, 0);

@@ -2,11 +2,32 @@
 
 Atualizado em 5 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
-## Revisão da referência · subida, caverna e lanternas — concluída
+## Base técnica de rocha e neve orgânicas — em implementação
+
+- [x] Acrescentar formações orgânicas separadas das geometrias antigas, com fraturas/erosão em três dimensões e dois assets próprios.
+- [x] Acrescentar padrão mineral de rocha orgânica, com variação espacial ampla, preservando materiais anteriores.
+- [x] Implementar depósitos conectados de neve com variação de espessura/vento; integrar parâmetros opcionais, editor e altura de apoio do terreno.
+- [x] Corrigir o sentido da precipitação de neve e adicionar variação de flocos, deriva e rajadas no emissor GPU.
+
+Validação em andamento: revisar topologia, exposição/costuras, escultura/histórico/Pages/projetor, recursos e capturas reais do protótipo. Catálogo regenerado com 193 assets; arquivos dos 191 anteriores permaneceram iguais. Uma execução inicial de testes começou antes de terminar a geração do catálogo e não encontrou os novos IDs; os testes dependentes serão executados após a geração. Ainda não há reconstrução do mapa nem aceitação visual do recorte. Pintura local de depósitos em rochas, materiais fotográficos, vegetação detalhada e simulação contínua de depósito/derretimento não estão implementados.
+
+## Rocha orgânica e reconstrução completa — planejamento registrado
+
+- [x] Reavaliar a entrega após a rejeição visual do usuário; separar funcionamento de semelhança com a referência.
+- [x] Investigar os geradores de rocha, terreno, neve, vegetação e clima; verificar as 19 receitas usadas pelo exemplo.
+- [x] Elaborar sequência, contratos afetados e critérios visuais em [docs/ORGANIC_WINTER_PLAN.md](docs/ORGANIC_WINTER_PLAN.md).
+
+O usuário considerou a cena insatisfatória: paredões com ondas regulares, neve uniforme/sem tempestade, vegetação rala, galhos cilíndricos e objetos pouco legíveis. O código confirma faixas horizontais repetidas nos paredões, rampa quase uniforme, neve geométrica feita de prismas por triângulo e clima desligado no exemplo. A opção de neve já existe no emissor, mas o shader dá a ela o sentido vertical das partículas ascendentes.
+
+Auditoria desta etapa: 19 receitas distintas instanciadas sem erro ou vértices não finitos; no navegador local, os 19 arquivos responderam HTTP 200, sem aviso de falha ao carregar a cena. A atmosfera reportou zero partículas e clima `none`. Houve HTTP 404 na prévia `scenes/icewind-bridge.jpg` do outro cartão da galeria, separado dos modelos desta cena. O catálogo tem caixa de madeira e tambor industrial, mas a montagem não contém caixas/barris. Falhas dos objetos no ambiente relatado pelo usuário ainda precisam de reprodução; esta auditoria não validou novamente o Pages. O roteiro de auditoria foi corrigido para aceitar a confirmação de descarte da cena vazia inicial.
+
+Próximo marco: paredão orgânico com material detalhado, preservando escultura manual e mapas antigos. Depois: depósitos de neve conectados/tempestade, abeto volumoso/galhos naturais/caixas e barris de madeira, e reconstrução integral da cena. Comparar recortes no renderizador antes de ampliar o mapa; testes funcionais não substituem aceitação visual. Esta etapa altera documentação e registra o diagnóstico; a nova geometria, materiais, neve e composição ainda não foram implementados.
+
+## Revisão anterior · subida, caverna e lanternas — entrega funcional, objetivo visual não atingido
 
 - [x] Identificar a corrente interrompida e corrigir a leitura da referência: encosta ascendente, caverna lateral e ponte elevada.
 - [x] Acrescentar lanterna arredondada e entrada de caverna com vão real; corrigir a corrente da lanterna existente.
-- [x] Reconstruir o exemplo com relevo ascendente e encaixes coerentes; revisar as câmeras e a prévia no renderizador.
+- [x] Distribuir a montagem anterior com relevo ascendente e encaixes; revisar suas câmeras e prévia. O acabamento foi rejeitado e será reconstruído.
 - [x] Validar geometria, apoios, carregamento/Pages e persistência; sincronizar guias e resumos.
 
 A revisão tem 85 elementos em 40 × 58 m, com subida de aproximadamente dez metros, três lanternas circulares e cinco câmeras. Suportes encaixados por raycast na geometria dos paredões/ruínas; luzes posicionadas nos núcleos. Suíte final de 159 testes de domínio/integração aprovada; os cinco testes do exemplo passaram novamente depois de afastar a torre do acesso à ponte e limitar os pilares abaixo das vigas. Verificados encaixes dos suportes/luzes, subida, passagem da ponte livre de alvenaria e vazio da caverna. Quatro cenários E2E afetados aprovados: exemplo no servidor, exemplo no Pages, catálogo/importação/salvamento/projetor sob /Tabletop/ sem API e repositório IndexedDB/conflitos. Após os últimos ajustes da ponte e do paredão da caverna, os cinco testes do exemplo e o fluxo completo do exemplo no Pages passaram novamente. Cópias independentes, edição/histórico, salvar/reabrir e câmera do projetor independente verificados. A suíte completa de navegador não foi repetida.
@@ -208,11 +229,14 @@ Uso/publicação e limites em [docs/GITHUB_PAGES.md](docs/GITHUB_PAGES.md); READ
 
 ## Pendências atuais
 
-Somente trabalho ainda não concluído. A prioridade visual proposta está em [docs/VISUAL_TARGET.md](docs/VISUAL_TARGET.md).
+Somente trabalho ainda não concluído. A prioridade visual está em [docs/ORGANIC_WINTER_PLAN.md](docs/ORGANIC_WINTER_PLAN.md), complementando [docs/VISUAL_TARGET.md](docs/VISUAL_TARGET.md).
 
+- Paredões orgânicos sem faixas repetidas, materiais detalhados de rocha e neve com depósitos conectados/editáveis; preservar o pincel de superfícies.
+- Corrigir queda de neve e configurar tempestade; abetos densos, galhos curvos, barris de madeira/caixas antigas e auditoria dos objetos suspeitos. Corrigir a prévia ausente do outro exemplo da galeria.
+- Reconstrução completa do exemplo e comparação visual com a referência nas câmeras próxima, principal e ampla.
 - Expansão de conteúdo autoral/decoração e miniaturas estáticas para o mapa piloto; avaliação visual em câmera próxima.
 - Texturas fotográficas específicas, importação de texturas avulsas/variantes e decals de desgaste/sujeira.
-- Pincel regional de distribuição e entulho; umidade, reflexos dos objetos na água, neve caindo e refinamento da neve em apoios anotados de props/pisos/gelo.
+- Pincel regional de distribuição e entulho; umidade, reflexos dos objetos na água e refinamento da neve em apoios anotados de props/pisos/gelo.
 - Fluxo dedicado de miniaturas 3D vinculadas a personagens/tokens; rig, poses e animação como evolução posterior.
 - Acabamento de contato/reflexos e otimizações para cenas densas (LOD, instanciamento e particionamento/streaming), conforme medição.
 - Acompanhamento automático de tokens; caminhos de câmera e colisão com paredes.

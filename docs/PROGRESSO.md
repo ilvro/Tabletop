@@ -1,6 +1,8 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
-**Revisão da cena de montanha — concluída (5 de outubro):** 85 elementos editáveis, cinco câmeras e seis pastas. A composição agora sobe a encosta direita, com caverna lateral, lago na base e ponte elevada à frente. Dois assets originais — lanterna arredondada e entrada de caverna com vão real — elevam o catálogo a 191; a corrente da lanterna quadrada foi conectada à tampa. Suportes de madeira encaixados por raycast na geometria das paredes e luzes centradas nos corpos. A cena é carregada como cópia independente em Abrir → Cenas. Validação: 159 testes de domínio/integração e quatro cenários E2E afetados aprovados; os cinco testes do exemplo e o fluxo completo do exemplo no Pages passaram novamente após os ajustes finais da ponte/caverna. Builds local/Pages e prévia real revisados. Uso, limites e plano de acabamento: [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).
+**Reconstrução da montanha — plano elaborado; implementação pendente (5 de outubro):** o usuário rejeitou o acabamento da montagem anterior. Confirmadas faixas repetidas nos paredões, relevo regular, neve composta por prismas independentes, copa pouco volumosa e clima desligado no exemplo. As 19 receitas instanciaram sem erro e seus modelos responderam HTTP 200 no navegador local; a prévia do outro exemplo está ausente. Objetos suspeitos no ambiente do usuário ainda exigem reprodução. Primeiro marco: paredão orgânico com material detalhado; depois neve conectada/tempestade, vegetação/objetos detalhados e reconstrução integral. Sequência e critérios: [ORGANIC_WINTER_PLAN.md](ORGANIC_WINTER_PLAN.md). Nesta etapa houve diagnóstico e documentação, sem implementar esses recursos.
+
+**Revisão anterior da cena — entrega funcional, objetivo visual não atingido (5 de outubro):** 85 elementos editáveis, cinco câmeras e seis pastas. Lanterna arredondada e caverna modular disponíveis; catálogo com 191 assets. A cópia independente em Abrir, encaixes/apoios, histórico, persistência e projetor foram validados anteriormente por 159 testes de domínio/integração e quatro cenários E2E afetados, com builds local/Pages. Esses resultados não comprovam semelhança visual; a cena será substituída após validar os recursos do novo plano. Uso e limitações: [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).
 
 **Escultura direta de superfícies — concluída (5 de outubro):** pincel T no terreno e nas oito rochas/paredões, com topo/faces verticais/saliências, elevar/rebaixar, projetar/recuar, suavizar/aplainar, prévia cancelável e um traço por undo. Parâmetros continuam disponíveis; amostras locais persistem com histórico, footprint, materiais/neve e projetor independente. 154 testes unitários/de integração, cinco cenários E2E afetados e builds local/Pages aprovados, incluindo editor/projetor, Pages/IndexedDB, pixels/descarte e regressão de terreno. Ativação T também validada em composições contendo apenas rochas. Uso e limites: [ROCK_SCULPT.md](ROCK_SCULPT.md).
 
@@ -12,7 +14,7 @@
 
 **Data:** 5 de outubro de 2026
 
-**Status do Projeto:** Vertical Slice validado; evolução estrutural, polish câmera cinematográfica e iluminação/imersão avançada, ambientes/horários/clima, materiais texturizados, efeitos locais, paisagem alpina, paredões/kit de montanha, escultura direta de superfícies e cena piloto de montanha entregues
+**Status do Projeto:** base funcional e ferramentas de autoria entregues; objetivo visual do piloto de montanha não atingido. Rocha/neve orgânicas e reconstrução integral planejadas, ainda pendentes.
 **Documentos de Referência:** [`ROADMAP.md`](ROADMAP.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`MAP_AUTHORING.md`](MAP_AUTHORING.md), [`IMMERSION.md`](IMMERSION.md), [`VERTICAL_SLICE.md`](VERTICAL_SLICE.md) e [`INVESTIGACAO_E_ARQUITETURA.md`](../INVESTIGACAO_E_ARQUITETURA.md).
 
 ---
@@ -203,7 +205,7 @@ Paisagem acrescenta sete testes de domínio/geometria e três roteiros de navega
 - **Cobertura:** textura/cor/quantidade/relevo independentes sobre materiais originais de estruturas/props/GLBs, por slot. Com espessura zero, usa normais transformadas sem geometria/draw calls. Neve com volume e exposição foi acrescentada em §2.18.
 - **Ponto de partida:** botão Montanha · rocha e neve em Terreno e relevo, com alturas e camadas comuns editáveis e trilha pintada.
 - **Validação:** builds local/Pages, 131 testes unitários/de integração e seis E2E afetados passaram. UI, pixels WebGL, história, mapas, salvamento/reabertura, projetor independente, pintura e Pages. Captura revisada: test-results/mountain-surfaces.png. Suíte completa de 17 E2E não repetida neste incremento; sem benchmark presencial.
-- **Uso e limites:** [MATERIALS.md](MATERIALS.md). O kit inicial de geometria de rochas foi entregue em §2.16. Acúmulo físico, água/gelo e distribuição assistida de plantas entregues em §2.18; neve caindo continua futura e Ficha/Jukebox adiados.
+- **Uso e limites:** [MATERIALS.md](MATERIALS.md). O kit inicial de geometria de rochas foi entregue em §2.16. Acúmulo físico, água/gelo e distribuição assistida de plantas entregues em §2.18; tempestade de neve do piloto continua pendente e Ficha/Jukebox adiados.
 
 ### 2.16. Geometria de rochas e paredões
 
@@ -229,12 +231,22 @@ Paisagem acrescenta sete testes de domínio/geometria e três roteiros de navega
 - **Água/gelo:** entidade V2 com contorno, dimensões, ondas, transparência/direção/velocidade e estado. Gelo tem slab e apoio; descongelamento com dependentes é rejeitado atomicamente. Animação fora do documento e relógio pausável.
 - **Neve:** espessura opcional derivada no terreno e malhas de cobertura nos objetos. Normais/altura/manchas/exposição conservam relevo base; apoios do terreno acompanham o topo nevado. Máscara persistida e reamostrada, com recálculo explícito após alterar abrigos; objetos verificam abrigo automaticamente por índice espacial da geometria real.
 - **Validação final:** builds local/Pages, 144 testes de domínio/integração e 23 roteiros E2E aprovados por suíte e repetições. A suíte de 22 teve uma expectativa antiga de dez texturas corrigida para treze; sete casos afetados passaram novamente na versão final, incluindo o novo isolamento/seleção da neve. Pages verificou gelo/neve e abeto variáveis com persistência sob o caminho estático. Vãos reais no teto e cobertura por slot verificados. Captura final revisada: test-results/alpine-landscape.png. Sem benchmark presencial.
-- **Limites:** cenografia de arquitetura sem apoio inferido; neve em props/pisos/gelo não altera apoios anotados. Não há neve caindo, derretimento/quebra, reflexos/refração da cena na água ou LOD/instanciamento entre objetos. Benchmark presencial continua pendente. Uso em [LANDSCAPE.md](LANDSCAPE.md).
+- **Limites:** cenografia de arquitetura sem apoio inferido; neve em props/pisos/gelo não altera apoios anotados. A opção de neve existe no emissor global, mas sua direção de queda precisa ser corrigida e o piloto não a habilita. Derretimento/quebra, reflexos/refração da cena na água e LOD/instanciamento entre objetos continuam pendentes. Benchmark presencial continua pendente. Uso em [LANDSCAPE.md](LANDSCAPE.md).
 
 
 ## 3. O que está PENDENTE
 
 Esta seção contém somente trabalho ainda não concluído. Recursos entregues estão na seção 2; a tabela da seção 4 reúne a cobertura de ambos. As lacunas para montar cenários com o detalhe das referências visuais estão em [VISUAL_TARGET.md](VISUAL_TARGET.md).
+
+### 3.0. Prioridade visual — reconstrução da montanha
+
+- Paredão orgânico com silhueta/fraturas não periódicas e material detalhado; escultura direta e cenas antigas preservadas.
+- Neve conectada, depósitos locais e tempestade com queda/vento corretos; apoios coerentes onde houver volume caminhável.
+- Abetos volumosos, galhos naturais, barris de madeira e caixas antigas; investigar os objetos que aparentam falha no ambiente relatado e corrigir a prévia ausente do outro exemplo.
+- Refazer terreno e composição por completo; comparar câmeras próxima/principal/ampla antes de substituir o exemplo distribuído.
+- Verificar carregamento real dos modelos, Pages, histórico, persistência, câmera independente e custo de edição/renderização.
+
+Plano e critérios em [ORGANIC_WINTER_PLAN.md](ORGANIC_WINTER_PLAN.md). A rejeição visual não desfaz as ferramentas funcionais da seção 2, mas impede considerar o objetivo da referência concluído.
 
 ### 3.1. Pendências Imediatas (Fechamento e Consolidação do MVP)
 

@@ -17,6 +17,8 @@ Este incremento melhora silhuetas e montagem. Materiais fotográficos/PBR avulso
 
 Escultura manual diretamente em faces, topos e saliências com pincel **T**: [ROCK_SCULPT.md](ROCK_SCULPT.md). Os parâmetros deste kit continuam disponíveis.
 
+**Complemento orgânico:** duas novas peças, Rocha orgânica e Paredão orgânico, acrescentam formas sem estratos periódicos e acabamento mineral próprio; depósitos contínuos de neve são opcionais. As peças anteriores permanecem. Catálogo atual: 193. Uso e limites em [ORGANIC_WINTER.md](ORGANIC_WINTER.md); reconstrução visual da cena ainda pendente.
+
 ## Usar no editor
 
 Em **Assets**, busque **paredão natural**, **pináculo** ou **kit de montanha**. As quatro formações estão em Exterior / Montanha; os complementos em Arquitetura / Ruínas, Arquitetura / Madeira e Exterior / Vegetação alpina.

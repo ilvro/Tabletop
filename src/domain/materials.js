@@ -32,7 +32,7 @@ export const TEXTURE_RANGES = {
 export const TEXTURE_CHOICES = {
   textureColorMode: ['original', 'tint', 'replace'], woodPattern: ['planks', 'grain', 'parquet'],
   woodDirection: ['horizontal', 'vertical'], metalPattern: ['brushed', 'smooth', 'diamond', 'corrugated', 'rusted'],
-  rockPattern: ['fractured', 'strata', 'granite'],
+  rockPattern: ['fractured', 'strata', 'granite', 'organic'],
 };
 export const textureOptions = settings => Object.fromEntries(TEXTURE_OPTION_FIELDS.map(key => [key, settings?.[key] ?? TEXTURE_DEFAULTS[key]]));
 /** Inspector percentages are presentation only; documents store fractions. */

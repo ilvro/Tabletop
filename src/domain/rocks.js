@@ -8,9 +8,11 @@ export const ROCK_PRESETS = Object.freeze({
   'builtin-mountain-cliff-overhang': { form:'cliff', seed:211, irregularity:.8, detail:6, overhang:.95, terraces:4, erosion:.75 },
   'builtin-mountain-rock-spire': { form:'spire', seed:251, irregularity:.65, detail:5, overhang:.45, terraces:8, erosion:.6 },
   'builtin-rock-scree': { form:'fractured', seed:61, irregularity:.8, detail:3 },
+  'builtin-organic-rock': {form:'organic',seed:347,irregularity:.85,detail:5,erosion:.7,overhang:.4},
+  'builtin-organic-cliff': {form:'organic-cliff',seed:389,irregularity:.9,detail:6,erosion:.8,overhang:.65},
 });
 export const rockDefaults = assetId => ROCK_PRESETS[assetId] ? { ...ROCK_PRESETS[assetId] } : null;
-export const ROCK_FORMS = ['fractured','rounded','strata','cliff','spire'];
+export const ROCK_FORMS = ['fractured','rounded','strata','cliff','spire','organic','organic-cliff'];
 export const ROCK_RANGES = { seed:[0,65535], irregularity:[0,1], detail:[2,8] };
 
 // Optional in documents created before the cliff kit.

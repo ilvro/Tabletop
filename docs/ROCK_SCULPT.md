@@ -36,7 +36,7 @@ Durante o arraste a cobertura visual acompanha a malha; a neve com espessura é 
 
 ## Geometria, custo e limites
 
-- Disponível nas oito rochas/paredões geológicos. Não é um editor de qualquer GLB ou de alvenaria/móveis.
+- Disponível nas dez rochas/paredões geológicos, incluindo as duas formações orgânicas de [ORGANIC_WINTER.md](ORGANIC_WINTER.md). Não é um editor de qualquer GLB ou de alvenaria/móveis.
 - A malha ganha até duas subdivisões quando começa a escultura, mantendo bordas soldadas/fechadas e até 48 mil triângulos por peça. Pincéis menores que o espaçamento dos vértices podem não alterar um ponto; aumente o raio ou ajuste os parâmetros/base. Peças grandes devem ser compostas de módulos para preservar detalhe.
 - Até 512 amostras por peça. Movimentos são amostrados por distância e cada traço vira uma única edição. Prévia modifica buffers existentes; não recarrega assets nem cria texturas a cada movimento.
 - Deformações que inverteriam/colapsariam faces são reduzidas. A topologia permanece; não abre túneis/cavernas, não une peças/terreno por booleans nem garante ausência de toda auto-interseção em deformações extremas.

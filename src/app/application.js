@@ -359,7 +359,7 @@ export async function startApplication() {
     } else {
       const asset = placing.asset;
       const geological=rockDefaults(asset.id);
-      const entity = createEntity('prop', { ...(isVegetationAsset(asset.id)?{vegetationSeed:0}:{}), ...(geological ? {material:{...surfacePatch('rock'),rockPattern:['strata','cliff','spire'].includes(geological.form)?'strata':geological.form==='rounded'?'granite':'fractured'},rockShape:geological} : {}), name: asset.name, position, surfaceId, assetRef: { id: asset.id, revision: asset.revision }, footprint: asset.footprint ?? [1, 1], ...constructionSemantics(), ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}), ...(placing.localEffect || asset.id==='builtin-campfire' ? { localEffect: clone(placing.localEffect??LOCAL_EFFECT_DEFAULTS) } : {}) });
+      const entity = createEntity('prop', { ...(isVegetationAsset(asset.id)?{vegetationSeed:0}:{}), ...(geological ? {material:{...surfacePatch('rock'),rockPattern:geological.form.startsWith('organic')?'organic':['strata','cliff','spire'].includes(geological.form)?'strata':geological.form==='rounded'?'granite':'fractured'},rockShape:geological} : {}), name: asset.name, position, surfaceId, assetRef: { id: asset.id, revision: asset.revision }, footprint: asset.footprint ?? [1, 1], ...constructionSemantics(), ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}), ...(placing.localEffect || asset.id==='builtin-campfire' ? { localEffect: clone(placing.localEffect??LOCAL_EFFECT_DEFAULTS) } : {}) });
       if (execute('entity.add', { entity, snap })) newId = entity.id;
     }
     if (newId) { setTool('move'); selectObject(newId); notify('Adicionado à cena. Você pode mover, girar e editar.'); }

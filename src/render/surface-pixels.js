@@ -8,7 +8,8 @@ const hash = (x, y, seed = 1) => fract(Math.sin(x * 127.1 + y * 311.7 + seed * 7
 const smooth = x => x * x * (3 - 2 * x);
 function noise(u, v, frequency, seed) {
   const x = u * frequency, y = v * frequency, ix = Math.floor(x), iy = Math.floor(y), fx = smooth(fract(x)), fy = smooth(fract(y));
-  const at = (dx, dy) => hash((ix + dx) % frequency, (iy + dy) % frequency, seed);
+  const wrap=v=>(v%frequency+frequency)%frequency;
+  const at = (dx, dy) => hash(wrap(ix+dx),wrap(iy+dy),seed);
   return THREE.MathUtils.lerp(THREE.MathUtils.lerp(at(0,0), at(1,0), fx), THREE.MathUtils.lerp(at(0,1), at(1,1), fx), fy);
 }
 function fracture(u, v, frequency, seed) {
@@ -112,9 +113,19 @@ export function generateSurfaceTile(settings) {
           structure+=band*.12;
         }
         if(options.rockPattern==='granite') {crack*=.15;structure=medium*.08+grain*.24;}
-        const value=.63+broad*.28+fine*.14-crack*.28;
+        let value=.63+broad*.28+fine*.14-crack*.28;
+        if(options.rockPattern==='organic') {
+          const warpX=noise(u,v,frequency(4),181+seed),warpY=noise(u,v,frequency(4),193+seed);
+          const a=u+(warpX-.5)*.15,b=v+(warpY-.5)*.15;
+          const mass=noise(a,b,frequency(3),211+seed),weathering=noise(a,b,frequency(11),223+seed),mineral=noise(a,b,frequency(43),227+seed);
+          // Sparse fissures cut a continuous mineral surface, without closed cell outlines.
+          const joint=Math.abs(noise(a,b,frequency(7),239+seed)-.5);
+          crack=Math.max(0,1-joint/.025)*options.rockCracks*THREE.MathUtils.smoothstep(weathering,.42,.7);
+          structure=mass*.24+weathering*.2+mineral*.075;
+          value=.38+mass*.26+weathering*.15+mineral*.08-crack*.16;
+        }
         rgb=[143*value+grain*10,146*value+grain*9,148*value+grain*8];
-        height=.26+structure+fine*.15-crack*.25; rough=.75+fine*.23; break;
+        height=.26+structure+fine*(options.rockPattern==='organic'?.04:.15)-crack*.25; rough=.75+fine*.23; break;
       }
       case 'snow': {
         const drift=noise(u,v,frequency(3),83+seed), powder=noise(u,v,frequency(32),15+seed);
