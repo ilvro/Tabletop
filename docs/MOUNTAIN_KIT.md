@@ -51,3 +51,7 @@ Os 176 assets anteriores mantêm IDs, arquivos e aparência; 12 receitas/prévia
 ## Validação
 
 150 testes unitários/de integração e cinco fluxos E2E afetados aprovados, além dos builds local/Pages. Pixels WebGL variam com saliências/camadas/erosão; receitas liberam seus recursos e complementos usam até quatro draw calls isolados. Capturas: `test-results/mountain-kit.png` e `test-results/mountain-kit-catalog.png`. Ambiente Chromium/WebGL por software; medição presencial continua pendente. Histórico e correções da execução em [progress.md](../progress.md).
+
+## Complemento da cena de exemplo
+
+O piloto de montanha acrescenta uma ruína alta com fiadas proporcionais e janela real, elevando o catálogo a 189 assets. O kit original acima mantém os arquivos e as dimensões. A composição pronta está em Abrir → Cenas → Cenas de exemplo; [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md) descreve montagem, uso e limites.

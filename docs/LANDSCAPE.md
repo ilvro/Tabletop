@@ -2,7 +2,7 @@
 
 Implementado em 5 de outubro de 2026. Recursos locais disponíveis também no GitHub Pages, sem buscar texturas externas. Ficha/Jukebox continuam adiados.
 
-O catálogo atual tem 188 peças; o kit adicional de paredões, pináculo, ruínas, madeira, cordas e raízes está em [MOUNTAIN_KIT.md](MOUNTAIN_KIT.md).
+O catálogo atual tem 189 peças; o kit adicional de paredões, pináculo, ruínas, madeira, cordas e raízes está em [MOUNTAIN_KIT.md](MOUNTAIN_KIT.md).
 
 ## Arquitetura e vegetação
 

@@ -46,3 +46,7 @@ Controles têm unidades, labels, foco visível, texto com quebra e contraste mai
 ## Escultura de superfícies
 
 Rocha/paredão geológico selecionado mostra Pincel de superfície aberto no topo de Propriedades. Esculpir esta superfície/T ativa o mesmo fluxo usado no terreno; o cursor acompanha a face atingida e permite elevar/rebaixar, projetar/recuar, suavizar e aplainar. Um traço = um desfazer; Esc cancela e retorna à seleção. Pintura de camadas/água conserva seu alcance no terreno. Controles paramétricos e materiais continuam disponíveis. Uso e limites: [ROCK_SCULPT.md](ROCK_SCULPT.md).
+
+## Cenas de exemplo em Abrir
+
+Cenas de exemplo ficam acima das cenas pessoais, com uma prévia real. Carregar abre uma cópia independente ainda não salva; Salvar cria um registro pessoal e o original continua disponível. A passagem da montanha oferece cinco enquadramentos, terreno/água/neve e peças editáveis, organizadas em pastas. [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md) documenta o uso e os próximos passos visuais.

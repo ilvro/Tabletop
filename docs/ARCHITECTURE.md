@@ -355,3 +355,7 @@ Composições de objetos usam `layout.groups[id].anchored` e `transform` opciona
 ### Escultura manual de rochas
 
 `prop.rockSculpt` é opcional nas oito peças geológicas, com até 512 amostras locais validadas (centro, raio elipsoidal, direção/deslocamento, plano, intensidade/dureza e modo). Não persiste meshes/Three.js. O renderer normaliza a receita, solda/refina até 48 mil triângulos e reaplica os traços. Prévia modifica buffers e é descartada ao cancelar; ao confirmar, grava uma única atualização com footprint conservador. Campos de formação e materiais permanecem separados. Cache de até seis templates CPU conserva resultados de replay; instâncias clonam seus recursos, prune/destroy descarta templates. Projetor recebe conteúdo e conserva sua câmera. [ROCK_SCULPT.md](ROCK_SCULPT.md) registra fluxo e limites.
+
+## Cenas de exemplo distribuídas
+
+`src/data/example-scenes.js` registra exemplos com caminhos relativos em `public/scenes/`, resolvidos pela base publicada. Carregar faz fetch, valida o schema e duplica todos os IDs/referências locais, conservando referências ao catálogo. O editor abre um rascunho novo; servidor e IndexedDB continuam responsáveis apenas pelas cópias salvas pelo usuário. O original não recebe escritas e não é importado automaticamente na biblioteca pessoal. Ticket e versão local impedem que uma resposta atrasada substitua trabalho iniciado durante o carregamento. As cenas são snapshots comuns; geradores/capturas servem somente à manutenção dos arquivos distribuídos. [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).

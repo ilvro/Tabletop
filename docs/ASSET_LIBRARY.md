@@ -1,6 +1,6 @@
 # Catálogo de assets e classificação
 
-Implementado em 3 de outubro de 2026. A aba **Assets** oferece **188 modelos 3D locais**, incluindo os seis objetos do kit inicial e **182 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
+Implementado em 3 de outubro de 2026. A aba **Assets** oferece **189 modelos 3D locais**, incluindo os seis objetos do kit inicial e **183 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
 
 No GitHub Pages, o mesmo catálogo é servido pelo build estático; imports, classificação e favoritos ficam no navegador, com persistência após reabrir. No modo Node ficam no servidor local. Publicação e limites de transporte: [GITHUB_PAGES.md](GITHUB_PAGES.md).
 
@@ -92,3 +92,7 @@ Doze peças acrescentadas em 5 de outubro: quatro formações de paredão/pinác
 ## Escultura com pincel
 
 As oito peças geológicas também recebem edição manual diretamente na superfície: topo, laterais e saliências. Propriedades → Pincel de superfície/T; o gesto conserva os parâmetros e é salvo na instância. [ROCK_SCULPT.md](ROCK_SCULPT.md) documenta ferramentas, história, custo e limites.
+
+## Asset do piloto de montanha
+
+A cena de exemplo acrescenta **Ruína alta de montanha · torre partida**, em Arquitetura / Ruínas: 22 fiadas, janela vertical vazada, laterais/fundo aberto e geometria agrupada. Evita esticar a torre pequena para simular uma construção alta. Catálogo atual: 189 assets. A composição pode ser aberta em Abrir; guia em [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).

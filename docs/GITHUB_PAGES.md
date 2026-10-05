@@ -44,3 +44,7 @@ Builds em `dist/` e `dist-pages/` são independentes. Teste estático: `node --t
 Arquitetura/vegetação alpina, distribuição, água/gelo e neve com espessura usam recursos locais e documentos serializáveis; disponíveis no build estático. Uso: [LANDSCAPE.md](LANDSCAPE.md).
 
 Escultura manual dos paredões/rochas com pincel também funciona no build estático: traços locais persistem em IndexedDB e são conservados ao reabrir e publicar conteúdo no projetor. Uso e limites: [ROCK_SCULPT.md](ROCK_SCULPT.md).
+
+## Exemplos incluídos
+
+Abrir → Cenas contém exemplos distribuídos junto ao site. JSON e prévia ficam em `public/scenes/`, com URLs relativas ao diretório publicado. Carregar cria uma cópia editável sem chamar API; Salvar guarda a cópia no IndexedDB. A passagem da montanha e a nova ruína alta são locais. [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).

@@ -1,5 +1,7 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Cena de exemplo de montanha — concluída (5 de outubro):** montagem com 93 elementos editáveis, cinco câmeras e ruína alta própria, distribuída em Abrir → Cenas como cópia independente. Terreno/leito, água/gelo, paredões, ruínas, madeira, vegetação e neve reutilizam os recursos existentes. Catálogo atual: 189 assets; 157 testes de domínio/integração, quatro cenários E2E afetados e builds local/Pages aprovados. Galeria estreita, cópias independentes, persistência e projetor verificados; recorte revisado com 170 chamadas e 279.944 triângulos, sem benchmark presencial. Uso, limites visuais e plano seguinte: [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).
+
 **Escultura direta de superfícies — concluída (5 de outubro):** pincel T no terreno e nas oito rochas/paredões, com topo/faces verticais/saliências, elevar/rebaixar, projetar/recuar, suavizar/aplainar, prévia cancelável e um traço por undo. Parâmetros continuam disponíveis; amostras locais persistem com histórico, footprint, materiais/neve e projetor independente. 154 testes unitários/de integração, cinco cenários E2E afetados e builds local/Pages aprovados, incluindo editor/projetor, Pages/IndexedDB, pixels/descarte e regressão de terreno. Ativação T também validada em composições contendo apenas rochas. Uso e limites: [ROCK_SCULPT.md](ROCK_SCULPT.md).
 
 **Paredões e kit de montanha — concluído (5 de outubro):** quatro formações de malha própria (face, canto, saliência e pináculo), camadas/saliências/erosão editáveis e oito complementos de ruína/madeira/cordas/lanterna/raízes/destroços. Catálogo de 188 peças; modelos antigos preservados. 150 testes unitários/de integração, cinco cenários E2E afetados e builds local/Pages aprovados; GPU/pixels/descarte repetido após revisão final. Uso e limites: [MOUNTAIN_KIT.md](MOUNTAIN_KIT.md).
@@ -10,14 +12,14 @@
 
 **Data:** 5 de outubro de 2026
 
-**Status do Projeto:** Vertical Slice validado; evolução estrutural, polish câmera cinematográfica e iluminação/imersão avançada, ambientes/horários/clima, materiais texturizados, efeitos locais, paisagem alpina, paredões/kit de montanha e escultura direta de superfícies entregues
+**Status do Projeto:** Vertical Slice validado; evolução estrutural, polish câmera cinematográfica e iluminação/imersão avançada, ambientes/horários/clima, materiais texturizados, efeitos locais, paisagem alpina, paredões/kit de montanha, escultura direta de superfícies e cena piloto de montanha entregues
 **Documentos de Referência:** [`ROADMAP.md`](ROADMAP.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`MAP_AUTHORING.md`](MAP_AUTHORING.md), [`IMMERSION.md`](IMMERSION.md), [`VERTICAL_SLICE.md`](VERTICAL_SLICE.md) e [`INVESTIGACAO_E_ARQUITETURA.md`](../INVESTIGACAO_E_ARQUITETURA.md).
 
 ---
 
 **Câmera cinematográfica:** WASD com aceleração/desaceleração, Shift rápido, Page Up/Down e Espaço/Ctrl para altura na perspectiva, velocidade e lente; órbita suave, transições de presets/publicação com duração, pausa e corte. Zoom, pan e órbita preservam o movimento por teclado, e o botão direito seleciona somente ao soltar sem arrastar. Ctrl+WASD tem prioridade sobre atalhos de edição na perspectiva com foco no canvas; atalhos reservados do Chrome exigem Tela cheia pelo botão e permissão de captura WASD. Menu nativo cancelado na área 3D, incluindo overlays. Projetor mantém câmera independente e edições de conteúdo não reiniciam transições. A apresentação na mesma janela aceita navegação e restaura a câmera de trabalho ao voltar à edição. G/R/V substituem W/R/S para transformar objetos. Acompanhamento automático/caminhos e benchmark no projetor permanecem pendentes. Uso: [CAMERA.md](CAMERA.md). Andamento contínuo: [progress.md](../progress.md).
 
-**Biblioteca expandida:** 188 assets originais locais (182 além do kit inicial, incluindo 66 na segunda, 34 na terceira ampliação, oito peças geológicas, onze peças alpinas e oito complementos de montanha), para investigação/horror paranormal em diferentes épocas e cenários. Categorias hierárquicas, busca sem acentos, filtros combinados por época/cenário/tags, favoritos e classificação editável de assets internos/importados, salva no servidor sem alterar referências de cenas. Uso e limites em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
+**Biblioteca expandida:** 189 assets originais locais (183 além do kit inicial, incluindo 66 na segunda, 34 na terceira ampliação, oito peças geológicas, onze peças alpinas, oito complementos de montanha e a ruína alta do piloto), para investigação/horror paranormal em diferentes épocas e cenários. Categorias hierárquicas, busca sem acentos, filtros combinados por época/cenário/tags, favoritos e classificação editável de assets internos/importados, salva no servidor sem alterar referências de cenas. Uso e limites em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
 
 **Composições ancoradas:** Shift+seleção → botão direito → Ancorar objetos juntos cria uma pasta que se seleciona, move, gira, redimensiona, duplica e copia/cola como uma unidade. Desancorar pela pasta conserva as poses e volta à seleção individual. Fixar em parede/teto permanece como comando separado. [TESTAR_CONSTRUCAO.md](TESTAR_CONSTRUCAO.md) inclui o exemplo mesa + lamparina.
 
@@ -338,6 +340,7 @@ Prioridades de conteúdo e autoria identificadas na comparação das sete imagen
 | **Materiais e Luzes por Horário** | `ENVIRONMENTS.md` | **Concluído** (vínculos por instância e janelas emissivas) | `src/render/atmosphere.js`, `src/domain/lighting.js`, `src/render/renderer.js` |
 | **Texturas de Superfície e Mistura no Terreno** | `MATERIALS.md` | **Concluído** (13 materiais locais, até 8 camadas) | `surface-materials.js`, `material-panels.js`, `scene-objects.js` |
 | **Personalização de Texturas** | `MATERIALS.md` | **Concluído** (cor/brilho/rotação, madeira, metal e camadas) | `materials.js`, `surface-pixels.js`, `surface-materials.js`, `material-panels.js` |
+| **Cenas de Exemplo Editáveis** | `EXAMPLE_SCENES.md` | **Concluído** | `example-scenes.js`, `public/scenes/`, `generate-example-scenes.js` |
 | **Escultura Manual de Superfícies** | `ROCK_SCULPT.md` | **Concluído** | `rock-sculpt.js`, `rock-sculpt-panel.js`, `renderer.js` |
 | **Paredões e Kit de Montanha** | `MOUNTAIN_KIT.md` | **Concluído** | `rock-geometry.js`, `mountain-primitives.js`, `library-mountain-kit.js` |
 | **Kit Alpino e Distribuição de Plantas** | `LANDSCAPE.md` | **Concluído** | `library-alpine.js`, `landscape-geometry.js`, `vegetation.js` |
