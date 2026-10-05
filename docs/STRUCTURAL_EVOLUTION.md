@@ -2,11 +2,11 @@
 
 Entregue em 3 de outubro de 2026. Este incremento acrescenta relevo, recortes, paredes de contorno, andares/camadas e ancoragem, além das operações locais de polish. Tudo é materializado no documento e participa de undo/redo, salvamento, mapas reutilizáveis e projeção pública.
 
-Para testar pela interface, siga [Roteiro de construção e ajustes](TESTAR_CONSTRUCAO.md), com passos e resultados esperados. A aba Construir agora agrupa os controles por tarefa em blocos recolhíveis ordenados alfabeticamente.
+Fluxo atual e materiais por camada: [EDITOR_UI.md](EDITOR_UI.md). Para testar pela interface, siga [Roteiro de construção e ajustes](TESTAR_CONSTRUCAO.md), com passos e resultados esperados. A aba Construir agrupa tarefas recolhíveis em Paisagem, Construções, Personagens e Organização.
 
 ## Terreno
 
-Em **Construir → Terreno e relevo**, escolha largura/comprimento em metros e resolução de 2 a 64 divisões por eixo. **Criar terreno** cria uma superfície independente dos pisos do prédio. Centro X/Z define a colocação; a altura segue o plano de construção. Respeitar pisos limita a malha abaixo das construções existentes. O inspetor expõe Área do terreno, com expansão/recorte em metros ou alongamento explícito.
+Em **Construir → Paisagem → Terreno e relevo**, escolha largura/comprimento em metros e resolução de 2 a 64 divisões por eixo. **Criar terreno** cria uma superfície independente dos pisos do prédio. Centro X/Z define a colocação; a altura segue o plano de construção. Respeitar pisos limita a malha abaixo das construções existentes. O inspetor expõe Área do terreno, com expansão/recorte em metros ou alongamento explícito.
 
 Selecione o terreno, ajuste raio/força e ative o pincel com **T** ou pelo botão no inspetor. **T** alterna entre pincel e seleção; **[**/**]** mudam seu tamanho. Há **Elevar**, **Rebaixar**, **Suavizar**, **Nivelar** e **Esculpir rocha natural**. Este último acrescenta relevo físico com formação/tamanho/seed, variando pela posição mundial; acabamento por textura continua independente. A altura de nivelamento é Y mundial; as alturas da malha são locais ao Y do terreno. O contorno circular ou quadrado mostra a área do pincel. Arrastar produz uma prévia; soltar aplica um único comando. **Esc** cancela o traço e **Q** volta à seleção. O inspetor também permite editar uma altura pelo índice do vértice, ordenado por linhas de Z e depois X.
 
@@ -20,7 +20,7 @@ O terreno oferece até oito `paintLayers`, cada uma com ID, nome, cor, opacidade
 
 ## Pisos recortados e paredes
 
-Selecione um piso retangular ou poligonal e use **Recortar piso · vão de escada / pátio** no inspetor (também em **Construir → Pisos, paredes e acessos**). Desenhe o contorno interno e conclua com **Enter**. O desenho usa a altura do piso e converte os pontos para suas coordenadas locais, incluindo pisos rotacionados. Furos aparecem no inspetor para edição numérica e remoção. Há até 16 furos de até 64 vértices; eles devem ficar estritamente dentro do piso, sem tocar ou cruzar os demais contornos. O recorte é físico, útil para poços, pátios e vãos de escada. As receitas de mobiliário respeitam essas regiões sem apoio.
+Selecione um piso retangular ou poligonal e use **Recortar piso · vão de escada / pátio** no inspetor (também em **Construir → Construções → Pisos, paredes e acessos**). Desenhe o contorno interno e conclua com **Enter**. O desenho usa a altura do piso e converte os pontos para suas coordenadas locais, incluindo pisos rotacionados. Furos aparecem no inspetor para edição numérica e remoção. Há até 16 furos de até 64 vértices; eles devem ficar estritamente dentro do piso, sem tocar ou cruzar os demais contornos. O recorte é físico, útil para poços, pátios e vãos de escada. As receitas de mobiliário respeitam essas regiões sem apoio.
 
 **Paredes do contorno** apresenta uma proposta para os segmentos do contorno externo. O gerador reaproveita intervalos colineares existentes, inclusive compartilhamento parcial entre cômodos, preservando IDs, portas e janelas. Divergências de altura/espessura e paredes protegidas aparecem no relatório. Aceitar é uma transação. Paredes compartilhadas registram `floorIds`; não são dependentes exclusivos de um dos pisos. Excluir um piso remove seu vínculo e conserva a parede compartilhada. Mover o andar movimenta suas estruturas; mover um piso isolado não redesenha automaticamente os limites compartilhados.
 
@@ -28,7 +28,7 @@ A renderização calcula encontros angulados por mitras limitadas e terminaçõe
 
 ## Construção de vários andares
 
-Em **Construir → Andares e camadas**, crie um andar na altura de construção. O primeiro pode adotar a geometria existente nessa altura e seus dependentes. Selecione um andar para mudar a altura de construção e criar pisos, salas e estruturas associados a ele. Cada objeto também oferece associação explícita a andar/camada no inspetor.
+Em **Construir → Organização → Andares e camadas**, crie um andar na altura de construção. O primeiro pode adotar a geometria existente nessa altura e seus dependentes. Selecione um andar para mudar a altura de construção e criar pisos, salas e estruturas associados a ele. Cada objeto também oferece associação explícita a andar/camada no inspetor.
 
 Editar a altura de um andar desloca seus transforms mundiais e dependentes uma única vez. **Copiar construção** cria um andar 3 m acima, com novos IDs para pisos, paredes, aberturas, móveis e luzes. Os personagens, o terreno e os acessos entre níveis permanecem na origem. As cópias de móveis são independentes da receita original; o mestre pode gerar uma nova receita no piso copiado. Os vínculos de apoio, ancoragem, materiais e furos são conservados.
 

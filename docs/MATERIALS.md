@@ -4,9 +4,9 @@ Implementação em 4 de outubro de 2026. As configurações acompanham mapas/cen
 
 ## Aplicar uma textura
 
-Selecione piso, parede, porta, janela, escada, rampa, terreno ou objeto. No inspetor, abra **Material e textura** e escolha madeira, pedra, grama, metal, areia, tijolo, concreto, lama, rocha natural, neve, casca, folhagem ou gelo.
+Selecione piso, parede, porta, janela, escada, rampa, terreno ou objeto. No inspetor, abra **Material e textura** (para terreno, **Material base · terreno inteiro**; para pintar uma região, **Editar material de → Camada · nome** e **Pintar esta camada**) e escolha madeira, pedra, grama, metal, areia, tijolo, concreto, lama, rocha natural, neve, casca, folhagem ou gelo.
 
-A escolha aplica a cor branca de matiz e o acabamento inicial do material. Depois ajuste:
+A escolha aplica a cor branca de matiz e o acabamento inicial do material. Depois ajuste; cor/desenho/brilho ficam em **Personalizar cor e padrão**:
 
 - **Tamanho do padrão · m:** tamanho de uma repetição. Menor produz detalhes menores; maior amplia o padrão.
 - **Relevo aparente · microdetalhe em m:** simula fissuras/veios na iluminação (bump), sem elevar vértices nem alterar silhueta, colisão ou apoio. Zero desliga; aparece melhor de perto e com luz lateral. Sem textura no material ou numa camada visível, o controle fica desativado: cor lisa não tem mapa de detalhe. No terreno, esse parâmetro controla também o detalhe das camadas; a cobertura tem intensidade própria.
@@ -39,9 +39,11 @@ As treze texturas são procedurais originais, geradas localmente, com cor, altur
 
 ## Pintar materiais no terreno
 
-Selecione o terreno e use **Camadas de cor e textura** no topo do inspetor:
+**Editar material de** identifica explicitamente a camada ou a base. **Somente camada · nome** edita aquela camada; **Material base · terreno inteiro** edita o acabamento sob as camadas e os parâmetros compartilhados (microrelevo/cobertura). Veja o fluxo atual em [EDITOR_UI.md](EDITOR_UI.md).
 
-1. Escolha a camada e abra **Editar material e propriedades**.
+Selecione o terreno e use **Material · escolha o alcance** no topo do inspetor:
+
+1. Em **Editar material de**, escolha **Camada · nome**; abra **Somente camada · nome**.
 2. Selecione a textura e o tamanho do padrão. Cada camada oferece os mesmos controles de cor, brilho, rotação, densidade/seed e desenho de madeira/metal dos materiais de objetos. Escolher uma textura reinicia os ajustes e a matiz da camada para branco, preservando a área pintada.
 3. Para uma segunda superfície, use **Nova camada de material**, escolha outra textura e use **Pintar camada** com o pincel sobre o terreno.
 4. **Apagar** revela as camadas de baixo. Opacidade, visibilidade e ordem continuam disponíveis; a última camada cobre as anteriores.
@@ -50,7 +52,7 @@ Até oito camadas podem misturar cores e texturas. As máscaras continuam acompa
 
 ## Colocar fogo e fumaça
 
-Em **Construir → Peças avulsas**, escolha **Fogueira** ou **Fumaça** e clique na superfície de apoio ativa. Selecionar um piso/terreno muda esse apoio; clique dentro dele ou escolha outro em **Estruturas e apoio**.
+Em **Construir → Construções → Peças avulsas**, escolha **Fogueira** ou **Fumaça** e clique na superfície de apoio ativa. Selecionar um piso/terreno muda esse apoio; clique dentro dele ou escolha outro em **Estruturas e apoio**.
 
 A fogueira usa o modelo existente de troncos/pedras com chamas animadas e luz pontual cintilante. Fumaça cria um emissor sem modelo visível. Também é possível selecionar qualquer objeto e escolher **Fogo e fumaça → Efeito neste objeto**.
 
@@ -85,7 +87,7 @@ Incremento de 4 de outubro de 2026. **Rocha natural** é uma superfície sem blo
 
 ### Começar um terreno
 
-Em **Construir → Terreno e relevo**, ajuste largura/comprimento/resolução e centro X/Z. Abra **Presets de paisagem · construção assistida** e clique em **Prévia · Montanha · rocha e neve**; revise e aceite ou cancele. O documento só muda ao aceitar. **Respeitar pisos das construções**, ligado inicialmente, limita o terreno sob os pisos existentes. O resultado é um terreno comum com alturas editáveis, rocha natural, neve automática nas partes menos inclinadas e uma trilha de lama pintada. É um preset assistido, sem receita de regeneração vinculada: você pode construir manualmente a mesma composição com alturas e camadas, e editar tudo depois.
+Em **Construir → Paisagem → Terreno e relevo**, ajuste largura/comprimento/resolução e centro X/Z. Abra **Presets de paisagem · construção assistida** e clique em **Prévia · Montanha · rocha e neve**; revise e aceite ou cancele. O documento só muda ao aceitar. **Respeitar pisos das construções**, ligado inicialmente, limita o terreno sob os pisos existentes. O resultado é um terreno comum com alturas editáveis, rocha natural, neve automática nas partes menos inclinadas e uma trilha de lama pintada. É um preset assistido, sem receita de regeneração vinculada: você pode construir manualmente a mesma composição com alturas e camadas, e editar tudo depois.
 
 Para compor seu próprio terreno:
 

@@ -27,7 +27,7 @@ test('assemblies: desk/lamp bind, click-to-select, joint move/rotate/scale, dupl
   await action('floor-add');await action('top');
   await tab('assets');await page.locator('[data-asset="builtin-desk"]').click();await click([0,0,0]);
   let doc=await snapshot();const desk=Object.values(doc.layout.entities).find(e=>e.assetRef?.id==='builtin-desk');assert.ok(desk);
-  await page.locator('[data-asset="builtin-lamp"]').click();await click([0,.82,0]);
+  await tab('assets');await page.locator('[data-asset="builtin-lamp"]').click();await click([0,.82,0]);
   doc=await snapshot();const lamp=Object.values(doc.layout.entities).find(e=>e.assetRef?.id==='builtin-lamp');assert.ok(lamp);
   await select(desk.id);await select(lamp.id,true);const beforeBind=await snapshot();
   await page.locator(`[data-select="${lamp.id}"]`).click({button:'right'});await page.locator('#context-menu').getByRole('button',{name:'Ancorar objetos juntos',exact:true}).click();

@@ -94,7 +94,7 @@ export function setupUniformScaleGizmo(transform) {
 export function createViewport(container, {
   onSelect = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
   onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
-  onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {}, onMaterialSlots = () => {},
+  onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {}, onWaterStroke = () => {}, onMaterialSlots = () => {},
   navigationEnabled = true,
 } = {}) {
   const canvas = document.createElement('canvas');
@@ -775,7 +775,7 @@ export function createViewport(container, {
     if (tool === 'terrain') {
       const hit = pick(event), record = records.get(hit?.object.userData.entityId);
       if (record?.kind !== 'terrain' || record.id !== selectedId || isLocked(sceneDocument, record)) { pointer = null; report('Selecione o terreno e pinte sobre ele.'); return; }
-      pointer.terrain = structuredClone(record); pointer.terrainBefore = record; pointer.terrainBrush = { ...terrainBrush }; pointer.lastStamp = hit.point.toArray();
+      pointer.terrain = structuredClone(record); pointer.terrainBefore = record; pointer.terrainBrush = { ...terrainBrush }; pointer.lastStamp = hit.point.toArray(); pointer.waterPoints = [];
       try { stampTerrain(hit.point.toArray()); } catch (error) { pointer = null; report(error); return; }
       controls.enabled = false; canvas.setPointerCapture(event.pointerId);
     } else if (tool === 'room') {
@@ -836,7 +836,7 @@ export function createViewport(container, {
       if (distance >= spacing) {
         const steps = Math.min(64, Math.ceil(distance / spacing));
         for (let i = 1; i <= steps; i++) stampTerrain(previous.map((v, axis) => v + (point[axis] - v) * i / steps), false);
-        replaceTerrain(pointer.terrain);
+        if(pointer.terrainBrush.mode !== 'water') replaceTerrain(pointer.terrain); else stampTerrain(point);
         pointer.lastStamp = point;
       }
     } else if (pointer.roomStart) {
@@ -885,7 +885,7 @@ export function createViewport(container, {
     if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
     if (gesture.terrain) {
       const version = generation;
-      try { onTerrainStroke(gesture.terrain.id, ['paint','erase'].includes(gesture.terrainBrush.mode) ? { paintLayers: gesture.terrain.paintLayers } : { heights: gesture.terrain.heights }); } catch (error) { report(error); }
+      try { if(gesture.terrainBrush.mode==='water') { clearGroup(preview); if(gesture.waterOverflow) report('Traço longo demais. Faça traços menores e separados.'); else onWaterStroke(gesture.terrain.id,gesture.waterPoints,gesture.terrainBrush); } else onTerrainStroke(gesture.terrain.id, ['paint','erase'].includes(gesture.terrainBrush.mode) ? { paintLayers: gesture.terrain.paintLayers } : { heights: gesture.terrain.heights }); } catch (error) { report(error); }
       if (version === generation) setDocument(sceneDocument);
     } else if (gesture.roomStart) {
       clearGroup(preview);
@@ -932,6 +932,16 @@ export function createViewport(container, {
   }
   function stampTerrain(position, render = true) {
     const brush = pointer.terrainBrush;
+    if(brush.mode==='water') {
+      if(pointer.waterPoints.length>=2048) {pointer.waterOverflow=true;return;}
+      pointer.waterPoints.push(position);
+      if(render) {
+        clearGroup(preview);
+        const geometry=new THREE.BufferGeometry().setFromPoints(pointer.waterPoints.map(p=>new THREE.Vector3(p[0],brush.waterLevel,p[2])));
+        const line=new THREE.Line(geometry,new THREE.LineBasicMaterial({color:'#69d4f2',depthTest:false}));line.renderOrder=9;preview.add(line);invalidate(true);
+      }
+      hint.textContent='Água · solte para revisar o leito · Esc cancela';hint.style.display='';return;
+    }
     if (['paint','erase'].includes(brush.mode)) pointer.terrain.paintLayers = paintTerrain(pointer.terrain, position, brush);
     else {
       const before=pointer.terrain.heights;
@@ -947,7 +957,7 @@ export function createViewport(container, {
   function cancelGesture() {
     contextPointer = null;
     if (transform.dragging) { gizmoCancelled = true; transform.reset(); transform.pointerUp(null); }
-    if (pointer?.roomStart) clearGroup(preview);
+    if (pointer?.roomStart || pointer?.terrainBrush?.mode==='water') clearGroup(preview);
     cancelPointer();
     invalidate(true);
   }

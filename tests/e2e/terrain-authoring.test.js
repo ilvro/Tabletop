@@ -31,7 +31,8 @@ test('terrain authoring exposes area/physical rock relief, protects construction
   const snapshot=()=>page.evaluate(()=>window.__tabletop.snapshot());
   await action('open');await page.locator(`[data-open="${scene.id}"]`).click();await page.waitForFunction(id=>window.__tabletop.snapshot().id===id,scene.id);
   await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${terrain.id}"]`).click();
-  assert.ok(await page.locator('[data-field="width"]').isVisible(),'area is outside advanced disclosure');
+  await reveal(page.locator('[data-field="width"]'));
+  assert.equal(await page.locator('[data-field="width"]').evaluate(node=>node.closest('details')?.dataset.disclosure),'terrain-area','area has its own disclosure, separate from mesh settings');
   await action('terrain-protect-floors');assert.deepEqual((await snapshot()).layout.entities[terrain.id],terrain);await action('cancel-proposal');
   await action('terrain-protect-floors');await action('accept-proposal');
   let current=(await snapshot()).layout.entities[terrain.id];assert.deepEqual(current.heights,protectTerrainFloors(terrain,{[floor.id]:floor}));assert.deepEqual((await snapshot()).layout.entities[floor.id],floor);

@@ -2,6 +2,21 @@
 
 Atualizado em 5 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Reformulação dos fluxos de edição — concluída
+
+- [x] Construção organizada por contexto (Paisagem, Construções, Personagens e Organização), com feedback da ferramenta ativa.
+- [x] Assets e Abrir em janelas flutuantes arrastáveis, utilizáveis por teclado e ajustadas à tela.
+- [x] Alcance explícito dos materiais: camada selecionada versus base do terreno, com edição e pintura acessíveis.
+- [x] Água integrada ao pincel: contorno comum e leito rebaixado em uma transação; ajuste revisável para água existente.
+- [x] Legibilidade, foco, telas estreitas e animações curtas com respeito a movimento reduzido.
+- [x] Validar histórico, persistência, câmera independente e fluxos no navegador; atualizar guias e resumos.
+
+Validação final: 147 testes unitários/de integração passaram; builds local e GitHub Pages passaram. Os 24 cenários E2E foram aprovados entre a suíte completa e repetições dos casos afetados. A suíte inicial teve 21/24: dois roteiros foram adaptados à nova navegação (biblioteca que fecha ao escolher e tamanho do terreno em seção própria); o novo roteiro ganhou espera da abertura assíncrona e revelou a sobreposição dos painéis em tela estreita, corrigida e validada. A repetição de oito casos aprovou sete antes da correção estreita; os quatro casos finais (UI, biblioteca e dois de Pages) passaram na versão final.
+
+Verificados: alteração de textura/padrão de uma camada sem mudar base, outras camadas ou máscaras; janelas com arraste/setas, foco/fechamento e documento/câmera intactos; pincel de água com proposta/cancelamento, leito abaixo de ondas/neve, apoios e rejeição atômica de dependentes bloqueados, undo/redo, ajuste de água existente e salvamento/reabertura; painéis exclusivos em 390 px, restauração de desktop, ausência de overflow horizontal, limites das janelas e movimento reduzido. Pages conservou catálogo/importação/armazenamento/projetor sem API. Capturas revisadas: `test-results/editor-ui.png`, `editor-ui-assets.png`, `editor-ui-mobile.png` e `editor-ui-mobile-assets.png`.
+
+Guia e limites: [docs/EDITOR_UI.md](docs/EDITOR_UI.md). Água usa nível horizontal, resolução do terreno e contornos de até 64 vértices, sem união automática entre traços. Não há benchmark presencial; WebGL por software verifica funcionamento. Ficha/Jukebox continuam adiados.
+
 ## Conflitos com o navegador — concluído
 
 - [x] Bloquear menu nativo por captura na área 3D, incluindo overlays, e padrões de botões direito/meio no canvas.

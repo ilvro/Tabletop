@@ -4,7 +4,7 @@ import { ValidationError } from '../domain/validation.js';
 function brushSettings(options = {}) {
   const settings = { mode: 'raise', radius: 2, strength: .25, target: 0, shape: 'circle', hardness: 0, snap: false, rockPattern: 'fractured', rockSize: 3, rockSeed: 42, ...options };
   const { mode, radius, strength, target, shape, hardness, snap, rockPattern, rockSize, rockSeed } = settings;
-  if (!['raise','lower','smooth','flatten','rock','paint','erase'].includes(mode) || !['circle','square'].includes(shape) || !Number.isFinite(radius) || radius <= 0 || radius > 100 || !Number.isFinite(strength) || strength <= 0 || strength > 10 || !Number.isFinite(target) || !Number.isFinite(hardness) || hardness < 0 || hardness > 1 || typeof snap !== 'boolean' || !['fractured','strata','granite'].includes(rockPattern) || !Number.isFinite(rockSize) || rockSize < .1 || rockSize > 100 || !Number.isInteger(rockSeed) || rockSeed < 0 || rockSeed > 65535) throw new ValidationError('Pincel de terreno inválido.');
+  if (!['raise','lower','smooth','flatten','rock','paint','erase','water'].includes(mode) || !['circle','square'].includes(shape) || !Number.isFinite(radius) || radius <= 0 || radius > 100 || !Number.isFinite(strength) || strength <= 0 || strength > 10 || !Number.isFinite(target) || !Number.isFinite(hardness) || hardness < 0 || hardness > 1 || typeof snap !== 'boolean' || !['fractured','strata','granite'].includes(rockPattern) || !Number.isFinite(rockSize) || rockSize < .1 || rockSize > 100 || !Number.isInteger(rockSeed) || rockSeed < 0 || rockSeed > 65535) throw new ValidationError('Pincel de terreno inválido.');
   return settings;
 }
 
@@ -62,7 +62,7 @@ export function terrainBrushOutline(terrain, position, options = {}) {
 /** One stamp is pure; a pointer gesture collects stamps into one undoable edit. */
 export function sculptTerrain(terrain, position, options = {}) {
   const settings = brushSettings(options), { mode, strength, target } = settings;
-  if (terrain.kind !== 'terrain' || ['paint','erase'].includes(mode)) throw new ValidationError('Ferramenta de relevo inválida.');
+  if (terrain.kind !== 'terrain' || ['paint','erase','water'].includes(mode)) throw new ValidationError('Ferramenta de relevo inválida.');
   const point = terrainBrushCenter(terrain, position, settings), n = terrain.segments, before = terrain.heights;
   return before.map((height, index) => {
     const weight = weightAt(terrain, index, point, settings); if (!weight) return height;

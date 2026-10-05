@@ -1,10 +1,10 @@
 # Roteiro para testar construção e ajustes
 
-Na aba **Construir**, há um único conjunto de blocos em ordem alfabética: **Andares e camadas**, **Grid e precisão**, **Mobiliar cômodo**, **Peças avulsas**, **Personagens**, **Pisos, paredes e acessos**, **Sala** e **Terreno e relevo**. Clique no título para abrir ou recolher a tarefa. O inspetor à direita acompanha a seleção; a aba **Cena** permite selecionar pela lista quando há objetos sobrepostos.
+Na aba **Construir**, as tarefas ficam em **Paisagem**, **Construções**, **Personagens** e **Organização**. Abra o contexto e a tarefa desejada. O inspetor à direita acompanha a seleção; a aba **Cena** permite selecionar pela lista quando há objetos sobrepostos. **Assets** e **Abrir** são janelas flutuantes: arraste pelo título, ou foque o título e use setas/Shift+setas; Esc fecha. O guia [EDITOR_UI.md](EDITOR_UI.md) explica materiais por camada e o pincel de água.
 
 ## 1. Criar uma colina e um vale
 
-1. Abra **Construir → Terreno e relevo**. Para começar, mantenha 20 × 20 m e 32 divisões. Clique em **Criar terreno**.
+1. Abra **Construir → Paisagem → Terreno e relevo**. Para começar, mantenha 20 × 20 m e 32 divisões. Clique em **Criar terreno**.
 2. O terreno fica selecionado. No topo do inspetor à direita, abaixo do nome, aparece **Pincel de terreno · T**. Escolha **Elevar** e pressione **T**, ou clique em **Ativar pincel · T**.
 3. Arraste com o botão esquerdo sobre o terreno. O círculo mostra o raio; ao soltar, a alteração é confirmada. Você deve ver uma colina. **Ctrl+Z** desfaz todo esse traço.
 4. Escolha **Rebaixar** e arraste numa área plana para criar um vale. **Suavizar** reduz diferenças entre alturas. **Nivelar** aproxima a região da altura indicada; esse campo aparece somente nesse pincel e usa metros no mundo.
@@ -111,14 +111,22 @@ Quantidade de tábuas é por repetição, não por objeto inteiro. Relevo altera
 1. Selecione um terreno e escolha **Esculpir rocha natural**. Ajuste formação, tamanho em metros, seed e força. Ative com T e arraste: alturas reais devem mudar, e outro ponto do mapa deve receber outra parte do desenho. Ctrl+Z desfaz todo o traço. Escolha Rocha natural no material da camada para o acabamento; Pedra · blocos de alvenaria deve continuar separada.
 2. Em **Área do terreno**, deixe Expandir/recortar e aumente a largura. O desenho existente deve manter sua escala, sujeito à reamostragem; a área nova continua as bordas. Desfaça, escolha Esticar e repita: o desenho inteiro deve se alongar. Alturas/máscaras devem ser restauradas por undo.
 3. Com um piso sobre o terreno, use **Prévia · ajustar sob construções**. Cancelar conserva o documento. Aceitar rebaixa o terreno sob o piso e sua margem; piso/parede permanecem iguais. Reaplicar não deve aprofundar o mesmo ajuste. Pisos rotacionados usam o contorno real; o centro de furos grandes continua livre.
-4. Em Construir → Terreno e relevo, escolha dimensões/centro, abra Presets de paisagem e gere a prévia de Montanha · rocha e neve. Nada deve entrar no documento antes de aceitar. Com Respeitar pisos ligado, a montanha não deve atravessar pisos existentes. A composição aceita continua editável manualmente, sem regeneração vinculada.
+4. Em Construir → Paisagem → Terreno e relevo, escolha dimensões/centro, abra Presets de paisagem e gere a prévia de Montanha · rocha e neve. Nada deve entrar no documento antes de aceitar. Com Respeitar pisos ligado, a montanha não deve atravessar pisos existentes. A composição aceita continua editável manualmente, sem regeneração vinculada.
 5. Pinte uma textura em camada visível e compare Relevo aparente em 0 e 0,2, olhando perto com luz lateral: detalhes de iluminação devem mudar, sem mover vértices. Com todas as texturas desligadas, o controle deve ficar desativado. Para alterar a silhueta, use escultura.
 6. Salve e reabra; confira alturas, máscaras e dimensões. Abra a segunda tela, edite o terreno e confira atualização visual sem mudar a câmera do projetor.
 
 ## Paisagem alpina
 
 1. Em Assets, busque Montanha: coloque arco, muro irregular, telhado, passarela e plantas ramificadas; confira o vão do arco e materiais separados. Edite a variação geométrica de uma planta; posição/base e tamanho devem permanecer.
-2. Em Construir → Paisagem · água e vegetação, escolha terreno/planta e gere a prévia. Cancelar preserva o documento; aceitar cria props individuais e Ctrl+Z desfaz o conjunto. Revise exclusões de construções/água e variação de escala/rotação.
+2. Em Construir → Paisagem → Água e vegetação, escolha terreno/planta e gere a prévia. Cancelar preserva o documento; aceitar cria props individuais e Ctrl+Z desfaz o conjunto. Revise exclusões de construções/água e variação de escala/rotação.
 3. Crie água ou desenhe contorno com Enter. Edite ondas e cor, pause os efeitos e alterne gelo/água. O gelo oferece apoio; descongelar com dependentes deve ser rejeitado até desvinculá-los.
 4. Escolha cobertura Neve e espessura 0,3 m. Terreno/objetos devem ganhar altura/volume; o relevo base continua editável. Coloque teto sobre uma parte; recalcule exposição do terreno e compare área aberta/abrigada. Objetos verificam abrigo automaticamente, incluindo frestas reais.
 5. Salve/reabra, teste undo/redo e abra o projetor. Mudanças de paisagem chegam ao projetor sem mover sua câmera; ondas pausadas não alteram o histórico. Instruções completas e limitações: [LANDSCAPE.md](LANDSCAPE.md).
+
+## Interface e pincel de água
+
+1. Selecione terreno com duas camadas, escolha uma em Editar material de e troque sua textura/cor. A base, a outra camada e as máscaras devem ficar iguais. Escolha Base para editar o terreno inteiro; Personalizar cor e padrão expõe os detalhes.
+2. Abra Assets e arraste pelo título. Use Tab até o título e setas/Shift+setas. ↺ restaura posição. Esc fecha; filtros ficam guardados. Repita em Abrir. Documento, undo e câmera publicada não devem mudar.
+3. Escolha Água no pincel, ajuste raio/nível/profundidade e arraste. Esc cancela o traço. Soltar cria prévia; cancelar conserva o documento. Aceitar cria água e escava o leito juntos; Ctrl+Z restaura ambos.
+4. Selecione uma água existente, escolha Terreno do leito e revise Rebaixar leito sob esta água. Mude sua profundidade/ondas e gere novamente; respeite o limite do terreno e pisos de construções.
+5. Salve e reabra: água, relevo e materiais por camada permanecem. Reduza a janela, recolha Ferramentas/Propriedades e reposicione bibliotecas: títulos e fechamento devem permanecer acessíveis. Com movimento reduzido no sistema, fades e transições devem estar desligados.

@@ -8,7 +8,7 @@ import { chromium } from 'playwright';
 import { createApp } from '../../server/app.js';
 import { reveal } from './controls.js';
 
-test('terrain editing: alphabetic cards, shortcut, square plateau, snow/grass masks and save/reload', { timeout: 180_000 }, async t => {
+test('terrain editing: contextual tasks, shortcut, square plateau, snow/grass masks and save/reload', { timeout: 180_000 }, async t => {
   const dataDir = await mkdtemp(path.join(os.tmpdir(),'tabletop-terrain-paint-'));
   const server = (await createApp({ dataDir })).listen(0,'127.0.0.1'); await once(server,'listening');
   const browser = await chromium.launch({ executablePath: process.env.TABLETOP_BROWSER_PATH || chromium.executablePath(), headless:true, args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader'] });
@@ -24,9 +24,9 @@ test('terrain editing: alphabetic cards, shortcut, square plateau, snow/grass ma
     const a=await page.evaluate(p => window.__tabletop.project(p),start), b=await page.evaluate(p => window.__tabletop.project(p),end);
     assert.ok(a.visible && b.visible); await page.mouse.move(a.x,a.y); await page.mouse.down(); await page.mouse.move(b.x,b.y,{ steps:8 }); if(cancel) await page.keyboard.press('Escape'); await page.mouse.up();
   }
-  const labels=await page.locator('.build-task > summary').allTextContents(); assert.deepEqual(labels,[...labels].sort((a,b) => a.localeCompare(b,'pt-BR')));
+  const labels=await page.locator('.build-task > summary').allTextContents(); assert.equal(labels.length,9); assert.deepEqual(await page.locator('.build-group > summary strong').allTextContents(),['Paisagem','Construções','Personagens','Organização']);
   assert.equal(await page.locator('.build-shortcuts').count(),0);
-  await page.locator('[data-build-section="terrain"] > summary').click();
+  await reveal(page.locator('[data-build-section="terrain"] [data-action=terrain-add]'));
   await field('terrain-new-width',12); await field('terrain-new-length',12); await field('terrain-new-segments',16); await action('terrain-add'); await action('top');
   let doc=await snapshot(); const terrainId=Object.values(doc.layout.entities).find(e => e.kind==='terrain').id;
   // Typing T in a text field must not activate a tool.

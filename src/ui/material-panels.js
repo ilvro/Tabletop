@@ -9,7 +9,7 @@ export function textureCustomization(prefix, settings, {numberField, colorField}
   const m = textureOptions(settings);
   const select = (key, label, options) => `<label class="field"><span>${label}</span><select data-field="${prefix}${key}">${options.map(([value,name])=>`<option value="${value}" ${m[key]===value?'selected':''}>${name}</option>`).join('')}</select></label>`;
   const number = (key, label, min, max, step, factor=1) => numberField(prefix+key,label,Number((m[key]*factor).toFixed(5)),{min,max,step});
-  return `${colorField(prefix+'textureColor','Cor da textura',m.textureColor)}
+  return `<details data-texture-options="${prefix}design"><summary>Personalizar cor e padrão</summary>${colorField(prefix+'textureColor','Cor da textura',m.textureColor)}
     ${select('textureColorMode','Aplicação da cor',[['original','Paleta original'],['replace','Recolorir · preservar detalhes'],['tint','Multiplicar pela cor']])}
     ${number('textureBrightness','Brilho · 0 escuro / 1 original / 2 claro',0,2,.05)}
     ${settings.texture==='wood'?`<span class="eyebrow">DESENHO DA MADEIRA</span>
@@ -31,7 +31,7 @@ export function textureCustomization(prefix, settings, {numberField, colorField}
       ${number('textureSaturation','Saturação · 0 cinza / 1 original',0,2,.05)}
       ${number('patternDensity','Densidade dos detalhes · 1 original',.25,4,.25)}
       ${number('textureSeed','Variação do desenho · seed',0,65535,1)}
-    </details>`;
+    </details></details>`;
 }
 export function distributionPanel(prefix, settings, {numberField}, paint=true) {
   const d=distributionOptions(settings);

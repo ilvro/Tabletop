@@ -1,3 +1,5 @@
+import { proposeWaterBrush, proposeWaterBed } from '../authoring/water.js';
+import { floatingWindow } from '../ui/floating-window.js';
 import { landscapePanel, waterPanel } from '../ui/landscape-panels.js';
 import { proposeVegetation } from '../authoring/vegetation.js';
 import { isVegetationAsset } from '../domain/landscape.js';
@@ -53,10 +55,10 @@ export async function startApplication() {
       <header class="app-header">
         <a class="brand" href="${esc(applicationURL(''))}" aria-label="Tabletop"><span class="brand-mark">T</span><span>TABLETOP<small>CRIAR. PREPARAR. APRESENTAR.</small></span></a>
         <div class="document-heading"><span id="doc-type-eyebrow" class="eyebrow">SUA MESA / CENA</span><input id="scene-name" aria-label="Nome da cena" maxlength="256" disabled /></div>
-        <div class="header-actions"><span id="save-status" role="status" class="save-status"></span>${button('new', 'Nova', 'plus', 'quiet')}${button('open', 'Abrir', 'folder', 'quiet')}${button('present', 'Apresentar', 'display', 'quiet')}${button('save', 'Salvar', 'save', 'primary', 'id="save-scene"')}</div>
+        <div class="panel-toggles"><button data-action="sidebar-toggle" aria-expanded="true" aria-controls="side-content">Ferramentas</button><button data-action="inspector-toggle" aria-expanded="true" aria-controls="inspector-content">Propriedades</button></div><div class="header-actions"><span id="save-status" role="status" class="save-status"></span>${button('new', 'Nova', 'plus', 'quiet')}${button('open', 'Abrir', 'folder', 'quiet')}${button('present', 'Apresentar', 'display', 'quiet')}${button('save', 'Salvar', 'save', 'primary', 'id="save-scene"')}</div>
       </header>
       <aside class="sidebar">
-        <nav class="tabs" aria-label="Painéis"><button data-tab="build" class="active">Construir</button><button data-tab="assets">Assets</button><button data-tab="scene">Cena</button></nav>
+        <nav class="tabs" aria-label="Painéis"><button data-tab="build" class="active">Construir</button><button data-tab="assets" aria-controls="assets-dialog" aria-expanded="false">Assets ↗</button><button data-tab="scene">Cena</button></nav>
         <div id="side-content" class="side-content"></div>
         <footer class="sidebar-footer"><span class="local-dot"></span> ${repository.storage==='browser'?'Dados salvos neste navegador.':'Sua mesa, no seu computador.'}</footer>
       </aside>
@@ -64,7 +66,7 @@ export async function startApplication() {
         <div id="viewport" aria-label="Viewport 3D"></div>
         <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (G)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (R)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (V)" aria-label="Escala"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
         <div id="welcome" class="welcome-card"><span class="eyebrow">UMA CENA COMEÇA COM UM ESPAÇO</span><h1>Sua próxima história<br/>começa aqui.</h1><p>Desenhe uma sala, escolha a luz e traga seus personagens para a mesa.</p>${button('room-draw', 'Desenhar minha primeira sala', 'room', 'primary')}<small>Ou use as medidas no painel Construir.</small></div>
-        <div id="proposal-bar" class="proposal-bar" hidden></div>
+        <div id="tool-context" class="tool-context" hidden></div><div id="proposal-bar" class="proposal-bar" hidden></div>
         <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet', 'title="Capturar WASD e suas combinações em tela cheia; Esc sai" aria-pressed="false"')}</div><span id="gesture-hint" class="gesture-hint">WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom</span></div>
         <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
       </main>
@@ -72,13 +74,13 @@ export async function startApplication() {
       <footer class="statusbar"><span id="scene-summary">Preparando sua mesa…</span><span><kbd>Q</kbd> Selecionar <kbd>G</kbd> Mover <kbd>R</kbd> Girar <kbd>V</kbd> Escala <kbd>F</kbd> Enquadrar</span></footer>
     </div>
     <div id="presentation-controls" hidden><span id="presentation-name"></span>${button('present', 'Voltar à edição', 'close', 'quiet')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet')}</div>
-    <dialog id="documents-dialog" class="library-dialog">
+    <dialog id="documents-dialog" class="library-dialog floating-window" aria-labelledby="documents-title">
       <div class="dialog-header">
-        <div class="dialog-title-group">
+        <div class="dialog-title-group" data-window-handle tabindex="0" role="group" aria-label="Mover janela Abrir: arraste ou use as setas">
           <span class="eyebrow">BIBLIOTECA & GESTÃO</span>
-          <h2>Gestão da Mesa</h2>
+          <h2 id="documents-title">Abrir e gerenciar</h2>
         </div>
-        <button type="button" id="close-library-dialog" data-action="close-dialog" class="icon-button dialog-close-btn" aria-label="Fechar painel" title="Fechar (Esc)">
+        <button type="button" data-window-reset class="quiet" aria-label="Reposicionar janela Abrir" title="Reposicionar janela">↺</button><button type="button" id="close-library-dialog" data-action="close-dialog" class="icon-button dialog-close-btn" aria-label="Fechar painel" title="Fechar (Esc)">
           ${icon('close', 18)}
         </button>
       </div>
@@ -89,6 +91,10 @@ export async function startApplication() {
         <button type="button" data-dialog-tab="documents">${icon('folder', 14)} Documentos</button>
       </nav>
       <div id="documents-tab-content" class="dialog-tab-content"></div>
+    </dialog>
+    <dialog id="assets-dialog" class="floating-window assets-window" aria-labelledby="assets-title">
+      <div class="dialog-header"><div data-window-handle class="dialog-title-group" tabindex="0" role="group" aria-label="Mover janela Assets: arraste ou use as setas"><span class="eyebrow">BIBLIOTECA · ARRASTE PARA MOVER</span><h2 id="assets-title">Assets</h2></div><button type="button" data-window-reset class="quiet" aria-label="Reposicionar janela Assets">↺</button><button type="button" data-action="assets-close" class="icon-button" aria-label="Fechar Assets">${icon('close',18)}</button></div>
+      <div id="assets-content" class="window-content"></div>
     </dialog>
     <dialog id="asset-metadata-dialog" aria-label="Classificar asset"></dialog>
     <dialog id="recovery-dialog"><span class="eyebrow">RECUPERAÇÃO LOCAL</span><h2>Há trabalho não salvo</h2><p id="recovery-description"></p><div class="dialog-actions">${button('discard-draft', 'Descartar rascunho', '', 'quiet')}${button('restore-draft', 'Restaurar trabalho', 'undo', 'primary')}</div></dialog>
@@ -112,10 +118,27 @@ export async function startApplication() {
   let smartOptions = { template: 'office', density: 'normal', chairs: 4, seed: 1, lighting: true, restoreDeleted: false };
   let anchorEditing = false, anchorHostId = '';
   const openBuildSections = new Set(['room']);
+  const openBuildGroups = new Set(['structures']);
+  let terrainMaterialTarget = 'layer';
+  const compactLayout = window.matchMedia('(max-width:900px)');
+  let desktopPanels = { sidebar: false, inspector: false };
+  if(compactLayout.matches) root.querySelector('.app-shell').classList.add('sidebar-collapsed','inspector-collapsed');
+  function syncPanelToggles() { for(const key of ['sidebar','inspector']) root.querySelector(`[data-action=${key}-toggle]`).setAttribute('aria-expanded',String(!root.querySelector('.app-shell').classList.contains(`${key}-collapsed`))); }
+  syncPanelToggles();
+  compactLayout.addEventListener('change', event => {
+    const shell=root.querySelector('.app-shell');
+    if(event.matches) {
+      desktopPanels=Object.fromEntries(['sidebar','inspector'].map(key=>[key,shell.classList.contains(`${key}-collapsed`)]));
+      shell.classList.add('sidebar-collapsed','inspector-collapsed');
+    } else for(const key of ['sidebar','inspector']) shell.classList.toggle(`${key}-collapsed`,desktopPanels[key]);
+    syncPanelToggles();
+  });
+  const assetsWindow = floatingWindow(document.getElementById('assets-dialog'), { trigger: root.querySelector('[data-tab=assets]'), position: [280,96] });
+  const documentsWindow = floatingWindow(document.getElementById('documents-dialog'), { trigger: root.querySelector('[data-action=open]'), position: [280,96] });
   let polishOptions = { mode: 'align', axis: 'x', alignment: 'center', angle: 5, seed: 1, palette: 'natural', clearance: .8, referenceId: '' };
   let activeLevelId = null, activeLayerId = null, isolatedLevel = false, polygonHoleHost = null, polygonKind='floor', terrainCell = 0;
   let vegetationOptions={terrainId:'',assetId:'builtin-alpine-fir',count:16,seed:42,scaleMin:.7,scaleMax:1.2,slopeMax:35};
-  let terrainOptions = { width: 20, length: 20, segments: 32, x: 0, z: 0, protectFloors: true }, terrainResizeMode = 'extend', terrainBrush = { mode: 'raise', radius: 2, strength: .25, target: 0, shape: 'circle', hardness: 0, snap: false, layerId: '', rockPattern: 'fractured', rockSize: 3, rockSeed: 42, protectFloors: true };
+  let terrainOptions = { width: 20, length: 20, segments: 32, x: 0, z: 0, protectFloors: true }, terrainResizeMode = 'extend', terrainBrush = { mode: 'raise', radius: 2, strength: .25, target: 0, waterLevel: .05, waterDepth: .6, shape: 'circle', hardness: 0, snap: false, layerId: '', rockPattern: 'fractured', rockSize: 3, rockSeed: 42, protectFloors: true };
   const constructionSemantics = () => ({ levelId: activeLevelId, layerId: activeLayerId });
   let contextTarget = null, draggedTreeId = null;
   const store = createSceneStore(createScene('Minha primeira cena'));
@@ -222,6 +245,7 @@ export async function startApplication() {
       if (execute('entity.add', { entity })) { setTool('move'); selectObject(entity.id); notify('Janela criada. Arraste com Mover (G) ou ajuste posição e peitoril no inspetor.'); }
     },
     onOpeningMove: (objectId, patch) => execute('entity.update', { id: objectId, patch }),
+    onWaterStroke: (objectId, points, options) => { try { showAuthorshipProposal(proposeWaterBrush(store.document,objectId,points,options,store.editVersion)); } catch(error) { notify(error.message,true); } },
     onTerrainStroke: (objectId, patch) => execute('entity.update', { id: objectId, patch, snap: false }, { label: patch.paintLayers ? 'Pintar terreno' : 'Esculpir terreno' }),
     onRoomDraw: (rectangle) => { roomOptions = { ...roomOptions, ...rectangle }; tab = 'build'; makeProposal(); renderSidebar(); },
     onPolygonDraw: (points) => {
@@ -267,8 +291,10 @@ export async function startApplication() {
     if (['floor', 'terrain'].includes(store.document.layout.entities[selection]?.kind) && !additive) {
       activeSurfaceId = selection;
       if (store.document.layout.entities[selection].kind === 'floor' && smartFloorId !== selection) { smartFloorId = selection; const existing = currentComposition(); if (existing) smartOptions = { ...existing.parameters, restoreDeleted: false }; }
-      viewport.setSupportSurface(selection); if (tab === 'build') renderSidebar();
+      viewport.setSupportSurface(selection); if (locate()?.record.kind==='terrain') openBuildGroups.add('landscape');
+      if (tab === 'build') renderSidebar();
     }
+    if(selection && window.innerWidth<=900) {root.querySelector('.app-shell').classList.remove('inspector-collapsed');root.querySelector('.app-shell').classList.add('sidebar-collapsed');syncPanelToggles();}
     viewport.setSelection(selection, [...selectedIds]); renderInspector(); renderSceneTreeIfVisible();
     if (store.document.layout.entities[selection]?.kind === 'terrain') document.getElementById('inspector-content').scrollTop = 0;
   }
@@ -286,8 +312,14 @@ export async function startApplication() {
     if (next !== 'place') placing = null;
     root.querySelectorAll('[data-action^="tool-"]').forEach((node) => node.classList.toggle('active', node.dataset.action === `tool-${next}`));
     document.getElementById('gesture-hint').textContent = next === 'terrain' ? 'Pincel ativo · T/Q: seleção · [ ]: tamanho · Esc: cancelar traço' : next === 'polygon' ? 'Clique nos vértices · Enter conclui · Backspace remove · Esc cancela' : next === 'window' ? 'Clique na parede para posicionar o centro da janela · Esc cancela' : next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? 'Clique no piso para colocar · Alt: posição livre · Esc cancela' : 'WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom';
+    renderToolContext();
     if (tab === 'build' && (previous === 'polygon' || next === 'polygon')) renderSidebar();
-    if (previous === 'terrain' || next === 'terrain') renderInspector();
+    if (previous === 'terrain' || next === 'terrain') {renderInspector(); if(next==='terrain') document.getElementById('inspector-content').scrollTop=0;}
+  }
+  function renderToolContext() {
+    const next=tool;
+    const context=document.getElementById('tool-context'); context.hidden=['select','move','rotate','scale'].includes(next);
+    context.innerHTML=`<span>${esc(next==='terrain'?`Pincel · ${({raise:'Elevar',lower:'Rebaixar',smooth:'Suavizar',flatten:'Nivelar',rock:'Rocha natural',paint:'Pintar camada',erase:'Apagar camada',water:'Água'})[terrainBrush.mode]} · ${terrainBrush.radius} m`:next==='polygon'?'Desenhar contorno':next==='room'?'Desenhar sala':'Colocar objeto')}</span><button data-action=tool-select class=quiet>Concluir · Q</button>`;
   }
   function clearProposal() { cancelEnvironmentPreview(); proposal = null; viewport.setPreview(null); document.getElementById('proposal-bar').hidden = true; }
   function makeProposal() {
@@ -357,7 +389,8 @@ export async function startApplication() {
     </section>`;
   }
   function renderSidebar() {
-    root.querySelectorAll('[data-tab]').forEach((node) => node.classList.toggle('active', node.dataset.tab === tab));
+    root.querySelectorAll('[data-tab]').forEach((node) => { const active = node.dataset.tab === tab; node.classList.toggle('active', active); if (node.dataset.tab !== 'assets') node.setAttribute('aria-pressed', String(active)); });
+    if (document.getElementById('assets-dialog').open) renderAssets();
     const panel = document.getElementById('side-content');
     if (tab === 'build') {
       panel.innerHTML = `<section class="quick-section"><span class="eyebrow">QUICK BUILD</span><h2>Um espaço para a história.</h2><p class="muted">Desenhe no chão ou comece pelas medidas. Tudo continua editável.</p>${button('room-draw', 'Desenhar sala', 'room', 'wide accent-outline')}<form id="quick-form"><div class="field-grid">${numberField('room-width', 'Largura interna · m', roomOptions.width, { min: 1.4 })}${numberField('room-length', 'Comprimento · m', roomOptions.length, { min: 1 })}</div>${numberField('room-height', 'Altura das paredes · m', roomOptions.height, { min: 2.2 })}<span class="section-caption">SUGESTÕES OPCIONAIS</span>${checkField('room-door', 'Incluir uma porta', roomOptions.door)}${checkField('room-lighting', 'Adicionar iluminação', roomOptions.lighting)}<button class="primary wide" type="submit">${icon('eye')} Ver prévia</button></form></section><section><span class="eyebrow">CONSTRUIR MANUALMENTE</span><div class="construction-grid">${button('floor-add', 'Piso', 'floor')}${button('wall-add', 'Parede', 'wall')}${button('door-add', 'Porta', 'door')}${button('light-place', 'Luz pontual', 'light')}${button('spot-place', 'Luz spot', 'light')}${button('fire-place', 'Fogueira', 'light')}${button('smoke-place', 'Fumaça', 'light')}</div></section><section><span class="eyebrow">PERSONAGENS</span><label class="field"><span>Nome do token</span><input id="token-name" value="Investigador" maxlength="256" /></label><div class="token-controls"><input id="token-color" aria-label="Cor do token" type="color" value="#e4b76f" />${button('token-place', 'Colocar token', 'token', 'wide')}</div><p class="microcopy">Para usar um retrato, importe uma imagem na biblioteca.</p></section><section><span class="eyebrow">GRID E PRECISÃO</span>${checkField('grid-visible', 'Mostrar grid', store.document.layout.grid.visible)}${checkField('grid-snap', 'Encaixar no grid', store.document.layout.grid.snap)}${numberField('grid-size', 'Célula · m', store.document.layout.grid.cellSize, { min: .1 })}</section>`;
@@ -366,23 +399,29 @@ export async function startApplication() {
       panel.innerHTML += terrainPanel(terrainOptions);
       panel.innerHTML += landscapePanel(store.document,vegetationOptions,assets,{numberField});
       panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition());
-      const tasks = [['room','Sala'],['manual','Peças avulsas'],['characters','Personagens'],['grid','Grid e precisão'],['structures','Pisos, paredes e acessos'],['levels','Andares e camadas'],['terrain','Terreno e relevo'],['landscape','Paisagem · água e vegetação'],['furnishing','Mobiliar cômodo']];
+      const tasks = [['room','Sala'],['manual','Peças avulsas'],['characters','Personagens'],['grid','Grid e precisão'],['structures','Pisos, paredes e acessos'],['levels','Andares e camadas'],['terrain','Terreno e relevo'],['landscape','Água e vegetação'],['furnishing','Mobiliar cômodo']];
       const taskSections = [...panel.children].map((section, i) => ({ section, key: tasks[i][0], label: tasks[i][1] }));
-      taskSections.sort((a,b) => a.label.localeCompare(b.label, 'pt-BR'));
+      const groups = [['landscape', 'Paisagem', 'Terreno, água e vegetação', ['terrain','landscape']], ['structures', 'Construções', 'Salas, superfícies e mobiliário', ['room','structures','manual','furnishing']], ['characters', 'Personagens', 'Tokens e retratos', ['characters']], ['organization', 'Organização', 'Andares, camadas e precisão', ['levels','grid']]];
+      const containers = new Map();
+      for (const [key,label,description] of groups) {
+        const group = document.createElement('details'); group.className = 'build-group'; group.dataset.buildGroup = key; group.open = openBuildGroups.has(key);
+        group.innerHTML = `<summary><strong>${label}</strong><small>${description}</small></summary><div class=build-group-content></div>`; panel.append(group); containers.set(key, group.lastElementChild);
+      }
       taskSections.forEach(({ section, key, label }) => {
         const details = document.createElement('details'); details.className = 'build-task'; details.dataset.buildSection = key; details.open = openBuildSections.has(key);
-        const summary = document.createElement('summary'); summary.textContent = label; details.append(summary, section); panel.append(details);
+        const summary = document.createElement('summary'); summary.textContent = label; details.append(summary, section); containers.get(groups.find(group => group[3].includes(key))[0]).append(details);
       });
-      panel.insertAdjacentHTML('afterbegin', '<p class="microcopy">Abra uma tarefa. Edite o elemento selecionado no inspetor à direita.</p>');
+      panel.insertAdjacentHTML('afterbegin', '<div class=workflow-intro><span class=eyebrow>CONSTRUIR SEU MAPA</span><p>Escolha uma tarefa. Selecione na cena para editar nas Propriedades.</p></div>');
 
-    } else if (tab === 'assets') {
-      panel.innerHTML = assetLibraryPanel(assets, libraryFilters, repository.storage);
-      renderAssetCards();
     } else {
       const currentLook = store.document.look ?? store.document.defaultLook;
       panel.innerHTML = `${environmentPanel(store.document, savedEnvironments, selectedEnvironmentId, openAtmosphereSections, { numberField, colorField, checkField })}${atmospherePanel(currentLook, effectsEnabled, { numberField, colorField, checkField }, openAtmosphereSections)}${cameraPanel()}<section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-cut="${camera.id}" title="Cortar para este enquadramento" aria-label="Cortar para ${esc(camera.name)}">${icon('camera', 14)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
       renderSceneTreeIfVisible();
     }
+  }
+  function renderAssets() {
+    const panel = document.getElementById('assets-content'), scroll = panel.scrollTop;
+    panel.innerHTML = assetLibraryPanel(assets, libraryFilters, repository.storage); renderAssetCards(); panel.scrollTop = scroll;
   }
   function renderAssetCards() {
     const node = document.getElementById('asset-cards'); if (!node) return;
@@ -490,10 +529,11 @@ export async function startApplication() {
     if (!selection) selectedIds.clear();
     if (selectedIds.size > 1) { document.getElementById('inspector-content').innerHTML = `<section><span class="eyebrow">UNIR OBJETOS</span><button class="wide primary" data-action="assembly-bind">Ancorar objetos juntos</button><p class="microcopy">Cria uma composição que se seleciona, move e gira como uma unidade. Desancore pela pasta para editar os objetos individualmente.</p></section>` + polishPanel(selectedIds.size, polishOptions, store.document); viewport.setSelection(selection, [...selectedIds]); return; }
     const panel = document.getElementById('inspector-content'), found = locate();
+    const focused = panel.contains(document.activeElement) ? document.activeElement.dataset.field : null;
+    const geometryDisclosures = new Map([...panel.querySelectorAll('[data-disclosure=terrain-area]')].map(node=>[node.dataset.disclosure,node.open]));
     const textureDisclosures = new Map([...panel.querySelectorAll('[data-texture-options]')].map(node => [node.dataset.textureOptions, node.open]));
     const adjustmentsOpen = panel.querySelector('.object-adjustments')?.open ?? false;
     const terrainAdvancedOpen = panel.querySelector('[data-disclosure="terrain-advanced"]')?.open ?? false;
-    const terrainLayerEditorOpen = panel.querySelector('[data-disclosure="terrain-layer-editor"]')?.open ?? false;
     const terrainObjectSettingsOpen = panel.querySelector('[data-disclosure="terrain-object-settings"]')?.open ?? false;
     if (!found) {
       panel.innerHTML = `<div class="empty-inspector">${icon('cursor', 30)}<h3>Selecione um elemento</h3><p>Escolha um objeto na cena para editar posição, material e propriedades.</p><div class="inspector-guide"><span>${icon('move', 15)}Posicione com precisão</span><span>${icon('light', 15)}Crie a atmosfera</span><span>${icon('camera', 15)}Prepare o enquadramento</span></div></div>`;
@@ -511,12 +551,13 @@ export async function startApplication() {
     const position = record.transform?.position ?? record.position;
     let fields = `<div class="object-title"><span class="object-icon">${icon(type === 'token' ? 'token' : type === 'light' ? 'light' : record.kind === 'door' ? 'door' : 'room', 24)}</span><span><small>${type === 'token' ? 'TOKEN' : type === 'light' ? 'LUZ' : ({ water: record.water?.state==='ice'?'GELO':'ÁGUA', terrain: 'TERRENO', floor: 'PISO', wall: 'PAREDE', door: 'PORTA', window: 'JANELA', stairs: 'ESCADA', ramp: 'RAMPA', prop: 'ASSET' }[record.kind])}</small><strong>${esc(name)}</strong></span></div><label class="field"><span>Nome</span><input data-field="object-name" value="${esc(name)}" maxlength="256" /></label>`;
     if (record.kind === 'terrain') {
+      if(!record.paintLayers?.length) terrainMaterialTarget='base';
       if (!record.paintLayers?.some(layer => layer.id === terrainBrush.layerId)) terrainBrush.layerId = record.paintLayers?.[0]?.id ?? '';
       viewport.setTerrainBrush(terrainBrush);
-      fields += terrainInspector(record, terrainBrush, Math.min(terrainCell, record.heights.length - 1), tool === 'terrain', terrainAdvancedOpen, terrainLayerEditorOpen, terrainResizeMode);
-      fields += materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField });
+      const basePanel = `<details class=terrain-base-material data-disclosure=terrain-base-material ${terrainMaterialTarget === 'base' ? 'open' : ''}><summary>Material base · terreno inteiro</summary><p class=scope-hint>Edite aqui a textura base e os ajustes gerais do terreno. Para alterar somente uma camada, escolha-a no seletor acima. Relevo e cobertura são compartilhados.</p>${materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField })}</details>`;
+      fields += terrainInspector(record, terrainBrush, Math.min(terrainCell, record.heights.length - 1), tool === 'terrain', terrainAdvancedOpen, terrainMaterialTarget !== 'base', terrainResizeMode, terrainMaterialTarget, basePanel);
     }
-    if(record.kind==='water') fields+=waterPanel(record,{numberField,colorField});
+    if(record.kind==='water') fields+=waterPanel(record,{numberField,colorField},store.document);
     if (record.kind === 'floor') fields += `<section><span class="eyebrow">ABERTURAS E PAREDES</span><button data-action="floor-hole" class="wide">Recortar piso · vão de escada / pátio</button><p class="microcopy">Clique nos cantos do vão dentro deste piso; Enter conclui. O recorte atravessa sua espessura.</p><button data-action="contour-walls" class="wide">Criar paredes do contorno</button><p class="microcopy">Revise antes de aceitar. Paredes de bordas compartilhadas são reaproveitadas; encontros em L e T se ajustam automaticamente.</p></section>`;
     if (record.kind === 'terrain') fields += `<details data-disclosure="terrain-object-settings" ${terrainObjectSettingsOpen ? 'open' : ''}><summary>Posição, organização e apresentação</summary>`;
     if (position) {
@@ -547,7 +588,9 @@ export async function startApplication() {
     fields += `<section><span class="eyebrow">APRESENTAÇÃO</span>${checkField('object-secret', 'Somente para o mestre', record.audience === 'gm')}${record.locked === undefined ? '' : checkField('object-locked', 'Bloquear edição', record.locked)}</section>${record.kind === 'terrain' ? '</details>' : ''}<div class="object-actions">${button('object-copy', 'Copiar', 'copy')}${button('object-duplicate', 'Duplicar', 'copy')}${button('object-delete', 'Excluir', 'trash', 'danger')}</div>`;
     if (record.kind !== 'terrain') fields += `<details class="object-adjustments" ${adjustmentsOpen ? 'open' : ''}><summary>Alinhar e ajustar objetos</summary>${polishPanel(1, polishOptions, doc)}</details>`;
     panel.innerHTML = isLocked(doc, record) ? `<p class="microcopy">Elemento, pasta, andar ou camada bloqueados. Desbloqueie na organização da cena para editar.</p>${fields}` : fields;
+    for(const [key,open] of geometryDisclosures) {const node=panel.querySelector(`[data-disclosure=${key}]`);if(node)node.open=open;}
     for (const node of panel.querySelectorAll('[data-texture-options]')) node.open = textureDisclosures.get(node.dataset.textureOptions) ?? false;
+    if(focused) panel.querySelector(`[data-field="${focused}"]`)?.focus({preventScroll:true});
   }
 
   function updateView(event = {}) {
@@ -715,13 +758,7 @@ export async function startApplication() {
     }
   }
 
-  function closeDialog() {
-    const dialog = document.getElementById('documents-dialog');
-    if (dialog) {
-      if (typeof dialog.close === 'function') dialog.close();
-      dialog.removeAttribute('open');
-    }
-  }
+  function closeDialog() { documentsWindow.close(); }
 
   async function openScene(sceneId) {
     if (!canSwitch()) return;
@@ -999,11 +1036,7 @@ export async function startApplication() {
     if (targetTab) dialogTab = targetTab;
     await refreshSaved();
     renderDialogContent();
-    if (typeof dialog.show === 'function') {
-      dialog.show();
-    } else {
-      dialog.setAttribute('open', '');
-    }
+    documentsWindow.open();
   }
   async function importAsset(file) {
     if (!file) return;
@@ -1069,7 +1102,8 @@ export async function startApplication() {
       try {execute('entity.update',{id:terrain.id,patch:resizeTerrain(terrain,{[field]:value,mode:terrainResizeMode}),snap:false},{label:terrainResizeMode==='extend'?'Expandir área do terreno':'Esticar terreno'});} catch(error) {notify(error.message,true);renderInspector();}
       return;
     }
-    if (field === 'terrain-paint-layer') { terrainBrush.layerId = value; viewport.setTerrainBrush(terrainBrush); renderInspector(); return; }
+    if (field === 'terrain-material-target') { terrainMaterialTarget = value === 'base' ? 'base' : 'layer'; if(value !== 'base') terrainBrush.layerId=value; viewport.setTerrainBrush(terrainBrush); renderInspector(); return; }
+    if (field === 'terrain-paint-layer') { terrainMaterialTarget='layer'; terrainBrush.layerId = value; viewport.setTerrainBrush(terrainBrush); renderInspector(); return; }
     if (field.startsWith('terrain-distribution-')) {
       const terrain=locate()?.record;
       if(terrain?.kind!=='terrain') return;
@@ -1089,9 +1123,10 @@ export async function startApplication() {
     }
     if (field.startsWith('brush-')) {
       const next = { ...terrainBrush, [field.slice(6)]: value };
+      if (field === 'brush-mode' && value==='water') { next.shape='circle'; next.snap=false; const terrain=locate()?.record; next.waterLevel=terrain?.transform.position[1]+.05 || .05; }
       if (field === 'brush-mode' && ['smooth','flatten','paint','erase'].includes(value)) next.strength = Math.min(1, next.strength);
-      if (!Number.isFinite(next.radius) || next.radius <= 0 || next.radius > 100 || !Number.isFinite(next.strength) || next.strength <= 0 || next.strength > 10 || !Number.isFinite(next.target) || !Number.isFinite(next.rockSize) || next.rockSize<.1 || next.rockSize>100 || !Number.isInteger(next.rockSeed) || next.rockSeed<0 || next.rockSeed>65535) { notify('Confira raio, força, tamanho da formação (0,1–100 m) e variação inteira (0–65535).', true); renderInspector(); return; }
-      terrainBrush = next; viewport.setTerrainBrush(terrainBrush); if (['brush-mode','brush-shape','brush-hardness'].includes(field)) renderInspector(); return;
+      if (!Number.isFinite(next.radius) || next.radius <= 0 || next.radius > 100 || !Number.isFinite(next.strength) || next.strength <= 0 || next.strength > 10 || !Number.isFinite(next.target) || !Number.isFinite(next.rockSize) || next.rockSize<.1 || next.rockSize>100 || !Number.isFinite(next.waterLevel) || !Number.isFinite(next.waterDepth) || next.waterDepth<.1 || next.waterDepth>20 || !Number.isInteger(next.rockSeed) || next.rockSeed<0 || next.rockSeed>65535) { notify('Confira raio, força, tamanho da formação (0,1–100 m) e variação inteira (0–65535).', true); renderInspector(); return; }
+      terrainBrush = next; viewport.setTerrainBrush(terrainBrush); renderToolContext(); if (['brush-mode','brush-shape','brush-hardness'].includes(field)) renderInspector(); return;
     }
     if (field === 'terrain-cell') { terrainCell = Math.max(0, Math.min((locate()?.record.heights?.length ?? 1) - 1, Math.floor(value))); renderInspector(); return; }
     if (field === 'build-height') { if (!Number.isFinite(value)) return; buildHeight = value; activeSurfaceId = null; roomOptions.center[1] = value; viewport.setWorkplaneHeight(value); viewport.setSupportSurface(null); renderSidebar(); return; }
@@ -1345,7 +1380,7 @@ export async function startApplication() {
         const layers = terrain.paintLayers ?? []; if (layers.length >= 8) { notify('O terreno aceita até oito camadas de cor.', true); break; }
         const layer = { id: id(), name: `Camada ${layers.length + 1}`, color: '#f0f3f5', opacity: 1, visible: true, weights: Array(terrain.heights.length).fill(0) };
         if (execute('entity.update', { id: terrain.id, patch: { paintLayers: [...layers, layer] }, snap: false }, { label: 'Nova camada do terreno' })) {
-          terrainBrush = { ...terrainBrush, mode: 'paint', strength: Math.min(1, terrainBrush.strength), layerId: layer.id }; viewport.setTerrainBrush(terrainBrush); renderInspector();
+          terrainMaterialTarget='layer'; terrainBrush = { ...terrainBrush, mode: 'paint', strength: Math.min(1, terrainBrush.strength), layerId: layer.id }; viewport.setTerrainBrush(terrainBrush); renderInspector();
           const editor = document.querySelector('[data-disclosure="terrain-layer-editor"]'); if (editor) editor.open = true;
           notify('Camada criada. Escolha a cor e pressione T para pintar no terreno.');
         } break;
@@ -1362,6 +1397,17 @@ export async function startApplication() {
       case 'anchor-preview': {
         try { showAuthorshipProposal(proposeAnchoring(store.document, { ids: [...selectedIds], hostId: anchorHostId }, store.editVersion)); } catch (error) { notify(error.message, true); } break;
       }
+      case 'terrain-paint-selected': {
+        const terrain=locate()?.record, layer=terrain?.paintLayers?.find(l=>l.id===terrainBrush.layerId);
+        if(!layer)break;
+        if(layer.distribution?.mode && layer.distribution.mode!=='paint') {notify('Mude Distribuição da camada para Pintura manual antes de pintar.',true);break;}
+        terrainMaterialTarget='layer';terrainBrush.mode='paint';terrainBrush.strength=Math.min(1,terrainBrush.strength);await act('terrain-sculpt');break;
+      }
+      case 'water-bed-preview': {
+        const terrainId=root.querySelector('[data-water-terrain]')?.value;
+        try {showAuthorshipProposal(proposeWaterBed(store.document,terrainId,selection,store.editVersion));}catch(error){notify(error.message,true);}break;
+      }
+      case 'terrain-water-brush': terrainBrush.mode='water'; terrainBrush.shape='circle'; terrainBrush.snap=false; await act('terrain-sculpt'); break;
       case 'terrain-sculpt': {
         let terrain = store.document.layout.entities[selection];
         if (terrain?.kind !== 'terrain') {
@@ -1420,6 +1466,8 @@ export async function startApplication() {
       }
       case 'new': if (canSwitch()) { selection = null; clearProposal(); store.replace(createScene('Nova cena'), { saved: false }); setTool('select'); viewport.frameScene(); } break;
       case 'open': return openDialog();
+      case 'sidebar-toggle': case 'inspector-toggle': { const key=action.split('-')[0],shell=root.querySelector('.app-shell'),closed=shell.classList.toggle(`${key}-collapsed`);if(compactLayout.matches && !closed) shell.classList.add(`${key==='sidebar'?'inspector':'sidebar'}-collapsed`);syncPanelToggles();break; }
+      case 'assets-close': assetsWindow.close(); break;
       case 'close-dialog': closeDialog(); break;
       case 'room-draw': clearProposal(); setTool('room'); document.getElementById('welcome').hidden = true; notify('Arraste no chão para desenhar o tamanho da sala.'); break;
       case 'accept-proposal': {
@@ -1481,6 +1529,7 @@ export async function startApplication() {
         else broadcast(); break;
       }
       case 'present':
+        assetsWindow.close(); documentsWindow.close();
         clearProposal(); isPresentation = !isPresentation;
         if (isPresentation) { workingCamera = viewport.getCamera(); publishedCamera ??= workingCamera; viewport.setDocument(projectPresentation(store.document)); viewport.setCamera(publishedCamera); }
         else { const presented = viewport.getCamera(); viewport.setDocument(store.document); if (workingCamera) viewport.setCamera(workingCamera); publishCamera(presented, 0); }
@@ -1631,13 +1680,17 @@ export async function startApplication() {
       }); return;
     }
     if (node.dataset.action) { Promise.resolve(act(node.dataset.action, node.dataset)).catch((error) => notify(error.message, true)); return; }
-    if (node.dataset.tab) { tab = node.dataset.tab; renderSidebar(); return; }
+    if (node.dataset.tab) {
+      if (node.dataset.tab === 'assets') { renderAssets(); assetsWindow.open(); document.getElementById('asset-search').focus({preventScroll:true}); }
+      else { assetsWindow.close(); tab = node.dataset.tab; renderSidebar(); }
+      return;
+    }
     if (node.dataset.dialogTab) { dialogTab = node.dataset.dialogTab; renderDialogContent(); return; }
     if (node.dataset.select) { selectObject(node.dataset.select, event.shiftKey); return; }
     if (node.dataset.asset) {
       const asset = assets.find((item) => item.id === node.dataset.asset);
       placing = asset.type === 'image' ? { type: 'token', name: asset.name.replace(/\.[^.]+$/, ''), color: '#e4b76f', assetRef: { id: asset.id, revision: asset.revision } } : { type: 'prop', asset };
-      setTool('place'); notify(`Clique no piso para colocar ${asset.name}.`); return;
+      assetsWindow.close(); if(window.innerWidth<=900) {root.querySelector('.app-shell').classList.add('sidebar-collapsed');syncPanelToggles();} setTool('place'); notify(`Clique no piso para colocar ${asset.name}.`); return;
     }
     if (node.dataset.environmentPreview) { try { previewEnvironment(node.dataset.environmentPreview); } catch (error) { notify(error.message, true); } return; }
     if (node.dataset.environment) { execute('environment.apply', { presetId: node.dataset.environment }); return; }
@@ -1689,6 +1742,8 @@ export async function startApplication() {
     const atmosphereKey = event.target.dataset?.atmosphereSection;
     if (atmosphereKey && event.target.isConnected) { if (event.target.open) openAtmosphereSections.add(atmosphereKey); else openAtmosphereSections.delete(atmosphereKey); }
     const key = event.target.dataset?.buildSection;
+    if(event.target.isConnected && event.target.dataset.disclosure==='terrain-base-material') terrainMaterialTarget=event.target.open?'base':'layer';
+    const groupKey = event.target.dataset.buildGroup; if(groupKey && event.target.isConnected) { if(event.target.open) openBuildGroups.add(groupKey); else openBuildGroups.delete(groupKey); }
     if (key && event.target.isConnected) { if (event.target.open) openBuildSections.add(key); else openBuildSections.delete(key); }
   }, true);
   root.addEventListener('contextmenu', (event) => {
@@ -1788,6 +1843,7 @@ export async function startApplication() {
     if (!initialized) return;
     if (event.key === 'Escape') {
       if (document.getElementById('asset-metadata-dialog').open) return;
+      if (document.getElementById('assets-dialog').open) { assetsWindow.close(); return; }
       const docDialog = document.getElementById('documents-dialog');
       if (docDialog && docDialog.hasAttribute('open')) {
         closeDialog();
@@ -1799,7 +1855,7 @@ export async function startApplication() {
       return;
     }
     if (event.defaultPrevented || event.target.closest('input,select,textarea,[contenteditable]:not([contenteditable="false"])')) return;
-    if (document.querySelector('dialog[open]')) return;
+    if (document.querySelector('dialog[open]:not(.floating-window)') || event.target.closest('.floating-window')) return;
     if (isPresentation) return;
     if (event.ctrlKey || event.metaKey) {
       if (event.key.toLowerCase() === 's') { event.preventDefault(); saveScene(); }
@@ -1811,7 +1867,7 @@ export async function startApplication() {
       return;
     }
     if (event.key.toLowerCase() === 't') { event.preventDefault(); if (!event.repeat) act(tool === 'terrain' ? 'terrain-stop' : 'terrain-sculpt'); return; }
-    if (tool === 'terrain' && ['[',']'].includes(event.key)) { event.preventDefault(); terrainBrush.radius = Math.max(.1, Math.min(100, Number((terrainBrush.radius * (event.key === '[' ? .8 : 1.25)).toFixed(2)))); viewport.setTerrainBrush(terrainBrush); renderInspector(); return; }
+    if (tool === 'terrain' && ['[',']'].includes(event.key)) { event.preventDefault(); terrainBrush.radius = Math.max(.1, Math.min(100, Number((terrainBrush.radius * (event.key === '[' ? .8 : 1.25)).toFixed(2)))); viewport.setTerrainBrush(terrainBrush); renderToolContext(); renderInspector(); return; }
     if (event.altKey || event.repeat) return;
     const keys = { q: 'select', g: 'move', r: 'rotate', v: 'scale' };
     if (keys[event.key.toLowerCase()]) setTool(keys[event.key.toLowerCase()]);

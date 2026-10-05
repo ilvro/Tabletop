@@ -36,6 +36,7 @@ test('library filters, editable classification, favorites, imports and placement
   const vehiclePoint = await page.evaluate(() => window.__tabletop.project([-1.5, 0, 0]));
   await page.mouse.click(vehiclePoint.x, vehiclePoint.y);
   await page.waitForFunction(() => Object.values(window.__tabletop.snapshot().layout.entities).some(e => e.assetRef?.id === 'builtin-motorcycle'));
+  await page.locator('[data-tab=assets]').click();
   await page.locator('[data-library-clear]').click();
   await page.getByLabel('Categoria de assets', { exact: true }).selectOption('Saúde');
   await page.getByLabel('Cenário dos assets', { exact: true }).selectOption('Hospital');

@@ -29,7 +29,7 @@ test('structural authoring: sculpt/cancel, holes, shared walls, levels, anchors,
     if (cancel) await page.keyboard.press('Escape'); await page.mouse.up();
   }
   assert.equal(await page.locator('[data-build-section="terrain"]').getAttribute('open'), null);
-  await page.locator('[data-build-section="terrain"] > summary').click();
+  await reveal(page.locator('[data-build-section="terrain"] [data-action=terrain-add]'));
   assert.ok(await page.locator('[data-action="terrain-add"]').isVisible());
   await field('terrain-new-width', 10); await field('terrain-new-length', 10); await field('terrain-new-segments', 16); await action('terrain-add'); await action('top');
   let doc = await snapshot(); const terrain = Object.values(doc.layout.entities).find(e => e.kind === 'terrain'); assert.ok(terrain);
