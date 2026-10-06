@@ -8,6 +8,8 @@ import { addMountainLibrary } from './library-mountain.js';
 import { addMountainKit } from './library-mountain-kit.js';
 import { addAlpineLibrary } from './library-alpine.js';
 import {addOrganicRocks} from './library-organic-rocks.js';
+import {addWinterDetail} from './library-winter-detail.js';
+import {rasterThumbnail} from './recipe-thumbnail.js';
 
 const materials = {
   wood: { color: '#79553e', roughness: .84 }, dark: { color: '#292b30', roughness: .8 },
@@ -105,8 +107,9 @@ addMountainLibrary({add,timeless});
 const alpineIds=addAlpineLibrary({add,timeless,ancient});
 for(const id of addMountainKit({add,timeless,ancient}))alpineIds.add(id);
 for(const id of addOrganicRocks({add,timeless}))alpineIds.add(id);
+const detailIds=addWinterDetail({add,timeless,ancient});for(const id of detailIds)alpineIds.add(id);
 
-function preview(object) {
+function preview(object,raster=false) {
   object.updateMatrixWorld(true);
   const camera = new THREE.PerspectiveCamera(35, 1, .01, 100);
   const bounds = new THREE.Box3().setFromObject(object), center = bounds.getCenter(new THREE.Vector3());
@@ -127,6 +130,7 @@ function preview(object) {
     }
   });
   triangles.sort((a, b) => b.z - a.z);
+  if(raster)return rasterThumbnail(triangles);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 154"><rect width="160" height="154" fill="#20272b"/><ellipse cx="80" cy="128" rx="51" ry="9" fill="#141b20"/>${triangles.map(t => `<polygon points="${t.points}" fill="${t.color}"/>`).join('')}</svg>\n`;
 }
 
@@ -158,7 +162,7 @@ for (const asset of assets) {
   const extent = bounds.getSize(new THREE.Vector3());
   if (asset.supportHeight) asset.supportHeight -= bottom;
   await writeFile(`public/assets/models/${asset.id.slice(8)}.json`, `${JSON.stringify(recipe, null, 2)}\n`);
-  await writeFile(`public/assets/previews/${asset.id.slice(8)}.svg`, preview(normalized));
+  await writeFile(`public/assets/previews/${asset.id.slice(8)}.svg`, preview(normalized,detailIds.has(asset.id)));
   disposeObject(normalized);
   const { parts, ...record } = asset;
   Object.assign(record, { footprint: [Math.ceil(extent.x * 100) / 100, Math.ceil(extent.z * 100) / 100], bounds: [extent.x, extent.y, extent.z].map(n => Math.round(n * 1000) / 1000), url: `/assets/models/${asset.id.slice(8)}.json`, previewUrl: `/assets/previews/${asset.id.slice(8)}.svg` });

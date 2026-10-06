@@ -4,7 +4,7 @@ Incremento técnico de 5 de outubro de 2026. Plano: [ORGANIC_WINTER_PLAN.md](ORG
 
 ## Colocar e esculpir
 
-Em **Assets**, procure **Rocha orgânica · afloramento irregular** ou **Paredão orgânico · fraturas e erosão**, em Exterior / Montanha. São duas peças novas, com IDs próprios; as 191 anteriores conservam seus arquivos. O catálogo passa a 193 assets.
+Em **Assets**, procure **Rocha orgânica · afloramento irregular** ou **Paredão orgânico · fraturas e erosão**, em Exterior / Montanha. São duas peças novas, com IDs próprios; as 191 anteriores conservam seus arquivos. Esse incremento elevou o catálogo a 193 assets; com [vegetação e objetos detalhados](WINTER_DETAIL.md), o catálogo atual tem 202.
 
 Em **Propriedades → Geometria da rocha**, escolha **Rocha orgânica** ou **Paredão orgânico**. Essas opções também funcionam nas rochas editáveis anteriores. A forma nova não usa fileiras de estratos: combina massas em três dimensões, deformação espacial, fraturas locais e detalhe em várias escalas. Seed e irregularidade variam o volume; erosão quebra a superfície; o paredão também oferece saliências locais. Escala X/Y/Z controla o tamanho sem mover o pivot da base.
 
@@ -42,6 +42,6 @@ Precipitação e depósito são controles separados. O vento dos depósitos modi
 - Novas malhas-base têm menos de 20 mil triângulos por peça no detalhe máximo. A escultura conserva seu orçamento de até 48 mil. Refinamento do depósito tenta manter até 12 mil faces superiores; não é um limite geral de triângulos para qualquer GLB importado. Malhas-fonte grandes e muitas coberturas ainda podem custar caro.
 - A cobertura não cria geometria por frame. Os buffers do depósito e seus materiais são liberados ao remover/reconstruir; atlas seguem compartilhamento por referência. O emissor de flocos não atualiza posições na CPU a cada frame.
 - Terreno continua tendo uma altura por X/Z. Peças de rocha acrescentam volumes, mas não abrem túneis por booleans/voxels nem fornecem navegação automática de tokens.
-- Pintura localizada de neve/material nas rochas, mapas PBR fotográficos, vegetação mais detalhada e reconstrução do exemplo continuam nas etapas seguintes. A base técnica não estabelece paridade visual com a referência.
+- O exemplo foi reconstruído com esses recursos e vegetação/objetos de [WINTER_DETAIL.md](WINTER_DETAIL.md), verificados no navegador. Carregamento em [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md). Pintura localizada de neve/material nas rochas e mapas PBR fotográficos continuam futuros. Não estabelece paridade visual com a referência.
 
 Captura do protótipo no renderizador: `test-results/organic-cliff-prototype.png`, com rocha, neve e lanterna. Testes WebGL por software verificam funcionamento e liberação de recursos; não constituem benchmark do notebook/projetor reais.

@@ -9,7 +9,7 @@ import {chromium} from 'playwright';
 import {createApp} from '../../server/app.js';
 import {reveal} from './controls.js';
 
-for(const mode of ['server','pages'])test(`mountain example loads a private scene in ${mode}, saves/reopens and leaves bundled original intact`,{timeout:240_000},async t=>{
+for(const mode of ['server','pages'])test(`mountain example loads a private scene in ${mode}, saves/reopens and leaves bundled original intact`,{timeout:360_000},async t=>{
   const original=JSON.parse(await readFile('public/scenes/snowy-mountain-pass.json','utf8'));
   const entityCount=Object.keys(original.layout.entities).length,objectCount=entityCount+Object.keys(original.look.lights).length;
   const directory=await mkdtemp(path.join(os.tmpdir(),'tabletop-example-test-'));
@@ -31,8 +31,8 @@ for(const mode of ['server','pages'])test(`mountain example loads a private scen
   await page.waitForFunction(()=>{const img=document.querySelector('[data-open-example] img');return img?.complete&&img.naturalWidth>0;});
   if(mode==='pages') {
     await page.setViewportSize({width:390,height:844});
-    await page.waitForFunction(()=>{const b=document.querySelector('[data-open-example]').getBoundingClientRect();return b.left>=0&&b.right<=innerWidth;});
-    const card=await page.locator('[data-open-example]').boundingBox();assert.ok(card.x>=0&&card.x+card.width<=390);
+    await page.waitForFunction(()=>[...document.querySelectorAll('[data-open-example]')].every(card=>{const b=card.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth;}));
+    for(const node of await page.locator('[data-open-example]').all()) {const card=await node.boundingBox();assert.ok(card.x>=0&&card.x+card.width<=390);}
     await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/example-gallery-mobile.png'});
     await page.setViewportSize({width:1100,height:760});
   }
@@ -43,8 +43,11 @@ for(const mode of ['server','pages'])test(`mountain example loads a private scen
   const initialCamera=await page.evaluate(()=>window.__tabletop.camera());
   initialCamera.position.forEach((value,index)=>assert.ok(Math.abs(value-Object.values(draft.cameraPresets)[0].position[index])<1e-8));
   await page.waitForFunction(()=>window.__tabletop.stats().snowCoats.length>=6);
+  await page.waitForFunction(count=>window.__tabletop.stats().rockGeometries.length>=count,Object.values(draft.layout.entities).filter(e=>e.rockShape).length);
+  const rendered=await page.evaluate(()=>window.__tabletop.stats());assert.deepEqual(rendered.assetDiagnostics,[]);
+  assert.equal(rendered.atmosphere.weather,'snow');assert.equal(rendered.atmosphere.particles,2700);
   await page.locator('[data-tab="scene"]').click();const rock=Object.values(draft.layout.entities).find(e=>e.rockShape);
-  await page.locator(`[data-select="${rock.id}"]`).click();await page.waitForFunction(id=>window.__tabletop.stats().rockGeometries.some(g=>g.id===id),rock.id);
+  await (await reveal(page.locator(`[data-select="${rock.id}"]`))).click();await page.waitForFunction(id=>window.__tabletop.stats().rockGeometries.some(g=>g.id===id),rock.id);
   const field=await reveal(page.locator('[data-field="rock-seed"]'));await field.fill('909');await field.press('Tab');assert.equal((await snapshot()).layout.entities[rock.id].rockShape.seed,909);
   await action('undo');assert.deepEqual((await snapshot()).layout,draft.layout);await action('redo');
   console.log(`${mode}: edição e histórico verificados`);
@@ -52,9 +55,15 @@ for(const mode of ['server','pages'])test(`mountain example loads a private scen
   try {await projector.waitForFunction(count=>window.__tabletop?.stats().objects===count,objectCount,{timeout:60_000});}
   catch(error) {console.log(await projector.evaluate(()=>({url:location.href,message:document.querySelector('#presentation-message')?.textContent,stats:window.__tabletop?.stats()})));throw error;}
   const projectorCamera=await projector.evaluate(()=>window.__tabletop.camera());
+  await projector.waitForFunction(count=>window.__tabletop.stats().rockGeometries.length>=count,Object.values(draft.layout.entities).filter(e=>e.rockShape).length);
+  const projected=await projector.evaluate(()=>window.__tabletop.stats());assert.deepEqual(projected.assetDiagnostics,[]);assert.equal(projected.atmosphere.particles,2700);
+  await page.bringToFront();const lookBeforeQuality=(await snapshot()).look;
+  await (await reveal(page.locator('[data-field="viewport-effects"]'))).uncheck();await page.waitForFunction(()=>window.__tabletop.stats().fog===null);
+  assert.equal((await projector.evaluate(()=>window.__tabletop.stats())).fog,'exp2');assert.deepEqual((await snapshot()).look,lookBeforeQuality);
+  await (await reveal(page.locator('[data-field="viewport-effects"]'))).check();await page.waitForFunction(()=>window.__tabletop.stats().fog==='exp2');
   await page.bringToFront();await page.locator('#viewport canvas').focus();await page.keyboard.down('w');await page.waitForTimeout(200);await page.keyboard.up('w');
   assert.deepEqual(await projector.evaluate(()=>window.__tabletop.camera()),projectorCamera);await projector.close();
-  await action('save');await page.waitForFunction(()=>window.__tabletop.snapshot().revision===1);const saved=await snapshot();await page.reload();await page.waitForFunction(id=>window.__tabletop?.snapshot().id===id,saved.id);assert.deepEqual((await snapshot()).layout,saved.layout);
+  await action('save');await page.waitForFunction(()=>window.__tabletop.snapshot().revision===1&&!document.querySelector('#save-status').classList.contains('unsaved'));const saved=await snapshot();await page.reload();await page.waitForFunction(id=>window.__tabletop?.snapshot().id===id,saved.id);assert.deepEqual((await snapshot()).layout,saved.layout);
   await action('open');await page.locator(`[data-open="${saved.id}"]`).waitFor();assert.equal(await page.locator(`[data-open="${saved.id}"]`).count(),1);
   await page.locator('[data-open-example="snowy-mountain-pass"]').click();await page.waitForFunction(id=>window.__tabletop.snapshot().id!==id,saved.id);
   const second=await snapshot();assert.equal(second.revision,0);assert.notEqual(second.id,draft.id);assert.equal(Object.values(second.layout.entities).find(e=>e.rockShape).rockShape.seed,Object.values(original.layout.entities).find(e=>e.rockShape).rockShape.seed);

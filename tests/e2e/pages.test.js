@@ -39,7 +39,7 @@ test('GitHub Pages works under a repository path without an API: catalog, import
   await action('floor-add');let floor=Object.values((await snapshot()).layout.entities).find(e=>e.kind==='floor');assert.ok(floor);
   await page.locator('[data-field="material-texture"]').selectOption('wood');await (await reveal(page.locator('[data-field="material-woodBoards"]'))).fill('8');await page.locator('[data-field="material-woodBoards"]').press('Tab');
   await page.locator('[data-tab="assets"]').click();
-  await page.waitForFunction(()=>document.querySelector('#asset-result-count').textContent.includes('193'));
+  await page.waitForFunction(()=>document.querySelector('#asset-result-count').textContent.includes('202'));
   await page.locator('[data-asset="builtin-desk"] img').waitFor();assert.equal(await page.locator('[data-asset="builtin-desk"] img').evaluate(img=>img.complete&&img.naturalWidth>0),true);
   await page.locator('[data-asset="builtin-desk"]').click();await world([0,0,0]);await page.waitForFunction(()=>Object.values(window.__tabletop.snapshot().layout.entities).some(e=>e.assetRef?.id==='builtin-desk'));
   await page.locator('[data-tab=assets]').click();await page.locator('[data-library-favorite="builtin-desk"]').click();await page.waitForFunction(()=>document.querySelector('[data-library-favorite="builtin-desk"]').getAttribute('aria-pressed')==='true');
@@ -62,8 +62,8 @@ test('GitHub Pages works under a repository path without an API: catalog, import
   const coverage=await reveal(page.locator('[data-field="coverage-texture"]'));await coverage.selectOption('snow');
   const thickness=await reveal(page.locator('[data-field="coverage-physicalThickness"]'));await thickness.fill('.12');await thickness.press('Tab');
   assert.equal((await snapshot()).layout.entities[ice.id].material.coverage.physicalThickness,.12);
-  await page.locator('[data-tab="assets"]').click();await page.getByLabel('Buscar assets',{exact:true}).fill('abeto alpino');await page.locator('[data-asset="builtin-alpine-fir"]').click();await world([-2,0,2]);
-  await page.waitForFunction(()=>Object.values(window.__tabletop.snapshot().layout.entities).some(e=>e.assetRef?.id==='builtin-alpine-fir'));
+  await page.locator('[data-tab="assets"]').click();await page.getByLabel('Buscar assets',{exact:true}).fill('abeto denso');await page.locator('[data-asset="builtin-dense-alpine-fir"]').click();await world([-2,0,2]);
+  await page.waitForFunction(()=>Object.values(window.__tabletop.snapshot().layout.entities).some(e=>e.assetRef?.id==='builtin-dense-alpine-fir'));
   const variation=await reveal(page.locator('[data-field="vegetationSeed"]'));await variation.fill('707');await variation.press('Tab');
   await page.waitForFunction(()=>window.__tabletop.stats().surfaceMaterials.some(m=>m.texture==='bark'));
   await page.locator('[data-tab="scene"]').click();await action('environment-save');await page.waitForFunction(()=>document.querySelector('[data-field="environment-library"]').options.length>1);
@@ -114,5 +114,5 @@ test('browser repository validates documents/assets, serializes conflicts and ab
     const result={statuses,concurrent:concurrent.map(r=>r.status==='fulfilled'?'saved':r.reason.status),metadataConflicts:edits.map(r=>r.status==='fulfilled'?'saved':r.reason.status),before,after,quota,blobSize,reloadedBlob,updated,counts:[scenes.length,maps.length,environments.length],backups:backups.length,allBuiltins:(await a.assets()).filter(asset=>asset.id.startsWith('builtin-')).length};
     a.dispose();b.dispose();reloaded.dispose();return result;
   },png.toString('base64'));
-  assert.deepEqual(results.concurrent.sort(),[409,'saved'].sort());assert.deepEqual(results.metadataConflicts.sort(),[409,'saved'].sort());assert.deepEqual(results.before,results.after);assert.equal(results.quota,'QuotaExceededError');assert.equal(results.statuses[0],409);assert.equal(results.statuses[1],409);assert.ok(results.statuses.slice(2).every(s=>s!=='accepted'));assert.equal(results.blobSize,png.length);assert.equal(results.reloadedBlob,png.length);assert.equal(results.updated.metadataRevision,1);assert.deepEqual(results.counts,[1,1,1]);assert.ok(results.backups<=5);assert.equal(results.allBuiltins,193);
+  assert.deepEqual(results.concurrent.sort(),[409,'saved'].sort());assert.deepEqual(results.metadataConflicts.sort(),[409,'saved'].sort());assert.deepEqual(results.before,results.after);assert.equal(results.quota,'QuotaExceededError');assert.equal(results.statuses[0],409);assert.equal(results.statuses[1],409);assert.ok(results.statuses.slice(2).every(s=>s!=='accepted'));assert.equal(results.blobSize,png.length);assert.equal(results.reloadedBlob,png.length);assert.equal(results.updated.metadataRevision,1);assert.deepEqual(results.counts,[1,1,1]);assert.ok(results.backups<=5);assert.equal(results.allBuiltins,202);
 });

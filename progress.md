@@ -2,16 +2,54 @@
 
 Atualizado em 5 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
-## Base técnica de rocha e neve orgânicas — em implementação
+## Reconstrução integral da montanha — entregue e validada
 
-- [x] Acrescentar formações orgânicas separadas das geometrias antigas, com fraturas/erosão em três dimensões e dois assets próprios.
-- [x] Acrescentar padrão mineral de rocha orgânica, com variação espacial ampla, preservando materiais anteriores.
-- [x] Implementar depósitos conectados de neve com variação de espessura/vento; integrar parâmetros opcionais, editor e altura de apoio do terreno.
-- [x] Corrigir o sentido da precipitação de neve e adicionar variação de flocos, deriva e rajadas no emissor GPU.
+- [x] Substituir a composição por um snapshot novo: **101 elementos e quatro luzes**, **48 × 62 m**, seis pastas desbloqueadas e cinco câmeras.
+- [x] Modelar trilha ascendente com relevo espacial em várias escalas, lago irregular com leito escavado, caverna lateral livre e ponte elevada sobre uma ravina real.
+- [x] Usar paredões/rochas orgânicos, quatro abetos densos/um pinheiro denso, neve de copa, caixas/barril/tábuas/raízes/arbustos e lanternas circulares conectadas.
+- [x] Ativar tempestade com 2.700 flocos, queda/vento/rajadas, névoa fria e contraste quente das lanternas.
+- [x] Revisar as cinco câmeras e a tempestade em movimento no renderizador real; atualizar a prévia distribuída.
+- [x] Validar cópia independente em Abrir, carregamento de modelos, edição/histórico, persistência, servidor/Pages e câmera independente do projetor.
+- [x] Sincronizar os guias e resumos; retirar entregas das pendências atuais.
 
-Validação em andamento: revisar topologia, exposição/costuras, escultura/histórico/Pages/projetor, recursos e capturas reais do protótipo. Catálogo regenerado com 193 assets; arquivos dos 191 anteriores permaneceram iguais. Uma execução inicial de testes começou antes de terminar a geração do catálogo e não encontrou os novos IDs; os testes dependentes serão executados após a geração. Ainda não há reconstrução do mapa nem aceitação visual do recorte. Pintura local de depósitos em rochas, materiais fotográficos, vegetação detalhada e simulação contínua de depósito/derretimento não estão implementados.
+Uso: **Abrir → Cenas → Cenas de exemplo → Subida da montanha · caverna e ruínas**. Cada carregamento cria uma cópia editável; originais e cópias pessoais anteriores ficam preservados. Gerador em `scripts/mountain-example.js`, JSON/prévia em `public/scenes/`; o outro exemplo de ponte não é regenerado pelo comando de manutenção. Guia: [docs/EXAMPLE_SCENES.md](docs/EXAMPLE_SCENES.md).
 
-## Rocha orgânica e reconstrução completa — planejamento registrado
+Revisão visual: rocha deslocada para liberar a caverna; árvore afastada da borda; props inclinados com o chão e boulders assentados pela área de contato; irregularidade dos paredões reduzida para evitar pontas excessivas; lanterna reposicionada na face visível. Comparação com sombras desligadas confirmou que as faixas no chão eram auto-sombreamento. `normalBias` direcional agora acompanha o tamanho de texel no mundo, limitado entre 0,035 e 0,18 m, sem aumentar a resolução. Recorte final conferido sem as faixas. Vistas de autoria usam a qualidade local desligada para revelar o conjunto sem névoa, preservando o ambiente salvo/projetor. Arco antigo com pedras espaçadas substituído por ruína de torre; piso da caverna aproximado do chão e caixas parcialmente enterradas na neve.
+
+Validação: 167 testes de domínio/integração aprovados; nove testes de iluminação repetidos após a correção das sombras. Builds local/Pages aprovados. Oito cenários E2E afetados passaram nesta etapa: vegetação/pixels/descarte, exemplo no servidor e no Pages, três casos de rocha/neve/precipitação e dois de Pages/IndexedDB. Dois E2E de iluminação também foram repetidos. Cinco testes do exemplo passaram novamente após os últimos ajustes de composição. O roteiro móvel do exemplo foi corrigido para conferir os dois cartões da galeria, após falha por seleção ambígua; o caso Pages foi repetido. A suíte completa de navegador não foi repetida. Os raycasts da entrada foram ampliados para três alturas/larguras. Conferidos subida, margem/leito, apoios/vãos, fixação das lanternas/luzes, determinismo e cópias independentes. Todas as referências/modelos/prévias do catálogo e o JSON/JPEG do exemplo foram conferidos nos dois builds; nenhum diagnóstico de falha no mapa renderizado.
+
+Capturas finais: `test-results/mountain-example-reference.png`, `-cave.png`, `-bridge.png`, `-wide.png`, `-top.png`; tempestade animada em `-storm-a.png`/`-storm-b.png`. Recorte principal: **105 objetos, 167 chamadas, 747.504 triângulos, 17 texturas**. Compartilhar o acabamento mineral reduziu as texturas de 55 para 17 durante a revisão; o recorte anterior à reconstrução tinha aproximadamente 222 mil triângulos. Os contadores incluem as passagens de renderização, inclusive sombras; não são uma contagem de triângulos únicos. Essa ampliação tem custo real. Chromium/SwiftShader verifica funcionamento, sem estabelecer FPS no notebook/projetor. A animação de neve foi observada com relógio de efeitos avançando; movimento reduzido continua pausando.
+
+O mapa está pronto para carregar e editar. O acabamento continua procedural e estilizado: materiais fotográficos/desgaste regional, pintura local dos depósitos nas rochas, contato/reflexos e otimizações conforme benchmark permanecem futuros. Não declarar paridade com a referência ou com Ordem Paranormal por contagem de assets/testes; a aceitação visual pelo usuário ainda precisa ocorrer.
+
+## Vegetação e objetos detalhados — implementados e verificados no navegador
+
+- [x] Acrescentar abeto/pinheiro densos com agulhas em volume, ramos curvos afilados/bifurcados e variação por seed, preservando as plantas anteriores.
+- [x] Acrescentar galho seco, raízes torcidas e arbusto seco; madeira com pontas maciças, sem hastes retas como forma dominante.
+- [x] Acrescentar barril abaulado com 18 aduelas/aros, caixas antigas abertas/fechadas e tábuas partidas com espessura e ferragens.
+- [x] Integrar neve de copa por envelopes de ramos, slots/exposição/vento e descarte, com orçamento de refinamento menor que o das rochas.
+- [x] Integrar as cinco plantas à distribuição editável; iniciar com seis abetos densos e manter alternativas leves para fundo.
+- [x] Compactar as nove prévias offline em PNG embutido em SVG local; atualizar guias e resumos.
+
+Catálogo de **202 assets**: nove peças novas, sem alterar os arquivos dos 193 anteriores. Árvores com duas malhas e menos de 65 mil triângulos; neve em uma malha adicional. Prévia de cada árvore caiu de aproximadamente 2 MB para 12–14 KB. Guia e nomes para busca: [docs/WINTER_DETAIL.md](docs/WINTER_DETAIL.md).
+
+Validação: 152 testes offline de domínio/geometria/integração passaram, excluindo `server.test.js` que abre portas. Quatro testes novos cobrem fechamento/orientação, buffers completos, bounds/base/seed, volume da copa, orçamento, vãos por raycast, abaulamento do barril, prévias PNG válidas/compactas, slot/exposição/descarte da neve e autoria/histórico/duplicação/projeção. Após a inspeção, corrigidas tampas dos ramos, buffers de normais após acrescentar vértices, tábuas/cantos da caixa, aros que entravam na madeira e suporte de neve mais suave. Após os últimos ajustes, 18 testes afetados (catálogo/paisagem/rocha/neve/novas peças) e os builds local/Pages passaram novamente; os 202 modelos e 202 prévias foram conferidos idênticos a public nos dois builds. Inspeção geométrica/CPU das nove peças em `test-results/winter-detail-catalog-cpu.png`; não é captura PBR do site.
+
+Comparação GPU seca/nevada e descarte concluídos: um teste de navegador aprovado, com capturas reais em `test-results/winter-detail-dry.png` e `winter-detail-snow.png`. Recorte nevado: 20 chamadas, 159.152 triângulos, cinco texturas; depósitos de copa com 9.176/8.380 triângulos. O roteiro reaplicava o shader aos mesmos materiais e foi corrigido para evitar a falsa falha de folhagem. A autenticação da revisão automática voltou a funcionar. Mapa reconstruído e revisão no renderizador concluídos no incremento acima; benchmark presencial continua futuro.
+
+## Base técnica de rocha e neve orgânicas — implementada
+
+- [x] Formações orgânicas separadas das geometrias antigas, fraturas/erosão em três dimensões e dois assets próprios.
+- [x] Padrão mineral com variação espacial ampla, preservando materiais anteriores.
+- [x] Depósitos conectados de neve com espessura/vento; parâmetros opcionais, editor e altura de apoio do terreno.
+- [x] Queda de neve corrigida, variação de flocos, deriva e rajadas no emissor GPU.
+- [x] Prévia real ausente do outro exemplo corrigida e diagnósticos de assets acrescentados.
+
+A base passou anteriormente por 163 testes unitários/de integração e sete roteiros de navegador (geometria/neve, editor/Pages/projetor e regressão de paisagem/IndexedDB). Os últimos ajustes foram depois conferidos nos testes de domínio e nos três E2E de rocha/neve/precipitação, junto da reconstrução acima. Guia: [docs/ORGANIC_WINTER.md](docs/ORGANIC_WINTER.md).
+
+Pendências reais do objetivo visual: materiais autorais/fotográficos/desgaste regional, pintura localizada de depósitos nas rochas, aceitação visual do novo mapa e benchmark presencial. Servidor/Pages e novas peças já foram conferidos no navegador. Simulação contínua de depósito/derretimento e LOD/instanciamento entre árvores não estão implementados. Paridade visual com a referência ainda não foi atingida nem declarada.
+
+## Rocha orgânica e reconstrução completa — histórico do planejamento
 
 - [x] Reavaliar a entrega após a rejeição visual do usuário; separar funcionamento de semelhança com a referência.
 - [x] Investigar os geradores de rocha, terreno, neve, vegetação e clima; verificar as 19 receitas usadas pelo exemplo.
@@ -21,13 +59,13 @@ O usuário considerou a cena insatisfatória: paredões com ondas regulares, nev
 
 Auditoria desta etapa: 19 receitas distintas instanciadas sem erro ou vértices não finitos; no navegador local, os 19 arquivos responderam HTTP 200, sem aviso de falha ao carregar a cena. A atmosfera reportou zero partículas e clima `none`. Houve HTTP 404 na prévia `scenes/icewind-bridge.jpg` do outro cartão da galeria, separado dos modelos desta cena. O catálogo tem caixa de madeira e tambor industrial, mas a montagem não contém caixas/barris. Falhas dos objetos no ambiente relatado pelo usuário ainda precisam de reprodução; esta auditoria não validou novamente o Pages. O roteiro de auditoria foi corrigido para aceitar a confirmação de descarte da cena vazia inicial.
 
-Próximo marco: paredão orgânico com material detalhado, preservando escultura manual e mapas antigos. Depois: depósitos de neve conectados/tempestade, abeto volumoso/galhos naturais/caixas e barris de madeira, e reconstrução integral da cena. Comparar recortes no renderizador antes de ampliar o mapa; testes funcionais não substituem aceitação visual. Esta etapa altera documentação e registra o diagnóstico; a nova geometria, materiais, neve e composição ainda não foram implementados.
+Próximo marco: paredão orgânico com material detalhado, preservando escultura manual e mapas antigos. Depois: depósitos de neve conectados/tempestade, abeto volumoso/galhos naturais/caixas e barris de madeira, e reconstrução integral da cena. Comparar recortes no renderizador antes de ampliar o mapa; testes funcionais não substituem aceitação visual. Esse foi o estado no diagnóstico inicial. Rocha/neve orgânicas e vegetação/objetos detalhados foram implementados nos incrementos acima; a reconstrução da composição foi entregue no incremento acima.
 
 ## Revisão anterior · subida, caverna e lanternas — entrega funcional, objetivo visual não atingido
 
 - [x] Identificar a corrente interrompida e corrigir a leitura da referência: encosta ascendente, caverna lateral e ponte elevada.
 - [x] Acrescentar lanterna arredondada e entrada de caverna com vão real; corrigir a corrente da lanterna existente.
-- [x] Distribuir a montagem anterior com relevo ascendente e encaixes; revisar suas câmeras e prévia. O acabamento foi rejeitado e será reconstruído.
+- [x] Distribuir a montagem anterior com relevo ascendente e encaixes; revisar suas câmeras e prévia. O acabamento foi rejeitado e substituído pela reconstrução acima.
 - [x] Validar geometria, apoios, carregamento/Pages e persistência; sincronizar guias e resumos.
 
 A revisão tem 85 elementos em 40 × 58 m, com subida de aproximadamente dez metros, três lanternas circulares e cinco câmeras. Suportes encaixados por raycast na geometria dos paredões/ruínas; luzes posicionadas nos núcleos. Suíte final de 159 testes de domínio/integração aprovada; os cinco testes do exemplo passaram novamente depois de afastar a torre do acesso à ponte e limitar os pilares abaixo das vigas. Verificados encaixes dos suportes/luzes, subida, passagem da ponte livre de alvenaria e vazio da caverna. Quatro cenários E2E afetados aprovados: exemplo no servidor, exemplo no Pages, catálogo/importação/salvamento/projetor sob /Tabletop/ sem API e repositório IndexedDB/conflitos. Após os últimos ajustes da ponte e do paredão da caverna, os cinco testes do exemplo e o fluxo completo do exemplo no Pages passaram novamente. Cópias independentes, edição/histórico, salvar/reabrir e câmera do projetor independente verificados. A suíte completa de navegador não foi repetida.
@@ -231,9 +269,9 @@ Uso/publicação e limites em [docs/GITHUB_PAGES.md](docs/GITHUB_PAGES.md); READ
 
 Somente trabalho ainda não concluído. A prioridade visual está em [docs/ORGANIC_WINTER_PLAN.md](docs/ORGANIC_WINTER_PLAN.md), complementando [docs/VISUAL_TARGET.md](docs/VISUAL_TARGET.md).
 
-- Paredões orgânicos sem faixas repetidas, materiais detalhados de rocha e neve com depósitos conectados/editáveis; preservar o pincel de superfícies.
-- Corrigir queda de neve e configurar tempestade; abetos densos, galhos curvos, barris de madeira/caixas antigas e auditoria dos objetos suspeitos. Corrigir a prévia ausente do outro exemplo da galeria.
-- Reconstrução completa do exemplo e comparação visual com a referência nas câmeras próxima, principal e ampla.
+- Obter aceitação visual do novo mapa; refinar os pontos concretos identificados nessa revisão.
+- Materiais autorais/fotográficos, desgaste regional e depósitos locais editáveis nas rochas.
+- Medir edição/renderização no notebook/projetor reais; otimizar conforme os resultados.
 - Expansão de conteúdo autoral/decoração e miniaturas estáticas para o mapa piloto; avaliação visual em câmera próxima.
 - Texturas fotográficas específicas, importação de texturas avulsas/variantes e decals de desgaste/sujeira.
 - Pincel regional de distribuição e entulho; umidade, reflexos dos objetos na água e refinamento da neve em apoios anotados de props/pisos/gelo.
@@ -303,4 +341,4 @@ Revisão adicional: isolamento visual de andares não altera abrigo/exposição 
 
 Validação final: builds local e Pages aprovados; 144 testes unitários/de integração e 23 roteiros E2E aprovados por suíte e repetições. A suíte de 22 concluiu com uma falha de expectativa antiga (dez versus treze materiais), corrigida; sete casos afetados foram repetidos na versão final e passaram (paisagem/UI, paisagem/pixels, materiais/UI, materiais/pixels, Pages/UI, Pages/IndexedDB e isolamento/seleção da neve). O novo teste de isolamento amplia a suíte para 23. Pages verificou gelo com neve e abeto com seed personalizados, salvamento/reabertura e assets dentro do caminho do repositório. Catálogo preserva exatamente os 165 registros anteriores; 176 IDs únicos, e receitas/prévias anteriores sem alteração. Links locais e git diff --check aprovados. Captura final revisada: test-results/alpine-landscape.png. WebGL por software não representa benchmark presencial.
 
-Pendências remanescentes deste objetivo: expansão de espécies/decoração/conteúdo autoral, pincel regional/entulho, texturas fotográficas/decals, neve caindo/derretimento, suporte à camada de neve nos apoios anotados de props/pisos/gelo, reflexos/refração da cena na água e desempenho/LOD/instanciamento para mapas densos. Máscara de exposição do terreno deve ser recalculada após alterar abrigos/tamanho/posição; a geometria conserva a resolução do heightmap. Guias e três relatórios de progresso sincronizados; uso em [docs/LANDSCAPE.md](docs/LANDSCAPE.md). Ficha/Jukebox continuam adiados.
+Pendências remanescentes deste objetivo: expansão de espécies/decoração/conteúdo autoral, pincel regional/entulho, texturas fotográficas/decals, acúmulo temporal/derretimento da neve, suporte à camada de neve nos apoios anotados de props/pisos/gelo, reflexos/refração da cena na água e desempenho/LOD/instanciamento para mapas densos. Máscara de exposição do terreno deve ser recalculada após alterar abrigos/tamanho/posição; a geometria conserva a resolução do heightmap. Guias e três relatórios de progresso sincronizados; uso em [docs/LANDSCAPE.md](docs/LANDSCAPE.md). Ficha/Jukebox continuam adiados.

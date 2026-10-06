@@ -50,3 +50,5 @@ Rocha/paredão geológico selecionado mostra Pincel de superfície aberto no top
 ## Cenas de exemplo em Abrir
 
 Cenas de exemplo ficam acima das cenas pessoais, com uma prévia real. Carregar abre uma cópia independente ainda não salva; Salvar cria um registro pessoal e o original continua disponível. A subida da montanha oferece cinco enquadramentos, caverna lateral, ponte elevada, lanternas arredondadas e terreno/água/neve editáveis, organizadas em pastas. [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md) documenta o uso e os próximos passos visuais.
+
+Para editar um mapa amplo sob névoa, use **Cena → Atmosfera → Névoa e efeitos nesta janela**. Desligar revela o conjunto sem névoa de distância/clima/volume/bloom/nuvens, preservando o ambiente salvo e a qualidade independente do projetor. Religar recupera a atmosfera.

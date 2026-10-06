@@ -24,7 +24,7 @@ Em **Clima e partículas**, escolha chuva, poeira, brasas ou fumaça suave. Ajus
 
 Cada janela usa um emissor com até 3.000 partículas, em uma única geometria: segmentos para chuva e pontos suaves para os demais efeitos. O padrão inicial é determinístico pela seed e o movimento é calculado pelo tempo; não grava frames no histórico. A região permanece nas coordenadas da cena e não segue a câmera.
 
-**Pausar efeitos animados**, movimento reduzido do navegador e abas ocultas pausam nuvens, clima e flicker. **Volume, bloom, clima e nuvens nesta janela** reduz o custo localmente, preservando céu, luzes e névoa de distância. O projetor tem seu próprio botão de qualidade. Recursos do emissor/céu são descartados ao trocar a configuração ou fechar a janela.
+**Pausar efeitos animados**, movimento reduzido do navegador e abas ocultas pausam nuvens, clima e flicker. **Névoa e efeitos nesta janela** reduz o custo e revela o mapa sem névoa de distância/clima/efeitos; conserva luzes, geometria e o ambiente salvo. O projetor tem seu próprio botão de qualidade. Recursos do emissor/céu são descartados ao trocar a configuração ou fechar a janela.
 
 Chuva não colide com telhados e paredes: configure a região nas áreas externas. Fumaça é um efeito de pontos suaves, sem fluidos, colisão ou sombras volumétricas. Há um emissor global de clima por cena e emissores locais de fogo/fumaça vinculados a objetos ([MATERIALS.md](MATERIALS.md)); múltiplas regiões de chuva/poeira/brasas e colisão continuam como extensão. Benchmark no notebook/projetor real permanece pendente.
 

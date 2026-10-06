@@ -515,6 +515,9 @@ export function createViewport(container, {
       const source = wrapper.userData.source;
       if (!source?.isDirectionalLight) continue;
       Object.assign(source.shadow.camera, { left: -radius, right: radius, top: radius, bottom: -radius, far: radius * 6 + 100 });
+      // A fixed centimetre bias is smaller than a shadow texel on a large landscape,
+      // producing repeated self-shadow bands. Scale within a bounded world-space offset.
+      source.shadow.normalBias = Math.min(.18, Math.max(.035, radius * 2 / source.shadow.mapSize.x));
       source.shadow.camera.updateProjectionMatrix();
     }
   }
@@ -539,6 +542,10 @@ export function createViewport(container, {
     }
   }
 
+  function configureDistanceFog(look) {
+    scene.fog = !localEffectsEnabled || !look?.fog?.enabled ? null : look.fog.mode === 'exp2'
+      ? new THREE.FogExp2(look.fog.color, look.fog.density) : new THREE.Fog(look.fog.color, look.fog.near, look.fog.far);
+  }
   function setDocument(next) {
     generation += 1;
     sceneDocument = next;
@@ -553,8 +560,7 @@ export function createViewport(container, {
     if (!next) { cache.prune([]); scene.fog = null; effects.configure({}); atmosphere.configure({}, null); invalidate(true); return; }
     const look = next.look ?? next.defaultLook;
     scene.background.set(look.background);
-    scene.fog = !look.fog?.enabled ? null : look.fog.mode === 'exp2'
-      ? new THREE.FogExp2(look.fog.color, look.fog.density) : new THREE.Fog(look.fog.color, look.fog.near, look.fog.far);
+    configureDistanceFog(look);
     effects.configure(look);
     renderer.toneMappingExposure = look.daylight?.exposure ?? 1.1;
     atmosphere.configure(look, primaryLight(look));
@@ -1148,7 +1154,7 @@ export function createViewport(container, {
       return { x: rect.left + (vector.x + 1) * rect.width / 2, y: rect.top + (1 - vector.y) * rect.height / 2, visible: vector.z >= -1 && vector.z <= 1 && Math.abs(vector.x) <= 1 && Math.abs(vector.y) <= 1 };
     },
     getMaterialSlots(id) { return materialSlots(objects.get(id)); },
-    setEffectsEnabled(value) { effects.setEnabled(value); atmosphere.setEnabled(value); localEffectsEnabled=value; invalidate(); },
+    setEffectsEnabled(value) { effects.setEnabled(value); atmosphere.setEnabled(value); localEffectsEnabled=value; configureDistanceFog(sceneDocument?.look ?? sceneDocument?.defaultLook); invalidate(); },
     getInfo() { return { atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
       assetDiagnostics:[...objects].flatMap(([id,object])=>{const diagnostics=[];object.traverse(child=>{if(child.userData.diagnostic)diagnostics.push({id,message:child.userData.diagnostic});});return diagnostics;}),
       sculptedRocks:[...objects].flatMap(([id,object])=>{let vertices=0,triangles=0;object.traverse(m=>{if(m.geometry?.userData.sculptPrepared){vertices+=m.geometry.attributes.position.count;triangles+=m.geometry.index.count/3;}});return vertices?[{id,vertices,triangles,samples:records.get(id)?.rockSculpt?.stamps.length??0,bounds:new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3()).toArray()}]:[];}),

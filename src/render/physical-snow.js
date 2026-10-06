@@ -47,7 +47,16 @@ export function addPhysicalSnow(object,record,library,exposure) {
   const c=record.material.coverage, selected=record.material.textureSlot, positions=[], matrix=new THREE.Matrix4().copy(object.matrixWorld).invert();
   const meshes=[];object.traverse(child=>{if(child.isMesh && !child.userData.decorative && child.geometry?.attributes.position)meshes.push(child);});
   if(c.snowStyle==='organic') {
-    const geometry=createSnowDeposit(meshes,c,exposure,matrix,selected??'base');
+    const sources=[],temporary=[];
+    for(const mesh of meshes) {
+      const proxies=mesh.geometry.userData.snowProxies??(mesh.geometry.userData.snowProxy?[mesh.geometry.userData.snowProxy]:null);
+      if(!proxies){sources.push(mesh);continue;}
+      for(const proxy of proxies) {
+        const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(proxy.positions,3));g.setIndex(proxy.indices);
+        const support=new THREE.Mesh(g,mesh.material);support.matrixWorld.copy(mesh.matrixWorld);support.userData={materialSlot:mesh.userData.materialSlot,snowEnvelope:true};sources.push(support);temporary.push(g);
+      }
+    }
+    let geometry;try{geometry=createSnowDeposit(sources,c,exposure,matrix,selected??'base');}finally{for(const g of temporary)g.dispose();}
     if(!geometry)return {triangles:0};
     return attachSnow(geometry,object,record,library);
   }

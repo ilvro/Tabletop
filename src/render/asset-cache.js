@@ -4,6 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { createRopeGeometry,createRingGeometry } from './mountain-primitives.js';
 import { createRockGeometry } from './rock-geometry.js';
 import { createArchGeometry,createFoliageGeometry } from './landscape-geometry.js';
+import {createBranchGeometry,createConiferGeometry,createTimberGeometry,createStaveGeometry} from './botanical-primitives.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { surfacePreset } from '../domain/materials.js';
 
@@ -55,6 +56,10 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null, ve
         case 'ring': geometry=createRingGeometry(part);break;
         case 'arch': geometry=createArchGeometry(part);break;
         case 'foliage': geometry=createFoliageGeometry({...part,...(vegetationSeed!=null?{seed:(vegetationSeed+(part.seed??0))%65536}:{})});break;
+        case 'conifer': geometry=createConiferGeometry({...part,...(vegetationSeed!=null?{seed:(vegetationSeed+(part.seed??0))%65536}:{})});break;
+        case 'branch': geometry=createBranchGeometry({...part,...(vegetationSeed!=null?{seed:(vegetationSeed+(part.seed??0))%65536}:{})});break;
+        case 'timber': geometry=createTimberGeometry(part);break;
+        case 'stave': geometry=createStaveGeometry(part);break;
         default: throw new Error(`Forma de receita não suportada: ${part.shape}.`);
       }
       const mesh = new THREE.Mesh(geometry, standardMaterial(recipe.materials?.[part.material]));
@@ -73,14 +78,19 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null, ve
     const batches=new Map();group.updateMatrixWorld(true);
     for(const mesh of group.children) {
       const key=JSON.stringify([mesh.userData.materialSlot,mesh.material.userData.recipeSurface,mesh.material.flatShading]);
-      if(!batches.has(key))batches.set(key,{material:mesh.material.clone(),slot:mesh.userData.materialSlot,rocks:[],geometries:[]});
+      if(!batches.has(key))batches.set(key,{material:mesh.material.clone(),slot:mesh.userData.materialSlot,rocks:[],snowProxies:[],geometries:[]});
       const geometry=mesh.geometry.index?mesh.geometry.toNonIndexed():mesh.geometry.clone();geometry.applyMatrix4(mesh.matrix);
       if(!geometry.attributes.uv)geometry.setAttribute('uv',new THREE.Float32BufferAttribute(new Float32Array(geometry.attributes.position.count*2),2));
       batches.get(key).geometries.push(geometry);
+      if(mesh.geometry.userData.snowProxy) {
+        const proxy=mesh.geometry.userData.snowProxy,p=[];
+        for(let i=0;i<proxy.positions.length;i+=3)p.push(...new THREE.Vector3(...proxy.positions.slice(i,i+3)).applyMatrix4(mesh.matrix).toArray());
+        batches.get(key).snowProxies.push({positions:p,indices:[...proxy.indices]});
+      }
       if(mesh.geometry.userData.rock)batches.get(key).rocks.push({...mesh.geometry.userData.rock,triangles:(mesh.geometry.index?.count??mesh.geometry.attributes.position.count)/3});
     }
     for(const mesh of [...group.children])disposeObject(mesh);
-    for(const batch of batches.values()) {const geometry=mergeGeometries(batch.geometries);if(batch.rocks.length)geometry.userData.rocks=batch.rocks;for(const g of batch.geometries)g.dispose();const mesh=new THREE.Mesh(geometry,batch.material);mesh.userData.materialSlot=batch.slot;mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);}
+    for(const batch of batches.values()) {const geometry=mergeGeometries(batch.geometries);if(batch.rocks.length)geometry.userData.rocks=batch.rocks;if(batch.snowProxies.length)geometry.userData.snowProxies=batch.snowProxies;for(const g of batch.geometries)g.dispose();const mesh=new THREE.Mesh(geometry,batch.material);mesh.userData.materialSlot=batch.slot;mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);}
   }
   if((rockShape || vegetationSeed!=null) && metricBounds) {
     group.updateMatrixWorld(true);

@@ -1,0 +1,157 @@
+{
+  "name": "Galho seco · curvo e bifurcado",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "branch",
+      "points": [
+        [
+          -0.7,
+          0.08,
+          0
+        ],
+        [
+          -0.2,
+          0.2,
+          0.13
+        ],
+        [
+          0.4,
+          0.12,
+          -0.06
+        ],
+        [
+          1,
+          0.4,
+          0.2
+        ]
+      ],
+      "radius": 0.065,
+      "tipRadius": 0.00585,
+      "segments": 16,
+      "sides": 7,
+      "seed": 1607,
+      "forks": 5,
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.68,
+        "relief": 0.025
+      },
+      "position": [
+        -0.14129510521888733,
+        -0.029178079217672348,
+        -0.12090383470058441
+      ]
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0.15,
+          0.17,
+          0.01
+        ],
+        [
+          0.37,
+          0.42,
+          -0.18
+        ],
+        [
+          0.51,
+          0.62,
+          -0.3
+        ]
+      ],
+      "radius": 0.029,
+      "tipRadius": 0.00261,
+      "segments": 16,
+      "sides": 7,
+      "seed": 1621,
+      "forks": 2,
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.68,
+        "relief": 0.025
+      },
+      "position": [
+        -0.14129510521888733,
+        -0.029178079217672348,
+        -0.12090383470058441
+      ]
+    }
+  ],
+  "mergeParts": true
+}

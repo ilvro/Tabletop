@@ -4,7 +4,7 @@ import { duplicateDocument, validateDocument } from '../domain/documents.js';
 /** Bundled originals are never saved over. Loading always makes a private draft. */
 export const EXAMPLE_SCENES = Object.freeze([
   Object.freeze({ id: 'snowy-mountain-pass', name: 'Subida da montanha · caverna e ruínas',
-    description: 'Uma encosta nevada com subida, caverna lateral, ponte elevada, ruínas e lanternas arredondadas. Terreno, materiais, neve e câmeras editáveis.',
+    description: 'Encosta esculpida com rochas orgânicas, caverna lateral, ponte, ruínas, abetos densos e tempestade de neve. Cópia totalmente editável.',
     file: 'scenes/snowy-mountain-pass.json', preview: 'scenes/snowy-mountain-pass.jpg' }),
   Object.freeze({ id: 'icewind-bridge', name: 'Passagem de Inverno · Ponte e Névoa',
     description: 'Um vale nevado e escuro com uma ponte gigantesca ao fundo e uma torre em ruínas.',

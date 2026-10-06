@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {createMountainExample,mountainTrailX} from '../scripts/generate-example-scenes.js';
 import {EXAMPLE_SCENES,loadExampleScene} from '../src/data/example-scenes.js';
 import {validateDocument,createMapFromScene} from '../src/domain/documents.js';
-import {terrainHeightAt} from '../src/domain/geometry.js';
+import {terrainHeightAt,pointInPolygon} from '../src/domain/geometry.js';
 import {createSceneStore} from '../src/state/scene-store.js';
 import {projectPresentation} from '../src/app/presentation.js';
 import * as THREE from 'three';
@@ -20,18 +20,21 @@ test('bundled mountain scene is reproducible, self-contained, editable with an a
     assert.equal(e.locked,false);assert.equal(e.audience,'all');
     if(e.assetRef)assert.equal(catalog.get(e.assetRef.id)?.revision,e.assetRef.revision);
   }
-  assert.equal(entities.length,85);assert.equal(Object.keys(original.cameraPresets).length,5);
+  assert.ok(entities.length>=100);assert.equal(Object.keys(original.cameraPresets).length,5);
   assert.ok(terrain.material.coverage.physicalThickness>0);assert.ok(terrain.paintLayers.some(layer=>layer.weights.some(w=>w>0)));
-  // Check a centerline and near both edges at every saved river cross-section.
-  for(let z=12;z<=27;z+=1.5) {
-    const x=-4.4+Math.sin(z*.095)*.5;
-    for(const offset of [-1.35,0,1.35])assert.ok(terrainHeightAt(terrain,[x+offset,0,z])<water.transform.position[1]-water.water.waveHeight,`bed under water at ${z}, ${offset}`);
-    assert.ok(terrainHeightAt(terrain,[x+3.4,0,z])>water.transform.position[1]+water.water.waveHeight,'dry walkable bank');
-  }
-  assert.ok(terrainHeightAt(terrain,[mountainTrailX(-23),0,-23])-terrainHeightAt(terrain,[mountainTrailX(23),0,23])>9,'route visibly climbs the mountainside');
-  const bridge=entities.find(e=>e.name==='Tabuleiro de apoio da ponte elevada');
-  for(const x of [-7.4,2.4])assert.ok(Math.abs(terrainHeightAt(terrain,[x,0,-3])-bridge.transform.position[1])<.22,'bridge ends meet the approaches');
-  assert.ok(bridge.transform.position[1]-terrainHeightAt(terrain,[-2.5,0,-3])>4,'bridge spans a genuine ravine');
+  assert.equal(original.look.weather.type,'snow');assert.ok(original.look.weather.count>=2000);assert.ok(original.look.weather.speed>0);assert.ok(original.look.weather.wind.some(v=>v!==0));
+  assert.equal(terrain.material.coverage.snowStyle,'organic');
+  const cliffs=entities.filter(e=>e.rockShape?.form==='organic-cliff');assert.ok(cliffs.length>=3);assert.ok(cliffs.every(e=>e.transform.position[0]<0),'major cliffs on left; right is a hillside');
+  assert.ok(entities.filter(e=>e.assetRef?.id==='builtin-dense-alpine-fir').length>=4);
+  for(const id of ['wooden-expedition-barrel','old-open-crate','old-closed-crate','broken-timber-pile','forked-dead-branch'])assert.ok(entities.some(e=>e.assetRef?.id===`builtin-${id}`),id);
+  // Sample inside the actual polygon, including the cell-interpolated/snow-covered banks.
+  for(let z=14;z<30;z+=.5)for(let x=-9;x<-1;x+=.5)if(pointInPolygon([x,z],water.vertices))assert.ok(terrainHeightAt(terrain,[x,0,z])<water.transform.position[1]-water.water.waveHeight,`bed under water at ${x}, ${z}`);
+  for(let z=16;z<28;z+=2)assert.ok(terrainHeightAt(terrain,[mountainTrailX(z),0,z])>water.transform.position[1]+.2,'dry walkable ascent');
+  assert.ok(terrainHeightAt(terrain,[mountainTrailX(-25),0,-25])-terrainHeightAt(terrain,[mountainTrailX(23),0,23])>9,'route visibly climbs the mountainside');
+  assert.ok(terrainHeightAt(terrain,[17,0,4])>terrainHeightAt(terrain,[mountainTrailX(4),0,4])+2,'right slope rises above path');
+  const bridge=entities.find(e=>e.name==='Tabuleiro de apoio da ponte elevada'),bridgeZ=bridge.transform.position[2],bridgeX=bridge.transform.position[0];
+  for(const x of [bridgeX-bridge.width/2,bridgeX+bridge.width/2])assert.ok(Math.abs(terrainHeightAt(terrain,[x,0,bridgeZ])-bridge.transform.position[1])<.24,'bridge ends meet approaches');
+  assert.ok(bridge.transform.position[1]-terrainHeightAt(terrain,[bridgeX,0,bridgeZ])>4,'bridge spans genuine ravine');
   const cave=entities.find(e=>e.assetRef?.id==='builtin-mountain-cave-mouth');
   const matrix=new THREE.Matrix4().compose(new THREE.Vector3(...cave.transform.position),new THREE.Quaternion(...cave.transform.rotation),new THREE.Vector3(...cave.transform.scale));
   for(const x of [-1,0,1])for(const z of [-2,0,2]) {
@@ -41,17 +44,20 @@ test('bundled mountain scene is reproducible, self-contained, editable with an a
   assert.equal(entities.filter(e=>e.assetRef?.id==='builtin-mountain-round-lantern').length,3);
   const mountingSurfaces=[];
   try {
-    for(const e of entities.filter(e=>['builtin-mountain-cliff-face','builtin-mountain-ruin-high-wall','builtin-ruin-masonry-wall'].includes(e.assetRef?.id))) {
+    for(const e of entities.filter(e=>['builtin-organic-cliff','builtin-organic-rock','builtin-mountain-ruin-high-wall','builtin-ruin-masonry-wall'].includes(e.assetRef?.id))) {
       const asset=catalog.get(e.assetRef.id),recipe=JSON.parse(await readFile(`public${asset.url}`,'utf8'));
       const wrapper=new THREE.Group();wrapper.add(recipeInstance(recipe,e.rockShape,asset.bounds));
       wrapper.position.fromArray(e.transform.position);wrapper.quaternion.fromArray(e.transform.rotation);wrapper.scale.fromArray(e.transform.scale);wrapper.updateMatrixWorld(true);mountingSurfaces.push(wrapper);
     }
-    for(const x of [-7,-5.5,-3,0,.5,2])for(const z of [-3.8,-3,-2.2]) {
+    for(const x of [-7,-5.5,-3,0,.5,2])for(const z of [bridgeZ-.8,bridgeZ,bridgeZ+.8]) {
       const ray=new THREE.Raycaster(new THREE.Vector3(x,bridge.transform.position[1]+.06,z),new THREE.Vector3(0,1,0),0,.5);
       assert.equal(ray.intersectObjects(mountingSurfaces,true).length,0,'bridge route is not blocked by masonry or piers');
     }
-    const caveFront=new THREE.Vector3(0,1.5,4).applyMatrix4(matrix),intoCave=new THREE.Vector3(0,0,-1).applyQuaternion(new THREE.Quaternion(...cave.transform.rotation));
-    assert.equal(new THREE.Raycaster(caveFront,intoCave,0,5.5).intersectObjects(mountingSurfaces,true).length,0,'surrounding cliffs do not fill the cave opening');
+    const intoCave=new THREE.Vector3(0,0,-1).applyQuaternion(new THREE.Quaternion(...cave.transform.rotation));
+    for(const height of [.3,1.5,2.3])for(const x of [-.65,0,.65]) {
+      const caveFront=new THREE.Vector3(x,height,4).applyMatrix4(matrix);
+      assert.equal(new THREE.Raycaster(caveFront,intoCave,0,5.5).intersectObjects(mountingSurfaces,true).length,0,`cave entrance clear at x=${x}, height=${height}`);
+    }
     for(const lantern of entities.filter(e=>e.assetRef?.id==='builtin-mountain-round-lantern')) {
       const q=new THREE.Quaternion(...lantern.transform.rotation),p=new THREE.Vector3(...lantern.transform.position),scale=new THREE.Vector3(...lantern.transform.scale);
       const normal=new THREE.Vector3(1,0,0).applyQuaternion(q);

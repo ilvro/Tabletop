@@ -4,7 +4,7 @@ import { worldPoint, supportHeightAt, worldFootprint, footprintsOverlap, floorCo
 import { quaternionFromYaw } from '../domain/coords.js';
 import { ValidationError } from '../domain/validation.js';
 export function proposeVegetation(document,options,expectedEditVersion,catalog) {
-  const {terrainId,assetId='builtin-alpine-fir',count=16,seed=42,scaleMin=.7,scaleMax=1.2,slopeMax=35}=options;
+  const {terrainId,assetId='builtin-dense-alpine-fir',count=6,seed=42,scaleMin=.7,scaleMax=1.2,slopeMax=35}=options;
   const terrain=document.layout.entities[terrainId],asset=catalog.find(a=>a.id===assetId);
   if(terrain?.kind!=='terrain' || isLocked(document,terrain) || !isVegetationAsset(assetId) || !asset || !Number.isInteger(count)||count<1||count>128||!Number.isInteger(seed)||seed<0||seed>65535||![scaleMin,scaleMax,slopeMax].every(Number.isFinite)||scaleMin<.1||scaleMax<scaleMin||scaleMax>5||slopeMax<0||slopeMax>70)throw new ValidationError('Escolha terreno desbloqueado, vegetação e parâmetros válidos.');
   let state=seed>>>0;const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};

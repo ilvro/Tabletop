@@ -1,14 +1,27 @@
 # Rocha orgânica e reconstrução da montanha
 
-Data: 5 de outubro de 2026. Estado: **base técnica implementada, validação em andamento; reconstrução da cena pendente**.
+Data: 5 de outubro de 2026. Estado: **base técnica, vegetação/objetos e mapa reconstruído entregues; validação funcional/visual no navegador concluída**. Acabamento fotográfico e aceitação visual continuam futuros.
 
-A cena distribuída atualmente não atingiu o objetivo visual. Suas verificações de carregamento, apoios e persistência continuam úteis, mas não comprovam semelhança com a referência. Este plano substitui a sequência de acabamento de [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md) para o piloto de montanha.
+A montagem anterior foi rejeitada e substituída por um novo snapshot editável. O acabamento continua procedural e a aceitação visual ainda precisa ocorrer. Suas verificações de carregamento, apoios e persistência continuam úteis, mas não comprovam semelhança com a referência. Este plano substitui a sequência de acabamento de [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md) para o piloto de montanha.
 
 ## Incremento técnico atual
 
 Implementadas duas formações próprias (`organic`/`organic-cliff`) e dois assets, padrão mineral procedural, depósitos conectados de neve com espessura/vento, integração ao editor/apoios do terreno e correção da precipitação com deriva/rajadas. Cenas antigas conservam suas formas/cobertura por padrão. Uso e limites: [ORGANIC_WINTER.md](ORGANIC_WINTER.md).
 
-A primeira captura ainda tinha pontas/manchas triangulares; o depósito passou a usar inclinação suavizada, filtragem de manchas, refinamento e bordas afinadas. A revisão no renderizador e a validação funcional estão em andamento. Isso não conclui a qualidade visual do plano: mapas PBR fotográficos, pintura localizada dos depósitos em rochas, vegetação/objetos detalhados e reconstrução do mapa continuam pendentes. Precipitação animada não constitui simulação contínua de depósito/derretimento.
+A primeira captura técnica tinha pontas/manchas triangulares; o depósito passou a usar inclinação suavizada, filtragem, refinamento e bordas afinadas. Vegetação/objetos receberam envelopes de neve, comparação seca/nevada e descarte GPU aprovados. A falha anterior de autenticação foi resolvida.
+
+O mapa foi reconstruído com novo heightmap/trilha/lago, paredões orgânicos à esquerda, caverna lateral livre, ponte elevada, árvores densas e objetos próximos. 101 elementos/quatro luzes, cinco câmeras e tempestade de 2.700 flocos. Capturas reais, animação, modelos, servidor/Pages, histórico/persistência e projetor verificados. A revisão corrigiu contato/oclusão das peças e faixas de auto-sombreamento. Uso e medidas: [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md) e [progress.md](../progress.md).
+
+| Etapa | Estado atual |
+| --- | --- |
+| 0. Auditoria/capturas | Modelos e prévias presentes; novo mapa sem diagnósticos de falha no servidor/Pages |
+| 1. Rocha orgânica | Formações/mineral/escultura entregues; texturas fotográficas e desgaste localizado futuros |
+| 2. Neve e clima | Depósitos conectados, envelopes/exposição e precipitação com vento entregues; pintura localizada nas rochas futura |
+| 3. Vegetação/objetos | Nove peças entregues e verificadas em render seco/nevado |
+| 4. Reconstrução | Novo snapshot editável disponível em Abrir; terreno, caverna, ponte e primeiros planos revisados |
+| 5. Entrega | Prévia/cinco câmeras/tempestade/fluxos verificados; benchmark presencial e aceitação visual futuros |
+
+Precipitação animada não constitui simulação contínua de depósito/derretimento. Materiais procedurais não equivalem a mapas PBR fotográficos nem estabelecem paridade com a referência.
 
 ## Referência e objetivo
 
@@ -18,7 +31,7 @@ Construir uma encosta ascendente com paredão escuro e caverna lateral, água na
 
 O mapa continuará sendo uma cena 3D editável, carregável em **Abrir**, com ferramentas reutilizáveis. Não usar um fundo rasterizado para aparentar uma cena navegável. Reconstruir a composição do zero depois de validar os recursos, em vez de apenas deslocar as peças da montagem atual.
 
-## Diagnóstico confirmado e hipóteses
+## Diagnóstico inicial — histórico antes da reconstrução
 
 | Problema | Evidência no projeto | Correção necessária |
 | --- | --- | --- |
@@ -32,11 +45,11 @@ O mapa continuará sendo uma cena 3D editável, carregável em **Abrir**, com fe
 | Encosta regular | O gerador combina uma rampa suave com variação periódica pequena | Relevo em várias escalas, trilha controlada localmente, margens quebradas, afloramentos e depósitos |
 | Objetos parecendo caixas de linhas | O renderer usa uma caixa wireframe como marcador de falha; destroços existentes também têm armações muito finas | Auditar falhas reais no navegador e substituir objetos pouco legíveis por modelos completos |
 
-Auditoria local: os **19 modelos distintos** referenciados pelo exemplo foram encontrados e instanciados com vértices finitos, sem erro de receita. A montagem não contém caixas nem barris. O catálogo já possui **Caixa de madeira** e **Tambor industrial**; isso não equivale a um barril de madeira detalhado ou a uma caixa antiga aberta. Não atribuir toda forma quadrática a um asset inexistente sem verificar o carregamento no ambiente afetado.
+Auditoria local inicial: os **19 modelos distintos** referenciados pelo exemplo foram encontrados e instanciados com vértices finitos, sem erro de receita. A montagem não contém caixas nem barris. O catálogo já possui **Caixa de madeira** e **Tambor industrial**; isso não equivale a um barril de madeira detalhado ou a uma caixa antiga aberta. Não atribuir toda forma quadrática a um asset inexistente sem verificar o carregamento no ambiente afetado.
 
-Auditoria no Chromium/servidor local: os 19 arquivos de modelo responderam HTTP 200 e a cena abriu sem aviso de falha de asset. A atmosfera reportou zero partículas e clima `none`. O outro cartão da galeria solicitou `scenes/icewind-bridge.jpg`, ausente (HTTP 404); essa prévia precisa de correção, mas não explica a geometria dos objetos da montanha. O ambiente relatado pelo usuário e o build Pages ainda precisam de auditoria específica. As tentativas iniciais do roteiro não aceitaram a confirmação de descarte do rascunho vazio; a execução corrigida carregou a cena.
+Auditoria inicial no Chromium/servidor local: os 19 arquivos de modelo responderam HTTP 200 e a cena abriu sem aviso de falha de asset. A atmosfera reportou zero partículas e clima `none`. O outro cartão da galeria solicitou `scenes/icewind-bridge.jpg`, ausente (HTTP 404); essa prévia foi depois corrigida, mas não explica a geometria dos objetos da montanha. O novo snapshot foi depois validado no servidor e em arquivos estáticos sob /Tabletop/. As tentativas iniciais do roteiro não aceitaram a confirmação de descarte do rascunho vazio; a execução corrigida carregou a cena.
 
-## Sequência de implementação
+## Sequência executada e critérios de evolução
 
 ### 0. Verificar os objetos e estabelecer comparação
 

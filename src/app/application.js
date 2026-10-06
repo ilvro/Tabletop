@@ -143,7 +143,7 @@ export async function startApplication() {
   animateDisclosures(root);
   let polishOptions = { mode: 'align', axis: 'x', alignment: 'center', angle: 5, seed: 1, palette: 'natural', clearance: .8, referenceId: '' };
   let activeLevelId = null, activeLayerId = null, isolatedLevel = false, polygonHoleHost = null, polygonKind='floor', terrainCell = 0;
-  let vegetationOptions={terrainId:'',assetId:'builtin-alpine-fir',count:16,seed:42,scaleMin:.7,scaleMax:1.2,slopeMax:35};
+  let vegetationOptions={terrainId:'',assetId:'builtin-dense-alpine-fir',count:6,seed:42,scaleMin:.7,scaleMax:1.2,slopeMax:35};
   let terrainOptions = { width: 20, length: 20, segments: 32, x: 0, z: 0, protectFloors: true }, terrainResizeMode = 'extend', terrainBrush = { mode: 'raise', radius: 2, strength: .25, target: 0, waterLevel: .05, waterDepth: .6, shape: 'circle', hardness: 0, snap: false, layerId: '', rockPattern: 'fractured', rockSize: 3, rockSeed: 42, protectFloors: true };
   const constructionSemantics = () => ({ levelId: activeLevelId, layerId: activeLayerId });
   let contextTarget = null, draggedTreeId = null;
@@ -2052,7 +2052,7 @@ function startPresentation(root, sessionId) {
   if (!/^[a-zA-Z0-9_-]{1,120}$/.test(sessionId)) throw new Error('Endereço de apresentação inválido.');
   if (typeof BroadcastChannel !== 'function') throw new Error('Este navegador não suporta a apresentação em segunda janela.');
   document.body.classList.add('presentation-window');
-  root.innerHTML = `<div id="presentation-viewport"></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><button id="presentation-effects" class="presentation-fullscreen" style="right:60px" title="Volume, bloom, clima e nuvens nesta janela" aria-label="Volume, bloom, clima e nuvens nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button>`;
+  root.innerHTML = `<div id="presentation-viewport"></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><button id="presentation-effects" class="presentation-fullscreen" style="right:60px" title="Névoa e efeitos nesta janela" aria-label="Névoa e efeitos nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button>`;
   const viewport = createViewport(document.getElementById('presentation-viewport'), {
     onError: (error) => { document.getElementById('presentation-message').textContent = error.message; },
     navigationEnabled: false,

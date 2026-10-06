@@ -6095,6 +6095,303 @@
       ],
       "url": "/assets/models/organic-cliff.json",
       "previewUrl": "/assets/previews/organic-cliff.svg"
+    },
+    {
+      "id": "builtin-dense-alpine-fir",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Abeto denso · galhos e agulhas volumosos",
+      "category": "Exterior / Vegetação detalhada",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Floresta",
+        "Acampamento",
+        "Ruínas"
+      ],
+      "tags": [
+        "vegetação",
+        "natureza",
+        "inverno",
+        "detalhada"
+      ],
+      "description": "Copa cheia com agulhas em volume, ramos curvos afilados e raízes. Variação por seed e neve orgânica sobre envelopes de galhos; não usa transparência.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.87,
+        4.01
+      ],
+      "bounds": [
+        3.867,
+        5.307,
+        4.001
+      ],
+      "url": "/assets/models/dense-alpine-fir.json",
+      "previewUrl": "/assets/previews/dense-alpine-fir.svg"
+    },
+    {
+      "id": "builtin-dense-mountain-pine",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Pinheiro denso · copa irregular",
+      "category": "Exterior / Vegetação detalhada",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Floresta",
+        "Acampamento",
+        "Ruínas"
+      ],
+      "tags": [
+        "vegetação",
+        "natureza",
+        "inverno",
+        "detalhada"
+      ],
+      "description": "Copa cheia com agulhas em volume, ramos curvos afilados e raízes. Variação por seed e neve orgânica sobre envelopes de galhos; não usa transparência.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.9,
+        3.78
+      ],
+      "bounds": [
+        3.891,
+        4.409,
+        3.78
+      ],
+      "url": "/assets/models/dense-mountain-pine.json",
+      "previewUrl": "/assets/previews/dense-mountain-pine.svg"
+    },
+    {
+      "id": "builtin-forked-dead-branch",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Galho seco · curvo e bifurcado",
+      "category": "Exterior / Vegetação detalhada",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Floresta",
+        "Acampamento",
+        "Ruínas"
+      ],
+      "tags": [
+        "vegetação",
+        "natureza",
+        "inverno",
+        "detalhada"
+      ],
+      "description": "Madeira curvada, ramificações secundárias, afilamento e pontas maciças; ajuste seed, escala e rotação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.73,
+        1.09
+      ],
+      "bounds": [
+        1.723,
+        0.592,
+        1.082
+      ],
+      "url": "/assets/models/forked-dead-branch.json",
+      "previewUrl": "/assets/previews/forked-dead-branch.svg"
+    },
+    {
+      "id": "builtin-twisted-mountain-roots",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Raízes torcidas · ramificações naturais",
+      "category": "Exterior / Vegetação detalhada",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Floresta",
+        "Acampamento",
+        "Ruínas"
+      ],
+      "tags": [
+        "vegetação",
+        "natureza",
+        "inverno",
+        "detalhada"
+      ],
+      "description": "Raízes curvas entrelaçadas e afiladas para afloramentos, margens e bases de árvores.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.02,
+        1.5
+      ],
+      "bounds": [
+        2.016,
+        0.522,
+        1.492
+      ],
+      "url": "/assets/models/twisted-mountain-roots.json",
+      "previewUrl": "/assets/previews/twisted-mountain-roots.svg"
+    },
+    {
+      "id": "builtin-winter-dry-shrub",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Arbusto seco · ramos emergindo da neve",
+      "category": "Exterior / Vegetação detalhada",
+      "era": "Atemporal",
+      "contexts": [
+        "Montanha",
+        "Floresta",
+        "Acampamento",
+        "Ruínas"
+      ],
+      "tags": [
+        "vegetação",
+        "natureza",
+        "inverno",
+        "detalhada"
+      ],
+      "description": "Ramos finos curvos e bifurcados com alturas distintas; útil para neve rasa e trilhas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.7,
+        0.6
+      ],
+      "bounds": [
+        0.698,
+        0.692,
+        0.592
+      ],
+      "url": "/assets/models/winter-dry-shrub.json",
+      "previewUrl": "/assets/previews/winter-dry-shrub.svg"
+    },
+    {
+      "id": "builtin-wooden-expedition-barrel",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Barril de madeira · aduelas e aros",
+      "category": "Exterior / Expedição",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Floresta",
+        "Acampamento",
+        "Ruínas"
+      ],
+      "tags": [
+        "madeira",
+        "expedição",
+        "inverno",
+        "detalhado"
+      ],
+      "description": "Silhueta abaulada, 18 aduelas sólidas, quatro cintas metálicas e tampas. Madeira e ferro em slots separados.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.87,
+        0.87
+      ],
+      "bounds": [
+        0.865,
+        0.962,
+        0.865
+      ],
+      "url": "/assets/models/wooden-expedition-barrel.json",
+      "previewUrl": "/assets/previews/wooden-expedition-barrel.svg"
+    },
+    {
+      "id": "builtin-old-open-crate",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Caixa antiga aberta · tábuas e interior",
+      "category": "Exterior / Expedição",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Floresta",
+        "Acampamento",
+        "Ruínas"
+      ],
+      "tags": [
+        "madeira",
+        "expedição",
+        "inverno",
+        "detalhado"
+      ],
+      "description": "Caixa vazada com fundo, tábuas, cantos, pregos e borda metálica; não é uma caixa wireframe.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.23,
+        1.01
+      ],
+      "bounds": [
+        1.22,
+        0.547,
+        1.005
+      ],
+      "url": "/assets/models/old-open-crate.json",
+      "previewUrl": "/assets/previews/old-open-crate.svg"
+    },
+    {
+      "id": "builtin-old-closed-crate",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Caixa antiga fechada · tampa e ferragens",
+      "category": "Exterior / Expedição",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Floresta",
+        "Acampamento",
+        "Ruínas"
+      ],
+      "tags": [
+        "madeira",
+        "expedição",
+        "inverno",
+        "detalhado"
+      ],
+      "description": "Tábuas com espessura, tampa reforçada, pregos e ferragens.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.25,
+        1.01
+      ],
+      "bounds": [
+        1.24,
+        0.623,
+        1.008
+      ],
+      "url": "/assets/models/old-closed-crate.json",
+      "previewUrl": "/assets/previews/old-closed-crate.svg"
+    },
+    {
+      "id": "builtin-broken-timber-pile",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Destroços de madeira · tábuas partidas",
+      "category": "Exterior / Expedição",
+      "era": "Antiguidade",
+      "contexts": [
+        "Montanha",
+        "Floresta",
+        "Acampamento",
+        "Ruínas"
+      ],
+      "tags": [
+        "madeira",
+        "expedição",
+        "inverno",
+        "detalhado"
+      ],
+      "description": "Tábuas sólidas com lascas na silhueta, espessuras variadas e sobreposição irregular.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.64,
+        1.22
+      ],
+      "bounds": [
+        1.633,
+        0.248,
+        1.214
+      ],
+      "url": "/assets/models/broken-timber-pile.json",
+      "previewUrl": "/assets/previews/broken-timber-pile.svg"
     }
   ]
 }

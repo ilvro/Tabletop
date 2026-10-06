@@ -1,0 +1,291 @@
+{
+  "name": "Raízes torcidas · ramificações naturais",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0.42,
+          0
+        ],
+        [
+          0.35,
+          0.3,
+          0
+        ],
+        [
+          0.7,
+          0.08,
+          0
+        ],
+        [
+          1.0290699067333038,
+          0,
+          0.158935464636049
+        ]
+      ],
+      "radius": 0.085,
+      "tipRadius": 0.0076500000000000005,
+      "segments": 16,
+      "sides": 7,
+      "seed": 1801,
+      "forks": 2,
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.68,
+        "relief": 0.025
+      },
+      "position": [
+        -0.024775803089141846,
+        0.00828575436025858,
+        0.026173800230026245
+      ]
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0.42,
+          0
+        ],
+        [
+          -0.25785125932175557,
+          0.3,
+          0.16905005910305776
+        ],
+        [
+          -0.5157025186435111,
+          0.08,
+          0.35162412293436013
+        ],
+        [
+          -0.8991914648206369,
+          0,
+          0.4130864021450831
+        ]
+      ],
+      "radius": 0.085,
+      "tipRadius": 0.0076500000000000005,
+      "segments": 16,
+      "sides": 7,
+      "seed": 1818,
+      "forks": 2,
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.68,
+        "relief": 0.025
+      },
+      "position": [
+        -0.024775803089141846,
+        0.00828575436025858,
+        0.026173800230026245
+      ]
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0.42,
+          0
+        ],
+        [
+          0.029927268193229956,
+          0.3,
+          -0.24908440358937517
+        ],
+        [
+          0.05985453638645991,
+          0.08,
+          -0.5180955594659004
+        ],
+        [
+          0.29583095941169807,
+          0,
+          -0.7675917446463509
+        ]
+      ],
+      "radius": 0.085,
+      "tipRadius": 0.0076500000000000005,
+      "segments": 16,
+      "sides": 7,
+      "seed": 1835,
+      "forks": 2,
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.68,
+        "relief": 0.025
+      },
+      "position": [
+        -0.024775803089141846,
+        0.00828575436025858,
+        0.026173800230026245
+      ]
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0.42,
+          0
+        ],
+        [
+          0.21375535194070264,
+          0.3,
+          0.19795981028510684
+        ],
+        [
+          0.4275107038814053,
+          0.08,
+          0.4117564053930222
+        ],
+        [
+          0.463303548073954,
+          0,
+          0.7179107292951743
+        ]
+      ],
+      "radius": 0.085,
+      "tipRadius": 0.0076500000000000005,
+      "segments": 16,
+      "sides": 7,
+      "seed": 1852,
+      "forks": 2,
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.68,
+        "relief": 0.025
+      },
+      "position": [
+        -0.024775803089141846,
+        0.00828575436025858,
+        0.026173800230026245
+      ]
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0.42,
+          0
+        ],
+        [
+          -0.344882049248517,
+          0.3,
+          -0.0425966614226855
+        ],
+        [
+          -0.689764098497034,
+          0.08,
+          -0.08860105575918584
+        ],
+        [
+          -0.9784789783780218,
+          0,
+          -0.2902036018071378
+        ]
+      ],
+      "radius": 0.085,
+      "tipRadius": 0.0076500000000000005,
+      "segments": 16,
+      "sides": 7,
+      "seed": 1869,
+      "forks": 2,
+      "material": "wood",
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.68,
+        "relief": 0.025
+      },
+      "position": [
+        -0.024775803089141846,
+        0.00828575436025858,
+        0.026173800230026245
+      ]
+    }
+  ],
+  "mergeParts": true
+}

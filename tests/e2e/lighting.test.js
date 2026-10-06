@@ -79,7 +79,9 @@ test('advanced lights and atmosphere render, pause, project independently and su
   assert.notDeepEqual(withEffects, withoutEffects, 'volume/bloom affect rendered pixels');
   assert.deepEqual((await snapshot()).look, fullLook, 'local quality does not edit the scene');
   assert.equal((await stats()).effects.bloom, false);
+  assert.equal((await stats()).fog, null, 'local effects also remove distance fog without editing the look');
   await check('viewport-effects'); await rendered();
+  assert.equal((await stats()).fog, 'exp2');
   const resourceCount = (await stats()).textures;
   for (let i = 0; i < 3; i++) { await check('viewport-effects', false); await rendered(); await check('viewport-effects'); await rendered(); }
   assert.ok((await stats()).textures <= resourceCount + 2, 'switching effects releases old targets');

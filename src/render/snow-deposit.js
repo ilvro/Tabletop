@@ -4,6 +4,7 @@ import {snowDepth,snowWeight,snowShapeOptions} from '../domain/snow.js';
 // A connected top and bottom plus boundary skirts, rather than eight triangles per source face.
 export const SNOW_DEPOSIT_FACES=12000;
 export function createSnowDeposit(meshes,coverage,exposure,inverseWorld,slot='base') {
+  const refinementBudget=meshes.some(m=>m.userData.snowEnvelope)?6000:SNOW_DEPOSIT_FACES;
   const points=[],faces=[],normals=[],welded=new Map();
   const key=p=>p.map(v=>Math.round(v*1e5)).join(':');
   const insert=p=>{const k=key(p);let id=welded.get(k);if(id===undefined){id=points.length;points.push(p);normals.push(new THREE.Vector3());welded.set(k,id);}return id;};
@@ -54,7 +55,7 @@ export function createSnowDeposit(meshes,coverage,exposure,inverseWorld,slot='ba
   selected=keep;
   // Do not truncate a large mesh into arbitrary islands; omit refinement when over budget.
   // Source meshes themselves are bounded by the rock/sculpt limits.
-  for(let level=0;level<2&&longest>.35&&selected.length*4<=SNOW_DEPOSIT_FACES;level++) {
+  for(let level=0;level<2&&longest>.35&&selected.length*4<=refinementBudget;level++) {
     const edges=new Map();const midpoint=(a,b)=>{
       const k=a<b?`${a}:${b}`:`${b}:${a}`;if(edges.has(k))return edges.get(k);
       const p=points[a].map((v,i)=>(v+points[b][i])/2),id=insert(p);

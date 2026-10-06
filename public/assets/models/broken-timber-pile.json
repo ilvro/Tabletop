@@ -1,0 +1,188 @@
+{
+  "name": "Destroços de madeira · tábuas partidas",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "wood": {
+      "color": "#79553e",
+      "roughness": 0.84
+    },
+    "dark": {
+      "color": "#292b30",
+      "roughness": 0.8
+    },
+    "metal": {
+      "color": "#87918e",
+      "roughness": 0.5,
+      "metalness": 0.55
+    },
+    "rust": {
+      "color": "#824b34",
+      "roughness": 0.95,
+      "metalness": 0.25
+    },
+    "cloth": {
+      "color": "#64776e",
+      "roughness": 0.98
+    },
+    "white": {
+      "color": "#d8d3bd",
+      "roughness": 0.72
+    },
+    "stone": {
+      "color": "#777873",
+      "roughness": 0.97
+    },
+    "black": {
+      "color": "#181a20",
+      "roughness": 0.85
+    },
+    "red": {
+      "color": "#873c3c",
+      "roughness": 0.86
+    },
+    "paper": {
+      "color": "#c8b38b",
+      "roughness": 0.98
+    },
+    "screen": {
+      "color": "#436f6b",
+      "emissive": "#356c68",
+      "emissiveIntensity": 0.45,
+      "roughness": 0.4
+    },
+    "wax": {
+      "color": "#d8bd87",
+      "roughness": 0.85
+    },
+    "flame": {
+      "color": "#edb45e",
+      "emissive": "#ef943d",
+      "emissiveIntensity": 0.9
+    },
+    "violet": {
+      "color": "#77529b",
+      "emissive": "#64408d",
+      "emissiveIntensity": 0.5
+    },
+    "green": {
+      "color": "#405b43",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "timber",
+      "size": [
+        1.7,
+        0.09,
+        0.23
+      ],
+      "position": [
+        -0.011042416095733643,
+        0.1277087846584618,
+        -0.019942522048950195
+      ],
+      "seed": 2701,
+      "damage": 0.9,
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "woodPattern": "grain",
+        "textureSize": 0.8,
+        "textureBrightness": 0.72,
+        "relief": 0.016
+      },
+      "rotation": [
+        0.08,
+        0.22,
+        0.07
+      ]
+    },
+    {
+      "shape": "timber",
+      "size": [
+        1.2,
+        0.08,
+        0.21
+      ],
+      "position": [
+        0.13895758390426635,
+        0.1677087846584618,
+        0.1600574779510498
+      ],
+      "seed": 2713,
+      "damage": 0.8,
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "woodPattern": "grain",
+        "textureSize": 0.8,
+        "textureBrightness": 0.72,
+        "relief": 0.016
+      },
+      "rotation": [
+        -0.06,
+        -0.7,
+        -0.05
+      ]
+    },
+    {
+      "shape": "timber",
+      "size": [
+        0.8,
+        0.065,
+        0.16
+      ],
+      "position": [
+        -0.21104241609573365,
+        0.08770878465846181,
+        -0.2199425220489502
+      ],
+      "seed": 2729,
+      "damage": 0.9,
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "woodPattern": "grain",
+        "textureSize": 0.8,
+        "textureBrightness": 0.72,
+        "relief": 0.016
+      },
+      "rotation": [
+        0,
+        1.1,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.13,
+        0.025,
+        0.035
+      ],
+      "position": [
+        0.43895758390426637,
+        0.1977087846584618,
+        -0.019942522048950195
+      ],
+      "material": "metal",
+      "surface": {
+        "texture": "metal",
+        "metalPattern": "brushed",
+        "textureSize": 0.4,
+        "textureColorMode": "replace",
+        "textureColor": "#454c4d",
+        "textureBrightness": 0.6,
+        "relief": 0.008
+      },
+      "rotation": [
+        0,
+        0.3,
+        0.05
+      ]
+    }
+  ],
+  "mergeParts": true
+}

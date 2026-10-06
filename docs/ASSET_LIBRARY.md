@@ -1,6 +1,6 @@
 # Catálogo de assets e classificação
 
-Implementado em 3 de outubro de 2026. A aba **Assets** oferece **193 modelos 3D locais**, incluindo os seis objetos do kit inicial e **187 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
+Implementado em 3 de outubro de 2026. A aba **Assets** oferece **202 modelos 3D locais**, incluindo os seis objetos do kit inicial e **196 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
 
 As duas peças mais recentes são **Rocha orgânica · afloramento irregular** e **Paredão orgânico · fraturas e erosão**, com formas editáveis próprias e padrão mineral de rocha. Escultura e neve orgânica: [ORGANIC_WINTER.md](ORGANIC_WINTER.md).
 
@@ -98,3 +98,7 @@ As oito peças geológicas também recebem edição manual diretamente na superf
 ## Asset do piloto de montanha
 
 A cena de exemplo acrescenta **Ruína alta de montanha · torre partida**, em Arquitetura / Ruínas: 22 fiadas, janela vertical vazada, laterais/fundo aberto e geometria agrupada. Evita esticar a torre pequena para simular uma construção alta. Catálogo atual: 191 assets, incluindo também a lanterna arredondada com corrente conectada e a entrada de caverna com vão real. A composição pode ser aberta em Abrir; guia em [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).
+
+## Vegetação e objetos próximos de inverno
+
+Nove assets acrescentam abeto/pinheiro densos, galho bifurcado, raízes torcidas, arbusto seco, barril de madeira, caixas aberta/fechada e destroços sólidos. Galhos curvos e agulhas em volume; neve por envelopes de ramos, slots independentes e prévias compactas. Os 193 arquivos anteriores permanecem iguais. Uso, custo e limites: [WINTER_DETAIL.md](WINTER_DETAIL.md).
