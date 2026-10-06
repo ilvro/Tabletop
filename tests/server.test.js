@@ -402,3 +402,26 @@ test('environment library survives restart, guards revisions and remains indepen
   const loadedScene=(await f.request(`/api/tabletop/scenes/${scene.id}`)).value;
   assert.deepEqual(loadedScene.look,scene.look); assert.deepEqual(loadedScene.sourceEnvironment,scene.sourceEnvironment);
 });
+
+test('gallery covers are derived, revision checked, retained through restart/copied and removed with the scene', async t => {
+  const f = await fixture(t);
+  const saved = (await f.request('/api/tabletop/scenes', { method: 'POST', body: { document: createScene('Capa automática') } })).value;
+  const route = `/api/tabletop/scenes/${saved.id}/preview`, image = 'data:image/jpeg;base64,/9j/2Q==';
+  assert.equal((await f.request(route)).status, 404);
+  assert.equal((await f.request(route, { method: 'PUT', body: { image: 'https://unsafe.test/image', expectedRevision: 1 } })).status, 422);
+  assert.equal((await f.request(route, { method: 'PUT', body: { image, expectedRevision: 1 } })).status, 204);
+  assert.deepEqual((await f.request(`/api/tabletop/scenes/${saved.id}`)).value, saved, 'cover does not enter document or revision');
+  await f.stop(); await f.start();
+  assert.equal((await f.request(route)).headers.get('content-type'), 'image/jpeg');
+  const list = (await f.request('/api/tabletop/scenes')).value;
+  assert.equal(list[0].previewRevision, 1); assert.ok(list[0].preview.endsWith('preview?revision=1'));
+  const copy = (await f.request(`/api/tabletop/scenes/${saved.id}/duplicate`, { method: 'POST', body: { expectedRevision: 1 } })).value;
+  assert.equal((await f.request(`/api/tabletop/scenes/${copy.id}/preview`)).status, 200);
+  await f.request(`/api/tabletop/scenes/${saved.id}`, { method: 'PUT', body: { document: { ...saved, name: 'Mudou' }, expectedRevision: 1 } });
+  assert.equal((await f.request(route, { method: 'PUT', body: { image, expectedRevision: 1 } })).status, 409);
+  assert.equal((await f.request('/api/tabletop/scenes')).value.find(doc => doc.id === saved.id).previewRevision, 1);
+  assert.equal((await f.request(route, { method: 'PUT', body: { image, expectedRevision: 2 } })).status, 204);
+  await f.request(`/api/tabletop/scenes/${saved.id}?expectedRevision=2`, { method: 'DELETE' });
+  assert.equal((await f.request(route)).status, 404);
+  assert.equal((await readdir(path.join(f.dataDir, 'scenes'))).some(file => file.startsWith(saved.id)), false);
+});

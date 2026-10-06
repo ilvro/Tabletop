@@ -53,3 +53,15 @@ Os testes de geometria verificam reprodução do JSON, referências, subida, mar
 Resultados e medidas finais em [progress.md](../progress.md). WebGL por software verifica funcionamento e custo geométrico; não estabelece FPS no notebook/projetor. O acabamento continua procedural. Materiais fotográficos, desgaste localizado/decals, pintura de depósitos em rochas, contato/reflexos e otimizações de cenas densas permanecem evoluções reais. O mapa está disponível sem esperar por essas extensões.
 
 Guias: [rocha e neve orgânicas](ORGANIC_WINTER.md), [vegetação e objetos](WINTER_DETAIL.md), [plano e estado](ORGANIC_WINTER_PLAN.md) e [objetivos visuais](VISUAL_TARGET.md).
+
+## Imagem automática de cada cena
+
+Toda cena criada recebe sua própria captura em **Abrir → Cenas**, inclusive a cena em criação, antes de salvar. A imagem acompanha as edições após cerca de um segundo de pausa. Uma cena vazia mostra o espaço vazio; conforme você constrói, a capa passa a mostrar o cenário. Não é necessário enviar imagem ou clicar em um botão de captura.
+
+A cena atual usa o enquadramento e a qualidade visual da mesa, com grid, seleção, gizmos e prévias de construção ocultados apenas durante a captura. Uma prévia de ambiente ainda não aceita não é gravada como capa. A captura não muda a câmera de trabalho, não publica câmera no projetor e não entra no histórico. Abrir o cartão da cena ainda não salva apenas volta à mesa. Para guardar a cena no acervo e depois trocar de documento, continue usando **Salvar**.
+
+Cópias, importações JSON e cenas criadas a partir de mapas também recebem uma imagem. Mapas do acervo têm capas. Cenas/mapas anteriores sem prévia são processados em segundo plano quando Abrir é usado: um por vez, esperando modelos/imagens terminarem de carregar. Para documentos fora da mesa, usa-se o primeiro enquadramento salvo ou uma vista automática do conjunto. A interface e o salvamento continuam disponíveis durante o processamento.
+
+São capturas JPEG de 480 × 270 pixels. As imagens são dados derivados, guardados fora do JSON, do undo e das revisões/backups: metadados da biblioteca no navegador ou arquivos `.preview.json` ao lado das cenas/mapas no servidor local. Ao salvar uma alteração, a imagem recebe a revisão correspondente; uma captura atrasada não pode substituir a capa de uma revisão mais recente. Duplicações preservam a capa válida e exclusões removem a capa junto com o documento. O JSON exportado continua contendo apenas o documento; a importação gera outra capa automaticamente.
+
+Os exemplos distribuídos continuam usando suas prévias publicadas em `public/scenes/`. As cópias que o usuário abre e edita recebem capturas próprias.

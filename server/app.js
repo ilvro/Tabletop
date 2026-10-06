@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 import { validateDocument, duplicateDocument, migrateDocument } from '../src/domain/documents.js';
 import { AssetStorage } from './assets.js';
-import { DocumentStorage, HttpError, assertId, checkRevision } from './storage.js';
+import { DocumentStorage, HttpError, assertId, checkRevision, atomicWrite } from './storage.js';
 
 const projectDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const asyncRoute = (callback) => (req, res, next) => Promise.resolve(callback(req, res)).catch(next);
@@ -104,6 +104,19 @@ export async function createApp({ dataDir = path.join(projectDir, 'data'), distD
   for (const [collection, type] of [['scenes', 'scene'], ['maps', 'map'], ['environments', 'environment']]) {
     const route = `/api/tabletop/${collection}`;
     app.get(route, asyncRoute(async (_req, res) => res.json(await storage.list(collection))));
+    if (type !== 'environment') {
+      app.get(`${route}/:id/preview`, asyncRoute(async (req, res) => {
+        await storage.read(collection, req.params.id);
+        const preview = await storage.preview(collection, req.params.id);
+        if (!preview) throw new HttpError(404, 'NOT_FOUND', 'Prévia ainda não gerada.');
+        res.set('Cache-Control', 'no-cache');
+        res.type('image/jpeg').send(Buffer.from(preview.image.split(',')[1], 'base64'));
+      }));
+      app.put(`${route}/:id/preview`, asyncRoute(async (req, res) => {
+        await storage.writePreview(collection, req.params.id, req.body?.image, req.body?.expectedRevision);
+        res.status(204).end();
+      }));
+    }
     app.get(`${route}/:id`, asyncRoute(async (req, res) => res.json(await storage.read(collection, req.params.id))));
     app.post(route, asyncRoute(async (req, res) => {
       const document = validDocument(req.body, type);
@@ -142,7 +155,14 @@ export async function createApp({ dataDir = path.join(projectDir, 'data'), distD
         Object.assign(document, { revision: 1, createdAt: now, updatedAt: now });
         validateDocument(document);
         await validateAssetReferences(document, assets);
-        return storage.locked(collection, document.id, () => storage.write(collection, document));
+        return storage.locked(collection, document.id, async () => {
+          const result = await storage.write(collection, document);
+          const preview = await storage.preview(collection, current.id);
+          if (preview && preview.revision === current.revision) {
+            await atomicWrite(storage.previewFile(collection, document.id), JSON.stringify({ image: preview.image, revision: 1 }));
+          }
+          return result;
+        });
       });
       res.status(201).json(saved);
     }));

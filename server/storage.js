@@ -1,6 +1,7 @@
 import { mkdir, open, readFile, readdir, rename, unlink } from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
+import { validateScenePreview } from '../src/data/scene-preview.js';
 import { migrateDocument } from '../src/domain/migrations.js';
 
 export class HttpError extends Error {
@@ -86,9 +87,25 @@ export class DocumentStorage {
     const files = await readdir(path.join(this.dataDir, collection));
     const documents = await Promise.all(files.filter((name) => documentId.test(name.slice(0, -5)) && name.endsWith('.json')).map(async (name) => {
       const doc = await readJSON(path.join(this.dataDir, collection, name));
-      return { id: doc.id, documentType: doc.documentType, name: doc.name, revision: doc.revision, createdAt: doc.createdAt, updatedAt: doc.updatedAt };
+      const preview = await this.preview(collection, doc.id);
+      return { id: doc.id, documentType: doc.documentType, name: doc.name, revision: doc.revision, createdAt: doc.createdAt, updatedAt: doc.updatedAt, ...(preview ? { preview: `api/tabletop/${collection}/${doc.id}/preview?revision=${preview.revision}`, previewRevision: preview.revision } : {}) };
     }));
     return documents.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt) || a.id.localeCompare(b.id));
+  }
+
+  previewFile(collection, id) { return this.file(collection, id).replace(/\.json$/, '.preview.json'); }
+
+  async preview(collection, id) {
+    try { return await readJSON(this.previewFile(collection, id)); }
+    catch (error) { if (error.status === 404) return null; throw error; }
+  }
+
+  async writePreview(collection, id, image, revision) {
+    try { validateScenePreview(image); } catch (error) { throw new HttpError(422, 'INVALID_PREVIEW', error.message); }
+    return this.locked(collection, id, async () => {
+      const current = await this.read(collection, id); checkRevision(current, revision);
+      await atomicWrite(this.previewFile(collection, id), JSON.stringify({ image, revision }));
+    });
   }
 
   async read(collection, id) {
@@ -129,6 +146,7 @@ export class DocumentStorage {
       checkRevision(previous, expectedRevision);
       await this.backup(collection, await readJSON(this.file(collection, id)));
       await unlink(this.file(collection, id));
+      await unlink(this.previewFile(collection, id)).catch(error => { if (error.code !== 'ENOENT') throw error; });
     });
   }
 }

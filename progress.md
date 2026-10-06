@@ -2,6 +2,23 @@
 
 Atualizado em 5 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Análise de pendências e qualidade de vida — concluída
+
+Revisão de código, documentação e prévia distribuída, incluindo capas automáticas presentes no workspace. Diagnóstico e sugestões priorizadas em [docs/AUDITORIA_2026-10-05.md](docs/AUDITORIA_2026-10-05.md). Confirmado no Chromium: importar JSON com ID já existente pode mostrar salvo sem gravar e sem manter rascunho. Correção continua pendente. Reconstrução integral do renderer por atualização/salvamento e custo de snapshots merecem medição; transporte, restauração acessível de backups, reutilização e acabamento visual têm próximos passos registrados. Nenhuma sugestão foi implementada nesta análise.
+
+Validação: 169 testes de domínio/integração e builds local/Pages aprovados; reprodução de importação com fixture temporária e inspeção da imagem do renderer. Primeira execução dos testes impedida pela restrição de portas locais, execução autorizada aprovada. Suíte E2E completa, benchmark presencial e aceitação visual não executados.
+
+## Prévia automática de cada cena — implementada e verificada
+
+- [x] Capturar o cenário renderizado sem grid, gizmos ou seleção, sem modificar câmera/documento/projetor.
+- [x] Incluir a cena em criação no menu Abrir e atualizar sua imagem após edições.
+- [x] Guardar a capa derivada separadamente do histórico; criar/duplicar/importar/mapas e cenas antigas recebem prévias automaticamente.
+- [x] Verificar imagens reais, atualização, criação sem salvar, persistência, conflitos e descarte no navegador; concluir guias/resumos.
+
+Uso: **Abrir → Cenas**. Toda cena criada recebe captura própria, inclusive antes de salvar; edição atualiza após cerca de um segundo de pausa. Inclui cópias, JSON importado e cenas criadas a partir de mapas. Mapas do acervo também têm capas. Documentos antigos sem imagem são capturados em segundo plano, aguardando modelos, com primeiro enquadramento salvo ou vista do conjunto. A captura não modifica/publica câmera, não entra no undo e não bloqueia Salvar. Imagens de 480 × 270 ficam fora do documento, com revisão verificada, duplicação/exclusão e cache limitada; atualização de imagem conserva foco/rolagem da janela. Guia: [docs/EXAMPLE_SCENES.md](docs/EXAMPLE_SCENES.md#imagem-automática-de-cada-cena).
+
+Validação: **169 testes de domínio/integração aprovados**, builds local/Pages e cinco casos de navegador verificados: três novos de capas (servidor, Pages e acervo antigo) e dois de regressão Pages/IndexedDB. Capturas reais em `test-results/scene-previews-server.png` e `scene-previews-pages.png`. Conferidos pixels da cena, salvamento/reabertura, criação antes de salvar, mapas/importação/duplicação, tela estreita, espera de assets, descarte do viewport temporário e independência de documento/câmeras. O teste ampliado do projetor precisou abrir o painel Cena antes de clicar no botão oculto; após corrigir o roteiro, os três testes de capas passaram. Um teste de concorrência confirma que uma captura salva atrasada não substitui a imagem das edições posteriores, e prévias de ambientes não aceitas não viram a capa. O roteiro de persistência confere o metadado salvo, pois uma nova captura pode trocar a URL exibida por imagem em memória. A suíte completa de navegador não foi repetida.
+
 ## Reconstrução integral da montanha — entregue e validada
 
 - [x] Substituir a composição por um snapshot novo: **101 elementos e quatro luzes**, **48 × 62 m**, seis pastas desbloqueadas e cinco câmeras.

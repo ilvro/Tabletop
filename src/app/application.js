@@ -1,3 +1,4 @@
+import { createScenePreviews } from './scene-previews.js';
 import {rockSculptPanel} from '../ui/rock-sculpt-panel.js';
 import { EXAMPLE_SCENES, loadExampleScene } from '../data/example-scenes.js';
 import {isSculptableRock,ROCK_SCULPT_MODES} from '../domain/rock-sculpt.js';
@@ -289,6 +290,37 @@ export async function startApplication() {
       if (field && document.activeElement !== field) field.value = String(Math.round(preset.fov * 10) / 10);
     },
   });
+  let previewWarningShown = false;
+  const previews = createScenePreviews({
+    viewport, repository, assets: () => assets,
+    current: () => ({ document: store.document, version: store.editVersion, dirty: store.dirty, previewing: Boolean(environmentPreview) }),
+    onUpdate: () => {
+      if (!document.getElementById('documents-dialog')?.hasAttribute('open')) return;
+      for (const node of root.querySelectorAll('[data-open], [data-open-map]')) {
+        const docId = node.dataset.open ?? node.dataset.openMap;
+        const doc = docId === store.document.id ? store.document : [...savedScenes, ...savedMaps].find(item => item.id === docId);
+        if (!doc) continue;
+        const title = node.querySelector('strong'); if (title) title.textContent = doc.name;
+        const detail = node.querySelector('.scene-card-description small');
+        if (detail) detail.textContent = doc.revision === 0 ? 'Em criação · ainda não salva' : `Revisão ${doc.revision} · ${new Date(doc.updatedAt).toLocaleString('pt-BR')}`;
+        const actions = node.closest('.item-card')?.querySelector('.item-card-actions');
+        if (actions) actions.hidden = doc.revision === 0;
+        const image = previews.image(doc); if (!image) continue;
+        const old = node.querySelector('.scene-thumbnail');
+        if (old?.tagName === 'IMG') { if (old.getAttribute('src') !== image) old.src = image; }
+        else if (old) { const img = document.createElement('img'); img.className = 'scene-thumbnail'; img.src = image;
+          img.alt = `Prévia de ${doc.name}`; img.width = 480; img.height = 270; img.loading = 'lazy'; old.replaceWith(img); }
+      }
+    },
+    onError: error => {
+      if (!previewWarningShown) { previewWarningShown = true; notify(`Não foi possível gerar a prévia agora: ${error.message}. Sua cena continua disponível.`, true); }
+    },
+  });
+  function previewImage(doc) {
+    const image = previews.image(doc);
+    return image ? `<img class="scene-thumbnail" src="${esc(image)}" alt="Prévia de ${esc(doc.name)}" width="480" height="270" loading="lazy" />`
+      : '<span class="scene-thumbnail scene-thumbnail-pending" aria-label="Gerando prévia">Gerando prévia…</span>';
+  }
   function selectObject(value, additive = false) {
     anchorEditing = false;
     value = tool==='terrain'&&isSculptableRock(store.document.layout.entities[value])?value:assemblyFor(store.document,value)?.id??value;
@@ -676,6 +708,7 @@ export async function startApplication() {
     status.classList.toggle('unsaved', store.dirty); document.getElementById('save-scene').disabled = saving;
     document.getElementById('scene-summary').textContent = `${Object.keys(doc.layout?.entities || {}).length} elementos · ${Object.keys(doc.tokens || {}).length} tokens · ${Object.keys(doc.look?.lights || doc.defaultLook?.lights || {}).length} luzes · grid ${doc.layout?.grid?.cellSize ?? 1} m`;
     renderInspector(); renderSidebar(); broadcast();
+    if (event.type !== 'saved') previews.schedule();
     clearTimeout(draftTimer); draftTimer = setTimeout(flushDraft, 180);
   }
   async function refreshSaved() {
@@ -695,6 +728,7 @@ export async function startApplication() {
       const receipt = sentDocument.revision === 0 ? await repository.create(sentDocument) : await repository.save(sentDocument);
       if (store.document.id !== sentDocument.id) return false;
       store.markSaved(receipt, sentVersion);
+      void previews.saved(receipt, sentVersion);
       lastScene.write(receipt.id);
       flushDraft(); notify(store.dirty ? 'Versão salva. Há alterações posteriores ainda locais.' : `${isMap ? 'Mapa salvo' : 'Cena salva'} ${repository.storage==='browser'?'neste navegador':'no computador'}.`);
       await refreshSaved().catch(() => notify(`${isMap ? 'Mapa salvo' : 'Cena salva'}. A lista não pôde ser atualizada agora.`, true)); return true;
@@ -714,6 +748,7 @@ export async function startApplication() {
     try {
       // Duplicate the working document, including edits pending after a conflict.
       const receipt = await repository.create(copy);
+      void previews.saved(receipt);
       if (store.document.id === sourceId && store.editVersion === sourceVersion) {
         selection = null; clearProposal(); store.replace(receipt);
         lastScene.write(receipt.id);
@@ -822,6 +857,7 @@ export async function startApplication() {
   }
 
   async function openScene(sceneId) {
+    if (sceneId === store.document.id && store.document.revision === 0) { closeDialog(); return; }
     if (!canSwitch()) return;
     const ticket = ++openTicket, sourceId = store.document.id, sourceVersion = store.editVersion;
     const doc = await repository.read(sceneId, 'scene');
@@ -858,6 +894,7 @@ export async function startApplication() {
       const receipt = await repository.create(scene);
       store.replace(receipt);
       lastScene.write(receipt.id);
+      void previews.saved(receipt, store.editVersion);
       flushDraft();
       closeDialog();
       notify(`Cena “${receipt.name}” criada a partir do mapa.`);
@@ -876,6 +913,7 @@ export async function startApplication() {
     const map = createMapFromScene(store.document, mapName.trim() || undefined);
     try {
       const receipt = await repository.create(map);
+      void previews.saved(receipt);
       notify(`Mapa “${receipt.name}” salvo no acervo com sucesso.`);
       await refreshSaved();
       renderDialogContent();
@@ -890,6 +928,7 @@ export async function startApplication() {
     if (!item) return;
     try {
       const receipt = await repository.duplicate({ ...item, documentType: type });
+      void previews.saved(receipt);
       notify(`${type === 'map' ? 'Mapa' : 'Cena'} “${receipt.name}” duplicado(a).`);
       await refreshSaved();
       renderDialogContent();
@@ -945,6 +984,7 @@ export async function startApplication() {
         selection = null; clearProposal(); setTool('select');
         store.replace(loadedDoc, { saved: Boolean(loadedDoc.revision > 0) });
         viewport.frameScene();
+        if (loadedDoc.revision > 0) void previews.saved(loadedDoc, store.editVersion);
         closeDialog();
         notify(`Documento “${loadedDoc.name}” carregado na mesa.`);
         await refreshSaved();
@@ -963,6 +1003,9 @@ export async function startApplication() {
     tabs.forEach((btn) => btn.classList.toggle('active', btn.dataset.dialogTab === dialogTab));
 
     if (dialogTab === 'scenes') {
+      const current = store.document.documentType === 'scene' ? store.document : null;
+      const scenes = savedScenes.map(scene => scene.id === current?.id ? { ...scene, ...current } : scene);
+      if (current && !scenes.some(scene => scene.id === current.id)) scenes.unshift(current);
       container.innerHTML = `
         <section class="example-scenes" aria-labelledby="example-scenes-title">
           <h3 id="example-scenes-title" class="eyebrow">CENAS DE EXEMPLO</h3>
@@ -973,21 +1016,24 @@ export async function startApplication() {
           </button>`).join('')}
         </section>
         <div class="tab-toolbar">
-          <span class="eyebrow">${savedScenes.length} cena(s) salva(s)</span>
+          <span class="eyebrow">${scenes.length} cena(s) · prévias automáticas</span>
           <div class="tab-toolbar-actions">
             ${button('dialog-new-scene', 'Nova cena', 'plus', 'primary')}
           </div>
         </div>
-        ${savedScenes.map((scene) => `
-          <div class="item-card">
+        ${scenes.map((scene) => `
+          <div class="item-card scene-library-card">
             <button type="button" class="item-card-main" data-open="${scene.id}">
-              <div style="display:flex;align-items:center;gap:6px">
+              ${previewImage(scene)}
+              <span class="scene-card-description">
+              <span style="display:flex;align-items:center;gap:6px">
                 <strong>${esc(scene.name)}</strong>
                 ${scene.id === store.document.id ? '<span class="item-badge" style="background:#2d473e;color:#8ce2be">Atual</span>' : ''}
-              </div>
-              <small>Revisão ${scene.revision} · ${new Date(scene.updatedAt).toLocaleString('pt-BR')}</small>
+              </span>
+              <small>${scene.revision === 0 ? 'Em criação · ainda não salva' : `Revisão ${scene.revision} · ${new Date(scene.updatedAt).toLocaleString('pt-BR')}`}</small>
+              </span>
             </button>
-            <div class="item-card-actions">
+            <div class="item-card-actions" ${scene.revision === 0 ? 'hidden' : ''}>
               <button type="button" class="quiet" data-duplicate-scene-id="${scene.id}" title="Duplicar cena">${icon('copy', 14)}</button>
               <button type="button" class="quiet danger" data-delete-scene="${scene.id}" title="Excluir cena">${icon('trash', 14)}</button>
             </div>
@@ -1004,14 +1050,17 @@ export async function startApplication() {
           </div>
         </div>
         ${savedMaps.map((map) => `
-          <div class="item-card">
+          <div class="item-card scene-library-card">
             <button type="button" class="item-card-main" data-open-map="${map.id}">
-              <div style="display:flex;align-items:center;gap:6px">
+              ${previewImage(map)}
+              <span class="scene-card-description">
+              <span style="display:flex;align-items:center;gap:6px">
                 <span class="item-badge">MAPA</span>
                 <strong>${esc(map.name)}</strong>
                 ${map.id === store.document.id ? '<span class="item-badge" style="background:#2d473e;color:#8ce2be">Atual</span>' : ''}
-              </div>
+              </span>
               <small>Revisão ${map.revision} · ${new Date(map.updatedAt).toLocaleString('pt-BR')}</small>
+              </span>
             </button>
             <div class="item-card-actions">
               <button type="button" class="primary" data-instantiate-map="${map.id}" title="Criar nova cena usando este mapa">${icon('plus', 14)} Criar cena</button>
@@ -1106,6 +1155,7 @@ export async function startApplication() {
     await refreshSaved();
     renderDialogContent();
     documentsWindow.open();
+    previews.ensure([...savedScenes, ...savedMaps]);
   }
   async function importAsset(file) {
     if (!file) return;
@@ -2013,7 +2063,7 @@ export async function startApplication() {
       window.addEventListener('mouseup', onMouseUp);
     });
   }
-  window.addEventListener('pagehide', () => { flushDraft(); channel?.close(); viewport.destroy(); repository.dispose?.(); });
+  window.addEventListener('pagehide', () => { previews.dispose(); flushDraft(); channel?.close(); viewport.destroy(); repository.dispose?.(); });
   window.addEventListener('beforeunload', (event) => { if (store.dirty) { event.preventDefault(); event.returnValue = ''; } });
 
   const initial = await Promise.allSettled([repository.assets(), repository.list('scene'), repository.list('map'), drafts.read(), repository.list('environment')]);
@@ -2038,6 +2088,7 @@ export async function startApplication() {
   initialized = true; document.getElementById('scene-name').disabled = false;
   store.subscribe(updateView); updateView({ type: 'saved' }); viewport.frameScene();
   const firstCamera = Object.values(store.document.cameraPresets || {})[0]; if (firstCamera) viewport.setCamera(firstCamera);
+  previews.schedule();
   if (recovery) {
     document.getElementById('recovery-description').textContent = `“${recovery.document.name}” possui um rascunho local de ${new Date(recovery.savedAt).toLocaleString('pt-BR')}. Restaurar não sobrescreve a versão salva ${repository.storage==='browser'?'neste navegador':'no servidor'}.`;
     document.getElementById('recovery-dialog').showModal();

@@ -1,3 +1,4 @@
+import { validateScenePreview } from './scene-preview.js';
 import { ApiError } from './errors.js';
 import { applicationURL, resolveAsset, storageScope } from './paths.js';
 import { validateDocument, migrateDocument, duplicateDocument } from '../domain/documents.js';
@@ -97,7 +98,24 @@ export function createBrowserRepository({databaseName=`tabletop-library-v1:${sto
     storage:'browser',
     async list(type='scene') {
       if(!['scene','map','environment'].includes(type))fail('Tipo de documento inválido.');
-      return (await all('documents')).filter(doc=>doc.documentType===type).map(({id,documentType,name,revision,createdAt,updatedAt})=>({id,documentType,name,revision,createdAt,updatedAt})).sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt)||a.id.localeCompare(b.id));
+      const [documents,metadata]=await Promise.all([all('documents'),all('metadata')]);
+      const previews=new Map(metadata.filter(entry=>entry.previewKey).map(entry=>[entry.previewKey,entry]));
+      return documents.filter(doc=>doc.documentType===type).map(doc=>{
+        const preview=previews.get(documentKey(doc.id,type));
+        const {id,documentType,name,revision,createdAt,updatedAt}=doc;
+        return {id,documentType,name,revision,createdAt,updatedAt,...(preview?{preview:preview.image,previewRevision:preview.revision}:{})};
+      }).sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt)||a.id.localeCompare(b.id));
+    },
+    async savePreview(document,image) {
+      validateScenePreview(image);const key=documentKey(document.id,document.documentType);
+      return transact(['documents','metadata'],'readwrite',(tx,result,stop)=>{
+        const request=tx.objectStore('documents').get(key);
+        request.onsuccess=()=>{try {
+          if(!request.result)fail('Documento não encontrado.',404);
+          checkRevision(request.result,document.revision);
+          tx.objectStore('metadata').put({previewKey:key,image,revision:document.revision},`preview:${key}`);result(null);
+        }catch(error){stop(error);}};
+      });
     },
     async read(id,type='scene') {
       const key=documentKey(id,type);
@@ -111,22 +129,27 @@ export function createBrowserRepository({databaseName=`tabletop-library-v1:${sto
       const current=await repository.read(document.id,document.documentType);checkRevision(current,document.revision);
       await validateReferences(current);
       const key=documentKey(document.id,document.documentType);
-      return transact(['documents'],'readwrite',(tx,result,stop)=>{
+      return transact(['documents','metadata'],'readwrite',(tx,result,stop)=>{
         const store=tx.objectStore('documents'),request=store.get(key);
         request.onsuccess=()=>{try {
           if(!request.result)fail('Documento não encontrado.',404);
           checkRevision(request.result,document.revision);
           const copy=duplicateDocument(request.result,{name:`${request.result.name} — cópia`}),now=new Date().toISOString();
           Object.assign(copy,{revision:1,createdAt:now,updatedAt:now});validateDocument(copy);
-          store.add(copy,documentKey(copy.id,copy.documentType));result(copy);
+          store.add(copy,documentKey(copy.id,copy.documentType));
+          const preview=tx.objectStore('metadata').get(`preview:${key}`);
+          preview.onsuccess=()=>{if(preview.result?.revision===request.result.revision) {
+            const copyKey=documentKey(copy.id,copy.documentType);
+            tx.objectStore('metadata').put({...preview.result,previewKey:copyKey,revision:1},`preview:${copyKey}`);
+          }};result(copy);
         }catch(error){stop(error);}};
       });
     },
     async remove(document) {
       const key=documentKey(document.id,document.documentType);
-      return transact(['documents','backups'],'readwrite',(tx,_result,stop)=>{
+      return transact(['documents','backups','metadata'],'readwrite',(tx,_result,stop)=>{
         const store=tx.objectStore('documents'), request=store.get(key);
-        request.onsuccess=()=>{try {if(!request.result)fail('Documento não encontrado.',404);checkRevision(request.result,document.revision);archive(tx,key,request.result);store.delete(key);}catch(error){stop(error);}};
+        request.onsuccess=()=>{try {if(!request.result)fail('Documento não encontrado.',404);checkRevision(request.result,document.revision);archive(tx,key,request.result);store.delete(key);tx.objectStore('metadata').delete(`preview:${key}`);}catch(error){stop(error);}};
       });
     },
     async assets() {

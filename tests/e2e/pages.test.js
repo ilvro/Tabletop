@@ -95,7 +95,13 @@ test('browser repository validates documents/assets, serializes conflicts and ab
     const rejection=async fn=>{try {await fn();return 'accepted';}catch(e){return e.status??e.name;}};
     statuses.push(await rejection(()=>b.create(saved)));
     const concurrent=await Promise.allSettled([a.save({...saved,name:'A'}),b.save({...saved,name:'B'})]);const current=await a.read(saved.id);statuses.push(await rejection(()=>a.remove(saved)));
+    const cover='data:image/jpeg;base64,/9j/2Q==';
+    await a.savePreview(current,cover);
+    const coverUnchanged=JSON.stringify(await a.read(current.id))===JSON.stringify(current);
+    statuses.push(await rejection(()=>b.savePreview(saved,cover)));
+    statuses.push(await rejection(()=>a.savePreview(current,'data:image/svg+xml;base64,AAAA')));
     const copy=await a.duplicate(current),map=await a.create(createMapFromScene(current)),environment=await a.create(createEnvironmentFromLook(current));
+    const copiedCover=(await a.list('scene')).find(doc=>doc.id===copy.id);
     const before=await a.read(saved.id);statuses.push(await rejection(()=>a.save({...before,layout:{...before.layout,grid:{...before.layout.grid,cellSize:NaN}}})));
     const unavailable=createScene();const missing=createEntity('prop',{assetRef:{id:'missing',revision:1}});unavailable.layout.entities[missing.id]=missing;statuses.push(await rejection(()=>a.create(unavailable)));
     // A quota failure after the backup request must abort both writes.
@@ -111,8 +117,10 @@ test('browser repository validates documents/assets, serializes conflicts and ab
     const backups=await new Promise((resolve,reject)=>{const request=indexedDB.open(databaseName,1);request.onsuccess=()=>{const db=request.result,tx=db.transaction('backups'),r=tx.objectStore('backups').getAll();r.onsuccess=()=>resolve(r.result);tx.oncomplete=()=>db.close();};request.onerror=()=>reject(request.error);});
     await a.remove(copy);const scenes=await a.list('scene'),maps=await a.list('map'),environments=await a.list('environment');
     const reloaded=createBrowserRepository({databaseName}),assetAgain=(await reloaded.assets()).find(asset=>asset.id===imported.id);const reloadedBlob=(await(await fetch(assetAgain.url)).blob()).size;
-    const result={statuses,concurrent:concurrent.map(r=>r.status==='fulfilled'?'saved':r.reason.status),metadataConflicts:edits.map(r=>r.status==='fulfilled'?'saved':r.reason.status),before,after,quota,blobSize,reloadedBlob,updated,counts:[scenes.length,maps.length,environments.length],backups:backups.length,allBuiltins:(await a.assets()).filter(asset=>asset.id.startsWith('builtin-')).length};
+    const storedCover=scenes.find(doc=>doc.id===current.id);
+    const result={coverUnchanged,copiedCover,storedCover,cover,statuses,concurrent:concurrent.map(r=>r.status==='fulfilled'?'saved':r.reason.status),metadataConflicts:edits.map(r=>r.status==='fulfilled'?'saved':r.reason.status),before,after,quota,blobSize,reloadedBlob,updated,counts:[scenes.length,maps.length,environments.length],backups:backups.length,allBuiltins:(await a.assets()).filter(asset=>asset.id.startsWith('builtin-')).length};
     a.dispose();b.dispose();reloaded.dispose();return result;
   },png.toString('base64'));
+  assert.equal(results.coverUnchanged,true);assert.equal(results.copiedCover.preview,results.cover);assert.equal(results.copiedCover.previewRevision,1);assert.equal(results.storedCover.preview,results.cover);assert.ok(results.storedCover.previewRevision<results.storedCover.revision);
   assert.deepEqual(results.concurrent.sort(),[409,'saved'].sort());assert.deepEqual(results.metadataConflicts.sort(),[409,'saved'].sort());assert.deepEqual(results.before,results.after);assert.equal(results.quota,'QuotaExceededError');assert.equal(results.statuses[0],409);assert.equal(results.statuses[1],409);assert.ok(results.statuses.slice(2).every(s=>s!=='accepted'));assert.equal(results.blobSize,png.length);assert.equal(results.reloadedBlob,png.length);assert.equal(results.updated.metadataRevision,1);assert.deepEqual(results.counts,[1,1,1]);assert.ok(results.backups<=5);assert.equal(results.allBuiltins,202);
 });

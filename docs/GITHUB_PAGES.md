@@ -1,6 +1,6 @@
 # Tabletop no GitHub Pages
 
-O build estático oferece editor, 191 assets locais, materiais/efeitos, cenas/mapas/ambientes, importação de PNG/JPEG/WebP e GLB estático, classificação/favoritos, histórico, recuperação e apresentação. Funciona em `https://<usuário>.github.io/<repositório>/` e em domínio próprio, com caminhos relativos ao diretório publicado.
+O build estático oferece editor, 202 assets locais, materiais/efeitos, cenas/mapas/ambientes, importação de PNG/JPEG/WebP e GLB estático, classificação/favoritos, histórico, recuperação e apresentação. Funciona em `https://<usuário>.github.io/<repositório>/` e em domínio próprio, com caminhos relativos ao diretório publicado.
 
 ## Publicar com GitHub Actions
 
@@ -48,3 +48,5 @@ Escultura manual dos paredões/rochas com pincel também funciona no build está
 ## Exemplos incluídos
 
 Abrir → Cenas contém exemplos distribuídos junto ao site. JSON e prévia ficam em `public/scenes/`, com URLs relativas ao diretório publicado. Carregar cria uma cópia editável sem chamar API; Salvar guarda a cópia no IndexedDB. A subida da montanha, a ruína alta, a caverna lateral e as lanternas arredondadas usam assets locais. [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).
+
+As cenas pessoais têm prévias automáticas em Abrir, inclusive durante a criação. Capas são metadados locais do IndexedDB, separados do JSON/histórico, e acompanham a revisão salva. Importar JSON gera a capa automaticamente; não há upload para GitHub. [Uso](EXAMPLE_SCENES.md#imagem-automática-de-cada-cena).

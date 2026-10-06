@@ -191,6 +191,11 @@ export function createViewport(container, {
   const objects = new Map();
   const records = new Map();
   const cache = createAssetCache();
+  const pendingAssets = new Set();
+  function trackAsset(promise) {
+    pendingAssets.add(promise);
+    promise.finally(() => pendingAssets.delete(promise));
+  }
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
   const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
@@ -471,7 +476,7 @@ export function createViewport(container, {
     if (!record) { fallback(parent, 'Asset ausente'); report(`Asset ausente: ${reference?.id ?? 'sem ID'}.`); return; }
     const stillCurrent = () => !destroyed && version === generation && objects.get(entity.id) === parent;
     if (record.type === 'image' && appearance) {
-      cache.texture(record).then((texture) => {
+      trackAsset(cache.texture(record).then((texture) => {
         if (!stillCurrent()) return;
         const aspect = (texture.image?.width ?? 1) / (texture.image?.height ?? 1);
         const image = new THREE.Mesh(new THREE.PlaneGeometry(Math.min(1.25, aspect * 1.35), 1.35), new THREE.MeshBasicMaterial({ map: texture, transparent: true, alphaTest: 0.05, side: THREE.DoubleSide }));
@@ -482,10 +487,10 @@ export function createViewport(container, {
         tagEntity(parent, entity.id);
         updateSelection();
         invalidate(true);
-      }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } });
+      }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } }));
       return;
     }
-    cache.createInstance(record,entity.rockShape,entity.vegetationSeed,entity.rockSculpt).then((instance) => {
+    trackAsset(cache.createInstance(record,entity.rockShape,entity.vegetationSeed,entity.rockSculpt).then((instance) => {
       if (!stillCurrent()) { disposeObject(instance); return; }
       parent.add(instance);
       if(entity.localEffect?.enabled && entity.localEffect.type==='fire') instance.traverse(child=>{if(child.userData.materialSlot==='flame') child.visible=false;});
@@ -499,7 +504,7 @@ export function createViewport(container, {
       onMaterialSlots(entity.id);
       updateShadowBounds();snowDirty=true;
       invalidate(true);
-    }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } });
+    }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } }));
   }
 
   function createLight(record, parent, helper = true) {
@@ -1109,6 +1114,32 @@ export function createViewport(container, {
 
   return {
     setDocument, computeSnowExposure,
+    async ready() {
+      while (pendingAssets.size && !destroyed) await Promise.allSettled([...pendingAssets]);
+      if (destroyed) throw new Error('Renderizador encerrado.');
+    },
+    captureThumbnail() {
+      if (destroyed || pointer || transform.dragging) return null;
+      if (snowDirty) rebuildSnow();
+      const hidden = new Map();
+      const hide = object => { if (object) { hidden.set(object, object.visible); object.visible = false; } };
+      for (const object of [gridObject, selectionBox, gizmo, preview, polygonLine, brushLine, ...extraSelections]) hide(object);
+      scene.traverse(object => { if (object.userData.editHelper && !hidden.has(object)) hide(object); });
+      try {
+        // Copy the fresh frame synchronously: no preserveDrawingBuffer, no camera mutation.
+        effects.render(camera, 0);
+        const image = document.createElement('canvas'); image.width = 480; image.height = 270;
+        const context = image.getContext('2d');
+        const crop = Math.min(canvas.width / 16, canvas.height / 9);
+        context.drawImage(canvas, (canvas.width - crop * 16) / 2, (canvas.height - crop * 9) / 2,
+          crop * 16, crop * 9, 0, 0, 480, 270);
+        return image.toDataURL('image/jpeg', .78);
+      } finally {
+        for (const [object, visible] of hidden) object.visible = visible;
+        // Restore the visible frame before yielding to the browser.
+        effects.render(camera, 0); invalidate();
+      }
+    },
     pick(event) {
       const hit = pick(event);
       return hit ? { entityId: hit.object.userData.entityId, point: hit.point.toArray() } : null;

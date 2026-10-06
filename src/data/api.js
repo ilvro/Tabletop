@@ -16,7 +16,8 @@ const json = (body) => ({ headers: { 'Content-Type': 'application/json' }, body:
 const collection = (type = 'scene') => type === 'environment' ? 'environments' : type === 'map' ? 'maps' : 'scenes';
 const serverRepository = {
   storage:'server',
-  list: (type) => request(`/${collection(type)}`),
+  list: async (type) => (await request(`/${collection(type)}`)).map(item => ({ ...item, ...(item.preview ? { preview: applicationURL(item.preview) } : {}) })),
+  savePreview: (document, image) => request(`/${collection(document.documentType)}/${encodeURIComponent(document.id)}/preview`, { method: 'PUT', ...json({ image, expectedRevision: document.revision }) }),
   read: (id, type) => request(`/${collection(type)}/${encodeURIComponent(id)}`),
   create: (document) => request(`/${collection(document.documentType)}`, { method: 'POST', ...json({ document }) }),
   save: (document) => request(`/${collection(document.documentType)}/${encodeURIComponent(document.id)}`, {

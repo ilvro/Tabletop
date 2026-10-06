@@ -395,3 +395,18 @@ input[type='checkbox'] { width: 16px; height: 16px; flex-shrink: 0; }
 body { overflow: hidden; }
 @media (max-width:540px) { .document-heading { display: none; } .app-header { justify-content: space-between; } }
 .floating-window { backdrop-filter: none; }
+
+/* Automatically rendered gallery covers, including the current unsaved scene. */
+.scene-library-card { padding: 8px; }
+.scene-library-card .item-card-main { flex-direction: row; align-items: center; gap: 12px; min-width: 0; }
+.scene-thumbnail { display: block; flex: 0 0 128px; width: 128px; height: 72px; object-fit: cover; border-radius: 5px; background: #172127; }
+.scene-thumbnail-pending { display: grid; place-items: center; color: #9badb0; font-size: 10px; }
+.scene-card-description { display: grid; gap: 6px; min-width: 0; }
+.scene-card-description strong { overflow-wrap: anywhere; }
+.item-card-actions[hidden] { display: none; }
+@media (max-width: 520px) {
+  .scene-library-card { flex-wrap: wrap; }
+  .scene-library-card .item-card-main { flex-basis: 100%; }
+  .scene-thumbnail { flex-basis: 100px; width: 100px; height: 56px; }
+  .scene-library-card .item-card-actions { margin-left: auto; }
+}

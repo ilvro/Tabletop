@@ -2,10 +2,10 @@
   "schemaVersion": 2,
   "documentType": "scene",
   "id": "707e4705-2a55-4151-bb0c-9c50ef96ff73",
-  "revision": 7,
+  "revision": 12,
   "name": "Minha primeira cena",
   "createdAt": "2026-10-03T17:47:49.856Z",
-  "updatedAt": "2026-10-04T01:25:55.341Z",
+  "updatedAt": "2026-10-04T09:42:30.687Z",
   "layout": {
     "grid": {
       "type": "square",
@@ -4829,6 +4829,50 @@
         },
         "levelId": null,
         "layerId": null
+      },
+      "dc73f55f-4992-4ce2-b1ae-eac0925411c3": {
+        "id": "dc73f55f-4992-4ce2-b1ae-eac0925411c3",
+        "name": "Bancada de oficina",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "537f5c7c-0eef-4944-9c18-50a8b9a0a6e7",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            0.8313825305169438,
+            0,
+            -2.027869435680956
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-workbench",
+          "revision": 1
+        },
+        "supportHeight": 0.9699999964237213,
+        "footprint": [
+          1.8,
+          0.7
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
       }
     },
     "groups": {
@@ -5020,7 +5064,8 @@
         "distance": 0,
         "shadowEnabled": true,
         "audience": "all",
-        "role": "key"
+        "role": "key",
+        "temperature": null
       },
       "c90c98de-f4b3-4383-8d14-9c33c3bbe934": {
         "id": "c90c98de-f4b3-4383-8d14-9c33c3bbe934",
@@ -5091,7 +5136,30 @@
         "layerId": null
       }
     },
-    "materialAdjustments": {}
+    "materialAdjustments": {},
+    "effectsPaused": false,
+    "fog": {
+      "enabled": false,
+      "mode": "linear",
+      "color": "#8899aa",
+      "near": 7,
+      "far": 45,
+      "density": 0.05
+    },
+    "volumetricFog": {
+      "enabled": false,
+      "color": "#a5b6c5",
+      "density": 1,
+      "baseHeight": 0,
+      "height": 3,
+      "maxDistance": 80
+    },
+    "bloom": {
+      "enabled": false,
+      "strength": 0.025,
+      "radius": 0.3,
+      "threshold": 1
+    }
   },
   "actors": {
     "15c3c10e-dd74-431a-835a-33b93aad70d0": {
