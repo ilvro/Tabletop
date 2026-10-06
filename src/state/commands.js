@@ -5,6 +5,7 @@ import { kelvinToColor } from '../domain/lighting.js';
 import { applyEnvironment, primaryLight } from '../domain/environments.js';
 import { ValidationError, validateDocument } from '../domain/validation.js';
 import { groupChain, isAccess, supportHeightAt, worldPoint, localPoint } from '../domain/geometry.js';
+import { pasteMaterial } from '../domain/material-transfer.js';
 
 const collectionItems = value => Array.isArray(value) ? value : Object.values(value ?? {});
 const requireRecord = (collection, itemId, label) => {
@@ -370,6 +371,19 @@ export function applyCommand(document, command) {
       semanticPlacement(next, entity, { levelId: entity.levelId ?? undefined }, true, true);
       editable({ ...entity, locked: false }, undefined, next);
       bakeStructuralScale(entity); put(next.layout.entities, entity); if (payload.binding) { look.environmentBindings ??= {}; look.environmentBindings[entity.id] = clone(payload.binding); } break;
+    }
+    case 'material.apply': {
+      if (!Array.isArray(payload.targets) || !payload.targets.length || payload.targets.length > 256 || new Set(payload.targets.map(target => target.id)).size !== payload.targets.length) throw new ValidationError('Selecione até 256 superfícies diferentes.');
+      for (const target of payload.targets) {
+        const before = requireRecord(next.layout.entities, target.id, 'Superfície');
+        editable(before, undefined, next);
+        if (before.wallId) editable(requireRecord(next.layout.entities, before.wallId, 'Parede'), undefined, next);
+        const patch = pasteMaterial(before, payload.sample, target.layerId ?? null);
+        const after = { ...before, ...patch };
+        next.layout.entities[target.id] = after;
+        if (before.kind === 'terrain') carrySupports(next, before, after);
+      }
+      break;
     }
     case 'entity.update': {
       const before = requireRecord(next.layout.entities, payload.id, 'Entidade'); editable(before, payload.patch, next);

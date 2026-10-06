@@ -1,4 +1,5 @@
 import { createScenePreviews } from './scene-previews.js';
+import { copyMaterial } from '../domain/material-transfer.js';
 import {rockSculptPanel} from '../ui/rock-sculpt-panel.js';
 import { EXAMPLE_SCENES, loadExampleScene } from '../data/example-scenes.js';
 import {isSculptableRock,ROCK_SCULPT_MODES} from '../domain/rock-sculpt.js';
@@ -69,7 +70,7 @@ export async function startApplication() {
       </aside>
       <main class="workspace">
         <div id="viewport" aria-label="Viewport 3D"></div>
-        <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (G)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (R)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (V)" aria-label="Escala"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
+        <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (G)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (R)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (V)" aria-label="Escala"')}<i></i>${button('material-eyedropper', '', 'eyedropper', 'icon-button', 'title="Conta-gotas (I)" aria-label="Conta-gotas" aria-pressed="false"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
         <div id="welcome" class="welcome-card"><span class="eyebrow">UMA CENA COMEÇA COM UM ESPAÇO</span><h1>Sua próxima história<br/>começa aqui.</h1><p>Desenhe uma sala, escolha a luz e traga seus personagens para a mesa.</p>${button('room-draw', 'Desenhar minha primeira sala', 'room', 'primary')}<small>Ou use as medidas no painel Construir.</small></div>
         <div id="tool-context" class="tool-context" hidden></div><div id="proposal-bar" class="proposal-bar" hidden></div>
         <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet', 'title="Capturar WASD e suas combinações em tela cheia; Esc sai" aria-pressed="false"')}</div><span id="gesture-hint" class="gesture-hint">WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom</span></div>
@@ -108,6 +109,7 @@ export async function startApplication() {
     <input id="document-json-file" type="file" accept=".json,application/json" hidden />`;
 
   let assets = [], savedScenes = [], savedMaps = [], selection = null, tool = 'select', tab = 'build';
+  let materialClipboard = null;
   let dialogTab = 'scenes';
   let savedEnvironments = [], selectedEnvironmentId = '', environmentPreview = null, skyReturnCamera = null;
   const openAtmosphereSections = new Set();
@@ -235,6 +237,7 @@ export async function startApplication() {
   const viewport = createViewport(document.getElementById('viewport'), {
     onMaterialSlots: objectId => { if (selection === objectId) renderInspector(); },
     onSelect: (value, meta) => { selectObject(value, meta?.additive); hideContextMenu(); },
+    onMaterialPick: objectId => sampleMaterial(objectId),
     onTransform: (objectId, transform, meta = {}) => {
       const found = locate(objectId);
       if (!found) return;
@@ -321,6 +324,34 @@ export async function startApplication() {
     return image ? `<img class="scene-thumbnail" src="${esc(image)}" alt="Prévia de ${esc(doc.name)}" width="480" height="270" loading="lazy" />`
       : '<span class="scene-thumbnail scene-thumbnail-pending" aria-label="Gerando prévia">Gerando prévia…</span>';
   }
+  function materialTarget(record) {
+    return { id: record.id, ...(record.kind === 'terrain' && terrainMaterialTarget === 'layer' && record.paintLayers?.some(layer => layer.id === terrainBrush.layerId) ? { layerId: terrainBrush.layerId } : {}) };
+  }
+  function materialTransferControls(record = null) {
+    const target = record && materialTarget(record);
+    const scope = target?.layerId ? `Camada · ${record.paintLayers.find(layer => layer.id === target.layerId).name}` : record?.kind === 'terrain' ? 'Base · terreno inteiro' : record?.material.textureSlot && record.material.textureSlot !== 'base' ? `Material · ${record.material.textureSlot}` : 'Material do objeto';
+    const locked = record ? isLocked(store.document, record) : [...selectedIds].some(objectId => isLocked(store.document, store.document.layout.entities[objectId]));
+    return `<div class="material-transfer"><div class="construction-grid">${button('material-copy', 'Copiar material', 'copy', '', `title="Copiar material (Ctrl+Shift+C)" ${!record ? 'disabled' : ''}`)}${button('material-paste', 'Colar material', 'copy', '', `title="Colar material (Ctrl+Shift+V)" ${!materialClipboard || locked ? 'disabled' : ''}`)}</div>${button('material-eyedropper', 'Conta-gotas', 'eyedropper', 'wide', 'title="Conta-gotas (I)"')}<p class="microcopy">${record ? `Alcance: ${esc(scope)}. ` : 'Aplica aos objetos selecionados em uma operação. '}${materialClipboard ? `Copiado de ${esc(materialClipboard.name)}.` : 'Copie um material ou use o conta-gotas na cena.'}</p></div>`;
+  }
+  function sampleMaterial(objectId = selection) {
+    if (tool !== 'material-sample' && selectedIds.size > 1) { notify('Selecione apenas uma superfície para copiar o material ou use o conta-gotas.', true); return; }
+    const record = store.document.layout.entities[objectId];
+    if (!record?.material || record.water?.state === 'water') { notify('Escolha uma superfície com material editável, como piso, rocha, objeto, terreno ou gelo.', true); return; }
+    const target = tool !== 'material-sample' && objectId === selection ? materialTarget(record) : { id: objectId };
+    try {
+      materialClipboard = { sample: copyMaterial(record, target.layerId ?? null), name: target.layerId ? `${record.name} · ${record.paintLayers.find(layer => layer.id === target.layerId).name}` : record.name };
+      if (tool === 'material-sample') setTool('select');
+      renderInspector();
+      notify(`Material copiado de ${materialClipboard.name}. Escolha o destino e use Colar material.`);
+    } catch (error) { notify(error.message, true); }
+  }
+  function pasteSelectedMaterial() {
+    if (!materialClipboard) { notify('Copie um material primeiro ou use o conta-gotas.', true); return; }
+    const records = [...selectedIds].map(objectId => store.document.layout.entities[objectId]);
+    if (!records.length || records.some(record => !record?.material || record.water?.state === 'water')) { notify('Selecione objetos com material editável para colar.', true); return; }
+    const targets = records.map(record => records.length === 1 ? materialTarget(record) : { id: record.id });
+    if (execute('material.apply', { targets, sample: materialClipboard.sample }, { label: records.length === 1 ? 'Colar material' : 'Colar materiais na seleção' })) notify('Material aplicado. Ctrl+Z desfaz.');
+  }
   function selectObject(value, additive = false) {
     anchorEditing = false;
     value = tool==='terrain'&&isSculptableRock(store.document.layout.entities[value])?value:assemblyFor(store.document,value)?.id??value;
@@ -349,9 +380,10 @@ export async function startApplication() {
     const previous = tool;
     if (next !== 'polygon') polygonHoleHost = null;
     tool = next; viewport.setTool(next);
+    for (const node of root.querySelectorAll('[data-action=material-eyedropper]')) { node.classList.toggle('active', next === 'material-sample'); node.setAttribute('aria-pressed', String(next === 'material-sample')); }
     if (next !== 'place') placing = null;
     root.querySelectorAll('[data-action^="tool-"]').forEach((node) => node.classList.toggle('active', node.dataset.action === `tool-${next}`));
-    document.getElementById('gesture-hint').textContent = next === 'terrain' ? 'Pincel ativo · T/Q: seleção · [ ]: tamanho · Esc: cancelar traço' : next === 'polygon' ? 'Clique nos vértices · Enter conclui · Backspace remove · Esc cancela' : next === 'window' ? 'Clique na parede para posicionar o centro da janela · Esc cancela' : next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? 'Clique no piso para colocar · Alt: posição livre · Esc cancela' : 'WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom';
+    document.getElementById('gesture-hint').textContent = next === 'material-sample' ? 'Conta-gotas · clique para copiar o material · Esc cancela' : next === 'terrain' ? 'Pincel ativo · T/Q: seleção · [ ]: tamanho · Esc: cancelar traço' : next === 'polygon' ? 'Clique nos vértices · Enter conclui · Backspace remove · Esc cancela' : next === 'window' ? 'Clique na parede para posicionar o centro da janela · Esc cancela' : next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? 'Clique no piso para colocar · Alt: posição livre · Esc cancela' : 'WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom';
     renderToolContext();
     if (tab === 'build' && (previous === 'polygon' || next === 'polygon')) renderSidebar();
     if (previous === 'terrain' || next === 'terrain') {renderInspector(); if(next==='terrain') document.getElementById('inspector-content').scrollTop=0;}
@@ -359,7 +391,7 @@ export async function startApplication() {
   function renderToolContext() {
     const next=tool;
     const context=document.getElementById('tool-context'); context.hidden=['select','move','rotate','scale'].includes(next);
-    context.innerHTML=`<span>${esc(next==='terrain'?`Pincel · ${({push:'Projetar face',pull:'Recuar face',raise:'Elevar',lower:'Rebaixar',smooth:'Suavizar',flatten:'Nivelar',rock:'Rocha natural',paint:'Pintar camada',erase:'Apagar camada',water:'Água'})[terrainBrush.mode]} · ${terrainBrush.radius} m`:next==='polygon'?'Desenhar contorno':next==='room'?'Desenhar sala':'Colocar objeto')}</span><button data-action=tool-select class=quiet>Concluir · Q</button>`;
+    context.innerHTML=`<span>${esc(next==='material-sample'?'Conta-gotas · clique na superfície de origem':next==='terrain'?`Pincel · ${({push:'Projetar face',pull:'Recuar face',raise:'Elevar',lower:'Rebaixar',smooth:'Suavizar',flatten:'Nivelar',rock:'Rocha natural',paint:'Pintar camada',erase:'Apagar camada',water:'Água'})[terrainBrush.mode]} · ${terrainBrush.radius} m`:next==='polygon'?'Desenhar contorno':next==='room'?'Desenhar sala':'Colocar objeto')}</span><button data-action=tool-select class=quiet>Concluir · Q</button>`;
   }
   function clearProposal() { cancelEnvironmentPreview(); proposal = null; viewport.setPreview(null); document.getElementById('proposal-bar').hidden = true; }
   function makeProposal() {
@@ -587,7 +619,7 @@ export async function startApplication() {
     if (anchorEditing) { document.getElementById('inspector-content').innerHTML = anchoringPanel(store.document, [...selectedIds], anchorHostId); return; }
     if (selection && !selectedIds.has(selection)) selectedIds = new Set([selection]);
     if (!selection) selectedIds.clear();
-    if (selectedIds.size > 1) { document.getElementById('inspector-content').innerHTML = `<section><span class="eyebrow">UNIR OBJETOS</span><button class="wide primary" data-action="assembly-bind">Ancorar objetos juntos</button><p class="microcopy">Cria uma composição que se seleciona, move e gira como uma unidade. Desancore pela pasta para editar os objetos individualmente.</p></section>` + polishPanel(selectedIds.size, polishOptions, store.document); viewport.setSelection(selection, [...selectedIds]); return; }
+    if (selectedIds.size > 1) { document.getElementById('inspector-content').innerHTML = `<section><span class="eyebrow">UNIR OBJETOS</span><button class="wide primary" data-action="assembly-bind">Ancorar objetos juntos</button><p class="microcopy">Cria uma composição que se seleciona, move e gira como uma unidade. Desancore pela pasta para editar os objetos individualmente.</p></section>` + ([...selectedIds].every(objectId => store.document.layout.entities[objectId]?.material && store.document.layout.entities[objectId].water?.state !== 'water') ? `<section><span class=eyebrow>MATERIAIS DA SELEÇÃO</span>${materialTransferControls()}</section>` : '') + polishPanel(selectedIds.size, polishOptions, store.document); viewport.setSelection(selection, [...selectedIds]); return; }
     const panel = document.getElementById('inspector-content'), found = locate();
     const scroll = panel.dataset.objectId === selection ? panel.scrollTop : 0;
     panel.dataset.objectId = selection ?? '';
@@ -622,7 +654,7 @@ export async function startApplication() {
       if (!record.paintLayers?.some(layer => layer.id === terrainBrush.layerId)) terrainBrush.layerId = record.paintLayers?.[0]?.id ?? '';
       viewport.setTerrainBrush(terrainBrush);
       const basePanel = `<details class=terrain-base-material data-disclosure=terrain-base-material ${terrainMaterialTarget === 'base' ? 'open' : ''}><summary>Material base · terreno inteiro</summary><p class=scope-hint>Edite aqui a textura base e os ajustes gerais do terreno. Para alterar somente uma camada, escolha-a no seletor acima. Relevo e cobertura são compartilhados.</p>${materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField })}</details>`;
-      fields += terrainInspector(record, terrainBrush, Math.min(terrainCell, record.heights.length - 1), tool === 'terrain', terrainAdvancedOpen, terrainMaterialTarget !== 'base', terrainResizeMode, terrainMaterialTarget, basePanel);
+      fields += terrainInspector(record, terrainBrush, Math.min(terrainCell, record.heights.length - 1), tool === 'terrain', terrainAdvancedOpen, terrainMaterialTarget !== 'base', terrainResizeMode, terrainMaterialTarget, basePanel, materialTransferControls(record));
     }
     if(record.kind==='water') fields+=waterPanel(record,{numberField,colorField},store.document);
     if (record.kind === 'floor') fields += `<section><span class="eyebrow">ABERTURAS E PAREDES</span><button data-action="floor-hole" class="wide">Recortar piso · vão de escada / pátio</button><p class="microcopy">Clique nos cantos do vão dentro deste piso; Enter conclui. O recorte atravessa sua espessura.</p><button data-action="contour-walls" class="wide">Criar paredes do contorno</button><p class="microcopy">Revise antes de aceitar. Paredes de bordas compartilhadas são reaproveitadas; encontros em L e T se ajustam automaticamente.</p></section>`;
@@ -646,7 +678,7 @@ export async function startApplication() {
     if (record.kind === 'door') fields += `<section><span class="eyebrow">ABERTURA NA PAREDE</span>${numberField('offset', 'Posição na parede · m', record.offset, { min: 0 })}<div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .2 })}${numberField('height', 'Altura · m', record.height, { min: .2 })}</div>${numberField('door-angle', 'Ângulo atual · graus', (doc.sessionState?.doors?.[record.id] ?? record.initialAngle) * 180 / Math.PI, { step: 15 })}<label class="field"><span>Dobradiça</span><select data-field="hinge"><option value="left" ${record.hinge === 'left' ? 'selected' : ''}>Esquerda</option><option value="right" ${record.hinge === 'right' ? 'selected' : ''}>Direita</option></select></label>${button('door-toggle', 'Abrir / fechar', 'door', 'wide')}<p class="microcopy">O vão pertence à parede. A folha pode ser aberta sem alterar o mapa.</p></section>`;
     if (record.kind === 'window') fields += `<section><span class="eyebrow">JANELA HOSPEDADA</span><p class="microcopy">Com Mover (G), arraste a janela na parede. Alt permite ajuste livre. O recorte acompanha a janela.</p><label class="field"><span>Parede</span><select data-field="window-wall">${Object.values(doc.layout.entities).filter(e => e.kind === 'wall').map(e => `<option value="${e.id}" ${record.wallId === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select></label>${numberField('offset', 'Posição na parede · m', record.offset, { min: 0 })}<div class="field-grid">${numberField('width', 'Largura · m', record.width, { min: .1 })}${numberField('height', 'Altura · m', record.height, { min: .1 })}</div>${numberField('sill', 'Peitoril · m', record.sill, { min: 0 })}<label class="field"><span>Representação</span><select data-field="style"><option value="glass" ${record.style === 'glass' ? 'selected' : ''}>Vidro</option><option value="bars" ${record.style === 'bars' ? 'selected' : ''}>Grades</option><option value="open" ${record.style === 'open' ? 'selected' : ''}>Vão livre</option></select></label></section>`;
     if (type === 'token' || record.kind === 'prop') fields += `<section><span class="eyebrow">ESCALA VISUAL</span><div class="axis-fields">${record.transform.scale.map((value, axis) => numberField(`scale-${axis}`, ['X', 'Y', 'Z'][axis], value, { min: .01 })).join('')}</div>${type === 'token' ? `<span class="eyebrow">BASE · METROS</span><div class="field-grid">${numberField('footprint-0', 'Largura', record.footprint[0], { min: .1 })}${numberField('footprint-1', 'Profundidade', record.footprint[1], { min: .1 })}</div>${colorField('token-color', 'Cor do personagem', actor.color)}` : ''}</section>`;
-    if (record.material && record.kind !== 'terrain' && record.water?.state!=='water') fields += materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField });
+    if (record.material && record.kind !== 'terrain' && record.water?.state!=='water') fields += materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField, transferControls: materialTransferControls(record) });
     if(record.kind==='prop' && isVegetationAsset(record.assetRef.id)) fields+=`<section><span class="eyebrow">VEGETAÇÃO · GEOMETRIA</span>${numberField('vegetationSeed','Variação geométrica',record.vegetationSeed??0,{min:0,max:65535,step:1})}<p class="microcopy">Varia ramificação e folhagem, preservando o tamanho e a base. Escala e rotação continuam independentes.</p></section>`;
     if (record.kind === 'prop') fields += rockPanel(record,{numberField});
     if (record.kind === 'prop') fields += localEffectPanel(record, { numberField, colorField, checkField });
@@ -1638,6 +1670,9 @@ export async function startApplication() {
       case 'spot-place': placing = { type: 'light', lightType: 'spot' }; setTool('place'); break;
       case 'light-place': placing = { type: 'light' }; setTool('place'); break;
       case 'object-delete': { const found = locate(); if (found && confirm(found.type === 'group' ? 'Excluir a composição e todos os seus objetos? Esta ação pode ser desfeita.' : found.record.kind === 'floor' ? 'Excluir o piso e todos os elementos apoiados nele? Esta ação pode ser desfeita.' : found.record.kind === 'wall' ? 'Excluir esta parede e suas portas? Esta ação pode ser desfeita.' : 'Excluir este elemento? Esta ação pode ser desfeita.')) execute(found.type === 'group' ? 'group.delete' : `${found.type}.remove`, { id: selection }); break; }
+      case 'material-copy': return sampleMaterial();
+      case 'material-paste': return pasteSelectedMaterial();
+      case 'material-eyedropper': clearProposal(); setTool('material-sample'); notify('Clique em um objeto para copiar seu material configurado. No terreno, a amostra é da base; para copiar uma camada, use Copiar material no inspetor. Esc cancela.'); break;
       case 'object-copy': return copySelection();
       case 'object-paste': return pasteClipboard();
       case 'object-duplicate': {
@@ -1994,6 +2029,7 @@ export async function startApplication() {
     if (document.querySelector('dialog[open]:not(.floating-window)') || event.target.closest('.floating-window')) return;
     if (isPresentation) return;
     if (event.ctrlKey || event.metaKey) {
+      if (event.shiftKey && ['c', 'v'].includes(event.key.toLowerCase())) { event.preventDefault(); act(event.key.toLowerCase() === 'c' ? 'material-copy' : 'material-paste'); return; }
       if (event.key.toLowerCase() === 's') { event.preventDefault(); saveScene(); }
       if (event.key.toLowerCase() === 'z') { event.preventDefault(); event.shiftKey ? store.redo() : store.undo(); }
       if (event.key.toLowerCase() === 'y') { event.preventDefault(); store.redo(); }
@@ -2005,6 +2041,7 @@ export async function startApplication() {
     if (event.key.toLowerCase() === 't') { event.preventDefault(); if (!event.repeat) act(tool === 'terrain' ? 'terrain-stop' : 'terrain-sculpt'); return; }
     if (tool === 'terrain' && ['[',']'].includes(event.key)) { event.preventDefault(); terrainBrush.radius = Math.max(.1, Math.min(100, Number((terrainBrush.radius * (event.key === '[' ? .8 : 1.25)).toFixed(2)))); viewport.setTerrainBrush(terrainBrush); renderToolContext(); renderInspector(); return; }
     if (event.altKey || event.repeat) return;
+    if (event.key.toLowerCase() === 'i') { event.preventDefault(); act('material-eyedropper'); return; }
     const keys = { q: 'select', g: 'move', r: 'rotate', v: 'scale' };
     if (keys[event.key.toLowerCase()]) setTool(keys[event.key.toLowerCase()]);
     if (event.key.toLowerCase() === 'f') act('frame');

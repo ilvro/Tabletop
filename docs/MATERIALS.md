@@ -17,6 +17,25 @@ A escolha aplica a cor branca de matiz e o acabamento inicial do material. Depoi
 - **Cor / matiz**, **Rugosidade** e **Metalicidade:** personalizam o acabamento final. Cor / matiz multiplica a textura, inclusive a recoloração; deixe branca para ver a cor escolhida sem outra matiz. A textura possui variação local de rugosidade.
 - Em objetos da biblioteca/GLB, **Aplicar acabamento em** permite escolher um material nomeado, como `wood`, conservando textura, cor e acabamento dos outros. **Todos os materiais** aplica a textura ao conjunto.
 
+### Conta-gotas e copiar/colar materiais
+
+Disponível em 6 de outubro de 2026. Em **Material e textura**, use **Copiar material** na origem e **Colar material** no destino. O conta-gotas também fica na barra de ferramentas 3D: clique nele, depois no objeto de origem. A amostra não altera o documento nem troca sua seleção; escolha o destino e cole. Esc ou Q cancela a amostragem. Objetos bloqueados podem servir de origem; a colagem respeita bloqueios do objeto, pasta, andar, camada e hospedeiros.
+
+Atalhos com foco fora dos campos de texto:
+
+- **I:** conta-gotas.
+- **Ctrl+Shift+C:** copiar material da superfície selecionada.
+- **Ctrl+Shift+V:** colar material no destino ou na seleção múltipla.
+- **Ctrl+Z / Ctrl+Shift+Z:** desfazer/refazer a colagem.
+
+O clipboard de materiais é separado da cópia de objetos e fica nesta aba até recarregar/fechar. Pode ser usado entre cenas abertas na mesma aba. Copia os ajustes editáveis de cor, rugosidade, metalicidade, emissão, textura procedural, tamanho, relevo, personalização do padrão e cobertura completa, inclusive neve física/orgânica. Uma colagem substitui a configuração anterior, removendo cobertura/emissão e parâmetros opcionais que não existem na amostra. Conserva a geometria base, transformação, identidade, asset e câmera; cobertura de neve com espessura pode atualizar seu volume e os apoios do terreno.
+
+Nos modelos, escolha **Aplicar acabamento em** no destino antes de colar. O destino conserva esse alcance; o nome do material da origem não é transferido. O conta-gotas copia a configuração editável do objeto, não a cor de um pixel nem um material original diferente sob o ponteiro. Mapas de textura embutidos em GLBs e as cores originais dos vários materiais de uma receita continuam pertencendo ao asset; não são extraídos pelo clipboard. Texturas procedurais e seus parâmetros configurados no editor são transferidos.
+
+No terreno, **Editar material de** determina o alcance dos botões: **Base · terreno inteiro** ou **Camada · nome**. A camada recebe cor/textura/personalização, conservando nome, ID, ordem, opacidade, visibilidade, distribuição e máscara pintada. Ela não possui controles próprios de rugosidade, emissão, relevo ou cobertura; esses ajustes ficam no material base. Ao copiar uma camada para uma base/objeto, o acabamento inicial da textura é usado para os parâmetros que a camada não possui. O conta-gotas no viewport sempre amostra a base do terreno; para copiar uma camada, use seu botão no inspetor. Copiar cobertura não copia a máscara espacial de exposição à neve do terreno de origem.
+
+Na seleção múltipla, **Materiais da seleção → Colar material** aplica aos materiais base dos objetos selecionados, conservando o alcance nomeado de cada modelo. Um único undo desfaz o conjunto. Se algum destino ou dependência necessária estiver bloqueado/inválido, nenhum material é alterado. Apoios no terreno acompanham mudanças na espessura da neve.
+
 ### Madeira
 
 - **Padrão:** tábuas, madeira contínua sem juntas ou parquet em blocos com direções alternadas.

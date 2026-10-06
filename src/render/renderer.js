@@ -94,7 +94,7 @@ export function setupUniformScaleGizmo(transform) {
 
 /** Runtime adapter only. Documents are read; all durable changes leave through callbacks. */
 export function createViewport(container, {
-  onSelect = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
+  onSelect = () => {}, onMaterialPick = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
   onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
   onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {}, onRockStroke = () => {}, onWaterStroke = () => {}, onMaterialSlots = () => {},
   navigationEnabled = true,
@@ -938,7 +938,9 @@ export function createViewport(container, {
       if (version === generation) setDocument(sceneDocument);
     } else if (gesture.object && gesture.moved) commitTransform(gesture.entityId, gesture.object, Boolean(sceneDocument?.layout.grid.snap && !event.altKey));
     else if (!gesture.moved && !transform.dragging) {
-      if (tool === 'place') {
+      if (tool === 'material-sample') {
+        onMaterialPick(pick(event)?.object.userData.entityId ?? null);
+      } else if (tool === 'place') {
         const support = supportPoint(event);
         if (support) onPlace({ ...support, snap: Boolean(sceneDocument?.layout.grid.snap && !event.altKey) });
       } else if (tool === 'window') {
@@ -1156,7 +1158,7 @@ export function createViewport(container, {
       }
     },
     setSelection(id, ids = id ? [id] : []) { selectedId = id; selectedIds = ids; updateSelection(); },
-    setTool(mode) { cancelGesture(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window', 'terrain'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
+    setTool(mode) { cancelGesture(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window', 'terrain', 'material-sample'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
     setTerrainBrush(options) { terrainBrush = { ...terrainBrush, ...options }; },
     setIsolatedLevel(levelId) { isolatedLevel = levelId; for (const [key, object] of objects) object.visible = visibleRecord(records.get(key)); updateSelection(); invalidate(true); },
     setSupportSurface(id) { supportSurface = id; const host = records.get(id); if (gridObject) gridObject.position.y = (host?.transform?.position[1] ?? workplaneHeight) + (host?.supportHeight ?? 0) * (host?.transform?.scale[1] ?? 1) + .009; invalidate(); },

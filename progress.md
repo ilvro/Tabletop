@@ -1,6 +1,12 @@
 # Tabletop — andamento
 
-Atualizado em 5 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 6 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+
+## Conta-gotas e copiar/colar materiais — concluído em 6 de outubro
+
+Controles no inspetor e conta-gotas na barra 3D; I amostra, Ctrl+Shift+C copia e Ctrl+Shift+V cola. Clipboard de materiais separado de objetos, com configurações de textura, acabamento e cobertura; destino conserva material nomeado ou alcance base/camada do terreno. Camadas preservam máscaras/distribuição; seleção múltipla é uma transação de histórico, com validação de bloqueios e remoção de parâmetros opcionais antigos. Amostrar não muda documento/seleção; Esc/Q cancela. Apoios acompanham neve física no terreno. Uso e limites em [docs/MATERIALS.md](docs/MATERIALS.md#conta-gotas-e-copiarcolar-materiais).
+
+Validação: 173 testes de domínio/integração aprovados (quatro novos para transferência, isolamento, histórico/atomicidade, bloqueios, máscaras e apoios); builds local e Pages aprovados. Dois E2E novos, um por modo, passaram e foram repetidos após acrescentar material nomeado e conferir o layout: conta-gotas/atalhos/cancelamento, origem bloqueada, seleção preservada, base/camada, colagem múltipla, isolamento do material `strap` de uma caixa, undo/redo, salvamento/reabertura e câmera independente do projetor. Capturas em `test-results/material-transfer-server.png` e `test-results/material-transfer-pages.png`. Clipboard só nesta aba; texturas/cores originais de assets não são extraídas, e camadas recebem apenas os campos que suportam. A suíte E2E completa e benchmark presencial não foram repetidos.
 
 ## Análise de pendências e qualidade de vida — concluída
 
