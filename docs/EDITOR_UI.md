@@ -1,5 +1,7 @@
 # Editor: construção, materiais e janelas
 
+**Régua (M)** mede por dois cliques ou arraste, com distância no plano, em 3D, desnível e equivalência em células. Usa o centro da base de tokens, superfícies visíveis e o plano de construção; snap próprio opcional/Alt. Medição temporária do mestre, independente de cena/histórico/projetor. Funciona com toque em tela estreita. [Uso e medidas](RULER.md).
+
 Presets pessoais: **Propriedades → Pincel de superfície → Meus pincéis** permite salvar com nome, aplicar, atualizar, renomear e excluir configurações. Listas próprias de terreno e rocha, persistentes no navegador e reutilizáveis entre cenas, conservando a camada atual de pintura. [Uso e armazenamento](BRUSH_PRESETS.md).
 
 Conta-gotas e transferência de materiais: **I** ativa a amostragem na cena; **Copiar material / Colar material** ficam no inspetor e respeitam o alcance base/camada do terreno ou material nomeado do modelo de destino. Atalhos **Ctrl+Shift+C/V**, clipboard separado de objetos e colagem múltipla em um undo. [Uso e limites](MATERIALS.md#conta-gotas-e-copiarcolar-materiais).

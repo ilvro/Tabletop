@@ -13,6 +13,7 @@ import { landscapePanel, waterPanel } from '../ui/landscape-panels.js';
 import { proposeVegetation } from '../authoring/vegetation.js';
 import { isVegetationAsset } from '../domain/landscape.js';
 import { rockDefaults } from '../domain/rocks.js';
+import { measurementText } from '../domain/measurement.js';
 import { rockPanel } from '../ui/rock-panel.js';
 import { createMountainTerrain } from '../authoring/mountain.js';
 import { materialPanel, localEffectPanel } from '../ui/material-panels.js';
@@ -73,7 +74,7 @@ export async function startApplication() {
       </aside>
       <main class="workspace">
         <div id="viewport" aria-label="Viewport 3D"></div>
-        <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (G)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (R)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (V)" aria-label="Escala"')}<i></i>${button('material-eyedropper', '', 'eyedropper', 'icon-button', 'title="Conta-gotas (I)" aria-label="Conta-gotas" aria-pressed="false"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
+        <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (G)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (R)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (V)" aria-label="Escala"')}<i></i>${button('tool-measure', '', 'ruler', 'icon-button', 'title="Régua (M)" aria-label="Régua" aria-pressed="false"')}${button('material-eyedropper', '', 'eyedropper', 'icon-button', 'title="Conta-gotas (I)" aria-label="Conta-gotas" aria-pressed="false"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
         <div id="welcome" class="welcome-card"><span class="eyebrow">UMA CENA COMEÇA COM UM ESPAÇO</span><h1>Sua próxima história<br/>começa aqui.</h1><p>Desenhe uma sala, escolha a luz e traga seus personagens para a mesa.</p>${button('room-draw', 'Desenhar minha primeira sala', 'room', 'primary')}<small>Ou use as medidas no painel Construir.</small></div>
         <div id="tool-context" class="tool-context" hidden></div><div id="proposal-bar" class="proposal-bar" hidden></div>
         <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet', 'title="Capturar WASD e suas combinações em tela cheia; Esc sai" aria-pressed="false"')}</div><span id="gesture-hint" class="gesture-hint">WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom</span></div>
@@ -121,6 +122,7 @@ export async function startApplication() {
   let libraryLimit = 24, editingAsset = null;
   let proposal = null, placing = null, saving = false, isPresentation = false, cutaway = true;
   let repeatAssetPlacement = true;
+  let measurement = null, rulerSnap = false;
   let workingCamera = null, publishedCamera = null, recovery = null, draftTimer, noticeTimer;
   let draftQueue = Promise.resolve(), draftWarningShown = false;
   let openTicket = 0;
@@ -284,6 +286,7 @@ export async function startApplication() {
     onMaterialSlots: objectId => { if (selection === objectId) renderInspector(); },
     onSelect: (value, meta) => { selectObject(value, meta?.additive); hideContextMenu(); },
     onMaterialPick: objectId => sampleMaterial(objectId),
+    onMeasurementChange: value => { measurement = value; updateMeasurementResult(); },
     onTransform: (objectId, transform, meta = {}) => {
       const found = locate(objectId);
       if (!found) return;
@@ -426,10 +429,12 @@ export async function startApplication() {
     const previous = tool;
     if (next !== 'polygon') polygonHoleHost = null;
     tool = next; viewport.setTool(next);
+    root.querySelector('[data-action="tool-measure"]').setAttribute('aria-pressed', String(next === 'measure'));
+    if (next === 'measure' && window.innerWidth <= 900) { root.querySelector('.app-shell').classList.add('sidebar-collapsed', 'inspector-collapsed'); syncPanelToggles(); }
     for (const node of root.querySelectorAll('[data-action=material-eyedropper]')) { node.classList.toggle('active', next === 'material-sample'); node.setAttribute('aria-pressed', String(next === 'material-sample')); }
     if (next !== 'place') placing = null;
     root.querySelectorAll('[data-action^="tool-"]').forEach((node) => node.classList.toggle('active', node.dataset.action === `tool-${next}`));
-    document.getElementById('gesture-hint').textContent = next === 'material-sample' ? 'Conta-gotas · clique para copiar o material · Esc cancela' : next === 'terrain' ? 'Pincel ativo · T/Q: seleção · [ ]: tamanho · Esc: cancelar traço' : next === 'polygon' ? 'Clique nos vértices · Enter conclui · Backspace remove · Esc cancela' : next === 'window' ? 'Clique na parede para posicionar o centro da janela · Esc cancela' : next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? `Clique no piso para colocar${placing?.repeat ? ' cópias' : ''} · Alt: posição livre · Esc/Q conclui` : 'WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom';
+    document.getElementById('gesture-hint').textContent = next === 'measure' ? 'Régua · dois cliques ou arraste · Alt: livre · Esc/Q conclui' : next === 'material-sample' ? 'Conta-gotas · clique para copiar o material · Esc cancela' : next === 'terrain' ? 'Pincel ativo · T/Q: seleção · [ ]: tamanho · Esc: cancelar traço' : next === 'polygon' ? 'Clique nos vértices · Enter conclui · Backspace remove · Esc cancela' : next === 'window' ? 'Clique na parede para posicionar o centro da janela · Esc cancela' : next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? `Clique no piso para colocar${placing?.repeat ? ' cópias' : ''} · Alt: posição livre · Esc/Q conclui` : 'WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom';
     renderToolContext();
     if (tab === 'build' && (previous === 'polygon' || next === 'polygon')) renderSidebar();
     if (previous === 'terrain' || next === 'terrain') {renderInspector(); if(next==='terrain') document.getElementById('inspector-content').scrollTop=0;}
@@ -437,7 +442,17 @@ export async function startApplication() {
   function renderToolContext() {
     const next=tool;
     const context=document.getElementById('tool-context'); context.hidden=['select','move','rotate','scale'].includes(next);
+    if (next === 'measure') {
+      context.innerHTML = `<span>Régua · metros</span>${checkField('ruler-snap', 'Encaixar no grid', rulerSnap)}<button data-action="ruler-clear" class="quiet">Limpar</button><button data-action="tool-select" class="quiet">Concluir · Q</button><output class="ruler-result" id="ruler-result" aria-live="off"></output>`;
+      updateMeasurementResult(); return;
+    }
     context.innerHTML=`<span>${esc(next==='material-sample'?'Conta-gotas · clique na superfície de origem':next==='terrain'?`Pincel · ${({push:'Projetar face',pull:'Recuar face',raise:'Elevar',lower:'Rebaixar',smooth:'Suavizar',flatten:'Nivelar',rock:'Rocha natural',paint:'Pintar camada',erase:'Apagar camada',water:'Água'})[terrainBrush.mode]} · ${terrainBrush.radius} m`:next==='polygon'?'Desenhar contorno':next==='room'?'Desenhar sala':`Colocar · ${placing?.asset?.name ?? placing?.name ?? 'objeto'}`)}</span>${next==='place' && placing?.assetPlacement ? checkField('asset-placement-repeat','Colocação repetida',placing.repeat) : ''}<button data-action=tool-select class=quiet>Concluir · Q</button>`;
+  }
+  function updateMeasurementResult() {
+    const result = document.getElementById('ruler-result');
+    if (!result) return;
+    result.setAttribute('aria-live', measurement?.complete ? 'polite' : 'off');
+    result.textContent = measurementText(measurement);
   }
   function beginAssetPlacement(asset) {
     if (!asset) { notify('Este asset não está disponível. Reabra a biblioteca.', true); return; }
@@ -1286,6 +1301,7 @@ export async function startApplication() {
 
   function changeField(input) {
     const field = input.dataset.field, value = input.type === 'checkbox' ? input.checked : ['number','range'].includes(input.type) ? Number(input.value) : input.value;
+    if (field === 'ruler-snap') { rulerSnap = value; viewport.setRulerSnap(value); return; }
     if (field === 'asset-placement-repeat') {
       repeatAssetPlacement = value;
       if (placing?.assetPlacement) { placing.repeat = value; if (tool === 'place') setTool('place'); }
@@ -1748,6 +1764,7 @@ export async function startApplication() {
       case 'light-place': placing = { type: 'light' }; setTool('place'); break;
       case 'object-delete': { const found = locate(); if (found && confirm(found.type === 'group' ? 'Excluir a composição e todos os seus objetos? Esta ação pode ser desfeita.' : found.record.kind === 'floor' ? 'Excluir o piso e todos os elementos apoiados nele? Esta ação pode ser desfeita.' : found.record.kind === 'wall' ? 'Excluir esta parede e suas portas? Esta ação pode ser desfeita.' : 'Excluir este elemento? Esta ação pode ser desfeita.')) execute(found.type === 'group' ? 'group.delete' : `${found.type}.remove`, { id: selection }); break; }
       case 'material-copy': return sampleMaterial();
+      case 'ruler-clear': viewport.clearMeasurement(); break;
       case 'material-paste': return pasteSelectedMaterial();
       case 'material-eyedropper': clearProposal(); setTool('material-sample'); notify('Clique em um objeto para copiar seu material configurado. No terreno, a amostra é da base; para copiar uma camada, use Copiar material no inspetor. Esc cancela.'); break;
       case 'object-copy': return copySelection();
@@ -1846,7 +1863,7 @@ export async function startApplication() {
       }
       case 'discard-draft': await drafts.dismiss(recovery); recovery = null; await drafts.clear(); document.getElementById('recovery-dialog').close(); updateView({ type: 'saved' }); break;
     }
-    if (action.startsWith('tool-')) setTool(action.slice(5));
+    if (action.startsWith('tool-')) { if (action === 'tool-measure') clearProposal(); setTool(action.slice(5)); }
   }
   root.addEventListener('click', (event) => {
     if (!initialized) return;
@@ -2119,8 +2136,8 @@ export async function startApplication() {
     if (tool === 'terrain' && ['[',']'].includes(event.key)) { event.preventDefault(); terrainBrush.radius = Math.max(.1, Math.min(100, Number((terrainBrush.radius * (event.key === '[' ? .8 : 1.25)).toFixed(2)))); viewport.setTerrainBrush(terrainBrush); renderToolContext(); renderInspector(); return; }
     if (event.altKey || event.repeat) return;
     if (event.key.toLowerCase() === 'i') { event.preventDefault(); act('material-eyedropper'); return; }
-    const keys = { q: 'select', g: 'move', r: 'rotate', v: 'scale' };
-    if (keys[event.key.toLowerCase()]) setTool(keys[event.key.toLowerCase()]);
+    const keys = { q: 'select', g: 'move', r: 'rotate', v: 'scale', m: 'measure' };
+    if (keys[event.key.toLowerCase()]) { if (keys[event.key.toLowerCase()] === 'measure') act('tool-measure'); else setTool(keys[event.key.toLowerCase()]); }
     if (event.key.toLowerCase() === 'f') act('frame');
     if (event.key === 'Delete' || event.key === 'Backspace') act('object-delete');
   });

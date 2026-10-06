@@ -21,6 +21,7 @@ import { environmentBindingActive } from '../domain/lighting.js';
 import { createLightObject, updateLightEffects } from './lighting.js';
 import { createEffectsPipeline } from './effects.js';
 import { advanceVelocity, navigationDirection, interpolateCamera } from './camera-motion.js';
+import { createRuler } from './ruler.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
@@ -97,7 +98,7 @@ export function createViewport(container, {
   onSelect = () => {}, onMaterialPick = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
   onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
   onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {}, onRockStroke = () => {}, onWaterStroke = () => {}, onMaterialSlots = () => {},
-  navigationEnabled = true,
+  onMeasurementChange = () => {}, navigationEnabled = true,
 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-label', navigationEnabled ? 'Cena 3D — WASD desloca, Shift acelera, Page Up/Down altera altura, botão direito orbita, roda aproxima' : 'Cena publicada pelo mestre');
@@ -188,6 +189,8 @@ export function createViewport(container, {
   let contextPointer = null;
   let gizmoCancelled = false;
   let altHeld = false;
+  let rulerSnap = false;
+  const ruler = createRuler(container, scene, onMeasurementChange);
   const objects = new Map();
   const records = new Map();
   const cache = createAssetCache();
@@ -247,6 +250,7 @@ export function createViewport(container, {
     for (const effect of localEffects.values()) animatedLocalEffects = updateLocalEffect(effect,effectTime,localEffectsEnabled,paused) || animatedLocalEffects;
     if(snowDirty) rebuildSnow();
     animatedWater=false;for(const object of objects.values())animatedWater=updateWater(object,effectTime,paused)||animatedWater;
+    ruler.project(camera, width, height);
     effects.render(camera, seconds);
     if ((moving || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
     else lastFrameTime = null;
@@ -555,6 +559,7 @@ export function createViewport(container, {
     generation += 1;
     sceneDocument = next;
     cancelPointer();
+    ruler.clear();
     transform.detach();
     clearGroup(content);
     clearGroup(lighting);
@@ -750,6 +755,14 @@ export function createViewport(container, {
     const point = raycaster.ray.intersectPlane(plane, new THREE.Vector3());
     return point ? { position: point.toArray(), surfaceId: null } : null;
   }
+  function measurementPoint(event) {
+    if (!sceneDocument) return null;
+    const hit = pick(event), token = sceneDocument.tokens?.[hit?.object.userData.entityId];
+    // Token portraits and bases have different shapes; measure from their logical base centre.
+    if (token) return [...token.transform.position];
+    const point = hit?.point.toArray() ?? supportPoint(event, workplaneHeight)?.position;
+    return point ? snapPosition(point, { ...sceneDocument.layout.grid, snap: rulerSnap && !event.altKey }) : null;
+  }
   function pointOnWall(event, wallId) {
     rayFromEvent(event);
     const wall = objects.get(wallId); if (!wall) return null;
@@ -781,11 +794,20 @@ export function createViewport(container, {
   }
   function onPointerDown(event) {
     if (event.button !== 0 || presentation || transform.dragging) return;
+    if (tool === 'measure' && (!event.isPrimary || pointer)) return;
     stopCameraMotion();
     canvas.focus({ preventScroll: true });
     altHeld = event.altKey;
     pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
-    if (tool === 'terrain') {
+    if (tool === 'measure') {
+      const point = measurementPoint(event);
+      if (!point) { pointer = null; controls.enabled = navigationEnabled; return; }
+      const before = ruler.snapshot();
+      pointer.ruler = { before, finishOnClick: Boolean(before && !before.complete) };
+      if (!before || before.complete) ruler.begin(point, sceneDocument.layout.grid.cellSize);
+      else ruler.update(point);
+      controls.enabled = false; canvas.setPointerCapture(event.pointerId); invalidate();
+    } else if (tool === 'terrain') {
       const hit=surfaceBrushHit(event),record=records.get(hit?.object.userData.entityId);
       if(!record||isLocked(sceneDocument,record)||(record.kind!=='terrain'&&!isSculptableRock(record))) {pointer=null;report('Aponte para um terreno ou uma rocha/paredão desbloqueado.');return;}
       if(isSculptableRock(record)&&['paint','erase','water'].includes(terrainBrush.mode)){pointer=null;report('Para esculpir a rocha, escolha Elevar, Rebaixar ou Projetar face. Pintura de camadas e água usam o terreno.');return;}
@@ -839,6 +861,10 @@ export function createViewport(container, {
   }
   function onPointerMove(event) {
     altHeld = event.altKey;
+    if (tool === 'measure' && ruler.pending() && !presentation && (!pointer || pointer.id === event.pointerId)) {
+      const point = measurementPoint(event);
+      if (point) { ruler.update(point); invalidate(); }
+    }
     if(tool==='terrain'&&!presentation) {
       const hit=surfaceBrushHit(event,pointer?.rock?.id??pointer?.terrain?.id),record=records.get(hit?.object.userData.entityId);
       brushLine.visible=!!hit&&(record?.kind==='terrain'||isSculptableRock(record))&&!isLocked(sceneDocument,record);
@@ -916,7 +942,11 @@ export function createViewport(container, {
     controls.enabled = navigationEnabled;
     hint.style.display = 'none';
     if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
-    if(gesture.rock) {
+    if (gesture.ruler) {
+      const point = measurementPoint(event);
+      if (point) ruler.update(point);
+      if (gesture.moved || gesture.ruler.finishOnClick) ruler.finish();
+    } else if(gesture.rock) {
       const version=generation;
       try {if(gesture.strokeChanged)onRockStroke(gesture.rock.id,{rockSculpt:gesture.rock.rockSculpt,footprint:sculptFootprint(gesture.rockObject)});}catch(error){report(error);}
       if(version===generation)setDocument(sceneDocument);
@@ -955,6 +985,7 @@ export function createViewport(container, {
     invalidate();
   }
   function cancelPointer() {
+    if (pointer?.ruler) ruler.set(pointer.ruler.before);
     if(pointer?.rockBefore) {for(let i=0;i<pointer.rockMeshes.length;i++){const g=pointer.rockMeshes[i].geometry;g.attributes.position.array.set(pointer.rockBefore[i]);g.attributes.position.needsUpdate=true;g.computeVertexNormals();g.computeBoundingBox();g.computeBoundingSphere();}for(const [snow,visible] of pointer.snow)snow.visible=visible;updateSelection();}
     if (pointer?.terrainBefore) replaceTerrain(pointer.terrainBefore);
     if (pointer?.object && pointer.initial) applyTransform(pointer.object, pointer.initial);
@@ -1081,6 +1112,8 @@ export function createViewport(container, {
   }
   canvas.addEventListener('pointerdown', (event) => {
     if (navigationEnabled) canvas.focus({ preventScroll: true });
+    // Before OrbitControls sees a touch: one finger belongs to the ruler while measuring.
+    if (tool === 'measure' && event.button === 0 && event.isPrimary && !presentation) controls.enabled = false;
     if (event.button === 2 && navigationEnabled && !presentation && !pointer && !transform.dragging) {
       contextPointer = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
     }
@@ -1125,7 +1158,7 @@ export function createViewport(container, {
       if (snowDirty) rebuildSnow();
       const hidden = new Map();
       const hide = object => { if (object) { hidden.set(object, object.visible); object.visible = false; } };
-      for (const object of [gridObject, selectionBox, gizmo, preview, polygonLine, brushLine, ...extraSelections]) hide(object);
+      for (const object of [gridObject, selectionBox, gizmo, preview, polygonLine, brushLine, ruler.group, ...extraSelections]) hide(object);
       scene.traverse(object => { if (object.userData.editHelper && !hidden.has(object)) hide(object); });
       try {
         // Copy the fresh frame synchronously: no preserveDrawingBuffer, no camera mutation.
@@ -1158,9 +1191,11 @@ export function createViewport(container, {
       }
     },
     setSelection(id, ids = id ? [id] : []) { selectedId = id; selectedIds = ids; updateSelection(); },
-    setTool(mode) { cancelGesture(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window', 'terrain', 'material-sample'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
+    setTool(mode) { cancelGesture(); ruler.clear(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window', 'terrain', 'material-sample', 'measure'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
+    setRulerSnap(value) { rulerSnap = Boolean(value); },
+    clearMeasurement() { if (pointer?.ruler) cancelPointer(); ruler.clear(); invalidate(); },
     setTerrainBrush(options) { terrainBrush = { ...terrainBrush, ...options }; },
-    setIsolatedLevel(levelId) { isolatedLevel = levelId; for (const [key, object] of objects) object.visible = visibleRecord(records.get(key)); updateSelection(); invalidate(true); },
+    setIsolatedLevel(levelId) { if (levelId !== isolatedLevel) ruler.clear(); isolatedLevel = levelId; for (const [key, object] of objects) object.visible = visibleRecord(records.get(key)); updateSelection(); invalidate(true); },
     setSupportSurface(id) { supportSurface = id; const host = records.get(id); if (gridObject) gridObject.position.y = (host?.transform?.position[1] ?? workplaneHeight) + (host?.supportHeight ?? 0) * (host?.transform?.scale[1] ?? 1) + .009; invalidate(); },
     setWorkplaneHeight(value) { workplaneHeight = value; if (gridObject && !supportSurface) gridObject.position.y = value + .009; invalidate(); },
     finishPolygon,
@@ -1168,6 +1203,7 @@ export function createViewport(container, {
     setPresentation(enabled) {
       presentation = enabled;
       cancelGesture();
+      ruler.clear();
       preview.visible = !enabled;
       brushLine.visible = false;
       if (gridObject) gridObject.visible = !enabled && Boolean(sceneDocument?.layout?.grid?.visible);
@@ -1188,7 +1224,7 @@ export function createViewport(container, {
     },
     getMaterialSlots(id) { return materialSlots(objects.get(id)); },
     setEffectsEnabled(value) { effects.setEnabled(value); atmosphere.setEnabled(value); localEffectsEnabled=value; configureDistanceFog(sceneDocument?.look ?? sceneDocument?.defaultLook); invalidate(); },
-    getInfo() { return { atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
+    getInfo() { return { measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
       assetDiagnostics:[...objects].flatMap(([id,object])=>{const diagnostics=[];object.traverse(child=>{if(child.userData.diagnostic)diagnostics.push({id,message:child.userData.diagnostic});});return diagnostics;}),
       sculptedRocks:[...objects].flatMap(([id,object])=>{let vertices=0,triangles=0;object.traverse(m=>{if(m.geometry?.userData.sculptPrepared){vertices+=m.geometry.attributes.position.count;triangles+=m.geometry.index.count/3;}});return vertices?[{id,vertices,triangles,samples:records.get(id)?.rockSculpt?.stamps.length??0,bounds:new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3()).toArray()}]:[];}),
       rockGeometries: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.geometry?.userData.rock) list.push({id,...child.geometry.userData.rock,triangles:(child.geometry.index?.count??child.geometry.attributes.position.count)/3});for(const rock of child.geometry?.userData.rocks??[])list.push({id,...rock});});return list;}),
@@ -1197,6 +1233,7 @@ export function createViewport(container, {
       environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },
     destroy() {
       destroyed = true;
+      ruler.destroy();
       previewGeneration++;
       for (const helper of extraSelections) disposeObject(helper); disposeObject(polygonLine); disposeObject(brushLine);
       generation += 1;

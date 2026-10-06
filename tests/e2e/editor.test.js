@@ -128,7 +128,8 @@ test('autoria real, apresentação, assets e fidelidade após reabrir navegador/
   // Import and decode a real image, then use the persisted AssetRecord for a token.
   const png = await page.evaluate(() => { const canvas = document.createElement('canvas'); canvas.width = canvas.height = 128; const ctx = canvas.getContext('2d'); ctx.fillStyle = '#485762'; ctx.fillRect(0, 0, 128, 128); ctx.fillStyle = '#ebd0a1'; ctx.beginPath(); ctx.arc(64, 42, 24, 0, Math.PI * 2); ctx.fill(); ctx.fillRect(29, 71, 70, 57); return canvas.toDataURL('image/png').split(',')[1]; });
   await page.locator('#asset-file').setInputFiles({ name: 'Retrato.png', mimeType: 'image/png', buffer: Buffer.from(png, 'base64') });
-  await page.waitForFunction(() => document.getElementById('gesture-hint').textContent.includes('Clique no piso'));
+  // Repeated placement can already be active: wait for this import's template, not the generic hint.
+  await page.waitForFunction(() => document.getElementById('tool-context').textContent.includes('Colocar · Retrato'));
   await clickWorld([.5, 0, 2]); await waitCounts(11, 2);
   const imageToken = Object.values((await snapshot()).tokens).find((item) => item.id !== token.id);
   const imageRef = (await snapshot()).actors[imageToken.actorId].assetRef; assert.ok(imageRef && !imageRef.id.startsWith('builtin'));
@@ -188,7 +189,7 @@ test('autoria real, apresentação, assets e fidelidade após reabrir navegador/
   // Decode/import a self-contained model through the real browser loader.
   await action('top');
   await page.locator('#asset-file').setInputFiles({ name: 'Marcador.glb', mimeType: 'model/gltf-binary', buffer: staticGLB() });
-  await page.waitForFunction(() => document.getElementById('notice').textContent.includes('Asset guardado.'));
+  await page.waitForFunction(() => document.getElementById('tool-context').textContent.includes('Colocar · Marcador.glb'));
   await clickWorld([1, 0, -1]); await waitCounts(12, 2);
   const imported = Object.values((await snapshot()).layout.entities).find((entity) => entity.kind === 'prop' && entity.name === 'Marcador.glb');
   assert.ok(imported?.assetRef && !imported.assetRef.id.startsWith('builtin'));
