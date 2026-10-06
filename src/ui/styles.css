@@ -262,6 +262,8 @@ dialog p { font-size: 12px; line-height: 1.65; color: #acb6b9; }
 
 .terrain-controls .eyebrow { margin-top: 14px; }
 .terrain-controls input[type="range"] { width: 100%; accent-color: #e3b878; }
+.brush-preset-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.brush-preset-actions button { min-width: 0; white-space: normal; }
 
 .tree-group-header > button.group-title { padding: 0; border: 0; background: transparent; text-align: left; min-width: 0; flex: 1; font-size: inherit; }
 .assembly-release { margin: 4px 0; font-size: 11px; }

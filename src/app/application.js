@@ -1,5 +1,8 @@
 import { createScenePreviews } from './scene-previews.js';
 import { copyMaterial } from '../domain/material-transfer.js';
+import { captureBrushSettings, applyBrushPreset } from '../domain/brush-presets.js';
+import { createBrushPresetRepository } from '../data/brush-presets.js';
+import { brushPresetsPanel } from '../ui/brush-presets-panel.js';
 import {rockSculptPanel} from '../ui/rock-sculpt-panel.js';
 import { EXAMPLE_SCENES, loadExampleScene } from '../data/example-scenes.js';
 import {isSculptableRock,ROCK_SCULPT_MODES} from '../domain/rock-sculpt.js';
@@ -148,6 +151,48 @@ export async function startApplication() {
   let activeLevelId = null, activeLayerId = null, isolatedLevel = false, polygonHoleHost = null, polygonKind='floor', terrainCell = 0;
   let vegetationOptions={terrainId:'',assetId:'builtin-dense-alpine-fir',count:6,seed:42,scaleMin:.7,scaleMax:1.2,slopeMax:35};
   let terrainOptions = { width: 20, length: 20, segments: 32, x: 0, z: 0, protectFloors: true }, terrainResizeMode = 'extend', terrainBrush = { mode: 'raise', radius: 2, strength: .25, target: 0, waterLevel: .05, waterDepth: .6, shape: 'circle', hardness: 0, snap: false, layerId: '', rockPattern: 'fractured', rockSize: 3, rockSeed: 42, protectFloors: true };
+  const brushPresetRepository = createBrushPresetRepository();
+  const brushPresetStates = { terrain: { selectedId: '', name: '' }, rock: { selectedId: '', name: '' } };
+  let brushPresets = [], brushPresetsBusy = false, brushPresetsError = '';
+  const brushSurface = () => locate()?.record.kind === 'terrain' ? 'terrain' : isSculptableRock(locate()?.record) ? 'rock' : null;
+  const personalBrushes = surface => brushPresetsPanel(surface, brushPresets, brushPresetStates[surface], brushPresetsBusy, brushPresetsError);
+
+  async function manageBrushPreset(action) {
+    const surface = brushSurface();
+    if (!surface || brushPresetsBusy) return;
+    const state = brushPresetStates[surface], selected = brushPresets.find(preset => preset.id === state.selectedId && preset.surface === surface);
+    if (action === 'apply') {
+      terrainBrush = applyBrushPreset(terrainBrush, selected, surface);
+      viewport.setTerrainBrush(terrainBrush); renderInspector(); renderToolContext();
+      notify(`Pincel “${selected.name}” aplicado. ${tool === 'terrain' ? 'Continue pintando na superfície.' : 'Ative o pincel para começar.'}`);
+      return;
+    }
+    if (action !== 'save' && !selected) throw new Error('Selecione um pincel salvo primeiro.');
+    // Capture before awaiting storage; switching scene cannot change what is saved.
+    const input = action === 'delete' ? null : {
+      name: action === 'update' ? selected.name : state.name,
+      surface,
+      brush: action === 'rename' ? selected.brush : captureBrushSettings(surface, terrainBrush),
+    };
+    brushPresetsBusy = true; brushPresetsError = ''; renderInspector();
+    try {
+      if (action === 'delete') {
+        await brushPresetRepository.remove(selected);
+        brushPresets = brushPresets.filter(preset => preset.id !== selected.id);
+        state.selectedId = ''; state.name = '';
+        notify(`Preset “${selected.name}” excluído.`);
+      } else {
+        const saved = await brushPresetRepository.save(input, action === 'save' ? null : selected);
+        brushPresets = [...brushPresets.filter(preset => preset.id !== saved.id), saved].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
+        state.selectedId = saved.id; state.name = saved.name;
+        notify(`Pincel “${saved.name}” ${action === 'rename' ? 'renomeado' : action === 'update' ? 'atualizado' : 'salvo neste navegador'}.`);
+      }
+    } catch (error) {
+      brushPresetsError = error.message || 'Não foi possível guardar o pincel.';
+      try { brushPresets = await brushPresetRepository.list(); } catch { /* Keep the last confirmed library visible for a retry. */ }
+      notify(brushPresetsError, true);
+    } finally { brushPresetsBusy = false; renderInspector(); }
+  }
   const constructionSemantics = () => ({ levelId: activeLevelId, layerId: activeLayerId });
   let contextTarget = null, draggedTreeId = null;
   const store = createSceneStore(createScene('Minha primeira cena'));
@@ -648,13 +693,16 @@ export async function startApplication() {
     const name = actor?.name ?? record.name;
     const position = record.transform?.position ?? record.position;
     let fields = `<div class="object-title"><span class="object-icon">${icon(type === 'token' ? 'token' : type === 'light' ? 'light' : record.kind === 'door' ? 'door' : 'room', 24)}</span><span><small>${type === 'token' ? 'TOKEN' : type === 'light' ? 'LUZ' : ({ water: record.water?.state==='ice'?'GELO':'ÁGUA', terrain: 'TERRENO', floor: 'PISO', wall: 'PAREDE', door: 'PORTA', window: 'JANELA', stairs: 'ESCADA', ramp: 'RAMPA', prop: 'ASSET' }[record.kind])}</small><strong>${esc(name)}</strong></span></div><label class="field"><span>Nome</span><input data-field="object-name" value="${esc(name)}" maxlength="256" /></label>`;
-    if(isSculptableRock(record))fields+=rockSculptPanel(record,terrainBrush,tool==='terrain',{numberField});
+    if(isSculptableRock(record)) {
+      if (!ROCK_SCULPT_MODES.includes(terrainBrush.mode)) { terrainBrush.mode = 'raise'; viewport.setTerrainBrush(terrainBrush); }
+      fields+=rockSculptPanel(record,terrainBrush,tool==='terrain',{numberField,presetsPanel:personalBrushes('rock')});
+    }
     if (record.kind === 'terrain') {
       if(!record.paintLayers?.length) terrainMaterialTarget='base';
       if (!record.paintLayers?.some(layer => layer.id === terrainBrush.layerId)) terrainBrush.layerId = record.paintLayers?.[0]?.id ?? '';
       viewport.setTerrainBrush(terrainBrush);
       const basePanel = `<details class=terrain-base-material data-disclosure=terrain-base-material ${terrainMaterialTarget === 'base' ? 'open' : ''}><summary>Material base · terreno inteiro</summary><p class=scope-hint>Edite aqui a textura base e os ajustes gerais do terreno. Para alterar somente uma camada, escolha-a no seletor acima. Relevo e cobertura são compartilhados.</p>${materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField })}</details>`;
-      fields += terrainInspector(record, terrainBrush, Math.min(terrainCell, record.heights.length - 1), tool === 'terrain', terrainAdvancedOpen, terrainMaterialTarget !== 'base', terrainResizeMode, terrainMaterialTarget, basePanel, materialTransferControls(record));
+      fields += terrainInspector(record, terrainBrush, Math.min(terrainCell, record.heights.length - 1), tool === 'terrain', terrainAdvancedOpen, terrainMaterialTarget !== 'base', terrainResizeMode, terrainMaterialTarget, basePanel, materialTransferControls(record), personalBrushes('terrain'));
     }
     if(record.kind==='water') fields+=waterPanel(record,{numberField,colorField},store.document);
     if (record.kind === 'floor') fields += `<section><span class="eyebrow">ABERTURAS E PAREDES</span><button data-action="floor-hole" class="wide">Recortar piso · vão de escada / pátio</button><p class="microcopy">Clique nos cantos do vão dentro deste piso; Enter conclui. O recorte atravessa sua espessura.</p><button data-action="contour-walls" class="wide">Criar paredes do contorno</button><p class="microcopy">Revise antes de aceitar. Paredes de bordas compartilhadas são reaproveitadas; encontros em L e T se ajustam automaticamente.</p></section>`;
@@ -1235,6 +1283,13 @@ export async function startApplication() {
       else if(field==='assembly-size') transform.scale=[value,value,value];
       execute('group.transform',{ id:group.id,transform,snap:false },{ label:'Transformar composição' }); return;
     }
+    if (field === 'preset-name') { const surface = brushSurface(); if (surface) brushPresetStates[surface].name = value; return; }
+    if (field === 'preset-selection') {
+      const surface = brushSurface(); if (!surface) return;
+      const selected = brushPresets.find(preset => preset.id === value && preset.surface === surface);
+      brushPresetStates[surface] = { selectedId: selected?.id ?? '', name: selected?.name ?? '' };
+      brushPresetsError = ''; renderInspector(); return;
+    }
     if (field === 'anchor-host') { anchorHostId = value; clearProposal(); renderInspector(); return; }
     if (field === 'active-level') {
       activeLevelId = value || null; const level = store.document.layout.levels?.[activeLevelId];
@@ -1446,6 +1501,7 @@ export async function startApplication() {
   async function refreshEnvironments() { savedEnvironments = await repository.list('environment'); renderSidebar(); }
   async function act(action, metadata = {}) {
     if (!initialized) return;
+    if (action.startsWith('brush-preset-')) { await manageBrushPreset(action.slice('brush-preset-'.length)); return; }
     switch (action) {
       case 'environment-view-sky': {
         const camera = viewport.getCamera(); skyReturnCamera ??= clone(camera);
@@ -2000,7 +2056,10 @@ export async function startApplication() {
     else if (event.target.dataset.field) changeField(event.target);
     else if (event.target.id === 'scene-name') execute('scene.rename', { name: event.target.value });
   });
-  root.addEventListener('input', (event) => { if (event.target.id === 'asset-search') { libraryFilters.search = event.target.value; libraryLimit = 24; renderAssetCards(); } });
+  root.addEventListener('input', (event) => {
+    if (event.target.dataset.field === 'preset-name') changeField(event.target);
+    if (event.target.id === 'asset-search') { libraryFilters.search = event.target.value; libraryLimit = 24; renderAssetCards(); }
+  });
   root.addEventListener('submit', (event) => {
     if (event.target.id === 'quick-form') { event.preventDefault(); makeProposal(); }
     else if (event.target.id === 'asset-metadata-form') { event.preventDefault(); saveAssetClassification(event.target); }
@@ -2103,12 +2162,14 @@ export async function startApplication() {
   window.addEventListener('pagehide', () => { previews.dispose(); flushDraft(); channel?.close(); viewport.destroy(); repository.dispose?.(); });
   window.addEventListener('beforeunload', (event) => { if (store.dirty) { event.preventDefault(); event.returnValue = ''; } });
 
-  const initial = await Promise.allSettled([repository.assets(), repository.list('scene'), repository.list('map'), drafts.read(), repository.list('environment')]);
+  const initial = await Promise.allSettled([repository.assets(), repository.list('scene'), repository.list('map'), drafts.read(), repository.list('environment'), brushPresetRepository.list()]);
   if (initial[0].status === 'fulfilled') assets = initial[0].value; else notify(repository.storage==='browser'?`Não foi possível carregar os assets: ${initial[0].reason.message}`:'O servidor local está indisponível. Inicie com npm run dev ou npm start; o trabalho continua como rascunho.', true, true);
   if (initial[1].status === 'fulfilled') savedScenes = initial[1].value;
   if (initial[2].status === 'fulfilled') savedMaps = initial[2].value;
   if (initial[3].status === 'fulfilled') recovery = initial[3].value;
   if (initial[4].status === 'fulfilled') savedEnvironments = initial[4].value;
+  if (initial[5].status === 'fulfilled') brushPresets = initial[5].value;
+  else brushPresetsError = 'Não foi possível ler os pincéis pessoais. Verifique o armazenamento do navegador e tente salvar novamente.';
   viewport.setAssets(assets);
   const lastId = lastScene.read();
   if (lastId) {

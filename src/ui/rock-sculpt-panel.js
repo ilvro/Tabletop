@@ -1,9 +1,10 @@
 import {isSculptableRock,ROCK_SCULPT_LIMIT} from '../domain/rock-sculpt.js';
 
-export function rockSculptPanel(record,brush,active,{numberField}) {
+export function rockSculptPanel(record,brush,active,{numberField,presetsPanel=''}) {
   if(!isSculptableRock(record))return '';
   const count=record.rockSculpt?.stamps.length??0;
   return `<section class="terrain-controls"><span class="eyebrow">PINCEL DE SUPERFÍCIE · T</span>
+    ${presetsPanel}
     <button data-action="${active?'terrain-stop':'rock-sculpt'}" class="wide primary">${active?'Concluir escultura · Q / T':'Esculpir esta superfície · T'}</button>
     <label class="field"><span>Ferramenta</span><select data-field="brush-mode">${[['raise','Elevar ponto · altura'],['lower','Rebaixar ponto · altura'],['push','Projetar face · para fora'],['pull','Recuar face · para dentro'],['smooth','Suavizar'],['flatten','Aplainar na face clicada']].map(([value,label])=>`<option value="${value}" ${value===brush.mode?'selected':''}>${label}</option>`).join('')}</select></label>
     <div class="field-grid">${numberField('brush-radius','Raio · m',brush.radius,{min:.1,max:100,step:.1})}${numberField('brush-strength',['smooth','flatten'].includes(brush.mode)?'Intensidade · 0–1':'Força · m',brush.strength,{min:.01,max:['smooth','flatten'].includes(brush.mode)?1:10,step:.05})}</div>

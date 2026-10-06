@@ -1,5 +1,7 @@
 # Editor: construção, materiais e janelas
 
+Presets pessoais: **Propriedades → Pincel de superfície → Meus pincéis** permite salvar com nome, aplicar, atualizar, renomear e excluir configurações. Listas próprias de terreno e rocha, persistentes no navegador e reutilizáveis entre cenas, conservando a camada atual de pintura. [Uso e armazenamento](BRUSH_PRESETS.md).
+
 Conta-gotas e transferência de materiais: **I** ativa a amostragem na cena; **Copiar material / Colar material** ficam no inspetor e respeitam o alcance base/camada do terreno ou material nomeado do modelo de destino. Atalhos **Ctrl+Shift+C/V**, clipboard separado de objetos e colagem múltipla em um undo. [Uso e limites](MATERIALS.md#conta-gotas-e-copiarcolar-materiais).
 
 Atualizado em 6 de outubro de 2026. Este guia descreve a interface implementada; resultados de validação em [progress.md](../progress.md).

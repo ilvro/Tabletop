@@ -15,6 +15,8 @@ Pintura/apagamento de **camadas de material** e criação de **água** continuam
 
 ## Ferramentas
 
+**Meus pincéis · rocha** e **Meus pincéis · terreno** guardam presets pessoais nomeados com ferramenta, tamanho, força e dureza; o terreno também conserva formato, encaixe e opções da ferramenta. **Usar pincel selecionado** restaura os ajustes, sem alterar a cena. Biblioteca persistente no navegador, reutilizável entre cenas, com atualização, renomeação e exclusão. [Passos e limites](BRUSH_PRESETS.md).
+
 | Ferramenta | Rocha/paredão | Terreno |
 | --- | --- | --- |
 | Elevar / Rebaixar | Muda a altura do ponto escolhido, incluindo o topo de um pico | Eleva/rebaixa as alturas |

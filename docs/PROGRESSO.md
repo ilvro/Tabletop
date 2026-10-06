@@ -1,5 +1,7 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Presets pessoais de pincéis — concluído (6 de outubro):** Meus pincéis em Propriedades permite salvar com nome, aplicar, atualizar, renomear e excluir configurações de terreno/rocha. Biblioteca persistente no navegador, reutilizável entre cenas, com camada atual conservada, nomes únicos e revisão transacional entre abas. 178 testes de domínio/integração, builds local/Pages e quatro E2E afetados aprovados (dois novos de presets, pintura de terreno e escultura de rochas), incluindo falha de armazenamento, reload, tela estreita e projetor independente. [Uso e armazenamento](BRUSH_PRESETS.md).
+
 **Conta-gotas e materiais — concluído (6 de outubro):** amostragem pela barra 3D/I, copiar/colar no inspetor e Ctrl+Shift+C/V, incluindo textura procedural, acabamento e cobertura. Alcance por material nomeado/base/camada, máscaras conservadas, bloqueios, colagem múltipla em um undo e projetor independente. 173 testes de domínio/integração, builds local/Pages e dois E2E novos aprovados, repetidos após conferir isolamento por material e layout. [Uso e limites](MATERIALS.md#conta-gotas-e-copiarcolar-materiais).
 
 **Análise de pendências e melhorias (5 de outubro):** relatório em [AUDITORIA_2026-10-05.md](AUDITORIA_2026-10-05.md). Importação JSON com falso estado salvo e ausência de rascunho confirmada no Chromium; correção pendente. Recomendações priorizam confiabilidade, atualização incremental/medição, backup/restauração, reutilização e acabamento visual. 169 testes e builds local/Pages aprovados nesta revisão; nenhuma sugestão implementada, sem suíte E2E completa ou benchmark presencial.
@@ -20,7 +22,7 @@
 
 **Reformulação da interface — concluída (5 de outubro):** tarefas em Paisagem, Construções, Personagens e Organização; materiais com alcance por camada/base, personalização avançada recolhível e pincéis ativos no topo; Assets/Abrir flutuantes com arraste/setas e posição local; água com contorno/escavação em uma proposta desfazível e ajuste de leito existente; painéis exclusivos em tela estreita, contraste/foco e fades que respeitam movimento reduzido. 147 testes unitários/de integração e 24 cenários E2E aprovados por suíte/repetições, além de builds local/Pages. Resultados em [progress.md](../progress.md); uso/limites em [EDITOR_UI.md](EDITOR_UI.md).
 
-**Data:** 5 de outubro de 2026
+**Data:** 6 de outubro de 2026
 
 **Status do Projeto:** base funcional e ferramentas de autoria entregues; objetivo visual do piloto de montanha não atingido. Rocha/neve orgânicas, vegetação/objetos e mapa reconstruído entregues e verificados no navegador. Aceitação visual e acabamento fotográfico permanecem futuros.
 **Documentos de Referência:** [`ROADMAP.md`](ROADMAP.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`MAP_AUTHORING.md`](MAP_AUTHORING.md), [`IMMERSION.md`](IMMERSION.md), [`VERTICAL_SLICE.md`](VERTICAL_SLICE.md) e [`INVESTIGACAO_E_ARQUITETURA.md`](../INVESTIGACAO_E_ARQUITETURA.md).

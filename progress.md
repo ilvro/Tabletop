@@ -2,6 +2,14 @@
 
 Atualizado em 6 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Presets pessoais de pincéis — concluído em 6 de outubro
+
+**Propriedades → Pincel de superfície → Meus pincéis**: salvar com nome, aplicar, atualizar ajustes, renomear e excluir. Listas separadas de terreno/rocha, com até 100 presets no total, nomes validados e proteção contra duplicatas/alterações concorrentes. Biblioteca IndexedDB por endereço/caminho do navegador, independente das cenas e disponível no servidor local e no Pages. Guarda ferramenta, tamanho, força/dureza e opções específicas do terreno (formato/encaixe/proteção, nivelamento, formação rochosa ou água), preservando a camada atual. Aplicar não muda documento/histórico/câmeras nem ativa automaticamente a ferramenta parada. Guia: [docs/BRUSH_PRESETS.md](docs/BRUSH_PRESETS.md).
+
+Validação: **178 testes de domínio/integração aprovados**, incluindo cinco novos para captura de todos os modos, isolamento/contexto, incompatibilidades, validação, armazenamento indisponível e escape da interface; builds local/Pages aprovados. **Quatro E2E afetados aprovados**: dois novos de presets (servidor e Pages), mais regressões de pintura de terreno e escultura de rochas. Conferidos CRUD, nomes duplicados, revisão entre abas, falha de gravação sem sobrescrever, reutilização em outra cena/camada, reload, traço real/undo e projetor independente. Os roteiros novos precisaram abrir explicitamente a cena na segunda aba e o painel Ferramentas recolhido na tela estreita; a repetição final dos dois passou. Capturas desktop e 430 px em `test-results/brush-presets-{server,pages}.png` e `brush-presets-{server,pages}-mobile.png`, com interface inspecionada. A suíte E2E completa não foi repetida.
+
+Limites: biblioteca neste navegador/endereço, sem exportação/importação ou sincronização entre dispositivos; limpar os dados do site remove os presets. Para enxergar adições de outra aba, recarregar; atualizações/exclusões antigas são recusadas e atualizam a lista. Presets de materiais, neve e distribuição de vegetação permanecem fora deste incremento.
+
 ## Conta-gotas e copiar/colar materiais — concluído em 6 de outubro
 
 Controles no inspetor e conta-gotas na barra 3D; I amostra, Ctrl+Shift+C copia e Ctrl+Shift+V cola. Clipboard de materiais separado de objetos, com configurações de textura, acabamento e cobertura; destino conserva material nomeado ou alcance base/camada do terreno. Camadas preservam máscaras/distribuição; seleção múltipla é uma transação de histórico, com validação de bloqueios e remoção de parâmetros opcionais antigos. Amostrar não muda documento/seleção; Esc/Q cancela. Apoios acompanham neve física no terreno. Uso e limites em [docs/MATERIALS.md](docs/MATERIALS.md#conta-gotas-e-copiarcolar-materiais).
