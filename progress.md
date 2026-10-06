@@ -2,6 +2,14 @@
 
 Atualizado em 6 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Colocação repetida de assets — concluída em 6 de outubro
+
+**Assets → Colocação repetida** começa marcada e também aparece na barra sobre a cena, junto do nome do asset. Escolher um card mantém o asset ativo após cada inserção; Esc/Q/Concluir ou outra ferramenta encerra. Desmarcar permite uma cópia e passa para Mover. Cada clique cria IDs próprios e uma entrada independente de histórico, conservando apoio, snap/Alt, andar e camada atuais; falhas não encerram a colocação. Trocar o card conserva filtros e muda o asset em uso. Imports e retratos de assets usam o mesmo fluxo, com ator/token independente por clique. Em tela estreita, repetir recolhe os painéis e cada inserção mantém o cenário livre. Uso: [docs/ASSET_LIBRARY.md](docs/ASSET_LIBRARY.md#colocação-repetida).
+
+Validação: **178 testes de domínio/integração e builds local/Pages aprovados**. **Três E2E afetados aprovados**: regressão da biblioteca (filtros/classificação/favoritos/import/reinício) e dois novos de colocação repetida, no servidor e no Pages. Conferidos três cliques com IDs distintos, camada bloqueada, apoio elevado/andar/camada, snap e Alt, undo/redo sem encerrar, clique fora do apoio, troca de asset, opção única e sincronização biblioteca/barra, Esc/Q/Concluir, retratos independentes, câmera do projetor preservada, tela de 430 px e salvar/reabrir. Fixtures/roteiro foram ajustados aos campos opcionais, nome do catálogo, tolerância de raycast, referência do retrato no ator e enquadramento do piso; a execução final dos dois novos passou. Capturas desktop e compactas inspecionadas em `test-results/repeated-placement-{server,pages}.png` e `repeated-placement-{server,pages}-mobile.png`. A suíte E2E completa não foi repetida.
+
+A preferência é da sessão: recarregar restaura repetição marcada, sem asset ativo. Cópias usam os padrões do asset e não herdam edições da instância anterior. Colocação por nome de tokens e comandos avulsos de luz/escada/rampa continuam individuais; distribuição automática, variantes por traço e assets recentes ficam para incrementos próprios.
+
 ## Presets pessoais de pincéis — concluído em 6 de outubro
 
 **Propriedades → Pincel de superfície → Meus pincéis**: salvar com nome, aplicar, atualizar ajustes, renomear e excluir. Listas separadas de terreno/rocha, com até 100 presets no total, nomes validados e proteção contra duplicatas/alterações concorrentes. Biblioteca IndexedDB por endereço/caminho do navegador, independente das cenas e disponível no servidor local e no Pages. Guarda ferramenta, tamanho, força/dureza e opções específicas do terreno (formato/encaixe/proteção, nivelamento, formação rochosa ou água), preservando a camada atual. Aplicar não muda documento/histórico/câmeras nem ativa automaticamente a ferramenta parada. Guia: [docs/BRUSH_PRESETS.md](docs/BRUSH_PRESETS.md).

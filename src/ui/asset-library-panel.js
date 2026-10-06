@@ -4,10 +4,12 @@ import { catalogFacets, filterAssets } from '../domain/asset-library.js';
 // A classification edit can remove the last matching option while a filter is active.
 const options = (values, current, empty) => `<option value="">${empty}</option>${(current && !values.includes(current) ? [...values, current] : values).map(value => `<option value="${esc(value)}" ${current === value ? 'selected' : ''}>${esc(value)}</option>`).join('')}`;
 
-export function assetLibraryPanel(assets, filters, storage = 'server') {
+export function assetLibraryPanel(assets, filters, storage = 'server', repeatPlacement = true) {
   const facets = catalogFacets(assets);
   return `<div class="section-intro"><span class="eyebrow">BIBLIOTECA / INVESTIGAÇÃO PARANORMAL</span><h2>Prepare cada cenário.</h2><p class="muted">Objetos de diferentes épocas para sua mesa. Escolha um asset e clique no apoio para colocá-lo.</p></div>
     <input id="asset-search" type="search" aria-label="Buscar assets" placeholder="Nome, uso ou tema…" value="${esc(filters.search)}" />
+    <label class="check"><input type="checkbox" data-field="asset-placement-repeat" ${repeatPlacement ? 'checked' : ''}/><span>Colocação repetida</span></label>
+    <p class="microcopy">Continue clicando para colocar cópias do mesmo asset. Esc ou Q conclui. Desmarque para colocar uma única cópia.</p>
     <div class="asset-filters">
       <label class="field"><span>Categoria</span><select data-asset-filter="category" aria-label="Categoria de assets">${options(facets.categories, filters.category, 'Todas as categorias')}</select></label>
       <label class="field"><span>Época</span><select data-asset-filter="era" aria-label="Época dos assets">${options(facets.eras, filters.era, 'Todas as épocas')}</select></label>

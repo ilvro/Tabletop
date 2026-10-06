@@ -1,0 +1,116 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtemp, rm, mkdir } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { once } from 'node:events';
+import express from 'express';
+import { chromium } from 'playwright';
+import { createApp } from '../../server/app.js';
+import { createScene, createEntity, createLevel, createLayer } from '../../src/domain/documents.js';
+import { reveal } from './controls.js';
+
+for (const mode of ['server', 'pages']) test(`repeated asset placement: support, snap, history, switching, portraits and compact layout (${mode})`, { timeout: 150_000 }, async t => {
+  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'tabletop-repeat-'));
+  let server, browser;
+  t.after(async () => { await browser?.close(); if (server) await new Promise(resolve => server.close(resolve)); await rm(dataDir, { recursive: true, force: true }); });
+  if (mode === 'server') server = (await createApp({ dataDir })).listen(0, '127.0.0.1');
+  else { const app = express(); app.use('/Tabletop', express.static(path.resolve('dist-pages'))); server = app.listen(0, '127.0.0.1'); }
+  await once(server, 'listening');
+  browser = await chromium.launch({ executablePath: process.env.TABLETOP_BROWSER_PATH || chromium.executablePath(), headless: true, args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
+  const page = await browser.newPage({ viewport: { width: 1600, height: 1000 }, reducedMotion: 'reduce' }), errors = [];
+  page.setDefaultTimeout(25_000); page.on('pageerror', error => errors.push(error.message)); page.on('dialog', dialog => dialog.accept());
+  await page.goto(`http://127.0.0.1:${server.address().port}${mode === 'pages' ? '/Tabletop/' : '/'}?diagnostics`);
+  await page.waitForFunction(() => Boolean(window.__tabletop));
+  const scene = createScene('Colocação repetida'), level = createLevel({ name: 'Andar de teste', elevation: 2 }), layer = createLayer({ name: 'Mobiliário' }), lockedLayer = createLayer({ name: 'Bloqueada', locked: true });
+  const floor = createEntity('floor', { width: 16, length: 10, position: [0, 2, 0], levelId: level.id });
+  scene.layout.entities[floor.id] = floor; scene.layout.levels = { [level.id]: level }; scene.layout.layers = { [layer.id]: layer, [lockedLayer.id]: lockedLayer };
+  await page.locator('#document-json-file').setInputFiles({ name: 'repeat.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(scene)) });
+  await page.waitForFunction(id => window.__tabletop.snapshot().id === id, scene.id);
+  const snapshot = () => page.evaluate(() => window.__tabletop.snapshot());
+  const props = async assetId => Object.values((await snapshot()).layout.entities).filter(entity => entity.assetRef?.id === assetId);
+  const action = async name => (await reveal(page.locator(`[data-action="${name}"]`).first())).click();
+  const choose = async (field, value) => (await reveal(page.locator(`[data-field="${field}"]`))).selectOption(value);
+  const pickAsset = async (id, search) => {
+    if (await page.locator('[data-action="sidebar-toggle"]').getAttribute('aria-expanded') === 'false') await action('sidebar-toggle');
+    await page.locator('[data-tab="assets"]').click(); await page.getByLabel('Buscar assets', { exact: true }).fill(search);
+    await page.locator(`[data-asset="${id}"]`).click();
+    await page.waitForFunction(() => !document.getElementById('assets-dialog').open);
+  };
+  const clickAt = async (position, alt = false) => {
+    const point = await page.evaluate(p => window.__tabletop.project(p), position);
+    assert.ok(point.visible); if (alt) await page.keyboard.down('Alt');
+    await page.mouse.click(point.x, point.y); if (alt) await page.keyboard.up('Alt');
+  };
+  const key = async value => { await page.locator('#viewport canvas').focus(); await page.keyboard.press(value); };
+  await choose('active-level', level.id); await choose('active-layer', layer.id);
+  await page.locator('[data-tab="scene"]').click(); await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();
+  await action('top'); await action('frame'); await page.waitForFunction(() => !window.__tabletop.stats().cameraMoving);
+  const original = await snapshot(), camera = await page.evaluate(() => window.__tabletop.camera());
+  await pickAsset('builtin-crate', 'Caixa');
+  assert.equal(await page.locator('#tool-context [data-field="asset-placement-repeat"]').isChecked(), true);
+  assert.match(await page.locator('#tool-context').innerText(), /Caixa/);
+  assert.deepEqual(await snapshot(), original);
+  const [projector] = await Promise.all([page.waitForEvent('popup'), action('presentation-window')]);
+  await projector.waitForFunction(() => window.__tabletop?.stats().objects > 0);
+  const publishedCamera = await projector.evaluate(() => window.__tabletop.camera()); await page.bringToFront();
+  await page.locator('[data-tab="build"]').click(); await choose('active-layer', lockedLayer.id);
+  await clickAt([-6, 2, -2]); assert.deepEqual(await snapshot(), original);
+  assert.equal(await page.locator('#tool-context').isVisible(), true);
+  await choose('active-layer', layer.id);
+  await clickAt([-4.2, 2, 0]); await clickAt([-.2, 2, 0]); await clickAt([3.23, 2, 1.17], true);
+  const copies = await props('builtin-crate'); assert.equal(copies.length, 3);
+  assert.equal(new Set(copies.map(entity => entity.id)).size, 3);
+  for (const entity of copies) { assert.equal(entity.surfaceId, floor.id); assert.equal(entity.levelId, level.id); assert.equal(entity.layerId, layer.id); assert.ok(Math.abs(entity.transform.position[1] - 2) < 1e-6); }
+  assert.equal(copies[0].transform.position[0], -4); assert.equal(copies[1].transform.position[0], 0);
+  assert.ok(Math.abs(copies[2].transform.position[0] - 3.23) < .03);
+  assert.ok(Math.abs(copies[2].transform.position[2] - 1.17) < .03);
+  assert.equal(await page.locator('#tool-context').isVisible(), true);
+  assert.deepEqual(await page.evaluate(() => window.__tabletop.camera()), camera);
+  assert.deepEqual(await projector.evaluate(() => window.__tabletop.camera()), publishedCamera);
+  await action('undo'); assert.equal((await props('builtin-crate')).length, 2);
+  await action('redo'); assert.deepEqual(await props('builtin-crate'), copies);
+  // A click outside the selected support cannot add a copy or end repetition.
+  await clickAt([8.5, 2, 0]); assert.equal((await props('builtin-crate')).length, 3);
+  assert.equal(await page.locator('#tool-context').isVisible(), true);
+  await pickAsset('builtin-barrel', 'Tambor'); await clickAt([-4, 2, 3]); await clickAt([0, 2, 3]);
+  assert.equal((await props('builtin-barrel')).length, 2); assert.equal((await props('builtin-crate')).length, 3);
+  // Switching repeat off keeps the pending placement, then finishes after one click.
+  await page.locator('#tool-context [data-field="asset-placement-repeat"]').uncheck();
+  await clickAt([4, 2, 3]); assert.equal((await props('builtin-barrel')).length, 3);
+  assert.equal(await page.locator('#tool-context').isHidden(), true);
+  await page.locator('[data-tab="assets"]').click();
+  assert.equal(await page.locator('#assets-dialog [data-field="asset-placement-repeat"]').isChecked(), false);
+  await page.locator('#assets-dialog [data-field="asset-placement-repeat"]').check();
+  await page.getByLabel('Buscar assets', { exact: true }).fill('Tambor'); await page.locator('[data-asset="builtin-barrel"]').click();
+  await key('Escape'); const afterEsc = await snapshot(); await clickAt([6, 2, 3]); assert.deepEqual(await snapshot(), afterEsc);
+  assert.equal(await page.locator('#tool-context').isHidden(), true);
+  // Imported portraits create independent actors/tokens on each click.
+  await page.locator('#asset-file').setInputFiles({ name: 'Retrato.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=', 'base64') });
+  await page.waitForFunction(() => document.getElementById('tool-context').textContent.includes('Retrato'));
+  await clickAt([-6, 2, -3]); await clickAt([-2, 2, -3]);
+  const tokens = Object.values((await snapshot()).tokens); assert.equal(tokens.length, 2);
+  assert.notEqual(tokens[0].actorId, tokens[1].actorId); assert.notEqual(tokens[0].id, tokens[1].id);
+  const actors = (await snapshot()).actors;
+  assert.equal(actors[tokens[0].actorId].assetRef.id, actors[tokens[1].actorId].assetRef.id); assert.equal(tokens[0].surfaceId, floor.id);
+  await key('q'); assert.equal(await page.locator('#tool-context').isHidden(), true);
+  await projector.close();
+  await pickAsset('builtin-crate', 'Caixa'); await mkdir('test-results', { recursive: true });
+  await page.screenshot({ path: `test-results/repeated-placement-${mode}.png` }); await key('Escape');
+  // Repetition also keeps the canvas free when the inspector was open on a compact screen.
+  await page.locator('[data-tab="scene"]').click(); await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();
+  await page.setViewportSize({ width: 430, height: 900 });
+  await action('frame'); await page.waitForFunction(() => !window.__tabletop.stats().cameraMoving);
+  await action('inspector-toggle'); await pickAsset('builtin-crate', 'Caixa');
+  assert.equal(await page.locator('[data-action="inspector-toggle"]').getAttribute('aria-expanded'), 'false');
+  await clickAt([3, 2, -2]); await clickAt([6, 2, -2]);
+  assert.equal((await props('builtin-crate')).length, 5);
+  assert.equal(await page.locator('[data-action="inspector-toggle"]').getAttribute('aria-expanded'), 'false');
+  assert.equal(await page.locator('#tool-context').evaluate(element => element.scrollWidth <= element.clientWidth + 1), true);
+  await mkdir('test-results', { recursive: true }); await page.screenshot({ path: `test-results/repeated-placement-${mode}-mobile.png` });
+  await page.locator('#tool-context [data-action="tool-select"]').click();
+  await action('save'); await page.waitForFunction(() => document.getElementById('save-status').textContent.startsWith('Salvo'));
+  const saved = await snapshot(); await page.reload(); await page.waitForFunction(() => Boolean(window.__tabletop));
+  assert.deepEqual(await snapshot(), saved); assert.equal(await page.locator('#tool-context').isHidden(), true);
+  assert.deepEqual(errors, []);
+});

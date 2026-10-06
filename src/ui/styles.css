@@ -315,7 +315,9 @@ summary:focus-visible, textarea:focus-visible, [data-window-handle]:focus-visibl
 .terrain-base-material > summary { color: #efcf99; }
 .terrain-area > summary, [data-disclosure='terrain-advanced'] > summary { margin-bottom: 12px; }
 .water-bed-controls { border: 1px solid #416275; padding: 12px; border-radius: 8px; margin: 14px 0; }
-.tool-context { position: absolute; top: 75px; left: 18px; right: 18px; display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 6px 10px; background: #253d45ed; border: 1px solid #69949d; border-radius: 8px; color: #e1eff0; font-size: 12px; pointer-events: auto; }
+.tool-context { position: absolute; top: 75px; left: 18px; right: 18px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 6px 10px; background: #253d45ed; border: 1px solid #69949d; border-radius: 8px; color: #e1eff0; font-size: 12px; pointer-events: auto; }
+.tool-context > span { min-width: 0; overflow-wrap: anywhere; flex: 1 1 180px; }
+.tool-context .check { margin: 0; flex-shrink: 0; }
 .floating-window, dialog.floating-window.library-dialog { position: fixed; inset: 0 auto auto 0; margin: 0; width: min(620px,calc(100vw - 16px)); max-width: none; height: min(720px,calc(100dvh - 100px)); max-height: calc(100dvh - 16px); padding: 16px; border-radius: 12px; background: #20292dfc; backdrop-filter: none; border: 1px solid #697980; box-shadow: 0 16px 48px #080f18a6; z-index: 20; overflow: hidden; }
 .floating-window[open] { display: flex; flex-direction: column; }
 .floating-window.window-closing { pointer-events: none; }

@@ -120,6 +120,7 @@ export async function startApplication() {
   let libraryFilters = { search: '', category: '', era: '', context: '', tags: [], favorites: false };
   let libraryLimit = 24, editingAsset = null;
   let proposal = null, placing = null, saving = false, isPresentation = false, cutaway = true;
+  let repeatAssetPlacement = true;
   let workingCamera = null, publishedCamera = null, recovery = null, draftTimer, noticeTimer;
   let draftQueue = Promise.resolve(), draftWarningShown = false;
   let openTicket = 0;
@@ -397,7 +398,7 @@ export async function startApplication() {
     const targets = records.map(record => records.length === 1 ? materialTarget(record) : { id: record.id });
     if (execute('material.apply', { targets, sample: materialClipboard.sample }, { label: records.length === 1 ? 'Colar material' : 'Colar materiais na seleção' })) notify('Material aplicado. Ctrl+Z desfaz.');
   }
-  function selectObject(value, additive = false) {
+  function selectObject(value, additive = false, { revealInspector = true } = {}) {
     anchorEditing = false;
     value = tool==='terrain'&&isSculptableRock(store.document.layout.entities[value])?value:assemblyFor(store.document,value)?.id??value;
     if (!additive) selectedIds.clear();
@@ -409,7 +410,7 @@ export async function startApplication() {
       viewport.setSupportSurface(selection); if (locate()?.record.kind==='terrain') openBuildGroups.add('landscape');
       if (tab === 'build') renderSidebar();
     }
-    if(selection && window.innerWidth<=900) {root.querySelector('.app-shell').classList.remove('inspector-collapsed');root.querySelector('.app-shell').classList.add('sidebar-collapsed');syncPanelToggles();}
+    if(selection && revealInspector && window.innerWidth<=900) {root.querySelector('.app-shell').classList.remove('inspector-collapsed');root.querySelector('.app-shell').classList.add('sidebar-collapsed');syncPanelToggles();}
     if(tool==='terrain'&&isSculptableRock(store.document.layout.entities[selection])&&terrainBrush.mode==='rock'){terrainBrush.mode='push';viewport.setTerrainBrush(terrainBrush);renderToolContext();}
     viewport.setSelection(selection, [...selectedIds]); renderInspector(); renderSceneTreeIfVisible();
     if (store.document.layout.entities[selection]?.kind === 'terrain') document.getElementById('inspector-content').scrollTop = 0;
@@ -428,7 +429,7 @@ export async function startApplication() {
     for (const node of root.querySelectorAll('[data-action=material-eyedropper]')) { node.classList.toggle('active', next === 'material-sample'); node.setAttribute('aria-pressed', String(next === 'material-sample')); }
     if (next !== 'place') placing = null;
     root.querySelectorAll('[data-action^="tool-"]').forEach((node) => node.classList.toggle('active', node.dataset.action === `tool-${next}`));
-    document.getElementById('gesture-hint').textContent = next === 'material-sample' ? 'Conta-gotas · clique para copiar o material · Esc cancela' : next === 'terrain' ? 'Pincel ativo · T/Q: seleção · [ ]: tamanho · Esc: cancelar traço' : next === 'polygon' ? 'Clique nos vértices · Enter conclui · Backspace remove · Esc cancela' : next === 'window' ? 'Clique na parede para posicionar o centro da janela · Esc cancela' : next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? 'Clique no piso para colocar · Alt: posição livre · Esc cancela' : 'WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom';
+    document.getElementById('gesture-hint').textContent = next === 'material-sample' ? 'Conta-gotas · clique para copiar o material · Esc cancela' : next === 'terrain' ? 'Pincel ativo · T/Q: seleção · [ ]: tamanho · Esc: cancelar traço' : next === 'polygon' ? 'Clique nos vértices · Enter conclui · Backspace remove · Esc cancela' : next === 'window' ? 'Clique na parede para posicionar o centro da janela · Esc cancela' : next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? `Clique no piso para colocar${placing?.repeat ? ' cópias' : ''} · Alt: posição livre · Esc/Q conclui` : 'WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom';
     renderToolContext();
     if (tab === 'build' && (previous === 'polygon' || next === 'polygon')) renderSidebar();
     if (previous === 'terrain' || next === 'terrain') {renderInspector(); if(next==='terrain') document.getElementById('inspector-content').scrollTop=0;}
@@ -436,7 +437,17 @@ export async function startApplication() {
   function renderToolContext() {
     const next=tool;
     const context=document.getElementById('tool-context'); context.hidden=['select','move','rotate','scale'].includes(next);
-    context.innerHTML=`<span>${esc(next==='material-sample'?'Conta-gotas · clique na superfície de origem':next==='terrain'?`Pincel · ${({push:'Projetar face',pull:'Recuar face',raise:'Elevar',lower:'Rebaixar',smooth:'Suavizar',flatten:'Nivelar',rock:'Rocha natural',paint:'Pintar camada',erase:'Apagar camada',water:'Água'})[terrainBrush.mode]} · ${terrainBrush.radius} m`:next==='polygon'?'Desenhar contorno':next==='room'?'Desenhar sala':'Colocar objeto')}</span><button data-action=tool-select class=quiet>Concluir · Q</button>`;
+    context.innerHTML=`<span>${esc(next==='material-sample'?'Conta-gotas · clique na superfície de origem':next==='terrain'?`Pincel · ${({push:'Projetar face',pull:'Recuar face',raise:'Elevar',lower:'Rebaixar',smooth:'Suavizar',flatten:'Nivelar',rock:'Rocha natural',paint:'Pintar camada',erase:'Apagar camada',water:'Água'})[terrainBrush.mode]} · ${terrainBrush.radius} m`:next==='polygon'?'Desenhar contorno':next==='room'?'Desenhar sala':`Colocar · ${placing?.asset?.name ?? placing?.name ?? 'objeto'}`)}</span>${next==='place' && placing?.assetPlacement ? checkField('asset-placement-repeat','Colocação repetida',placing.repeat) : ''}<button data-action=tool-select class=quiet>Concluir · Q</button>`;
+  }
+  function beginAssetPlacement(asset) {
+    if (!asset) { notify('Este asset não está disponível. Reabra a biblioteca.', true); return; }
+    clearProposal();
+    placing = { ...(asset.type === 'image'
+      ? { type: 'token', name: asset.name.replace(/\.[^.]+$/, ''), color: '#e4b76f', assetRef: { id: asset.id, revision: asset.revision } }
+      : { type: 'prop', asset }), assetPlacement: true, repeat: repeatAssetPlacement };
+    if (placing.repeat && window.innerWidth <= 900) { root.querySelector('.app-shell').classList.add('sidebar-collapsed', 'inspector-collapsed'); syncPanelToggles(); }
+    setTool('place');
+    notify(`Clique no piso para colocar ${asset.name}.${placing.repeat ? ' Continue clicando para colocar cópias; Esc ou Q conclui.' : ''}`);
   }
   function clearProposal() { cancelEnvironmentPreview(); proposal = null; viewport.setPreview(null); document.getElementById('proposal-bar').hidden = true; }
   function makeProposal() {
@@ -471,7 +482,12 @@ export async function startApplication() {
       const entity = createEntity('prop', { ...(isVegetationAsset(asset.id)?{vegetationSeed:0}:{}), ...(geological ? {material:{...surfacePatch('rock'),rockPattern:geological.form.startsWith('organic')?'organic':['strata','cliff','spire'].includes(geological.form)?'strata':geological.form==='rounded'?'granite':'fractured'},rockShape:geological} : {}), name: asset.name, position, surfaceId, assetRef: { id: asset.id, revision: asset.revision }, footprint: asset.footprint ?? [1, 1], ...constructionSemantics(), ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}), ...(placing.localEffect || asset.id==='builtin-campfire' ? { localEffect: clone(placing.localEffect??LOCAL_EFFECT_DEFAULTS) } : {}) });
       if (execute('entity.add', { entity, snap })) newId = entity.id;
     }
-    if (newId) { setTool('move'); selectObject(newId); notify('Adicionado à cena. Você pode mover, girar e editar.'); }
+    if (newId) {
+      const repeat = placing.repeat;
+      if (!repeat) setTool('move');
+      selectObject(newId, false, { revealInspector: !repeat });
+      notify(repeat ? 'Cópia adicionada. Clique para colocar outra; Esc ou Q conclui. Ctrl+Z desfaz a última cópia.' : 'Adicionado à cena. Você pode mover, girar e editar.');
+    }
   }
   function flushDraft() {
     clearTimeout(draftTimer);
@@ -558,7 +574,7 @@ export async function startApplication() {
   }
   function renderAssets() {
     const panel = document.getElementById('assets-content'), scroll = panel.scrollTop;
-    panel.innerHTML = assetLibraryPanel(assets, libraryFilters, repository.storage); renderAssetCards(); panel.scrollTop = scroll;
+    panel.innerHTML = assetLibraryPanel(assets, libraryFilters, repository.storage, repeatAssetPlacement); renderAssetCards(); panel.scrollTop = scroll;
   }
   function renderAssetCards() {
     const node = document.getElementById('asset-cards'); if (!node) return;
@@ -1264,13 +1280,18 @@ export async function startApplication() {
       }
       const asset = await repository.importAsset(file);
       assets = await repository.assets(); viewport.setAssets(assets); renderSidebar();
-      placing = asset.type === 'image' ? { type: 'token', name: asset.name.replace(/\.[^.]+$/, ''), color: '#e4b76f', assetRef: { id: asset.id, revision: asset.revision } } : { type: 'prop', asset };
-      setTool('place'); notify('Asset guardado. Clique no piso para colocá-lo.');
+      beginAssetPlacement(asset);
     } catch (error) { notify(`O asset não foi importado: ${error.message}`, true); }
   }
 
   function changeField(input) {
     const field = input.dataset.field, value = input.type === 'checkbox' ? input.checked : ['number','range'].includes(input.type) ? Number(input.value) : input.value;
+    if (field === 'asset-placement-repeat') {
+      repeatAssetPlacement = value;
+      if (placing?.assetPlacement) { placing.repeat = value; if (tool === 'place') setTool('place'); }
+      root.querySelectorAll('[data-field="asset-placement-repeat"]').forEach(node => { node.checked = value; });
+      return;
+    }
     if (field === 'camera-speed') { if (Number.isFinite(Number(value))) { cameraSpeed = Math.max(.2, Math.min(40, Number(value))); viewport.setNavigationSpeed(cameraSpeed); } renderSidebar(); return; }
     if (field === 'camera-fov') { viewport.setFov(Number(value)); renderSidebar(); return; }
     if (field === 'camera-duration') { cameraDuration = Number(value); return; }
@@ -1915,8 +1936,7 @@ export async function startApplication() {
     if (node.dataset.select) { selectObject(node.dataset.select, event.shiftKey); return; }
     if (node.dataset.asset) {
       const asset = assets.find((item) => item.id === node.dataset.asset);
-      placing = asset.type === 'image' ? { type: 'token', name: asset.name.replace(/\.[^.]+$/, ''), color: '#e4b76f', assetRef: { id: asset.id, revision: asset.revision } } : { type: 'prop', asset };
-      assetsWindow.close(); if(window.innerWidth<=900) {root.querySelector('.app-shell').classList.add('sidebar-collapsed');syncPanelToggles();} setTool('place'); notify(`Clique no piso para colocar ${asset.name}.`); return;
+      assetsWindow.close(); if(window.innerWidth<=900) {root.querySelector('.app-shell').classList.add('sidebar-collapsed');syncPanelToggles();} beginAssetPlacement(asset); return;
     }
     if (node.dataset.environmentPreview) { try { previewEnvironment(node.dataset.environmentPreview); } catch (error) { notify(error.message, true); } return; }
     if (node.dataset.environment) { execute('environment.apply', { presetId: node.dataset.environment }); return; }
@@ -1943,10 +1963,8 @@ export async function startApplication() {
     if (node.dataset.dialogPickAssetToken) {
       const asset = assets.find((item) => item.id === node.dataset.dialogPickAssetToken);
       if (asset) {
-        placing = { type: 'token', name: asset.name.replace(/\.[^.]+$/, ''), color: '#e4b76f', assetRef: { id: asset.id, revision: asset.revision } };
-        setTool('place');
+        beginAssetPlacement(asset);
         closeDialog();
-        notify(`Clique no piso para posicionar ${asset.name}.`);
       }
       return;
     }

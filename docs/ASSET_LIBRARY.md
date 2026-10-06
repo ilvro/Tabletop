@@ -33,9 +33,19 @@ Assets abre uma janela flutuante arrastável, com fade de 100 ms ao abrir e 80 m
 2. Combine **Categoria**, **Época** e **Cenário**. Uma categoria como **Saúde** inclui **Saúde / Instrumentos** e suas demais subcategorias.
 3. Selecione uma ou mais tags no campo **Adicionar filtro de tag**, ou clique nas tags dos cards. Todas as tags selecionadas precisam existir no asset. Clique no **×** para remover um filtro.
 4. Use **Somente favoritos** para reunir objetos recorrentes. **Limpar filtros** restaura o acervo inteiro. Os filtros permanecem ao alternar as abas durante a sessão.
-5. Clique no card e depois no apoio da cena. A colocação usa snap, andares/camadas e histórico existentes. Imagens importadas continuam sendo retratos de tokens.
+5. Clique no card e depois no apoio da cena. **Colocação repetida** começa marcada: cada clique acrescenta outra cópia do mesmo asset. **Esc**, **Q** ou **Concluir** encerra. A colocação usa snap, andares/camadas e histórico existentes. Imagens importadas continuam sendo retratos de tokens, com um token/ator independente por clique.
 
 São exibidos 24 cards por vez; **Mostrar mais assets** acrescenta outros 24. Prévias carregam sob demanda e modelos 3D carregam quando usados na cena.
+
+## Colocação repetida
+
+A opção **Colocação repetida** aparece na biblioteca e na barra sobre a cena, junto do nome do asset ativo. Com ela marcada, a última cópia fica selecionada e o asset continua pronto para o próximo clique. Para trocar o objeto em uso, abra Assets e escolha outro card; a busca e os filtros são conservados. Escolher o asset ou alternar a opção não altera o documento.
+
+Desmarque a opção para colocar uma única cópia e passar automaticamente para Mover. É possível desmarcar durante a colocação: o próximo clique insere uma cópia e encerra. A preferência vale durante a sessão do editor; ao recarregar, a repetição começa marcada e nenhum asset está ativo. Importar um asset e escolher um retrato de asset em Abrir usam a mesma preferência. Tokens criados por nome e ferramentas de luz/escada/rampa continuam com sua colocação individual.
+
+Cada clique confirmado é uma entrada própria no histórico: **Ctrl+Z** remove a última cópia, **Ctrl+Shift+Z** a restaura. Você pode continuar colocando após desfazer/refazer. **Alt** permite posicionar sem snap. O apoio escolhido e as opções atuais de andar/camada continuam valendo a cada inserção; cliques fora desse apoio ou em uma camada bloqueada não criam cópias e mantêm o asset ativo. Cada instância começa com os parâmetros padrão do asset, sem copiar edições feitas na instância anterior.
+
+Em telas estreitas, escolher um asset para repetir recolhe os painéis para liberar o cenário, e inserir cópias não reabre automaticamente Propriedades. Use **Concluir**, então abra **Propriedades** para editar o último objeto, ou escolha Mover/G, Girar/R ou Escala/V. A câmera publicada permanece independente da colocação e da navegação de trabalho.
 
 ## Classificar e favoritar
 

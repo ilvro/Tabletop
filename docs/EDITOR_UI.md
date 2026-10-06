@@ -20,6 +20,8 @@ Posição, dimensões, material, iluminação, apoio, organização e apresenta�
 
 **Assets** abre uma biblioteca flutuante. Busque, filtre, importe, classifique ou favorite como antes. Escolher um asset fecha a janela para liberar a colocação na cena; abrir novamente conserva os filtros. Importar um arquivo conserva o painel Construir/Cena que estava por baixo da biblioteca. **Abrir** reúne cenas, mapas, tokens e documentos em outra janela flutuante.
 
+**Colocação repetida** começa marcada em Assets e também aparece na barra sobre a cena, com o nome do asset ativo. Continue clicando para inserir cópias; Esc/Q ou Concluir encerra. Desmarque para colocar uma única cópia e entrar em Mover. Cada clique tem seu próprio desfazer/refazer; escolher outro card troca o asset em uso. Retratos de assets também podem ser repetidos como tokens independentes. Em tela estreita, os painéis ficam recolhidos durante a repetição. A opção é conservada na sessão, sem entrar na cena ou publicar câmera. [Passos e limites](ASSET_LIBRARY.md#colocação-repetida).
+
 Arraste pelo título. Pelo teclado, foque o título com Tab e use as setas (10 px; Shift = 40 px). **↺** reposiciona a janela; **×** ou Esc fecha. As janelas não bloqueiam o restante do editor, ficam dentro da tela ao redimensionar e guardam sua posição somente neste navegador. Mover uma janela não altera histórico, documento ou câmera publicada. A abertura tem fade de **100 ms** e o fechamento de **80 ms**, também por Esc e ao escolher um asset. Durante a saída, a janela já deixa de receber foco/cliques; reabrir antes de terminar cancela a saída. Movimento reduzido torna abertura/fechamento imediatos. Janelas de recuperação/classificação continuam modais quando necessário.
 
 ## Material de uma camada
