@@ -1,3 +1,4 @@
+import { cloneValue } from '../state/immutable.js';
 import { validateDocument, ValidationError } from './validation.js';
 import { WATER_DEFAULTS } from './landscape.js';
 import { polygonSize } from './geometry.js';
@@ -6,7 +7,7 @@ import { migrateDocument } from './migrations.js';
 export { migrateDocument };
 export { validateDocument, ValidationError };
 
-export const clone = value => structuredClone(value);
+export const clone = cloneValue;
 export const id = () => globalThis.crypto.randomUUID();
 
 const material = (color, override = {}) => ({ color, roughness: 0.8, metalness: 0, ...clone(override) });

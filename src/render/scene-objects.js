@@ -77,7 +77,67 @@ export function createTerrain(entity) {
     for(const [a,b] of border) {if(snow.weights[a]+snow.weights[b]<.001)continue;for(const p of [at(a,false),at(b,false),at(b,true),at(a,false),at(b,true),at(a,true)])sides.push(...p);}
     if(sides.length){const edge=new THREE.BufferGeometry();edge.setAttribute('position',new THREE.Float32BufferAttribute(sides,3));edge.computeVertexNormals();const skirt=new THREE.Mesh(edge,standardMaterial({color:entity.material.coverage.color,roughness:.86}));skirt.userData.decorative=true;skirt.userData.terrainSnowEdge=true;skirt.castShadow=true;skirt.receiveShadow=true;group.add(skirt);}
   }
+  group.userData.terrainRecord = entity;
   applyTransform(group, entity.transform); return tagEntity(group, entity.id);
+}
+
+/** Same topology and material: brush samples update buffers, never GPU resources. */
+export function updateTerrain(object, entity) {
+  const before = object.userData.terrainRecord;
+  if (!before || before.segments !== entity.segments || before.width !== entity.width || before.length !== entity.length || before.flatShading !== entity.flatShading || before.material.coverage?.physicalThickness > 0 || entity.material.coverage?.physicalThickness > 0) return null;
+  if(Object.isFrozen(before)&&Object.isFrozen(entity)&&before.heights===entity.heights&&before.paintLayers===entity.paintLayers&&before.material===entity.material){object.userData.terrainRecord=entity;return {spatial:false};}
+  const style = value => JSON.stringify([value.material,(value.paintLayers??[]).map(({weights,...layer})=>layer)]);
+  if (before.material !== entity.material && JSON.stringify(before.material) !== JSON.stringify(entity.material) || style(before) !== style(entity)) return null;
+  const mesh = object.children[0], geometry = mesh.geometry, position = geometry.attributes.position;
+  const changed=geometry.userData.terrainPendingVertices??new Set();delete geometry.userData.terrainPendingVertices;
+  for (let i = 0; i < entity.heights.length; i++) if (position.getY(i) !== Math.fround(entity.heights[i])) { position.setY(i,entity.heights[i]); changed.add(i); }
+  const spatial=changed.size>0;
+  if (spatial) { position.needsUpdate = true; updateTerrainNormals(geometry,entity.segments,changed); geometry.computeBoundingBox(); geometry.computeBoundingSphere(); }
+  terrainTextureMasks(geometry,entity);
+  const colors = geometry.attributes.color;
+  if (colors) {
+    const base=new THREE.Color(entity.material.color),tint=new THREE.Color(),layers=(entity.paintLayers??[]).filter(l=>l.visible).map(l=>({...l,tint:new THREE.Color(l.color)}));
+    for(let i=0;i<entity.heights.length;i++){tint.copy(base);for(const layer of layers)tint.lerp(layer.tint,layer.weights[i]*layer.opacity);colors.setXYZ(i,tint.r,tint.g,tint.b);}colors.needsUpdate=true;
+  }
+  object.userData.terrainRecord=entity;
+  return { spatial };
+}
+
+/** Keep CPU picking current between pointer samples, without uploading or recomputing normals. */
+export function syncTerrainPicking(object,entity){
+  if(entity.material.coverage?.physicalThickness>0)return false;
+  const geometry=object.children[0].geometry,position=geometry.attributes.position,changed=geometry.userData.terrainPendingVertices??=new Set();
+  geometry.boundingBox??=new THREE.Box3().setFromBufferAttribute(position);
+  if(!geometry.boundingSphere)geometry.computeBoundingSphere();
+  const point=new THREE.Vector3();
+  for(let i=0;i<entity.heights.length;i++)if(position.getY(i)!==Math.fround(entity.heights[i])){
+    position.setY(i,entity.heights[i]);changed.add(i);point.fromBufferAttribute(position,i);geometry.boundingBox.expandByPoint(point);geometry.boundingSphere.radius=Math.max(geometry.boundingSphere.radius,point.distanceTo(geometry.boundingSphere.center));
+  }
+  return true;
+}
+
+function updateTerrainNormals(geometry,n,changed){
+  const index=geometry.index,position=geometry.attributes.position,normal=geometry.attributes.normal,affected=new Set();
+  const incident=vertex=>{
+    const x=vertex%(n+1),z=Math.floor(vertex/(n+1)),triangles=[];
+    for(let row=Math.max(0,z-1);row<=Math.min(n-1,z);row++)for(let col=Math.max(0,x-1);col<=Math.min(n-1,x);col++)for(let side=0;side<2;side++){
+      const offset=(row*n+col)*6+side*3;if([0,1,2].some(i=>index.getX(offset+i)===vertex))triangles.push(offset);
+    }
+    return triangles;
+  };
+  for(const vertex of changed)for(const offset of incident(vertex))for(let i=0;i<3;i++)affected.add(index.getX(offset+i));
+  if(affected.size>position.count/2){geometry.computeVertexNormals();return;}
+  const a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3(),cb=new THREE.Vector3(),ab=new THREE.Vector3(),sum=new THREE.Vector3();
+  for(const vertex of affected){
+    normal.setXYZ(vertex,0,0,0);
+    // Match Three's triangle order and Float32 accumulation, including unchanged neighbours.
+    for(const offset of incident(vertex)){
+      a.fromBufferAttribute(position,index.getX(offset));b.fromBufferAttribute(position,index.getX(offset+1));c.fromBufferAttribute(position,index.getX(offset+2));
+      cb.subVectors(c,b);ab.subVectors(a,b);cb.cross(ab);sum.fromBufferAttribute(normal,vertex).add(cb);normal.setXYZ(vertex,sum.x,sum.y,sum.z);
+    }
+    sum.fromBufferAttribute(normal,vertex).normalize();normal.setXYZ(vertex,sum.x,sum.y,sum.z);
+  }
+  normal.needsUpdate=true;
 }
 
 export function createAccess(entity) {

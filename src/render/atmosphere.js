@@ -82,7 +82,7 @@ export function createWeatherGeometry(config) {
 const particleVertex = `attribute float along;
   uniform float time, speed, particleSize, viewportHeight, perspective, rain, snow, falling;
   uniform vec3 regionSize, regionCenter;
-  uniform vec2 wind;
+  uniform vec2 wind, pointClamp;
   varying float life;
   void main() {
     float fallSpeed = mix(1.0, .75 + position.x * .5, snow);
@@ -99,7 +99,7 @@ const particleVertex = `attribute float along;
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mv;
     float flakeSize = mix(1.0, .55 + position.z * 1.15, snow);
-    gl_PointSize = clamp(particleSize * flakeSize * viewportHeight * projectionMatrix[1][1] / (2.0 * mix(1.0, max(.1, -mv.z), perspective)), 1.0, 64.0);
+    gl_PointSize = clamp(particleSize * flakeSize * viewportHeight * projectionMatrix[1][1] / (2.0 * mix(1.0, max(.1, -mv.z), perspective)), pointClamp.x, pointClamp.y);
   }`;
 const particleFragment = `uniform vec3 particleColor;
   uniform float opacity, rain, smoke;
@@ -140,7 +140,7 @@ export function createAtmosphere(scene) {
         blending: w.type === 'embers' ? THREE.AdditiveBlending : THREE.NormalBlending,
         uniforms: { time: { value: 0 }, speed: { value: w.speed }, particleSize: { value: w.particleSize }, viewportHeight: { value: 1 }, perspective: { value: 1 },
           rain: { value: rain ? 1 : 0 }, snow:{value:w.type==='snow'?1:0},falling:{value:rain||w.type==='snow'?1:0}, smoke: { value: w.type === 'smoke' ? 1 : 0 }, regionSize: { value: new THREE.Vector3(...w.size) }, regionCenter: { value: new THREE.Vector3(...w.center) },
-          wind: { value: new THREE.Vector2(...w.wind) }, particleColor: { value: new THREE.Color(w.color) }, opacity: { value: w.opacity } } });
+          wind: { value: new THREE.Vector2(...w.wind) }, pointClamp:{value:new THREE.Vector2(1,64)}, particleColor: { value: new THREE.Color(w.color) }, opacity: { value: w.opacity } } });
       const geometry = createWeatherGeometry(w);
       particles = rain ? new THREE.LineSegments(geometry, material) : new THREE.Points(geometry, material);
       particles.frustumCulled = false; particles.visible = localEnabled; scene.add(particles);
@@ -148,9 +148,9 @@ export function createAtmosphere(scene) {
   }
   return {
     configure,
-    update(camera, seconds, paused, viewportHeight) {
+    update(camera, seconds, paused, viewportHeight, pixelScale=1) {
       if (sky) { sky.position.copy(camera.position); sky.material.uniforms.time.value = seconds; }
-      if (particles) { particles.material.uniforms.time.value = seconds; particles.material.uniforms.viewportHeight.value = viewportHeight; particles.material.uniforms.perspective.value = camera.isPerspectiveCamera ? 1 : 0; }
+      if (particles) { particles.material.uniforms.time.value = seconds; particles.material.uniforms.viewportHeight.value = viewportHeight; particles.material.uniforms.perspective.value = camera.isPerspectiveCamera ? 1 : 0;particles.material.uniforms.pointClamp.value.set(pixelScale,64*pixelScale); }
       return !paused && localEnabled && Boolean(sky && look.sky.clouds && look.sky.cloudOpacity > 0 && look.sky.cloudCoverage > 0 && look.sky.cloudSpeed > 0 || particles && look.weather.opacity > 0 && (look.weather.speed > 0 || look.weather.wind.some(v => v !== 0)));
     },
     setEnabled(value) { localEnabled = value; if (particles) particles.visible = value; if (sky) sky.material.uniforms.opacity.value = value && look.sky.clouds ? look.sky.cloudOpacity : 0; },

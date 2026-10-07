@@ -1,3 +1,4 @@
+import { releaseGeometry } from './asset-cache.js';
 import * as THREE from 'three';
 import {mergeVertices} from 'three/addons/utils/BufferGeometryUtils.js';
 import {assertRockSculpt,ROCK_SCULPT_TRIANGLES} from '../domain/rock-sculpt.js';
@@ -25,7 +26,7 @@ export function prepareRockSculpt(root) {
   if(unprepared.length===meshes.length)while(levels<2&&total*4<=ROCK_SCULPT_TRIANGLES){levels++;total*=4;}
   for(const mesh of unprepared) {
     const source=mesh.geometry.clone().applyMatrix4(inverse.clone().multiply(mesh.matrixWorld)),metadata=structuredClone(mesh.geometry.userData);
-    const geometry=subdivide(source,levels);source.dispose();mesh.geometry.dispose();geometry.userData={...metadata,sculptPrepared:true};mesh.geometry=geometry;
+    const geometry=subdivide(source,levels);source.dispose();releaseGeometry(mesh.geometry);geometry.userData={...metadata,sculptPrepared:true};mesh.geometry=geometry;
     mesh.removeFromParent();root.add(mesh);mesh.position.set(0,0,0);mesh.quaternion.identity();mesh.scale.set(1,1,1);
     const neighbors=Array.from({length:geometry.attributes.position.count},()=>new Set()),index=geometry.index.array;
     for(let i=0;i<index.length;i+=3)for(let j=0;j<3;j++){const a=index[i+j],b=index[i+(j+1)%3];neighbors[a].add(b);neighbors[b].add(a);}

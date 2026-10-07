@@ -1,3 +1,7 @@
+import { trustSnapshot } from '../state/immutable.js';
+import { reconcileElement } from '../ui/reconcile.js';
+import { createLatestJob } from '../data/latest-job.js';
+import { createPerformanceDiagnostics } from '../diagnostics/performance.js';
 import { illuminationDefaults, illuminationPatch, ZONE_DEFAULTS, RENDERING_DEFAULTS } from '../domain/dynamic-lighting.js';
 import { illuminationPanel, zonePanel } from '../ui/dynamic-lighting-panel.js';
 import { createLightPresetRepository } from '../data/light-presets.js';
@@ -130,7 +134,8 @@ export async function startApplication() {
   let repeatAssetPlacement = true;
   let measurement = null, rulerSnap = false;
   let workingCamera = null, publishedCamera = null, recovery = null, draftTimer, noticeTimer;
-  let draftQueue = Promise.resolve(), draftWarningShown = false;
+  let draftWarningShown = false;
+  const performanceDiagnostics=createPerformanceDiagnostics();
   let openTicket = 0;
   let initialized = false;
   let roomOptions = { width: 6, length: 5, height: 2.6, center: [0, 0, 0], door: true, lighting: true };
@@ -206,6 +211,7 @@ export async function startApplication() {
   const constructionSemantics = () => ({ levelId: activeLevelId, layerId: activeLayerId });
   let contextTarget = null, draggedTreeId = null;
   const store = createSceneStore(createScene('Minha primeira cena'));
+  let viewInitialized=false;
   const sessionId = id();
   const channel = typeof BroadcastChannel === 'function' ? new BroadcastChannel(`tabletop-presentation-${sessionId}`) : null;
   let sequence = 0, cameraSequence = 0, publishedDuration = 0;
@@ -377,6 +383,7 @@ export async function startApplication() {
       if (!previewWarningShown) { previewWarningShown = true; notify(`Não foi possível gerar a prévia agora: ${error.message}. Sua cena continua disponível.`, true); }
     },
   });
+  document.getElementById('documents-dialog').addEventListener('close',()=>previews.cancelLibrary());
   function previewImage(doc) {
     const image = previews.image(doc);
     return image ? `<img class="scene-thumbnail" src="${esc(image)}" alt="Prévia de ${esc(doc.name)}" width="480" height="270" loading="lazy" />`
@@ -513,26 +520,44 @@ export async function startApplication() {
       notify(repeat ? 'Cópia adicionada. Clique para colocar outra; Esc ou Q conclui. Ctrl+Z desfaz a última cópia.' : 'Adicionado à cena. Você pode mover, girar e editar.');
     }
   }
+  const draftQueue=createLatestJob(({document:doc,dirty,meaningful})=>performanceDiagnostics.measureAsync('draft',()=>dirty&&meaningful?drafts.write(doc):drafts.clear()),error=>{if(!draftWarningShown){draftWarningShown=true;notify(`A recuperação automática não está disponível: ${error.message}. Use Salvar ou baixe o JSON pela Gestão da Mesa.`,true);}});
   function flushDraft() {
-    clearTimeout(draftTimer);
-    if (recovery) return;
-    const doc = clone(store.document), dirty = store.dirty;
-    const meaningful = store.editVersion > 0 || doc.revision > 0;
-    draftQueue = draftQueue.catch(() => {}).then(() => dirty && meaningful ? drafts.write(doc) : drafts.clear()).catch((error) => {
-      if (!draftWarningShown) { draftWarningShown = true; notify(`A recuperação automática não está disponível: ${error.message}. Use Salvar ou baixe o JSON pela Gestão da Mesa.`, true); }
-    });
+    clearTimeout(draftTimer);if(recovery)return;
+    return draftQueue.push({document:store.document,dirty:store.dirty,meaningful:store.editVersion>0||store.document.revision>0});
+  }
+  const receivers=new Map();
+  let broadcastPending=false,lastSentDocument,lastSentAssets;
+  function sendPresentation(type, fields) {
+    if(!channel)return;
+    performanceDiagnostics.measure('broadcast',()=>channel.postMessage({version:1,type,sessionId,sequence:++sequence,...fields}));
+    performanceDiagnostics.count('presentationMessages');
+    if(performanceDiagnostics.enabled)performanceDiagnostics.count('presentationBytes',new TextEncoder().encode(JSON.stringify(fields)).byteLength);
+  }
+  function hasPresentation() {
+    const now=Date.now();for(const [peer,seen] of receivers)if(now-seen>20_000)receivers.delete(peer);
+    return receivers.size>0;
+  }
+  function sendSnapshot(force=false) {
+    if(!force&&!hasPresentation()){performanceDiagnostics.count('broadcastsSkipped');return;}
+    const fields={camera:publishedCamera??viewport.getCamera(),cameraSequence,cameraDuration:publishedDuration,cutaway};
+    if(!force&&lastSentDocument===store.document&&lastSentAssets===assets){sendPresentation('view',fields);return;}
+    const doc=performanceDiagnostics.measure('presentationProjection',()=>projectPresentation(store.document));
+    sendPresentation('snapshot',{...fields,document:doc,assets:presentationAssets(doc,assets)});
+    lastSentDocument=store.document;lastSentAssets=assets;
   }
   function broadcast() {
-    if (!channel) return;
-    const doc = projectPresentation(store.document);
-    channel.postMessage({ version: 1, type: 'snapshot', sessionId, sequence: ++sequence, document: doc, assets: presentationAssets(doc, assets), camera: publishedCamera ?? viewport.getCamera(), cameraSequence, cameraDuration: publishedDuration, cutaway });
+    if(broadcastPending)return;broadcastPending=true;
+    queueMicrotask(()=>{broadcastPending=false;sendSnapshot();});
   }
-  channel?.addEventListener('message', (event) => {
-    if (event.data?.version === 1 && event.data?.sessionId === sessionId && event.data.type === 'ready') broadcast();
+  channel?.addEventListener('message', event => {
+    const data=event.data;if(data?.version!==1||data.sessionId!==sessionId)return;
+    const peer=data.receiverId??'legacy';
+    if(data.type==='ready'||data.type==='heartbeat'){const previous=receivers.get(peer);receivers.set(peer,Date.now());if(data.type==='ready'||!previous||Date.now()-previous>20000)sendSnapshot(true);}
+    if(data.type==='closed')receivers.delete(peer);
   });
-
   function publishCamera(preset, duration = cameraDuration) {
-    publishedCamera = clone(preset); publishedDuration = duration; cameraSequence++; broadcast();
+    publishedCamera=clone(preset);publishedDuration=duration;cameraSequence++;
+    if(hasPresentation())sendPresentation('camera',{camera:publishedCamera,cameraSequence,cameraDuration:duration,cutaway});
   }
   function cameraPanel() {
     const current = viewport.getCamera();
@@ -545,10 +570,10 @@ export async function startApplication() {
       <p class="microcopy">Enquadramentos salvos e publicação usam a duração escolhida. Parar conserva o ponto atual e publica; Cortar chega ao destino imediatamente. A navegação livre conserva a câmera do projetor.</p>
     </section>`;
   }
-  function renderSidebar() {
+  function renderSidebar() { const live=document.getElementById('side-content'),desired=live.cloneNode(true);desired.scrollTop=live.scrollTop;performanceDiagnostics.measure('sidebar',()=>{buildSidebar(desired);reconcileElement(live,desired);}); }
+  function buildSidebar(panel) {
     root.querySelectorAll('[data-tab]').forEach((node) => { const active = node.dataset.tab === tab; node.classList.toggle('active', active); if (node.dataset.tab !== 'assets') node.setAttribute('aria-pressed', String(active)); });
     if (document.getElementById('assets-dialog').open) renderAssets();
-    const panel = document.getElementById('side-content');
     const scroll = panel.scrollTop;
     const focused = panel.contains(document.activeElement) ? document.activeElement.dataset.field : null;
     if (panel.dataset.currentTab === 'scene') rememberDisclosures(panel, sceneDisclosures);
@@ -591,7 +616,7 @@ export async function startApplication() {
       ]);
       restoreDisclosures(panel, sceneDisclosures);
       panel.insertAdjacentHTML('afterbegin', '<div class="workflow-intro"><span class="eyebrow">PREPARAR SUA CENA</span><p>Abra um grupo para ajustar a atmosfera, preparar a apresentação ou organizar os objetos.</p></div>');
-      renderSceneTreeIfVisible();
+      renderSceneTreeIfVisible(panel.querySelector('#scene-tree'));
     }
     if (focused) panel.querySelector(`[data-field="${focused}"]`)?.focus({ preventScroll: true });
     panel.scrollTop = scroll;
@@ -630,8 +655,8 @@ export async function startApplication() {
       }
     } finally { submit.disabled = false; }
   }
-  function renderSceneTreeIfVisible() {
-    const tree = document.getElementById('scene-tree'); if (!tree) return;
+  function renderSceneTreeIfVisible(tree=document.getElementById('scene-tree')) {
+    if (!tree) return;
     const doc = store.document;
     const groups = Object.values(doc.layout?.groups || {});
     const entities = Object.values(doc.layout?.entities || {});
@@ -699,13 +724,18 @@ export async function startApplication() {
     tree.innerHTML = html;
   }
   function renderInspector() {
+    const live=document.getElementById('inspector-content'),desired=live.cloneNode(true),previous=live.dataset.objectId;
+    performanceDiagnostics.measure('inspector',()=>{buildInspector(desired);reconcileElement(live,desired);});
+    if(previous!==live.dataset.objectId)live.scrollTop=0;
+  }
+  function buildInspector(panel) {
     if (!selection) anchorEditing = false;
     if (anchorEditing && !store.document.layout.entities[anchorHostId]) anchorHostId = '';
-    if (anchorEditing) { document.getElementById('inspector-content').innerHTML = anchoringPanel(store.document, [...selectedIds], anchorHostId); return; }
+    if (anchorEditing) { panel.innerHTML = anchoringPanel(store.document, [...selectedIds], anchorHostId); return; }
     if (selection && !selectedIds.has(selection)) selectedIds = new Set([selection]);
     if (!selection) selectedIds.clear();
-    if (selectedIds.size > 1) { document.getElementById('inspector-content').innerHTML = `<section><span class="eyebrow">UNIR OBJETOS</span><button class="wide primary" data-action="assembly-bind">Ancorar objetos juntos</button><p class="microcopy">Cria uma composição que se seleciona, move e gira como uma unidade. Desancore pela pasta para editar os objetos individualmente.</p></section>` + ([...selectedIds].every(objectId => store.document.layout.entities[objectId]?.material && store.document.layout.entities[objectId].water?.state !== 'water') ? `<section><span class=eyebrow>MATERIAIS DA SELEÇÃO</span>${materialTransferControls()}</section>` : '') + polishPanel(selectedIds.size, polishOptions, store.document); viewport.setSelection(selection, [...selectedIds]); return; }
-    const panel = document.getElementById('inspector-content'), found = locate();
+    if (selectedIds.size > 1) { panel.innerHTML = `<section><span class="eyebrow">UNIR OBJETOS</span><button class="wide primary" data-action="assembly-bind">Ancorar objetos juntos</button><p class="microcopy">Cria uma composição que se seleciona, move e gira como uma unidade. Desancore pela pasta para editar os objetos individualmente.</p></section>` + ([...selectedIds].every(objectId => store.document.layout.entities[objectId]?.material && store.document.layout.entities[objectId].water?.state !== 'water') ? `<section><span class=eyebrow>MATERIAIS DA SELEÇÃO</span>${materialTransferControls()}</section>` : '') + polishPanel(selectedIds.size, polishOptions, store.document); viewport.setSelection(selection, [...selectedIds]); return; }
+    const found = locate();
     const scroll = panel.dataset.objectId === selection ? panel.scrollTop : 0;
     panel.dataset.objectId = selection ?? '';
     rememberDisclosures(panel, inspectorDisclosures);
@@ -795,6 +825,7 @@ export async function startApplication() {
   }
 
   function updateView(event = {}) {
+    const contentChanged=event.type!=='saved'||!viewInitialized||event.changes?.name||Boolean(event.changes?.categories?.length);
     const doc = store.document;
     const isMap = doc.documentType === 'map';
     if (selection && !locate()) selection = null;
@@ -812,7 +843,7 @@ export async function startApplication() {
     }
     if (environmentPreview && event.type !== 'saved') { environmentPreview = null; document.getElementById('proposal-bar').hidden = true; }
     if (proposal && event.type !== 'saved') clearProposal();
-    viewport.setDocument(isPresentation ? projectPresentation(environmentPreview?.next ?? doc) : environmentPreview?.next ?? doc);
+    if(contentChanged)performanceDiagnostics.measure('viewportUpdate',()=>viewport.setDocument(isPresentation ? projectPresentation(environmentPreview?.next ?? doc) : environmentPreview?.next ?? doc));
     viewport.setIsolatedLevel(isolatedLevel ? activeLevelId : null);
     viewport.setSupportSurface(activeSurfaceId); viewport.setWorkplaneHeight(buildHeight);
     viewport.setSelection(isPresentation ? null : selection, isPresentation ? [] : [...selectedIds]);
@@ -828,14 +859,20 @@ export async function startApplication() {
     status.textContent = saving ? 'Salvando…' : store.dirty ? 'Alterações locais' : `${repository.storage==='browser'?'Salvo neste navegador':'Salvo'} · revisão ${doc.revision}`;
     status.classList.toggle('unsaved', store.dirty); document.getElementById('save-scene').disabled = saving;
     document.getElementById('scene-summary').textContent = `${Object.keys(doc.layout?.entities || {}).length} elementos · ${Object.keys(doc.tokens || {}).length} tokens · ${Object.keys(doc.look?.lights || doc.defaultLook?.lights || {}).length} luzes · grid ${doc.layout?.grid?.cellSize ?? 1} m`;
-    renderInspector(); renderSidebar(); broadcast();
+    if(contentChanged){
+      const changes=event.changes, categories=changes?.categories??[];
+      if(!changes||changes.full||changes.entities?.includes(selection)||changes.tokens?.includes(selection)||changes.lights?.includes(selection)||changes.actors?.includes(doc.tokens?.[selection]?.actorId)||changes.groups?.length||changes.levels?.length||changes.layers?.length||categories.some(c=>['structure','organization','look','session'].includes(c)))renderInspector();else performanceDiagnostics.count('inspectorSkipped');
+      if(!changes||changes.full||changes.name||categories.some(c=>['structure','organization','metadata','look','camera','grid'].includes(c)))renderSidebar();else performanceDiagnostics.count('sidebarSkipped');
+      broadcast();
+    }
     if (event.type !== 'saved') previews.schedule();
+    viewInitialized=true;
     clearTimeout(draftTimer); draftTimer = setTimeout(flushDraft, 180);
   }
   async function refreshSaved() {
     const [scenesResult, mapsResult] = await Promise.allSettled([
-      repository.list('scene'),
-      repository.list('map'),
+      repository.list('scene',{previews:false}),
+      repository.list('map',{previews:false}),
     ]);
     if (scenesResult.status === 'fulfilled') savedScenes = scenesResult.value;
     if (mapsResult.status === 'fulfilled') savedMaps = mapsResult.value;
@@ -962,7 +999,7 @@ export async function startApplication() {
     }
   }
 
-  function closeDialog() { documentsWindow.close(); }
+  function closeDialog() { previews.cancelLibrary();documentsWindow.close(); }
 
   async function openExample(exampleId) {
     if (!canSwitch()) return;
@@ -1276,7 +1313,8 @@ export async function startApplication() {
     await refreshSaved();
     renderDialogContent();
     documentsWindow.open();
-    previews.ensure([...savedScenes, ...savedMaps]);
+    const visible=new Set([...dialog.querySelectorAll('[data-open], [data-open-map]')].filter(node=>{const a=node.getBoundingClientRect(),b=dialog.getBoundingClientRect();return a.bottom>=b.top&&a.top<=b.bottom;}).map(node=>node.dataset.open??node.dataset.openMap));
+    previews.ensure([...savedScenes, ...savedMaps],{visibleIds:visible});
   }
   async function importAsset(file) {
     if (!file) return;
@@ -1572,7 +1610,7 @@ export async function startApplication() {
     if (!selectedEnvironmentId) throw new Error('Selecione um ambiente salvo.');
     return repository.read(selectedEnvironmentId, 'environment');
   }
-  async function refreshEnvironments() { savedEnvironments = await repository.list('environment'); renderSidebar(); }
+  async function refreshEnvironments() { savedEnvironments = await repository.list('environment',{previews:false}); renderSidebar(); }
   async function act(action, metadata = {}) {
     if (!initialized) return;
     if (action.startsWith('brush-preset-')) { await manageBrushPreset(action.slice('brush-preset-'.length)); return; }
@@ -2240,10 +2278,10 @@ export async function startApplication() {
       window.addEventListener('mouseup', onMouseUp);
     });
   }
-  window.addEventListener('pagehide', () => { previews.dispose(); flushDraft(); channel?.close(); viewport.destroy(); repository.dispose?.(); });
+  window.addEventListener('pagehide', () => { previews.dispose(); flushDraft(); store.dispose();performanceDiagnostics.dispose();channel?.close(); viewport.destroy(); repository.dispose?.(); });
   window.addEventListener('beforeunload', (event) => { if (store.dirty) { event.preventDefault(); event.returnValue = ''; } });
 
-  const initial = await Promise.allSettled([repository.assets(), repository.list('scene'), repository.list('map'), drafts.read(), repository.list('environment'), brushPresetRepository.list()]);
+  const initial = await Promise.allSettled([repository.assets(), repository.list('scene',{previews:false}), repository.list('map',{previews:false}), drafts.read(), repository.list('environment',{previews:false}), brushPresetRepository.list()]);
   if (initial[0].status === 'fulfilled') assets = initial[0].value; else notify(repository.storage==='browser'?`Não foi possível carregar os assets: ${initial[0].reason.message}`:'O servidor local está indisponível. Inicie com npm run dev ou npm start; o trabalho continua como rascunho.', true, true);
   if (initial[1].status === 'fulfilled') savedScenes = initial[1].value;
   if (initial[2].status === 'fulfilled') savedMaps = initial[2].value;
@@ -2274,7 +2312,7 @@ export async function startApplication() {
   }
   // Read-only diagnostics for browser verification; no backdoor mutations.
   if (import.meta.env.DEV || new URLSearchParams(location.search).has('diagnostics')) {
-    Object.defineProperty(window, '__tabletop', { value: Object.freeze({ snapshot: () => clone(store.document), project: (position) => viewport.project(position), camera: () => viewport.getCamera(), stats: () => viewport.getInfo(), editVersion: () => store.editVersion, copy: () => copySelection(), paste: () => pasteClipboard() }), configurable: true });
+    Object.defineProperty(window, '__tabletop', { value: Object.freeze({ snapshot: () => clone(store.document), ready:()=>viewport.ready(), project: (position) => viewport.project(position), camera: () => viewport.getCamera(), stats: () => viewport.getInfo(), performance:()=>({app:performanceDiagnostics.snapshot(),viewport:viewport.performance(),store:store.performance(),previews:previews.info()}), resetPerformance:()=>{performanceDiagnostics.reset();viewport.resetPerformance();store.resetPerformance();}, editVersion: () => store.editVersion, copy: () => copySelection(), paste: () => pasteClipboard() }), configurable: true });
   }
 }
 
@@ -2293,25 +2331,28 @@ function startPresentation(root, sessionId) {
   }
   const channel = new BroadcastChannel(`tabletop-presentation-${sessionId}`);
   let sequence = 0, receivedCameraSequence = null;
-  const request = () => channel.postMessage({ version: 1, sessionId, type: 'ready' });
+  const receiverId=id();
+  const request = () => channel.postMessage({ version: 1, sessionId, type: 'ready',receiverId });
+  const heartbeat=setInterval(()=>channel.postMessage({version:1,sessionId,type:'heartbeat',receiverId}),5000);
   const retry = setInterval(request, 1500);
   channel.onmessage = (event) => {
     const data = event.data;
-    if (data?.version !== 1 || data.sessionId !== sessionId || data.type !== 'snapshot' || data.sequence <= sequence) return;
+    if (data?.version !== 1 || data.sessionId !== sessionId || !['snapshot','camera','view'].includes(data.type) || data.sequence <= sequence) return;
     try {
-      validateDocument(data.document); sequence = data.sequence;
-      viewport.setAssets(data.assets); viewport.setDocument(data.document); viewport.setCutaway(data.cutaway);
+      if(data.type==='snapshot'){validateDocument(data.document);viewport.setAssets(data.assets);viewport.setDocument(trustSnapshot(data.document));document.title=`${data.document.name} — apresentação`;}
+      else if(receivedCameraSequence===null){request();return;}
+      sequence=data.sequence;viewport.setCutaway(data.cutaway);
       if (data.camera && data.cameraSequence !== receivedCameraSequence) {
         const duration = receivedCameraSequence === null ? 0 : Number(data.cameraDuration) || 0;
         viewport.setCamera(data.camera, { duration }); receivedCameraSequence = data.cameraSequence;
       }
-      document.title = `${data.document.name} — apresentação`; document.getElementById('presentation-message').hidden = true; clearInterval(retry);
+      document.getElementById('presentation-message').hidden = true; clearInterval(retry);
     } catch (error) { document.getElementById('presentation-message').textContent = error.message; }
   };
   let effectsEnabled = true;
   document.getElementById('presentation-quality').onchange=e=>viewport.setLightingQuality(e.target.value);
   document.getElementById('presentation-effects').onclick = event => { effectsEnabled = !effectsEnabled; viewport.setEffectsEnabled(effectsEnabled); event.currentTarget.setAttribute('aria-pressed', String(effectsEnabled)); };
   document.getElementById('presentation-fullscreen').onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
-  window.addEventListener('pagehide', () => { clearInterval(retry); channel.close(); viewport.destroy(); });
+  window.addEventListener('pagehide', () => { clearInterval(retry);clearInterval(heartbeat);channel.postMessage({version:1,sessionId,type:'closed',receiverId});channel.close();viewport.destroy(); });
   request();
 }

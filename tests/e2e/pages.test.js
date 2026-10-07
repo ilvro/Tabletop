@@ -115,7 +115,7 @@ test('browser repository validates documents/assets, serializes conflicts and ab
     const updated=(await a.assets()).find(asset=>asset.id===builtin.id);statuses.push(await rejection(()=>a.updateAssetMetadata(updated,{url:'/fake'})));
     statuses.push(await rejection(()=>a.importAsset(new File(['bad'],'asset.exe'))));statuses.push(await rejection(()=>a.importAsset(new File(['bad'],'asset.glb'))));
     let revision=after;for(let i=0;i<7;i++)revision=await a.save({...revision,name:`Revisão ${i}`});
-    const backups=await new Promise((resolve,reject)=>{const request=indexedDB.open(databaseName,1);request.onsuccess=()=>{const db=request.result,tx=db.transaction('backups'),r=tx.objectStore('backups').getAll();r.onsuccess=()=>resolve(r.result);tx.oncomplete=()=>db.close();};request.onerror=()=>reject(request.error);});
+    const backups=await new Promise((resolve,reject)=>{const request=indexedDB.open(databaseName);request.onsuccess=()=>{const db=request.result,tx=db.transaction('backups'),r=tx.objectStore('backups').getAll();r.onsuccess=()=>resolve(r.result);tx.oncomplete=()=>db.close();};request.onerror=()=>reject(request.error);});
     await a.remove(copy);const scenes=await a.list('scene'),maps=await a.list('map'),environments=await a.list('environment');
     const reloaded=createBrowserRepository({databaseName}),assetAgain=(await reloaded.assets()).find(asset=>asset.id===imported.id);const reloadedBlob=(await(await fetch(assetAgain.url)).blob()).size;
     const storedCover=scenes.find(doc=>doc.id===current.id);

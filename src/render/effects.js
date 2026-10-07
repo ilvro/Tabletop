@@ -119,7 +119,7 @@ class HeightFogPass extends ShaderPass {
 }
 
 /** Lazy optional GPU pipeline. Each viewport owns and can suppress its effects. */
-export function createEffectsPipeline(renderer, scene) {
+export function createEffectsPipeline(renderer, scene, { offscreen = false } = {}) {
   const zones=createLightingZones();let activeZones=zones,sources=[],quality={steps:12},tier='balanced',fallbackDepth;
   let composer, renderPass, volumePass, bloomPass, outputPass,aoPass;
   let currentLook = {}, enabled = true, width = 1, height = 1,hadLocalFog=false;
@@ -133,8 +133,8 @@ export function createEffectsPipeline(renderer, scene) {
     currentLook = look;
     const localFog=activeZones.uniforms.zoneFog.value.slice(0,activeZones.uniforms.zoneCount.value).some(v=>v.w>0);
     hadLocalFog=localFog;
-    const ao=look.rendering?.ao&&tier!=='economy';
-    if (!enabled || !(look.volumetricFog?.enabled || look.bloom?.enabled||localFog||ao)) { dispose(); return; }
+    const ao=enabled&&look.rendering?.ao&&tier!=='economy';
+    if (!offscreen && (!enabled || !(look.volumetricFog?.enabled || look.bloom?.enabled||localFog||ao))) { dispose(); return; }
     if (!composer) {
       const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, depthTexture: new THREE.DepthTexture(1, 1) });
       composer = new EffectComposer(renderer, target);
@@ -148,7 +148,7 @@ export function createEffectsPipeline(renderer, scene) {
       composer.addPass(renderPass); composer.addPass(volumePass); composer.addPass(outputPass);
       composer.setSize(width, height);
     }
-    volumePass.enabled = Boolean(look.volumetricFog?.enabled||localFog);
+    volumePass.enabled = enabled&&Boolean(look.volumetricFog?.enabled||localFog);
     const f=look.volumetricFog;
     volumePass.uniforms.fogColor.value.set(f?.color??'#9daac2');
     Object.assign(volumePass.uniforms.density,{value:f?.enabled?f.density:0});
@@ -161,10 +161,10 @@ export function createEffectsPipeline(renderer, scene) {
       composer.insertPass(aoPass,2);}
     else if(!ao&&aoPass){composer.removePass(aoPass);aoPass.dispose();aoPass=null;}
     if(aoPass){aoPass.blendIntensity=look.rendering.aoIntensity??.35;aoPass.updateGtaoMaterial({radius:look.rendering.aoRadius??.6});aoPass.setSize(Math.max(1,width/2|0),Math.max(1,height/2|0));}
-    if (look.bloom?.enabled && !bloomPass) {
+    if (enabled && look.bloom?.enabled && !bloomPass) {
       bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height));
       composer.insertPass(bloomPass, composer.passes.length - 1);
-    } else if (!look.bloom?.enabled && bloomPass) {
+    } else if ((!enabled || !look.bloom?.enabled) && bloomPass) {
       composer.removePass(bloomPass); bloomPass.dispose(); bloomPass = null;
     }
     if (bloomPass) Object.assign(bloomPass, { strength: look.bloom.strength, radius: look.bloom.radius, threshold: look.bloom.threshold });
@@ -179,14 +179,15 @@ export function createEffectsPipeline(renderer, scene) {
     },
     setEnabled(value) { enabled = value; configure(); },
     resize(w, h) { if (width === w && height === h) return; width = w; height = h; composer?.setSize(w, h);aoPass?.setSize(Math.max(1,w/2|0),Math.max(1,h/2|0)); },
-    render(camera, seconds) {
+    render(camera, seconds, target = null) {
       if (!composer) { renderer.render(scene, camera); return; }
       camera.updateMatrixWorld();
       renderPass.camera = camera;
       if(aoPass){aoPass.camera=camera;const perspective=camera.isPerspectiveCamera?1:0;if(aoPass.gtaoMaterial.defines.PERSPECTIVE_CAMERA!==perspective){aoPass.gtaoMaterial.defines.PERSPECTIVE_CAMERA=perspective;aoPass.gtaoMaterial.needsUpdate=true;}}
       volumePass.uniforms.inverseProjection.value.copy(camera.projectionMatrixInverse);
       volumePass.uniforms.cameraWorld.value.copy(camera.matrixWorld);
-      composer.render(seconds);
+      const previous=renderer.getRenderTarget();composer.renderToScreen=!target;
+      try{composer.render(seconds);if(target){composer.copyPass.renderToScreen=false;composer.copyPass.render(renderer,target,composer.readBuffer);}}finally{renderer.setRenderTarget(previous);}
     },
     info() { return { enabled, bloom: Boolean(composer && bloomPass), volumetricFog: Boolean(composer && volumePass.enabled), ao:!!aoPass,scattering:!!composer&&volumePass.uniforms.scattering.value,steps:quality.steps,pixelRatio: Math.min(renderer.getPixelRatio(), 1) }; },
     dispose,

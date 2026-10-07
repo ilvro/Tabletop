@@ -1,3 +1,4 @@
+import { isTrustedSnapshot } from '../state/immutable.js';
 import { LIGHT_PROFILES, LIGHT_PIN_FIELDS, PROJECTIONS, RENDERING_DEFAULTS } from './dynamic-lighting.js';
 import {assertRockSculpt,isSculptableRock} from './rock-sculpt.js';
 import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES } from './materials.js';
@@ -446,6 +447,7 @@ function look(value, path, document, seen) {
 }
 
 export function validateDocument(document) {
+  if (isTrustedSnapshot(document)) return document;
   const path = 'document';
   record(document, path);
   fail([1, 2].includes(document.schemaVersion), 'Versão de schema incompatível.', `${path}.schemaVersion`);

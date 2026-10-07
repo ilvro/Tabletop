@@ -1,3 +1,4 @@
+import { createDraft, finishDraft } from './immutable.js';
 import { clone, id, createLevel, createLayer, createLight } from '../domain/documents.js';
 import { assemblyMembers, assemblyClosure, assemblyFor, objectById, objectTransform, transformMatrix, transformByMatrix } from '../domain/assemblies.js';
 import { yawFromQuaternion, rotateXZ, snapPosition, multiplyQuaternions } from '../domain/coords.js';
@@ -33,6 +34,7 @@ function put(collection, record) {
 }
 function bakeStructuralScale(entity) {
   if (!['floor', 'terrain', 'wall', 'stairs', 'ramp', 'water'].includes(entity.kind)) return;
+  if (entity.transform.scale.every(value => value === 1)) return;
   const [x, y, z] = entity.transform.scale;
   if (entity.kind === 'floor' || entity.kind === 'water') { entity.width *= x; entity.length *= z; if(entity.kind==='water') entity.depth *= y; else entity.thickness *= y; if (entity.vertices) entity.vertices = entity.vertices.map(p => [p[0] * x, p[1] * z]); if (entity.holes) entity.holes = entity.holes.map(ring => ring.map(p => [p[0] * x, p[1] * z])); }
   else if (entity.kind === 'terrain') { entity.width *= x; entity.length *= z; entity.heights = entity.heights.map(h => h * y); }
@@ -232,7 +234,7 @@ function carrySupports(document, previous, next) {
     const s = Math.sin(half), c = Math.cos(half);
     transform.rotation = [c * x + s * z, c * y + s * w, c * z - s * x, c * w - s * y];
   };
-  if (before.every((v, i) => v === after[i]) && Math.abs(deltaYaw) < 1e-8 && !(isAccess(next) && ['height', 'length', 'steps'].some(key => previous[key] !== next[key])) && !(next.kind === 'terrain' && ['heights', 'width', 'length', 'material', 'snowMask'].some(key => JSON.stringify(previous[key]) !== JSON.stringify(next[key])))) return;
+  if (before.every((v, i) => v === after[i]) && Math.abs(deltaYaw) < 1e-8 && !(isAccess(next) && ['height', 'length', 'steps'].some(key => previous[key] !== next[key])) && !(next.kind === 'terrain' && ['heights', 'width', 'length', 'material', 'snowMask'].some(key => previous[key] !== next[key] && JSON.stringify(previous[key]) !== JSON.stringify(next[key])))) return;
   const supports = dependentIds(document, previous.id); supports.delete(previous.id);
   const heightDeltas = new Map();
   const settle = record => {
@@ -325,10 +327,10 @@ function duplicateLevel(document, payload) {
 }
 
 /** Pure atomic command application. Meshes, camera gestures and side effects stay outside. */
-export function applyCommand(document, command) {
-  validateDocument(document);
+export function applyCommand(document, command, diagnostics) {
+  if(diagnostics)diagnostics.measure('validation',()=>validateDocument(document));else validateDocument(document);
   if (command.documentId && command.documentId !== document.id) throw new ValidationError('O comando pertence a outro documento.');
-  let next = clone(document); const payload = command.payload ?? {}, look = next.look ?? next.defaultLook;
+  let next = createDraft(document); const payload = command.payload ?? {}, look = next.look ?? next.defaultLook;
   switch (command.type) {
     case 'level.add': case 'layer.add': {
       const field = command.type.startsWith('level') ? 'levels' : 'layers'; next.layout[field] ??= {};
@@ -594,17 +596,19 @@ export function applyCommand(document, command) {
       }
       for (const operation of proposal.removals ?? []) {
         if (!['entity', 'light', 'token'].includes(operation.kind)) throw new ValidationError('Tipo de remoção inválido.');
-        next = applyCommand(next, { type: `${operation.kind}.remove`, payload: { id: operation.id } });
+        next = createDraft(applyCommand(next, { type: `${operation.kind}.remove`, payload: { id: operation.id } }));
       }
       for (const operation of proposal.updates ?? []) {
         if (!['entity', 'light', 'token'].includes(operation.kind)) throw new ValidationError('Tipo de ajuste inválido.');
-        next = applyCommand(next, { type: `${operation.kind}.update`, payload: { id: operation.id, patch: operation.patch, snap: false } });
+        next = createDraft(applyCommand(next, { type: `${operation.kind}.update`, payload: { id: operation.id, patch: operation.patch, snap: false } }));
       }
       for (const record of proposal.compositions ?? []) next.layout.compositions[record.id] = clone(record);
       break;
     }
     default: throw new ValidationError(`Comando desconhecido: ${command.type}.`);
   }
-  refreshAnchors(next);
-  return validateDocument(next);
+  const placementUnchanged=command.type==='scene.rename'||command.type==='entity.update'&&Object.keys(payload.patch??{}).every(key=>['name','tags','locked','illumination','lightingZone','audience','visible'].includes(key));
+  if(!placementUnchanged)refreshAnchors(next);
+  next=diagnostics?diagnostics.measure('snapshotFinalization',()=>finishDraft(next)):finishDraft(next);
+  return diagnostics?diagnostics.measure('validation',()=>validateDocument(next)):validateDocument(next);
 }

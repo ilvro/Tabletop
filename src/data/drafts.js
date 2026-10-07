@@ -1,4 +1,5 @@
 import { storageScope } from './paths.js';
+import { isTrustedSnapshot } from '../state/immutable.js';
 const scope = storageScope()==='/'?'':':'+storageScope();
 const DB_NAME = 'tabletop-recovery-v1'+scope;
 const STORE_NAME = 'drafts';
@@ -60,7 +61,7 @@ export const drafts = {
     // Dismiss compares savedAt; guarantee two writes from this tab have distinct
     // timestamps even when they happen during the same millisecond.
     lastWriteTime = Math.max(Date.now(), lastWriteTime + 1);
-    const entry = { document: structuredClone(document), savedAt: new Date(lastWriteTime).toISOString(), slotId };
+    const entry = { document:isTrustedSnapshot(document)?document:structuredClone(document), savedAt: new Date(lastWriteTime).toISOString(), slotId };
     return transact('readwrite', (store, result) => {
       const request = store.put(entry, slotId);
       request.onsuccess = () => result(entry);

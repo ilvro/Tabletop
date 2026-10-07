@@ -9,11 +9,14 @@ export function snowOccluders(objects) {
     if(child.isMesh && !child.userData.decorative && !child.userData.waterUniforms && child.geometry?.attributes.position)result.push({mesh:child,bounds:new THREE.Box3().setFromObject(child)});
   });return result;
 }
+const exposureCache=new WeakMap();
 /** Vertical sky test against actual roof/arch geometry, including branches of the same tree. */
 export function createExposureTest(occluders) {
   // Vertical rays need only XZ projection and barycentric height. A local grid avoids
   // scanning every needle of a merged canopy for every snow triangle.
   const indexed=occluders.map(({mesh,bounds})=>{
+    const previous=exposureCache.get(mesh),version=mesh.geometry.attributes.position.version,indexVersion=mesh.geometry.index?.version;
+    if(previous?.geometry===mesh.geometry&&previous.version===version&&previous.indexVersion===indexVersion&&previous.matrix.equals(mesh.matrixWorld))return previous.index;
     const size=bounds.getSize(new THREE.Vector3()),cell=Math.max(.15,Math.max(size.x,size.z)/24),bins=new Map(),p=mesh.geometry.attributes.position,index=mesh.geometry.index,count=index?.count??p.count;
     for(let i=0;i<count;i+=3) {
       const [a,b,c]=[0,1,2].map(j=>new THREE.Vector3().fromBufferAttribute(p,index?index.getX(i+j):i+j).applyMatrix4(mesh.matrixWorld).toArray());
@@ -22,7 +25,7 @@ export function createExposureTest(occluders) {
       const minX=Math.floor((Math.min(a[0],b[0],c[0])-bounds.min.x)/cell),maxX=Math.floor((Math.max(a[0],b[0],c[0])-bounds.min.x)/cell),minZ=Math.floor((Math.min(a[2],b[2],c[2])-bounds.min.z)/cell),maxZ=Math.floor((Math.max(a[2],b[2],c[2])-bounds.min.z)/cell);
       for(let x=minX;x<=maxX;x++)for(let z=minZ;z<=maxZ;z++){const key=`${x}:${z}`;if(!bins.has(key))bins.set(key,[]);bins.get(key).push(tri);}
     }
-    return {bounds,cell,bins};
+    const indexData={bounds,cell,bins};exposureCache.set(mesh,{geometry:mesh.geometry,version,indexVersion,matrix:mesh.matrixWorld.clone(),index:indexData});return indexData;
   });
   return ([x,y,z])=> {
     for(const {bounds:b,cell,bins} of indexed) {

@@ -9,13 +9,16 @@ import { createProfileGeometry } from './architectural-primitives.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { surfacePreset } from '../domain/materials.js';
 
-/** Resource owners are explicit: cached models own shared textures; each instance owns its geometry/material. */
+const sharedGeometryOwners=new WeakMap();
+export function releaseGeometry(geometry,owners=1){const state=sharedGeometryOwners.get(geometry);if(!state){geometry.dispose();return;}state.refs-=owners;if(state.refs===0){sharedGeometryOwners.delete(geometry);geometry.dispose();}}
+
+/** Templates and each mesh own geometry references; instances own their materials. */
 export function disposeObject(object, { includeSharedTextures = false } = {}) {
-  const geometries = new Set();
+  const geometries = new Map();
   const materials = new Set();
   const textures = new Set();
   object.traverse((child) => {
-    if (child.geometry) geometries.add(child.geometry);
+    if (child.geometry) geometries.set(child.geometry,(geometries.get(child.geometry)??0)+1);
     const list = child.material ? (Array.isArray(child.material) ? child.material : [child.material]) : [];
     for (const material of list) {
       materials.add(material);
@@ -25,7 +28,7 @@ export function disposeObject(object, { includeSharedTextures = false } = {}) {
     }
     if (child.shadow?.map) child.shadow.map.dispose();
   });
-  for (const geometry of geometries) geometry.dispose();
+  for (const [geometry,owners] of geometries) releaseGeometry(geometry,sharedGeometryOwners.has(geometry)?owners:1);
   for (const material of materials) material.dispose();
   for (const texture of textures) { texture.dispose(); texture.source?.data?.close?.(); }
   object.removeFromParent();
@@ -133,7 +136,7 @@ function modelInstance(original, record) {
 }
 
 export function createAssetCache() {
-  const entries = new Map(), sculpted = new Map();
+  const entries = new Map(), sculpted = new Map(), templates = new Map();
   const modelLoader = new GLTFLoader();
   const textureLoader = new THREE.TextureLoader();
   let destroyed = false;
@@ -188,7 +191,15 @@ export function createAssetCache() {
     async createInstance(record, rockShape = null, vegetationSeed = null, rockSculpt = null) {
       const resource = await load(record);
       if (record.type === 'recipe') {
-        if(!rockSculpt?.stamps.length)return recipeInstance(resource,rockShape,record.bounds,vegetationSeed);
+        if(!rockSculpt?.stamps.length){
+          const assetKey=keyOf(record),key=JSON.stringify([assetKey,record.bounds,rockShape,vegetationSeed]);
+          let entry=templates.get(key);
+          if(!entry){const root=recipeInstance(resource,rockShape,record.bounds,vegetationSeed);root.traverse(mesh=>{if(mesh.geometry){const state=sharedGeometryOwners.get(mesh.geometry);if(state)state.refs++;else sharedGeometryOwners.set(mesh.geometry,{refs:1});}});entry={assetKey,root};}
+          templates.delete(key);templates.set(key,entry);
+          const instance=entry.root.clone(true);instance.traverse(mesh=>{if(!mesh.isMesh)return;sharedGeometryOwners.get(mesh.geometry).refs++;mesh.material=Array.isArray(mesh.material)?mesh.material.map(m=>m.clone()):mesh.material.clone();});
+          while(templates.size>32){const oldest=templates.keys().next().value;disposeObject(templates.get(oldest).root);templates.delete(oldest);}
+          return instance;
+        }
         // CPU templates avoid replaying long sculpt histories on unrelated scene edits.
         const assetKey=keyOf(record),key=JSON.stringify([assetKey,record.bounds,rockShape,vegetationSeed,rockSculpt]);
         let entry=sculpted.get(key);
@@ -207,9 +218,10 @@ export function createAssetCache() {
     texture: load,
     prune(records) {
       const used = new Set(records.map(keyOf));
+      for(const [key,entry] of templates)if(!used.has(entry.assetKey)){disposeObject(entry.root);templates.delete(key);}
       for(const [key,entry] of sculpted)if(!used.has(entry.assetKey)){disposeObject(entry.root);sculpted.delete(key);}
       for (const [key, entry] of entries) if (!used.has(key)) { entries.delete(key); release(entry); }
     },
-    destroy() { destroyed = true; for(const entry of sculpted.values())disposeObject(entry.root);sculpted.clear();for (const entry of entries.values()) release(entry); entries.clear(); },
+    destroy() { destroyed = true;for(const entry of templates.values())disposeObject(entry.root);templates.clear(); for(const entry of sculpted.values())disposeObject(entry.root);sculpted.clear();for (const entry of entries.values()) release(entry); entries.clear(); },
   };
 }

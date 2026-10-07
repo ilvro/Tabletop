@@ -1,5 +1,8 @@
+import { freezeSnapshot, isTrustedSnapshot } from '../state/immutable.js';
+const projectionCache=new WeakMap();
 /** Filter before sending. A clean viewport is separate from the master document. */
 export function projectPresentation(document) {
+  if(isTrustedSnapshot(document)&&projectionCache.has(document))return projectionCache.get(document);
   const copy = structuredClone(document);
   const entities = copy.layout.entities;
   const groups = copy.layout.groups;
@@ -55,6 +58,7 @@ export function projectPresentation(document) {
     copy.sessionState.doors = Object.fromEntries(Object.entries(copy.sessionState.doors).filter(([id]) => entities[id]));
     copy.cameraPresets = {}; copy.audioCue = null; copy.sourceMap = null; copy.sourceEnvironment = null;
   }
+  if(isTrustedSnapshot(document))projectionCache.set(document,freezeSnapshot(copy));
   return copy;
 }
 

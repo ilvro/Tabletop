@@ -127,7 +127,8 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
   // Terrain color is composed in the fragment shader, retaining legacy masks and their ordering.
   if (texturedTerrain) material.vertexColors = false;
   const relief = settings.relief ?? preset?.relief ?? .03;
-  const previous = material.onBeforeCompile;
+  const previous = material.onBeforeCompile, previousKey=material.customProgramCacheKey();
+  const precision=value=>Number(Number(value).toFixed(6));
   material.onBeforeCompile = shader => {
     previous.call(material,shader);
     Object.assign(shader.uniforms, { surfaceAlbedo:{value:atlas.albedo}, surfaceDetails:{value:atlas.details}, surfaceLayout:{value:new THREE.Vector2(atlas.columns,atlas.rows)}, surfaceIndex:{value:preset?atlas.index(settings):-1}, surfaceSize:{value:settings.textureSize??preset?.size??2}, surfaceRelief:{value:relief} });
@@ -140,25 +141,26 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
     let compose = `vec3 surfaceColor = vec3(1.0); float surfaceHeight = .5, surfaceRoughness = 1.0, surfaceMetalness = 1.0;
       if(surfaceIndex >= 0.0) { surfaceColor = ${customize(baseSample('surfaceAlbedo')+'.rgb')}; vec4 d = ${baseSample('surfaceDetails')}; surfaceHeight=d.r; surfaceRoughness=d.g; surfaceMetalness=d.b; }`;
     // A world-space mineral field prevents repeated tiles from repeating their broad colour.
-    const organic=(s,color,height)=>s.texture==='rock'&&s.rockPattern==='organic'?`{float mineral=surfaceNoise(surfacePosition/${Number((s.textureSize??3)*1.8).toFixed(6)}+vec3(${Number((s.textureSeed??0)*.017).toFixed(6)})); ${color}*=.72+mineral*.55; ${height}+=(mineral-.5)*.12;}`:'';
-    compose+=organic(settings,'surfaceColor','surfaceHeight');
+    const organic=(s,color,height,prefix)=>{if(s.texture!=='rock'||s.rockPattern!=='organic')return '';shader.uniforms[`${prefix}Mineral`]={value:new THREE.Vector2(precision((s.textureSize??3)*1.8),precision((s.textureSeed??0)*.017))};shader.fragmentShader=`uniform vec2 ${prefix}Mineral;\n`+shader.fragmentShader;return `{float mineral=surfaceNoise(surfacePosition/${prefix}Mineral.x+vec3(${prefix}Mineral.y)); ${color}*=.72+mineral*.55; ${height}+=(mineral-.5)*.12;}`;};
+    compose+=organic(settings,'surfaceColor','surfaceHeight','base');
     if(texturedTerrain) {
       shader.vertexShader = 'attribute vec4 surfaceMaskA, surfaceMaskB; varying vec4 maskA, maskB;\n'+shader.vertexShader;
       shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nmaskA=surfaceMaskA; maskB=surfaceMaskB;');
       shader.fragmentShader = 'varying vec4 maskA, maskB;\n'+shader.fragmentShader;
-      compose += `surfaceColor *= vec3(${new THREE.Color(settings.color).toArray().join(',')});`;
+      shader.uniforms.terrainTint={value:new THREE.Color(settings.color)};shader.fragmentShader='uniform vec3 terrainTint;\n'+shader.fragmentShader;
+      compose += 'surfaceColor *= terrainTint;';
       active.forEach((layer,i) => {
         const p=surfacePreset(layer.texture), index=p?atlas.index(layer):-1, tint=new THREE.Color(layer.color);
-        shader.uniforms[`layerColor${i}`]={value:tint};
-        shader.fragmentShader = `uniform vec3 layerColor${i};\n`+shader.fragmentShader;
+        Object.assign(shader.uniforms,{[`layerColor${i}`]:{value:tint},[`layerOpacity${i}`]:{value:precision(layer.opacity)},[`layerSize${i}`]:{value:precision(layer.textureSize??p?.size??2)},[`layerIndex${i}`]:{value:index}});
+        shader.fragmentShader = `uniform vec3 layerColor${i};uniform float layerOpacity${i},layerSize${i},layerIndex${i};\n`+shader.fragmentShader;
         const automatic=layer.distribution && layer.distribution.mode!=='paint';
-        const weight=`${automatic?distribution(shader,`distribution${i}`,layer.distribution):`${i<4?'maskA':'maskB'}[${i%4}]`} * ${Number(layer.opacity).toFixed(6)}`;
+        const weight=`${automatic?distribution(shader,`distribution${i}`,layer.distribution):`${i<4?'maskA':'maskB'}[${i%4}]`} * layerOpacity${i}`;
         compose += `{ float w = clamp(${weight},0.0,1.0); vec3 c=layerColor${i}; float h=.5, r=1.0, m=1.0;`;
         if(p) {
           const custom=customization(shader,`paint${i}`,layer);
-          const sample=channel=>`surfaceSample(${channel},${index}.0,${Number(layer.textureSize??p.size).toFixed(6)},paint${i}Rotation)`;
+          const sample=channel=>`surfaceSample(${channel},layerIndex${i},layerSize${i},paint${i}Rotation)`;
           compose += `c *= ${custom(sample('surfaceAlbedo')+'.rgb')}; vec4 d=${sample('surfaceDetails')}; h=d.r; r=d.g; m=d.b;`;
-          compose+=organic(layer,'c','h');
+          compose+=organic(layer,'c','h',`layer${i}`);
         }
         if(!p && preset) compose += `c *= ${customize(baseSample('surfaceAlbedo')+'.rgb')}; vec4 d=${baseSample('surfaceDetails')}; h=d.r; r=d.g; m=d.b;`;
         compose += 'surfaceColor=mix(surfaceColor,c,w); surfaceHeight=mix(surfaceHeight,h,w); surfaceRoughness=mix(surfaceRoughness,r,w); surfaceMetalness=mix(surfaceMetalness,m,w); }';
@@ -172,17 +174,17 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
         shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nsnowWeight=surfaceSnowWeight;');
         shader.fragmentShader='varying float snowWeight;\n'+shader.fragmentShader; weight='snowWeight';
       }
-      shader.uniforms.coverageTint={value:new THREE.Color(coverage.color)};
-      shader.fragmentShader='uniform vec3 coverageTint;\n'+shader.fragmentShader;
-      finish+=`float coverWeight=${weight}*${Number(terrain && coverage.physicalThickness>0?1:coverage.amount).toFixed(6)};
-        vec3 coverColor=surfaceSample(surfaceAlbedo,${index}.0,${Number(coverage.textureSize).toFixed(6)},0.0).rgb*coverageTint;
-        vec4 coverDetails=surfaceSample(surfaceDetails,${index}.0,${Number(coverage.textureSize).toFixed(6)},0.0);
+      Object.assign(shader.uniforms,{coverageTint:{value:new THREE.Color(coverage.color)},coverageValues:{value:new THREE.Vector4(index,precision(coverage.textureSize),precision(terrain&&coverage.physicalThickness>0?1:coverage.amount),precision(coverage.relief))},coverageFinish:{value:new THREE.Vector2(precision(coverPreset.roughness),precision(coverPreset.metalness))}});
+      shader.fragmentShader='uniform vec3 coverageTint;uniform vec4 coverageValues;uniform vec2 coverageFinish;\n'+shader.fragmentShader;
+      finish+=`float coverWeight=${weight}*coverageValues.z;
+        vec3 coverColor=surfaceSample(surfaceAlbedo,coverageValues.x,coverageValues.y,0.0).rgb*coverageTint;
+        vec4 coverDetails=surfaceSample(surfaceDetails,coverageValues.x,coverageValues.y,0.0);
         diffuseColor.rgb=mix(diffuseColor.rgb,coverColor,coverWeight);
-        surfaceBumpHeight=mix(surfaceBumpHeight,coverDetails.r*${Number(coverage.relief).toFixed(6)},coverWeight);`;
+        surfaceBumpHeight=mix(surfaceBumpHeight,coverDetails.r*coverageValues.w,coverWeight);`;
     }
     shader.fragmentShader = shader.fragmentShader.replace('#include <map_fragment>', '#include <map_fragment>\n'+compose+'\n'+finish);
-    shader.fragmentShader = shader.fragmentShader.replace('#include <roughnessmap_fragment>','#include <roughnessmap_fragment>\nroughnessFactor *= surfaceRoughness;'+(coverPreset?`\nroughnessFactor=mix(roughnessFactor,coverDetails.g*${coverPreset.roughness.toFixed(6)},coverWeight);`:''));
-    shader.fragmentShader = shader.fragmentShader.replace('#include <metalnessmap_fragment>','#include <metalnessmap_fragment>\nmetalnessFactor *= surfaceMetalness;'+(coverPreset?`\nmetalnessFactor=mix(metalnessFactor,coverDetails.b*${coverPreset.metalness.toFixed(6)},coverWeight);`:''));
+    shader.fragmentShader = shader.fragmentShader.replace('#include <roughnessmap_fragment>','#include <roughnessmap_fragment>\nroughnessFactor *= surfaceRoughness;'+(coverPreset?`\nroughnessFactor=mix(roughnessFactor,coverDetails.g*coverageFinish.x,coverWeight);`:''));
+    shader.fragmentShader = shader.fragmentShader.replace('#include <metalnessmap_fragment>','#include <metalnessmap_fragment>\nmetalnessFactor *= surfaceMetalness;'+(coverPreset?`\nmetalnessFactor=mix(metalnessFactor,coverDetails.b*coverageFinish.y,coverWeight);`:''));
     // A derivative-based height perturbation works without UVs on procedural structures/terrain.
     shader.fragmentShader = shader.fragmentShader.replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
       vec3 q0=dFdx(-vViewPosition), q1=dFdy(-vViewPosition);
@@ -190,7 +192,9 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
       vec3 gradient=sign(det)*(dFdx(surfaceBumpHeight)*r0+dFdy(surfaceBumpHeight)*r1);
       normal=normalize(max(abs(det),1e-12)*normal-gradient);`);
   };
-  material.customProgramCacheKey = () => `surface-v2:${JSON.stringify({settings,active:active.map(({weights,...layer})=>layer),terrain:!!texturedTerrain})}`;
+  const structure={base:!!preset,organic:settings.texture==='rock'&&settings.rockPattern==='organic',terrain:!!texturedTerrain,layers:texturedTerrain?active.map(l=>({textured:!!surfacePreset(l.texture),automatic:!!l.distribution&&l.distribution.mode!=='paint',organic:l.texture==='rock'&&l.rockPattern==='organic'})):[],coverage:!!coverPreset,physical:!!terrain&&coverage?.physicalThickness>0};
+  const programKey=`surface-v3:${previousKey}:${JSON.stringify(structure)}`;
+  material.customProgramCacheKey = () => programKey;
   material.needsUpdate=true;
 }
 
@@ -219,8 +223,9 @@ export function applySurfaceTextures(object, entity, library) {
 export function terrainTextureMasks(geometry, entity) {
   const layers=(entity.paintLayers??[]).filter(l=>l.visible).slice(0,8), count=entity.heights.length;
   for(let group=0;group<2;group++) {
-    const data=new Float32Array(count*4);
+    const name=group?'surfaceMaskB':'surfaceMaskA', previous=geometry.getAttribute(name);
+    const data=previous?.count===count?previous.array:new Float32Array(count*4);
     for(let i=0;i<count;i++) for(let c=0;c<4;c++) data[i*4+c]=layers[group*4+c]?.weights[i]??0;
-    geometry.setAttribute(group?'surfaceMaskB':'surfaceMaskA',new THREE.BufferAttribute(data,4));
+    if(previous?.array===data)previous.needsUpdate=true;else geometry.setAttribute(name,new THREE.BufferAttribute(data,4));
   }
 }
