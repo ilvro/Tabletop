@@ -5,6 +5,7 @@ import { createRopeGeometry,createRingGeometry } from './mountain-primitives.js'
 import { createRockGeometry } from './rock-geometry.js';
 import { createArchGeometry,createFoliageGeometry } from './landscape-geometry.js';
 import {createBranchGeometry,createConiferGeometry,createTimberGeometry,createStaveGeometry} from './botanical-primitives.js';
+import { createProfileGeometry } from './architectural-primitives.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { surfacePreset } from '../domain/materials.js';
 
@@ -31,12 +32,16 @@ export function disposeObject(object, { includeSharedTextures = false } = {}) {
 }
 
 export function standardMaterial(properties = {}) {
+  const opacity = Number.isFinite(properties.opacity) ? THREE.MathUtils.clamp(properties.opacity, 0, 1) : 1;
   return new THREE.MeshStandardMaterial({
     color: properties.color ?? '#9b947e',
     roughness: properties.roughness ?? 0.82,
     metalness: properties.metalness ?? 0,
     emissive: properties.emissive ?? '#000000',
     emissiveIntensity: properties.emissiveIntensity ?? 0,
+    opacity,
+    transparent: opacity < 1,
+    depthWrite: opacity === 1,
     side: THREE.DoubleSide,
   });
 }
@@ -60,6 +65,7 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null, ve
         case 'branch': geometry=createBranchGeometry({...part,...(vegetationSeed!=null?{seed:(vegetationSeed+(part.seed??0))%65536}:{})});break;
         case 'timber': geometry=createTimberGeometry(part);break;
         case 'stave': geometry=createStaveGeometry(part);break;
+        case 'profile': geometry=createProfileGeometry(part);break;
         default: throw new Error(`Forma de receita não suportada: ${part.shape}.`);
       }
       const mesh = new THREE.Mesh(geometry, standardMaterial(recipe.materials?.[part.material]));
@@ -69,7 +75,7 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null, ve
       if (part.rotation) mesh.rotation.set(...part.rotation);
       if(vegetationSeed!=null && part.rotation) {const jitter=(Math.sin(vegetationSeed*1.19+group.children.length*7.13)-Math.sin(group.children.length*7.13))*.09;mesh.rotation.y+=jitter;mesh.rotation.z+=jitter*.5;}
       mesh.userData.materialSlot = part.material ?? 'base';
-      mesh.castShadow = true;
+      mesh.castShadow = !mesh.material.transparent;
       mesh.receiveShadow = true;
       group.add(mesh);
     }
@@ -90,7 +96,7 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null, ve
       if(mesh.geometry.userData.rock)batches.get(key).rocks.push({...mesh.geometry.userData.rock,triangles:(mesh.geometry.index?.count??mesh.geometry.attributes.position.count)/3});
     }
     for(const mesh of [...group.children])disposeObject(mesh);
-    for(const batch of batches.values()) {const geometry=mergeGeometries(batch.geometries);if(batch.rocks.length)geometry.userData.rocks=batch.rocks;if(batch.snowProxies.length)geometry.userData.snowProxies=batch.snowProxies;for(const g of batch.geometries)g.dispose();const mesh=new THREE.Mesh(geometry,batch.material);mesh.userData.materialSlot=batch.slot;mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);}
+    for(const batch of batches.values()) {const geometry=mergeGeometries(batch.geometries);if(batch.rocks.length)geometry.userData.rocks=batch.rocks;if(batch.snowProxies.length)geometry.userData.snowProxies=batch.snowProxies;for(const g of batch.geometries)g.dispose();const mesh=new THREE.Mesh(geometry,batch.material);mesh.userData.materialSlot=batch.slot;mesh.castShadow=!batch.material.transparent;mesh.receiveShadow=true;group.add(mesh);}
   }
   if((rockShape || vegetationSeed!=null) && metricBounds) {
     group.updateMatrixWorld(true);

@@ -9,6 +9,7 @@ import { addMountainKit } from './library-mountain-kit.js';
 import { addAlpineLibrary } from './library-alpine.js';
 import {addOrganicRocks} from './library-organic-rocks.js';
 import {addWinterDetail} from './library-winter-detail.js';
+import { addChurchKit } from './library-church-kit.js';
 import {rasterThumbnail} from './recipe-thumbnail.js';
 
 const materials = {
@@ -33,8 +34,10 @@ const ring = (radius, y, material = 'red', count = 20) => Array.from({ length: c
 });
 const assets = [];
 function add(id, name, category, era, contexts, tags, parts, description, supportHeight) {
-  assets.push({ id: `builtin-${id}`, revision: 1, type: 'recipe', name, category, era, contexts, tags, parts, description,
-    ...(supportHeight ? { supportHeight } : {}), provenance: 'Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.' });
+  const asset = { id: `builtin-${id}`, revision: 1, type: 'recipe', name, category, era, contexts, tags, parts, description,
+    ...(supportHeight ? { supportHeight } : {}), provenance: 'Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.' };
+  assets.push(asset);
+  return asset;
 }
 const modern = 'Contemporânea', retro = 'Décadas de 1970–1990', historic = 'Início do século XX', colonial = 'Colonial / século XIX', ancient = 'Antiguidade', timeless = 'Atemporal';
 
@@ -108,6 +111,8 @@ const alpineIds=addAlpineLibrary({add,timeless,ancient});
 for(const id of addMountainKit({add,timeless,ancient}))alpineIds.add(id);
 for(const id of addOrganicRocks({add,timeless}))alpineIds.add(id);
 const detailIds=addWinterDetail({add,timeless,ancient});for(const id of detailIds)alpineIds.add(id);
+const churchIds = addChurchKit({ add, historic });
+for (const id of churchIds) { alpineIds.add(id); detailIds.add(id); }
 
 function preview(object,raster=false) {
   object.updateMatrixWorld(true);
@@ -147,7 +152,7 @@ for (const [i, asset] of originals.entries()) {
   disposeObject(object);
 }
 for (const asset of assets) {
-  const recipe = { name: asset.name, unit: 'meter', pivot: 'base-center', materials, parts: asset.parts, ...(alpineIds.has(asset.id)?{mergeParts:true}:{}) };
+  const recipe = { name: asset.name, unit: 'meter', pivot: 'base-center', materials: asset.materials ?? materials, parts: asset.parts, ...(alpineIds.has(asset.id)?{mergeParts:true}:{}) };
   const object = recipeInstance(recipe);
   let bounds = new THREE.Box3().setFromObject(object);
   // Move the geometry to an exact base pivot, preserving annotated support heights.
@@ -164,7 +169,7 @@ for (const asset of assets) {
   await writeFile(`public/assets/models/${asset.id.slice(8)}.json`, `${JSON.stringify(recipe, null, 2)}\n`);
   await writeFile(`public/assets/previews/${asset.id.slice(8)}.svg`, preview(normalized,detailIds.has(asset.id)));
   disposeObject(normalized);
-  const { parts, ...record } = asset;
+  const { parts, materials: assetMaterials, ...record } = asset;
   Object.assign(record, { footprint: [Math.ceil(extent.x * 100) / 100, Math.ceil(extent.z * 100) / 100], bounds: [extent.x, extent.y, extent.z].map(n => Math.round(n * 1000) / 1000), url: `/assets/models/${asset.id.slice(8)}.json`, previewUrl: `/assets/previews/${asset.id.slice(8)}.svg` });
   originals.push(record);
 }

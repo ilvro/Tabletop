@@ -6392,6 +6392,572 @@
       ],
       "url": "/assets/models/broken-timber-pile.json",
       "previewUrl": "/assets/previews/broken-timber-pile.svg"
+    },
+    {
+      "id": "builtin-church-clustered-pier",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · pilar fasciculado com capitel",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "arquitetura"
+      ],
+      "description": "Pilar de 5,4 m com quatro colunelos, base e capitel. Materiais de pedra, ornamento e desgaste separados.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.46,
+        1.46
+      ],
+      "bounds": [
+        1.45,
+        5.4,
+        1.45
+      ],
+      "url": "/assets/models/church-clustered-pier.json",
+      "previewUrl": "/assets/previews/church-clustered-pier.svg"
+    },
+    {
+      "id": "builtin-church-round-arcade",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · arcada semicircular vazada",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "arquitetura"
+      ],
+      "description": "Vão real, moldura em duas ordens e impostas. Frente +Z. Peça avulsa: não recorta paredes do editor.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        4.56,
+        0.9
+      ],
+      "bounds": [
+        4.55,
+        5,
+        0.9
+      ],
+      "url": "/assets/models/church-round-arcade.json",
+      "previewUrl": "/assets/previews/church-round-arcade.svg"
+    },
+    {
+      "id": "builtin-church-pointed-arch",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · arco ogival vazado",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "arquitetura"
+      ],
+      "description": "Vão real, moldura em duas ordens e impostas. Frente +Z. Peça avulsa: não recorta paredes do editor.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.85,
+        0.9
+      ],
+      "bounds": [
+        3.85,
+        5.704,
+        0.9
+      ],
+      "url": "/assets/models/church-pointed-arch.json",
+      "previewUrl": "/assets/previews/church-pointed-arch.svg"
+    },
+    {
+      "id": "builtin-church-curved-balcony",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · balcão semicircular com balaústres",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "arquitetura"
+      ],
+      "description": "Projeção para +Z, laje superior a 1,14 m da base e escoras reais. Para tokens, acrescente piso poligonal no contorno da laje; sem apoio retangular fictício.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        4,
+        2.01
+      ],
+      "bounds": [
+        4,
+        2.035,
+        2.01
+      ],
+      "url": "/assets/models/church-curved-balcony.json",
+      "previewUrl": "/assets/previews/church-curved-balcony.svg"
+    },
+    {
+      "id": "builtin-church-balustrade",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · balaustrada reta de pedra",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "arquitetura"
+      ],
+      "description": "Módulo de 3 m, com corrimão e balaústres torneados. Combine com pisos e balcões.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.1,
+        0.31
+      ],
+      "bounds": [
+        3.1,
+        1.06,
+        0.3
+      ],
+      "url": "/assets/models/church-balustrade.json",
+      "previewUrl": "/assets/previews/church-balustrade.svg"
+    },
+    {
+      "id": "builtin-church-stained-window",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · vitral ogival vermelho com traceria",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "arquitetura"
+      ],
+      "description": "Vidro translúcido emissivo, com chumbo, lancetas e medalhão. Não projeta luz colorida nem corta parede; use luz vermelha separada para o ambiente.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.28,
+        0.29
+      ],
+      "bounds": [
+        2.28,
+        4.375,
+        0.28
+      ],
+      "url": "/assets/models/church-stained-window.json",
+      "previewUrl": "/assets/previews/church-stained-window.svg"
+    },
+    {
+      "id": "builtin-church-vault-ribs",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · nervuras de abóbada cruzada",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "arquitetura"
+      ],
+      "description": "Módulo de 4 m no eixo Z, vão de 9,6 m, sem teto opaco. Base na linha de arranque da cobertura; repetição longitudinal.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        9.89,
+        4.31
+      ],
+      "bounds": [
+        9.88,
+        8.67,
+        4.3
+      ],
+      "url": "/assets/models/church-vault-ribs.json",
+      "previewUrl": "/assets/previews/church-vault-ribs.svg"
+    },
+    {
+      "id": "builtin-church-roof-shell",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · cobertura ogival modular",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "arquitetura"
+      ],
+      "description": "Casca sólida de 4 m no eixo Z, com interior livre. Coloque em grupo/camada própria para ocultar manualmente durante o jogo; não tem cutaway automático.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        10.28,
+        4
+      ],
+      "bounds": [
+        10.28,
+        9.003,
+        4
+      ],
+      "url": "/assets/models/church-roof-shell.json",
+      "previewUrl": "/assets/previews/church-roof-shell.svg"
+    },
+    {
+      "id": "builtin-church-buttress",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · contraforte escalonado",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "arquitetura"
+      ],
+      "description": "Contraforte sólido com três patamares e coroamento; apoio de fachada e silhueta exterior.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.25,
+        2.1
+      ],
+      "bounds": [
+        1.25,
+        6.08,
+        2.1
+      ],
+      "url": "/assets/models/church-buttress.json",
+      "previewUrl": "/assets/previews/church-buttress.svg"
+    },
+    {
+      "id": "builtin-church-pinnacle",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · pináculo com florões",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "arquitetura"
+      ],
+      "description": "Peça de coroamento com agulha quadrangular e ornamentos laterais.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.75,
+        0.75
+      ],
+      "bounds": [
+        0.75,
+        2.92,
+        0.75
+      ],
+      "url": "/assets/models/church-pinnacle.json",
+      "previewUrl": "/assets/previews/church-pinnacle.svg"
+    },
+    {
+      "id": "builtin-church-bell-tower",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · torre sineira com vãos abertos",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "arquitetura"
+      ],
+      "description": "Torre de aproximadamente 13 m, com quatro aberturas superiores e agulha. Base inferior maciça cenográfica; para interior navegável, monte os módulos separados.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        4.41,
+        4.41
+      ],
+      "bounds": [
+        4.4,
+        13.19,
+        4.4
+      ],
+      "url": "/assets/models/church-bell-tower.json",
+      "previewUrl": "/assets/previews/church-bell-tower.svg"
+    },
+    {
+      "id": "builtin-church-iron-maiden",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · Dama de Ferro com portas abertas",
+      "category": "Ritual / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "ritual",
+        "sangue"
+      ],
+      "description": "Relicário de ferro com interior aberto, portas espinhadas, aros e halo radial. Interpretação original das referências, estática, sem personagem ou animação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.13,
+        1.61
+      ],
+      "bounds": [
+        2.126,
+        3.33,
+        1.6
+      ],
+      "url": "/assets/models/church-iron-maiden.json",
+      "previewUrl": "/assets/previews/church-iron-maiden.svg"
+    },
+    {
+      "id": "builtin-church-headless-seraph",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · Serafim decapitado de pedra",
+      "category": "Ritual / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "ritual",
+        "sangue"
+      ],
+      "description": "Estátua alada com pescoço fraturado, braços erguidos, penas sobrepostas e vestes esculpidas. Modelo original estático, sem rig.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        6.56,
+        1.3
+      ],
+      "bounds": [
+        6.56,
+        5.35,
+        1.3
+      ],
+      "url": "/assets/models/church-headless-seraph.json",
+      "previewUrl": "/assets/previews/church-headless-seraph.svg"
+    },
+    {
+      "id": "builtin-church-pointed-chair",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · cadeira de espaldar pontiagudo",
+      "category": "Ritual / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "ritual",
+        "sangue"
+      ],
+      "description": "Assento de madeira com espaldar alto e entalhe ogival; escala adequada ao banquete.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.7,
+        0.66
+      ],
+      "bounds": [
+        0.7,
+        2.1,
+        0.655
+      ],
+      "url": "/assets/models/church-pointed-chair.json",
+      "previewUrl": "/assets/previews/church-pointed-chair.svg"
+    },
+    {
+      "id": "builtin-church-ritual-banner",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · pendão ritual de tecido rasgado",
+      "category": "Ritual / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "ritual",
+        "sangue"
+      ],
+      "description": "Pendão vinho com barra metálica e cruz dupla original. Frente +Z; sem usar logotipo ou textura extraída da referência.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.66,
+        0.13
+      ],
+      "bounds": [
+        1.66,
+        3.038,
+        0.125
+      ],
+      "url": "/assets/models/church-ritual-banner.json",
+      "previewUrl": "/assets/previews/church-ritual-banner.svg"
+    },
+    {
+      "id": "builtin-church-hook-rack",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · correntes e ganchos suspensos",
+      "category": "Ritual / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "ritual",
+        "sangue"
+      ],
+      "description": "Cinco correntes com elos vazados e ganchos curvos, em suporte de parede. Base normalizada no gancho mais baixo; eleve a peça ao instalar.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.8,
+        0.22
+      ],
+      "bounds": [
+        3.8,
+        1.59,
+        0.217
+      ],
+      "url": "/assets/models/church-hook-rack.json",
+      "previewUrl": "/assets/previews/church-hook-rack.svg"
+    },
+    {
+      "id": "builtin-church-banquet-table",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · mesa longa de banquete",
+      "category": "Ritual / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "ritual",
+        "sangue"
+      ],
+      "description": "Mesa de 5,4 m com cavaletes esculpidos, travessa e apoio a 1,04 m. Decoração colocada separadamente para reutilização.",
+      "supportHeight": 1.04,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.36,
+        5.41
+      ],
+      "bounds": [
+        1.35,
+        1.04,
+        5.4
+      ],
+      "url": "/assets/models/church-banquet-table.json",
+      "previewUrl": "/assets/previews/church-banquet-table.svg"
+    },
+    {
+      "id": "builtin-church-candelabra",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · candelabro de cinco velas",
+      "category": "Ritual / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Ruínas",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "ritual",
+        "sangue"
+      ],
+      "description": "Cinco velas com chama emissiva estática. Para iluminar a mesa, acrescente uma luz compartilhada; não gera cinco luzes dinâmicas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.03,
+        0.5
+      ],
+      "bounds": [
+        1.03,
+        1.375,
+        0.5
+      ],
+      "url": "/assets/models/church-candelabra.json",
+      "previewUrl": "/assets/previews/church-candelabra.svg"
     }
   ]
 }

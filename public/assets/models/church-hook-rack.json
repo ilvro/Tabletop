@@ -1,0 +1,2078 @@
+{
+  "name": "Igreja · correntes e ganchos suspensos",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "limestone": {
+      "color": "#b1a18a",
+      "roughness": 0.95
+    },
+    "wornStone": {
+      "color": "#524a43",
+      "roughness": 1
+    },
+    "carving": {
+      "color": "#c6b79d",
+      "roughness": 0.88
+    },
+    "wood": {
+      "color": "#482b23",
+      "roughness": 0.87
+    },
+    "iron": {
+      "color": "#343035",
+      "metalness": 0.7,
+      "roughness": 0.55
+    },
+    "brass": {
+      "color": "#9b7750",
+      "metalness": 0.65,
+      "roughness": 0.4
+    },
+    "cloth": {
+      "color": "#631e2b",
+      "roughness": 1
+    },
+    "glass": {
+      "color": "#9e122f",
+      "emissive": "#a4132e",
+      "emissiveIntensity": 0.65,
+      "roughness": 0.28,
+      "opacity": 0.72
+    },
+    "amberGlass": {
+      "color": "#b85032",
+      "emissive": "#a83d22",
+      "emissiveIntensity": 0.35,
+      "roughness": 0.3,
+      "opacity": 0.8
+    },
+    "wax": {
+      "color": "#c5af88",
+      "roughness": 0.9
+    },
+    "flame": {
+      "color": "#ffd58a",
+      "emissive": "#ff8a37",
+      "emissiveIntensity": 2
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        3.8,
+        0.15,
+        0.2
+      ],
+      "position": [
+        0,
+        1.5150616407394408,
+        -0.008499998599290848
+      ],
+      "material": "iron",
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -1.6,
+        1.465061640739441,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -1.581761798117185,
+        1.3983949740727741,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -1.5644841514427585,
+        1.3317283074061077,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -1.5490770254222426,
+        1.2650616407394408,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -1.5363518703970909,
+        1.1983949740727744,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -1.5269788847791583,
+        1.1317283074061075,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -1.5214517175702114,
+        1.065061640739441,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -1.5200614692462888,
+        0.9983949740727742,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -1.5228813603078042,
+        0.9317283074061078,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -1.5297628749600738,
+        0.8650616407394409,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -1.5403435830258625,
+        0.7983949740727745,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -1.5540662281316342,
+        0.7317283074061076,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -1.6,
+          1.8,
+          0.05
+        ],
+        [
+          -1.58,
+          1.5999999999999999,
+          0.05
+        ],
+        [
+          -1.4700000000000002,
+          1.5199999999999998,
+          0.05
+        ],
+        [
+          -1.3800000000000001,
+          1.6199999999999999,
+          0.05
+        ],
+        [
+          -1.4000000000000001,
+          1.72,
+          0.05
+        ]
+      ],
+      "radius": 0.045,
+      "segments": 36,
+      "sides": 8,
+      "position": [
+        0,
+        -1.134938359260559,
+        -0.008499998599290848
+      ],
+      "material": "iron",
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -0.8,
+        1.465061640739441,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -0.7817617981171849,
+        1.3842283074061075,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -0.7644841514427585,
+        1.3033949740727744,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -0.7490770254222426,
+        1.2225616407394408,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -0.7363518703970907,
+        1.1417283074061078,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -0.7269788847791584,
+        1.0608949740727742,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -0.7214517175702113,
+        0.9800616407394411,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -0.7200614692462888,
+        0.8992283074061076,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -0.7228813603078041,
+        0.8183949740727743,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -0.7297628749600737,
+        0.737561640739441,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -0.7403435830258625,
+        0.6567283074061074,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        -0.7540662281316343,
+        0.5758949740727743,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.8,
+          1.63,
+          0.05
+        ],
+        [
+          -0.78,
+          1.4299999999999997,
+          0.05
+        ],
+        [
+          -0.67,
+          1.3499999999999996,
+          0.05
+        ],
+        [
+          -0.5800000000000001,
+          1.4499999999999997,
+          0.05
+        ],
+        [
+          -0.6000000000000001,
+          1.5499999999999998,
+          0.05
+        ]
+      ],
+      "radius": 0.045,
+      "segments": 36,
+      "sides": 8,
+      "position": [
+        0,
+        -1.134938359260559,
+        -0.008499998599290848
+      ],
+      "material": "iron",
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0,
+        1.465061640739441,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.018238201882815074,
+        1.3700616407394408,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.03551584855724158,
+        1.275061640739441,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.05092297457775744,
+        1.1800616407394409,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.06364812960290929,
+        1.0850616407394411,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.07302111522084169,
+        0.9900616407394409,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.07854828242978878,
+        0.8950616407394412,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.07993853075371124,
+        0.800061640739441,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.07711863969219585,
+        0.7050616407394408,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.07023712503992624,
+        0.610061640739441,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.0596564169741376,
+        0.5150616407394408,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.04593377186836579,
+        0.42006164073944086,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0,
+          1.46,
+          0.05
+        ],
+        [
+          0.02,
+          1.2599999999999998,
+          0.05
+        ],
+        [
+          0.13,
+          1.1799999999999997,
+          0.05
+        ],
+        [
+          0.22,
+          1.2799999999999998,
+          0.05
+        ],
+        [
+          0.2,
+          1.38,
+          0.05
+        ]
+      ],
+      "radius": 0.045,
+      "segments": 36,
+      "sides": 8,
+      "position": [
+        0,
+        -1.134938359260559,
+        -0.008499998599290848
+      ],
+      "material": "iron",
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.8000000000000003,
+        1.465061640739441,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.8182382018828154,
+        1.3983949740727741,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.8355158485572418,
+        1.3317283074061077,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.8509229745777577,
+        1.2650616407394408,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.8636481296029096,
+        1.1983949740727744,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.8730211152208419,
+        1.1317283074061075,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.878548282429789,
+        1.065061640739441,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.8799385307537115,
+        0.9983949740727742,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.8771186396921962,
+        0.9317283074061078,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.8702371250399266,
+        0.8650616407394409,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.8596564169741379,
+        0.7983949740727745,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        0.845933771868366,
+        0.7317283074061076,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.8000000000000003,
+          1.8,
+          0.05
+        ],
+        [
+          0.8200000000000003,
+          1.5999999999999999,
+          0.05
+        ],
+        [
+          0.9300000000000003,
+          1.5199999999999998,
+          0.05
+        ],
+        [
+          1.0200000000000002,
+          1.6199999999999999,
+          0.05
+        ],
+        [
+          1.0000000000000002,
+          1.72,
+          0.05
+        ]
+      ],
+      "radius": 0.045,
+      "segments": 36,
+      "sides": 8,
+      "position": [
+        0,
+        -1.134938359260559,
+        -0.008499998599290848
+      ],
+      "material": "iron",
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        1.6,
+        1.465061640739441,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        1.6182382018828152,
+        1.3842283074061075,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        1.6355158485572416,
+        1.3033949740727744,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        1.6509229745777576,
+        1.2225616407394408,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        1.6636481296029093,
+        1.1417283074061078,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        1.6730211152208418,
+        1.0608949740727742,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        1.6785482824297888,
+        0.9800616407394411,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        1.6799385307537114,
+        0.8992283074061076,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        1.677118639692196,
+        0.8183949740727743,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        1.6702371250399264,
+        0.737561640739441,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        1.6596564169741377,
+        0.6567283074061074,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.012,
+      "segments": 12,
+      "sides": 6,
+      "position": [
+        1.645933771868366,
+        0.5758949740727743,
+        0.041500001400709155
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          1.6,
+          1.63,
+          0.05
+        ],
+        [
+          1.62,
+          1.4299999999999997,
+          0.05
+        ],
+        [
+          1.73,
+          1.3499999999999996,
+          0.05
+        ],
+        [
+          1.82,
+          1.4499999999999997,
+          0.05
+        ],
+        [
+          1.8,
+          1.5499999999999998,
+          0.05
+        ]
+      ],
+      "radius": 0.045,
+      "segments": 36,
+      "sides": 8,
+      "position": [
+        0,
+        -1.134938359260559,
+        -0.008499998599290848
+      ],
+      "material": "iron",
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      }
+    }
+  ],
+  "mergeParts": true
+}

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { applyMaterialWear, wearCoordinates } from './material-wear.js';
 import { SURFACE_MATERIALS, surfacePreset, textureOptions, distributionOptions } from '../domain/materials.js';
 
 export { generateSurfaceAtlas, generateSurfaceTile } from './surface-pixels.js';
@@ -194,8 +195,10 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
 }
 
 export function applySurfaceTextures(object, entity, library) {
-  const settings=entity.kind!=='terrain' && entity.material?.coverage?.physicalThickness>0 ? {...entity.material,coverage:null} : entity.material;
-  if (!settings) return;
+  if (!entity.material) return;
+  const { wear, ...authored } = entity.material;
+  const settings=entity.kind!=='terrain' && authored.coverage?.physicalThickness>0 ? {...authored,coverage:null} : authored;
+  const coordinates = wear?.enabled && wear.amount > 0 ? wearCoordinates(object) : null;
   object.traverse(child => {
     if(!child.isMesh || child.userData.decorative) return;
     for(const material of Array.isArray(child.material)?child.material:[child.material]) {
@@ -204,11 +207,11 @@ export function applySurfaceTextures(object, entity, library) {
       const selected=!settings.textureSlot || settings.textureSlot==='base' || settings.textureSlot===slot;
       if(material.userData.recipeSurface && (!selected || !surfacePreset(settings.texture))) {
         applySurfaceMaterial(material,{...material.userData.recipeSurface,...(selected?{coverage:settings.coverage}: {})},library);
-        continue;
+      } else if (selected) {
+        if(surfacePreset(settings.texture)) { material.map=null; material.normalMap=null; material.bumpMap=null; material.roughnessMap=null; material.color.set(settings.color); }
+        applySurfaceMaterial(material,settings,library,entity.kind==='terrain'?entity:null);
       }
-      if(!selected) continue;
-      if(surfacePreset(settings.texture)) { material.map=null; material.normalMap=null; material.bumpMap=null; material.roughnessMap=null; material.color.set(settings.color); }
-      applySurfaceMaterial(material,settings,library,entity.kind==='terrain'?entity:null);
+      if (selected && coordinates) applyMaterialWear(material, wear, coordinates, coordinates.matrices.get(child));
     }
   });
 }

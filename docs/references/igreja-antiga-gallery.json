@@ -1,0 +1,166 @@
+{
+  "source": "https://ordemparanormal.fandom.com/wiki/Igreja_Antiga",
+  "api": "https://ordemparanormal.fandom.com/api.php?action=parse&page=Igreja_Antiga&prop=images%7Ctext&format=json",
+  "checkedAt": "2026-10-06",
+  "imageCount": 18,
+  "images": [
+    {
+      "file": "Igreja_Antiga.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/c/cf/Igreja_Antiga.jpg/revision/latest/scale-to-width-down/268?cb=20251209212633&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/c/cf/Igreja_Antiga.jpg/revision/latest?cb=20251209212633&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_3.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/c/c5/Modelo_3D_-_Igreja_Antiga_3.jpg/revision/latest/scale-to-width-down/185?cb=20260208232027&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/c/c5/Modelo_3D_-_Igreja_Antiga_3.jpg/revision/latest?cb=20260208232027&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_6.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/2/29/Modelo_3D_-_Igreja_Antiga_6.jpg/revision/latest/scale-to-width-down/185?cb=20260208232108&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/2/29/Modelo_3D_-_Igreja_Antiga_6.jpg/revision/latest?cb=20260208232108&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_4.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/e/ee/Modelo_3D_-_Igreja_Antiga_4.jpg/revision/latest/scale-to-width-down/185?cb=20260208232039&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/e/ee/Modelo_3D_-_Igreja_Antiga_4.jpg/revision/latest?cb=20260208232039&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_5.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/5/58/Modelo_3D_-_Igreja_Antiga_5.jpg/revision/latest/scale-to-width-down/185?cb=20260208232054&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/5/58/Modelo_3D_-_Igreja_Antiga_5.jpg/revision/latest?cb=20260208232054&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_7.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/3/35/Modelo_3D_-_Igreja_Antiga_7.jpg/revision/latest/scale-to-width-down/185?cb=20260208232120&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/3/35/Modelo_3D_-_Igreja_Antiga_7.jpg/revision/latest?cb=20260208232120&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_8.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/1/18/Modelo_3D_-_Igreja_Antiga_8.jpg/revision/latest/scale-to-width-down/185?cb=20260208232130&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/1/18/Modelo_3D_-_Igreja_Antiga_8.jpg/revision/latest?cb=20260208232130&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_9.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/f/f0/Modelo_3D_-_Igreja_Antiga_9.jpg/revision/latest/scale-to-width-down/185?cb=20260208232155&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/f/f0/Modelo_3D_-_Igreja_Antiga_9.jpg/revision/latest?cb=20260208232155&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_10.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/3/3a/Modelo_3D_-_Igreja_Antiga_10.jpg/revision/latest/scale-to-width-down/185?cb=20260208232224&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/3/3a/Modelo_3D_-_Igreja_Antiga_10.jpg/revision/latest?cb=20260208232224&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_11.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/1/1f/Modelo_3D_-_Igreja_Antiga_11.jpg/revision/latest/scale-to-width-down/185?cb=20260208232344&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/1/1f/Modelo_3D_-_Igreja_Antiga_11.jpg/revision/latest?cb=20260208232344&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_12.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/1/12/Modelo_3D_-_Igreja_Antiga_12.jpg/revision/latest/scale-to-width-down/185?cb=20260208232356&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/1/12/Modelo_3D_-_Igreja_Antiga_12.jpg/revision/latest?cb=20260208232356&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_1.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/a/a3/Modelo_3D_-_Igreja_Antiga_1.jpg/revision/latest/scale-to-width-down/185?cb=20260208232004&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/a/a3/Modelo_3D_-_Igreja_Antiga_1.jpg/revision/latest?cb=20260208232004&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_2.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/b/b6/Modelo_3D_-_Igreja_Antiga_2.jpg/revision/latest/scale-to-width-down/185?cb=20260208232014&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/b/b6/Modelo_3D_-_Igreja_Antiga_2.jpg/revision/latest?cb=20260208232014&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_15.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/b/be/Modelo_3D_-_Igreja_Antiga_15.jpg/revision/latest/scale-to-width-down/185?cb=20260208232501&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/b/be/Modelo_3D_-_Igreja_Antiga_15.jpg/revision/latest?cb=20260208232501&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_16.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/0/03/Modelo_3D_-_Igreja_Antiga_16.jpg/revision/latest/scale-to-width-down/185?cb=20260208232512&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/0/03/Modelo_3D_-_Igreja_Antiga_16.jpg/revision/latest?cb=20260208232512&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_14.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/6/68/Modelo_3D_-_Igreja_Antiga_14.jpg/revision/latest/scale-to-width-down/185?cb=20260208232435&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/6/68/Modelo_3D_-_Igreja_Antiga_14.jpg/revision/latest?cb=20260208232435&path-prefix=pt-br"
+    },
+    {
+      "file": "Modelo_3D_-_Igreja_Antiga_13.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/0/0c/Modelo_3D_-_Igreja_Antiga_13.jpg/revision/latest/scale-to-width-down/185?cb=20260208232410&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/0/0c/Modelo_3D_-_Igreja_Antiga_13.jpg/revision/latest?cb=20260208232410&path-prefix=pt-br"
+    },
+    {
+      "file": "Arte_Conceitual_Igreja_Antiga_-_Externo.jpg",
+      "url": "https://static.wikia.nocookie.net/ordemparanormal/images/3/32/Arte_Conceitual_Igreja_Antiga_-_Externo.jpg/revision/latest/scale-to-width-down/185?cb=20260202021515&path-prefix=pt-br",
+      "inspection": "pending",
+      "reason": "Not visually inspected; image server returned 403",
+      "httpStatus": 403,
+      "originalUrl": "https://static.wikia.nocookie.net/ordemparanormal/images/3/32/Arte_Conceitual_Igreja_Antiga_-_Externo.jpg/revision/latest?cb=20260202021515&path-prefix=pt-br"
+    }
+  ],
+  "userProvidedReferences": {
+    "count": 6,
+    "visuallyInspected": 6,
+    "source": "Images attached by the user in the conversation on 2026-10-06",
+    "views": [
+      "Hook and chain room",
+      "Nave toward altar",
+      "Nave toward entrance",
+      "Ritual object close-up",
+      "Elevated exterior",
+      "Exterior approach"
+    ],
+    "fileMapping": "Not verified; CDN file statuses below describe direct access only"
+  }
+}

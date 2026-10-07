@@ -2,6 +2,36 @@
 
 Atualizado em 6 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Desgaste por material e plano de iluminação — concluído (6 de outubro)
+
+**Implementado:** Material → Desgaste do material, com sujeira/escorrimentos, ferrugem, musgo, fuligem e rachaduras aparentes. Camada procedural sobre a textura existente; respeita slots e permite peça inteira, base, topo ou região local com centro/raio/suavidade. Intensidade, tamanho, cor, rugosidade, metalicidade, relevo e seed editáveis. Acompanha movimento/rotação/escala, preserva mapas UV/PBR originais e segue clipboard, histórico, duplicação/mapas, JSON, salvamento e projeção filtrada. Nenhum novo asset de desgaste. Guia: [docs/MATERIAL_WEAR.md](docs/MATERIAL_WEAR.md).
+
+Uma camada por instância/slot escolhido, sem geometrias/texturas/passes adicionais; o custo é cálculo por fragmento. Superfícies planas usam centro nos eixos sem extensão e base/topo abrangem o plano. Água líquida, camadas pintadas do terreno e overrides parciais legados não oferecem a camada. Pintura livre, múltiplas marcas independentes e danos geométricos permanecem futuros; materiais não PBR personalizados não recebem o shader.
+
+**Plano entregue, ainda não implementado:** [docs/DYNAMIC_LIGHTING_PLAN.md](docs/DYNAMIC_LIGHTING_PLAN.md). Evolução da engine em etapas: medição/contrato, reconciliação incremental e orçamento de fontes/sombras, perfis vinculados a qualquer asset, regiões internas/externas simultâneas, projeções de vitrais/reflexos/AO e névoa iluminada. Controles simples e avançados, parâmetros fixáveis, biblioteca com snapshots, prévia/undo, qualidade independente por janela e critérios de privacidade/custo/aceitação. Primeira entrega recomendada: etapas 0–2; igreja, taverna, rua e escritório como fixtures. Não requer reescrever a engine nem presume GI automática.
+
+Validação final: **188 testes de domínio/integração, builds local/Pages e cinco E2E afetados aprovados** (três novos de desgaste e duas regressões de materiais/efeitos). Pixels dos cinco estilos, região/slot isolados, mapas preservados, intensidade zero/desativação equivalentes ao original, composição com textura/cobertura, plano sem extensão Y e descarte GPU. UI servidor/Pages: controles, mudança de estilo conservando distribuição, clipboard, undo/redo, salvar/reabrir, tela de 430 px e projetor com câmera independente. Capturas inspecionadas: `test-results/material-wear-sheet.png`, `material-wear-assets.png` e `material-wear-{server,pages}{,-mobile}.png`. Mesma contagem de texturas/chamadas entre original e desgaste na fixture; baseline GPU recuperada após descarte. As primeiras fixtures foram ajustadas ao enquadramento da região, inicialização PBR e abertura do painel compacto; a superfície plana ganhou tratamento próprio no shader. Logs finais em `test-results/material-wear-{unit,e2e,build,build-pages}.log`. A suíte E2E completa não foi repetida; WebGL por software não estabelece desempenho presencial.
+
+## Kit da Igreja Antiga — concluído (6 de outubro)
+
+**18 assets originais locais**, catálogo com **220 modelos**. Em Assets, buscar **igreja antiga** ou filtrar **kit gótico**. Arquitetura: pilar fasciculado, arcadas semicircular/ogival vazadas, balcão semicircular, balaustrada, vitral translúcido, nervuras/cobertura modulares, contraforte, pináculo e torre. Peças características: Dama de Ferro aberta, Serafim decapitado, cadeira pontiaguda, pendão, correntes/ganchos, mesa longa com apoio e candelabro. Materiais separados e prévias compactas geradas da geometria. Perfis XY sólidos validados e opacidade opcional de receitas acrescentados, conservando assets antigos. Uso e avaliação: [docs/CHURCH_KIT.md](docs/CHURCH_KIT.md).
+
+**Desgaste localizado:** o kit exemplifica tecido rasgado, pescoço fraturado, oxidação e região escurecida no pilar. O incremento posterior acrescentou desgaste procedural no material, inclusive em região ajustável. Pintura livre, inscrições/imagens e múltiplas marcas independentes ainda exigem ferramentas próprias de máscaras ou decals. [Uso da camada reutilizável](docs/MATERIAL_WEAR.md).
+
+Validação: **185 testes de domínio/integração aprovados**, incluindo quatro novos de perfis, catálogo/limites, vãos/apoios e documentos/histórico/projeção; **builds local/Pages aprovados**. **Três E2E novos aprovados**: renderização/pixels dos 18 modelos, isolamento do vidro e descarte GPU; biblioteca/colocação/histórico/material nomeado/salvar/reabrir/projetor no servidor e no Pages. Câmera publicada permaneceu independente. Capturas reais inspecionadas em `test-results/church-kit-sheet.png`, `test-results/builtin-church-*.png` e `test-results/church-kit-pages.png`. Até cinco malhas por modelo; máximo observado de seis chamadas (vidro translúcido em dois passes) e 11.532 triângulos por peça. Recursos de assets foram liberados; textura interna PBR do renderer permanece na baseline. WebGL por software não estabelece FPS no notebook/projetor. A suíte E2E completa não foi executada.
+
+As primeiras execuções exigiram loopback fora da sandbox; os ajustes do roteiro alinharam reaplicação de texturas à reinstalação de materiais do renderer, contagem de materiais agrupados, diagnóstico `options` e baseline PBR. A revisão visual reduziu ferrugem excessiva e retirou alvenaria da estátua. Resultados acima são da execução final.
+
+Limites: modelos originais estilizados, sem afirmar reprodução fiel; arcos/vitral não recortam paredes, cobertura usa ocultação manual e vidro não projeta luz colorida. Balcão curvo exige piso poligonal de apoio, sem apoio retangular fictício. **O mapa completo continua pendente**; o kit pode ser utilizado em qualquer cena.
+
+## Igreja Antiga — análise anterior ao kit; construção pendente (6 de outubro)
+
+Após o bloqueio HTTP 403 dos 18 arquivos da wiki, o usuário forneceu seis imagens, agora visualmente inspecionadas. Confirmadas nave alta com arcadas/balcões curvos/cobertura nervurada, conjunto ritual, sala de correntes e exterior sobre platô com paredões, árvores secas e horizonte em névoa violeta. Não se afirma inspeção das demais vistas. A base permite aproximação jogável; faltam assets característicos e acabamento, além de melhorias em janelas/cobertura. [Análise e plano](docs/IGREJA_ANTIGA_ANALISE.md).
+
+O plano distingue interior, área externa de circulação e horizonte 3D. Medidas propostas para estudo: nave de 20 × 35 m e área principal de 100 × 140 m, sem atribuí-las à obra. Terreno limitado a 64 divisões e uma altura por X/Z requer rochas/apoios independentes; `setDocument` ainda reconstrói o conteúdo. Priorizar um recorte da nave/platô e medir edição/editor/projetor antes de expandir, considerando LOD/instanciamento conforme os resultados. As seis imagens já bastam para planejar esse protótipo; outras vistas refinam as partes não mostradas.
+
+Validação por inspeção visual dos anexos e do código/documentos. Nenhum cenário, asset ou código da aplicação alterado; builds/testes não executados nesta etapa documental. Protótipo e construção continuam pendentes porque as lacunas técnicas/de conteúdo persistem.
+
 ## Régua — concluída em 6 de outubro
 
 **Régua (M)** na barra da cena mede com dois cliques ou arraste de mouse/toque. Mostra distância no plano XZ, distância em 3D, desnível assinado e equivalência física em células do grid, com duas casas decimais. Tokens usam o centro lógico da base; demais pontos usam superfícies visíveis ou o plano na altura de construção. Snap próprio opcional, inicialmente desligado, respeita origem/célula e Alt; centros de tokens permanecem exatos. Outra medição substitui a anterior, Limpar mantém a ferramenta, e Esc/Q/Concluir encerra. Em telas estreitas, painéis se recolhem e a barra de ferramentas permite rolagem horizontal. Guia: [docs/RULER.md](docs/RULER.md).
@@ -319,7 +349,7 @@ Uso/publicação e limites em [docs/GITHUB_PAGES.md](docs/GITHUB_PAGES.md); READ
 Somente trabalho ainda não concluído. A prioridade visual está em [docs/ORGANIC_WINTER_PLAN.md](docs/ORGANIC_WINTER_PLAN.md), complementando [docs/VISUAL_TARGET.md](docs/VISUAL_TARGET.md).
 
 - Obter aceitação visual do novo mapa; refinar os pontos concretos identificados nessa revisão.
-- Materiais autorais/fotográficos, desgaste regional e depósitos locais editáveis nas rochas.
+- Materiais autorais/fotográficos, pintura livre/múltiplas marcas de desgaste e depósitos locais editáveis nas rochas. Desgaste procedural regional já disponível.
 - Medir edição/renderização no notebook/projetor reais; otimizar conforme os resultados.
 - Expansão de conteúdo autoral/decoração e miniaturas estáticas para o mapa piloto; avaliação visual em câmera próxima.
 - Texturas fotográficas específicas, importação de texturas avulsas/variantes e decals de desgaste/sujeira.

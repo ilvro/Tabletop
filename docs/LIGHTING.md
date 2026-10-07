@@ -4,6 +4,8 @@ Implementado em 3 de outubro de 2026; validação final concluída em 4 de outub
 
 Para **sol/lua, Kelvin/HSV direto na aba Cena, horários, céu, nuvens, chuva e objetos que acendem à noite**, veja [ENVIRONMENTS.md](ENVIRONMENTS.md).
 
+Proposta de evolução da engine, ainda não implementada: [DYNAMIC_LIGHTING_PLAN.md](DYNAMIC_LIGHTING_PLAN.md). Inclui atualização incremental, perfis por asset, zonas internas/externas, orçamento de sombras, projeções de vitrais e névoa iluminada, com controles simples e avançados.
+
 ## Luzes
 
 Em **Construir → Construções → Peças avulsas**, escolha **Luz pontual** ou **Luz spot** e clique no piso. A fonte nasce 2,2 m acima do apoio. Selecione a luz no canvas ou na árvore da aba Cena e use o inspetor:

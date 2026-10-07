@@ -26,3 +26,7 @@ Paisagem de montanha: kit modular de ruínas/plantas ramificadas, distribuição
 Escultura direta de terreno e paredões com pincel **T**, mantendo geometria paramétrica, materiais e histórico: [guia de escultura](docs/ROCK_SCULPT.md).
 
 Cena editável de subida da montanha com caverna lateral, ponte elevada e lanternas arredondadas em **Abrir → Cenas → Cenas de exemplo**: [guia das cenas de exemplo](docs/EXAMPLE_SCENES.md).
+
+Kit arquitetônico/ritual da igreja: **Assets → buscar “igreja antiga”**, com 18 peças reutilizáveis. Montagem, apoios e avaliação do desgaste localizado: [CHURCH_KIT.md](docs/CHURCH_KIT.md).
+
+Desgaste reutilizável diretamente no material: sujeira, ferrugem, musgo, fuligem e rachaduras, com região ajustável e texturas originais preservadas. [Uso e limites](docs/MATERIAL_WEAR.md). Evolução futura de iluminação dinâmica e fácil de configurar: [plano da engine](docs/DYNAMIC_LIGHTING_PLAN.md).

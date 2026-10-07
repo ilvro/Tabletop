@@ -3,6 +3,7 @@ import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOIC
 import { WATER_RANGES, isVegetationAsset } from './landscape.js';
 import { ROCK_FORMS, ROCK_RANGES, CLIFF_RANGES, rockDefaults } from './rocks.js';
 import {SNOW_SHAPE_DEFAULTS,SNOW_SHAPE_RANGES} from './snow.js';
+import { WEAR_STYLES, WEAR_RANGES, WEAR_PLACEMENTS } from './wear.js';
 /** Validated JSON is the boundary between editor, disk and future network adapters. */
 import { kelvinToColor } from './lighting.js';
 import { polygonIsSimple, polygonSize, floorContour, validHoles, pointInPolygon } from './geometry.js';
@@ -45,10 +46,19 @@ function transform(value, path, structural = false) {
   if (structural) fail(value.scale.every(v => Math.abs(v - 1) < 1e-8), 'Escala estrutural deve ser incorporada às dimensões.', path);
 }
 function material(value, path, partial = false) {
-  keys(value, ['color', 'roughness', 'metalness', 'emissive', 'emissiveIntensity', 'texture', 'textureSize', 'relief', 'textureSlot', 'coverage', ...TEXTURE_OPTION_FIELDS], path);
+  keys(value, ['color', 'roughness', 'metalness', 'emissive', 'emissiveIntensity', 'texture', 'textureSize', 'relief', 'textureSlot', 'coverage', ...(!partial ? ['wear'] : []), ...TEXTURE_OPTION_FIELDS], path);
   if (!partial || value.color !== undefined) color(value.color, `${path}.color`);
   for (const field of ['roughness', 'metalness']) if (!partial || value[field] !== undefined) number(value[field], `${path}.${field}`, 0, 1);
   surfaceFields(value,path);
+  if (value.wear !== undefined && value.wear !== null) {
+    const w = value.wear, wp = `${path}.wear`;
+    keys(w, ['enabled', 'type', 'color', 'placement', 'center', ...Object.keys(WEAR_RANGES)], wp);
+    bool(w.enabled, `${wp}.enabled`); choice(w.type, WEAR_STYLES.map(s => s.id), `${wp}.type`);
+    color(w.color, `${wp}.color`); choice(w.placement, WEAR_PLACEMENTS, `${wp}.placement`);
+    vector(w.center, 3, `${wp}.center`); w.center.forEach(v => number(v, `${wp}.center`, 0, 1));
+    for (const [key, range] of Object.entries(WEAR_RANGES)) number(w[key], `${wp}.${key}`, ...range);
+    fail(Number.isInteger(w.seed), 'Seed deve ser inteiro.', `${wp}.seed`);
+  }
   if (value.coverage !== undefined && value.coverage !== null) {
     const c = value.coverage, cp = `${path}.coverage`;
     keys(c, ['texture','color','textureSize','amount','relief','physicalThickness','exposedOnly',...Object.keys(SNOW_SHAPE_DEFAULTS), ...distributionFields], cp);

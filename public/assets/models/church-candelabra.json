@@ -1,0 +1,400 @@
+{
+  "name": "Igreja · candelabro de cinco velas",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "limestone": {
+      "color": "#b1a18a",
+      "roughness": 0.95
+    },
+    "wornStone": {
+      "color": "#524a43",
+      "roughness": 1
+    },
+    "carving": {
+      "color": "#c6b79d",
+      "roughness": 0.88
+    },
+    "wood": {
+      "color": "#482b23",
+      "roughness": 0.87
+    },
+    "iron": {
+      "color": "#343035",
+      "metalness": 0.7,
+      "roughness": 0.55
+    },
+    "brass": {
+      "color": "#9b7750",
+      "metalness": 0.65,
+      "roughness": 0.4
+    },
+    "cloth": {
+      "color": "#631e2b",
+      "roughness": 1
+    },
+    "glass": {
+      "color": "#9e122f",
+      "emissive": "#a4132e",
+      "emissiveIntensity": 0.65,
+      "roughness": 0.28,
+      "opacity": 0.72
+    },
+    "amberGlass": {
+      "color": "#b85032",
+      "emissive": "#a83d22",
+      "emissiveIntensity": 0.35,
+      "roughness": 0.3,
+      "opacity": 0.8
+    },
+    "wax": {
+      "color": "#c5af88",
+      "roughness": 0.9
+    },
+    "flame": {
+      "color": "#ffd58a",
+      "emissive": "#ff8a37",
+      "emissiveIntensity": 2
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.25,
+      "radiusTop": 0.16,
+      "height": 0.1,
+      "position": [
+        0,
+        0.050000000745058074,
+        0
+      ],
+      "material": "brass",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.045,
+      "radiusTop": 0.04,
+      "height": 0.75,
+      "position": [
+        0,
+        0.43000000074505806,
+        0
+      ],
+      "material": "brass",
+      "segments": 12
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0,
+          0.4,
+          0
+        ],
+        [
+          -0.264,
+          0.45,
+          0
+        ],
+        [
+          -0.44,
+          0.6,
+          0
+        ]
+      ],
+      "radius": 0.025,
+      "segments": 36,
+      "sides": 8,
+      "position": [
+        0,
+        7.450580707946131e-10,
+        0
+      ],
+      "material": "brass"
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.075,
+      "radiusTop": 0.075,
+      "height": 0.04,
+      "position": [
+        -0.44,
+        0.750000000745058,
+        0
+      ],
+      "material": "brass",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.04,
+      "radiusTop": 0.04,
+      "height": 0.22,
+      "position": [
+        -0.44,
+        0.8800000007450581,
+        0
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0,
+      "height": 0.09,
+      "position": [
+        -0.44,
+        1.030000000745058,
+        0
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0,
+          0.4,
+          0
+        ],
+        [
+          -0.132,
+          0.45,
+          0
+        ],
+        [
+          -0.22,
+          0.75,
+          0
+        ]
+      ],
+      "radius": 0.025,
+      "segments": 36,
+      "sides": 8,
+      "position": [
+        0,
+        7.450580707946131e-10,
+        0
+      ],
+      "material": "brass"
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.075,
+      "radiusTop": 0.075,
+      "height": 0.04,
+      "position": [
+        -0.22,
+        0.9000000007450581,
+        0
+      ],
+      "material": "brass",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.04,
+      "radiusTop": 0.04,
+      "height": 0.22,
+      "position": [
+        -0.22,
+        1.030000000745058,
+        0
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0,
+      "height": 0.09,
+      "position": [
+        -0.22,
+        1.1800000007450582,
+        0
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.075,
+      "radiusTop": 0.075,
+      "height": 0.04,
+      "position": [
+        0,
+        1.050000000745058,
+        0
+      ],
+      "material": "brass",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.04,
+      "radiusTop": 0.04,
+      "height": 0.22,
+      "position": [
+        0,
+        1.1800000007450582,
+        0
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0,
+      "height": 0.09,
+      "position": [
+        0,
+        1.330000000745058,
+        0
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0,
+          0.4,
+          0
+        ],
+        [
+          0.132,
+          0.45,
+          0
+        ],
+        [
+          0.22,
+          0.75,
+          0
+        ]
+      ],
+      "radius": 0.025,
+      "segments": 36,
+      "sides": 8,
+      "position": [
+        0,
+        7.450580707946131e-10,
+        0
+      ],
+      "material": "brass"
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.075,
+      "radiusTop": 0.075,
+      "height": 0.04,
+      "position": [
+        0.22,
+        0.9000000007450581,
+        0
+      ],
+      "material": "brass",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.04,
+      "radiusTop": 0.04,
+      "height": 0.22,
+      "position": [
+        0.22,
+        1.030000000745058,
+        0
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0,
+      "height": 0.09,
+      "position": [
+        0.22,
+        1.1800000007450582,
+        0
+      ],
+      "material": "flame",
+      "segments": 12
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0,
+          0.4,
+          0
+        ],
+        [
+          0.264,
+          0.45,
+          0
+        ],
+        [
+          0.44,
+          0.6,
+          0
+        ]
+      ],
+      "radius": 0.025,
+      "segments": 36,
+      "sides": 8,
+      "position": [
+        0,
+        7.450580707946131e-10,
+        0
+      ],
+      "material": "brass"
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.075,
+      "radiusTop": 0.075,
+      "height": 0.04,
+      "position": [
+        0.44,
+        0.750000000745058,
+        0
+      ],
+      "material": "brass",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.04,
+      "radiusTop": 0.04,
+      "height": 0.22,
+      "position": [
+        0.44,
+        0.8800000007450581,
+        0
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.025,
+      "radiusTop": 0,
+      "height": 0.09,
+      "position": [
+        0.44,
+        1.030000000745058,
+        0
+      ],
+      "material": "flame",
+      "segments": 12
+    }
+  ],
+  "mergeParts": true
+}

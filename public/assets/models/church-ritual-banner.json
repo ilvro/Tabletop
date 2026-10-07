@@ -1,0 +1,178 @@
+{
+  "name": "Igreja · pendão ritual de tecido rasgado",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "limestone": {
+      "color": "#b1a18a",
+      "roughness": 0.95
+    },
+    "wornStone": {
+      "color": "#524a43",
+      "roughness": 1
+    },
+    "carving": {
+      "color": "#c6b79d",
+      "roughness": 0.88
+    },
+    "wood": {
+      "color": "#482b23",
+      "roughness": 0.87
+    },
+    "iron": {
+      "color": "#343035",
+      "metalness": 0.7,
+      "roughness": 0.55
+    },
+    "brass": {
+      "color": "#9b7750",
+      "metalness": 0.65,
+      "roughness": 0.4
+    },
+    "cloth": {
+      "color": "#631e2b",
+      "roughness": 1
+    },
+    "glass": {
+      "color": "#9e122f",
+      "emissive": "#a4132e",
+      "emissiveIntensity": 0.65,
+      "roughness": 0.28,
+      "opacity": 0.72
+    },
+    "amberGlass": {
+      "color": "#b85032",
+      "emissive": "#a83d22",
+      "emissiveIntensity": 0.35,
+      "roughness": 0.3,
+      "opacity": 0.8
+    },
+    "wax": {
+      "color": "#c5af88",
+      "roughness": 0.9
+    },
+    "flame": {
+      "color": "#ffd58a",
+      "emissive": "#ff8a37",
+      "emissiveIntensity": 2
+    }
+  },
+  "parts": [
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -0.65,
+          3
+        ],
+        [
+          0.65,
+          3
+        ],
+        [
+          0.65,
+          0.35
+        ],
+        [
+          0.3,
+          0.1
+        ],
+        [
+          0.08,
+          0.32
+        ],
+        [
+          -0.17,
+          0
+        ],
+        [
+          -0.44,
+          0.22
+        ],
+        [
+          -0.65,
+          0.13
+        ]
+      ],
+      "depth": 0.025,
+      "position": [
+        0,
+        0,
+        -0.02250000089406967
+      ],
+      "material": "cloth"
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.04,
+      "radiusTop": 0.04,
+      "height": 1.66,
+      "position": [
+        0,
+        3,
+        -0.02250000089406967
+      ],
+      "material": "iron",
+      "segments": 10,
+      "surface": {
+        "texture": "metal",
+        "textureSize": 0.65,
+        "metalPattern": "rusted",
+        "metalWear": 0.12,
+        "textureColorMode": "tint",
+        "textureColor": "#625e65",
+        "textureSaturation": 0.3,
+        "textureBrightness": 0.7,
+        "relief": 0.008
+      },
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948963
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.13,
+        1.56,
+        0.08
+      ],
+      "position": [
+        0,
+        1.9,
+        0.022499999105930327
+      ],
+      "material": "brass"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.8320000000000001,
+        0.13,
+        0.08
+      ],
+      "position": [
+        0,
+        2.134,
+        0.022499999105930327
+      ],
+      "material": "brass"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.624,
+        0.09100000000000001,
+        0.08
+      ],
+      "position": [
+        0,
+        1.835,
+        0.022499999105930327
+      ],
+      "material": "brass"
+    }
+  ],
+  "mergeParts": true
+}

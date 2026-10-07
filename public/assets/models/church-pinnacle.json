@@ -1,0 +1,247 @@
+{
+  "name": "Igreja · pináculo com florões",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "limestone": {
+      "color": "#b1a18a",
+      "roughness": 0.95
+    },
+    "wornStone": {
+      "color": "#524a43",
+      "roughness": 1
+    },
+    "carving": {
+      "color": "#c6b79d",
+      "roughness": 0.88
+    },
+    "wood": {
+      "color": "#482b23",
+      "roughness": 0.87
+    },
+    "iron": {
+      "color": "#343035",
+      "metalness": 0.7,
+      "roughness": 0.55
+    },
+    "brass": {
+      "color": "#9b7750",
+      "metalness": 0.65,
+      "roughness": 0.4
+    },
+    "cloth": {
+      "color": "#631e2b",
+      "roughness": 1
+    },
+    "glass": {
+      "color": "#9e122f",
+      "emissive": "#a4132e",
+      "emissiveIntensity": 0.65,
+      "roughness": 0.28,
+      "opacity": 0.72
+    },
+    "amberGlass": {
+      "color": "#b85032",
+      "emissive": "#a83d22",
+      "emissiveIntensity": 0.35,
+      "roughness": 0.3,
+      "opacity": 0.8
+    },
+    "wax": {
+      "color": "#c5af88",
+      "roughness": 0.9
+    },
+    "flame": {
+      "color": "#ffd58a",
+      "emissive": "#ff8a37",
+      "emissiveIntensity": 2
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.75,
+        0.18,
+        0.75
+      ],
+      "position": [
+        0,
+        0.0900000035762786,
+        0
+      ],
+      "material": "limestone",
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.4,
+        "relief": 0.018,
+        "textureColorMode": "replace",
+        "textureColor": "#a99b88",
+        "textureBrightness": 0.9
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.48,
+        1.1,
+        0.48
+      ],
+      "position": [
+        0,
+        0.7300000035762786,
+        0
+      ],
+      "material": "limestone",
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.4,
+        "relief": 0.018,
+        "textureColorMode": "replace",
+        "textureColor": "#a99b88",
+        "textureBrightness": 0.9
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.65,
+        0.15,
+        0.65
+      ],
+      "position": [
+        0,
+        1.3500000035762787,
+        0
+      ],
+      "material": "carving"
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.43,
+      "radiusTop": 0,
+      "height": 1.5,
+      "position": [
+        0,
+        2.1700000035762788,
+        0
+      ],
+      "material": "carving",
+      "segments": 4,
+      "rotation": [
+        0,
+        0.7853981633974483,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.055,
+      "radiusTop": 0.01,
+      "height": 0.21633307652783929,
+      "position": [
+        -0.27,
+        1.6400000035762787,
+        0
+      ],
+      "material": "carving",
+      "segments": 10,
+      "rotation": [
+        0,
+        0,
+        0.9827937232473295
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.055,
+      "radiusTop": 0.01,
+      "height": 0.21633307652783929,
+      "position": [
+        0.27,
+        1.6400000035762787,
+        0
+      ],
+      "material": "carving",
+      "segments": 10,
+      "rotation": [
+        0,
+        0,
+        -0.9827937232473295
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.055,
+      "radiusTop": 0.01,
+      "height": 0.2163330765278394,
+      "position": [
+        -0.27,
+        1.9900000035762784,
+        0
+      ],
+      "material": "carving",
+      "segments": 10,
+      "rotation": [
+        0,
+        0,
+        0.9827937232473285
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.055,
+      "radiusTop": 0.01,
+      "height": 0.2163330765278394,
+      "position": [
+        0.27,
+        1.9900000035762784,
+        0
+      ],
+      "material": "carving",
+      "segments": 10,
+      "rotation": [
+        0,
+        0,
+        -0.9827937232473285
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.055,
+      "radiusTop": 0.01,
+      "height": 0.2163330765278394,
+      "position": [
+        -0.27,
+        2.3400000035762787,
+        0
+      ],
+      "material": "carving",
+      "segments": 10,
+      "rotation": [
+        0,
+        0,
+        0.9827937232473285
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.055,
+      "radiusTop": 0.01,
+      "height": 0.2163330765278394,
+      "position": [
+        0.27,
+        2.3400000035762787,
+        0
+      ],
+      "material": "carving",
+      "segments": 10,
+      "rotation": [
+        0,
+        0,
+        -0.9827937232473285
+      ]
+    }
+  ],
+  "mergeParts": true
+}

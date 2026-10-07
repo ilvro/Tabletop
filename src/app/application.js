@@ -1,3 +1,4 @@
+import { wearFieldPatch } from '../domain/wear.js';
 import { createScenePreviews } from './scene-previews.js';
 import { copyMaterial } from '../domain/material-transfer.js';
 import { captureBrushSettings, applyBrushPreset } from '../domain/brush-presets.js';
@@ -1493,6 +1494,7 @@ export async function startApplication() {
     else if (field.startsWith('scale-')) { const scale = [...record.transform.scale]; scale[Number(field.slice(-1))] = value; patch.transform = { scale }; }
     else if (field.startsWith('footprint-')) { const footprint = [...record.footprint]; footprint[Number(field.slice(-1))] = value; patch.footprint = footprint; }
     else if (field === 'token-color') actorPatch = { color: value };
+    else if (field.startsWith('wear-')) patch.material = { wear: wearFieldPatch(record.material.wear, field.slice(5), value) };
     else if (field.startsWith('material-')) patch.material = field === 'material-texture' ? surfacePatch(value) : textureFieldPatch(record.material, field.slice(9), value);
     else if(field.startsWith('water-') && record.kind==='water') patch.water={[field.slice(6)]:value};
     else if (field.startsWith('rock-') && rockDefaults(record.assetRef?.id)) {

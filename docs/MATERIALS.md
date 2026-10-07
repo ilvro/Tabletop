@@ -156,3 +156,9 @@ Cobertura de neve aceita `physicalThickness` opcional (0–1,5 m, padrão zero) 
 O padrão **Orgânica · mineral e fissuras locais** (`rockPattern: 'organic'`) acrescenta variação mineral em várias escalas e um campo espacial amplo, sem o desenho de blocos de alvenaria. Continua procedural; mapas fotográficos/importados não foram acrescentados neste incremento. As formas do volume são opções independentes em Geometria da rocha.
 
 Cobertura de neve oferece **Forma do acúmulo → Depósitos orgânicos · contínuos**, com `snowStyle`, `snowDrift`, `snowDriftScale` e `snowWindDirection` opcionais. Nos objetos, vértices compartilhados e bordas afinadas substituem os prismas independentes; no terreno, o campo de espessura também altera a superfície de apoio derivada. Ausência desses campos conserva a camada antiga. Uso, intervalos, precipitação e limites em [ORGANIC_WINTER.md](ORGANIC_WINTER.md).
+
+## Desgaste localizado em arquitetura e objetos
+
+Implementado em 6 de outubro: **Material → Desgaste do material** aplica sujeira, ferrugem, musgo, fuligem ou rachaduras aparentes diretamente sobre a textura existente, inclusive em modelos importados. Oferece intensidade, escala, seed, acabamento e distribuição pela peça inteira, base, topo ou região ajustável em coordenadas locais. Respeita o slot selecionado, acompanha transformações e participa de clipboard, histórico, salvamento e projetor. Não exige novos assets de desgaste. Guia e limites: [MATERIAL_WEAR.md](MATERIAL_WEAR.md).
+
+A região procedural permite posicionar uma área de desgaste, mas não equivale a pintura livre ou símbolos enviados pelo usuário. Esses fluxos e múltiplas camadas independentes continuam futuros. As partes quebradas do [kit da igreja](CHURCH_KIT.md) são geometria; rachaduras do painel são acabamento e microrelevo. Camadas pintadas de terreno conservam seus campos; o desgaste é do material base.
