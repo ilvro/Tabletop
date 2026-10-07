@@ -9,6 +9,9 @@ export const EXAMPLE_SCENES = Object.freeze([
   Object.freeze({ id: 'icewind-bridge', name: 'Passagem de Inverno · Ponte e Névoa',
     description: 'Um vale nevado e escuro com uma ponte gigantesca ao fundo e uma torre em ruínas.',
     file: 'scenes/icewind-bridge.json', preview: 'scenes/icewind-bridge.jpg' }),
+  Object.freeze({ id:'igreja-antiga',name:'Igreja Antiga · templo e vale dos vampiros',
+    description:'Igreja completa com banquete, conjunto ritual, galerias, sala de correntes, torre, cobertura e caminho pelo vale violeta. Dez câmeras e cópia totalmente editável.',
+    file:'scenes/igreja-antiga.json',preview:'scenes/igreja-antiga.jpg' }),
   ...[
     ['lighting-chapel','Iluminação · capela ritual','Nave vermelha e exterior violeta, vitrais projetados, candelabros e névoa local.'],
     ['lighting-tavern','Iluminação · taverna acolhedora','Velas agrupadas, lâmpadas quentes, madeira e sombras editáveis.'],

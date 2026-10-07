@@ -1,0 +1,59 @@
+{
+  "name": "Igreja · cruz dupla de ferro",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "iron": {
+      "color": "#8e3336",
+      "metalness": 0.55,
+      "roughness": 0.55,
+      "emissive": "#ee2737",
+      "emissiveIntensity": 0.8
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.15,
+        2.4,
+        0.12
+      ],
+      "position": [
+        0,
+        1.2000000476837165,
+        0
+      ],
+      "material": "iron"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.15,
+        0.15,
+        0.12
+      ],
+      "position": [
+        0,
+        1.6500000476837164,
+        0
+      ],
+      "material": "iron"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.85,
+        0.13,
+        0.12
+      ],
+      "position": [
+        0,
+        1.2500000476837165,
+        0
+      ],
+      "material": "iron"
+    }
+  ],
+  "mergeParts": true
+}

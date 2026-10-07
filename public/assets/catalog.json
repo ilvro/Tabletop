@@ -6958,6 +6958,126 @@
       ],
       "url": "/assets/models/church-candelabra.json",
       "previewUrl": "/assets/previews/church-candelabra.svg"
+    },
+    {
+      "id": "builtin-church-ogival-gable",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · empena ogival maciça",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "complemento arquitetônico"
+      ],
+      "description": "Fecha as extremidades da cobertura ogival de 10,28 m. Base na linha de arranque; espessura de 44 cm.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        10.28,
+        0.44
+      ],
+      "bounds": [
+        10.28,
+        9.003,
+        0.44
+      ],
+      "url": "/assets/models/church-ogival-gable.json",
+      "previewUrl": "/assets/previews/church-ogival-gable.svg"
+    },
+    {
+      "id": "builtin-church-window-spandrel",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · alvenaria com vão ogival",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "complemento arquitetônico"
+      ],
+      "description": "Preenche os cantos acima de um vitral ogival mantendo a abertura real. Combine com o vitral existente, sem sobrepor uma parede sólida.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.41,
+        0.47
+      ],
+      "bounds": [
+        2.4,
+        4.5,
+        0.46
+      ],
+      "url": "/assets/models/church-window-spandrel.json",
+      "previewUrl": "/assets/previews/church-window-spandrel.svg"
+    },
+    {
+      "id": "builtin-church-double-cross",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · cruz dupla de ferro",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "complemento arquitetônico"
+      ],
+      "description": "Cruz dupla original para fachada e conjunto ritual; emissão editável no material, sem símbolo oficial extraído.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.15,
+        0.12
+      ],
+      "bounds": [
+        1.15,
+        2.4,
+        0.12
+      ],
+      "url": "/assets/models/church-double-cross.json",
+      "previewUrl": "/assets/previews/church-double-cross.svg"
+    },
+    {
+      "id": "builtin-church-banquet-setting",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · prato e cálice de banquete",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "complemento arquitetônico"
+      ],
+      "description": "Prato, alimento estilizado e cálice vermelho como decoração de tampo, sem fonte luminosa.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.55,
+        0.41
+      ],
+      "bounds": [
+        0.545,
+        0.296,
+        0.4
+      ],
+      "url": "/assets/models/church-banquet-setting.json",
+      "previewUrl": "/assets/previews/church-banquet-setting.svg"
     }
   ]
 }

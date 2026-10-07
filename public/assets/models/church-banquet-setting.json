@@ -1,0 +1,112 @@
+{
+  "name": "Igreja · prato e cálice de banquete",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "metal": {
+      "color": "#9c8266",
+      "roughness": 0.5,
+      "metalness": 0.7
+    },
+    "food": {
+      "color": "#592327",
+      "roughness": 0.65
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.18,
+      "radiusTop": 0.2,
+      "height": 0.025,
+      "segments": 20,
+      "position": [
+        -0.07250000715255737,
+        0.012500000186264518,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.18,
+      "tube": 0.014,
+      "segments": 20,
+      "sides": 6,
+      "position": [
+        -0.07250000715255737,
+        0.030000000186264517,
+        0
+      ],
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "sphere",
+      "radius": 0.075,
+      "position": [
+        -0.07250000715255737,
+        0.10000000018626452,
+        0
+      ],
+      "material": "food"
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.065,
+      "radiusTop": 0.065,
+      "height": 0.025,
+      "segments": 12,
+      "position": [
+        0.19749999284744263,
+        0.012500000186264518,
+        0.12
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.016,
+      "radiusTop": 0.016,
+      "height": 0.16,
+      "segments": 10,
+      "position": [
+        0.19749999284744263,
+        0.10000000018626452,
+        0.12
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.04,
+      "radiusTop": 0.075,
+      "height": 0.12,
+      "segments": 16,
+      "position": [
+        0.19749999284744263,
+        0.23000000018626454,
+        0.12
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusBottom": 0.065,
+      "radiusTop": 0.065,
+      "height": 0.007,
+      "segments": 16,
+      "position": [
+        0.19749999284744263,
+        0.2920000001862645,
+        0.12
+      ],
+      "material": "food"
+    }
+  ],
+  "mergeParts": true
+}
