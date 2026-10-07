@@ -44,7 +44,7 @@ Torre, nervuras e cobertura são módulos cenográficos. A torre tem base inferi
 
 Escolha **Aplicar acabamento em** para editar um material nomeado: `limestone`, `carving`, `wornStone`, `wood`, `iron`, `brass`, `cloth`, `glass`, `amberGlass`, `wax` ou `flame`, conforme a peça. A biblioteca utiliza texturas procedurais existentes para alvenaria, madeira, ferro oxidado e microtextura da estátua. Os materiais originais são próprios de cada receita; alterações de uma instância não modificam outra.
 
-O vidro é translúcido, tem emissão e não projeta uma sombra opaca. **Ele não projeta o desenho ou a cor do vitral no ambiente.** Acrescente luz pontual/spot vermelha separada quando necessário. As chamas também precisam de iluminação complementar: uma luz compartilhada para a mesa pode atender várias velas. Emissão não equivale a uma fonte de luz que ilumina objetos vizinhos.
+O vidro é translúcido, tem emissão e não projeta uma sombra opaca. O vidro sozinho não projeta seu desenho ou sua cor no ambiente. Selecione o modelo e aplique **Luz neste objeto → Janela / vitral** para acrescentar uma spot com padrão procedural editável; escolha a origem/direção para iluminar a nave. O desenho da projeção é independente da geometria do vidro. Nas chamas, use **Vela / candelabro** ou **Tocha / lareira**; uma fonte compartilhada para a mesa pode atender várias velas. Emissão não equivale a uma fonte de luz que ilumina objetos vizinhos.
 
 ## Avaliação do desgaste localizado
 
@@ -56,7 +56,7 @@ Para símbolos/imagens específicos e várias marcas independentes, **decals vin
 
 Pintura livre com pincel ainda exigiria máscaras por superfície/slot, edição e serialização próprias. Decals e essa pintura permanecem futuros. A camada procedural não cria danos geométricos nem estabelece paridade com o acabamento das referências.
 
-A evolução reutilizável de luzes vinculadas a assets, zonas de ambiente, vitrais e névoa iluminada foi planejada em [DYNAMIC_LIGHTING_PLAN.md](DYNAMIC_LIGHTING_PLAN.md). A iluminação atual continua sendo a descrita acima; o plano não foi implementado.
+A iluminação reutilizável agora oferece fontes vinculadas, zonas de ambiente, projeções de vitral e névoa iluminada. O estudo de **capela ritual** em Abrir combina o kit e esses controles, sem reproduzir o mapa completo. [Uso e limites](DYNAMIC_LIGHTING.md); [entregas e extensões do plano](DYNAMIC_LIGHTING_PLAN.md).
 
 ## Implementação e validação
 

@@ -1,0 +1,1161 @@
+{
+  "schemaVersion": 2,
+  "documentType": "scene",
+  "id": "c3000002-0000-4000-8000-000000000001",
+  "revision": 0,
+  "name": "Iluminação · escritório fluorescente",
+  "createdAt": "2026-10-06T15:00:00.000Z",
+  "updatedAt": "2026-10-06T15:00:00.000Z",
+  "layout": {
+    "grid": {
+      "type": "square",
+      "origin": [
+        0,
+        0
+      ],
+      "cellSize": 1,
+      "visible": false,
+      "snap": false,
+      "color": "#87969e",
+      "opacity": 0.25
+    },
+    "entities": {
+      "c3000002-0000-4000-8000-000000000003": {
+        "id": "c3000002-0000-4000-8000-000000000003",
+        "name": "Exterior · preenchimento global",
+        "kind": "floor",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            0,
+            -0.015,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "width": 26,
+        "length": 26,
+        "thickness": 0.16,
+        "material": {
+          "color": "#635773",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        }
+      },
+      "c3000002-0000-4000-8000-000000000004": {
+        "id": "c3000002-0000-4000-8000-000000000004",
+        "name": "Interior · zona de ambiente",
+        "kind": "floor",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "width": 12,
+        "length": 12,
+        "thickness": 0.16,
+        "material": {
+          "color": "#8d8a83",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        },
+        "lightingZone": {
+          "enabled": true,
+          "position": [
+            0,
+            4,
+            0
+          ],
+          "size": [
+            12,
+            9,
+            12
+          ],
+          "blend": 0.6,
+          "priority": 10,
+          "color": "#aecada",
+          "intensity": 0.4,
+          "fogColor": "#8193a4",
+          "fogDensity": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000005": {
+        "id": "c3000002-0000-4000-8000-000000000005",
+        "name": "Fundo",
+        "kind": "wall",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6,
+            0,
+            -6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "length": 12,
+        "height": 3.6,
+        "thickness": 0.18,
+        "material": {
+          "color": "#b2a48e",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        }
+      },
+      "c3000002-0000-4000-8000-000000000006": {
+        "id": "c3000002-0000-4000-8000-000000000006",
+        "name": "Lateral esquerda",
+        "kind": "wall",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6,
+            0,
+            -6
+          ],
+          "rotation": [
+            0,
+            -0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "length": 12,
+        "height": 3.6,
+        "thickness": 0.18,
+        "material": {
+          "color": "#b2a48e",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        }
+      },
+      "c3000002-0000-4000-8000-000000000007": {
+        "id": "c3000002-0000-4000-8000-000000000007",
+        "name": "Lateral direita",
+        "kind": "wall",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            6,
+            0,
+            -6
+          ],
+          "rotation": [
+            0,
+            -0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "length": 12,
+        "height": 3.6,
+        "thickness": 0.18,
+        "material": {
+          "color": "#b2a48e",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        }
+      },
+      "c3000002-0000-4000-8000-000000000008": {
+        "id": "c3000002-0000-4000-8000-000000000008",
+        "name": "Mesa de investigação",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.7,
+            0,
+            -2.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-desk",
+          "revision": 1
+        },
+        "footprint": [
+          1.8,
+          0.85
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000009": {
+        "id": "c3000002-0000-4000-8000-000000000009",
+        "name": "Terminal de computador",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.7,
+            0.8,
+            -2.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-computer",
+          "revision": 1
+        },
+        "footprint": [
+          0.7,
+          0.52
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000010": {
+        "id": "c3000002-0000-4000-8000-000000000010",
+        "name": "Cadeira",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.7,
+            0,
+            -0.9999999999999998
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-chair",
+          "revision": 1
+        },
+        "footprint": [
+          0.55,
+          0.55
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000011": {
+        "id": "c3000002-0000-4000-8000-000000000011",
+        "name": "Mesa de investigação",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.7,
+            0,
+            2.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-desk",
+          "revision": 1
+        },
+        "footprint": [
+          1.8,
+          0.85
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000012": {
+        "id": "c3000002-0000-4000-8000-000000000012",
+        "name": "Terminal de computador",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.7,
+            0.8,
+            2.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-computer",
+          "revision": 1
+        },
+        "footprint": [
+          0.7,
+          0.52
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000013": {
+        "id": "c3000002-0000-4000-8000-000000000013",
+        "name": "Cadeira",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.7,
+            0,
+            3.5999999999999996
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-chair",
+          "revision": 1
+        },
+        "footprint": [
+          0.55,
+          0.55
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000014": {
+        "id": "c3000002-0000-4000-8000-000000000014",
+        "name": "Mesa de investigação",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            2.7,
+            0,
+            -2.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-desk",
+          "revision": 1
+        },
+        "footprint": [
+          1.8,
+          0.85
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000015": {
+        "id": "c3000002-0000-4000-8000-000000000015",
+        "name": "Terminal de computador",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            2.7,
+            0.8,
+            -2.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-computer",
+          "revision": 1
+        },
+        "footprint": [
+          0.7,
+          0.52
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000016": {
+        "id": "c3000002-0000-4000-8000-000000000016",
+        "name": "Cadeira",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            2.7,
+            0,
+            -0.9999999999999998
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-chair",
+          "revision": 1
+        },
+        "footprint": [
+          0.55,
+          0.55
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000017": {
+        "id": "c3000002-0000-4000-8000-000000000017",
+        "name": "Mesa de investigação",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            2.7,
+            0,
+            2.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-desk",
+          "revision": 1
+        },
+        "footprint": [
+          1.8,
+          0.85
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000018": {
+        "id": "c3000002-0000-4000-8000-000000000018",
+        "name": "Terminal de computador",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            2.7,
+            0.8,
+            2.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-computer",
+          "revision": 1
+        },
+        "footprint": [
+          0.7,
+          0.52
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000019": {
+        "id": "c3000002-0000-4000-8000-000000000019",
+        "name": "Cadeira",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            2.7,
+            0,
+            3.5999999999999996
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-chair",
+          "revision": 1
+        },
+        "footprint": [
+          0.55,
+          0.55
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000020": {
+        "id": "c3000002-0000-4000-8000-000000000020",
+        "name": "Luminária cirúrgica",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "fluorescent",
+          "mode": "assisted",
+          "type": "spot",
+          "color": "#dcecff",
+          "intensity": 125,
+          "distance": 12,
+          "position": [
+            0,
+            3,
+            1
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 1.0471975511965976,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": false,
+            "pattern": "fluorescent",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 30,
+          "shadowPolicy": "priority",
+          "mapSize": 1024,
+          "projection": "none",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            -3,
+            0,
+            -4.5
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-surgical-lamp",
+          "revision": 1
+        },
+        "footprint": [
+          0.97,
+          0.5
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000002-0000-4000-8000-000000000021": {
+        "id": "c3000002-0000-4000-8000-000000000021",
+        "name": "Luminária cirúrgica",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "fluorescent",
+          "mode": "assisted",
+          "type": "spot",
+          "color": "#dcecff",
+          "intensity": 125,
+          "distance": 12,
+          "position": [
+            0,
+            3,
+            1
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 1.0471975511965976,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": false,
+            "pattern": "fluorescent",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 30,
+          "shadowPolicy": "priority",
+          "mapSize": 1024,
+          "projection": "none",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            3,
+            0,
+            -4.5
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-surgical-lamp",
+          "revision": 1
+        },
+        "footprint": [
+          0.97,
+          0.5
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      }
+    },
+    "groups": {},
+    "areas": {},
+    "compositions": {}
+  },
+  "sourceMap": null,
+  "sourceEnvironment": {
+    "id": "office",
+    "revision": 1
+  },
+  "look": {
+    "background": "#3a454e",
+    "fill": {
+      "skyColor": "#c8d9e7",
+      "groundColor": "#5e676c",
+      "intensity": 0.7
+    },
+    "lights": {
+      "c3000002-0000-4000-8000-000000000002": {
+        "id": "c3000002-0000-4000-8000-000000000002",
+        "name": "Sol / Lua",
+        "type": "directional",
+        "position": [
+          4,
+          8,
+          6
+        ],
+        "rotation": [
+          0.16561121050749114,
+          0.29613740272754274,
+          -0.05221701409779435,
+          0.939227847276016
+        ],
+        "color": "#f3f2ff",
+        "intensity": 0.4,
+        "distance": 0,
+        "shadowEnabled": true,
+        "audience": "all",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "role": "key",
+        "temperature": 7000,
+        "enabled": true
+      }
+    },
+    "materialAdjustments": {},
+    "daylight": {
+      "phase": "day",
+      "exposure": 1.1
+    },
+    "sky": {
+      "enabled": false,
+      "topColor": "#397bc0",
+      "horizonColor": "#bfd5e6",
+      "celestialEnabled": true,
+      "discSize": 0.035,
+      "stars": true,
+      "clouds": true,
+      "cloudColor": "#ffffff",
+      "cloudCoverage": 0.35,
+      "cloudOpacity": 0.45,
+      "cloudSpeed": 0.025,
+      "cloudScale": 3,
+      "seed": 1
+    },
+    "weather": {
+      "type": "none",
+      "count": 600,
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        30,
+        12,
+        30
+      ],
+      "color": "#afc9de",
+      "opacity": 0.45,
+      "particleSize": 0.025,
+      "speed": 10,
+      "wind": [
+        1,
+        0
+      ],
+      "seed": 1
+    },
+    "fog": {
+      "enabled": false,
+      "mode": "linear",
+      "color": "#8899aa",
+      "near": 8,
+      "far": 45,
+      "density": 0.025
+    },
+    "volumetricFog": {
+      "enabled": false,
+      "color": "#a5b6c5",
+      "density": 0.06,
+      "baseHeight": 0,
+      "height": 3,
+      "maxDistance": 80
+    },
+    "bloom": {
+      "enabled": false,
+      "strength": 0.25,
+      "radius": 0.3,
+      "threshold": 1
+    },
+    "nightWindows": {
+      "enabled": true,
+      "color": "#ffc86d",
+      "intensity": 2
+    },
+    "effectsPaused": true,
+    "rendering": {
+      "reflections": true,
+      "reflectionIntensity": 0.2,
+      "ao": true,
+      "aoIntensity": 0.35,
+      "aoRadius": 0.6,
+      "volumetricLights": false,
+      "volumeStrength": 0.5,
+      "cutawayShadows": false
+    }
+  },
+  "actors": {},
+  "tokens": {},
+  "cameraPresets": {
+    "c3000002-0000-4000-8000-000000000022": {
+      "id": "c3000002-0000-4000-8000-000000000022",
+      "name": "Visão geral",
+      "position": [
+        18,
+        18,
+        24
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ],
+      "projection": "perspective",
+      "orthographicHeight": 24,
+      "fov": 50
+    },
+    "c3000002-0000-4000-8000-000000000023": {
+      "id": "c3000002-0000-4000-8000-000000000023",
+      "name": "Vista superior",
+      "position": [
+        0,
+        25,
+        0.01
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "projection": "orthographic",
+      "orthographicHeight": 30,
+      "fov": 50
+    },
+    "c3000002-0000-4000-8000-000000000024": {
+      "id": "c3000002-0000-4000-8000-000000000024",
+      "name": "Dentro do ambiente",
+      "position": [
+        0,
+        2.2,
+        8
+      ],
+      "target": [
+        0,
+        2,
+        -4
+      ],
+      "projection": "perspective",
+      "orthographicHeight": 20,
+      "fov": 50
+    }
+  },
+  "sessionState": {
+    "doors": {}
+  },
+  "audioCue": null
+}

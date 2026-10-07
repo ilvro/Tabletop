@@ -1,6 +1,21 @@
 # Plano de evolução da iluminação dinâmica
 
-Proposta de 6 de outubro de 2026, baseada no código atual. **Este documento é um plano; as funcionalidades futuras abaixo ainda não foram implementadas.** O desgaste configurável por material foi implementado separadamente em [MATERIAL_WEAR.md](MATERIAL_WEAR.md).
+Proposta de 6 de outubro de 2026, com implementação inicial entregue na mesma data. **O texto de arquitetura abaixo registra o plano original; o quadro de estado distingue o que foi entregue das extensões futuras.** O desgaste configurável por material foi implementado separadamente em [MATERIAL_WEAR.md](MATERIAL_WEAR.md).
+
+## Estado da implementação inicial
+
+Uso e limites em [DYNAMIC_LIGHTING.md](DYNAMIC_LIGHTING.md). O contrato concreto usa campos opcionais `entity.illumination`, `entity.lightingZone` e `look.rendering` no schema 2. Vínculos pertencem ao host, sem IDs cruzados; fontes runtime são derivadas depois de filtrar a apresentação. A biblioteca pessoal usa IndexedDB nos dois modos, como a de pincéis; a proposta de repositório de perfis no servidor fica posterior.
+
+| Área do plano | Entregue | Ainda posterior |
+| --- | --- | --- |
+| 0–1 · contrato/núcleo | Validação, snapshots, reconciliação por identidade, pool por tipo, seleção com retenção, budget de vistas, invalidação local e sol/lua focados na vista. Diagnóstico de CPU p50/p95, programas, memória e chamadas do frame completo. | Tempos GPU/hardware, índices por células, transições entre fontes, aquecimento antecipado de variantes e cascatas. |
+| 2 · fontes | Seis perfis editáveis, origem numérica ou clicada, guias, slots emissivos, modos de autoria, parâmetros fixáveis, biblioteca pessoal/concorrência, clipboard, prévia transacional e histórico. Uma fonte compartilhada por host; evita duplicação da luz do fogo local. | Sockets sugeridos pelo catálogo/GLB, múltiplos sockets por host, agrupamento espacial automático e biblioteca no servidor. |
+| 3 · zonas | Até 16 caixas simultâneas com prioridade/transição, preenchimento difuso e névoa por posição, guias, privacidade e caster de paredes paramétricas ocultas pelo recorte. | Polígonos extrudados, desenho direto de zonas, grafo de conexões/transmissão por aberturas e cutaway de coberturas/props. Portas reais já alteram as sombras de suas malhas. |
+| 4 · acabamento | Cookies de vitral/grades/folhas de 128 px, seed/rotação, oclusão de spot; PMREM procedural de 64 px; GTAO em meia resolução, intensidade/raio e exclusão de helpers/transparências. | Importação HDR, sondas locais, refração/cáusticas e comparação presencial de alternativas de AO. |
+| 5 · volumes | Névoa de caixa/horizontal integrada por profundidade, até quatro fontes e duas sombras spot, 8/12/20 passos, composição linear e fallback analítico. | Volume em meia resolução com upsampling, oclusão de pontuais no ar, cookies coloridos no feixe, transparências volumétricas e histórico temporal. |
+| 6 · estudos | Presets acolhedor/ritual/fluorescente e quatro cenas editáveis com prévias do viewport real: capela, taverna, escritório e rua. Script verifica zero reconstrução em edição de intensidade e percorre câmeras/qualidades. | Reprodução completa da igreja/vale e calibração de FPS em notebook + projetor reais. |
+
+O núcleo recomendado das etapas 0–2 foi implementado, com partes utilizáveis das etapas 3–6. Os critérios integrais dessas etapas posteriores não estão todos encerrados. Testes em Chromium/SwiftShader comprovam correção, identidade e descarte; não comprovam a meta presencial de 30 FPS. Qualidade é local por janela e fontes sem sombra/projeção têm degradação explícita no guia e nos controles.
 
 ## Decisão
 
@@ -52,7 +67,7 @@ Perfis de fonte e ambientes pessoais devem poder ser salvos, renomeados e reapli
 
 Manter `look.lights` para fontes explícitas e os campos antigos válidos. Acrescentar configurações opcionais e versionadas para perfis de fonte por instância, regiões e aberturas. Não serializar objetos Three.js, texturas de sombra, seleção do orçamento ou frames de animação.
 
-Esboço conceitual de dados futuros, ainda fora do schema aceito:
+Esboço conceitual do plano original (a implementação inicial usa os campos por host descritos no quadro acima; este objeto não é aceito pelo schema):
 
 ```js
 look.lighting = {

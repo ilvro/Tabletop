@@ -1,3 +1,10 @@
+import { createLightManager } from './light-manager.js';
+import { createLightingZones } from './lighting-zones.js';
+import { createCutawayShadows } from './cutaway-shadows.js';
+import { createLightingHelpers } from './lighting-helpers.js';
+import { focusDirectionalShadow } from './directional-shadows.js';
+import { createReflectionEnvironment } from './reflections.js';
+import { updateBoundLights, applyBoundEmission } from './bound-light.js';
 import {isSculptableRock,ROCK_SCULPT_LIMIT} from '../domain/rock-sculpt.js';
 import {prepareRockSculpt,applyRockStamp,rockBrushStamp,sculptFootprint} from './rock-sculpt.js';
 import { hasPhysicalSnow } from '../domain/snow.js';
@@ -95,10 +102,10 @@ export function setupUniformScaleGizmo(transform) {
 
 /** Runtime adapter only. Documents are read; all durable changes leave through callbacks. */
 export function createViewport(container, {
-  onSelect = () => {}, onMaterialPick = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
+  onSelect = () => {}, onMaterialPick = () => {}, onIlluminationOrigin = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
   onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
   onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {}, onRockStroke = () => {}, onWaterStroke = () => {}, onMaterialSlots = () => {},
-  onMeasurementChange = () => {}, navigationEnabled = true,
+  onMeasurementChange = () => {}, onLightingDiagnostics = () => {}, navigationEnabled = true,
 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-label', navigationEnabled ? 'Cena 3D — WASD desloca, Shift acelera, Page Up/Down altera altura, botão direito orbita, roda aproxima' : 'Cena publicada pelo mestre');
@@ -120,6 +127,7 @@ export function createViewport(container, {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.shadowMap.autoUpdate = false;
+  renderer.info.autoReset=false;
   canvas.style.width = '100%';
   canvas.style.height = '100%';
   canvas.style.display = 'block';
@@ -133,10 +141,17 @@ export function createViewport(container, {
   const effects = createEffectsPipeline(renderer, scene);
   const atmosphere = createAtmosphere(scene);
   const surfaces = createSurfaceLibrary(), localEffects = new Map();
+  const lightManager=createLightManager(scene),zones=createLightingZones(),reflections=createReflectionEnvironment(renderer,scene),boundLights=new Map(),signatures=new Map();
+  const cutawayCasters=createCutawayShadows(scene),lightingHelpers=createLightingHelpers(scene),timings={render:[],update:[]};
+  const sample=(key,start)=>{timings[key].push(performance.now()-start);if(timings[key].length>120)timings[key].shift();};
+  const metrics=()=>Object.fromEntries(Object.entries(timings).map(([key,values])=>{const sorted=[...values].sort((a,b)=>a-b);return [key,{samples:values.length,p50:sorted[Math.floor(sorted.length*.5)]??0,p95:sorted[Math.floor(sorted.length*.95)]??0}];}));
+  let runtimeStats={created:0,reused:0,removed:0};
+  let hemisphere;const readingLight=new THREE.AmbientLight(0xffffff,1.2);readingLight.visible=false;scene.add(readingLight);
   let localEffectsEnabled = true, animatedLocalEffects = false;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const onReducedMotion = () => invalidate();
   reducedMotion.addEventListener('change', onReducedMotion);
+  const shadowBounds=new THREE.Box3();
   let snowDirty=false, snowTriangles=0, animatedWater=false;
   let effectTime = 0, animatedLights = false, animatedAtmosphere = false;
   scene.background = new THREE.Color('#25373a');
@@ -204,6 +219,7 @@ export function createViewport(container, {
   const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
   const transform = new TransformControls(camera, canvas);
   const gizmo = transform.getHelper();
+  gizmo.userData.editHelper=true;
   transform.setSize(0.82);
   setupUniformScaleGizmo(transform);
   scene.add(gizmo);
@@ -211,10 +227,11 @@ export function createViewport(container, {
   function report(message) { if (!destroyed) onError(message instanceof Error ? message : new Error(message)); }
   function invalidate(shadows = false) {
     if (destroyed) return;
-    if (shadows) renderer.shadowMap.needsUpdate = true;
+    if (shadows) { renderer.shadowMap.needsUpdate = true;lightManager.invalidate();for(const o of objects.values())if(o.userData.source?.isDirectionalLight)o.userData.source.shadow.needsUpdate=true; }
     if (renderRequest == null) renderRequest = requestAnimationFrame(render);
   }
   function render(now) {
+    const started=performance.now();
     renderRequest = null;
     if (destroyed) return;
     const elapsed = Math.max(0, (now - (lastFrameTime ?? now)) / 1000);
@@ -248,10 +265,23 @@ export function createViewport(container, {
     animatedAtmosphere = atmosphere.update(camera, effectTime, paused, height * renderer.getPixelRatio());
     animatedLocalEffects = false;
     for (const effect of localEffects.values()) animatedLocalEffects = updateLocalEffect(effect,effectTime,localEffectsEnabled,paused) || animatedLocalEffects;
+    const descriptors=[...objects.values()].filter(o=>o.userData.source&&!o.userData.source.isDirectionalLight).map(wrapper=>({id:wrapper.userData.lightRecord.id,wrapper,source:wrapper.userData.source,record:wrapper.userData.lightRecord}));
+    if(sceneDocument)descriptors.push(...updateBoundLights(sceneDocument,objects,boundLights,effectTime,paused,visibleRecord));
+    for(const [id,effect]of localEffects){const data=effect.userData.localEffect;if(data.light && !sceneDocument.layout.entities[id]?.illumination)descriptors.push({id:id+':fire',wrapper:effect,source:data.light,record:{type:'point',distance:data.light.distance,priority:10,shadowEnabled:false}});}
+    animatedLights ||= [...boundLights.values()].some(b=>b.wrapper.visible&&b.wrapper.userData.lightRecord.enabled&&!paused&&b.wrapper.userData.lightRecord.flicker?.enabled);
+    content.updateMatrixWorld(true);lighting.updateMatrixWorld(true);camera.updateMatrixWorld();
+    updateShadowBounds(false);
+    if(cutawayCasters.update(objects,records,Boolean((sceneDocument?.look??sceneDocument?.defaultLook)?.rendering?.cutawayShadows),visibleRecord))invalidate(true);
+    zones.update(sceneDocument,objects);
+    lightingHelpers.update(records.get(selectedId),objects.get(selectedId),!presentation);
+    lightManager.update(descriptors,camera,controls.target);if(lightManager.needsShadowUpdate())renderer.shadowMap.needsUpdate=true;
+    onLightingDiagnostics(lightManager.info());
     if(snowDirty) rebuildSnow();
     animatedWater=false;for(const object of objects.values())animatedWater=updateWater(object,effectTime,paused)||animatedWater;
     ruler.project(camera, width, height);
-    effects.render(camera, seconds);
+    effects.setLighting?.(zones,lightManager.volumeLights(),lightManager.quality);
+    renderer.info.reset();effects.render(camera, seconds);
+    sample('render',started);
     if ((moving || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
     else lastFrameTime = null;
   }
@@ -429,7 +459,7 @@ export function createViewport(container, {
     try { onTransform(id, readTransform(object), { snap: useSnap }); }
     catch (error) { report(error.message); }
     // A rejected/no-op callback must not leave a runtime transform masquerading as saved state.
-    if (version === generation && sceneDocument) setDocument(sceneDocument);
+    if (version === generation && sceneDocument) setDocument(sceneDocument,{force:true});
   }
   transform.addEventListener('dragging-changed', (event) => { if (event.value) { stopCameraMotion(); gizmoCancelled = false; } controls.enabled = navigationEnabled && !event.value; invalidate(); });
   transform.addEventListener('objectChange', () => {
@@ -478,7 +508,7 @@ export function createViewport(container, {
   function installAsset(parent, entity, reference, version, appearance = null) {
     const record = assetRecord(reference);
     if (!record) { fallback(parent, 'Asset ausente'); report(`Asset ausente: ${reference?.id ?? 'sem ID'}.`); return; }
-    const stillCurrent = () => !destroyed && version === generation && objects.get(entity.id) === parent;
+    const stillCurrent = () => !destroyed && objects.get(entity.id) === parent;
     if (record.type === 'image' && appearance) {
       trackAsset(cache.texture(record).then((texture) => {
         if (!stillCurrent()) return;
@@ -503,6 +533,7 @@ export function createViewport(container, {
       applySurfaceTextures(instance, entity, surfaces);
       applyEnvironmentMaterials(instance, entity, look);
       applyMaterialOverrides(instance, undefined, look.materialAdjustments?.[entity.id]);
+      applyBoundEmission(instance,records.get(entity.id)??entity,sceneDocument.look??sceneDocument.defaultLook);zones.apply(instance);
       tagEntity(parent, entity.id);
       updateSelection();
       onMaterialSlots(entity.id);
@@ -513,22 +544,15 @@ export function createViewport(container, {
 
   function createLight(record, parent, helper = true) {
     const wrapper = createLightObject(record, { helper, presentation });
+    if(record.type!=='directional')wrapper.userData.source.removeFromParent();
+    else {wrapper.userData.source.shadow.autoUpdate=false;wrapper.userData.source.shadow.camera.layers.enable(31);wrapper.userData.source.shadow.needsUpdate=true;}
     tagEntity(wrapper, record.id);
     parent.add(wrapper);
     return wrapper;
   }
-  function updateShadowBounds() {
-    const bounds = new THREE.Box3().setFromObject(content);
-    const radius = bounds.isEmpty() ? 15 : Math.max(8, bounds.getSize(new THREE.Vector3()).length() * 0.65);
-    for (const wrapper of objects.values()) {
-      const source = wrapper.userData.source;
-      if (!source?.isDirectionalLight) continue;
-      Object.assign(source.shadow.camera, { left: -radius, right: radius, top: radius, bottom: -radius, far: radius * 6 + 100 });
-      // A fixed centimetre bias is smaller than a shadow texel on a large landscape,
-      // producing repeated self-shadow bands. Scale within a bounded world-space offset.
-      source.shadow.normalBias = Math.min(.18, Math.max(.035, radius * 2 / source.shadow.mapSize.x));
-      source.shadow.camera.updateProjectionMatrix();
-    }
+  function updateShadowBounds(refresh=true) {
+    if(refresh){content.updateMatrixWorld(true);shadowBounds.setFromObject(content);}
+    for(const wrapper of objects.values())if(focusDirectionalShadow(wrapper,shadowBounds,camera,controls.target,lightManager.quality.mapSize))renderer.shadowMap.needsUpdate=true;
   }
   function updateCutaway() {
     const viewDirection = camera.position.clone().sub(controls.target);
@@ -542,12 +566,12 @@ export function createViewport(container, {
       const inFront = center.clone().sub(controls.target).dot(viewDirection) > 0.2;
       const facing = Math.abs(normal.dot(viewDirection)) > 0.45;
       const visible = visibleRecord(record) && !(cutaway && tool !== 'window' && inFront && facing && !(!presentation && (selectedId === id || records.get(selectedId)?.wallId === id)));
-      if (object.visible !== visible) { object.visible = visible; renderer.shadowMap.needsUpdate = true; }
+      if (object.visible !== visible) { object.visible = visible; invalidate(true); }
     }
     for (const [id, object] of objects) if (['door', 'window'].includes(records.get(id)?.kind)) {
       // Cutaway removes the tall wall, retaining the door as a readable room entrance.
       const visible = visibleRecord(records.get(id));
-      if (object.visible !== visible) { object.visible = visible; renderer.shadowMap.needsUpdate = true; }
+      if (object.visible !== visible) { object.visible = visible; invalidate(true); }
     }
   }
 
@@ -555,32 +579,54 @@ export function createViewport(container, {
     scene.fog = !localEffectsEnabled || !look?.fog?.enabled ? null : look.fog.mode === 'exp2'
       ? new THREE.FogExp2(look.fog.color, look.fog.density) : new THREE.Fog(look.fog.color, look.fog.near, look.fog.far);
   }
-  function setDocument(next) {
+  function setDocument(next,{force=false}={}) {
+    const started=performance.now();
+    const old=sceneDocument;
     generation += 1;
-    sceneDocument = next;
-    cancelPointer();
-    ruler.clear();
-    transform.detach();
-    clearGroup(content);
-    clearGroup(lighting);
-    objects.clear();
-    records.clear();
-    localEffects.clear();
-    createGrid(next?.layout?.grid);
-    if (!next) { cache.prune([]); scene.fog = null; effects.configure({}); atmosphere.configure({}, null); invalidate(true); return; }
-    const look = next.look ?? next.defaultLook;
-    scene.background.set(look.background);
-    configureDistanceFog(look);
-    effects.configure(look);
-    renderer.toneMappingExposure = look.daylight?.exposure ?? 1.1;
-    atmosphere.configure(look, primaryLight(look));
-    ground.material.color.set(look.fill?.groundColor ?? '#283934');
-    lighting.add(new THREE.HemisphereLight(look.fill?.skyColor ?? '#dbe7e4', look.fill?.groundColor ?? '#524938', look.fill?.intensity ?? 1));
+    cancelPointer(); ruler.clear(); transform.detach();
+    runtimeStats={created:0,reused:0,removed:0};
+    const changedBounds=[];let spatial=false;
+    const remove=id=>{const o=objects.get(id);if(o){o.updateWorldMatrix(true,true);changedBounds.push(new THREE.Box3().setFromObject(o));disposeObject(o);runtimeStats.removed++;spatial=true;}objects.delete(id);records.delete(id);localEffects.delete(id);signatures.delete(id);};
+    // Flatten assembly proxies while keeping children/resources and their world transforms.
+    content.updateMatrixWorld(true);lighting.updateMatrixWorld(true);
+    for(const [id,o]of [...objects])if(records.get(id)?.kind!=='assembly') (o.userData.source?lighting:content).attach(o);
+    for(const [id,o]of [...objects])if(records.get(id)?.kind==='assembly') {o.removeFromParent();objects.delete(id);records.delete(id);}
+    if(!next||force||old?.id!==next.id){for(const id of [...objects.keys()])remove(id);clearGroup(lighting);hemisphere=null;}
+    sceneDocument=next;
+    if(JSON.stringify(old?.layout?.grid)!==JSON.stringify(next?.layout?.grid)||force||!gridObject)createGrid(next?.layout?.grid);
+    if(!next){cache.prune([]);scene.fog=null;effects.configure({});atmosphere.configure({},null);reflections.configure({});zones.update(null,objects);lightManager.dispose();boundLights.clear();cutawayCasters.dispose();sample('update',started);invalidate(true);return;}
+    const look=next.look??next.defaultLook;
+    scene.background.set(look.background);configureDistanceFog(look);effects.configure(look);reflections.configure(look,localEffectsEnabled);
+    renderer.toneMappingExposure=look.daylight?.exposure??1.1;
+    const atmosphereKey=l=>JSON.stringify([l?.sky,l?.weather,l?.daylight,primaryLight(l??{lights:{}})?.rotation,primaryLight(l??{lights:{}})?.color]);
+    if(!old||atmosphereKey(old.look??old.defaultLook)!==atmosphereKey(look)) atmosphere.configure(look,primaryLight(look));
+    ground.material.color.set(look.fill?.groundColor??'#283934');
+    if(!hemisphere){hemisphere=new THREE.HemisphereLight();lighting.add(hemisphere);}
+    hemisphere.color.set(look.fill?.skyColor??'#dbe7e4');hemisphere.groundColor.set(look.fill?.groundColor??'#524938');hemisphere.intensity=look.fill?.intensity??1;
+    const keep=new Set([...Object.keys(next.layout.entities),...Object.keys(next.tokens??{}),...Object.keys(look.lights)]);
+    for(const id of [...objects.keys()])if(!keep.has(id))remove(id);
+    const wallShape=({id,transform,length,height,thickness,floorIds})=>({id,transform,length,height,thickness,floorIds});
+    const openingShape=({id,kind,wallId,offset,width,height,sill})=>({id,kind,wallId,offset,width,height,sill});
+    const wallGeometry=Object.values(next.layout.entities).filter(e=>e.kind==='wall').map(wallShape);
+    const shapeKey=record=>{const {transform,name,locked,audience,tags,groupId,levelId,layerId,illumination,lightingZone,...shape}=record;
+      const host=record.wallId&&next.layout.entities[record.wallId];
+      return JSON.stringify([shape,look.materialAdjustments?.[record.id],look.environmentBindings?.[record.id],look.daylight?.phase,look.nightWindows,
+        record.kind==='wall'?[wallGeometry,Object.values(next.layout.entities).filter(e=>e.wallId===record.id).map(openingShape)]:host?wallShape(host):null,
+        record.kind==='door'?next.sessionState?.doors?.[record.id]:null,record.actorId?next.actors[record.actorId]:null,assetRecord(record.assetRef),record.actorId?assetRecord(next.actors[record.actorId]?.assetRef):null]);
+    };
+    const reusable=record=>{const key=shapeKey(record),object=objects.get(record.id);if(object&&signatures.get(record.id)===key){
+      const before=records.get(record.id),visibilityChanged=visibleRecord(before,false,old)!==visibleRecord(record);
+      const moved=JSON.stringify(before?.transform)!==JSON.stringify(record.transform)||visibilityChanged;
+      if(moved){changedBounds.push(new THREE.Box3().setFromObject(object));spatial=true;}
+      if(record.transform)applyTransform(object,record.transform);if(moved){object.updateWorldMatrix(true,true);changedBounds.push(new THREE.Box3().setFromObject(object));}object.name=record.name??next.actors?.[record.actorId]?.name;records.set(record.id,record);if(record.kind!=='wall'||visibilityChanged)object.visible=visibleRecord(record);runtimeStats.reused++;return object;
+    }if(object)remove(record.id);signatures.set(record.id,key);return null;};
     const entities = values(next.layout.entities);
     ground.position.y = Math.min(-.025, ...entities.filter(e => e.kind === 'terrain').map(e => e.transform.position[1] + Math.min(...e.heights) - .05));
     const doors = entities.filter((record) => ['door', 'window'].includes(record.kind));
     const usedAssets = [];
     for (const entity of entities) {
+      if(entity.assetRef){const asset=assetRecord(entity.assetRef);if(asset)usedAssets.push(asset);}
+      if(reusable(entity))continue;
       let object;
       if (entity.kind === 'water') object = createWater(entity);
       else if (entity.kind === 'floor') object = createFloor(entity);
@@ -597,11 +643,11 @@ export function createViewport(container, {
       else continue;
       object.name = entity.name;
       content.add(object);
-      objects.set(entity.id, object);
+      objects.set(entity.id, object);runtimeStats.created++;
       records.set(entity.id, entity);
       object.visible = visibleRecord(entity);
       if (entity.kind === 'prop') {
-        if(entity.localEffect?.enabled) { const effect=createLocalEffect(entity.localEffect); object.add(effect); localEffects.set(entity.id,effect); }
+        if(entity.localEffect?.enabled) { const effect=createLocalEffect(entity.localEffect); object.add(effect);effect.userData.localEffect.light?.removeFromParent(); localEffects.set(entity.id,effect); }
         if(entity.localEffect?.hideModel) {
           const proxy=new THREE.Mesh(new THREE.BoxGeometry(...entity.localEffect.size),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
           proxy.position.fromArray(entity.localEffect.offset); proxy.position.y+=entity.localEffect.size[1]/2; proxy.userData.decorative=true; object.add(proxy); tagEntity(object,entity.id); continue;
@@ -612,11 +658,13 @@ export function createViewport(container, {
       } else { if(entity.water?.state!=='water') applySurfaceTextures(object, entity.kind==='water'?{...entity,material:{...entity.material,texture:entity.material.texture&&entity.material.texture!=='none'?entity.material.texture:'ice'}}:entity, surfaces); applyEnvironmentMaterials(object, entity, look); applyMaterialOverrides(object, undefined, look.materialAdjustments?.[entity.id]); }
     }
     for (const token of values(next.tokens)) {
+      const reference=token.visualOverride?.assetRef??next.actors[token.actorId]?.assetRef;if(reference){const asset=assetRecord(reference);if(asset)usedAssets.push(asset);}
+      if(reusable(token))continue;
       const actor = next.actors[token.actorId];
       const object = createToken(token, actor);
       object.name = actor?.name ?? 'Token';
       content.add(object);
-      objects.set(token.id, object);
+      objects.set(token.id, object);runtimeStats.created++;
       records.set(token.id, token);
       object.visible = visibleRecord(token);
       const appearance = object.userData.appearance;
@@ -627,7 +675,14 @@ export function createViewport(container, {
       }
     }
     for (const record of values(look.lights)) {
-      const object = createLight(record, lighting);
+      let object=objects.get(record.id);
+      if(object?.userData.lightRecord?.type===record.type){
+        const before=records.get(record.id);object.position.fromArray(record.position);object.quaternion.fromArray(record.rotation);object.userData.lightRecord=record;const source=object.userData.source;source.color.set(record.color);source.intensity=record.intensity;source.distance=record.distance;source.angle=record.angle;source.penumbra=record.penumbra;
+        object.traverse(child=>{if(child.userData.editHelper&&child.material?.color)child.material.color.set(record.color);});
+        if(record.type==='spot'&&(before.angle!==record.angle||before.distance!==record.distance)){const cone=object.children.find(child=>child.geometry?.type==='ConeGeometry');if(cone){const length=Math.min(record.distance||3,3);cone.geometry.dispose();cone.geometry=new THREE.ConeGeometry(Math.tan(Math.min(record.angle,1.4))*length,length,16,1,true);cone.position.y=-length/2;}}
+        if(source.isDirectionalLight){source.castShadow=record.shadowEnabled;source.shadow.needsUpdate ||= JSON.stringify([before.position,before.rotation,before.shadowEnabled])!==JSON.stringify([record.position,record.rotation,record.shadowEnabled]);}
+        runtimeStats.reused++;
+      }else{if(object)remove(record.id);object=createLight(record,lighting);runtimeStats.created++;}
       const binding = look.environmentBindings?.[record.id];
       object.userData.environmentActive = !binding?.enabled || environmentBindingActive(look, binding);
       objects.set(record.id, object);
@@ -644,9 +699,12 @@ export function createViewport(container, {
     }
     cache.prune(usedAssets);
     content.updateMatrixWorld(true);
-    updateShadowBounds();snowDirty=true;
-    updateSelection();
-    invalidate(true);
+    spatial ||= force||old?.id!==next.id||runtimeStats.created>0;
+    if(spatial){updateShadowBounds();snowDirty=true;for(const o of objects.values())if(o.userData.source?.isDirectionalLight)o.userData.source.shadow.needsUpdate=true;
+      if(runtimeStats.created)for(const o of objects.values())changedBounds.push(new THREE.Box3().setFromObject(o));
+      lightManager.invalidate(changedBounds);renderer.shadowMap.needsUpdate=true;}
+    zones.update(next,objects);zones.apply(ground);for(const o of objects.values())zones.apply(o);
+    updateSelection();sample('update',started); invalidate();
   }
 
   function exposureForScene(omitId=null) {
@@ -657,7 +715,7 @@ export function createViewport(container, {
     if(![...records.values()].some(hasPhysicalSnow))return;
     const exposure=exposureForScene();
     for(const [id,object] of objects) {const record=records.get(id);if(record?.kind && visibleRecord(record,true))snowTriangles+=addPhysicalSnow(object,record,surfaces,exposure).triangles;}
-    content.updateMatrixWorld(true);renderer.shadowMap.needsUpdate=true;
+    content.updateMatrixWorld(true);if(snowTriangles)invalidate(true);
   }
   function computeSnowExposure(terrainId) {
     const terrain=records.get(terrainId);if(terrain?.kind!=='terrain')throw new Error('Selecione um terreno.');
@@ -721,12 +779,13 @@ export function createViewport(container, {
     raycaster.setFromCamera(mouse, camera);
   }
   function visibleInHierarchy(object) { for (let current = object; current; current = current.parent) if (!current.visible) return false; return true; }
-  function visibleRecord(record, ignoreIsolation = false) {
-    if(record.kind==='assembly') return record.visible!==false && isVisible(sceneDocument,record) && assemblyMembers(sceneDocument,record.id).some(member => visibleRecord(member,ignoreIsolation));
-    if (!isVisible(sceneDocument, record)) return false;
+  function visibleRecord(record, ignoreIsolation = false, inDocument=sceneDocument) {
+    if(!record||!inDocument)return false;
+    if(record.kind==='assembly') return record.visible!==false && isVisible(inDocument,record) && assemblyMembers(inDocument,record.id).some(member => visibleRecord(member,ignoreIsolation,inDocument));
+    if (!isVisible(inDocument, record)) return false;
     if (!ignoreIsolation && !presentation && isolatedLevel && record.levelId && record.levelId !== isolatedLevel && record.fromLevelId !== isolatedLevel && record.toLevelId !== isolatedLevel) return false;
     const host = record.wallId ?? record.anchor?.hostId ?? record.surfaceId;
-    return !host || !sceneDocument.layout.entities[host] || visibleRecord(sceneDocument.layout.entities[host], ignoreIsolation || isAccess(record) && (record.fromLevelId === isolatedLevel || record.toLevelId === isolatedLevel));
+    return !host || !inDocument.layout.entities[host] || visibleRecord(inDocument.layout.entities[host], ignoreIsolation || isAccess(record) && (record.fromLevelId === isolatedLevel || record.toLevelId === isolatedLevel),inDocument);
   }
   function pick(event) {
     rayFromEvent(event);
@@ -949,11 +1008,11 @@ export function createViewport(container, {
     } else if(gesture.rock) {
       const version=generation;
       try {if(gesture.strokeChanged)onRockStroke(gesture.rock.id,{rockSculpt:gesture.rock.rockSculpt,footprint:sculptFootprint(gesture.rockObject)});}catch(error){report(error);}
-      if(version===generation)setDocument(sceneDocument);
+      if(version===generation)setDocument(sceneDocument,{force:true});
     } else if (gesture.terrain) {
       const version = generation;
       try { if(gesture.terrainBrush.mode==='water') { clearGroup(preview); if(gesture.waterOverflow) report('Traço longo demais. Faça traços menores e separados.'); else onWaterStroke(gesture.terrain.id,gesture.waterPoints,gesture.terrainBrush); } else onTerrainStroke(gesture.terrain.id, ['paint','erase'].includes(gesture.terrainBrush.mode) ? { paintLayers: gesture.terrain.paintLayers } : { heights: gesture.terrain.heights }); } catch (error) { report(error); }
-      if (version === generation) setDocument(sceneDocument);
+      if (version === generation) setDocument(sceneDocument,{force:true});
     } else if (gesture.roomStart) {
       clearGroup(preview);
       if (gesture.roomEnd && gesture.moved) {
@@ -965,10 +1024,13 @@ export function createViewport(container, {
     } else if (gesture.opening && gesture.moved) {
       const version = generation;
       if (gesture.openingPatch) { try { onOpeningMove(gesture.entityId, gesture.openingPatch); } catch (error) { report(error); } }
-      if (version === generation) setDocument(sceneDocument);
+      if (version === generation) setDocument(sceneDocument,{force:true});
     } else if (gesture.object && gesture.moved) commitTransform(gesture.entityId, gesture.object, Boolean(sceneDocument?.layout.grid.snap && !event.altKey));
     else if (!gesture.moved && !transform.dragging) {
-      if (tool === 'material-sample') {
+      if(tool==='illumination-origin'){
+        const hit=pick(event);if(hit?.object.userData.entityId!==selectedId){report('Clique na superfície do objeto selecionado.');return;}
+        onIlluminationOrigin(selectedId,objects.get(selectedId).worldToLocal(hit.point.clone()).toArray());
+      }else if (tool === 'material-sample') {
         onMaterialPick(pick(event)?.object.userData.entityId ?? null);
       } else if (tool === 'place') {
         const support = supportPoint(event);
@@ -1048,7 +1110,7 @@ export function createViewport(container, {
     if (transform.dragging) { gizmoCancelled = true; transform.reset(); transform.pointerUp(null); }
     if (pointer?.roomStart || pointer?.terrainBrush?.mode==='water') clearGroup(preview);
     cancelPointer();
-    if(rockGesture)setDocument(sceneDocument);
+    if(rockGesture)setDocument(sceneDocument,{force:true});
     invalidate(true);
   }
   function onKeyDown(event) {
@@ -1162,7 +1224,7 @@ export function createViewport(container, {
       scene.traverse(object => { if (object.userData.editHelper && !hidden.has(object)) hide(object); });
       try {
         // Copy the fresh frame synchronously: no preserveDrawingBuffer, no camera mutation.
-        effects.render(camera, 0);
+        renderer.info.reset();effects.render(camera, 0);
         const image = document.createElement('canvas'); image.width = 480; image.height = 270;
         const context = image.getContext('2d');
         const crop = Math.min(canvas.width / 16, canvas.height / 9);
@@ -1172,7 +1234,7 @@ export function createViewport(container, {
       } finally {
         for (const [object, visible] of hidden) object.visible = visible;
         // Restore the visible frame before yielding to the browser.
-        effects.render(camera, 0); invalidate();
+        renderer.info.reset();effects.render(camera, 0); invalidate();
       }
     },
     pick(event) {
@@ -1187,11 +1249,11 @@ export function createViewport(container, {
         // Snapshot delivery calls setAssets then setDocument. Avoid rebuilding the old
         // scene with the new catalog, which would report temporarily missing assets.
         const version = generation;
-        queueMicrotask(() => { if (!destroyed && version === generation) setDocument(sceneDocument); });
+        queueMicrotask(() => { if (!destroyed && version === generation) setDocument(sceneDocument,{force:true}); });
       }
     },
     setSelection(id, ids = id ? [id] : []) { selectedId = id; selectedIds = ids; updateSelection(); },
-    setTool(mode) { cancelGesture(); ruler.clear(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window', 'terrain', 'material-sample', 'measure'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
+    setTool(mode) { cancelGesture(); ruler.clear(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window', 'terrain', 'material-sample', 'measure', 'illumination-origin'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
     setRulerSnap(value) { rulerSnap = Boolean(value); },
     clearMeasurement() { if (pointer?.ruler) cancelPointer(); ruler.clear(); invalidate(); },
     setTerrainBrush(options) { terrainBrush = { ...terrainBrush, ...options }; },
@@ -1223,8 +1285,10 @@ export function createViewport(container, {
       return { x: rect.left + (vector.x + 1) * rect.width / 2, y: rect.top + (1 - vector.y) * rect.height / 2, visible: vector.z >= -1 && vector.z <= 1 && Math.abs(vector.x) <= 1 && Math.abs(vector.y) <= 1 };
     },
     getMaterialSlots(id) { return materialSlots(objects.get(id)); },
-    setEffectsEnabled(value) { effects.setEnabled(value); atmosphere.setEnabled(value); localEffectsEnabled=value; configureDistanceFog(sceneDocument?.look ?? sceneDocument?.defaultLook); invalidate(); },
-    getInfo() { return { measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
+    setLegibility(value){readingLight.visible=!!value;invalidate();},
+    setLightingQuality(tier,custom) {lightManager.setQuality(tier,custom);effects.setQuality?.(tier);invalidate(true);},
+    setEffectsEnabled(value) { reflections.configure(sceneDocument?.look??sceneDocument?.defaultLook,value);effects.setEnabled(value); atmosphere.setEnabled(value); localEffectsEnabled=value; configureDistanceFog(sceneDocument?.look ?? sceneDocument?.defaultLook); invalidate(); },
+    getInfo() { return { directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
       assetDiagnostics:[...objects].flatMap(([id,object])=>{const diagnostics=[];object.traverse(child=>{if(child.userData.diagnostic)diagnostics.push({id,message:child.userData.diagnostic});});return diagnostics;}),
       sculptedRocks:[...objects].flatMap(([id,object])=>{let vertices=0,triangles=0;object.traverse(m=>{if(m.geometry?.userData.sculptPrepared){vertices+=m.geometry.attributes.position.count;triangles+=m.geometry.index.count/3;}});return vertices?[{id,vertices,triangles,samples:records.get(id)?.rockSculpt?.stamps.length??0,bounds:new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3()).toArray()}]:[];}),
       rockGeometries: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.geometry?.userData.rock) list.push({id,...child.geometry.userData.rock,triangles:(child.geometry.index?.count??child.geometry.attributes.position.count)/3});for(const rock of child.geometry?.userData.rocks??[])list.push({id,...rock});});return list;}),
@@ -1233,7 +1297,7 @@ export function createViewport(container, {
       wearMaterials: [...objects].flatMap(([id,object])=>{const result=[];object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material])if(mat?.userData.wear)result.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.wear});});return result;}),
       environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },
     destroy() {
-      destroyed = true;
+      destroyed = true;lightManager.dispose();reflections.dispose();cutawayCasters.dispose();lightingHelpers.dispose();
       ruler.destroy();
       previewGeneration++;
       for (const helper of extraSelections) disposeObject(helper); disposeObject(polygonLine); disposeObject(brushLine);

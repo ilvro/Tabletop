@@ -1,3 +1,6 @@
+import { illuminationDefaults, illuminationPatch, ZONE_DEFAULTS, RENDERING_DEFAULTS } from '../domain/dynamic-lighting.js';
+import { illuminationPanel, zonePanel } from '../ui/dynamic-lighting-panel.js';
+import { createLightPresetRepository } from '../data/light-presets.js';
 import { wearFieldPatch } from '../domain/wear.js';
 import { createScenePreviews } from './scene-previews.js';
 import { copyMaterial } from '../domain/material-transfer.js';
@@ -114,7 +117,9 @@ export async function startApplication() {
     <input id="document-json-file" type="file" accept=".json,application/json" hidden />`;
 
   let assets = [], savedScenes = [], savedMaps = [], selection = null, tool = 'select', tab = 'build';
-  let materialClipboard = null;
+  let materialClipboard = null,illuminationClipboard=null;
+  let lightingQuality='balanced',lightingBudget={locals:8,shadowViews:6,mapSize:1024},legibility=false;
+  const lightPresetRepository=createLightPresetRepository();let lightPresets=[],selectedLightPreset='';
   let dialogTab = 'scenes';
   let savedEnvironments = [], selectedEnvironmentId = '', environmentPreview = null, skyReturnCamera = null;
   const openAtmosphereSections = new Set();
@@ -155,6 +160,7 @@ export async function startApplication() {
   let activeLevelId = null, activeLayerId = null, isolatedLevel = false, polygonHoleHost = null, polygonKind='floor', terrainCell = 0;
   let vegetationOptions={terrainId:'',assetId:'builtin-dense-alpine-fir',count:6,seed:42,scaleMin:.7,scaleMax:1.2,slopeMax:35};
   let terrainOptions = { width: 20, length: 20, segments: 32, x: 0, z: 0, protectFloors: true }, terrainResizeMode = 'extend', terrainBrush = { mode: 'raise', radius: 2, strength: .25, target: 0, waterLevel: .05, waterDepth: .6, shape: 'circle', hardness: 0, snap: false, layerId: '', rockPattern: 'fractured', rockSize: 3, rockSeed: 42, protectFloors: true };
+  lightPresetRepository.list().then(entries=>{lightPresets=entries;if(initialized)renderInspector();}).catch(()=>{});
   const brushPresetRepository = createBrushPresetRepository();
   const brushPresetStates = { terrain: { selectedId: '', name: '' }, rock: { selectedId: '', name: '' } };
   let brushPresets = [], brushPresetsBusy = false, brushPresetsError = '';
@@ -287,6 +293,8 @@ export async function startApplication() {
     onMaterialSlots: objectId => { if (selection === objectId) renderInspector(); },
     onSelect: (value, meta) => { selectObject(value, meta?.additive); hideContextMenu(); },
     onMaterialPick: objectId => sampleMaterial(objectId),
+    onLightingDiagnostics:info=>{const message=`${info.active} de ${info.authored} fontes locais · ${info.shadowViews} vistas de sombra${info.omitted?' · '+info.omitted+' fora do orçamento':''}`;for(const output of root.querySelectorAll('[data-lighting-status]'))if(output.textContent!==message)output.textContent=message;},
+    onIlluminationOrigin:(id,position)=>{const r=locate(id)?.record;if(!r?.illumination)return;const config=clone(r.illumination);config.position=position;if(!config.pinned.includes('position'))config.pinned.push('position');if(execute('entity.update',{id,patch:{illumination:config},snap:false}))setTool('select');},
     onMeasurementChange: value => { measurement = value; updateMeasurementResult(); },
     onTransform: (objectId, transform, meta = {}) => {
       const found = locate(objectId);
@@ -435,7 +443,7 @@ export async function startApplication() {
     for (const node of root.querySelectorAll('[data-action=material-eyedropper]')) { node.classList.toggle('active', next === 'material-sample'); node.setAttribute('aria-pressed', String(next === 'material-sample')); }
     if (next !== 'place') placing = null;
     root.querySelectorAll('[data-action^="tool-"]').forEach((node) => node.classList.toggle('active', node.dataset.action === `tool-${next}`));
-    document.getElementById('gesture-hint').textContent = next === 'measure' ? 'Régua · dois cliques ou arraste · Alt: livre · Esc/Q conclui' : next === 'material-sample' ? 'Conta-gotas · clique para copiar o material · Esc cancela' : next === 'terrain' ? 'Pincel ativo · T/Q: seleção · [ ]: tamanho · Esc: cancelar traço' : next === 'polygon' ? 'Clique nos vértices · Enter conclui · Backspace remove · Esc cancela' : next === 'window' ? 'Clique na parede para posicionar o centro da janela · Esc cancela' : next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? `Clique no piso para colocar${placing?.repeat ? ' cópias' : ''} · Alt: posição livre · Esc/Q conclui` : 'WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom';
+    document.getElementById('gesture-hint').textContent = next === 'measure' ? 'Régua · dois cliques ou arraste · Alt: livre · Esc/Q conclui' : next==='illumination-origin'?'Origem da luz · clique no objeto selecionado · Esc cancela':next === 'material-sample' ? 'Conta-gotas · clique para copiar o material · Esc cancela' : next === 'terrain' ? 'Pincel ativo · T/Q: seleção · [ ]: tamanho · Esc: cancelar traço' : next === 'polygon' ? 'Clique nos vértices · Enter conclui · Backspace remove · Esc cancela' : next === 'window' ? 'Clique na parede para posicionar o centro da janela · Esc cancela' : next === 'room' ? 'Arraste no chão para desenhar a sala · Esc cancela' : next === 'place' ? `Clique no piso para colocar${placing?.repeat ? ' cópias' : ''} · Alt: posição livre · Esc/Q conclui` : 'WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom';
     renderToolContext();
     if (tab === 'build' && (previous === 'polygon' || next === 'polygon')) renderSidebar();
     if (previous === 'terrain' || next === 'terrain') {renderInspector(); if(next==='terrain') document.getElementById('inspector-content').scrollTop=0;}
@@ -447,7 +455,7 @@ export async function startApplication() {
       context.innerHTML = `<span>Régua · metros</span>${checkField('ruler-snap', 'Encaixar no grid', rulerSnap)}<button data-action="ruler-clear" class="quiet">Limpar</button><button data-action="tool-select" class="quiet">Concluir · Q</button><output class="ruler-result" id="ruler-result" aria-live="off"></output>`;
       updateMeasurementResult(); return;
     }
-    context.innerHTML=`<span>${esc(next==='material-sample'?'Conta-gotas · clique na superfície de origem':next==='terrain'?`Pincel · ${({push:'Projetar face',pull:'Recuar face',raise:'Elevar',lower:'Rebaixar',smooth:'Suavizar',flatten:'Nivelar',rock:'Rocha natural',paint:'Pintar camada',erase:'Apagar camada',water:'Água'})[terrainBrush.mode]} · ${terrainBrush.radius} m`:next==='polygon'?'Desenhar contorno':next==='room'?'Desenhar sala':`Colocar · ${placing?.asset?.name ?? placing?.name ?? 'objeto'}`)}</span>${next==='place' && placing?.assetPlacement ? checkField('asset-placement-repeat','Colocação repetida',placing.repeat) : ''}<button data-action=tool-select class=quiet>Concluir · Q</button>`;
+    context.innerHTML=`<span>${esc(next==='illumination-origin'?'Origem da luz · clique no objeto selecionado':next==='material-sample'?'Conta-gotas · clique na superfície de origem':next==='terrain'?`Pincel · ${({push:'Projetar face',pull:'Recuar face',raise:'Elevar',lower:'Rebaixar',smooth:'Suavizar',flatten:'Nivelar',rock:'Rocha natural',paint:'Pintar camada',erase:'Apagar camada',water:'Água'})[terrainBrush.mode]} · ${terrainBrush.radius} m`:next==='polygon'?'Desenhar contorno':next==='room'?'Desenhar sala':`Colocar · ${placing?.asset?.name ?? placing?.name ?? 'objeto'}`)}</span>${next==='place' && placing?.assetPlacement ? checkField('asset-placement-repeat','Colocação repetida',placing.repeat) : ''}<button data-action=tool-select class=quiet>Concluir · Q</button>`;
   }
   function updateMeasurementResult() {
     const result = document.getElementById('ruler-result');
@@ -568,7 +576,7 @@ export async function startApplication() {
 
     } else {
       const currentLook = store.document.look ?? store.document.defaultLook;
-      panel.innerHTML = `${environmentPanel(store.document, savedEnvironments, selectedEnvironmentId, openAtmosphereSections, { numberField, colorField, checkField })}${atmospherePanel(currentLook, effectsEnabled, { numberField, colorField, checkField }, openAtmosphereSections)}${cameraPanel()}<section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-cut="${camera.id}" title="Cortar para este enquadramento" aria-label="Cortar para ${esc(camera.name)}">${icon('camera', 14)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
+      panel.innerHTML = `${environmentPanel(store.document, savedEnvironments, selectedEnvironmentId, openAtmosphereSections, { numberField, colorField, checkField })}${atmospherePanel(currentLook, effectsEnabled, { numberField, colorField, checkField }, openAtmosphereSections,lightingQuality,lightingBudget)}${cameraPanel()}<section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-cut="${camera.id}" title="Cortar para este enquadramento" aria-label="Cortar para ${esc(camera.name)}">${icon('camera', 14)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
       groupDisclosures(panel, [
         { key: 'atmosphere', title: 'Atmosfera', description: 'Ambientes, iluminação, céu e efeitos', open: true, tasks: [
           [0,'presets','Ambientes e horários',true], [1,'sun','Sol / lua e cor da luz'], [2,'sky','Céu e nuvens'],
@@ -762,6 +770,7 @@ export async function startApplication() {
     if(record.kind==='prop' && isVegetationAsset(record.assetRef.id)) fields+=`<section><span class="eyebrow">VEGETAÇÃO · GEOMETRIA</span>${numberField('vegetationSeed','Variação geométrica',record.vegetationSeed??0,{min:0,max:65535,step:1})}<p class="microcopy">Varia ramificação e folhagem, preservando o tamanho e a base. Escala e rotação continuam independentes.</p></section>`;
     if (record.kind === 'prop') fields += rockPanel(record,{numberField});
     if (record.kind === 'prop') fields += localEffectPanel(record, { numberField, colorField, checkField });
+    if(record.material){fields+=illuminationPanel(record,viewport.getMaterialSlots(record.id),lightPresets,selectedLightPreset,{numberField,colorField,checkField});fields+=zonePanel(record,{numberField,colorField,checkField});}
     if (type === 'light') fields += lightPanel(record, { numberField, colorField, checkField });
     if (type === 'light' || ['prop','window'].includes(record.kind)) fields += bindingPanel(record, doc.look ?? doc.defaultLook, viewport.getMaterialSlots(record.id), openAtmosphereSections, { numberField, colorField, checkField });
     fields += `<section><span class="eyebrow">APRESENTAÇÃO</span>${checkField('object-secret', 'Somente para o mestre', record.audience === 'gm')}${record.locked === undefined ? '' : checkField('object-locked', 'Bloquear edição', record.locked)}</section>${record.kind === 'terrain' ? '</details>' : ''}<div class="object-actions">${button('object-copy', 'Copiar', 'copy')}${button('object-duplicate', 'Duplicar', 'copy')}${button('object-delete', 'Excluir', 'trash', 'danger')}</div>`;
@@ -1346,6 +1355,20 @@ export async function startApplication() {
       try {execute('entity.update',{id:terrain.id,patch:resizeTerrain(terrain,{[field]:value,mode:terrainResizeMode}),snap:false},{label:terrainResizeMode==='extend'?'Expandir área do terreno':'Esticar terreno'});} catch(error) {notify(error.message,true);renderInspector();}
       return;
     }
+    if(field==='light-preset-name')return;
+    if(field==='light-preset-selected'){selectedLightPreset=value;renderInspector();return;}
+    if(field==='lighting-quality'||field.startsWith('lighting-')){
+      try{const tier=field==='lighting-quality'?value:lightingQuality,budget=field==='lighting-quality'?lightingBudget:{...lightingBudget,[field.slice(9)]:Number(value)};viewport.setLightingQuality(tier,budget);lightingQuality=tier;lightingBudget=budget;renderSidebar();}catch(error){notify(error.message,true);renderSidebar();}return;
+    }
+    if(field.startsWith('rendering-')){const look=store.document.look??store.document.defaultLook;execute('look.update',{patch:{rendering:{...RENDERING_DEFAULTS,...look.rendering,[field.slice(10)]:value}}});return;}
+    if(field.startsWith('illumination-')||field.startsWith('zone-')){
+      const record=locate()?.record;if(!record?.material)return;
+      if(field.startsWith('zone-')){const key=field.slice(5),z=clone(record.lightingZone??{...ZONE_DEFAULTS,size:[record.width??record.footprint?.[0]??8,4,record.length??record.footprint?.[1]??8]});if(/^(size|position)-[012]$/.test(key)){const [array,i]=key.split('-');z[array][Number(i)]=value;}else z[key]=value;execute('entity.update',{id:record.id,patch:{lightingZone:z},snap:false});return;}
+      const key=field.slice(13);let config;
+      if(['yaw','pitch'].includes(key)){config=clone(record.illumination);const angles=new Euler().setFromQuaternion(new Quaternion(...config.rotation),'YXZ');angles[key==='yaw'?'y':'x']=value*Math.PI/180;config.rotation=new Quaternion().setFromEuler(angles).toArray();}
+      else{config=illuminationPatch(record.illumination,key,key==='mapSize'?Number(value):value,record);if(key==='type'&&value==='point')config.projection='none';}
+      execute('entity.update',{id:record.id,patch:{illumination:config},snap:false});return;
+    }
     if (field === 'terrain-material-target') { terrainMaterialTarget = value === 'base' ? 'base' : 'layer'; if(value !== 'base') terrainBrush.layerId=value; viewport.setTerrainBrush(terrainBrush); renderInspector(); return; }
     if (field === 'terrain-paint-layer') { terrainMaterialTarget='layer'; terrainBrush.layerId = value; viewport.setTerrainBrush(terrainBrush); renderInspector(); return; }
     if (field.startsWith('terrain-distribution-')) {
@@ -1511,7 +1534,7 @@ export async function startApplication() {
       else if(member.startsWith('size-') || member.startsWith('offset-')) { const [key,index]=member.split('-'); config[key][Number(index)]=value; patch.localEffect=config; }
       else patch.localEffect={ ...config, [member]:value };
     }
-    else if (field.startsWith('light-')) patch[{ 'light-color': 'color', 'light-intensity': 'intensity', 'light-distance': 'distance', 'light-shadow': 'shadowEnabled', 'light-enabled': 'enabled', 'light-temperature': 'temperature', 'light-angle': 'angle', 'light-penumbra': 'penumbra' }[field]] = field === 'light-angle' ? value * Math.PI / 360 : value;
+    else if (field.startsWith('light-')) patch[{ 'light-color': 'color', 'light-intensity': 'intensity', 'light-distance': 'distance', 'light-shadow': 'shadowEnabled', 'light-enabled': 'enabled', 'light-temperature': 'temperature', 'light-angle': 'angle', 'light-penumbra': 'penumbra', 'light-priority':'priority','light-shadowPolicy':'shadowPolicy','light-projection':'projection' }[field]] = field === 'light-angle' ? value * Math.PI / 360 : value;
     else if (field === 'object-secret') patch.audience = value ? 'gm' : 'all';
     else if (field === 'object-locked') patch.locked = value;
     else if (field === 'entity-group') { execute(`${type}.update`, { id: record.id, patch: { groupId: value || null } }); return; }
@@ -1529,9 +1552,21 @@ export async function startApplication() {
     const next = applyEnvironment(store.document, preset), diff = environmentDiff(store.document, next);
     clearProposal(); environmentPreview = { preset, next, version: store.editVersion };
     viewport.setDocument(isPresentation ? projectPresentation(next) : next);
-    const labels = { background:'fundo', fill:'luz ambiente', daylight:'horário/exposição', sky:'céu/nuvens', weather:'clima', fog:'névoa', volumetricFog:'volume de névoa', bloom:'halo', nightWindows:'janelas', effectsPaused:'animação' };
+    const labels = { background:'fundo', fill:'luz ambiente', daylight:'horário/exposição', sky:'céu/nuvens', weather:'clima', fog:'névoa', volumetricFog:'volume de névoa', bloom:'halo', nightWindows:'janelas', effectsPaused:'animação',rendering:'acabamento da iluminação' };
     const bar = document.getElementById('proposal-bar'); bar.hidden = false;
     bar.innerHTML = `<div><span><strong>Prévia de ambiente</strong><small>${diff.fields.map(f => labels[f]).join(' · ') || 'Mesmas configurações globais'} · sol/lua</small></span></div>${button('environment-preview-cancel','Cancelar','','quiet')}${button('environment-preview-accept','Aplicar ambiente','plus','primary')}<p class="microcopy">${diff.windows} janelas de vidro · ${diff.bindings} vínculos por horário · ${diff.localLights} luzes locais preservadas. Geometria e câmeras permanecem na cena.</p>`;
+  }
+  function previewIllumination(record,settings){
+    clearProposal();const next=clone(store.document);next.layout.entities[record.id].illumination=clone(settings);validateDocument(next);
+    environmentPreview={illuminationId:record.id,settings:clone(settings),next,version:store.editVersion};viewport.setDocument(next);
+    const bar=document.getElementById('proposal-bar');bar.hidden=false;bar.innerHTML='<span>Prévia de iluminação · somente nesta janela</span><button data-action="environment-preview-accept">Aplicar iluminação</button><button data-action="environment-preview-cancel">Cancelar</button>';
+  }
+  async function lightPresetAction(action){const record=locate()?.record;if(!record?.material)throw new Error('Selecione um objeto.');const selected=lightPresets.find(p=>p.id===selectedLightPreset);
+    if(action==='reload'){lightPresets=await lightPresetRepository.list();renderInspector();return;}
+    if(['apply','preview'].includes(action)){if(!selected)throw new Error('Escolha um perfil pessoal.');if(action==='preview')previewIllumination(record,selected.settings);else execute('entity.update',{id:record.id,patch:{illumination:clone(selected.settings)},snap:false});return;}
+    if(action==='delete'){if(!selected)throw new Error('Escolha um perfil pessoal.');await lightPresetRepository.remove(selected);selectedLightPreset='';}
+    else{if(!record.illumination)throw new Error('Adicione uma fonte ao objeto.');if(action!=='save'&&!selected)throw new Error('Escolha um perfil pessoal.');const name=document.querySelector('[data-field="light-preset-name"]')?.value;const saved=await lightPresetRepository.save({name,settings:action==='rename'?selected.settings:record.illumination},action==='save'?null:selected);selectedLightPreset=saved.id;}
+    lightPresets=await lightPresetRepository.list();renderInspector();
   }
   async function selectedEnvironment() {
     if (!selectedEnvironmentId) throw new Error('Selecione um ambiente salvo.');
@@ -1542,6 +1577,15 @@ export async function startApplication() {
     if (!initialized) return;
     if (action.startsWith('brush-preset-')) { await manageBrushPreset(action.slice('brush-preset-'.length)); return; }
     switch (action) {
+      case 'lighting-legibility':legibility=!legibility;viewport.setLegibility(legibility);notify(legibility?'Revisão de legibilidade ligada só nesta janela.':'Revisão de legibilidade desligada.');break;
+      case 'illumination-origin-pick':clearProposal();setTool('illumination-origin');notify('Clique no objeto selecionado para definir a origem da luz. Esc cancela.');break;
+      case 'illumination-copy':illuminationClipboard=clone(locate()?.record.illumination);notify('Iluminação copiada.');break;
+      case 'illumination-paste':if(!illuminationClipboard)throw new Error('Copie uma iluminação primeiro.');execute('entity.update',{id:selection,patch:{illumination:clone(illuminationClipboard)},snap:false});break;
+      case 'illumination-preview':{const r=locate()?.record;if(r?.illumination)previewIllumination(r,{...r.illumination,enabled:!r.illumination.enabled});break;}
+      case 'illumination-recalculate':{const r=locate()?.record;if(r?.illumination)execute('entity.update',{id:r.id,patch:{illumination:illuminationDefaults(r.illumination.profile,r,r.illumination)},snap:false});break;}
+      case 'zone-fit':{const r=locate()?.record;if(r?.lightingZone)execute('entity.update',{id:r.id,patch:{lightingZone:{...r.lightingZone,size:[r.width??r.footprint?.[0]??8,r.lightingZone.size[1],r.length??r.footprint?.[1]??8]}},snap:false});break;}
+      case 'light-preset-save':case 'light-preset-preview':case 'light-preset-apply':case 'light-preset-update':case 'light-preset-rename':case 'light-preset-delete':case 'light-preset-reload':try{await lightPresetAction(action.slice(13));}catch(error){try{lightPresets=await lightPresetRepository.list();}catch{}notify(error.message,true);}break;
+
       case 'environment-view-sky': {
         const camera = viewport.getCamera(); skyReturnCamera ??= clone(camera);
         const light = primaryLight(store.document.look ?? store.document.defaultLook);
@@ -1552,7 +1596,7 @@ export async function startApplication() {
       case 'environment-select-light': selectObject(primaryLight(store.document.look ?? store.document.defaultLook)?.id); break;
       case 'environment-binding-remove': if (selection) execute('environment.binding.update', { id:selection, binding:null }); break;
       case 'environment-preview-cancel': cancelEnvironmentPreview(); break;
-      case 'environment-preview-accept': { const preview = environmentPreview; if (!preview) break; if (preview.version !== store.editVersion) { cancelEnvironmentPreview(); throw new Error('A cena mudou. Faça uma nova prévia.'); } execute('environment.apply', { preset: preview.preset }); break; }
+      case 'environment-preview-accept': { const preview = environmentPreview; if (!preview) break; if (preview.version !== store.editVersion) { cancelEnvironmentPreview(); throw new Error('A cena mudou. Faça uma nova prévia.'); } if(preview.illuminationId)execute('entity.update',{id:preview.illuminationId,patch:{illumination:preview.settings},snap:false});else execute('environment.apply', { preset: preview.preset }); break; }
       case 'environment-custom-apply':
       case 'environment-custom-preview': {
         const version = store.editVersion, documentId = store.document.id, preset = await selectedEnvironment();
@@ -2238,7 +2282,7 @@ function startPresentation(root, sessionId) {
   if (!/^[a-zA-Z0-9_-]{1,120}$/.test(sessionId)) throw new Error('Endereço de apresentação inválido.');
   if (typeof BroadcastChannel !== 'function') throw new Error('Este navegador não suporta a apresentação em segunda janela.');
   document.body.classList.add('presentation-window');
-  root.innerHTML = `<div id="presentation-viewport"></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><button id="presentation-effects" class="presentation-fullscreen" style="right:60px" title="Névoa e efeitos nesta janela" aria-label="Névoa e efeitos nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button>`;
+  root.innerHTML = `<div id="presentation-viewport"></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><select id="presentation-quality" aria-label="Qualidade da iluminação" style="position:fixed;right:112px;bottom:18px;width:150px;z-index:10"><option value="economy">Econômica</option><option value="balanced" selected>Equilibrada</option><option value="high">Alta</option></select><button id="presentation-effects" class="presentation-fullscreen" style="right:60px" title="Névoa e efeitos nesta janela" aria-label="Névoa e efeitos nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button>`;
   const viewport = createViewport(document.getElementById('presentation-viewport'), {
     onError: (error) => { document.getElementById('presentation-message').textContent = error.message; },
     navigationEnabled: false,
@@ -2265,6 +2309,7 @@ function startPresentation(root, sessionId) {
     } catch (error) { document.getElementById('presentation-message').textContent = error.message; }
   };
   let effectsEnabled = true;
+  document.getElementById('presentation-quality').onchange=e=>viewport.setLightingQuality(e.target.value);
   document.getElementById('presentation-effects').onclick = event => { effectsEnabled = !effectsEnabled; viewport.setEffectsEnabled(effectsEnabled); event.currentTarget.setAttribute('aria-pressed', String(effectsEnabled)); };
   document.getElementById('presentation-fullscreen').onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
   window.addEventListener('pagehide', () => { clearInterval(retry); channel.close(); viewport.destroy(); });

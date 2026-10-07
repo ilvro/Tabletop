@@ -4,24 +4,63 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
+import { createLightingZones } from './lighting-zones.js';
 
-// Integrate a homogeneous height slab along the view ray, stopping at scene depth.
-// One analytical sample per pixel; no light shafts, shadow scattering or simulation.
-const volumeShader = {
+// Keep the analytical legacy slab; opt into bounded ray samples for local regions/scattering.
+const volumeShader = zones => ({
   name: 'TabletopHeightFog',
   uniforms: {
     tDiffuse: { value: null }, tDepth: { value: null },
     inverseProjection: { value: new THREE.Matrix4() }, cameraWorld: { value: new THREE.Matrix4() },
     fogColor: { value: new THREE.Color() }, density: { value: .06 },
     baseHeight: { value: 0 }, height: { value: 3 }, maxDistance: { value: 80 },
+    ...zones.uniforms,
+    localFog: {value:false}, scattering: {value:false}, steps: {value:12}, volumeStrength:{value:.5},
+    lightCount:{value:0},lightPosition:{value:Array.from({length:4},()=>new THREE.Vector3())},
+    lightDirection:{value:Array.from({length:4},()=>new THREE.Vector3())},
+    lightColor:{value:Array.from({length:4},()=>new THREE.Vector3())},
+    lightParams:{value:Array.from({length:4},()=>new THREE.Vector4())},
+    lightShadowIndex:{value:[-1,-1,-1,-1]},
+    volumeShadow0:{value:null},volumeShadow1:{value:null},
+    volumeShadowMatrix:{value:[new THREE.Matrix4(),new THREE.Matrix4()]},
   },
   vertexShader: `varying vec2 vUv;
     void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
-  fragmentShader: `varying vec2 vUv;
+  fragmentShader: `precision highp sampler2DShadow;
+    varying vec2 vUv;
+    ${zones.functions}
     uniform sampler2D tDiffuse, tDepth;
     uniform mat4 inverseProjection, cameraWorld;
     uniform vec3 fogColor;
     uniform float density, baseHeight, height, maxDistance;
+    uniform bool localFog,scattering;
+    uniform int steps,lightCount,lightShadowIndex[4];
+    uniform vec3 lightPosition[4],lightDirection[4],lightColor[4];
+    uniform vec4 lightParams[4];
+    uniform float volumeStrength;
+    uniform sampler2DShadow volumeShadow0,volumeShadow1;
+    uniform mat4 volumeShadowMatrix[2];
+    float visibility(vec3 p,int index){
+      if(index<0)return 1.0;
+      vec4 q=volumeShadowMatrix[index]*vec4(p,1.0);vec3 s=q.xyz/q.w;
+      if(q.w<=0.0||any(lessThan(s,vec3(0.0)))||any(greaterThan(s,vec3(1.0))))return 0.0;
+      if(index==0)return texture(volumeShadow0,vec3(s.xy,s.z-0.0004));
+      return texture(volumeShadow1,vec3(s.xy,s.z-0.0004));
+    }
+    vec3 illumination(vec3 p){vec3 value=vec3(0.0);
+      for(int i=0;i<4;i++){if(i>=lightCount)break;vec3 delta=p-lightPosition[i];float d=length(delta);vec4 params=lightParams[i];
+        float attenuation=pow(max(0.0,1.0-d/max(params.x,.1)),2.0)/(1.0+d*d);
+        if(params.y>=0.0)attenuation*=smoothstep(params.y,min(1.0,params.y+max(.001,params.z)),dot(delta/max(d,.0001),lightDirection[i]));
+        value+=lightColor[i]*attenuation*visibility(p,lightShadowIndex[i]);
+      }return min(value*volumeStrength*.04,vec3(1.5));
+    }
+    vec2 regionInterval(vec3 start,vec3 direction,int i,float limit){
+      vec3 p=(zoneInverse[i]*vec4(start,1.0)).xyz,d=(zoneInverse[i]*vec4(direction,0.0)).xyz;
+      d=vec3(abs(d.x)<.000001?.000001:d.x,abs(d.y)<.000001?.000001:d.y,abs(d.z)<.000001?.000001:d.z);
+      vec3 a=(-zoneHalfSize[i]-p)/d,b=(zoneHalfSize[i]-p)/d,lo=min(a,b),hi=max(a,b);
+      return vec2(max(0.0,max(lo.x,max(lo.y,lo.z))),min(limit,min(hi.x,min(hi.y,hi.z))));
+    }
     vec3 viewPoint(float depth) {
       vec4 p = inverseProjection * vec4(vUv * 2.0 - 1.0, depth * 2.0 - 1.0, 1.0);
       return p.xyz / p.w;
@@ -43,47 +82,85 @@ const volumeShader = {
         entry = max(0.0, min(a, b)); exit = min(limit, max(a, b));
       }
       float opacity = 1.0 - exp(-density * max(0.0, exit - entry));
-      gl_FragColor = vec4(mix(original.rgb, fogColor, opacity), original.a);
+      if(!localFog&&!scattering){gl_FragColor=vec4(mix(original.rgb,fogColor,opacity),original.a);return;}
+      // Spend bounded samples on the actual fog interval, rather than empty space in a large map.
+      float first=density>0.0&&exit>entry?entry:limit,last=density>0.0?max(0.0,exit):0.0;
+      if(localFog)for(int zi=0;zi<16;zi++){if(zi>=zoneCount)break;if(zoneFog[zi].a<=0.0)continue;vec2 span=regionInterval(start,direction,zi,limit);if(span.y>span.x){first=min(first,span.x);last=max(last,span.y);}}
+      if(last<=first){gl_FragColor=original;return;}
+      vec3 accumulated=vec3(0.0);float transmittance=1.0,stepLength=(last-first)/float(steps);
+      // Stable screen-space dither avoids visible parallel bands without temporal state.
+      float jitter=fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453);
+      for(int sampleIndex=0;sampleIndex<20;sampleIndex++){if(sampleIndex>=steps)break;
+        vec3 p=start+direction*(first+(float(sampleIndex)+jitter)*stepLength);
+        float localDensity=(p.y>=baseHeight&&p.y<=baseHeight+height)?density:0.0;vec3 tint=fogColor;
+        if(localFog)for(int zi=0;zi<16;zi++){if(zi>=zoneCount)break;float w=zoneWeight(p,zi);localDensity=mix(localDensity,zoneFog[zi].a,w);tint=mix(tint,zoneFog[zi].rgb,w);}
+        float alpha=1.0-exp(-localDensity*stepLength);vec3 light=scattering?illumination(p):vec3(0.0);
+        accumulated+=transmittance*alpha*(tint+light);transmittance*=1.0-alpha;
+      }
+      gl_FragColor=vec4(original.rgb*transmittance+accumulated,original.a);
     }`,
-};
+});
 
 class HeightFogPass extends ShaderPass {
-  constructor() { super(volumeShader); }
+  constructor(zones) { super(volumeShader(zones));Object.assign(this.uniforms,zones.uniforms);this.sources=[]; }
   render(renderer, writeBuffer, readBuffer, ...rest) {
     this.uniforms.tDepth.value = readBuffer.depthTexture;
+    const u=this.uniforms;let shadows=0;
+    for(let i=0;i<this.sources.length;i++){
+      const light=this.sources[i];u.lightPosition.value[i].copy(light.position);u.lightColor.value[i].set(light.color.r,light.color.g,light.color.b).multiplyScalar(light.intensity);
+      u.lightDirection.value[i].set(0,-1,0);let cone=-1,penumbra=0;
+      if(light.isSpotLight){u.lightDirection.value[i].copy(light.target.position).sub(light.position).normalize();cone=Math.cos(light.angle);penumbra=Math.cos(light.angle*(1-light.penumbra))-cone;}
+      u.lightParams.value[i].set(light.distance||200,cone,penumbra,0);u.lightShadowIndex.value[i]=-1;
+      if(light.isSpotLight&&light.castShadow&&light.shadow.map?.depthTexture&&shadows<2){u.lightShadowIndex.value[i]=shadows;u['volumeShadow'+shadows].value=light.shadow.map.depthTexture;u.volumeShadowMatrix.value[shadows].copy(light.shadow.matrix);shadows++;}
+    }
+    u.lightCount.value=this.sources.length;
     super.render(renderer, writeBuffer, readBuffer, ...rest);
   }
 }
 
 /** Lazy optional GPU pipeline. Each viewport owns and can suppress its effects. */
 export function createEffectsPipeline(renderer, scene) {
-  let composer, renderPass, volumePass, bloomPass, outputPass;
-  let currentLook = {}, enabled = true, width = 1, height = 1;
+  const zones=createLightingZones();let activeZones=zones,sources=[],quality={steps:12},tier='balanced',fallbackDepth;
+  let composer, renderPass, volumePass, bloomPass, outputPass,aoPass;
+  let currentLook = {}, enabled = true, width = 1, height = 1,hadLocalFog=false;
   function dispose() {
     if (!composer) return;
     for (const pass of composer.passes) pass.dispose();
-    composer.dispose(); composer = null; bloomPass = null;
+    composer.dispose(); composer = null; bloomPass = null;aoPass=null;
+    fallbackDepth?.dispose();fallbackDepth=null;
   }
   function configure(look = currentLook) {
     currentLook = look;
-    if (!enabled || !(look.volumetricFog?.enabled || look.bloom?.enabled)) { dispose(); return; }
+    const localFog=activeZones.uniforms.zoneFog.value.slice(0,activeZones.uniforms.zoneCount.value).some(v=>v.w>0);
+    hadLocalFog=localFog;
+    const ao=look.rendering?.ao&&tier!=='economy';
+    if (!enabled || !(look.volumetricFog?.enabled || look.bloom?.enabled||localFog||ao)) { dispose(); return; }
     if (!composer) {
       const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, depthTexture: new THREE.DepthTexture(1, 1) });
       composer = new EffectComposer(renderer, target);
       // Cap effects at one physical pixel per CSS pixel; bloom uses half-size mips.
       composer.setPixelRatio(Math.min(renderer.getPixelRatio(), 1));
       renderPass = new RenderPass(scene, null);
-      volumePass = new HeightFogPass();
+      volumePass = new HeightFogPass(activeZones);
+      fallbackDepth=new THREE.DepthTexture(1,1,THREE.UnsignedIntType);fallbackDepth.compareFunction=THREE.LessEqualCompare;fallbackDepth.needsUpdate=true;
+      volumePass.uniforms.volumeShadow0.value=fallbackDepth;volumePass.uniforms.volumeShadow1.value=fallbackDepth;
       outputPass = new OutputPass();
       composer.addPass(renderPass); composer.addPass(volumePass); composer.addPass(outputPass);
       composer.setSize(width, height);
     }
-    volumePass.enabled = Boolean(look.volumetricFog?.enabled);
-    if (volumePass.enabled) {
-      const f = look.volumetricFog;
-      volumePass.uniforms.fogColor.value.set(f.color);
-      for (const field of ['density', 'baseHeight', 'height', 'maxDistance']) volumePass.uniforms[field].value = f[field];
-    }
+    volumePass.enabled = Boolean(look.volumetricFog?.enabled||localFog);
+    const f=look.volumetricFog;
+    volumePass.uniforms.fogColor.value.set(f?.color??'#9daac2');
+    Object.assign(volumePass.uniforms.density,{value:f?.enabled?f.density:0});
+    for(const field of ['baseHeight','height','maxDistance'])volumePass.uniforms[field].value=f?.[field]??({baseHeight:0,height:3,maxDistance:80}[field]);
+    volumePass.uniforms.localFog.value=activeZones.uniforms.zoneCount.value>0;
+    volumePass.uniforms.scattering.value=!!look.rendering?.volumetricLights&&tier!=='economy'&&(look.rendering?.volumeStrength??.5)>0;
+    volumePass.uniforms.volumeStrength.value=look.rendering?.volumeStrength??.5;
+    if(ao&&!aoPass){aoPass=new GTAOPass(scene,new THREE.PerspectiveCamera(),Math.max(1,width/2|0),Math.max(1,height/2|0));
+      const draw=aoPass.render.bind(aoPass);aoPass.render=(...args)=>{const hidden=[];scene.traverse(o=>{const materials=Array.isArray(o.material)?o.material:[o.material];if(o.visible&&(o.userData.editHelper||o.userData.decorative||materials.some(m=>m?.transparent))){hidden.push(o);o.visible=false;}});try{draw(...args);}finally{for(const o of hidden)o.visible=true;}};
+      composer.insertPass(aoPass,2);}
+    else if(!ao&&aoPass){composer.removePass(aoPass);aoPass.dispose();aoPass=null;}
+    if(aoPass){aoPass.blendIntensity=look.rendering.aoIntensity??.35;aoPass.updateGtaoMaterial({radius:look.rendering.aoRadius??.6});aoPass.setSize(Math.max(1,width/2|0),Math.max(1,height/2|0));}
     if (look.bloom?.enabled && !bloomPass) {
       bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height));
       composer.insertPass(bloomPass, composer.passes.length - 1);
@@ -94,17 +171,24 @@ export function createEffectsPipeline(renderer, scene) {
   }
   return {
     configure,
+    setQuality(value){tier=value;configure();},
+    setLighting(value,lights,q){const before=hadLocalFog;activeZones=value;sources=lights;quality=q;
+      const after=value.uniforms.zoneFog.value.slice(0,value.uniforms.zoneCount.value).some(v=>v.w>0);
+      if(before!==after||after&&!composer&&enabled)configure();
+      if(volumePass&&composer){Object.assign(volumePass.uniforms,value.uniforms);volumePass.uniforms.localFog.value=value.uniforms.zoneCount.value>0;volumePass.uniforms.steps.value=q.steps;volumePass.sources=sources;}
+    },
     setEnabled(value) { enabled = value; configure(); },
-    resize(w, h) { if (width === w && height === h) return; width = w; height = h; composer?.setSize(w, h); },
+    resize(w, h) { if (width === w && height === h) return; width = w; height = h; composer?.setSize(w, h);aoPass?.setSize(Math.max(1,w/2|0),Math.max(1,h/2|0)); },
     render(camera, seconds) {
       if (!composer) { renderer.render(scene, camera); return; }
       camera.updateMatrixWorld();
       renderPass.camera = camera;
+      if(aoPass){aoPass.camera=camera;const perspective=camera.isPerspectiveCamera?1:0;if(aoPass.gtaoMaterial.defines.PERSPECTIVE_CAMERA!==perspective){aoPass.gtaoMaterial.defines.PERSPECTIVE_CAMERA=perspective;aoPass.gtaoMaterial.needsUpdate=true;}}
       volumePass.uniforms.inverseProjection.value.copy(camera.projectionMatrixInverse);
       volumePass.uniforms.cameraWorld.value.copy(camera.matrixWorld);
       composer.render(seconds);
     },
-    info() { return { enabled, bloom: Boolean(composer && bloomPass), volumetricFog: Boolean(composer && volumePass.enabled), pixelRatio: Math.min(renderer.getPixelRatio(), 1) }; },
+    info() { return { enabled, bloom: Boolean(composer && bloomPass), volumetricFog: Boolean(composer && volumePass.enabled), ao:!!aoPass,scattering:!!composer&&volumePass.uniforms.scattering.value,steps:quality.steps,pixelRatio: Math.min(renderer.getPixelRatio(), 1) }; },
     dispose,
   };
 }

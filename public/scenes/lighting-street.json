@@ -1,0 +1,895 @@
+{
+  "schemaVersion": 2,
+  "documentType": "scene",
+  "id": "c3000003-0000-4000-8000-000000000001",
+  "revision": 0,
+  "name": "Iluminação · rua chuvosa",
+  "createdAt": "2026-10-06T15:00:00.000Z",
+  "updatedAt": "2026-10-06T15:00:00.000Z",
+  "layout": {
+    "grid": {
+      "type": "square",
+      "origin": [
+        0,
+        0
+      ],
+      "cellSize": 1,
+      "visible": false,
+      "snap": false,
+      "color": "#87969e",
+      "opacity": 0.25
+    },
+    "entities": {
+      "c3000003-0000-4000-8000-000000000003": {
+        "id": "c3000003-0000-4000-8000-000000000003",
+        "name": "Exterior · preenchimento global",
+        "kind": "floor",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            0,
+            -0.015,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "width": 26,
+        "length": 26,
+        "thickness": 0.16,
+        "material": {
+          "color": "#635773",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        }
+      },
+      "c3000003-0000-4000-8000-000000000004": {
+        "id": "c3000003-0000-4000-8000-000000000004",
+        "name": "Rua · volume de névoa",
+        "kind": "floor",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "width": 12,
+        "length": 12,
+        "thickness": 0.16,
+        "material": {
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065,
+          "color": "#515865",
+          "roughness": 0.22,
+          "metalness": 0.15
+        },
+        "lightingZone": {
+          "enabled": true,
+          "position": [
+            0,
+            4,
+            0
+          ],
+          "size": [
+            12,
+            9,
+            12
+          ],
+          "blend": 0.6,
+          "priority": 10,
+          "color": "#aecada",
+          "intensity": 0.4,
+          "fogColor": "#8193a4",
+          "fogDensity": 0.035
+        }
+      },
+      "c3000003-0000-4000-8000-000000000005": {
+        "id": "c3000003-0000-4000-8000-000000000005",
+        "name": "Poste de rua",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "lamp",
+          "mode": "assisted",
+          "type": "spot",
+          "color": "#ffe0ad",
+          "intensity": 120,
+          "distance": 10,
+          "position": [
+            0,
+            3.4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 1.0471975511965976,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": false,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 30,
+          "shadowPolicy": "priority",
+          "mapSize": 1024,
+          "projection": "leaves",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            -4,
+            0,
+            -4
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-streetlamp",
+          "revision": 1
+        },
+        "footprint": [
+          0.93,
+          0.41
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000003-0000-4000-8000-000000000006": {
+        "id": "c3000003-0000-4000-8000-000000000006",
+        "name": "Poste de rua",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "lamp",
+          "mode": "assisted",
+          "type": "spot",
+          "color": "#ffe0ad",
+          "intensity": 120,
+          "distance": 10,
+          "position": [
+            0,
+            3.4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 1.0471975511965976,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": false,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 30,
+          "shadowPolicy": "priority",
+          "mapSize": 1024,
+          "projection": "leaves",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            -4,
+            0,
+            4
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-streetlamp",
+          "revision": 1
+        },
+        "footprint": [
+          0.93,
+          0.41
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000003-0000-4000-8000-000000000007": {
+        "id": "c3000003-0000-4000-8000-000000000007",
+        "name": "Poste de rua",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "lamp",
+          "mode": "assisted",
+          "type": "spot",
+          "color": "#ffe0ad",
+          "intensity": 120,
+          "distance": 10,
+          "position": [
+            0,
+            3.4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 1.0471975511965976,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": false,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 30,
+          "shadowPolicy": "priority",
+          "mapSize": 1024,
+          "projection": "leaves",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            4,
+            0,
+            -4
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-streetlamp",
+          "revision": 1
+        },
+        "footprint": [
+          0.93,
+          0.41
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000003-0000-4000-8000-000000000008": {
+        "id": "c3000003-0000-4000-8000-000000000008",
+        "name": "Poste de rua",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "lamp",
+          "mode": "assisted",
+          "type": "spot",
+          "color": "#ffe0ad",
+          "intensity": 120,
+          "distance": 10,
+          "position": [
+            0,
+            3.4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 1.0471975511965976,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": false,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 30,
+          "shadowPolicy": "priority",
+          "mapSize": 1024,
+          "projection": "leaves",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            4,
+            0,
+            4
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-streetlamp",
+          "revision": 1
+        },
+        "footprint": [
+          0.93,
+          0.41
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000003-0000-4000-8000-000000000009": {
+        "id": "c3000003-0000-4000-8000-000000000009",
+        "name": "Tambor industrial",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -5.5,
+            0,
+            -3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-barrel",
+          "revision": 1
+        },
+        "footprint": [
+          0.63,
+          0.63
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000003-0000-4000-8000-000000000010": {
+        "id": "c3000003-0000-4000-8000-000000000010",
+        "name": "Tambor industrial",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -5.5,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-barrel",
+          "revision": 1
+        },
+        "footprint": [
+          0.63,
+          0.63
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000003-0000-4000-8000-000000000011": {
+        "id": "c3000003-0000-4000-8000-000000000011",
+        "name": "Tambor industrial",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -5.5,
+            0,
+            3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-barrel",
+          "revision": 1
+        },
+        "footprint": [
+          0.63,
+          0.63
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000003-0000-4000-8000-000000000012": {
+        "id": "c3000003-0000-4000-8000-000000000012",
+        "name": "Calçada",
+        "kind": "floor",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -9,
+            0.15,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "width": 5,
+        "length": 16,
+        "thickness": 0.16,
+        "material": {
+          "color": "#817e81",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        }
+      },
+      "c3000003-0000-4000-8000-000000000013": {
+        "id": "c3000003-0000-4000-8000-000000000013",
+        "name": "Calçada",
+        "kind": "floor",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            9,
+            0.15,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "width": 5,
+        "length": 16,
+        "thickness": 0.16,
+        "material": {
+          "color": "#817e81",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        }
+      }
+    },
+    "groups": {},
+    "areas": {},
+    "compositions": {}
+  },
+  "sourceMap": null,
+  "sourceEnvironment": {
+    "id": "moonlight",
+    "revision": 1
+  },
+  "look": {
+    "background": "#111d35",
+    "fill": {
+      "skyColor": "#6786b5",
+      "groundColor": "#252e43",
+      "intensity": 0.32
+    },
+    "lights": {
+      "c3000003-0000-4000-8000-000000000002": {
+        "id": "c3000003-0000-4000-8000-000000000002",
+        "name": "Sol / Lua",
+        "type": "directional",
+        "position": [
+          4,
+          8,
+          6
+        ],
+        "rotation": [
+          0.34615685778006333,
+          -0.2416283945124098,
+          0.09275245049666295,
+          0.9017694448716104
+        ],
+        "color": "#bfd3ff",
+        "intensity": 0.55,
+        "distance": 0,
+        "shadowEnabled": true,
+        "audience": "all",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "role": "key",
+        "temperature": 12000,
+        "enabled": true
+      }
+    },
+    "materialAdjustments": {},
+    "daylight": {
+      "phase": "night",
+      "exposure": 1.1
+    },
+    "sky": {
+      "enabled": true,
+      "topColor": "#071329",
+      "horizonColor": "#304f84",
+      "celestialEnabled": true,
+      "discSize": 0.035,
+      "stars": true,
+      "clouds": true,
+      "cloudColor": "#6c86b5",
+      "cloudCoverage": 0.22,
+      "cloudOpacity": 0.22,
+      "cloudSpeed": 0.025,
+      "cloudScale": 3,
+      "seed": 1
+    },
+    "weather": {
+      "type": "rain",
+      "count": 350,
+      "center": [
+        0,
+        4,
+        0
+      ],
+      "size": [
+        16,
+        8,
+        16
+      ],
+      "color": "#afc9de",
+      "opacity": 0.45,
+      "particleSize": 0.025,
+      "speed": 10,
+      "wind": [
+        1,
+        0
+      ],
+      "seed": 1
+    },
+    "fog": {
+      "enabled": false,
+      "mode": "linear",
+      "color": "#8899aa",
+      "near": 8,
+      "far": 45,
+      "density": 0.025
+    },
+    "volumetricFog": {
+      "enabled": false,
+      "color": "#a5b6c5",
+      "density": 0.06,
+      "baseHeight": 0,
+      "height": 3,
+      "maxDistance": 80
+    },
+    "bloom": {
+      "enabled": true,
+      "strength": 0.18,
+      "radius": 0.3,
+      "threshold": 1
+    },
+    "nightWindows": {
+      "enabled": true,
+      "color": "#ffc86d",
+      "intensity": 2
+    },
+    "effectsPaused": true,
+    "rendering": {
+      "reflections": true,
+      "reflectionIntensity": 0.4,
+      "ao": true,
+      "aoIntensity": 0.3,
+      "volumetricLights": true,
+      "volumeStrength": 0.5,
+      "cutawayShadows": false
+    }
+  },
+  "actors": {},
+  "tokens": {},
+  "cameraPresets": {
+    "c3000003-0000-4000-8000-000000000014": {
+      "id": "c3000003-0000-4000-8000-000000000014",
+      "name": "Visão geral",
+      "position": [
+        18,
+        18,
+        24
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ],
+      "projection": "perspective",
+      "orthographicHeight": 24,
+      "fov": 50
+    },
+    "c3000003-0000-4000-8000-000000000015": {
+      "id": "c3000003-0000-4000-8000-000000000015",
+      "name": "Vista superior",
+      "position": [
+        0,
+        25,
+        0.01
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "projection": "orthographic",
+      "orthographicHeight": 30,
+      "fov": 50
+    },
+    "c3000003-0000-4000-8000-000000000016": {
+      "id": "c3000003-0000-4000-8000-000000000016",
+      "name": "Dentro do ambiente",
+      "position": [
+        0,
+        2.2,
+        8
+      ],
+      "target": [
+        0,
+        2,
+        -4
+      ],
+      "projection": "perspective",
+      "orthographicHeight": 20,
+      "fov": 50
+    }
+  },
+  "sessionState": {
+    "doors": {}
+  },
+  "audioCue": null
+}

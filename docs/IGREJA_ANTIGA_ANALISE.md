@@ -78,7 +78,7 @@ Uma primeira montagem pode colocar a cobertura em uma pasta/camada própria e al
 
 As seis imagens confirmam desgaste forte e localizado em paredes, pilares, cobertura e mobiliário. Um único padrão repetido de pedra não representa essas variações. Ainda não há base para afirmar paridade de materiais, renderização ou desempenho com o tabletop da série.
 
-O [plano de iluminação dinâmica](DYNAMIC_LIGHTING_PLAN.md) propõe fontes reutilizáveis vinculadas a assets, zonas simultâneas para nave/vale, orçamento de sombras, projeções de vitrais e névoa iluminada. É uma evolução geral da engine, com a igreja como um dos testes; as etapas ainda não foram implementadas.
+O [plano de iluminação dinâmica](DYNAMIC_LIGHTING_PLAN.md) propõe fontes reutilizáveis vinculadas a assets, zonas simultâneas para nave/vale, orçamento de sombras, projeções de vitrais e névoa iluminada. A implementação inicial da engine está disponível: perfis, zonas em caixa, orçamento, projeções de vitral, reflexos/AO e névoa iluminada. Um estudo de capela editável está na galeria; o mapa completo e as conexões de aberturas continuam posteriores. Veja [uso e limites](DYNAMIC_LIGHTING.md) e o quadro de estado do plano.
 
 ### 5. Exterior amplo e custo de edição
 
@@ -105,4 +105,4 @@ A condição de construir se nada faltar ainda não foi satisfeita. Nenhuma cena
 
 ## Validação desta etapa
 
-Inspeção de documentos, catálogo e código; leitura completa da página pela API; inventário das referências; bloqueio do CDN confirmado por HTTP e Chromium; revisão visual dos seis anexos fornecidos posteriormente. A análise inicial foi documental. O incremento posterior implementou o kit de 18 assets e perfis/opacidade de receitas; a validação está registrada em [CHURCH_KIT.md](CHURCH_KIT.md) e [progress.md](../progress.md). A inspeção das outras vistas da galeria, o protótipo e a construção completa permanecem pendentes.
+Inspeção de documentos, catálogo e código; leitura completa da página pela API; inventário das referências; bloqueio do CDN confirmado por HTTP e Chromium; revisão visual dos seis anexos fornecidos posteriormente. A análise inicial foi documental. O incremento posterior implementou o kit de 18 assets e perfis/opacidade de receitas; a validação está registrada em [CHURCH_KIT.md](CHURCH_KIT.md) e [progress.md](../progress.md). O estudo de capela valida a iluminação reutilizável e um recorte do kit. A inspeção das outras vistas da galeria e a construção completa, incluindo vale/galerias/cobertura, permanecem pendentes.

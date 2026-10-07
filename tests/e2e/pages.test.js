@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import express from 'express';
 import path from 'node:path';
 import os from 'node:os';
-import { mkdtemp,rm,mkdir } from 'node:fs/promises';
+import { mkdtemp,rm,mkdir,readFile } from 'node:fs/promises';
 import { once } from 'node:events';
 import { chromium } from 'playwright';
 import { reveal } from './controls.js';
@@ -17,6 +17,7 @@ async function staticServer() {
   for(const base of ['/Tabletop','/OutraMesa','/'])app.use(base,express.static(path.resolve('dist-pages')));
   const server=app.listen(0,'127.0.0.1');await once(server,'listening');return server;
 }
+const builtinCount=JSON.parse(await readFile(new URL('../../public/assets/catalog.json',import.meta.url),'utf8')).assets.length;
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=','base64');
 function staticGLB() {
   const binary=Buffer.alloc(36);[-.5,0,0,.5,0,0,0,1,0].forEach((v,i)=>binary.writeFloatLE(v,i*4));
@@ -39,7 +40,7 @@ test('GitHub Pages works under a repository path without an API: catalog, import
   await action('floor-add');let floor=Object.values((await snapshot()).layout.entities).find(e=>e.kind==='floor');assert.ok(floor);
   await page.locator('[data-field="material-texture"]').selectOption('wood');await (await reveal(page.locator('[data-field="material-woodBoards"]'))).fill('8');await page.locator('[data-field="material-woodBoards"]').press('Tab');
   await page.locator('[data-tab="assets"]').click();
-  await page.waitForFunction(()=>document.querySelector('#asset-result-count').textContent.includes('202'));
+  await page.waitForFunction(count=>document.querySelector('#asset-result-count').textContent.includes(String(count)),builtinCount);
   await page.locator('[data-asset="builtin-desk"] img').waitFor();assert.equal(await page.locator('[data-asset="builtin-desk"] img').evaluate(img=>img.complete&&img.naturalWidth>0),true);
   await page.locator('[data-asset="builtin-desk"]').click();await world([0,0,0]);await page.waitForFunction(()=>Object.values(window.__tabletop.snapshot().layout.entities).some(e=>e.assetRef?.id==='builtin-desk'));
   await page.locator('[data-tab=assets]').click();await page.locator('[data-library-favorite="builtin-desk"]').click();await page.waitForFunction(()=>document.querySelector('[data-library-favorite="builtin-desk"]').getAttribute('aria-pressed')==='true');
@@ -122,5 +123,5 @@ test('browser repository validates documents/assets, serializes conflicts and ab
     a.dispose();b.dispose();reloaded.dispose();return result;
   },png.toString('base64'));
   assert.equal(results.coverUnchanged,true);assert.equal(results.copiedCover.preview,results.cover);assert.equal(results.copiedCover.previewRevision,1);assert.equal(results.storedCover.preview,results.cover);assert.ok(results.storedCover.previewRevision<results.storedCover.revision);
-  assert.deepEqual(results.concurrent.sort(),[409,'saved'].sort());assert.deepEqual(results.metadataConflicts.sort(),[409,'saved'].sort());assert.deepEqual(results.before,results.after);assert.equal(results.quota,'QuotaExceededError');assert.equal(results.statuses[0],409);assert.equal(results.statuses[1],409);assert.ok(results.statuses.slice(2).every(s=>s!=='accepted'));assert.equal(results.blobSize,png.length);assert.equal(results.reloadedBlob,png.length);assert.equal(results.updated.metadataRevision,1);assert.deepEqual(results.counts,[1,1,1]);assert.ok(results.backups<=5);assert.equal(results.allBuiltins,202);
+  assert.deepEqual(results.concurrent.sort(),[409,'saved'].sort());assert.deepEqual(results.metadataConflicts.sort(),[409,'saved'].sort());assert.deepEqual(results.before,results.after);assert.equal(results.quota,'QuotaExceededError');assert.equal(results.statuses[0],409);assert.equal(results.statuses[1],409);assert.ok(results.statuses.slice(2).every(s=>s!=='accepted'));assert.equal(results.blobSize,png.length);assert.equal(results.reloadedBlob,png.length);assert.equal(results.updated.metadataRevision,1);assert.deepEqual(results.counts,[1,1,1]);assert.ok(results.backups<=5);assert.equal(results.allBuiltins,builtinCount);
 });

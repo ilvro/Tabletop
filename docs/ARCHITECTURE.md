@@ -165,6 +165,8 @@ Carregar documento reconstrói seu estado salvo; não executa geradores, não ap
 
 O MVP precisa de `look` com iluminação ambiente, direcional/pontual, cor e intensidade, sombras seletivas, fundo e ajustes simples de materiais. Fog, volume por altura, bloom, horário/exposição, céu/nuvens, clima e vínculos por horário possuem campos opcionais validados no schema 2; documentos anteriores preservam sua aparência. O v1 não aceita qualquer objeto arbitrário como promessa de extensibilidade; novas versões adicionam formatos validados.
 
+A iluminação dinâmica acrescenta campos opcionais validados `entity.illumination`, `entity.lightingZone` e `look.rendering`. O viewport reconcilia instâncias por identidade, deriva fontes somente após o filtro de privacidade e usa pools limitados por janela; qualidade, casters, texturas de projeção e buffers nunca são serializados. Perfis guardam snapshots no host, sem referências runtime cruzadas. Zonas espaciais e efeitos têm módulos próprios; a biblioteca pessoal usa IndexedDB nos dois modos. Contrato, limites e extensões posteriores: [DYNAMIC_LIGHTING.md](DYNAMIC_LIGHTING.md) e [DYNAMIC_LIGHTING_PLAN.md](DYNAMIC_LIGHTING_PLAN.md).
+
 Contrato visual vigente, com extensões opcionais do schema 2:
 
 | Campo de `look` | Tipo e semântica |

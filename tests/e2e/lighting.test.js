@@ -116,7 +116,7 @@ test('height fog stops at opaque depth in both cameras; bloom affects only highl
   const app = express();
   app.get('/', (_req, res) => res.type('html').send('<link rel="icon" href="data:,"><script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script>'));
   app.use('/three', express.static(path.resolve('node_modules/three')));
-  app.get('/effects.js', (_req, res) => res.sendFile(path.resolve('src/render/effects.js')));
+  app.use('/src', express.static(path.resolve('src')));
   const server = app.listen(0, '127.0.0.1'); await once(server, 'listening');
   let browser;
   t.after(async () => { await browser?.close(); await new Promise(resolve => server.close(resolve)); });
@@ -125,7 +125,7 @@ test('height fog stops at opaque depth in both cameras; bloom affects only highl
   page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()); });
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   const result = await page.evaluate(async () => {
-    const THREE = await import('three'), { createEffectsPipeline } = await import('/effects.js');
+    const THREE = await import('three'), { createEffectsPipeline } = await import('/src/render/effects.js');
     const renderer = new THREE.WebGLRenderer({ antialias: false, preserveDrawingBuffer: true });
     renderer.setSize(64, 64); renderer.setPixelRatio(1);
     renderer.outputColorSpace = THREE.LinearSRGBColorSpace; renderer.toneMapping = THREE.NoToneMapping;

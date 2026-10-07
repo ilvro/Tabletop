@@ -23,6 +23,8 @@ export function createEntity(kind, options = {}) {
     id: options.id ?? id(), name: options.name ?? names[kind], kind,
     groupId: options.groupId ?? null, surfaceId: options.surfaceId ?? null,
     locked: options.locked ?? false, audience: options.audience ?? 'all', tags: clone(options.tags ?? []),
+    ...(options.illumination ? {illumination:clone(options.illumination)} : {}),
+    ...(options.lightingZone ? {lightingZone:clone(options.lightingZone)} : {}),
     ...semanticFields(options),
   };
   if (kind === 'door') return { ...common,
@@ -92,6 +94,7 @@ export function createLight(options = {}) {
     ...(options.temperature !== undefined ? { temperature: options.temperature } : {}),
     ...(options.enabled !== undefined ? { enabled: options.enabled } : {}),
     ...(options.flicker ? { flicker: clone(options.flicker) } : {}),
+    ...Object.fromEntries(['priority','shadowPolicy','mapSize','projection','projectionSeed','projectionRotation'].filter(k=>options[k]!==undefined).map(k=>[k,options[k]])),
     ...(options.type === 'spot' ? { angle: options.angle ?? Math.PI / 6, penumbra: options.penumbra ?? .4 } : {}),
     intensity: options.intensity ?? 40, distance: options.distance ?? 12,
     shadowEnabled: options.shadowEnabled ?? false, audience: options.audience ?? 'all',

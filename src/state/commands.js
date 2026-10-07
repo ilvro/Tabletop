@@ -450,7 +450,7 @@ export function applyCommand(document, command) {
     case 'light.add': { const light = clone(payload.light); semanticPlacement(next, light, { levelId: light.levelId ?? undefined }, true, true); editable({ ...light, locked: false }, undefined, next); put(look.lights, light); if (payload.binding) { look.environmentBindings ??= {}; look.environmentBindings[light.id] = clone(payload.binding); } break; }
     case 'light.update': { const before = requireRecord(look.lights, payload.id, 'Luz'); editable(before, payload.patch, next); const after = merge(before, payload.patch);
       if (after.type === 'spot') { after.angle ??= Math.PI / 6; after.penumbra ??= .4; }
-      else if (payload.patch.type !== undefined) { delete after.angle; delete after.penumbra; if (after.anchor) delete after.anchor.rotation; }
+      else if (payload.patch.type !== undefined) { if(after.type!=='spot')after.projection='none'; delete after.angle; delete after.penumbra; if (after.anchor) delete after.anchor.rotation; }
       if (payload.patch.temperature != null) after.color = kelvinToColor(payload.patch.temperature);
       else if (payload.patch.color !== undefined) after.temperature = null;
       semanticPlacement(next, after, payload.patch); editable({ ...after, locked: false }, undefined, next); look.lights[payload.id] = after; break; }

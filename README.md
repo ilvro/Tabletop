@@ -29,4 +29,4 @@ Cena editável de subida da montanha com caverna lateral, ponte elevada e lanter
 
 Kit arquitetônico/ritual da igreja: **Assets → buscar “igreja antiga”**, com 18 peças reutilizáveis. Montagem, apoios e avaliação do desgaste localizado: [CHURCH_KIT.md](docs/CHURCH_KIT.md).
 
-Desgaste reutilizável diretamente no material: sujeira, ferrugem, musgo, fuligem e rachaduras, com região ajustável e texturas originais preservadas. [Uso e limites](docs/MATERIAL_WEAR.md). Evolução futura de iluminação dinâmica e fácil de configurar: [plano da engine](docs/DYNAMIC_LIGHTING_PLAN.md).
+Desgaste reutilizável diretamente no material: sujeira, ferrugem, musgo, fuligem e rachaduras, com região ajustável e texturas originais preservadas. [Uso e limites](docs/MATERIAL_WEAR.md). Iluminação dinâmica: perfis por asset, biblioteca pessoal, zonas internas/externas, vitrais, reflexos/AO, névoa iluminada e qualidade independente no projetor. Quatro estudos editáveis na galeria. [Uso e limites](docs/DYNAMIC_LIGHTING.md), [estado do plano](docs/DYNAMIC_LIGHTING_PLAN.md).

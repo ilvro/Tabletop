@@ -1,0 +1,1479 @@
+{
+  "schemaVersion": 2,
+  "documentType": "scene",
+  "id": "c3000000-0000-4000-8000-000000000001",
+  "revision": 0,
+  "name": "Iluminação · capela ritual",
+  "createdAt": "2026-10-06T15:00:00.000Z",
+  "updatedAt": "2026-10-06T15:00:00.000Z",
+  "layout": {
+    "grid": {
+      "type": "square",
+      "origin": [
+        0,
+        0
+      ],
+      "cellSize": 1,
+      "visible": false,
+      "snap": false,
+      "color": "#87969e",
+      "opacity": 0.25
+    },
+    "entities": {
+      "c3000000-0000-4000-8000-000000000003": {
+        "id": "c3000000-0000-4000-8000-000000000003",
+        "name": "Exterior · preenchimento global",
+        "kind": "floor",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            0,
+            -0.015,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "width": 26,
+        "length": 26,
+        "thickness": 0.16,
+        "material": {
+          "color": "#635773",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        }
+      },
+      "c3000000-0000-4000-8000-000000000004": {
+        "id": "c3000000-0000-4000-8000-000000000004",
+        "name": "Interior · zona de ambiente",
+        "kind": "floor",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "width": 12,
+        "length": 18,
+        "thickness": 0.16,
+        "material": {
+          "color": "#a19090",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        },
+        "lightingZone": {
+          "enabled": true,
+          "position": [
+            0,
+            4,
+            0
+          ],
+          "size": [
+            12,
+            9,
+            18
+          ],
+          "blend": 0.6,
+          "priority": 10,
+          "color": "#d5243b",
+          "intensity": 0.22,
+          "fogColor": "#7b263a",
+          "fogDensity": 0.035
+        }
+      },
+      "c3000000-0000-4000-8000-000000000005": {
+        "id": "c3000000-0000-4000-8000-000000000005",
+        "name": "Fundo",
+        "kind": "wall",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6,
+            0,
+            -9
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "length": 12,
+        "height": 7,
+        "thickness": 0.18,
+        "material": {
+          "color": "#968089",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        }
+      },
+      "c3000000-0000-4000-8000-000000000006": {
+        "id": "c3000000-0000-4000-8000-000000000006",
+        "name": "Lateral esquerda",
+        "kind": "wall",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6,
+            0,
+            -9
+          ],
+          "rotation": [
+            0,
+            -0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "length": 18,
+        "height": 7,
+        "thickness": 0.18,
+        "material": {
+          "color": "#968089",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        }
+      },
+      "c3000000-0000-4000-8000-000000000007": {
+        "id": "c3000000-0000-4000-8000-000000000007",
+        "name": "Lateral direita",
+        "kind": "wall",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            6,
+            0,
+            -9
+          ],
+          "rotation": [
+            0,
+            -0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "length": 18,
+        "height": 7,
+        "thickness": 0.18,
+        "material": {
+          "color": "#968089",
+          "roughness": 0.9,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "stone",
+          "textureSize": 2,
+          "relief": 0.065
+        }
+      },
+      "c3000000-0000-4000-8000-000000000008": {
+        "id": "c3000000-0000-4000-8000-000000000008",
+        "name": "Igreja · pilar fasciculado com capitel",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -5,
+            0,
+            -6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            0.7,
+            0.7,
+            0.7
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-clustered-pier",
+          "revision": 1
+        },
+        "footprint": [
+          1.46,
+          1.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000009": {
+        "id": "c3000000-0000-4000-8000-000000000009",
+        "name": "Igreja · pilar fasciculado com capitel",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -5,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            0.7,
+            0.7,
+            0.7
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-clustered-pier",
+          "revision": 1
+        },
+        "footprint": [
+          1.46,
+          1.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000010": {
+        "id": "c3000000-0000-4000-8000-000000000010",
+        "name": "Igreja · pilar fasciculado com capitel",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -5,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            0.7,
+            0.7,
+            0.7
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-clustered-pier",
+          "revision": 1
+        },
+        "footprint": [
+          1.46,
+          1.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000011": {
+        "id": "c3000000-0000-4000-8000-000000000011",
+        "name": "Igreja · pilar fasciculado com capitel",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -5,
+            0,
+            6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            0.7,
+            0.7,
+            0.7
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-clustered-pier",
+          "revision": 1
+        },
+        "footprint": [
+          1.46,
+          1.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000012": {
+        "id": "c3000000-0000-4000-8000-000000000012",
+        "name": "Igreja · pilar fasciculado com capitel",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            5,
+            0,
+            -6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            0.7,
+            0.7,
+            0.7
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-clustered-pier",
+          "revision": 1
+        },
+        "footprint": [
+          1.46,
+          1.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000013": {
+        "id": "c3000000-0000-4000-8000-000000000013",
+        "name": "Igreja · pilar fasciculado com capitel",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            5,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            0.7,
+            0.7,
+            0.7
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-clustered-pier",
+          "revision": 1
+        },
+        "footprint": [
+          1.46,
+          1.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000014": {
+        "id": "c3000000-0000-4000-8000-000000000014",
+        "name": "Igreja · pilar fasciculado com capitel",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            5,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            0.7,
+            0.7,
+            0.7
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-clustered-pier",
+          "revision": 1
+        },
+        "footprint": [
+          1.46,
+          1.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000015": {
+        "id": "c3000000-0000-4000-8000-000000000015",
+        "name": "Igreja · pilar fasciculado com capitel",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            5,
+            0,
+            6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            0.7,
+            0.7,
+            0.7
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-clustered-pier",
+          "revision": 1
+        },
+        "footprint": [
+          1.46,
+          1.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000016": {
+        "id": "c3000000-0000-4000-8000-000000000016",
+        "name": "Igreja · mesa longa de banquete",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            0,
+            0,
+            -3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-banquet-table",
+          "revision": 1
+        },
+        "footprint": [
+          1.36,
+          5.41
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000017": {
+        "id": "c3000000-0000-4000-8000-000000000017",
+        "name": "Igreja · Serafim decapitado de pedra",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            0,
+            0,
+            -7
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-headless-seraph",
+          "revision": 1
+        },
+        "footprint": [
+          6.56,
+          1.3
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000018": {
+        "id": "c3000000-0000-4000-8000-000000000018",
+        "name": "Igreja · vitral ogival vermelho com traceria",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "window",
+          "mode": "assisted",
+          "type": "spot",
+          "color": "#dddfff",
+          "intensity": 180,
+          "distance": 18,
+          "position": [
+            0,
+            5,
+            0.35
+          ],
+          "rotation": [
+            -0.25881904510252074,
+            0,
+            0,
+            0.9659258262890683
+          ],
+          "angle": 0.7853981633974483,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": false,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 40,
+          "shadowPolicy": "priority",
+          "mapSize": 1024,
+          "projection": "stained",
+          "projectionSeed": 21,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            -3,
+            0,
+            -8.85
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            0.7,
+            0.7,
+            0.7
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-stained-window",
+          "revision": 1
+        },
+        "footprint": [
+          2.28,
+          0.29
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000019": {
+        "id": "c3000000-0000-4000-8000-000000000019",
+        "name": "Igreja · vitral ogival vermelho com traceria",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "window",
+          "mode": "assisted",
+          "type": "spot",
+          "color": "#dddfff",
+          "intensity": 180,
+          "distance": 18,
+          "position": [
+            0,
+            5,
+            0.35
+          ],
+          "rotation": [
+            -0.25881904510252074,
+            0,
+            0,
+            0.9659258262890683
+          ],
+          "angle": 0.7853981633974483,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": false,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 40,
+          "shadowPolicy": "priority",
+          "mapSize": 1024,
+          "projection": "stained",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            3,
+            0,
+            -8.85
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            0.7,
+            0.7,
+            0.7
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-stained-window",
+          "revision": 1
+        },
+        "footprint": [
+          2.28,
+          0.29
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000020": {
+        "id": "c3000000-0000-4000-8000-000000000020",
+        "name": "Igreja · candelabro de cinco velas",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "candle",
+          "mode": "assisted",
+          "type": "point",
+          "color": "#ffbf75",
+          "intensity": 22,
+          "distance": 5,
+          "position": [
+            0,
+            1.8,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 0.7853981633974483,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": true,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 10,
+          "shadowPolicy": "off",
+          "mapSize": 1024,
+          "projection": "none",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            -3,
+            0,
+            -3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-candelabra",
+          "revision": 1
+        },
+        "footprint": [
+          1.03,
+          0.5
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000021": {
+        "id": "c3000000-0000-4000-8000-000000000021",
+        "name": "Igreja · candelabro de cinco velas",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "candle",
+          "mode": "assisted",
+          "type": "point",
+          "color": "#ffbf75",
+          "intensity": 22,
+          "distance": 5,
+          "position": [
+            0,
+            1.8,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 0.7853981633974483,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": true,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 10,
+          "shadowPolicy": "off",
+          "mapSize": 1024,
+          "projection": "none",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            -3,
+            0,
+            4
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-candelabra",
+          "revision": 1
+        },
+        "footprint": [
+          1.03,
+          0.5
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000022": {
+        "id": "c3000000-0000-4000-8000-000000000022",
+        "name": "Igreja · candelabro de cinco velas",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "candle",
+          "mode": "assisted",
+          "type": "point",
+          "color": "#ffbf75",
+          "intensity": 22,
+          "distance": 5,
+          "position": [
+            0,
+            1.8,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 0.7853981633974483,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": true,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 10,
+          "shadowPolicy": "off",
+          "mapSize": 1024,
+          "projection": "none",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            3,
+            0,
+            -3
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-candelabra",
+          "revision": 1
+        },
+        "footprint": [
+          1.03,
+          0.5
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000023": {
+        "id": "c3000000-0000-4000-8000-000000000023",
+        "name": "Igreja · candelabro de cinco velas",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "candle",
+          "mode": "assisted",
+          "type": "point",
+          "color": "#ffbf75",
+          "intensity": 22,
+          "distance": 5,
+          "position": [
+            0,
+            1.8,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 0.7853981633974483,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": true,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 10,
+          "shadowPolicy": "off",
+          "mapSize": 1024,
+          "projection": "none",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            3,
+            0,
+            4
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-church-candelabra",
+          "revision": 1
+        },
+        "footprint": [
+          1.03,
+          0.5
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c3000000-0000-4000-8000-000000000024": {
+        "id": "c3000000-0000-4000-8000-000000000024",
+        "name": "Candelabro ritual",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "illumination": {
+          "enabled": true,
+          "profile": "ritual",
+          "mode": "assisted",
+          "type": "point",
+          "color": "#ff2540",
+          "intensity": 80,
+          "distance": 12,
+          "position": [
+            0,
+            1.2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 0.7853981633974483,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": false,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 30,
+          "shadowPolicy": "auto",
+          "mapSize": 1024,
+          "projection": "none",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            -5
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-ritual-candelabra",
+          "revision": 1
+        },
+        "footprint": [
+          0.68,
+          0.41
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      }
+    },
+    "groups": {},
+    "areas": {},
+    "compositions": {}
+  },
+  "sourceMap": null,
+  "sourceEnvironment": {
+    "id": "ritual",
+    "revision": 1
+  },
+  "look": {
+    "background": "#151020",
+    "fill": {
+      "skyColor": "#ae7fce",
+      "groundColor": "#432b53",
+      "intensity": 0.6
+    },
+    "lights": {
+      "c3000000-0000-4000-8000-000000000002": {
+        "id": "c3000000-0000-4000-8000-000000000002",
+        "name": "Sol / Lua",
+        "type": "directional",
+        "position": [
+          4,
+          8,
+          6
+        ],
+        "rotation": [
+          0.286788218175523,
+          0.286788218175523,
+          -0.0904239778555041,
+          0.909576022144496
+        ],
+        "color": "#a296e9",
+        "intensity": 0.3,
+        "distance": 0,
+        "shadowEnabled": true,
+        "audience": "all",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "role": "key",
+        "temperature": null,
+        "enabled": true
+      }
+    },
+    "materialAdjustments": {},
+    "daylight": {
+      "phase": "night",
+      "exposure": 1.05
+    },
+    "sky": {
+      "enabled": true,
+      "topColor": "#160c33",
+      "horizonColor": "#874f90",
+      "celestialEnabled": true,
+      "discSize": 0.035,
+      "stars": true,
+      "clouds": true,
+      "cloudColor": "#ffffff",
+      "cloudCoverage": 0.35,
+      "cloudOpacity": 0.45,
+      "cloudSpeed": 0.025,
+      "cloudScale": 3,
+      "seed": 1
+    },
+    "weather": {
+      "type": "none",
+      "count": 600,
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        30,
+        12,
+        30
+      ],
+      "color": "#afc9de",
+      "opacity": 0.45,
+      "particleSize": 0.025,
+      "speed": 10,
+      "wind": [
+        1,
+        0
+      ],
+      "seed": 1
+    },
+    "fog": {
+      "enabled": false,
+      "mode": "linear",
+      "color": "#8899aa",
+      "near": 8,
+      "far": 45,
+      "density": 0.025
+    },
+    "volumetricFog": {
+      "enabled": false,
+      "color": "#65557a",
+      "density": 0.025,
+      "baseHeight": 0,
+      "height": 5,
+      "maxDistance": 80
+    },
+    "bloom": {
+      "enabled": true,
+      "strength": 0.14,
+      "radius": 0.3,
+      "threshold": 1
+    },
+    "nightWindows": {
+      "enabled": true,
+      "color": "#ffc86d",
+      "intensity": 2
+    },
+    "effectsPaused": true,
+    "rendering": {
+      "reflections": true,
+      "reflectionIntensity": 0.35,
+      "ao": true,
+      "aoIntensity": 0.35,
+      "aoRadius": 0.6,
+      "volumetricLights": true,
+      "volumeStrength": 0.5,
+      "cutawayShadows": true
+    }
+  },
+  "actors": {},
+  "tokens": {},
+  "cameraPresets": {
+    "c3000000-0000-4000-8000-000000000025": {
+      "id": "c3000000-0000-4000-8000-000000000025",
+      "name": "Visão geral",
+      "position": [
+        18,
+        18,
+        24
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ],
+      "projection": "perspective",
+      "orthographicHeight": 24,
+      "fov": 50
+    },
+    "c3000000-0000-4000-8000-000000000026": {
+      "id": "c3000000-0000-4000-8000-000000000026",
+      "name": "Vista superior",
+      "position": [
+        0,
+        25,
+        0.01
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "projection": "orthographic",
+      "orthographicHeight": 30,
+      "fov": 50
+    },
+    "c3000000-0000-4000-8000-000000000027": {
+      "id": "c3000000-0000-4000-8000-000000000027",
+      "name": "Dentro do ambiente",
+      "position": [
+        0,
+        2.2,
+        8
+      ],
+      "target": [
+        0,
+        2,
+        -4
+      ],
+      "projection": "perspective",
+      "orthographicHeight": 20,
+      "fov": 50
+    }
+  },
+  "sessionState": {
+    "doors": {}
+  },
+  "audioCue": null
+}

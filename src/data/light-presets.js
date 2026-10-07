@@ -1,0 +1,13 @@
+import { storageScope } from './paths.js';
+import { illumination } from '../domain/validation.js';
+const nameOf=value=>{if(typeof value!=='string'||!value.trim()||value.trim().length>80||/[\u0000-\u001f]/.test(value))throw new Error('Use um nome de 1 a 80 caracteres.');return value.trim().normalize('NFC');};
+export function createLightPresetRepository({databaseName=`tabletop-light-presets-v1:${storageScope()}`,databaseFactory=globalThis.indexedDB}={}) {
+  async function transaction(mode,action){if(!databaseFactory)throw new Error('Armazenamento de perfis indisponível neste navegador.');const db=await new Promise((resolve,reject)=>{let blocked=false;const r=databaseFactory.open(databaseName,1);r.onupgradeneeded=()=>r.result.createObjectStore('presets',{keyPath:'id'});r.onerror=()=>reject(r.error);r.onblocked=()=>{blocked=true;reject(new Error('Feche as outras abas para atualizar a biblioteca.'));};r.onsuccess=()=>{if(blocked)r.result.close();else resolve(r.result);};});
+    try{return await new Promise((resolve,reject)=>{const tx=db.transaction('presets',mode),store=tx.objectStore('presets'),request=store.getAll();let result,failure;tx.oncomplete=()=>resolve(result);tx.onabort=()=>reject(failure??tx.error);tx.onerror=()=>{};request.onsuccess=()=>{try{result=action(store,request.result);}catch(e){failure=e;tx.abort();}};});}finally{db.close();}
+  }
+  return {
+    list:()=>transaction('readonly',(_s,entries)=>entries.filter(e=>{try{illumination(e.settings);return e.schemaVersion===1&&nameOf(e.name)&&Number.isInteger(e.revision);}catch{return false;}}).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'))),
+    save:({name,settings},previous=null)=>{name=nameOf(name);illumination(settings);settings=structuredClone(settings);previous=previous&&structuredClone(previous);return transaction('readwrite',(store,entries)=>{const current=previous&&entries.find(e=>e.id===previous.id);if(previous&&current?.revision!==previous.revision)throw new Error('Este perfil mudou em outra aba. Atualize a lista antes de salvar.');if(entries.some(e=>e.id!==current?.id&&e.name.toLocaleLowerCase('pt-BR')===name.toLocaleLowerCase('pt-BR')))throw new Error('Já existe um perfil com esse nome.');if(!current&&entries.length>=100)throw new Error('Limite de 100 perfis pessoais.');const entry={schemaVersion:1,id:current?.id??crypto.randomUUID(),revision:(current?.revision??0)+1,name,settings};store.put(entry);return entry;});},
+    remove:previous=>transaction('readwrite',(store,entries)=>{const current=entries.find(e=>e.id===previous?.id);if(!current||current.revision!==previous.revision)throw new Error('O perfil mudou em outra aba. Atualize a lista.');store.delete(current.id);}),
+  };
+}

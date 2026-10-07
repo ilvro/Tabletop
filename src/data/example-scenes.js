@@ -9,6 +9,12 @@ export const EXAMPLE_SCENES = Object.freeze([
   Object.freeze({ id: 'icewind-bridge', name: 'Passagem de Inverno · Ponte e Névoa',
     description: 'Um vale nevado e escuro com uma ponte gigantesca ao fundo e uma torre em ruínas.',
     file: 'scenes/icewind-bridge.json', preview: 'scenes/icewind-bridge.jpg' }),
+  ...[
+    ['lighting-chapel','Iluminação · capela ritual','Nave vermelha e exterior violeta, vitrais projetados, candelabros e névoa local.'],
+    ['lighting-tavern','Iluminação · taverna acolhedora','Velas agrupadas, lâmpadas quentes, madeira e sombras editáveis.'],
+    ['lighting-office','Iluminação · escritório fluorescente','Spots frios sem cintilação, zonas e circulação legível.'],
+    ['lighting-street','Iluminação · rua chuvosa','Postes com sombras, asfalto úmido, névoa e chuva.'],
+  ].map(([id,name,description])=>Object.freeze({id,name,description,file:`scenes/${id}.json`,preview:`scenes/${id}.jpg`})),
 ]);
 
 export async function loadExampleScene(exampleId, { fetcher = globalThis.fetch } = {}) {

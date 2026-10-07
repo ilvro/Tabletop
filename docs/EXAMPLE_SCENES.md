@@ -65,3 +65,8 @@ Cópias, importações JSON e cenas criadas a partir de mapas também recebem um
 São capturas JPEG de 480 × 270 pixels. As imagens são dados derivados, guardados fora do JSON, do undo e das revisões/backups: metadados da biblioteca no navegador ou arquivos `.preview.json` ao lado das cenas/mapas no servidor local. Ao salvar uma alteração, a imagem recebe a revisão correspondente; uma captura atrasada não pode substituir a capa de uma revisão mais recente. Duplicações preservam a capa válida e exclusões removem a capa junto com o documento. O JSON exportado continua contendo apenas o documento; a importação gera outra capa automaticamente.
 
 Os exemplos distribuídos continuam usando suas prévias publicadas em `public/scenes/`. As cópias que o usuário abre e edita recebem capturas próprias.
+
+
+## Estudos de iluminação
+
+A galeria oferece também **capela ritual**, **taverna acolhedora**, **escritório fluorescente** e **rua chuvosa**. São cenas comuns com perfis de fonte e zonas de ambiente editáveis, três enquadramentos cada e prévias capturadas no viewport. A capela é um recorte de estudo, sem reproduzir o mapa completo da Igreja Antiga. Animações começam pausadas. [Controles e limites](DYNAMIC_LIGHTING.md). Regeneração: `node scripts/lighting-examples.js`; prévias e métricas de reconciliação: `node scripts/render-lighting-examples.js`. Os exemplos de montanha anteriores permanecem intactos.

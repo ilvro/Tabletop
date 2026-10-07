@@ -50,3 +50,8 @@ Não há benchmark presencial de GPU, notebook, projetor ou Jukebox simultâneo.
 Validação automatizada: comandos e rejeição atômica de configurações inválidas; Kelvin/cor e undo/redo; padrões determinísticos; transformação do alvo spot; direção relativa ao socket; regeneração de receitas preservando efeitos; conversão mapa/cena e projeção filtrada. O E2E verifica edição real, animação sem alterar histórico, pausa/movimento reduzido, descarte de buffers, projetor independente e reabertura após reinício. Uma segunda verificação WebGL compara pixels para profundidade, câmeras, limite do volume e limiar de bloom.
 
 Em mapas amplos, o renderer ajusta a tolerância de auto-sombreamento das luzes direcionais ao tamanho de texel no mundo (0,035–0,18 m), conservando a resolução de 1.024. Isso reduz faixas sobre superfícies inclinadas. Não é um controle persistido do ambiente; contatos e qualidade final ainda dependem da escala/iluminação da cena.
+
+
+## Fontes reutilizáveis e qualidade
+
+Perfis vinculados a assets, origem por clique, biblioteca pessoal, zonas, projeções, reflexos/AO, névoa iluminada e orçamento de fontes/sombras estão descritos em [DYNAMIC_LIGHTING.md](DYNAMIC_LIGHTING.md). As luzes manuais deste guia continuam disponíveis e também participam do orçamento local; sol/lua têm sombra adicional focada na vista.

@@ -53,3 +53,8 @@ Validação final: Build de produção, 118 testes unitários/de integração e 
 ## Materiais e efeitos por objeto
 
 Texturas de madeira/pedra/grama/metal/areia e outras superfícies, pintura de texturas no terreno e emissores locais de fogo/fumaça estão disponíveis no inspetor e em Construir. Compartilham pausa/qualidade por janela com a atmosfera, e acompanham o objeto independentemente do preset de horário. Veja [MATERIALS.md](MATERIALS.md).
+
+
+## Iluminação dinâmica por objeto e região
+
+Há também os presets **Interior acolhedor**, **Horror ritual** e **Interior fluorescente**. O acabamento global (reflexos, AO e névoa iluminada) acompanha snapshots novos de ambiente; presets antigos continuam válidos. Perfis por objeto, biblioteca pessoal, zonas simultâneas e qualidade independente por janela estão em [DYNAMIC_LIGHTING.md](DYNAMIC_LIGHTING.md).

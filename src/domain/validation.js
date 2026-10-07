@@ -1,3 +1,4 @@
+import { LIGHT_PROFILES, LIGHT_PIN_FIELDS, PROJECTIONS, RENDERING_DEFAULTS } from './dynamic-lighting.js';
 import {assertRockSculpt,isSculptableRock} from './rock-sculpt.js';
 import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES } from './materials.js';
 import { WATER_RANGES, isVegetationAsset } from './landscape.js';
@@ -156,7 +157,7 @@ function semanticReferences(value, document, path) {
     }
   }
 }
-const common = ['id', 'name', 'kind', 'groupId', 'surfaceId', 'locked', 'audience', 'tags', ...semantics];
+const common = ['id', 'name', 'kind', 'groupId', 'surfaceId', 'locked', 'audience', 'tags', 'illumination', 'lightingZone', ...semantics];
 function entity(value, path, document) {
   const { entities, groups } = document.layout;
   const fields = {
@@ -179,6 +180,13 @@ function entity(value, path, document) {
   fail(value.surfaceId !== value.id, 'Uma superfície não pode apoiar a si mesma.', path);
   if (!['door', 'window'].includes(value.kind)) transform(value.transform, `${path}.transform`, value.kind !== 'prop');
   material(value.material, `${path}.material`);
+  if(value.illumination!=null) illumination(value.illumination,`${path}.illumination`);
+  if(value.lightingZone!=null) {
+    const z=value.lightingZone,p=`${path}.lightingZone`;
+    keys(z,['enabled','position','size','blend','priority','color','intensity','fogColor','fogDensity'],p);
+    bool(z.enabled,p);vector(z.position,3,p);z.position.forEach(v=>number(v,p,-1000,1000));vector(z.size,3,p);z.size.forEach(v=>number(v,p,.1,1000));
+    number(z.blend,p,.01,50);number(z.priority,p,0,100);color(z.color,p);number(z.intensity,p,0,3);color(z.fogColor,p);number(z.fogDensity,p,0,1);
+  }
   if(value.vegetationSeed !== undefined) {
     fail(value.kind==='prop' && isVegetationAsset(value.assetRef?.id),'Variação geométrica exige vegetação alpina.',path);
     number(value.vegetationSeed,path,0,65535); fail(Number.isInteger(value.vegetationSeed),'Seed deve ser inteiro.',path);
@@ -314,13 +322,31 @@ function composition(value, path, document) {
   }
 }
 
+function lightOptions(v,p) {
+  if(v.priority!==undefined)number(v.priority,p,0,100);
+  if(v.shadowPolicy!==undefined)choice(v.shadowPolicy,['auto','priority','off'],p);
+  if(v.mapSize!==undefined)choice(v.mapSize,[512,1024,2048],p);
+  if(v.projection!==undefined){choice(v.projection,PROJECTIONS,p);fail(v.projection==='none'||v.type==='spot','Projeção exige spot.',p);}
+  if(v.projectionSeed!==undefined){number(v.projectionSeed,p,0,65535);fail(Number.isInteger(v.projectionSeed),'Variação deve ser inteira.',p);}
+  if(v.projectionRotation!==undefined)number(v.projectionRotation,p,0,360);
+}
+export function illumination(v,p='illumination') {
+  keys(v,['enabled','profile','mode','type','color','intensity','distance','position','rotation','angle','penumbra','phase','emissionSlot','emissionIntensity','flicker','priority','shadowPolicy','mapSize','projection','projectionSeed','projectionRotation','pinned'],p);
+  bool(v.enabled,p);choice(v.profile,LIGHT_PROFILES.map(p=>p.id),p);choice(v.mode,['assisted','manual'],p);choice(v.type,['point','spot'],p);
+  color(v.color,p);number(v.intensity,p,0,10000);number(v.distance,p,.1,200);vector(v.position,3,p);v.position.forEach(n=>number(n,p,-1000,1000));quaternion(v.rotation,p);
+  number(v.angle,p,.01,Math.PI/2);number(v.penumbra,p,0,1);choice(v.phase,['always','day','night'],p);text(v.emissionSlot,p,256);number(v.emissionIntensity,p,0,20);
+  const f=v.flicker;keys(f,['enabled','pattern','amplitude','frequency','seed'],p);bool(f.enabled,p);choice(f.pattern,['candle','fluorescent'],p);number(f.amplitude,p,0,1);number(f.frequency,p,.1,20);number(f.seed,p,0,2147483647);fail(Number.isInteger(f.seed),'Seed inválida.',p);
+  for(const key of ['priority','shadowPolicy','mapSize','projection','projectionSeed','projectionRotation'])fail(v[key]!==undefined,'Configuração de fonte incompleta.',p);
+  lightOptions(v,p);fail(Array.isArray(v.pinned)&&new Set(v.pinned).size===v.pinned.length&&v.pinned.every(k=>LIGHT_PIN_FIELDS.includes(k)),'Campos fixados inválidos.',p);
+}
 function look(value, path, document, seen) {
-  keys(value, ['background', 'fill', 'lights', 'materialAdjustments', 'fog', 'volumetricFog', 'bloom', 'effectsPaused', 'daylight', 'sky', 'weather', 'nightWindows', 'environmentBindings'], path); color(value.background, `${path}.background`);
+  keys(value, ['background', 'fill', 'lights', 'materialAdjustments', 'fog', 'volumetricFog', 'bloom', 'effectsPaused', 'daylight', 'sky', 'weather', 'nightWindows', 'environmentBindings', 'rendering'], path); color(value.background, `${path}.background`);
   keys(value.fill, ['skyColor', 'groundColor', 'intensity'], `${path}.fill`);
   color(value.fill.skyColor, `${path}.fill.skyColor`); color(value.fill.groundColor, `${path}.fill.groundColor`);
   number(value.fill.intensity, `${path}.fill.intensity`, 0);
   dictionary(value.lights, `${path}.lights`, seen, (light, lightPath) => {
-    keys(light, ['id', 'name', 'type', 'position', 'rotation', 'color', 'intensity', 'distance', 'shadowEnabled', 'audience', 'role', 'groupId', 'surfaceId', 'locked', 'enabled', 'temperature', 'angle', 'penumbra', 'flicker', ...semantics], lightPath);
+    keys(light, ['id', 'name', 'type', 'position', 'rotation', 'color', 'intensity', 'distance', 'shadowEnabled', 'audience', 'role', 'groupId', 'surfaceId', 'locked', 'enabled', 'temperature', 'angle', 'penumbra', 'flicker', 'priority', 'shadowPolicy', 'mapSize', 'projection', 'projectionSeed', 'projectionRotation', ...semantics], lightPath);
+    lightOptions(light, lightPath);
     semanticReferences(light, document, lightPath);
     text(light.name, `${lightPath}.name`); choice(light.type, ['directional', 'point', 'spot'], `${lightPath}.type`);
     vector(light.position, 3, `${lightPath}.position`); quaternion(light.rotation, `${lightPath}.rotation`);
@@ -347,6 +373,12 @@ function look(value, path, document, seen) {
     if (light.groupId !== undefined) reference(light.groupId, document.layout.groups, `${lightPath}.groupId`);
     supportReference(light.surfaceId, document, `${lightPath}.surfaceId`);
   });
+  if(value.rendering!==undefined) {
+    keys(value.rendering,Object.keys(RENDERING_DEFAULTS),`${path}.rendering`);
+    for(const [key,defaultValue] of Object.entries(RENDERING_DEFAULTS)) if(value.rendering[key]!==undefined) {
+      if(typeof defaultValue==='boolean')bool(value.rendering[key],path);else number(value.rendering[key],path,key==='aoRadius'?.05:0,key==='reflectionIntensity'?3:key==='aoRadius'?5:1);
+    }
+  }
   if (value.effectsPaused !== undefined) bool(value.effectsPaused, `${path}.effectsPaused`);
   if (value.fog !== undefined) {
     const f = value.fog, p = `${path}.fog`;
@@ -455,6 +487,7 @@ export function validateDocument(document) {
     while (parent) { fail(!parents.has(parent), 'Ciclo de grupos.', groupPath); parents.add(parent); parent = document.layout.groups[parent]?.parentId; }
   });
   dictionary(document.layout.entities, 'layout.entities', seen, (entry, entryPath) => entity(entry, entryPath, document));
+  fail(Object.values(document.layout.entities).filter(e=>e.lightingZone?.enabled).length<=16,'O documento aceita até 16 zonas ativas.','layout.entities');
   for (const item of Object.values(document.layout.entities)) {
     const seenSupports = new Set([item.id]); let host = item.surfaceId;
     while (host) { fail(!seenSupports.has(host), 'Ciclo de superfícies de apoio.', `layout.entities.${item.id}`); seenSupports.add(host); host = document.layout.entities[host]?.surfaceId; }
@@ -528,7 +561,7 @@ function validateEnvironmentDocument(document) {
   fail(Number.isSafeInteger(document.revision) && document.revision >= 0, 'Revisão inválida.', path);
   for (const key of ['createdAt', 'updatedAt']) fail(typeof document[key] === 'string' && Number.isFinite(Date.parse(document[key])) && new Date(document[key]).toISOString() === document[key], 'Data deve ser ISO UTC válida.', path);
   const s = document.settings;
-  keys(s, ['background', 'fill', 'daylight', 'sky', 'weather', 'fog', 'volumetricFog', 'bloom', 'nightWindows', 'effectsPaused', 'keyLight'], `${path}.settings`);
+  keys(s, ['background', 'fill', 'daylight', 'sky', 'weather', 'fog', 'volumetricFog', 'bloom', 'nightWindows', 'effectsPaused', 'keyLight', 'rendering'], `${path}.settings`);
   const required = ['daylight', 'sky', 'weather', 'fog', 'volumetricFog', 'bloom', 'nightWindows', 'effectsPaused'];
   for (const key of required) fail(s[key] !== undefined, `Configuração ausente: ${key}.`, path);
   keys(s.keyLight, ['name', 'type', 'position', 'rotation', 'temperature', 'color', 'intensity', 'distance', 'shadowEnabled', 'enabled', 'audience', 'locked', 'groupId', 'surfaceId'], `${path}.keyLight`);
