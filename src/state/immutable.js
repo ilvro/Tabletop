@@ -12,7 +12,7 @@ export function freezeSnapshot(value) {
 export function trustSnapshot(value) { freezeSnapshot(value); trusted.add(value); return value; }
 
 export function cloneValue(value) {
-  if (!object(value)) return value;
+  if (!object(value)) return value === 0 ? 0 : value;
   const state = states.get(value), source = state ? state.copy ?? state.base : value;
   if (Array.isArray(source)) return Array.from({ length: source.length }, (_, i) => cloneValue(state?.children.get(String(i)) ?? source[i]));
   if (Object.getPrototypeOf(source) !== Object.prototype) return structuredClone(source);
@@ -48,7 +48,7 @@ export function createDraft(base) {
 }
 
 export function finishDraft(value) {
-  if (!object(value)) return value;
+  if (!object(value)) return value === 0 ? 0 : value;
   const state = states.get(value);
   if (!state && Object.isFrozen(value)) return value;
   const source = state ? state.copy ?? state.base : value;

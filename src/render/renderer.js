@@ -1321,7 +1321,7 @@ export function createViewport(container, {
       const bytes=new Uint8Array(480*270*4);
       if(asynchronous)return renderer.readRenderTargetPixelsAsync(thumbnailTarget,0,0,480,270,bytes).then(()=>{diagnostics.record('thumbnailReadback',performance.now()-started);return bytes;});
       renderer.readRenderTargetPixels(thumbnailTarget,0,0,480,270,bytes);return bytes;
-    } finally {atmosphere.update(camera,effectTime,true,height*renderer.getPixelRatio());for(const [object,visible] of hidden)object.visible=visible;Object.assign(renderer.info.render,previousInfo);diagnostics.count('thumbnailCaptures');}
+    } finally {atmosphere.update(camera,effectTime,true,height*renderer.getPixelRatio());for(const [object,visible] of hidden)object.visible=visible;Object.assign(renderer.info.render,previousInfo,{frame:renderer.info.render.frame});diagnostics.count('thumbnailCaptures');}
   }
   return {
     setDocument, computeSnowExposure,

@@ -2,6 +2,8 @@
 
 Análise em 6 de outubro de 2026. Referência solicitada: [Igreja Antiga — Ordem Paranormal Wiki](https://ordemparanormal.fandom.com/wiki/Igreja_Antiga). Objetivo: avaliar uma reconstrução editável para jogo, com interior, exterior e circulação vertical.
 
+**Atualização de 7 de outubro:** a [cena completa da igreja e do vale](IGREJA_ANTIGA_CENA.md) foi montada com o kit, desgaste e iluminação dinâmica. Este documento conserva a análise de referência; as medidas e ligações não mostradas são adaptações de autoria.
+
 ## Alcance da análise
 
 O texto completo da página foi recuperado pela API pública da wiki, incluindo descrição, histórico e identificação da galeria. Foram identificados **18 arquivos de imagem**: a imagem principal, 16 vistas numeradas do modelo e uma arte conceitual externa. Os arquivos e seus endereços estão no [inventário de referências](references/igreja-antiga-gallery.json).
@@ -58,7 +60,7 @@ Base técnica: [autoria estrutural](STRUCTURAL_EVOLUTION.md), [biblioteca](ASSET
 
 **Kit inicial implementado em 6 de outubro:** 18 peças originais locais, disponíveis em Assets, com catálogo total de 220 modelos. Inclui Dama de Ferro aberta, Serafim decapitado, cadeira pontiaguda, pendão, correntes/ganchos, mesa/candelabro, pilar, arcos semicircular/ogival, balcão curvo/balaustrada, vitral, nervuras/cobertura, contraforte, pináculo e torre. Uso e limites em [CHURCH_KIT.md](CHURCH_KIT.md).
 
-A lacuna de conteúdo básico foi atendida por modelos reutilizáveis com silhuetas próprias. Isso não conclui o mapa, o acabamento fiel nem a aceitação visual. São interpretações originais das referências; nenhum modelo ou textura oficial foi extraído. A montagem precisa conferir proporções, ornamentação e circulação no conjunto.
+A lacuna de conteúdo básico foi atendida por modelos reutilizáveis com silhuetas próprias. O mapa foi entregue no incremento de 7 de outubro; isso não estabelece acabamento fiel ou aceitação visual. São interpretações originais das referências; nenhum modelo ou textura oficial foi extraído. A montagem precisa conferir proporções, ornamentação e circulação no conjunto.
 
 ### 2. Janelas e vitrais
 
@@ -78,23 +80,23 @@ Uma primeira montagem pode colocar a cobertura em uma pasta/camada própria e al
 
 As seis imagens confirmam desgaste forte e localizado em paredes, pilares, cobertura e mobiliário. Um único padrão repetido de pedra não representa essas variações. Ainda não há base para afirmar paridade de materiais, renderização ou desempenho com o tabletop da série.
 
-O [plano de iluminação dinâmica](DYNAMIC_LIGHTING_PLAN.md) propõe fontes reutilizáveis vinculadas a assets, zonas simultâneas para nave/vale, orçamento de sombras, projeções de vitrais e névoa iluminada. A implementação inicial da engine está disponível: perfis, zonas em caixa, orçamento, projeções de vitral, reflexos/AO e névoa iluminada. Um estudo de capela editável está na galeria; o mapa completo e as conexões de aberturas continuam posteriores. Veja [uso e limites](DYNAMIC_LIGHTING.md) e o quadro de estado do plano.
+O [plano de iluminação dinâmica](DYNAMIC_LIGHTING_PLAN.md) propõe fontes reutilizáveis vinculadas a assets, zonas simultâneas para nave/vale, orçamento de sombras, projeções de vitrais e névoa iluminada. A implementação inicial da engine está disponível: perfis, zonas em caixa, orçamento, projeções de vitral, reflexos/AO e névoa iluminada. Um estudo de capela editável está na galeria; o mapa completo foi entregue em 7 de outubro; conexões automáticas de aberturas continuam posteriores. Veja [uso e limites](DYNAMIC_LIGHTING.md) e o quadro de estado do plano.
 
 ### 5. Exterior amplo e custo de edição
 
 O catálogo já oferece paredões orgânicos, árvores mortas, árvores de montanha sem folhas, raízes e galhos bifurcados. Isso permite começar as massas e a vegetação do exterior. O acabamento dos modelos próximos, a distribuição e a integração com os caminhos precisam de revisão específica; não é preciso criar toda a paisagem a partir do zero.
 
-O projeto ainda não tem LOD/instanciamento/streaming espacial para esse conjunto. Em [renderer.js](../src/render/renderer.js), `setDocument` limpa conteúdo e luzes e recria os objetos ao receber o documento. O reaproveitamento do cache de assets não elimina essa reconstrução. Um mapa denso pode prejudicar tanto a navegação quanto o tempo de edição; isso deve ser medido em um recorte antes de multiplicar objetos.
+O projeto ainda não tem LOD/instanciamento/streaming espacial para esse conjunto. A implementação de iluminação passou a reconciliar objetos e fontes incrementalmente em [renderer.js](../src/render/renderer.js). Ajustes de intensidade na igreja completa foram conferidos sem recriar objetos; mudanças geométricas ainda exigem reconstrução dos objetos afetados. Um mapa denso pode prejudicar tanto a navegação quanto o tempo de edição; isso deve ser medido em um recorte antes de multiplicar objetos.
 
 A névoa ajuda a composição, mas não substitui LOD ou descarte de geometria. Uma vela visível pode usar emissão e compartilhar iluminação com um conjunto; não precisa ganhar uma luz dinâmica com sombra individual. Decidir quantidade de luzes/sombras, malhas por módulo e texturas a partir de medições com editor e projetor. O limite anterior da montanha não constitui orçamento garantido para a igreja.
 
 ## Decisão de viabilidade
 
-**É possível montar uma versão jogável e aproximada com a base atual. As seis imagens já permitem planejar a composição, mas a reprodução fiel ainda requer conteúdo e acabamento próprios.** O exterior amplia o trabalho de autoria e a necessidade de medir custo; não impõe, por si só, uma troca de motor. O kit arquitetônico e as peças características iniciais foram implementados; um recorte de validação da composição deve preceder a montagem extensa.
+**É possível montar uma versão jogável e aproximada com a base atual. As seis imagens já permitem planejar a composição, mas a reprodução fiel ainda requer conteúdo e acabamento próprios.** O exterior amplia o trabalho de autoria e a necessidade de medir custo; não impõe, por si só, uma troca de motor. O kit arquitetônico e as peças características iniciais foram implementados; o estudo de capela precedeu a montagem completa, agora disponível na galeria.
 
-A condição de construir se nada faltar ainda não foi satisfeita. Nenhuma cena foi adicionada nesta análise. O próximo marco de montagem recomendado é um trecho representativo da nave e do platô, usando o kit entregue, antes de expandir o mapa inteiro. As demais vistas da galeria podem refinar decisões, mas não bloqueiam esse protótipo.
+A análise original não adicionou uma cena. Após o kit, desgaste e iluminação, a montagem completa foi autorizada e entregue em 7 de outubro, com quatro complementos de arquitetura/decoração. As demais vistas podem refinar proporções e acabamento sem bloquear o uso do mapa disponível.
 
-## Sequência concreta para construir
+## Sequência concreta para construir (plano original)
 
 1. Usar as seis imagens já analisadas para desenhar a planta de autoria e o percurso externo, registrar medidas propostas e partes não mostradas. Incorporar outras referências quando disponíveis, sem atribuir medidas oficiais ao estudo.
 2. Com o kit inicial entregue, compor um trecho de nave com pilar, arcada, balcão curvo/guarda-corpo, janela e nervura da cobertura; compor um trecho de platô/acesso com paredão e árvore seca. Validar silhueta, acabamento próximo e custo. Em seguida, posicionar Dama/Serafim, pendões, assentos e ganchos já disponíveis; refinar a ornamentação conforme a composição. Preservar materiais separados e escala métrica.
@@ -105,4 +107,4 @@ A condição de construir se nada faltar ainda não foi satisfeita. Nenhuma cena
 
 ## Validação desta etapa
 
-Inspeção de documentos, catálogo e código; leitura completa da página pela API; inventário das referências; bloqueio do CDN confirmado por HTTP e Chromium; revisão visual dos seis anexos fornecidos posteriormente. A análise inicial foi documental. O incremento posterior implementou o kit de 18 assets e perfis/opacidade de receitas; a validação está registrada em [CHURCH_KIT.md](CHURCH_KIT.md) e [progress.md](../progress.md). O estudo de capela valida a iluminação reutilizável e um recorte do kit. A inspeção das outras vistas da galeria e a construção completa, incluindo vale/galerias/cobertura, permanecem pendentes.
+Inspeção de documentos, catálogo e código; leitura completa da página pela API; inventário das referências; bloqueio do CDN confirmado por HTTP e Chromium; revisão visual dos seis anexos fornecidos posteriormente. A análise inicial foi documental. O incremento posterior implementou o kit de 18 assets e perfis/opacidade de receitas; a validação está registrada em [CHURCH_KIT.md](CHURCH_KIT.md) e [progress.md](../progress.md). O estudo de capela valida a iluminação reutilizável e um recorte do kit. A inspeção das outras vistas da galeria permanece pendente. A construção completa, incluindo vale/galerias/cobertura, está registrada em [IGREJA_ANTIGA_CENA.md](IGREJA_ANTIGA_CENA.md), com revisão das dez câmeras e testes próprios.

@@ -1,0 +1,970 @@
+{
+  "measuredAt": "2026-10-07T18:13:28.156Z",
+  "method": {
+    "renderer": "SwiftShader",
+    "viewport": [
+      1200,
+      800
+    ],
+    "deviceScaleFactor": 1,
+    "reducedMotion": "reduce",
+    "samples": 6,
+    "warmup": 2,
+    "note": "Scripted DOM change events run the real application handlers. nextFrameMs waits two rAF callbacks, not physical display presentation. No pre-implementation baseline for this real-editor flow; do not compare it with isolated store times."
+  },
+  "results": [
+    {
+      "name": "lighting-chapel",
+      "withProjector": false,
+      "rename": {
+        "handlerMs": {
+          "p50": 28.5,
+          "p95": 31.599999994039536,
+          "max": 31.599999994039536
+        },
+        "nextFrameMs": {
+          "p50": 1423.1000000014901,
+          "p95": 1813,
+          "max": 1813
+        },
+        "stableNode": true
+      },
+      "afterRename": {
+        "app": {
+          "enabled": true,
+          "counts": {
+            "viewportUpdate": 8,
+            "inspector": 8,
+            "sidebar": 8,
+            "broadcastsSkipped": 8,
+            "draft": 8,
+            "longTasks": 1
+          },
+          "timingMs": {
+            "viewportUpdate": {
+              "samples": 8,
+              "p50": 1,
+              "p95": 1.5,
+              "p99": 1.5,
+              "max": 1.5
+            },
+            "inspector": {
+              "samples": 8,
+              "p50": 10.299999997019768,
+              "p95": 11,
+              "p99": 11,
+              "max": 11
+            },
+            "sidebar": {
+              "samples": 8,
+              "p50": 9.800000004470348,
+              "p95": 13.5,
+              "p99": 13.5,
+              "max": 13.5
+            },
+            "draft": {
+              "samples": 8,
+              "p50": 6.9000000059604645,
+              "p95": 36.19999999552965,
+              "p99": 36.19999999552965,
+              "max": 36.19999999552965
+            },
+            "longTask": {
+              "samples": 1,
+              "p50": 1271,
+              "p95": 1271,
+              "p99": 1271,
+              "max": 1271
+            }
+          }
+        },
+        "viewport": {
+          "enabled": true,
+          "counts": {
+            "documentUpdates": 8,
+            "isolationUpdatesSkipped": 8,
+            "selectionUpdatesSkipped": 8,
+            "boundLights": 8,
+            "zones": 8,
+            "lightBudget": 8,
+            "render": 8,
+            "thumbnailRender": 1,
+            "thumbnailCaptures": 1,
+            "longTasks": 1
+          },
+          "timingMs": {
+            "reconciliation": {
+              "samples": 8,
+              "p50": 1,
+              "p95": 1.5,
+              "p99": 1.5,
+              "max": 1.5
+            },
+            "boundLights": {
+              "samples": 8,
+              "p50": 0.20000000298023224,
+              "p95": 0.20000000298023224,
+              "p99": 0.20000000298023224,
+              "max": 0.20000000298023224
+            },
+            "zones": {
+              "samples": 8,
+              "p50": 0,
+              "p95": 0.10000000149011612,
+              "p99": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "lightBudget": {
+              "samples": 8,
+              "p50": 0.19999999552965164,
+              "p95": 0.20000000298023224,
+              "p99": 0.20000000298023224,
+              "max": 0.20000000298023224
+            },
+            "gpuFrame": {
+              "samples": 8,
+              "p50": 1304.856262,
+              "p95": 1483.00185,
+              "p99": 1483.00185,
+              "max": 1483.00185
+            },
+            "render": {
+              "samples": 8,
+              "p50": 11.600000001490116,
+              "p95": 15.899999998509884,
+              "p99": 15.899999998509884,
+              "max": 15.899999998509884
+            },
+            "thumbnailRender": {
+              "samples": 1,
+              "p50": 13.300000004470348,
+              "p95": 13.300000004470348,
+              "p99": 13.300000004470348,
+              "max": 13.300000004470348
+            },
+            "thumbnailReadback": {
+              "samples": 1,
+              "p50": 3176.7000000029802,
+              "p95": 3176.7000000029802,
+              "p99": 3176.7000000029802,
+              "max": 3176.7000000029802
+            },
+            "longTask": {
+              "samples": 1,
+              "p50": 1271,
+              "p95": 1271,
+              "p99": 1271,
+              "max": 1271
+            }
+          },
+          "gpuTimingSupported": true
+        },
+        "store": {
+          "enabled": true,
+          "counts": {
+            "commandPayloadClone": 8,
+            "validation": 16,
+            "snapshotFinalization": 8,
+            "command": 8,
+            "canonicalContent": 8,
+            "longTasks": 1
+          },
+          "timingMs": {
+            "commandPayloadClone": {
+              "samples": 8,
+              "p50": 0,
+              "p95": 0,
+              "p99": 0,
+              "max": 0
+            },
+            "validation": {
+              "samples": 16,
+              "p50": 0.6999999955296516,
+              "p95": 2.5,
+              "p99": 2.5,
+              "max": 2.5
+            },
+            "snapshotFinalization": {
+              "samples": 8,
+              "p50": 0.10000000149011612,
+              "p95": 0.29999999701976776,
+              "p99": 0.29999999701976776,
+              "max": 0.29999999701976776
+            },
+            "command": {
+              "samples": 8,
+              "p50": 1.1000000014901161,
+              "p95": 2.899999998509884,
+              "p99": 2.899999998509884,
+              "max": 2.899999998509884
+            },
+            "canonicalContent": {
+              "samples": 8,
+              "p50": 0.20000000298023224,
+              "p95": 0.30000000447034836,
+              "p99": 0.30000000447034836,
+              "max": 0.30000000447034836
+            },
+            "longTask": {
+              "samples": 1,
+              "p50": 1271,
+              "p95": 1271,
+              "p99": 1271,
+              "max": 1271
+            }
+          }
+        },
+        "previews": {
+          "running": true,
+          "queued": 0,
+          "backlog": 0,
+          "images": 0,
+          "maxJobs": 32,
+          "enabled": true,
+          "counts": {
+            "longTasks": 14,
+            "enqueued": 18,
+            "preview": 3
+          },
+          "timingMs": {
+            "longTask": {
+              "samples": 14,
+              "p50": 1271,
+              "p95": 3656,
+              "p99": 3656,
+              "max": 3656
+            },
+            "preview": {
+              "samples": 3,
+              "p50": 5451.60000000149,
+              "p95": 10120.70000000298,
+              "p99": 10120.70000000298,
+              "max": 10120.70000000298
+            }
+          }
+        }
+      },
+      "intensity": {
+        "handlerMs": {
+          "p50": 17.19999999552965,
+          "p95": 27.200000002980232,
+          "max": 27.200000002980232
+        },
+        "nextFrameMs": {
+          "p50": 1429.6999999955297,
+          "p95": 1857.3999999985099,
+          "max": 1857.3999999985099
+        },
+        "stableNode": true
+      },
+      "afterIntensity": {
+        "app": {
+          "enabled": true,
+          "counts": {
+            "viewportUpdate": 8,
+            "inspector": 8,
+            "sidebarSkipped": 8,
+            "broadcastsSkipped": 8,
+            "draft": 8,
+            "longTasks": 1
+          },
+          "timingMs": {
+            "viewportUpdate": {
+              "samples": 8,
+              "p50": 1.5,
+              "p95": 1.8000000044703484,
+              "p99": 1.8000000044703484,
+              "max": 1.8000000044703484
+            },
+            "inspector": {
+              "samples": 8,
+              "p50": 9.700000002980232,
+              "p95": 19.5,
+              "p99": 19.5,
+              "max": 19.5
+            },
+            "draft": {
+              "samples": 8,
+              "p50": 4.9000000059604645,
+              "p95": 10,
+              "p99": 10,
+              "max": 10
+            },
+            "longTask": {
+              "samples": 1,
+              "p50": 1289,
+              "p95": 1289,
+              "p99": 1289,
+              "max": 1289
+            }
+          }
+        },
+        "viewport": {
+          "enabled": true,
+          "counts": {
+            "documentUpdates": 8,
+            "isolationUpdatesSkipped": 8,
+            "selectionUpdatesSkipped": 8,
+            "boundLights": 8,
+            "zones": 8,
+            "lightBudget": 8,
+            "render": 8,
+            "thumbnailRender": 2,
+            "thumbnailCaptures": 2,
+            "longTasks": 1
+          },
+          "timingMs": {
+            "reconciliation": {
+              "samples": 8,
+              "p50": 1.3999999985098839,
+              "p95": 1.7000000029802322,
+              "p99": 1.7000000029802322,
+              "max": 1.7000000029802322
+            },
+            "boundLights": {
+              "samples": 8,
+              "p50": 0.19999999552965164,
+              "p95": 0.20000000298023224,
+              "p99": 0.20000000298023224,
+              "max": 0.20000000298023224
+            },
+            "zones": {
+              "samples": 8,
+              "p50": 0,
+              "p95": 0.10000000149011612,
+              "p99": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "lightBudget": {
+              "samples": 8,
+              "p50": 0.19999999552965164,
+              "p95": 0.29999999701976776,
+              "p99": 0.29999999701976776,
+              "max": 0.29999999701976776
+            },
+            "gpuFrame": {
+              "samples": 8,
+              "p50": 1373.683709,
+              "p95": 1543.133023,
+              "p99": 1543.133023,
+              "max": 1543.133023
+            },
+            "render": {
+              "samples": 8,
+              "p50": 10,
+              "p95": 14.5,
+              "p99": 14.5,
+              "max": 14.5
+            },
+            "thumbnailRender": {
+              "samples": 2,
+              "p50": 21.799999997019768,
+              "p95": 21.799999997019768,
+              "p99": 21.799999997019768,
+              "max": 21.799999997019768
+            },
+            "thumbnailReadback": {
+              "samples": 1,
+              "p50": 3305.2999999970198,
+              "p95": 3305.2999999970198,
+              "p99": 3305.2999999970198,
+              "max": 3305.2999999970198
+            },
+            "longTask": {
+              "samples": 1,
+              "p50": 1289,
+              "p95": 1289,
+              "p99": 1289,
+              "max": 1289
+            }
+          },
+          "gpuTimingSupported": true
+        },
+        "store": {
+          "enabled": true,
+          "counts": {
+            "commandPayloadClone": 8,
+            "validation": 16,
+            "snapshotFinalization": 8,
+            "command": 8,
+            "canonicalContent": 8,
+            "longTasks": 1
+          },
+          "timingMs": {
+            "commandPayloadClone": {
+              "samples": 8,
+              "p50": 0.10000000149011612,
+              "p95": 0.10000000149011612,
+              "p99": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "validation": {
+              "samples": 16,
+              "p50": 0.6000000014901161,
+              "p95": 1.6000000014901161,
+              "p99": 1.6000000014901161,
+              "max": 1.6000000014901161
+            },
+            "snapshotFinalization": {
+              "samples": 8,
+              "p50": 0.19999999552965164,
+              "p95": 0.3999999985098839,
+              "p99": 0.3999999985098839,
+              "max": 0.3999999985098839
+            },
+            "command": {
+              "samples": 8,
+              "p50": 1.6999999955296516,
+              "p95": 2.399999998509884,
+              "p99": 2.399999998509884,
+              "max": 2.399999998509884
+            },
+            "canonicalContent": {
+              "samples": 8,
+              "p50": 0.30000000447034836,
+              "p95": 0.5,
+              "p99": 0.5,
+              "max": 0.5
+            },
+            "longTask": {
+              "samples": 1,
+              "p50": 1289,
+              "p95": 1289,
+              "p99": 1289,
+              "max": 1289
+            }
+          }
+        },
+        "previews": {
+          "running": true,
+          "queued": 0,
+          "backlog": 0,
+          "images": 0,
+          "maxJobs": 32,
+          "enabled": true,
+          "counts": {
+            "longTasks": 15,
+            "enqueued": 26,
+            "preview": 4
+          },
+          "timingMs": {
+            "longTask": {
+              "samples": 15,
+              "p50": 1271,
+              "p95": 3656,
+              "p99": 3656,
+              "max": 3656
+            },
+            "preview": {
+              "samples": 4,
+              "p50": 5451.60000000149,
+              "p95": 10120.70000000298,
+              "p99": 10120.70000000298,
+              "max": 10120.70000000298
+            }
+          }
+        }
+      },
+      "resources": {
+        "programs": 32,
+        "geometries": 61,
+        "textures": 60
+      },
+      "errors": []
+    },
+    {
+      "name": "lighting-chapel",
+      "withProjector": true,
+      "rename": {
+        "handlerMs": {
+          "p50": 28.299999997019768,
+          "p95": 32.70000000298023,
+          "max": 32.70000000298023
+        },
+        "nextFrameMs": {
+          "p50": 3457.10000000149,
+          "p95": 5239.5,
+          "max": 5239.5
+        },
+        "stableNode": true
+      },
+      "afterRename": {
+        "app": {
+          "enabled": true,
+          "counts": {
+            "viewportUpdate": 8,
+            "inspector": 8,
+            "sidebar": 8,
+            "presentationProjection": 8,
+            "broadcast": 8,
+            "presentationMessages": 8,
+            "presentationBytes": 154152,
+            "longTasks": 2,
+            "draft": 8
+          },
+          "timingMs": {
+            "viewportUpdate": {
+              "samples": 8,
+              "p50": 1,
+              "p95": 1.2000000029802322,
+              "p99": 1.2000000029802322,
+              "max": 1.2000000029802322
+            },
+            "inspector": {
+              "samples": 8,
+              "p50": 7.200000002980232,
+              "p95": 11.600000001490116,
+              "p99": 11.600000001490116,
+              "max": 11.600000001490116
+            },
+            "sidebar": {
+              "samples": 8,
+              "p50": 11.299999997019768,
+              "p95": 16.299999997019768,
+              "p99": 16.299999997019768,
+              "max": 16.299999997019768
+            },
+            "presentationProjection": {
+              "samples": 8,
+              "p50": 0.8999999985098839,
+              "p95": 2,
+              "p99": 2,
+              "max": 2
+            },
+            "broadcast": {
+              "samples": 8,
+              "p50": 0.29999999701976776,
+              "p95": 0.3999999985098839,
+              "p99": 0.3999999985098839,
+              "max": 0.3999999985098839
+            },
+            "longTask": {
+              "samples": 2,
+              "p50": 5453,
+              "p95": 5453,
+              "p99": 5453,
+              "max": 5453
+            },
+            "draft": {
+              "samples": 8,
+              "p50": 11.399999998509884,
+              "p95": 111.59999999403954,
+              "p99": 111.59999999403954,
+              "max": 111.59999999403954
+            }
+          }
+        },
+        "viewport": {
+          "enabled": true,
+          "counts": {
+            "documentUpdates": 8,
+            "isolationUpdatesSkipped": 8,
+            "selectionUpdatesSkipped": 8,
+            "boundLights": 8,
+            "zones": 8,
+            "lightBudget": 8,
+            "render": 8,
+            "longTasks": 2,
+            "thumbnailRender": 2,
+            "thumbnailCaptures": 2
+          },
+          "timingMs": {
+            "reconciliation": {
+              "samples": 8,
+              "p50": 1,
+              "p95": 1.2000000029802322,
+              "p99": 1.2000000029802322,
+              "max": 1.2000000029802322
+            },
+            "thumbnailReadback": {
+              "samples": 2,
+              "p50": 9832.20000000298,
+              "p95": 9832.20000000298,
+              "p99": 9832.20000000298,
+              "max": 9832.20000000298
+            },
+            "boundLights": {
+              "samples": 8,
+              "p50": 0.10000000149011612,
+              "p95": 0.20000000298023224,
+              "p99": 0.20000000298023224,
+              "max": 0.20000000298023224
+            },
+            "zones": {
+              "samples": 8,
+              "p50": 0,
+              "p95": 0,
+              "p99": 0,
+              "max": 0
+            },
+            "lightBudget": {
+              "samples": 8,
+              "p50": 0.19999999552965164,
+              "p95": 0.30000000447034836,
+              "p99": 0.30000000447034836,
+              "max": 0.30000000447034836
+            },
+            "gpuFrame": {
+              "samples": 8,
+              "p50": 1338.221249,
+              "p95": 1460.575726,
+              "p99": 1460.575726,
+              "max": 1460.575726
+            },
+            "render": {
+              "samples": 8,
+              "p50": 12.099999994039536,
+              "p95": 24,
+              "p99": 24,
+              "max": 24
+            },
+            "longTask": {
+              "samples": 2,
+              "p50": 5453,
+              "p95": 5453,
+              "p99": 5453,
+              "max": 5453
+            },
+            "thumbnailRender": {
+              "samples": 2,
+              "p50": 13.700000002980232,
+              "p95": 13.700000002980232,
+              "p99": 13.700000002980232,
+              "max": 13.700000002980232
+            }
+          },
+          "gpuTimingSupported": true
+        },
+        "store": {
+          "enabled": true,
+          "counts": {
+            "commandPayloadClone": 8,
+            "validation": 16,
+            "snapshotFinalization": 8,
+            "command": 8,
+            "canonicalContent": 8,
+            "longTasks": 2
+          },
+          "timingMs": {
+            "commandPayloadClone": {
+              "samples": 8,
+              "p50": 0,
+              "p95": 0.10000000149011612,
+              "p99": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "validation": {
+              "samples": 16,
+              "p50": 0.5,
+              "p95": 1.5,
+              "p99": 1.5,
+              "max": 1.5
+            },
+            "snapshotFinalization": {
+              "samples": 8,
+              "p50": 0.10000000149011612,
+              "p95": 0.10000000149011612,
+              "p99": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "command": {
+              "samples": 8,
+              "p50": 1.3999999985098839,
+              "p95": 2.600000001490116,
+              "p99": 2.600000001490116,
+              "max": 2.600000001490116
+            },
+            "canonicalContent": {
+              "samples": 8,
+              "p50": 0.29999999701976776,
+              "p95": 0.4000000059604645,
+              "p99": 0.4000000059604645,
+              "max": 0.4000000059604645
+            },
+            "longTask": {
+              "samples": 2,
+              "p50": 5453,
+              "p95": 5453,
+              "p99": 5453,
+              "max": 5453
+            }
+          }
+        },
+        "previews": {
+          "running": true,
+          "queued": 0,
+          "backlog": 0,
+          "images": 1,
+          "maxJobs": 32,
+          "enabled": true,
+          "counts": {
+            "longTasks": 22,
+            "enqueued": 42,
+            "preview": 8
+          },
+          "timingMs": {
+            "longTask": {
+              "samples": 22,
+              "p50": 1271,
+              "p95": 5330,
+              "p99": 5453,
+              "max": 5453
+            },
+            "preview": {
+              "samples": 8,
+              "p50": 10120.70000000298,
+              "p95": 16292.5,
+              "p99": 16292.5,
+              "max": 16292.5
+            }
+          }
+        }
+      },
+      "intensity": {
+        "handlerMs": {
+          "p50": 15.799999997019768,
+          "p95": 17.200000002980232,
+          "max": 17.200000002980232
+        },
+        "nextFrameMs": {
+          "p50": 1540.3999999985099,
+          "p95": 10011.69999999553,
+          "max": 10011.69999999553
+        },
+        "stableNode": true
+      },
+      "afterIntensity": {
+        "app": {
+          "enabled": true,
+          "counts": {
+            "viewportUpdate": 8,
+            "inspector": 8,
+            "sidebarSkipped": 8,
+            "presentationProjection": 8,
+            "broadcast": 8,
+            "presentationMessages": 8,
+            "presentationBytes": 154152,
+            "draft": 7,
+            "longTasks": 2
+          },
+          "timingMs": {
+            "viewportUpdate": {
+              "samples": 8,
+              "p50": 1.3999999985098839,
+              "p95": 1.5,
+              "p99": 1.5,
+              "max": 1.5
+            },
+            "inspector": {
+              "samples": 8,
+              "p50": 9.800000004470348,
+              "p95": 11.899999998509884,
+              "p99": 11.899999998509884,
+              "max": 11.899999998509884
+            },
+            "presentationProjection": {
+              "samples": 8,
+              "p50": 0.7000000029802322,
+              "p95": 1,
+              "p99": 1,
+              "max": 1
+            },
+            "broadcast": {
+              "samples": 8,
+              "p50": 0.30000000447034836,
+              "p95": 1,
+              "p99": 1,
+              "max": 1
+            },
+            "draft": {
+              "samples": 7,
+              "p50": 5.4000000059604645,
+              "p95": 6.899999998509884,
+              "p99": 6.899999998509884,
+              "max": 6.899999998509884
+            },
+            "longTask": {
+              "samples": 2,
+              "p50": 6223,
+              "p95": 6223,
+              "p99": 6223,
+              "max": 6223
+            }
+          }
+        },
+        "viewport": {
+          "enabled": true,
+          "counts": {
+            "documentUpdates": 8,
+            "isolationUpdatesSkipped": 8,
+            "selectionUpdatesSkipped": 8,
+            "boundLights": 8,
+            "zones": 8,
+            "lightBudget": 8,
+            "render": 8,
+            "longTasks": 2,
+            "thumbnailRender": 2,
+            "thumbnailCaptures": 2
+          },
+          "timingMs": {
+            "reconciliation": {
+              "samples": 8,
+              "p50": 1.3999999985098839,
+              "p95": 1.5,
+              "p99": 1.5,
+              "max": 1.5
+            },
+            "boundLights": {
+              "samples": 8,
+              "p50": 0.10000000149011612,
+              "p95": 0.29999999701976776,
+              "p99": 0.29999999701976776,
+              "max": 0.29999999701976776
+            },
+            "zones": {
+              "samples": 8,
+              "p50": 0,
+              "p95": 0,
+              "p99": 0,
+              "max": 0
+            },
+            "lightBudget": {
+              "samples": 8,
+              "p50": 0.10000000149011612,
+              "p95": 0.30000000447034836,
+              "p99": 0.30000000447034836,
+              "max": 0.30000000447034836
+            },
+            "gpuFrame": {
+              "samples": 9,
+              "p50": 1415.291304,
+              "p95": 1499.986702,
+              "p99": 1499.986702,
+              "max": 1499.986702
+            },
+            "render": {
+              "samples": 8,
+              "p50": 13.900000005960464,
+              "p95": 19.5,
+              "p99": 19.5,
+              "max": 19.5
+            },
+            "thumbnailReadback": {
+              "samples": 2,
+              "p50": 9931,
+              "p95": 9931,
+              "p99": 9931,
+              "max": 9931
+            },
+            "longTask": {
+              "samples": 2,
+              "p50": 6223,
+              "p95": 6223,
+              "p99": 6223,
+              "max": 6223
+            },
+            "thumbnailRender": {
+              "samples": 2,
+              "p50": 13,
+              "p95": 13,
+              "p99": 13,
+              "max": 13
+            }
+          },
+          "gpuTimingSupported": true
+        },
+        "store": {
+          "enabled": true,
+          "counts": {
+            "commandPayloadClone": 8,
+            "validation": 16,
+            "snapshotFinalization": 8,
+            "command": 8,
+            "canonicalContent": 8,
+            "longTasks": 2
+          },
+          "timingMs": {
+            "commandPayloadClone": {
+              "samples": 8,
+              "p50": 0.10000000149011612,
+              "p95": 0.10000000149011612,
+              "p99": 0.10000000149011612,
+              "max": 0.10000000149011612
+            },
+            "validation": {
+              "samples": 16,
+              "p50": 0.6999999955296516,
+              "p95": 2.0999999940395355,
+              "p99": 2.0999999940395355,
+              "max": 2.0999999940395355
+            },
+            "snapshotFinalization": {
+              "samples": 8,
+              "p50": 0.10000000149011612,
+              "p95": 0.20000000298023224,
+              "p99": 0.20000000298023224,
+              "max": 0.20000000298023224
+            },
+            "command": {
+              "samples": 8,
+              "p50": 1.5,
+              "p95": 2.5999999940395355,
+              "p99": 2.5999999940395355,
+              "max": 2.5999999940395355
+            },
+            "canonicalContent": {
+              "samples": 8,
+              "p50": 0.29999999701976776,
+              "p95": 0.3999999985098839,
+              "p99": 0.3999999985098839,
+              "max": 0.3999999985098839
+            },
+            "longTask": {
+              "samples": 2,
+              "p50": 6223,
+              "p95": 6223,
+              "p99": 6223,
+              "max": 6223
+            }
+          }
+        },
+        "previews": {
+          "running": true,
+          "queued": 0,
+          "backlog": 0,
+          "images": 1,
+          "maxJobs": 32,
+          "enabled": true,
+          "counts": {
+            "longTasks": 24,
+            "enqueued": 49,
+            "preview": 10
+          },
+          "timingMs": {
+            "longTask": {
+              "samples": 24,
+              "p50": 1289,
+              "p95": 5453,
+              "p99": 6223,
+              "max": 6223
+            },
+            "preview": {
+              "samples": 10,
+              "p50": 11613,
+              "p95": 16292.5,
+              "p99": 16292.5,
+              "max": 16292.5
+            }
+          }
+        }
+      },
+      "resources": {
+        "programs": 32,
+        "geometries": 61,
+        "textures": 60
+      },
+      "errors": []
+    }
+  ],
+  "browser": "145.0.7632.6"
+}

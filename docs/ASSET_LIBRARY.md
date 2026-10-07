@@ -1,6 +1,6 @@
 # Catálogo de assets e classificação
 
-Implementado em 3 de outubro de 2026. A aba **Assets** oferece **220 modelos 3D locais**, incluindo os seis objetos do kit inicial e **214 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
+Implementado em 3 de outubro de 2026. A aba **Assets** oferece **224 modelos 3D locais**, incluindo os seis objetos do kit inicial e **218 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
 
 O kit da Igreja Antiga acrescenta **18 peças arquitetônicas e rituais**: arcos vazados, pilar, balcão curvo, balaustrada, vitral, cobertura/nervuras, contraforte, pináculo, torre e peças características do banquete/ritual. Procure **igreja antiga**; uso, apoios e avaliação do desgaste localizado em [CHURCH_KIT.md](CHURCH_KIT.md).
 
@@ -114,3 +114,7 @@ A cena de exemplo acrescenta **Ruína alta de montanha · torre partida**, em Ar
 ## Vegetação e objetos próximos de inverno
 
 Nove assets acrescentam abeto/pinheiro densos, galho bifurcado, raízes torcidas, arbusto seco, barril de madeira, caixas aberta/fechada e destroços sólidos. Galhos curvos e agulhas em volume; neve por envelopes de ramos, slots independentes e prévias compactas. Os 193 arquivos anteriores permanecem iguais. Uso, custo e limites: [WINTER_DETAIL.md](WINTER_DETAIL.md).
+
+## Complementos da Igreja Antiga
+
+Em 7 de outubro, o kit passou a 22 peças com empena ogival, alvenaria vazada para vitral, cruz dupla e prato/cálice. Busca **igreja antiga**. A [cena completa do templo e vale](IGREJA_ANTIGA_CENA.md) está em Abrir → Cenas de exemplo; carregar cria uma cópia editável independente.

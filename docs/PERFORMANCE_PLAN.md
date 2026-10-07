@@ -1,6 +1,6 @@
 # Plano de otimização sem perda visual
 
-Plano de 7 de outubro de 2026, baseado na [auditoria e medições](PERFORMANCE_ANALYSIS.md). As etapas abaixo são propostas; a aplicação ainda não foi otimizada por este trabalho. Priorizar eliminação de processamento repetido e alocações, conservando o resultado da cena e os fluxos atuais.
+Plano de 7 de outubro de 2026, baseado na [auditoria e medições](PERFORMANCE_ANALYSIS.md). Implementação e validação registradas em [PERFORMANCE_IMPLEMENTATION.md](PERFORMANCE_IMPLEMENTATION.md); os critérios abaixo continuam como referência de aceitação, incluindo as medições presenciais ainda necessárias. Priorizar eliminação de processamento repetido e alocações, conservando o resultado da cena e os fluxos atuais.
 
 ## Contrato de preservação
 
@@ -118,4 +118,4 @@ Cada etapa começa com seu caso de baseline, aplica a mudança e repete o mesmo 
 
 Comparar imagens em fixtures determinísticas, mesma câmera/resolução/qualidade/tempo de animação e recursos aquecidos. Exigir igualdade onde possível; qualquer tolerância para bordas/precisão deve ser definida por teste e inspecionada, sem relaxar globalmente a comparação. Testes funcionais também precisam cobrir identidade de recursos, descarte, foco, teclado/toque, estado salvo/rascunho e privacidade. Usar regressões existentes de câmera/apresentação, iluminação dinâmica, materiais/efeitos, terreno/neve, composições, capas, recovery, Pages e igreja conforme o escopo alterado, além de builds local/Pages quando houver alteração da aplicação.
 
-Registrar por entrega: evidência antes/depois, ambiente, testes executados, limitações e rollback. Atualizar `progress.md`, `PROGRESSO.md` e `docs/PROGRESSO.md`; nunca substituir medição presencial por números de SwiftShader. Próximo incremento recomendado: etapas 0 e 1, seguidas do cache de `dirty` e atualização seletiva da etapa 2.
+Registrar por entrega: evidência antes/depois, ambiente, testes executados, limitações e rollback. Atualizar `progress.md`, `PROGRESSO.md` e `docs/PROGRESSO.md`; nunca substituir medição presencial por números de SwiftShader. A implementação e a evidência por etapa estão em [PERFORMANCE_IMPLEMENTATION.md](PERFORMANCE_IMPLEMENTATION.md). Próxima validação externa: repetir o roteiro da etapa 0 no notebook/projetor e usar os perfis resultantes para avaliar as investigações condicionais.

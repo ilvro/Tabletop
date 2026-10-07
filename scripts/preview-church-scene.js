@@ -32,7 +32,7 @@ try {
     assert.deepEqual(stats.assetDiagnostics,[]);assert.ok(stats.lighting.active>0);assert.ok(stats.calls>0);
     await page.screenshot({path:root+`test-results/church-view-${String(index+1).padStart(2,'0')}.png`});
     if(index===0) {
-      const thumbnail=await page.evaluate(()=>window.viewport.captureThumbnail());await writeFile(root+'public/scenes/igreja-antiga.jpg',Buffer.from(thumbnail.split(',')[1],'base64'));
+      const thumbnail=await page.evaluate(()=>window.viewport.captureThumbnail());await writeFile(root+'test-results/church-thumbnail.jpg',Buffer.from(thumbnail.split(',')[1],'base64'));
     }
     metrics.push({camera:preset.name,calls:stats.calls,triangles:stats.triangles,textures:stats.textures,lighting:stats.lighting,timingMs:stats.timingMs});console.log(JSON.stringify(metrics.at(-1)));
   }

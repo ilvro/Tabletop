@@ -2,6 +2,8 @@
 
 Implementada em 6 de outubro de 2026 sobre o renderer WebGL existente. Perfis por objeto, zonas espaciais, orçamento por janela e acabamento funcionam com os mesmos assets e comandos de histórico. Complementa [LIGHTING.md](LIGHTING.md), [ENVIRONMENTS.md](ENVIRONMENTS.md) e o [plano e estado das etapas](DYNAMIC_LIGHTING_PLAN.md).
 
+A [Igreja Antiga completa](IGREJA_ANTIGA_CENA.md), entregue em 7 de outubro, combina interior vermelho e exterior violeta com os mesmos controles da engine. Está em Abrir → Cenas de exemplo, além dos quatro estudos de iluminação.
+
 ## Começar
 
 1. Em **Cena → Atmosfera → Ambientes e horários**, escolha **Interior acolhedor**, **Horror ritual** ou **Interior fluorescente**, além dos ambientes anteriores. Os presets oferecem valores iniciais editáveis e conservam objetos/fontes locais.

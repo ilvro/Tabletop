@@ -21,10 +21,11 @@ for(const mode of ['server','pages'])test(`complete church gallery, roof, light 
   page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
   await page.goto(`http://127.0.0.1:${server.address().port}${mode==='pages'?'/Tabletop/':'/'}?diagnostics`);await page.waitForFunction(()=>!!window.__tabletop);
   const action=async name=>(await reveal(page.locator(`[data-action="${name}"]`).first())).click(),snapshot=()=>page.evaluate(()=>window.__tabletop.snapshot());
-  await action('open');await page.locator('[data-open-example="igreja-antiga"] img').scrollIntoViewIfNeeded();
+  await action('open');await page.locator('[data-open-example="igreja-antiga"]').scrollIntoViewIfNeeded();
   if(mode==='pages'){await page.setViewportSize({width:390,height:844});await page.waitForFunction(()=>{const b=document.querySelector('[data-open-example="igreja-antiga"]').getBoundingClientRect();return b.left>=0&&b.right<=innerWidth;});const bounds=await page.locator('[data-open-example="igreja-antiga"]').boundingBox();assert.ok(bounds.x>=0&&bounds.x+bounds.width<=390);await page.setViewportSize({width:1200,height:800});}
-  await page.waitForFunction(()=>{const img=document.querySelector('[data-open-example="igreja-antiga"] img');return img?.complete&&img.naturalWidth===480;});
-  console.log(`${mode}: capa conferida`);
+  assert.ok(await page.locator('[data-open-example="igreja-antiga"] .scene-thumbnail').count());
+  assert.equal(requests.some(url=>/\/scenes\/[^/]+\.jpg(?:$|\?)/.test(url)),false);
+  console.log(`${mode}: cartão disponível sem capa pré-pronta`);
   await page.locator('[data-open-example="igreja-antiga"]').click();await page.waitForFunction(n=>Object.keys(window.__tabletop.snapshot().layout.entities).length===n,count);
   const draft=await snapshot();assert.notEqual(draft.id,original.id);assert.equal(draft.revision,0);assert.ok(await page.locator('#save-status').evaluate(e=>e.classList.contains('unsaved')));
   const rockIds=Object.values(draft.layout.entities).filter(e=>e.rockShape).map(e=>e.id);

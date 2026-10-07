@@ -9,13 +9,16 @@ export function createScenePreviewRenderer() {
       if(!viewport){
         host=globalThis.document.createElement('div');host.setAttribute('aria-hidden','true');
         Object.assign(host.style,{position:'fixed',left:'-10000px',top:'0',width:'480px',height:'270px',pointerEvents:'none'});
-        globalThis.document.body.append(host);viewport=createViewport(host,{navigationEnabled:false});viewport.setPresentation(true);
+        globalThis.document.body.append(host);viewport=createViewport(host,{navigationEnabled:false});viewport.setSuspended(true);viewport.setPresentation(true);
       }
       try{
-        viewport.setSuspended(false);viewport.setAssets(assets);viewport.setDocument(document);
+        viewport.setSuspended(true);viewport.setAssets(assets);viewport.setDocument(document);
         await viewport.ready();if(signal?.aborted)return null;
         const camera=Object.values(document.cameraPresets??{})[0];if(camera)viewport.setCamera(camera);else viewport.frameScene();
-        await new Promise(resolve=>requestAnimationFrame(resolve));if(signal?.aborted)return null;
+        // Load/compile without repeatedly drawing the hidden scene. One frame applies
+        // derived asset bounds, zones and deposits before the actual thumbnail pass.
+        viewport.setSuspended(false);
+        await new Promise(resolve=>requestAnimationFrame(resolve));viewport.setSuspended(true);if(signal?.aborted)return null;
         return await viewport.captureThumbnailAsync();
       }finally{viewport?.setSuspended(true);}
     },

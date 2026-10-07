@@ -10,7 +10,10 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { surfacePreset } from '../domain/materials.js';
 
 const sharedGeometryOwners=new WeakMap();
-export function releaseGeometry(geometry,owners=1){const state=sharedGeometryOwners.get(geometry);if(!state){geometry.dispose();return;}state.refs-=owners;if(state.refs===0){sharedGeometryOwners.delete(geometry);geometry.dispose();}}
+export function releaseGeometry(geometry,owners=1){const state=sharedGeometryOwners.get(geometry);if(!state){geometry.dispose();return;}state.refs-=owners;if(state.refs===0)sharedGeometryOwners.delete(geometry);if(state.refs===0||state.refs===state.templateRefs)geometry.dispose();}
+
+// Cached templates retain CPU arrays, but release uploaded buffers once no instance uses them.
+function disposeTemplate(root){root.traverse(mesh=>{if(mesh.geometry){const state=sharedGeometryOwners.get(mesh.geometry);if(state)state.templateRefs--;}});disposeObject(root);}
 
 /** Templates and each mesh own geometry references; instances own their materials. */
 export function disposeObject(object, { includeSharedTextures = false } = {}) {
@@ -194,10 +197,10 @@ export function createAssetCache() {
         if(!rockSculpt?.stamps.length){
           const assetKey=keyOf(record),key=JSON.stringify([assetKey,record.bounds,rockShape,vegetationSeed]);
           let entry=templates.get(key);
-          if(!entry){const root=recipeInstance(resource,rockShape,record.bounds,vegetationSeed);root.traverse(mesh=>{if(mesh.geometry){const state=sharedGeometryOwners.get(mesh.geometry);if(state)state.refs++;else sharedGeometryOwners.set(mesh.geometry,{refs:1});}});entry={assetKey,root};}
+          if(!entry){const root=recipeInstance(resource,rockShape,record.bounds,vegetationSeed);root.traverse(mesh=>{if(mesh.geometry){const state=sharedGeometryOwners.get(mesh.geometry);if(state){state.refs++;state.templateRefs++;}else sharedGeometryOwners.set(mesh.geometry,{refs:1,templateRefs:1});}});entry={assetKey,root};}
           templates.delete(key);templates.set(key,entry);
           const instance=entry.root.clone(true);instance.traverse(mesh=>{if(!mesh.isMesh)return;sharedGeometryOwners.get(mesh.geometry).refs++;mesh.material=Array.isArray(mesh.material)?mesh.material.map(m=>m.clone()):mesh.material.clone();});
-          while(templates.size>32){const oldest=templates.keys().next().value;disposeObject(templates.get(oldest).root);templates.delete(oldest);}
+          while(templates.size>32){const oldest=templates.keys().next().value;disposeTemplate(templates.get(oldest).root);templates.delete(oldest);}
           return instance;
         }
         // CPU templates avoid replaying long sculpt histories on unrelated scene edits.
@@ -218,10 +221,10 @@ export function createAssetCache() {
     texture: load,
     prune(records) {
       const used = new Set(records.map(keyOf));
-      for(const [key,entry] of templates)if(!used.has(entry.assetKey)){disposeObject(entry.root);templates.delete(key);}
+      for(const [key,entry] of templates)if(!used.has(entry.assetKey)){disposeTemplate(entry.root);templates.delete(key);}
       for(const [key,entry] of sculpted)if(!used.has(entry.assetKey)){disposeObject(entry.root);sculpted.delete(key);}
       for (const [key, entry] of entries) if (!used.has(key)) { entries.delete(key); release(entry); }
     },
-    destroy() { destroyed = true;for(const entry of templates.values())disposeObject(entry.root);templates.clear(); for(const entry of sculpted.values())disposeObject(entry.root);sculpted.clear();for (const entry of entries.values()) release(entry); entries.clear(); },
+    destroy() { destroyed = true;for(const entry of templates.values())disposeTemplate(entry.root);templates.clear(); for(const entry of sculpted.values())disposeObject(entry.root);sculpted.clear();for (const entry of entries.values()) release(entry); entries.clear(); },
   };
 }

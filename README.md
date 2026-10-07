@@ -2,6 +2,8 @@
 
 Editor 3D local para preparar cenas e apresentá-las no projetor. O vertical slice inclui sala, porta, tokens, mobiliário, iluminação, histórico e persistência no computador do mestre.
 
+Otimizações e diagnóstico: [implementação do plano de desempenho](docs/PERFORMANCE_IMPLEMENTATION.md).
+
 Com Node.js 22.12+:
 
 ```bash
@@ -25,8 +27,12 @@ Paisagem de montanha: kit modular de ruínas/plantas ramificadas, distribuição
 
 Escultura direta de terreno e paredões com pincel **T**, mantendo geometria paramétrica, materiais e histórico: [guia de escultura](docs/ROCK_SCULPT.md).
 
+Igreja completa com exterior violeta, galerias/escadas, banquete e dez câmeras em **Abrir → Cenas → Cenas de exemplo**: [guia da Igreja Antiga](docs/IGREJA_ANTIGA_CENA.md).
+
 Cena editável de subida da montanha com caverna lateral, ponte elevada e lanternas arredondadas em **Abrir → Cenas → Cenas de exemplo**: [guia das cenas de exemplo](docs/EXAMPLE_SCENES.md).
 
 Kit arquitetônico/ritual da igreja: **Assets → buscar “igreja antiga”**, com 18 peças reutilizáveis. Montagem, apoios e avaliação do desgaste localizado: [CHURCH_KIT.md](docs/CHURCH_KIT.md).
 
 Desgaste reutilizável diretamente no material: sujeira, ferrugem, musgo, fuligem e rachaduras, com região ajustável e texturas originais preservadas. [Uso e limites](docs/MATERIAL_WEAR.md). Iluminação dinâmica: perfis por asset, biblioteca pessoal, zonas internas/externas, vitrais, reflexos/AO, névoa iluminada e qualidade independente no projetor. Quatro estudos editáveis na galeria. [Uso e limites](docs/DYNAMIC_LIGHTING.md), [estado do plano](docs/DYNAMIC_LIGHTING_PLAN.md).
+
+Plano de conteúdo: [cenas padrão completas](docs/DEFAULT_SCENES_PLAN.md), com locais prontos para sessão e capas geradas automaticamente.

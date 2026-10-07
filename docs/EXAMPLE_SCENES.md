@@ -1,6 +1,10 @@
 # Cenas de exemplo
 
-Atualizado em 5 de outubro de 2026. O exemplo de montanha foi reconstruído integralmente com rocha/neve orgânicas, vegetação densa, objetos detalhados e tempestade. A composição substitui a versão rejeitada; continua editável e não representa uma declaração de paridade visual com a referência.
+Atualizado em 7 de outubro de 2026. As capas dos exemplos agora são geradas dinamicamente, sem JPGs distribuídos. O exemplo de montanha foi reconstruído integralmente com rocha/neve orgânicas, vegetação densa, objetos detalhados e tempestade. A composição substitui a versão rejeitada; continua editável e não representa uma declaração de paridade visual com a referência.
+
+## Igreja Antiga
+
+**Abrir → Cenas → Cenas de exemplo → Igreja Antiga · templo e vale dos vampiros** cria uma cópia editável do templo completo e seu exterior: 379 elementos, dez câmeras, galerias/escadas, banquete/ritual, sala de correntes e vale rochoso violeta. Para a planta, oculte a pasta **11 · Coberturas**. [Montagem, medidas, câmeras e limites](IGREJA_ANTIGA_CENA.md). Geradores: `scripts/generate-church-scene.js` e `scripts/preview-church-scene.js`.
 
 ## Carregar e editar
 
@@ -40,17 +44,17 @@ Para trabalhar nas vistas ampla/superior, desligue **Cena → Atmosfera → Név
 
 ## Gerar e acrescentar outros exemplos
 
-O catálogo fica em `src/data/example-scenes.js`. Novos exemplos precisam de nome, descrição, caminhos relativos para JSON/ prévia e cena válida de schema 2 com referências locais. Arquivos ficam em `public/scenes/`; não se acrescentam automaticamente à biblioteca pessoal.
+O catálogo fica em `src/data/example-scenes.js`. Novos exemplos precisam de nome, descrição, caminho relativo para o JSON e cena válida de schema 2 com referências locais. Arquivos ficam em `public/scenes/`; não se acrescentam automaticamente à biblioteca pessoal.
 
 `node scripts/generate-example-scenes.js` materializa deterministicamente a montanha a partir de `scripts/mountain-example.js`. Não regenera o outro exemplo independente de ponte. O gerador é ferramenta de manutenção; não roda ao abrir a cena.
 
-Depois de `npm run build`, `node scripts/preview-example-scene.js` carrega pela interface e captura o renderizador real. Gera `public/scenes/snowy-mountain-pass.jpg` e recortes das cinco câmeras em `test-results/mountain-example-*.png`, além de dois frames da tempestade animada. Refaça os builds local/Pages depois de atualizar a prévia.
+Depois de `npm run build`, `node scripts/preview-example-scene.js` carrega pela interface e captura o renderizador real. Gera `test-results/mountain-example-preview.jpg` e recortes das cinco câmeras em `test-results/mountain-example-*.png`, além de dois frames da tempestade animada. Essas capturas servem à revisão de autoria; não são dependências do catálogo.
 
 ## Validação e limites
 
 Os testes de geometria verificam reprodução do JSON, referências, subida, margem/leito do lago, terreno livre na caverna, vazio real do abrigo, ponte sem bloqueios, fixação das lanternas, histórico e cópias independentes. A revisão visual compara os cinco enquadramentos e o contato das peças. Carregamento real, edição, persistência e projetor são verificados nos modos servidor e Pages.
 
-Resultados e medidas finais em [progress.md](../progress.md). WebGL por software verifica funcionamento e custo geométrico; não estabelece FPS no notebook/projetor. O acabamento continua procedural. Materiais fotográficos, desgaste localizado/decals, pintura de depósitos em rochas, contato/reflexos e otimizações de cenas densas permanecem evoluções reais. O mapa está disponível sem esperar por essas extensões.
+Resultados e medidas finais em [progress.md](../progress.md). WebGL por software verifica funcionamento e custo geométrico; não estabelece FPS no notebook/projetor. O acabamento continua procedural. Desgaste regional e reflexos procedurais foram entregues depois desse marco. Materiais fotográficos/decals, pintura de depósitos em rochas e otimizações de cenas densas permanecem evoluções reais. O mapa está disponível sem esperar por essas extensões.
 
 Guias: [rocha e neve orgânicas](ORGANIC_WINTER.md), [vegetação e objetos](WINTER_DETAIL.md), [plano e estado](ORGANIC_WINTER_PLAN.md) e [objetivos visuais](VISUAL_TARGET.md).
 
@@ -64,7 +68,9 @@ Cópias, importações JSON e cenas criadas a partir de mapas também recebem um
 
 São capturas JPEG de 480 × 270 pixels. As imagens são dados derivados, guardados fora do JSON, do undo e das revisões/backups: metadados da biblioteca no navegador ou arquivos `.preview.json` ao lado das cenas/mapas no servidor local. Ao salvar uma alteração, a imagem recebe a revisão correspondente; uma captura atrasada não pode substituir a capa de uma revisão mais recente. Duplicações preservam a capa válida e exclusões removem a capa junto com o documento. O JSON exportado continua contendo apenas o documento; a importação gera outra capa automaticamente.
 
-Os exemplos distribuídos continuam usando suas prévias publicadas em `public/scenes/`. As cópias que o usuário abre e edita recebem capturas próprias.
+Os exemplos distribuídos também geram suas capas automaticamente a partir do JSON, pelo mesmo renderizador. Os cartões visíveis entram na fila compartilhada, sem aguardar a imagem para permitir carregar a cena. Um cache derivado IndexedDB, separado da biblioteca pessoal e limitado a 32 imagens, evita repetir a renderização após recarregar; alterações no conteúdo ou nas revisões dos assets invalidam a capa. Falha no cache não impede abrir a cena. Não há JPGs de capas em `public/scenes/` nem seleção de imagem pelo usuário. As cópias abertas e editadas recebem suas próprias capturas.
+
+O [plano de cenas padrão completas](DEFAULT_SCENES_PLAN.md) define oito novos locais jogáveis, revisão dos cenários existentes e a futura separação dos estudos técnicos na galeria. Os novos locais ainda não foram construídos.
 
 
 ## Estudos de iluminação

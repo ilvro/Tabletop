@@ -104,3 +104,22 @@ test('regional snow after moving/removing a roof matches a full scene rebuild',{
     }finally{viewport.destroy();store.dispose();}
   });assert.deepEqual(errors,[]);await mkdir('test-results',{recursive:true});for(const [i,observation]of result.entries())for(const field of ['regional','full'])if(observation[field]){await writeFile(`test-results/snow-${i}-${field}.jpg`,Buffer.from(observation[field].split(',')[1],'base64'));delete observation[field];}assert.deepEqual(result,[{coats:true,pixels:true},{coats:true,pixels:true}]);
 });
+
+test('disposing background previews preserves subsequent editor thumbnail pixels',{timeout:60000},async t=>{
+  const page=await fixture(t),errors=[];page.on('pageerror',error=>errors.push(error.message));
+  page.on('console',message=>{if(message.type()==='error')errors.push(message.text());});
+  const result=await page.evaluate(async()=>{
+    const {createViewport}=await import('/src/render/renderer.js'),{createScene,createEntity}=await import('/src/domain/documents.js'),{createScenePreviewRenderer}=await import('/src/render/scene-preview.js');
+    const scene=createScene('Capa'),floor=createEntity('floor',{width:8,length:6});scene.layout.entities[floor.id]=floor;
+    const viewport=createViewport(document.getElementById('viewport'));viewport.setDocument(scene);viewport.frameScene();await viewport.ready();viewport.setSuspended(true);
+    try{
+      const before=await viewport.captureThumbnailAsync(),covers=[];
+      for(let i=0;i<3;i++){
+        const background=createScenePreviewRenderer();try{await background.render(scene,[]);}finally{background.dispose();}
+        covers.push(await viewport.captureThumbnailAsync());
+      }
+      const image=new Image();image.src=before;await image.decode();const canvas=document.createElement('canvas');canvas.width=480;canvas.height=270;const context=canvas.getContext('2d');context.drawImage(image,0,0);const bytes=context.getImageData(0,0,480,270).data,colours=new Set();for(let i=0;i<bytes.length;i+=64)colours.add(`${bytes[i]>>3},${bytes[i+1]>>3},${bytes[i+2]>>3}`);return {before,covers,colours:colours.size};
+    }finally{viewport.destroy();}
+  });
+  assert.deepEqual(errors,[]);assert.ok(result.colours>20,'reference cover contains real geometry');assert.ok(result.covers.every(image=>image===result.before),'editor JPEG remains identical after other viewport disposal');
+});

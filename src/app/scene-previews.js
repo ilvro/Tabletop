@@ -1,12 +1,15 @@
 import { createScenePreviewRenderer } from '../render/scene-preview.js';
 import { createPerformanceDiagnostics } from '../diagnostics/performance.js';
+import { readExampleScene } from '../data/example-scenes.js';
+import { createExamplePreviewCache } from '../data/example-preview-cache.js';
 
 /** Derived work: one running job, bounded queue, revisions coalesced before capture. */
-export function createScenePreviews({ viewport, repository, current, assets, onUpdate, onError, renderPreview }) {
+export function createScenePreviews({ viewport, repository, current, assets, onUpdate, onError, renderPreview,
+  loadExample = readExampleScene, exampleCache = createExamplePreviewCache() }) {
   const renderer=renderPreview?null:createScenePreviewRenderer();
   renderPreview??=renderer.render.bind(renderer);
   const diagnostics=createPerformanceDiagnostics(),images=new Map(),backlog=new Map(),jobs=[];
-  let timer,running,disposed=false;
+  let timer,exampleTimer,running,disposed=false;
   const key=doc=>`${doc.documentType}:${doc.id}`,stamp=doc=>`${doc.revision}:${doc.updatedAt}`,MAX_JOBS=32;
   function remember(doc,image,version){
     const live=current(),previous=images.get(key(doc));
@@ -26,8 +29,25 @@ export function createScenePreviews({ viewport, repository, current, assets, onU
   }
   function fill(){
     for(const [id,entry] of [...backlog].sort(([,a],[,b])=>a.priority-b.priority)){
-      if(jobs.length>=MAX_JOBS)break;backlog.delete(id);
+      if(jobs.length>=MAX_JOBS&&!jobs.some(job=>job.priority>entry.priority))break;backlog.delete(id);
       enqueue(`library:${id}`,entry.priority,async signal=>{
+        if(entry.example){
+          const snapshot=await loadExample(entry.example.id,{signal});
+          if(disposed||signal.aborted)return;
+          const catalog=assets(),contentKey=await exampleCache.key(entry.example,snapshot,catalog);
+          if(disposed||signal.aborted)return;
+          let image=await exampleCache.read(contentKey);
+          if(disposed||signal.aborted)return;
+          if(!image){
+            image=await renderPreview(snapshot,catalog,signal);
+            if(disposed||signal.aborted||!image)return;
+            await exampleCache.write(contentKey,image);
+          }
+          if(disposed||signal.aborted)return;
+          images.delete(id);images.set(id,{image});
+          while(images.size>64)images.delete(images.keys().next().value);
+          onUpdate();return;
+        }
         if(repository.readPreview&&entry.doc.previewRevision){
           const stored=await repository.readPreview(entry.doc);
           if(disposed||signal.aborted)return;
@@ -53,16 +73,30 @@ export function createScenePreviews({ viewport, repository, current, assets, onU
     finally{job.resolve();running=null;fill();if(!jobs.length&&!backlog.size)renderer?.dispose();void drain();}
   }
   function enqueue(id,priority,task,library=false,entry=null){
+    if(!library&&running?.entry?.example&&!running.controller.signal.aborted&&running.priority>priority){
+      const deferred=running.entry;
+      if(deferred)backlog.set(deferred.example?`example:${deferred.example.id}`:key(deferred.doc),deferred);
+      running.controller.abort();renderer?.cancel();diagnostics.count('preempted');
+    }
     if(running?.id===id)running.controller.abort();
     const previous=jobs.find(job=>job.id===id);if(previous){jobs.splice(jobs.indexOf(previous),1);previous.controller.abort();previous.resolve();diagnostics.count('coalesced');}
-    if(jobs.length>=MAX_JOBS){const worst=[...jobs].sort((a,b)=>b.priority-a.priority||a.created-b.created)[0];jobs.splice(jobs.indexOf(worst),1);worst.controller.abort();worst.resolve();if(worst.entry)backlog.set(key(worst.entry.doc),worst.entry);diagnostics.count('droppedObsolete');}
+    if(jobs.length>=MAX_JOBS){const worst=[...jobs].sort((a,b)=>b.priority-a.priority||a.created-b.created)[0];jobs.splice(jobs.indexOf(worst),1);worst.controller.abort();worst.resolve();if(worst.entry)backlog.set(worst.entry.example?`example:${worst.entry.example.id}`:key(worst.entry.doc),worst.entry);diagnostics.count('droppedObsolete');}
     return new Promise(resolve=>{jobs.push({id,priority,task,library,entry,controller:new AbortController(),created:performance.now(),resolve});diagnostics.count('enqueued');queueMicrotask(()=>void drain());});
   }
   function cancelLibrary(){
+    clearTimeout(exampleTimer);
     backlog.clear();for(const job of [...jobs])if(job.library){jobs.splice(jobs.indexOf(job),1);job.controller.abort();job.resolve();}
     if(running?.library){running.controller.abort();renderer?.cancel();}
   }
   return {
+    exampleImage(example){return images.get(`example:${example.id}`)?.image;},
+    ensureExamples(examples){
+      for(const example of examples){const id=`example:${example.id}`;
+        if(images.has(id)||running?.id===`library:${id}`||jobs.some(job=>job.id===`library:${id}`))continue;
+        backlog.set(id,{example,priority:2});
+      }
+      clearTimeout(exampleTimer);exampleTimer=setTimeout(fill,250);
+    },
     image(doc){const entry=images.get(key(doc)),live=current();return entry&&(entry.stamp===stamp(doc)||live.document.id===doc.id&&entry.version===live.version)?entry.image:doc.preview;},
     schedule(){
       clearTimeout(timer);
@@ -82,7 +116,12 @@ export function createScenePreviews({ viewport, repository, current, assets, onU
       if(image&&!signal.aborted){await repository.savePreview(doc,image);remember(doc,image,version);}
     });},
     ensure(documents,{visibleIds=new Set()}={}){
-      for(const doc of documents){const id=key(doc);if(doc.preview&&doc.previewRevision===doc.revision||running?.id===`library:${id}`||jobs.some(job=>job.id===`library:${id}`))continue;backlog.set(id,{doc,priority:visibleIds.has(doc.id)?2:3});}
+      for(const doc of documents){const id=key(doc),priority=visibleIds.has(doc.id)?2:3;
+        if(doc.preview&&doc.previewRevision===doc.revision)continue;
+        const pending=running?.id===`library:${id}`?running:jobs.find(job=>job.id===`library:${id}`);
+        if(pending){pending.priority=Math.min(pending.priority,priority);if(pending.entry)pending.entry.priority=pending.priority;continue;}
+        backlog.set(id,{doc,priority:Math.min(backlog.get(id)?.priority??3,priority)});
+      }
       fill();
     },
     cancelLibrary,

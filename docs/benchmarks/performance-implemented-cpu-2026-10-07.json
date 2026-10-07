@@ -1,0 +1,218 @@
+{
+  "measuredAt": "2026-10-07T17:44:19.713Z",
+  "environment": {
+    "node": "v22.22.2",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "Intel(R) Xeon(R) CPU E5-2640 v3 @ 2.60GHz",
+    "cpuCount": 16
+  },
+  "method": {
+    "samples": 25,
+    "warmup": 5,
+    "units": "milliseconds unless named otherwise",
+    "cpuIncludesUI": false,
+    "gpuTiming": false,
+    "note": "Synthetic isolated operations; do not add percentiles or infer browser FPS from CPU times."
+  },
+  "cpu": [
+    {
+      "name": "lighting-chapel",
+      "entities": 22,
+      "jsonBytes": 17869,
+      "timingsMs": {
+        "clone": {
+          "samples": 25,
+          "p50": 0.4471159999999941,
+          "p95": 0.4797060000000215,
+          "max": 0.5861040000000344
+        },
+        "stringify": {
+          "samples": 25,
+          "p50": 0.11322799999999233,
+          "p95": 0.13817000000000235,
+          "max": 1.6772230000000263
+        },
+        "validate": {
+          "samples": 25,
+          "p50": 0.8063919999999598,
+          "p95": 1.5652240000000006,
+          "max": 1.6826739999999631
+        },
+        "projectPresentation": {
+          "samples": 25,
+          "p50": 0.4558640000000196,
+          "p95": 0.5119639999999777,
+          "max": 0.7799430000000029
+        },
+        "dirtyRead": {
+          "samples": 25,
+          "p50": 0.00033400000000938235,
+          "p95": 0.0061479999999960455,
+          "max": 0.011708999999996195
+        },
+        "renameCommand": {
+          "samples": 25,
+          "p50": 1.1761060000000043,
+          "p95": 2.008541999999977,
+          "max": 2.8461560000000077
+        },
+        "intensityCommand": {
+          "samples": 25,
+          "p50": 1.2656029999999987,
+          "p95": 2.1613340000000107,
+          "max": 2.3511010000000283
+        }
+      }
+    },
+    {
+      "name": "lighting-office",
+      "entities": 19,
+      "jsonBytes": 13659,
+      "timingsMs": {
+        "clone": {
+          "samples": 25,
+          "p50": 0.6151219999999853,
+          "p95": 0.6452160000000049,
+          "max": 0.7229540000000156
+        },
+        "stringify": {
+          "samples": 25,
+          "p50": 0.16113499999994474,
+          "p95": 0.1779250000000161,
+          "max": 0.8863230000000044
+        },
+        "validate": {
+          "samples": 25,
+          "p50": 1.040945000000022,
+          "p95": 1.3296209999999746,
+          "max": 2.581973000000005
+        },
+        "projectPresentation": {
+          "samples": 25,
+          "p50": 0.38895899999999983,
+          "p95": 0.5424450000000434,
+          "max": 0.7723009999999704
+        },
+        "dirtyRead": {
+          "samples": 25,
+          "p50": 0.0005710000000362925,
+          "p95": 0.0006759999999985666,
+          "max": 0.0006989999999404972
+        },
+        "renameCommand": {
+          "samples": 25,
+          "p50": 1.0305009999999584,
+          "p95": 1.4044959999999946,
+          "max": 1.607234999999946
+        },
+        "intensityCommand": {
+          "samples": 25,
+          "p50": 0.7863009999999804,
+          "p95": 1.6789830000000165,
+          "max": 2.3713770000000522
+        }
+      }
+    },
+    {
+      "name": "snowy-mountain-pass",
+      "entities": 101,
+      "jsonBytes": 160599,
+      "timingsMs": {
+        "clone": {
+          "samples": 25,
+          "p50": 2.494572000000062,
+          "p95": 2.728036999999972,
+          "max": 4.271210999999994
+        },
+        "stringify": {
+          "samples": 25,
+          "p50": 1.3944569999999885,
+          "p95": 1.4987559999999576,
+          "max": 1.5891100000000051
+        },
+        "validate": {
+          "samples": 25,
+          "p50": 3.4215130000000045,
+          "p95": 5.739845000000059,
+          "max": 7.573307999999997
+        },
+        "projectPresentation": {
+          "samples": 25,
+          "p50": 2.6520269999999755,
+          "p95": 3.4708120000000235,
+          "max": 4.095114999999964
+        },
+        "dirtyRead": {
+          "samples": 25,
+          "p50": 0.00022200000000793807,
+          "p95": 0.00032299999998031126,
+          "max": 0.0006379999999808206
+        },
+        "renameCommand": {
+          "samples": 25,
+          "p50": 6.6264549999999645,
+          "p95": 7.757007000000044,
+          "max": 7.8840439999999035
+        }
+      }
+    },
+    {
+      "name": "igreja-antiga",
+      "entities": 379,
+      "jsonBytes": 374620,
+      "timingsMs": {
+        "clone": {
+          "samples": 25,
+          "p50": 6.323939999999993,
+          "p95": 7.358709999999974,
+          "max": 8.037053000000014
+        },
+        "stringify": {
+          "samples": 25,
+          "p50": 2.963557999999921,
+          "p95": 3.1795179999999164,
+          "max": 3.1957109999998465
+        },
+        "validate": {
+          "samples": 25,
+          "p50": 8.761436000000003,
+          "p95": 10.80697299999997,
+          "max": 10.961575000000039
+        },
+        "projectPresentation": {
+          "samples": 25,
+          "p50": 7.042580000000044,
+          "p95": 8.76316799999995,
+          "max": 9.363735000000133
+        },
+        "dirtyRead": {
+          "samples": 25,
+          "p50": 0.00022999999987405317,
+          "p95": 0.0002870000000712025,
+          "max": 0.00038700000004610047
+        },
+        "renameCommand": {
+          "samples": 25,
+          "p50": 12.470197000000098,
+          "p95": 15.75651300000004,
+          "max": 15.860929999999826
+        },
+        "intensityCommand": {
+          "samples": 25,
+          "p50": 12.40292700000009,
+          "p95": 13.29580900000019,
+          "max": 13.336565999999948
+        }
+      }
+    }
+  ],
+  "history": {
+    "fixture": "igreja-antiga",
+    "commands": 150,
+    "heapBeforeBytes": 14609408,
+    "heapAfterBytes": 15357296,
+    "retainedDeltaBytes": 747888,
+    "note": "Node heap after forced GC, including the retained store; not browser/GPU memory."
+  }
+}

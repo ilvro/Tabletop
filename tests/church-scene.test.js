@@ -21,7 +21,7 @@ test('complete church is reproducible, self-contained and loads as independent e
   assert.equal(Object.keys(scene.cameraPresets).length,10);assert.equal(Object.keys(scene.layout.groups).length,12);
   for(const e of entities){assert.equal(e.locked,false);assert.equal(e.audience,'all');if(e.assetRef)assert.equal(catalog.find(a=>a.id===e.assetRef.id)?.revision,e.assetRef.revision);}
   const card=EXAMPLE_SCENES.find(e=>e.id===CHURCH.id);assert.ok(card);
-  assert.ok((await readFile('public/'+card.preview)).length>5000);
+  assert.equal(card.preview,undefined,'cover is generated from the scene rather than a distributed image');
   const fetcher=async()=>({ok:true,json:async()=>structuredClone(scene)}),a=await loadExampleScene(CHURCH.id,{fetcher}),b=await loadExampleScene(CHURCH.id,{fetcher});
   assert.notEqual(a.id,b.id);assert.notEqual(a.id,scene.id);assert.equal(a.revision,0);
   assert.equal(Object.keys(a.layout.entities).length,entities.length);

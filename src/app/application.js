@@ -363,16 +363,17 @@ export async function startApplication() {
     current: () => ({ document: store.document, version: store.editVersion, dirty: store.dirty, previewing: Boolean(environmentPreview) }),
     onUpdate: () => {
       if (!document.getElementById('documents-dialog')?.hasAttribute('open')) return;
-      for (const node of root.querySelectorAll('[data-open], [data-open-map]')) {
+      for (const node of root.querySelectorAll('[data-open], [data-open-map], [data-open-example]')) {
+        const example = EXAMPLE_SCENES.find(item => item.id === node.dataset.openExample);
         const docId = node.dataset.open ?? node.dataset.openMap;
-        const doc = docId === store.document.id ? store.document : [...savedScenes, ...savedMaps].find(item => item.id === docId);
+        const doc = example ?? (docId === store.document.id ? store.document : [...savedScenes, ...savedMaps].find(item => item.id === docId));
         if (!doc) continue;
         const title = node.querySelector('strong'); if (title) title.textContent = doc.name;
         const detail = node.querySelector('.scene-card-description small');
         if (detail) detail.textContent = doc.revision === 0 ? 'Em criação · ainda não salva' : `Revisão ${doc.revision} · ${new Date(doc.updatedAt).toLocaleString('pt-BR')}`;
         const actions = node.closest('.item-card')?.querySelector('.item-card-actions');
         if (actions) actions.hidden = doc.revision === 0;
-        const image = previews.image(doc); if (!image) continue;
+        const image = example ? previews.exampleImage(example) : previews.image(doc); if (!image) continue;
         const old = node.querySelector('.scene-thumbnail');
         if (old?.tagName === 'IMG') { if (old.getAttribute('src') !== image) old.src = image; }
         else if (old) { const img = document.createElement('img'); img.className = 'scene-thumbnail'; img.src = image;
@@ -383,9 +384,31 @@ export async function startApplication() {
       if (!previewWarningShown) { previewWarningShown = true; notify(`Não foi possível gerar a prévia agora: ${error.message}. Sua cena continua disponível.`, true); }
     },
   });
-  document.getElementById('documents-dialog').addEventListener('close',()=>previews.cancelLibrary());
-  function previewImage(doc) {
-    const image = previews.image(doc);
+  let exampleObserver;
+  function observeGalleryCards() {
+    exampleObserver?.disconnect();
+    const dialog = document.getElementById('documents-dialog');
+    if (!dialog.hasAttribute('open')) return;
+    const cards = [...dialog.querySelectorAll('[data-open-example], [data-open], [data-open-map]')];
+    const prioritize = nodes => {
+      const ids = new Set(nodes.map(node => node.dataset.open ?? node.dataset.openMap).filter(Boolean));
+      if (ids.size) previews.ensure([...savedScenes, ...savedMaps].filter(doc => ids.has(doc.id)), { visibleIds: ids });
+      const examples = nodes.map(node => EXAMPLE_SCENES.find(item => item.id === node.dataset.openExample)).filter(Boolean);
+      if (examples.length) previews.ensureExamples(examples);
+    };
+    if (!globalThis.IntersectionObserver) {
+      const bounds = dialog.getBoundingClientRect();
+      prioritize(cards.filter(node => { const box = node.getBoundingClientRect(); return box.bottom > bounds.top && box.top < bounds.bottom; }));
+      return;
+    }
+    exampleObserver = new IntersectionObserver(entries => {
+      if (dialog.hasAttribute('open')) prioritize(entries.filter(entry => entry.isIntersecting).map(entry => entry.target));
+    }, { root: dialog });
+    cards.forEach(card => exampleObserver.observe(card));
+  }
+  document.getElementById('documents-dialog').addEventListener('close',()=>{exampleObserver?.disconnect();previews.cancelLibrary();});
+  function previewImage(doc, example = false) {
+    const image = example ? previews.exampleImage(doc) : previews.image(doc);
     return image ? `<img class="scene-thumbnail" src="${esc(image)}" alt="Prévia de ${esc(doc.name)}" width="480" height="270" loading="lazy" />`
       : '<span class="scene-thumbnail scene-thumbnail-pending" aria-label="Gerando prévia">Gerando prévia…</span>';
   }
@@ -999,11 +1022,12 @@ export async function startApplication() {
     }
   }
 
-  function closeDialog() { previews.cancelLibrary();documentsWindow.close(); }
+  function closeDialog() { exampleObserver?.disconnect();previews.cancelLibrary();documentsWindow.close(); }
 
   async function openExample(exampleId) {
     if (!canSwitch()) return;
     const ticket=++openTicket, sourceId=store.document.id, sourceVersion=store.editVersion;
+    exampleObserver?.disconnect();previews.cancelLibrary();
     notify('Carregando cena de exemplo…');
     const doc=await loadExampleScene(exampleId);
     if(ticket!==openTicket)return;
@@ -1169,7 +1193,7 @@ export async function startApplication() {
           <h3 id="example-scenes-title" class="eyebrow">CENAS DE EXEMPLO</h3>
           <p class="microcopy">Carregue uma cópia para explorar, editar e salvar como sua cena.</p>
           ${EXAMPLE_SCENES.map(example=>`<button type="button" class="example-scene-card" data-open-example="${example.id}">
-            <img src="${applicationURL(example.preview)}" alt="" width="320" height="180" loading="lazy" />
+            ${previewImage(example, true)}
             <span><strong>${esc(example.name)}</strong><small>${esc(example.description)}</small><b>Carregar cena</b></span>
           </button>`).join('')}
         </section>
@@ -1313,6 +1337,7 @@ export async function startApplication() {
     await refreshSaved();
     renderDialogContent();
     documentsWindow.open();
+    observeGalleryCards();
     const visible=new Set([...dialog.querySelectorAll('[data-open], [data-open-map]')].filter(node=>{const a=node.getBoundingClientRect(),b=dialog.getBoundingClientRect();return a.bottom>=b.top&&a.top<=b.bottom;}).map(node=>node.dataset.open??node.dataset.openMap));
     previews.ensure([...savedScenes, ...savedMaps],{visibleIds:visible});
   }
@@ -2033,7 +2058,7 @@ export async function startApplication() {
       else { assetsWindow.close(); tab = node.dataset.tab; renderSidebar(); }
       return;
     }
-    if (node.dataset.dialogTab) { dialogTab = node.dataset.dialogTab; renderDialogContent(); return; }
+    if (node.dataset.dialogTab) { dialogTab = node.dataset.dialogTab; renderDialogContent(); observeGalleryCards(); return; }
     if (node.dataset.select) { selectObject(node.dataset.select, event.shiftKey); return; }
     if (node.dataset.asset) {
       const asset = assets.find((item) => item.id === node.dataset.asset);
@@ -2278,7 +2303,7 @@ export async function startApplication() {
       window.addEventListener('mouseup', onMouseUp);
     });
   }
-  window.addEventListener('pagehide', () => { previews.dispose(); flushDraft(); store.dispose();performanceDiagnostics.dispose();channel?.close(); viewport.destroy(); repository.dispose?.(); });
+  window.addEventListener('pagehide', () => { exampleObserver?.disconnect();previews.dispose(); flushDraft(); store.dispose();performanceDiagnostics.dispose();channel?.close(); viewport.destroy(); repository.dispose?.(); });
   window.addEventListener('beforeunload', (event) => { if (store.dirty) { event.preventDefault(); event.returnValue = ''; } });
 
   const initial = await Promise.allSettled([repository.assets(), repository.list('scene',{previews:false}), repository.list('map',{previews:false}), drafts.read(), repository.list('environment',{previews:false}), brushPresetRepository.list()]);

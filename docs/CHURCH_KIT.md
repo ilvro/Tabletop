@@ -1,6 +1,6 @@
 # Kit arquitetônico e ritual da Igreja Antiga
 
-Incremento de 6 de outubro de 2026. **18 assets originais locais**, reutilizáveis e distribuídos na biblioteca, que passa a **220 modelos**. Autoria baseada na composição das seis imagens fornecidas pelo usuário; não são modelos oficiais nem reproduções extraídas da série. O mapa inteiro da igreja continua como montagem futura.
+Kit inicial de 6 de outubro, ampliado em 7 de outubro de 2026: **22 assets originais locais**, reutilizáveis e distribuídos na biblioteca, que passa a **224 modelos**. Autoria baseada na composição das seis imagens fornecidas pelo usuário; não são modelos oficiais nem reproduções extraídas da série. A [cena completa do templo e vale](IGREJA_ANTIGA_CENA.md) está disponível na galeria de exemplos.
 
 ## Encontrar e usar
 
@@ -20,6 +20,8 @@ Os modelos usam metros, pivot na base e centro horizontal. Frente padrão +Z; te
 | Cobertura ogival modular | Casca sólida, módulo longitudinal de 4 m e interior livre. |
 | Contraforte escalonado | Suporte de fachada em três patamares. |
 | Pináculo com florões | Coroamento e agulha quadrangular. |
+| Empena ogival maciça | Fecha as extremidades da cobertura mantendo seu perfil. |
+| Alvenaria com vão ogival | Preenche os cantos acima do vitral, com abertura real. |
 | Torre sineira com vãos abertos | Torre cenográfica de aproximadamente 13 m, com quatro aberturas superiores. |
 
 | Peças características | Uso |
@@ -30,6 +32,8 @@ Os modelos usam metros, pivot na base e centro horizontal. Frente padrão +Z; te
 | Pendão ritual de tecido rasgado | Tecido vinho e cruz dupla original; frente +Z. |
 | Correntes e ganchos suspensos | Cinco conjuntos com elos vazados e ganchos curvos. |
 | Mesa longa de banquete | Tampo de 5,4 m, cavaletes e travessa, apoio a 1,04 m. |
+| Cruz dupla de ferro | Símbolo original de fachada/ritual, com emissão editável. |
+| Prato e cálice de banquete | Decoração de tampo, sem luz própria. |
 | Candelabro de cinco velas | Chamas emissivas estáticas, sem luz dinâmica automática. |
 
 ## Montagem estrutural e apoios
@@ -42,7 +46,7 @@ Torre, nervuras e cobertura são módulos cenográficos. A torre tem base inferi
 
 ## Materiais e luz
 
-Escolha **Aplicar acabamento em** para editar um material nomeado: `limestone`, `carving`, `wornStone`, `wood`, `iron`, `brass`, `cloth`, `glass`, `amberGlass`, `wax` ou `flame`, conforme a peça. A biblioteca utiliza texturas procedurais existentes para alvenaria, madeira, ferro oxidado e microtextura da estátua. Os materiais originais são próprios de cada receita; alterações de uma instância não modificam outra.
+Escolha **Aplicar acabamento em** para editar um material nomeado: `limestone`, `stone`, `carving`, `wornStone`, `wood`, `iron`, `brass`, `cloth`, `glass`, `amberGlass`, `wax`, `flame`, `metal` ou `food`, conforme a peça. A biblioteca utiliza texturas procedurais existentes para alvenaria, madeira, ferro oxidado e microtextura da estátua. Os materiais originais são próprios de cada receita; alterações de uma instância não modificam outra.
 
 O vidro é translúcido, tem emissão e não projeta uma sombra opaca. O vidro sozinho não projeta seu desenho ou sua cor no ambiente. Selecione o modelo e aplique **Luz neste objeto → Janela / vitral** para acrescentar uma spot com padrão procedural editável; escolha a origem/direção para iluminar a nave. O desenho da projeção é independente da geometria do vidro. Nas chamas, use **Vela / candelabro** ou **Tocha / lareira**; uma fonte compartilhada para a mesa pode atender várias velas. Emissão não equivale a uma fonte de luz que ilumina objetos vizinhos.
 
@@ -60,10 +64,10 @@ A iluminação reutilizável agora oferece fontes vinculadas, zonas de ambiente,
 
 ## Implementação e validação
 
-`scripts/library-church-kit.js` gera as receitas e `scripts/generate-library.js` integra catálogo/prévias. Para regenerar, execute `node scripts/generate-library.js`. Prévia compacta rasterizada a partir da geometria real de cada modelo, sem imagens externas. O novo perfil arquitetônico em `src/render/architectural-primitives.js` extruda contornos simples XY de até 64 pontos, com profundidade limitada, normais/UV e validação antes de alocar geometria. Receitas aceitam `profile` e materiais com opacidade opcional; ausência conserva os materiais opacos anteriores.
+`scripts/library-church-kit.js` e `scripts/library-church-scene.js` geram as receitas e `scripts/generate-library.js` integra catálogo/prévias. Para regenerar, execute `node scripts/generate-library.js`. Prévia compacta rasterizada a partir da geometria real de cada modelo, sem imagens externas. O novo perfil arquitetônico em `src/render/architectural-primitives.js` extruda contornos simples XY de até 64 pontos, com profundidade limitada, normais/UV e validação antes de alocar geometria. Receitas aceitam `profile` e materiais com opacidade opcional; ausência conserva os materiais opacos anteriores.
 
 Partes são agrupadas por material/superfície; até cinco malhas por modelo, com orçamento verificado de menos de 18 mil triângulos por peça. Vidros translúcidos de duas faces acrescentam passes de renderização. Isso não representa instanciamento entre objetos nem um benchmark de FPS. Geometrias e materiais por instância são descartados pelo cache existente; a câmera de trabalho continua independente da publicada.
 
-Testes verificam perfis, vãos, interiores, apoio da mesa, ausência de apoio fictício do balcão, materiais, catálogo, histórico e documentos. Roteiro de navegador verifica pixels/renderização dos 18 modelos, isolamento de materiais, descarte GPU e uso na biblioteca com salvar/reabrir/projetor em servidor e Pages. Resultados finais e capturas em [progress.md](../progress.md). Avaliação da igreja completa em [IGREJA_ANTIGA_ANALISE.md](IGREJA_ANTIGA_ANALISE.md).
+Testes verificam perfis, vãos, interiores, apoio da mesa, ausência de apoio fictício do balcão, materiais, catálogo, histórico e documentos. Roteiro de navegador verifica pixels/renderização dos 22 modelos, isolamento de materiais, descarte GPU e uso na biblioteca com salvar/reabrir/projetor em servidor e Pages. Resultados finais e capturas em [progress.md](../progress.md). Avaliação da igreja completa em [IGREJA_ANTIGA_ANALISE.md](IGREJA_ANTIGA_ANALISE.md).
 
-Validação final: **185 testes de domínio/integração, três E2E novos e builds local/Pages aprovados**. Máximo observado por modelo na captura isolada: seis chamadas de desenho e 11.532 triângulos; retorno à baseline de recursos após descarte. A suíte E2E completa não foi repetida. Prévia real dos modelos em `test-results/church-kit-sheet.png`; capturas de biblioteca/edição em `test-results/church-kit-{server,pages}.png`.
+Validação do kit inicial (6 de outubro): **185 testes de domínio/integração, três E2E novos e builds local/Pages aprovados**. Máximo observado por modelo na captura isolada: seis chamadas de desenho e 11.532 triângulos; retorno à baseline de recursos após descarte. A suíte E2E completa não foi repetida. Prévia real dos modelos em `test-results/church-kit-sheet.png`; capturas de biblioteca/edição em `test-results/church-kit-{server,pages}.png`.

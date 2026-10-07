@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, rm, mkdir } from 'node:fs/promises';
+import { mkdtemp, rm, mkdir, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { once } from 'node:events';
@@ -47,13 +47,21 @@ for (const mode of ['server', 'pages']) test(`automatic scene covers from creati
   assert.deepEqual(await snapshot(), before, 'automatic capture does not change the document');
   assert.deepEqual(await page.evaluate(() => window.__tabletop.camera()), camera, 'automatic capture does not move the work camera');
   // JPEG contains a rendered scene, rather than a single-colour placeholder.
-  const diversity = await image().evaluate(img => {
+  const diversity = await image().evaluate(async img => {
+    await img.decode();
     const canvas = document.createElement('canvas'); canvas.width = 480; canvas.height = 270;
     const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0);
     const bytes = ctx.getImageData(0, 0, 480, 270).data, colours = new Set();
     for (let i = 0; i < bytes.length; i += 64) colours.add(`${bytes[i] >> 3},${bytes[i + 1] >> 3},${bytes[i + 2] >> 3}`);
     return colours.size;
-  }); assert.ok(diversity > 20, `rendered cover has ${diversity} colours`);
+  });
+  if(diversity<=20){
+    await mkdir('test-results',{recursive:true});
+    await writeFile(`test-results/failed-personal-cover-${mode}.jpg`,Buffer.from(populatedImage.split(',')[1],'base64'));
+    await writeFile(`test-results/failed-personal-cover-${mode}.json`,JSON.stringify(await page.evaluate(()=>({camera:__tabletop.camera(),doc:__tabletop.snapshot(),performance:__tabletop.performance(),stats:__tabletop.stats(),notices:document.getElementById('notice').textContent})),null,2));
+    await action('close-dialog');await page.locator('#viewport').screenshot({path:`test-results/failed-personal-cover-${mode}-viewport.png`});
+  }
+  assert.ok(diversity > 20, `rendered cover has ${diversity} colours`);
   await action('close-dialog'); await action('save');
   await page.waitForFunction(() => window.__tabletop.snapshot().revision === 1 && !document.querySelector('#save-scene').disabled);
   if (mode === 'server') await page.waitForFunction(async id => (await fetch(`api/tabletop/scenes/${id}/preview`)).ok, id);
@@ -110,7 +118,12 @@ test('older scenes get their own cover in the background after asynchronous mode
   await page.waitForFunction(() => !!window.__tabletop);
   const before = await page.evaluate(() => ({ scene: window.__tabletop.snapshot(), camera: window.__tabletop.camera() }));
   await page.locator('[data-action="open"]').click();
-  await page.waitForFunction(id => document.querySelector(`[data-open="${id}"] img`)?.naturalWidth === 480, scene.id);
+  await page.locator(`[data-open="${scene.id}"]`).scrollIntoViewIfNeeded();
+  try { await page.waitForFunction(id => document.querySelector(`[data-open="${id}"] img`)?.naturalWidth === 480, scene.id); }
+  catch(error) {
+    console.log('old cover queue',JSON.stringify(await page.evaluate(id=>({performance:__tabletop.performance(),notice:document.getElementById('notice').textContent,card:document.querySelector(`[data-open="${id}"]`)?.outerHTML,hiddenCanvases:document.querySelectorAll('[aria-hidden="true"] canvas').length}),scene.id),null,2));
+    throw error;
+  }
   assert.deepEqual(await page.evaluate(() => ({ scene: window.__tabletop.snapshot(), camera: window.__tabletop.camera() })), before);
   const colours = await page.locator(`[data-open="${scene.id}"] img`).evaluate(img => {
     const c = document.createElement('canvas'); c.width = 480; c.height = 270;
@@ -120,5 +133,7 @@ test('older scenes get their own cover in the background after asynchronous mode
   }); assert.ok(colours > 500, 'background capture contains the red floor of the saved scene');
   assert.deepEqual(await app.locals.storage.read('scenes', scene.id), scene);
   assert.equal((await app.locals.storage.preview('scenes', scene.id)).revision, 1);
-  assert.equal(await page.locator('[aria-hidden="true"] canvas').count(), 0, 'temporary renderer is disposed');
+  await page.locator('[data-action="close-dialog"]').click();
+  await page.waitForFunction(()=>document.querySelectorAll('[aria-hidden="true"] canvas').length===0);
+  assert.equal(await page.locator('[aria-hidden="true"] canvas').count(), 0, 'temporary renderer is disposed after gallery jobs are cancelled');
 });

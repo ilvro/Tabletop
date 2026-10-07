@@ -36,7 +36,7 @@ try {
   await page.addStyleTag({content:'#presentation-controls { visibility: hidden !important; }'});
   await page.waitForTimeout(2000);
   const canvas=page.locator('#viewport canvas');await canvas.screenshot({path:'test-results/mountain-example-reference.png'});
-  await canvas.screenshot({path:'public/scenes/snowy-mountain-pass.jpg',type:'jpeg',quality:87});
+  await canvas.screenshot({path:'test-results/mountain-example-preview.jpg',type:'jpeg',quality:87});
   const measurements=await page.evaluate(()=>{const s=window.__tabletop.stats();return {camera:window.__tabletop.camera(),stats:{objects:s.objects,calls:s.calls,triangles:s.triangles,textures:s.textures},atmosphere:s.atmosphere,assetDiagnostics:s.assetDiagnostics};});
   assert.deepEqual(measurements.assetDiagnostics,[]);
   assert.equal(measurements.atmosphere.weather,'snow');assert.equal(measurements.atmosphere.particles,2700);

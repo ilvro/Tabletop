@@ -224,12 +224,12 @@ dialog p { font-size: 12px; line-height: 1.65; color: #acb6b9; }
 .example-scenes h3, .example-scenes p { margin: 0; }
 .example-scene-card { display: flex; min-width: 0; width: 100%; gap: 14px; padding: 12px; text-align: left; background: #20272a; border: 1px solid #434d51; border-radius: 8px; color: #edf2f0; }
 .example-scene-card:hover { border-color: #91a89c; }
-.example-scene-card img { min-width: 0; max-width: 100%; width: 42%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 5px; align-self: center; }
-.example-scene-card > span { min-width: 0; display: grid; align-content: center; gap: 8px; }
+.example-scene-card .scene-thumbnail { min-width: 0; max-width: 100%; width: 42%; flex: 0 0 42%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 5px; align-self: center; }
+.example-scene-card > span:not(.scene-thumbnail) { min-width: 0; display: grid; align-content: center; gap: 8px; }
 .example-scene-card strong { font-size: 13px; }
 .example-scene-card small { font-size: 11px; color: #a7b7ba; line-height: 1.5; }
 .example-scene-card b { font-size: 11px; color: #e4c38e; }
-@media (max-width: 520px) { .example-scene-card { flex-direction: column; } .example-scene-card img { width: 100%; } }
+@media (max-width: 520px) { .example-scene-card { flex-direction: column; } .example-scene-card .scene-thumbnail { width: 100%; flex: 0 0 auto; } }
 .presenting .app-shell { display: block; }
 .presenting .app-header, .presenting .sidebar, .presenting .inspector, .presenting .statusbar, .presenting .viewport-top, .presenting .viewport-bottom { display: none; }
 .presenting .workspace { height: 100dvh; }
