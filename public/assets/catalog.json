@@ -7078,6 +7078,609 @@
       ],
       "url": "/assets/models/church-banquet-setting.json",
       "previewUrl": "/assets/previews/church-banquet-setting.svg"
+    },
+    {
+      "id": "builtin-church-pitched-roof",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · cobertura de duas águas",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "reconstrução"
+      ],
+      "description": "Módulo de 5 m com intradorso inclinado, vão de 19,6 m e cumeeira a 4,84 m. Ocultar com a camada Coberturas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        19.61,
+        5
+      ],
+      "bounds": [
+        19.6,
+        4.84,
+        5
+      ],
+      "url": "/assets/models/church-pitched-roof.json",
+      "previewUrl": "/assets/previews/church-pitched-roof.svg"
+    },
+    {
+      "id": "builtin-church-timber-truss",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · tesoura e mísulas da nave",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "reconstrução"
+      ],
+      "description": "Tesoura aparente de madeira com escoras laterais; mantém o centro da nave aberto.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        18.93,
+        5
+      ],
+      "bounds": [
+        18.925,
+        4.686,
+        5
+      ],
+      "url": "/assets/models/church-timber-truss.json",
+      "previewUrl": "/assets/previews/church-timber-truss.svg"
+    },
+    {
+      "id": "builtin-church-pitched-gable",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · empena triangular do templo",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "reconstrução"
+      ],
+      "description": "Fechamento triangular para a cobertura de duas águas, com moldura inclinada.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        19.7,
+        0.5
+      ],
+      "bounds": [
+        19.697,
+        4.84,
+        0.5
+      ],
+      "url": "/assets/models/church-pitched-gable.json",
+      "previewUrl": "/assets/previews/church-pitched-gable.svg"
+    },
+    {
+      "id": "builtin-church-tracery-window",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · vitral rubro de losangos e rosáceas",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "reconstrução"
+      ],
+      "description": "Vitral ogival com rede de chumbo, lancetas, losangos e rosáceas em geometria; escala do vão do kit original.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.28,
+        0.35
+      ],
+      "bounds": [
+        2.28,
+        4.375,
+        0.346
+      ],
+      "url": "/assets/models/church-tracery-window.json",
+      "previewUrl": "/assets/previews/church-tracery-window.svg"
+    },
+    {
+      "id": "builtin-church-altar-retable",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · retábulo monumental vazio",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "reconstrução"
+      ],
+      "description": "Moldura de pedra envelhecida para a estátua e cruz, aberta ao centro, com 10,55 m de altura.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        10.31,
+        1
+      ],
+      "bounds": [
+        10.3,
+        10.55,
+        1
+      ],
+      "url": "/assets/models/church-altar-retable.json",
+      "previewUrl": "/assets/previews/church-altar-retable.svg"
+    },
+    {
+      "id": "builtin-church-ravine-tree",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · árvore retorcida do desfiladeiro",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "reconstrução"
+      ],
+      "description": "Árvore seca de 8 m, tronco tortuoso e ramificação assimétrica, sem folhagem.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        6.86,
+        6.49
+      ],
+      "bounds": [
+        6.853,
+        9.622,
+        6.486
+      ],
+      "url": "/assets/models/church-ravine-tree.json",
+      "previewUrl": "/assets/previews/church-ravine-tree.svg"
+    },
+    {
+      "id": "builtin-church-seraph-effigy",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · efígie decapitada do altar",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "reconstrução"
+      ],
+      "description": "Figura monumental de 7,7 m com vestes em pregas, braços estendidos, asas fragmentadas e pescoço sem cabeça. Interpretação da silhueta das referências.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        9.81,
+        1.5
+      ],
+      "bounds": [
+        9.8,
+        7.7,
+        1.5
+      ],
+      "url": "/assets/models/church-seraph-effigy.json",
+      "previewUrl": "/assets/previews/church-seraph-effigy.svg"
+    },
+    {
+      "id": "builtin-church-spiked-reliquary",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Igreja · Dama de Ferro com aros espinhados",
+      "category": "Arquitetura / Igreja antiga",
+      "era": "Início do século XX",
+      "contexts": [
+        "Igreja",
+        "Horror gótico"
+      ],
+      "tags": [
+        "igreja antiga",
+        "kit gótico",
+        "reconstrução"
+      ],
+      "description": "Relicário aberto com quatro aros, espinhos radiais e medalhão rubro no halo.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.13,
+        2.05
+      ],
+      "bounds": [
+        2.126,
+        3.33,
+        2.041
+      ],
+      "url": "/assets/models/church-spiked-reliquary.json",
+      "previewUrl": "/assets/previews/church-spiked-reliquary.svg"
+    },
+    {
+      "id": "builtin-house-roof",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Casa · telhado de duas águas",
+      "category": "Casa / Complementos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Casa",
+        "Vila"
+      ],
+      "tags": [
+        "casa de bairro",
+        "residencial",
+        "roof"
+      ],
+      "description": "Cobertura de 13 × 16 m, cumeeira, fiadas e empenas. Ocultar a camada Coberturas para jogar em planta.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        13.11,
+        16.04
+      ],
+      "bounds": [
+        13.1,
+        2.65,
+        16.035
+      ],
+      "url": "/assets/models/house-roof.json",
+      "previewUrl": "/assets/previews/house-roof.svg"
+    },
+    {
+      "id": "builtin-house-range",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Fogão doméstico de quatro bocas",
+      "category": "Casa / Complementos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Casa",
+        "Vila"
+      ],
+      "tags": [
+        "casa de bairro",
+        "residencial",
+        "range"
+      ],
+      "description": "Fogão esmaltado com forno, grelhas e quatro queimadores.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.67,
+        0.73
+      ],
+      "bounds": [
+        0.66,
+        0.906,
+        0.725
+      ],
+      "url": "/assets/models/house-range.json",
+      "previewUrl": "/assets/previews/house-range.svg"
+    },
+    {
+      "id": "builtin-house-washer",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Máquina de lavar frontal",
+      "category": "Casa / Complementos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Casa",
+        "Vila"
+      ],
+      "tags": [
+        "casa de bairro",
+        "residencial",
+        "washer"
+      ],
+      "description": "Lavadora com escotilha e painel, tampo utilizável.",
+      "supportHeight": 0.9100000023841858,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.68,
+        0.72
+      ],
+      "bounds": [
+        0.67,
+        0.91,
+        0.718
+      ],
+      "url": "/assets/models/house-washer.json",
+      "previewUrl": "/assets/previews/house-washer.svg"
+    },
+    {
+      "id": "builtin-house-counter",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Balcão de cozinha com armário",
+      "category": "Casa / Complementos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Casa",
+        "Vila"
+      ],
+      "tags": [
+        "casa de bairro",
+        "residencial",
+        "counter"
+      ],
+      "description": "Armário baixo verde com bancada de pedra clara.",
+      "supportHeight": 0.8799999991059304,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.26,
+        0.7
+      ],
+      "bounds": [
+        1.26,
+        0.88,
+        0.69
+      ],
+      "url": "/assets/models/house-counter.json",
+      "previewUrl": "/assets/previews/house-counter.svg"
+    },
+    {
+      "id": "builtin-house-plant",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Vaso de folhagem",
+      "category": "Casa / Complementos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Casa",
+        "Vila"
+      ],
+      "tags": [
+        "casa de bairro",
+        "residencial",
+        "plant"
+      ],
+      "description": "Vaso de barro com folhas alongadas; decoração de interiores e jardins.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.76,
+        0.76
+      ],
+      "bounds": [
+        0.753,
+        1.347,
+        0.755
+      ],
+      "url": "/assets/models/house-plant.json",
+      "previewUrl": "/assets/previews/house-plant.svg"
+    },
+    {
+      "id": "builtin-house-ceiling-lamp",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Plafon de vidro leitoso",
+      "category": "Casa / Complementos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Casa",
+        "Vila"
+      ],
+      "tags": [
+        "casa de bairro",
+        "residencial",
+        "ceiling-lamp"
+      ],
+      "description": "Plafon baixo. Associe uma fonte abaixo da lente para iluminar o cômodo.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.55,
+        0.55
+      ],
+      "bounds": [
+        0.54,
+        0.117,
+        0.54
+      ],
+      "url": "/assets/models/house-ceiling-lamp.json",
+      "previewUrl": "/assets/previews/house-ceiling-lamp.svg"
+    },
+    {
+      "id": "builtin-house-curtain",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cortinas abertas de algodão",
+      "category": "Casa / Complementos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Casa",
+        "Vila"
+      ],
+      "tags": [
+        "casa de bairro",
+        "residencial",
+        "curtain"
+      ],
+      "description": "Par de cortinas abertas com pregas e varão; vão central livre.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.12,
+        0.12
+      ],
+      "bounds": [
+        2.12,
+        1.733,
+        0.114
+      ],
+      "url": "/assets/models/house-curtain.json",
+      "previewUrl": "/assets/previews/house-curtain.svg"
+    },
+    {
+      "id": "builtin-house-place-setting",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Prato, copo e talheres",
+      "category": "Casa / Complementos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Casa",
+        "Vila"
+      ],
+      "tags": [
+        "casa de bairro",
+        "residencial",
+        "place-setting"
+      ],
+      "description": "Louça cotidiana sem conteúdo narrativo, para mesas e bancadas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.42,
+        0.33
+      ],
+      "bounds": [
+        0.419,
+        0.11,
+        0.33
+      ],
+      "url": "/assets/models/house-place-setting.json",
+      "previewUrl": "/assets/previews/house-place-setting.svg"
+    },
+    {
+      "id": "builtin-house-tile-floor",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Piso cerâmico · módulo de 5 m",
+      "category": "Casa / Complementos",
+      "era": "Contemporânea",
+      "contexts": [
+        "Casa",
+        "Vila"
+      ],
+      "tags": [
+        "casa de bairro",
+        "residencial",
+        "tile-floor"
+      ],
+      "description": "Placas quadradas com juntas reais; escale o módulo ao tamanho do cômodo.",
+      "supportHeight": 0.014999999944120646,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        5,
+        5
+      ],
+      "bounds": [
+        5,
+        0.015,
+        5
+      ],
+      "url": "/assets/models/house-tile-floor.json",
+      "previewUrl": "/assets/previews/house-tile-floor.svg"
+    },
+    {
+      "id": "builtin-backrooms-wallpaper",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Backrooms · papel de parede e rodapé",
+      "category": "Arquitetura / Backrooms",
+      "era": "Contemporânea",
+      "contexts": [
+        "Backrooms",
+        "Escritório"
+      ],
+      "tags": [
+        "backrooms",
+        "liminal",
+        "wallpaper"
+      ],
+      "description": "Padrão de losangos nas duas faces de uma parede de 3 × 2,8 m e espessura de 20 cm. Não fecha vãos por conta própria.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3,
+        0.25
+      ],
+      "bounds": [
+        3,
+        2.797,
+        0.245
+      ],
+      "url": "/assets/models/backrooms-wallpaper.json",
+      "previewUrl": "/assets/previews/backrooms-wallpaper.svg"
+    },
+    {
+      "id": "builtin-backrooms-ceiling",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Backrooms · forro modular de 3 m",
+      "category": "Arquitetura / Backrooms",
+      "era": "Contemporânea",
+      "contexts": [
+        "Backrooms",
+        "Escritório"
+      ],
+      "tags": [
+        "backrooms",
+        "liminal",
+        "ceiling"
+      ],
+      "description": "Placas acústicas com juntas reais, formando um forro baixo. Ocultar com a camada Coberturas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3,
+        3
+      ],
+      "bounds": [
+        3,
+        0.072,
+        3
+      ],
+      "url": "/assets/models/backrooms-ceiling.json",
+      "previewUrl": "/assets/previews/backrooms-ceiling.svg"
+    },
+    {
+      "id": "builtin-backrooms-fluorescent",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Backrooms · luminária fluorescente dupla",
+      "category": "Arquitetura / Backrooms",
+      "era": "Contemporânea",
+      "contexts": [
+        "Backrooms",
+        "Escritório"
+      ],
+      "tags": [
+        "backrooms",
+        "liminal",
+        "fluorescent"
+      ],
+      "description": "Calha com dois tubos luminosos. Fonte real vinculável abaixo das lâmpadas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.25,
+        0.48
+      ],
+      "bounds": [
+        1.24,
+        0.12,
+        0.48
+      ],
+      "url": "/assets/models/backrooms-fluorescent.json",
+      "previewUrl": "/assets/previews/backrooms-fluorescent.svg"
     }
   ]
 }

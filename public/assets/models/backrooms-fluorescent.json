@@ -1,0 +1,124 @@
+{
+  "name": "Backrooms · luminária fluorescente dupla",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "paper": {
+      "color": "#9b8950",
+      "roughness": 1
+    },
+    "trim": {
+      "color": "#776c43",
+      "roughness": 1
+    },
+    "tile": {
+      "color": "#d0ccb1",
+      "roughness": 1
+    },
+    "frame": {
+      "color": "#8a8974",
+      "roughness": 0.8
+    },
+    "tube": {
+      "color": "#fff6c4",
+      "emissive": "#fff5bb",
+      "emissiveIntensity": 1.2,
+      "roughness": 0.8
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.24,
+        0.08,
+        0.48
+      ],
+      "position": [
+        0,
+        0.08000000037252915,
+        0
+      ],
+      "material": "frame"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.15,
+        0.025,
+        0.4
+      ],
+      "position": [
+        0,
+        0.03500000037252915,
+        0
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.025,
+      "radiusBottom": 0.025,
+      "height": 1.08,
+      "segments": 12,
+      "position": [
+        0,
+        0.025000000372529148,
+        -0.11
+      ],
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ],
+      "material": "tube"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.025,
+      "radiusBottom": 0.025,
+      "height": 1.08,
+      "segments": 12,
+      "position": [
+        0,
+        0.025000000372529148,
+        0.11
+      ],
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ],
+      "material": "tube"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.045,
+        0.085,
+        0.37
+      ],
+      "position": [
+        -0.57,
+        0.045000000372529145,
+        0
+      ],
+      "material": "frame"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.045,
+        0.085,
+        0.37
+      ],
+      "position": [
+        0.57,
+        0.045000000372529145,
+        0
+      ],
+      "material": "frame"
+    }
+  ],
+  "mergeParts": true
+}

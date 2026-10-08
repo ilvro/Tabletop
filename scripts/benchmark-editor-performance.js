@@ -1,13 +1,13 @@
 // Isolated real editor flow. All repository writes stay in a temporary directory/profile.
 // Build first; run separately from graphics tests. SwiftShader is not hardware FPS.
-import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, readFile, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { once } from 'node:events';
 import { chromium } from 'playwright';
 import { createApp } from '../server/app.js';
 
-const names=(process.argv.find(a=>a.startsWith('--scenes='))?.slice(9)??'lighting-chapel,snowy-mountain-pass,igreja-antiga').split(',');
+const names=(process.argv.find(a=>a.startsWith('--scenes='))?.slice(9)??'casa-de-bairro,snowy-mountain-pass,igreja-antiga').split(',');
 const output=process.argv.find(a=>a.startsWith('--out='))?.slice(6)??'test-results/performance-editor.json';
 const dataDir=await mkdtemp(path.join(os.tmpdir(),'tabletop-editor-performance-'));
 let server,browser;
@@ -21,7 +21,10 @@ try{
     page.setDefaultTimeout(180000);page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});page.on('dialog',d=>d.accept());
     try{
       await page.goto(`http://127.0.0.1:${server.address().port}/?diagnostics`);await page.waitForFunction(()=>!!window.__tabletop);
-      await page.locator('[data-action="open"]').first().click();await page.locator(`[data-open-example="${name}"]`).click();
+      if(name.startsWith('lighting-')) {
+        const fixture=await readFile(new URL(`../tests/fixtures/scenes/${name}.json`,import.meta.url));
+        await page.locator('#document-json-file').setInputFiles({name:name+'.json',mimeType:'application/json',buffer:fixture});
+      } else { await page.locator('[data-action="open"]').first().click();await page.locator(`[data-open-example="${name}"]`).click(); }
       await page.waitForFunction(()=>Object.keys(window.__tabletop.snapshot().layout.entities).length>0);await page.evaluate(()=>window.__tabletop.ready());
       await page.locator('[data-tab="scene"]').click();
       for(const withProjector of [false,true]){

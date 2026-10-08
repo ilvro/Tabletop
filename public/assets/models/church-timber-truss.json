@@ -1,0 +1,256 @@
+{
+  "name": "Igreja · tesoura e mísulas da nave",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "stone": {
+      "color": "#95806b",
+      "roughness": 0.96
+    },
+    "wood": {
+      "color": "#39251e",
+      "roughness": 0.9
+    },
+    "iron": {
+      "color": "#181418",
+      "metalness": 0.65,
+      "roughness": 0.7
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        10.336827366266693,
+        0.3
+      ],
+      "position": [
+        -4.7,
+        2.4000000476837164,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "woodPattern": "grain",
+        "textureSize": 2,
+        "textureColorMode": "replace",
+        "textureColor": "#35201c",
+        "relief": 0.018
+      },
+      "rotation": [
+        0,
+        0,
+        -1.1417669167498512
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        10.336827366266693,
+        0.3
+      ],
+      "position": [
+        4.7,
+        2.4000000476837164,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "woodPattern": "grain",
+        "textureSize": 2,
+        "textureColorMode": "replace",
+        "textureColor": "#35201c",
+        "relief": 0.018
+      },
+      "rotation": [
+        0,
+        0,
+        -1.9998257368399417
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        2.4,
+        0.3
+      ],
+      "position": [
+        -9.1,
+        1.2000000476837165,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "woodPattern": "grain",
+        "textureSize": 2,
+        "textureColorMode": "replace",
+        "textureColor": "#35201c",
+        "relief": 0.018
+      },
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.23,
+        3.4238136631539984,
+        0.23
+      ],
+      "position": [
+        -7.6,
+        0.9750000476837165,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "woodPattern": "grain",
+        "textureSize": 2,
+        "textureColorMode": "replace",
+        "textureColor": "#35201c",
+        "relief": 0.018
+      },
+      "rotation": [
+        0,
+        0,
+        -1.0679531158670361
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.7,
+        0.32,
+        0.85
+      ],
+      "position": [
+        -9.1,
+        0.16000004768371653,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        2.4,
+        0.3
+      ],
+      "position": [
+        9.1,
+        1.2000000476837165,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "woodPattern": "grain",
+        "textureSize": 2,
+        "textureColorMode": "replace",
+        "textureColor": "#35201c",
+        "relief": 0.018
+      },
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.23,
+        3.4238136631539984,
+        0.23
+      ],
+      "position": [
+        7.6,
+        0.9750000476837165,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "woodPattern": "grain",
+        "textureSize": 2,
+        "textureColorMode": "replace",
+        "textureColor": "#35201c",
+        "relief": 0.018
+      },
+      "rotation": [
+        0,
+        0,
+        1.0679531158670361
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.7,
+        0.32,
+        0.85
+      ],
+      "position": [
+        9.1,
+        0.16000004768371653,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.25,
+        5,
+        0.25
+      ],
+      "position": [
+        0,
+        4.450000047683717,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "woodPattern": "grain",
+        "textureSize": 2,
+        "textureColorMode": "replace",
+        "textureColor": "#35201c",
+        "relief": 0.018
+      },
+      "rotation": [
+        1.5707963267948963,
+        0,
+        0
+      ]
+    }
+  ],
+  "mergeParts": true
+}

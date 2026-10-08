@@ -1,0 +1,151 @@
+{
+  "name": "Balcão de cozinha com armário",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "ivory": {
+      "color": "#e7e0cf",
+      "roughness": 0.78
+    },
+    "green": {
+      "color": "#436958",
+      "roughness": 0.85
+    },
+    "wood": {
+      "color": "#815d3e",
+      "roughness": 0.85
+    },
+    "dark": {
+      "color": "#252e30",
+      "roughness": 0.6
+    },
+    "metal": {
+      "color": "#899491",
+      "roughness": 0.4,
+      "metalness": 0.6
+    },
+    "glass": {
+      "color": "#384e51",
+      "roughness": 0.25
+    },
+    "clay": {
+      "color": "#ad5f3d",
+      "roughness": 0.95
+    },
+    "leaf": {
+      "color": "#46663b",
+      "roughness": 1
+    },
+    "soil": {
+      "color": "#443529",
+      "roughness": 1
+    },
+    "light": {
+      "color": "#fff1cc",
+      "emissive": "#ffe1a2",
+      "emissiveIntensity": 0.5,
+      "roughness": 0.7
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.2,
+        0.82,
+        0.6
+      ],
+      "position": [
+        0,
+        0.4099999991059303,
+        -0.015000000596046448
+      ],
+      "material": "green"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.26,
+        0.06,
+        0.66
+      ],
+      "position": [
+        0,
+        0.8499999991059304,
+        -0.015000000596046448
+      ],
+      "material": "ivory"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.57,
+        0.69,
+        0.025
+      ],
+      "position": [
+        -0.3,
+        0.42999999910593034,
+        0.29999999940395355
+      ],
+      "material": "green"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.16,
+        0.04
+      ],
+      "position": [
+        -0.09999999999999998,
+        0.5599999991059303,
+        0.3249999994039536
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.57,
+        0.69,
+        0.025
+      ],
+      "position": [
+        0.3,
+        0.42999999910593034,
+        0.29999999940395355
+      ],
+      "material": "green"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.025,
+        0.16,
+        0.04
+      ],
+      "position": [
+        0.09999999999999998,
+        0.5599999991059303,
+        0.3249999994039536
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.12,
+        0.08,
+        0.5
+      ],
+      "position": [
+        0,
+        0.03999999910593035,
+        -0.015000000596046448
+      ],
+      "material": "dark"
+    }
+  ],
+  "mergeParts": true
+}

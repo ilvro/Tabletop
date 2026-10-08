@@ -56,7 +56,7 @@ test('church kit renders all silhouettes and original surfaces, isolates overrid
   for (const item of result.captures) await writeFile(`test-results/${item.id}.png`, Buffer.from(item.image.split(',')[1], 'base64'));
   await page.screenshot({ path: 'test-results/church-kit-sheet.png', fullPage: true });
   // Double-sided translucent glass uses two passes for each glass material.
-  assert.deepEqual(errors, []); assert.equal(result.stats.length, 22); assert.ok(result.stats.every(s => s.calls <= 6 && s.triangles < 18000), JSON.stringify(result.stats)); assert.deepEqual(result.end, result.baseline);
+  assert.deepEqual(errors, []); assert.equal(result.stats.length, 30); assert.ok(result.stats.every(s => s.calls <= 6 && s.triangles < 18000), JSON.stringify(result.stats)); assert.deepEqual(result.end, result.baseline);
   console.log(JSON.stringify({ models: result.stats.length, maxCalls: Math.max(...result.stats.map(s => s.calls)), maxTriangles: Math.max(...result.stats.map(s => s.triangles)), released: result.end }));
 });
 
@@ -84,7 +84,9 @@ for (const mode of ['server', 'pages']) test(`church assets are searchable, plac
   const select = async id => { await page.locator('[data-tab="scene"]').click(); await (await reveal(page.locator(`[data-select="${id}"]`))).click(); };
   await select(floor.id); await action('top'); await action('frame');
   await page.locator('[data-tab="assets"]').click(); await page.getByLabel('Buscar assets', { exact: true }).fill('igreja antiga');
-  assert.equal(await page.locator('[data-asset]').count(), 22);
+  assert.equal(await page.locator('[data-asset]').count(), 24);
+  await (await reveal(page.locator('[data-library-more]'))).click();
+  assert.equal(await page.locator('[data-asset]').count(), 30);
   await page.locator('[data-asset="builtin-church-pointed-arch"]').click(); await page.waitForFunction(() => !document.getElementById('assets-dialog').open);
   const point = await page.evaluate(() => window.__tabletop.project([0, 0, 22])); assert.ok(point.visible); await page.mouse.click(point.x, point.y); await page.locator('#viewport canvas').focus(); await page.keyboard.press('Escape');
   await page.waitForFunction(() => Object.values(window.__tabletop.snapshot().layout.entities).filter(e => e.assetRef?.id === 'builtin-church-pointed-arch').length === 2);

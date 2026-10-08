@@ -4,6 +4,8 @@ Análise em 6 de outubro de 2026. Referência solicitada: [Igreja Antiga — Ord
 
 **Atualização de 7 de outubro:** a [cena completa da igreja e do vale](IGREJA_ANTIGA_CENA.md) foi montada com o kit, desgaste e iluminação dinâmica. Este documento conserva a análise de referência; as medidas e ligações não mostradas são adaptações de autoria.
 
+**Revisão visual posterior em 7 de outubro:** a nova cena foi reconstruída pelas sete imagens anexadas, com cobertura de duas águas, novos vitrais, efígie, relicário e árvores. A leitura anterior de uma abóbada inteiramente ogival não foi mantida na nave. A descrição abaixo documenta a análise inicial; o estado atual está em [Igreja Antiga — cena](IGREJA_ANTIGA_CENA.md).
+
 ## Alcance da análise
 
 O texto completo da página foi recuperado pela API pública da wiki, incluindo descrição, histórico e identificação da galeria. Foram identificados **18 arquivos de imagem**: a imagem principal, 16 vistas numeradas do modelo e uma arte conceitual externa. Os arquivos e seus endereços estão no [inventário de referências](references/igreja-antiga-gallery.json).

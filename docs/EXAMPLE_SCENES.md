@@ -1,10 +1,20 @@
 # Cenas de exemplo
 
-Atualizado em 7 de outubro de 2026. As capas dos exemplos agora são geradas dinamicamente, sem JPGs distribuídos. O exemplo de montanha foi reconstruído integralmente com rocha/neve orgânicas, vegetação densa, objetos detalhados e tempestade. A composição substitui a versão rejeitada; continua editável e não representa uma declaração de paridade visual com a referência.
+Atualizado em 8 de outubro de 2026. As capas dos exemplos agora são geradas dinamicamente, sem JPGs distribuídos. O exemplo de montanha foi reconstruído integralmente com rocha/neve orgânicas, vegetação densa, objetos detalhados e tempestade. A composição substitui a versão rejeitada; continua editável e não representa uma declaração de paridade visual com a referência.
+
+## Backrooms
+
+**Abrir → Cenas → Cenas de exemplo → Backrooms · corredores e salas esquecidas** abre um pavimento de 36 × 30 m com corredores interligados e oito setores: salão de pilares, escritório vazio, reunião, arquivo, sala sem luz, divisórias, manutenção e espera. São 436 elementos, cinco câmeras, papel de parede amarelo, carpete e fluorescentes. Oculte **10 · Coberturas** para a planta. [Uso e montagem](BACKROOMS.md).
+
+## Casa de bairro
+
+**Abrir → Cenas → Cenas de exemplo → Casa de bairro · jardim e quintal** abre o piloto residencial do plano: lote de 24 × 30 m, dois quartos, sala/jantar, cozinha, banheiro, lavanderia, garagem e quintal. São 171 elementos editáveis e cinco câmeras. Para a planta, oculte **10 · Coberturas**. [Planta, uso e geração](CASA_DE_BAIRRO.md).
+
+A galeria contém agora Backrooms, Casa de bairro, Igreja Antiga e Subida da montanha. **Passagem de Inverno · Ponte e Névoa** foi removida, e os quatro estudos de iluminação foram transferidos para fixtures de desenvolvimento. Cópias pessoais já salvas não são alteradas.
 
 ## Igreja Antiga
 
-**Abrir → Cenas → Cenas de exemplo → Igreja Antiga · templo e vale dos vampiros** cria uma cópia editável do templo completo e seu exterior: 379 elementos, dez câmeras, galerias/escadas, banquete/ritual, sala de correntes e vale rochoso violeta. Para a planta, oculte a pasta **11 · Coberturas**. [Montagem, medidas, câmeras e limites](IGREJA_ANTIGA_CENA.md). Geradores: `scripts/generate-church-scene.js` e `scripts/preview-church-scene.js`.
+**Abrir → Cenas → Cenas de exemplo → Igreja Antiga · templo e vale dos vampiros** cria uma cópia editável do templo completo e seu exterior: 423 elementos, dez câmeras, galerias/escadas, banquete/ritual, sala de correntes e vale rochoso violeta. Para a planta, oculte a pasta **11 · Coberturas**. [Montagem, medidas, câmeras e limites](IGREJA_ANTIGA_CENA.md). Geradores: `scripts/generate-church-scene.js` e `scripts/preview-church-scene.js`.
 
 ## Carregar e editar
 
@@ -70,9 +80,9 @@ São capturas JPEG de 480 × 270 pixels. As imagens são dados derivados, guarda
 
 Os exemplos distribuídos também geram suas capas automaticamente a partir do JSON, pelo mesmo renderizador. Os cartões visíveis entram na fila compartilhada, sem aguardar a imagem para permitir carregar a cena. Um cache derivado IndexedDB, separado da biblioteca pessoal e limitado a 32 imagens, evita repetir a renderização após recarregar; alterações no conteúdo ou nas revisões dos assets invalidam a capa. Falha no cache não impede abrir a cena. Não há JPGs de capas em `public/scenes/` nem seleção de imagem pelo usuário. As cópias abertas e editadas recebem suas próprias capturas.
 
-O [plano de cenas padrão completas](DEFAULT_SCENES_PLAN.md) define oito novos locais jogáveis, revisão dos cenários existentes e a futura separação dos estudos técnicos na galeria. Os novos locais ainda não foram construídos.
+O [plano de cenas padrão completas](DEFAULT_SCENES_PLAN.md) define oito novos locais jogáveis, revisão dos cenários existentes e a separação dos estudos técnicos da galeria. Casa de bairro entregue; os outros sete novos locais continuam planejados.
 
 
 ## Estudos de iluminação
 
-A galeria oferece também **capela ritual**, **taverna acolhedora**, **escritório fluorescente** e **rua chuvosa**. São cenas comuns com perfis de fonte e zonas de ambiente editáveis, três enquadramentos cada e prévias capturadas no viewport. A capela é um recorte de estudo, sem reproduzir o mapa completo da Igreja Antiga. Animações começam pausadas. [Controles e limites](DYNAMIC_LIGHTING.md). Regeneração: `node scripts/lighting-examples.js`; prévias e métricas de reconciliação: `node scripts/render-lighting-examples.js`. Os exemplos de montanha anteriores permanecem intactos.
+**Capela ritual**, **taverna acolhedora**, **escritório fluorescente** e **rua chuvosa** estão em `tests/fixtures/scenes/`, fora da galeria e dos builds. As verificações automatizadas de iluminação continuam disponíveis. Regeneração: `node scripts/lighting-examples.js`; capturas e métricas: `node scripts/render-lighting-examples.js`. A auditoria de desempenho aceita essas fixtures por importação. [Controles e limites](DYNAMIC_LIGHTING.md).

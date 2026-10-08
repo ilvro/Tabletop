@@ -1,0 +1,396 @@
+{
+  "name": "Backrooms · forro modular de 3 m",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "paper": {
+      "color": "#9b8950",
+      "roughness": 1
+    },
+    "trim": {
+      "color": "#776c43",
+      "roughness": 1
+    },
+    "tile": {
+      "color": "#d0ccb1",
+      "roughness": 1
+    },
+    "frame": {
+      "color": "#8a8974",
+      "roughness": 0.8
+    },
+    "tube": {
+      "color": "#fff6c4",
+      "emissive": "#fff5bb",
+      "emissiveIntensity": 1.2,
+      "roughness": 0.8
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        3,
+        0.035,
+        3
+      ],
+      "position": [
+        0,
+        0.055000000372529036,
+        0
+      ],
+      "material": "frame"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        -1.2,
+        0.025000000372529037,
+        -1.2
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        -0.6,
+        0.025000000372529037,
+        -1.2
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        0,
+        0.025000000372529037,
+        -1.2
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        0.6,
+        0.025000000372529037,
+        -1.2
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        1.2,
+        0.025000000372529037,
+        -1.2
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        -1.2,
+        0.025000000372529037,
+        -0.6
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        -0.6,
+        0.025000000372529037,
+        -0.6
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        0,
+        0.025000000372529037,
+        -0.6
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        0.6,
+        0.025000000372529037,
+        -0.6
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        1.2,
+        0.025000000372529037,
+        -0.6
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        -1.2,
+        0.025000000372529037,
+        0
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        -0.6,
+        0.025000000372529037,
+        0
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        0,
+        0.025000000372529037,
+        0
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        0.6,
+        0.025000000372529037,
+        0
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        1.2,
+        0.025000000372529037,
+        0
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        -1.2,
+        0.025000000372529037,
+        0.6
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        -0.6,
+        0.025000000372529037,
+        0.6
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        0,
+        0.025000000372529037,
+        0.6
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        0.6,
+        0.025000000372529037,
+        0.6
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        1.2,
+        0.025000000372529037,
+        0.6
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        -1.2,
+        0.025000000372529037,
+        1.2
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        -0.6,
+        0.025000000372529037,
+        1.2
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        0,
+        0.025000000372529037,
+        1.2
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        0.6,
+        0.025000000372529037,
+        1.2
+      ],
+      "material": "tile"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.587,
+        0.05,
+        0.587
+      ],
+      "position": [
+        1.2,
+        0.025000000372529037,
+        1.2
+      ],
+      "material": "tile"
+    }
+  ],
+  "mergeParts": true
+}

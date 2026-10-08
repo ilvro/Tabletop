@@ -84,3 +84,5 @@ As novas regressões cobrem compartilhamento/imutabilidade e 150 undo/redo, atom
 ## Reversão
 
 Não há migração de cenas/mapas/ambientes. O índice do servidor pode ser apagado com o serviço parado e será reconstruído. Para reverter apenas a UI/renderer, conservar a versão 2 do banco e a leitura das stores existentes; um navegador rejeita abrir um banco 2 explicitamente como versão 1. Exportação de JSON, backups e dados autoritativos não dependem dos índices auxiliares. Reverter as mudanças de runtime por arquivo/commit deve preservar os trabalhos anteriores e as cenas pessoais.
+
+Em 8 de outubro, os estudos de iluminação passaram a `tests/fixtures/scenes/`. A auditoria isolada lê os novos caminhos; o benchmark do editor importa a fixture pela interface quando `--scenes` contém `lighting-*`. Seu conjunto padrão agora usa casa, montanha e igreja.

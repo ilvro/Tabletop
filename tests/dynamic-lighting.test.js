@@ -93,5 +93,5 @@ test('sun/moon shadows fit the useful view, preserve direction and ignore sub-te
 });
 
 test('four lighting studies are reproducible ordinary editable documents with local profiles and zones',async()=>{
-  const {assets}=JSON.parse(await readFile('public/assets/catalog.json','utf8'));for(const item of LIGHTING_EXAMPLES){const expected=JSON.parse(await readFile(`public/scenes/${item.id}.json`,'utf8')),actual=createLightingExample(assets,item.style);assert.deepEqual(actual,expected);validateDocument(actual);assert.equal(Object.keys(actual.cameraPresets).length,3);assert.ok(Object.values(actual.layout.entities).some(e=>e.illumination));assert.ok(Object.values(actual.layout.entities).some(e=>e.lightingZone));assert.ok(Object.values(actual.layout.entities).every(e=>!e.locked));}
+  const {assets}=JSON.parse(await readFile('public/assets/catalog.json','utf8'));for(const item of LIGHTING_EXAMPLES){const expected=JSON.parse(await readFile(`tests/fixtures/scenes/${item.id}.json`,'utf8')),actual=createLightingExample(assets,item.style);assert.deepEqual(actual,expected);validateDocument(actual);assert.equal(Object.keys(actual.cameraPresets).length,3);assert.ok(Object.values(actual.layout.entities).some(e=>e.illumination));assert.ok(Object.values(actual.layout.entities).some(e=>e.lightingZone));assert.ok(Object.values(actual.layout.entities).every(e=>!e.locked));}
 });

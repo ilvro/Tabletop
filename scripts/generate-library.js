@@ -11,6 +11,9 @@ import {addOrganicRocks} from './library-organic-rocks.js';
 import {addWinterDetail} from './library-winter-detail.js';
 import { addChurchKit } from './library-church-kit.js';
 import { addChurchSceneComplements } from './library-church-scene.js';
+import {addChurchReconstruction} from './library-church-reconstruction.js';
+import {addResidentialLibrary} from './library-residential.js';
+import {addBackroomsLibrary} from './library-backrooms.js';
 import {rasterThumbnail} from './recipe-thumbnail.js';
 
 const materials = {
@@ -114,7 +117,10 @@ for(const id of addOrganicRocks({add,timeless}))alpineIds.add(id);
 const detailIds=addWinterDetail({add,timeless,ancient});for(const id of detailIds)alpineIds.add(id);
 const churchIds = addChurchKit({ add, historic });
 for(const id of addChurchSceneComplements({add,historic}))churchIds.add(id);
+for(const id of addChurchReconstruction({add,historic,assets}))churchIds.add(id);
 for (const id of churchIds) { alpineIds.add(id); detailIds.add(id); }
+for (const id of addResidentialLibrary({add,modern})) { alpineIds.add(id); detailIds.add(id); }
+for (const id of addBackroomsLibrary({add,modern})) { alpineIds.add(id); detailIds.add(id); }
 
 function preview(object,raster=false) {
   object.updateMatrixWorld(true);

@@ -6,18 +6,15 @@ export const EXAMPLE_SCENES = Object.freeze([
   Object.freeze({ id: 'snowy-mountain-pass', name: 'Subida da montanha · caverna e ruínas',
     description: 'Encosta esculpida com rochas orgânicas, caverna lateral, ponte, ruínas, abetos densos e tempestade de neve. Cópia totalmente editável.',
     file: 'scenes/snowy-mountain-pass.json' }),
-  Object.freeze({ id: 'icewind-bridge', name: 'Passagem de Inverno · Ponte e Névoa',
-    description: 'Um vale nevado e escuro com uma ponte gigantesca ao fundo e uma torre em ruínas.',
-    file: 'scenes/icewind-bridge.json' }),
+  Object.freeze({id:'backrooms',name:'Backrooms · corredores e salas esquecidas',
+    description:'Labirinto amarelo com corredores interligados, oito setores, pilares, arquivo, manutenção, fluorescentes e teto ocultável. Cinco câmeras e cópia editável.',
+    file:'scenes/backrooms.json'}),
+  Object.freeze({ id:'casa-de-bairro',name:'Casa de bairro · jardim e quintal',
+    description:'Casa térrea mobiliada: sala e jantar, dois quartos, cozinha, banheiro, lavanderia, garagem e quintal. Portas funcionais, cobertura ocultável e cinco câmeras.',
+    file:'scenes/casa-de-bairro.json' }),
   Object.freeze({ id:'igreja-antiga',name:'Igreja Antiga · templo e vale dos vampiros',
     description:'Igreja completa com banquete, conjunto ritual, galerias, sala de correntes, torre, cobertura e caminho pelo vale violeta. Dez câmeras e cópia totalmente editável.',
     file:'scenes/igreja-antiga.json' }),
-  ...[
-    ['lighting-chapel','Iluminação · capela ritual','Nave vermelha e exterior violeta, vitrais projetados, candelabros e névoa local.'],
-    ['lighting-tavern','Iluminação · taverna acolhedora','Velas agrupadas, lâmpadas quentes, madeira e sombras editáveis.'],
-    ['lighting-office','Iluminação · escritório fluorescente','Spots frios sem cintilação, zonas e circulação legível.'],
-    ['lighting-street','Iluminação · rua chuvosa','Postes com sombras, asfalto úmido, névoa e chuva.'],
-  ].map(([id,name,description])=>Object.freeze({id,name,description,file:`scenes/${id}.json`})),
 ]);
 
 export async function readExampleScene(exampleId, { fetcher = globalThis.fetch, signal } = {}) {

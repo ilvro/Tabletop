@@ -1,6 +1,34 @@
 # Tabletop — andamento
 
-Atualizado em 7 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 8 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+
+## Backrooms — concluídas (8 de outubro)
+
+Labirinto de 36 × 30 m com oito setores, corredores conectados, rotas alternativas, teto modular e fluorescentes. Gerador determinístico, 436 entidades e três modelos próprios implementados (catálogo de 244). Quatro testes direcionados passaram: conectividade, vãos reais, pisos, receitas e projeção sem teto. Cinco vistas revisadas, 228 testes de domínio/integração e builds local/Pages aprovados. Dois fluxos E2E completos aprovados em servidor/Pages: galeria, edição de luz sem recriar recursos, histórico, teto, câmera independente do projetor, salvar/reabrir e nova cópia do original.
+
+Evidências: `test-results/backrooms-unit.log` (quatro), `backrooms-all-unit.log` (228), `backrooms-build{,-pages}.log`, `backrooms-e2e.log` (dois) e capturas `backrooms-view-*.png`. Os primeiros testes detectaram uma divisória atravessando o vão; ela foi reposicionada. O teste de projeção foi ajustado para verificar a exclusão correta do teto oculto. Sem alteração do renderizador, cenas pessoais ou publicação automática de câmera. E2E geral não repetido; capturas em SwiftShader não medem desempenho em GPU física. [Uso e montagem](docs/BACKROOMS.md).
+
+## Casa de bairro e revisão da galeria — concluídas (8 de outubro)
+
+Escolhido o piloto do plano: lote 24 × 30 m com casa térrea mobiliada, dois quartos, sala/jantar, cozinha, banheiro, lavanderia, garagem e quintal. Cena com 171 entidades, nove complementos residenciais (catálogo de 241) e cinco câmeras. Revisão visual das cinco câmeras concluída, 224 testes de domínio/integração e builds local/Pages aprovados. Dois E2E completos aprovados (servidor e Pages): galeria, edição de luz sem recriar recursos, histórico, cobertura, câmeras independentes, salvamento/reabertura e nova cópia do original. Passagem de Inverno removida e quatro estudos de luz transferidos para fixtures de desenvolvimento. Cópias pessoais preservadas.
+
+Rotas de 70 cm amostradas em duas alturas por raycast, incluindo paredes, folhas e mobiliário. Corrigidas interferências nas portas da sala, lavanderia e garagem; cobertura manual documentada. Estudos técnicos movidos sem alteração de conteúdo; ferramentas de auditoria adaptadas, gerador antigo da ponte e seus patchers removidos. [Uso e montagem](docs/CASA_DE_BAIRRO.md).
+
+Evidências: `test-results/house-all-unit.log` (224), `house-unit.log` (quatro testes direcionados finais), `house-lighting-fixtures.log` (dez), `house-e2e-final.log` (dois), `house-build{,-pages}.log`, `house-preview*.log`, `house-view-*.png` e `house-{exterior,editor,plan}-{server,pages}.png`. A primeira execução gráfica encontrou uma chamada inexistente de `ready()` na API de diagnóstico do projetor; o roteiro foi corrigido para aguardar os modelos pelos diagnósticos disponíveis e ambos os fluxos passaram. Auditoria CPU com fixtures relocadas concluída em `house-fixture-audit.json`. Suíte E2E geral e desempenho em GPU física não medidos nesta entrega.
+
+## Nitidez da Igreja Antiga — corrigida (8 de outubro)
+
+Alvenaria de blocos restaurada em paredes, pilares, arcadas, balcões e empenas; piso voltou a um padrão menor. Desgaste reduzido/concentrado na base. Bloom reduzido de 0,30 para 0,10, raio 0,15 e limiar 1,35; preenchimento da nave aumentado e névoa interna reduzida à metade. Nave centralizada com FOV 60°, câmeras internas de detalhe também menos abertas. Cena regenerada. Testes direcionados do kit/cena e builds local/Pages aprovados. Quatro capturas internas conferidas no renderizador real, sem erros de assets; edição de luz preserva os recursos. Logs `test-results/church-clarity-{unit,build,build-pages,preview}.log`; capturas `church-view-04.png` a `church-view-07.png`. A suíte E2E completa não foi repetida nesta correção de acabamento.
+
+## Reconstrução visual da Igreja Antiga — concluída (7 de outubro)
+
+Reconstrução visual da Igreja Antiga entregue em 7 de outubro: 423 elementos editáveis, dez câmeras, oito modelos novos (kit com 30; catálogo com 232). Cobertura de duas águas/tesouras, vitrais com chumbo nas duas faces, retábulo e efígie monumentais, relicário espinhado, árvores ramificadas, materiais envelhecidos e banquete deslocado. Carregar novamente em Abrir → Cenas → Cenas de exemplo → Igreja Antiga; cópias pessoais preservadas. 220 testes de domínio/integração e builds local/Pages aprovados; fluxos da cena completa aprovados no servidor e Pages. Três E2E do kit aprovados após correções, completando cinco E2E afetados aprovados por suíte; dez testes direcionados repetidos após os ajustes finais também passaram. Acabamento original procedural, sem equivalência aos modelos oficiais; cobertura manual e desempenho presencial continuam como limites.
+
+Revisão visual das dez câmeras no viewport real concluída; capturas finais de exterior, fachada e nave conferidas após ajustar lua, preenchimento e prioridade das velas. Enquadramento da sala de correntes afastado da folha da porta. Novas receitas em `scripts/library-church-reconstruction.js`; cena determinística em `public/scenes/igreja-antiga.json`. Kit anterior e cenas pessoais preservados.
+
+Primeira execução gráfica: cena completa aprovada em servidor/Pages; três testes do kit encontraram paginação (24 itens iniciais) e uma chamada de material redundante no novo vitral. Teste usa agora “Mostrar mais assets”; chumbo interno/externo compartilha a mesma superfície. Repetição do render isolado aprovada: 30 modelos, máximo de seis chamadas e 11.532 triângulos por modelo, recursos descartados corretamente. Três E2E do kit aprovados na repetição. Sem alteração do renderizador ou do fluxo de publicação de câmera.
+
+Evidências: `test-results/church-reconstruction-unit.log` (220), `church-reconstruction-unit-final.log` (10 direcionados), `church-reconstruction-e2e-initial.log` (dois fluxos da cena aprovados; três falhas iniciais do kit documentadas), `church-reconstruction-kit-final.log` (três aprovações), builds `church-reconstruction-build{,-pages}.log` e capturas `church-view-*.png`. Suíte E2E geral não repetida; desempenho em GPU física não medido.
 
 ## Capas dinâmicas e plano de cenas padrão — concluídos (7 de outubro)
 

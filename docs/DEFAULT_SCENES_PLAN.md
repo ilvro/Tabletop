@@ -1,6 +1,6 @@
 # Plano de cenas padrão completas
 
-Proposta de 7 de outubro de 2026. Este documento planeja a produção de conteúdo; os novos cenários abaixo ainda não foram construídos. Referências: [arquitetura](ARCHITECTURE.md), [autoria](MAP_AUTHORING.md), [objetivo visual](VISUAL_TARGET.md), [iluminação](DYNAMIC_LIGHTING.md) e [desempenho](PERFORMANCE_PLAN.md).
+Proposta de 7 de outubro de 2026. Atualizado em 8 de outubro: o piloto **Casa de bairro** foi construído; os outros sete locais continuam planejados. [Entrega e uso](CASA_DE_BAIRRO.md). Referências: [arquitetura](ARCHITECTURE.md), [autoria](MAP_AUTHORING.md), [objetivo visual](VISUAL_TARGET.md), [iluminação](DYNAMIC_LIGHTING.md) e [desempenho](PERFORMANCE_PLAN.md).
 
 ## Objetivo
 
@@ -14,16 +14,16 @@ O catálogo inicial deve atender investigação e horror contemporâneo, com loc
 | --- | --- | --- |
 | Igreja Antiga | Cena extensa, com nave, anexos, galerias e exterior; cobertura manual e campanário cenográfico documentados. | Manter como cenário especial; revisar circulação, apoios, materiais e enquadramentos com a régua de aceitação abaixo. |
 | Subida da montanha | Trajeto completo com caverna, ponte e ruínas; limites de terreno/apoio documentados. | Manter como cenário natural; conferir rota de tokens e vistas de sessão. |
-| Passagem de Inverno | Composição exterior centrada em ponte e torre. | Avaliar o espaço efetivamente jogável e completar acessos antes de promovê-la a padrão. Evitar dois exemplos quase equivalentes como prioridade inicial. |
-| Capela, taverna, escritório e rua de iluminação | Estudos técnicos úteis para validar fontes, zonas e materiais; não representam locais completos. | Conservar como fixtures de desenvolvimento e, opcionalmente, em uma seção secundária de demonstrações. Não contar como cenas padrão prontas. |
+| Passagem de Inverno | Exemplo antigo de ponte e torre. | Removido da galeria e dos arquivos públicos em 8 de outubro, a pedido do usuário. Cópias pessoais preservadas. |
+| Capela, taverna, escritório e rua de iluminação | Estudos técnicos úteis para validar fontes, zonas e materiais; não representam locais completos. | Transferidos para `tests/fixtures/scenes/` em 8 de outubro; fora da galeria e dos builds. Testes e ferramentas de diagnóstico preservados. |
 
-A separação da galeria é uma etapa futura deste plano. A correção das capas já foi implementada: os exemplos usam seus JSONs e o renderizador do Tabletop, assim como cenas pessoais; não dependem de JPGs distribuídos.
+A separação da galeria foi concluída junto com a casa; a galeria inclui casa, igreja e montanha. Backrooms foi acrescentada posteriormente a pedido do usuário, como cena temática adicional ([uso](BACKROOMS.md)). A correção das capas já foi implementada: os exemplos usam seus JSONs e o renderizador do Tabletop, assim como cenas pessoais; não dependem de JPGs distribuídos.
 
 ## Primeira coleção
 
 | Prioridade / cena | Escopo da planta | Conteúdo obrigatório e possibilidades de sessão |
 | --- | --- | --- |
-| P1 · Casa de bairro | Lote aproximado de 24 × 30 m; térreo, quintal e garagem. | Sala, cozinha, banheiro, dois quartos, área de serviço, muros e entradas frontal/lateral. Mobiliário com uso coerente, circulação entre cômodos, cortinas e objetos pessoais. Investigação doméstica, busca e encontro social. |
+| P1 · Casa de bairro — entregue | Lote aproximado de 24 × 30 m; térreo, quintal e garagem. | Sala, cozinha, banheiro, dois quartos, área de serviço, muros e entradas frontal/lateral. Mobiliário com uso coerente, circulação entre cômodos, cortinas e objetos pessoais. Investigação doméstica, busca e encontro social. |
 | P1 · Escritório e arquivo | Andar de aproximadamente 26 × 20 m, com acesso comum. | Recepção, sala de trabalho, reunião, arquivo, copa e sanitários; mesas/cadeiras, armários, computadores e documentos como props. Corredores legíveis e duas rotas de circulação quando a planta permitir. Investigação e infiltração. Substitui o estudo fluorescente como exemplo de local completo. |
 | P1 · Armazém e doca | Lote de aproximadamente 36 × 30 m; galpão com pequeno escritório. | Carga/descarga, corredores entre estantes, estoque, escritório, sanitário e pátio; caixas/paletes/carrinho, portas de serviço e acesso de carga. Áreas abertas, cobertura visual e rotas alternativas. |
 | P2 · Bar ou taverna | Aproximadamente 22 × 18 m, mais acesso externo. | Salão, balcão, cozinha, depósito e sanitários; mesas em arranjo utilizável, louças, barris/garrafas e área de atendimento. Conversa, investigação e conflito sem mobiliário bloqueando todas as passagens. Tema contemporâneo inicial; variante histórica só se houver conteúdo próprio. |

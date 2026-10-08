@@ -33,17 +33,17 @@ export function createChurchScene(catalog) {
   const uuid=()=>`d4000000-0000-4000-8000-${String(sequence++).padStart(12,'0')}`;
   const random=()=>{randomState=(Math.imul(randomState,1664525)+1013904223)>>>0;return randomState/4294967296;};
   const scene=applyEnvironment(createScene(CHURCH.name),'ritual'),assets=new Map(catalog.map(a=>[a.id,a]));
-  Object.assign(scene,{id:uuid(),createdAt:'2026-10-07T12:00:00.000Z',updatedAt:'2026-10-07T12:00:00.000Z'});
+  Object.assign(scene,{id:uuid(),createdAt:'2026-10-07T12:00:00.000Z',updatedAt:'2026-10-08T12:00:00.000Z'});
   scene.layout.grid={...scene.layout.grid,cellSize:1.5,visible:false,snap:false};
   scene.look.effectsPaused=true;
-  scene.look.fill={skyColor:'#c09bd2',groundColor:'#49314b',intensity:.55};
+  scene.look.fill={skyColor:'#adb0dd',groundColor:'#272030',intensity:.4};
   scene.look.background='#362344';scene.look.daylight={phase:'night',exposure:1.12};
-  Object.assign(scene.look.sky,{enabled:true,topColor:'#24112f',horizonColor:'#89529f',cloudColor:'#ac81bf',cloudCoverage:.28,cloudOpacity:.19,discSize:.065,cloudSpeed:.008,seed:47});
+  Object.assign(scene.look.sky,{enabled:true,topColor:'#080f2d',horizonColor:'#8e639a',cloudColor:'#555d8e',cloudCoverage:.48,cloudOpacity:.32,discSize:.085,cloudSpeed:.008,seed:47});
   Object.assign(scene.look.fog,{enabled:true,mode:'linear',color:'#885c9e',near:85,far:255});
   Object.assign(scene.look.volumetricFog,{enabled:true,color:'#87518f',density:.017,baseHeight:-24,height:39,maxDistance:180});
-  Object.assign(scene.look.bloom,{enabled:true,strength:.18,radius:.35,threshold:1});
-  scene.look.rendering={reflections:true,reflectionIntensity:.2,ao:true,aoIntensity:.28,aoRadius:.55,volumetricLights:true,volumeStrength:.35,cutawayShadows:true};
-  const moon=createLight({id:uuid(),name:'Lua violeta sobre o vale',role:'key',type:'directional',position:[-20,60,-45],rotation:new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0),new THREE.Vector3(-.4,.55,-.75).normalize()).toArray(),color:'#cfb4e5',intensity:1.15,shadowEnabled:true});
+  Object.assign(scene.look.bloom,{enabled:true,strength:.1,radius:.15,threshold:1.35});
+  scene.look.rendering={reflections:true,reflectionIntensity:.2,ao:true,aoIntensity:.32,aoRadius:.55,volumetricLights:true,volumeStrength:.12,cutawayShadows:true};
+  const moon=createLight({id:uuid(),name:'Lua violeta sobre o vale',role:'key',type:'directional',position:[-20,60,-45],rotation:new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0),new THREE.Vector3(.47,.08,-.88).normalize()).toArray(),color:'#b6c4f2',intensity:.75,shadowEnabled:true});
   scene.look.lights={[moon.id]:moon};
   scene.layout.levels={};scene.layout.layers={};
   const organizational=(collection,name,extra={})=>{const id=uuid();scene.layout[collection][id]={id,name,visible:true,locked:false,audience:'all',...extra};return id;};
@@ -59,8 +59,8 @@ export function createChurchScene(catalog) {
     return add('prop',{name:a.name,assetRef:{id:a.id,revision:a.revision},footprint:a.footprint,...(a.supportHeight?{supportHeight:a.supportHeight}:{}),position,...options});
   };
   const wear=(seed,amount=.32,placement='base')=>({...wearDefaults('grime'),seed,amount,size:1.8,placement,color:'#3e3034'});
-  const stone={...surfacePatch('stone'),textureColorMode:'replace',textureColor:'#aaa09b',textureSize:1.5,textureBrightness:.85,textureContrast:.9,relief:.018,wear:wear(18,.3)};
-  const paving={...stone,textureColor:'#817779',textureSize:1.1,textureBrightness:.9,wear:wear(50,.22,'all')};
+  const stone={...surfacePatch('stone'),textureColorMode:'replace',textureColor:'#aaa09b',textureSize:1.5,textureBrightness:.85,textureContrast:1,relief:.025,wear:wear(18,.28,'base')};
+  const paving={...stone,textureColor:'#817779',textureSize:1.3,textureBrightness:.85,textureContrast:1,wear:wear(50,.22,'all')};
   const rock={...surfacePatch('rock'),rockPattern:'organic',textureColorMode:'replace',textureColor:'#66606c',textureSize:4,textureBrightness:.85,textureContrast:1.2,rockCracks:.82,relief:.035};
   const source=(profile,extra={})=>({...illuminationDefaults(profile,{kind:'prop'}),...extra});
   const zone=(extra)=>({...structuredClone(ZONE_DEFAULTS),...extra});
@@ -87,7 +87,7 @@ export function createChurchScene(catalog) {
   const courtyard=floor('Adro · apoio do platô',0,-.6,19,30,12,{vertices:[[-15,-6],[12,-6],[15,-3],[14,5],[8,6],[-15,5]],thickness:.22,groupId:groups.land});
   floor('Fundação da igreja',0,-.12,-.1,20,36,{thickness:.9});
   const nave=floor('Nave · piso de combate',0,0,0,19,35,{thickness:.22});
-  nave.lightingZone=zone({position:[0,6.6,0],size:[19.1,14,35.2],blend:.65,priority:30,color:'#db5965',intensity:.3,fogColor:'#8c2035',fogDensity:.012});
+  nave.lightingZone=zone({position:[0,6.6,0],size:[19.1,14,35.2],blend:.65,priority:30,color:'#bd6251',intensity:.28,fogColor:'#8c2035',fogDensity:.006});
   courtyard.lightingZone=zone({position:[0,-10,5],size:[65,19,64],blend:4,priority:5,color:'#b37cbd',intensity:.5,fogColor:'#a85d9d',fogDensity:.024});
   add('stairs',{name:'Degraus da entrada principal',position:world(0,-.6,19),width:6,length:3,height:.6,steps:4,rotation:yaw(Math.PI),material:stone,groupId:groups.land,levelId:levels.nave});
 
@@ -117,8 +117,8 @@ export function createChurchScene(catalog) {
       if(z<17.5) {
         wall('Peitoril sob o vitral',sign*9.5,5.8,z-1.38,2.76,-Math.PI/2,.4,{levelId:levels.gallery});
         prop('church-window-spandrel',world(sign*9.5,6.2,z),{rotation:yaw(angle),scale:[1.15,1.15,1],groupId:groups.arcades,levelId:levels.gallery});
-        prop('church-stained-window',world(sign*9.5,6.2,z),{name:`Vitral ${sign<0?'esquerdo':'direito'} · vão ${bayCenters.indexOf(z)+1}`,rotation:yaw(angle),scale:[1.15,1.15,1],groupId:groups.arcades,levelId:levels.gallery,
-          ...(Math.abs(z)===8.25?{illumination:source('window',{color:'#ff394f',position:[0,2.1,-.45],rotation:aim([0,-.5,-1]),intensity:145,distance:19,priority:11,shadowPolicy:'priority',mapSize:512,projectionSeed:sign<0?47:93})}:{})});
+        prop('church-tracery-window',world(sign*9.5,6.2,z),{name:`Vitral ${sign<0?'esquerdo':'direito'} · vão ${bayCenters.indexOf(z)+1}`,rotation:yaw(angle),scale:[1.15,1.15,1],groupId:groups.arcades,levelId:levels.gallery,
+          ...(Math.abs(z)===8.25?{illumination:source('window',{color:'#ff2512',position:[0,2.1,-.45],rotation:aim([0,-.5,-1]),intensity:330,distance:23,priority:11,shadowPolicy:'priority',mapSize:512,projectionSeed:sign<0?47:93})}:{})});
       }
       start=z+1.38;
     }
@@ -134,12 +134,12 @@ export function createChurchScene(catalog) {
   for(const x of [-5.4,0,5.4,10.88]) {
     wall('Fachada alta entre vitrais',frontStart,6.2,17.5,x-1.38-frontStart,0,5.175,{levelId:levels.gallery});
     if(x<9.5) {
-      for(const id of ['church-window-spandrel','church-stained-window'])prop(id,world(x,6.2,17.5),{scale:[1.15,1.15,1],groupId:groups.arcades,levelId:levels.gallery});
+      for(const id of ['church-window-spandrel','church-tracery-window'])prop(id,world(x,6.2,17.5),{scale:[1.15,1.15,1],groupId:groups.arcades,levelId:levels.gallery});
     }
     frontStart=x+1.38;
   }
-  for(const z of [-17.5,17.5])prop('church-ogival-gable',world(0,11.375,z),{scale:[1.85,1,1],rotation:yaw(z<0?Math.PI:0),groupId:groups.structure,levelId:levels.gallery});
-  prop('church-double-cross',world(0,18.8,17.8),{scale:[1.25,1.25,1.25],groupId:groups.structure,levelId:levels.gallery});
+  for(const z of [-17.5,17.5])prop('church-pitched-gable',world(0,11.375,z),{scale:[1,1,1],rotation:yaw(z<0?Math.PI:0),groupId:groups.structure,levelId:levels.gallery,material:{...stone,textureSlot:'stone'}});
+  prop('church-double-cross',world(0,16.05,17.8),{scale:[1.25,1.25,1.25],groupId:groups.structure,levelId:levels.gallery});
 
   // Side walkways and front gallery leave the complete central nave empty above the banqueting table.
   for(const sign of [-1,1]) {
@@ -155,8 +155,8 @@ export function createChurchScene(catalog) {
   const frontGallery=floor('Galeria sobre a entrada · apoio',0,5.8,16.15,19,2.7,{groupId:groups.galleries,levelId:levels.gallery});
   for(const x of [-6,-3,0,3,6])prop('church-balustrade',world(x,5.8,14.8),{groupId:groups.galleries,levelId:levels.gallery,surfaceId:frontGallery.id});
   for(const z of [-15,-10,-5,0,5,10,15]) {
-    prop('church-vault-ribs',world(0,11.35,z),{scale:[1.87,1,1.25],groupId:groups.roof,levelId:levels.gallery,layerId:roofLayer});
-    prop('church-roof-shell',world(0,11.375,z),{scale:[1.85,1,1.25],groupId:groups.roof,levelId:levels.gallery,layerId:roofLayer,material:{textureSlot:'limestone',wear:wear(800+z,.25,'all')}});
+    prop('church-timber-truss',world(0,10.95,z),{scale:[1,1,1],groupId:groups.roof,levelId:levels.gallery,layerId:roofLayer});
+    prop('church-pitched-roof',world(0,11.375,z),{scale:[1,1,1],groupId:groups.roof,levelId:levels.gallery,layerId:roofLayer,material:{textureSlot:'stone',wear:wear(800+z,.28,'all')}});
   }
 
   // Two real switchback stairs link the nave with the side galleries. Belfry crown is scenic.
@@ -183,33 +183,39 @@ export function createChurchScene(catalog) {
   // Nave dressing: a coherent pre-fire state, displaced pews and an intact central banquet.
   const altar=floor('Presbitério · patamar do ritual',0,.9,-13.2,11,8.6,{groupId:groups.ritual,thickness:.9});
   add('stairs',{name:'Degraus do presbitério',position:world(0,0,-7.9),rotation:yaw(Math.PI),width:9,length:2,height:.9,steps:6,material:stone,groupId:groups.ritual,levelId:levels.nave});
-  prop('church-headless-seraph',world(0,.9,-15.9),{groupId:groups.ritual,levelId:levels.nave,surfaceId:altar.id,material:{textureSlot:'limestone',wear:wear(601,.24)},illumination:source('ritual',{type:'spot',position:[0,6,1.9],rotation:aim([0,-1,-.17]),intensity:165,distance:14,angle:Math.PI/3,priority:12,shadowPolicy:'priority',mapSize:512})});
-  prop('church-iron-maiden',world(0,.9,-10.8),{groupId:groups.ritual,levelId:levels.nave,surfaceId:altar.id});
-  prop('church-double-cross',world(0,7.1,-17.2),{scale:[1.5,1.5,1.5],groupId:groups.ritual,levelId:levels.nave,material:{textureSlot:'iron',emissive:'#ff0d24',emissiveIntensity:3}});
+  prop('church-altar-retable',world(0,.9,-16.8),{groupId:groups.ritual,levelId:levels.nave,material:{...stone,textureSlot:'stone',wear:wear(603,.32,'base')}});
+  prop('church-seraph-effigy',world(0,.9,-15.65),{scale:[1,1,1],groupId:groups.ritual,levelId:levels.nave,surfaceId:altar.id,material:{textureSlot:'stone',wear:wear(601,.55,'all')},illumination:source('ritual',{type:'spot',position:[0,8.8,3],rotation:aim([0,-1,-.17]),intensity:490,distance:20,angle:Math.PI/3,priority:12,shadowPolicy:'priority',mapSize:512})});
+  prop('church-spiked-reliquary',world(0,.9,-10.8),{groupId:groups.ritual,levelId:levels.nave,surfaceId:altar.id});
+  prop('church-double-cross',world(0,9.2,-17.05),{scale:[.95,.95,.95],groupId:groups.ritual,levelId:levels.nave,material:{textureSlot:'iron',emissive:'#ff0d24',emissiveIntensity:3}});
   const altarTable=prop('ritual-altar',world(0,.9,-14.4),{scale:[1.8,1,1.3],groupId:groups.ritual,levelId:levels.nave,surfaceId:altar.id});
   prop('ritual-book',world(.35,1.91,-14.4),{rotation:yaw(.15),groupId:groups.ritual,levelId:levels.nave,surfaceId:altarTable.id});
   prop('ritual-circle',world(0,.905,-11),{scale:[1.6,1,1.6],groupId:groups.ritual,levelId:levels.nave,surfaceId:altar.id});
-  for(const x of [-4.8,4.8])prop('church-ritual-banner',world(x,3.8,-17.05),{scale:[1.35,1.6,1],groupId:groups.ritual,levelId:levels.nave});
+  for(const x of [-6.2,6.2])prop('church-ritual-banner',world(x,2.1,-17.02),{scale:[1.5,2.7,1],groupId:groups.ritual,levelId:levels.nave});
   const tables=[4.5,-.9].map(z=>prop('church-banquet-table',world(0,0,z),{name:'Mesa do banquete · tampo contínuo',groupId:groups.ritual,levelId:levels.nave,surfaceId:nave.id}));
-  for(let i=0;i<8;i++) {
-    const z=-2.9+i*1.3,table=tables[z>1.8?0:1];
+  for(let i=0;i<6;i++) {
+    const z=-2.7+i*1.8,table=tables[z>1.8?0:1];
     for(const sign of [-1,1]) {
-      prop('church-pointed-chair',world(sign*1.38,0,z),{rotation:yaw(-sign*Math.PI/2),groupId:groups.ritual,levelId:levels.nave,surfaceId:nave.id});
+      prop('church-pointed-chair',world(sign*(1.45+.35*random()),0,z+.2*(random()-.5)),{rotation:yaw(-sign*Math.PI/2+.32*(random()-.5)),scale:[1, .86+random()*.14, 1],groupId:groups.ritual,levelId:levels.nave,surfaceId:nave.id});
       prop('church-banquet-setting',world(sign*.38,1.04,z),{rotation:yaw(-sign*Math.PI/2),scale:[.9,.9,.9],groupId:groups.ritual,levelId:levels.nave,surfaceId:table.id});
     }
   }
-  for(const z of [-2.5,0,2.5,5,7])prop('church-candelabra',world(0,1.04,z),{groupId:groups.ritual,levelId:levels.nave,surfaceId:tables[z>1.8?0:1].id,...([0,5].includes(z)?{illumination:source('candle',{position:[0,1.15,0],color:'#ff8a60',intensity:32,distance:9,shadowPolicy:'off',priority:10})}:{})});
+  for(const z of [-2.5,0,2.5,5,7])prop('church-candelabra',world((z===2.5?.27:-.15),1.04,z),{scale:[.7,.7,.7],groupId:groups.ritual,levelId:levels.nave,surfaceId:tables[z>1.8?0:1].id,...([0,5].includes(z)?{illumination:source('candle',{position:[0,1.15,0],color:'#ff8a60',intensity:30,distance:10,shadowPolicy:'off',priority:13})}:{})});
   for(const x of [-3.5,3.5])for(const z of [-16,-13.8,-10])prop('candles',world(x,.9,z),{scale:[1.35,1.35,1.35],groupId:groups.ritual,levelId:levels.nave,surfaceId:altar.id});
   for(const sign of [-1,1])for(const z of [-3,2.6,8.5,12])prop('church-pew',world(sign*(4.6+random()*.4),0,z),{rotation:yaw(sign*(.15+random()*.4)),groupId:groups.ritual,levelId:levels.nave,surfaceId:nave.id});
   for(const [x,z,angle]of [[-4.7,7.5,.8],[4.4,10,-.5],[-5,-5.4,.4]])prop('church-pointed-chair',world(x,.36,z),{rotation:new THREE.Quaternion().setFromEuler(new THREE.Euler(0,angle,Math.PI/2)).toArray(),groupId:groups.ritual,levelId:levels.nave,surfaceId:nave.id});
-  for(const sign of [-1,1])for(const z of [-8.2,8.2])prop('church-ritual-banner',world(sign*7.15,6.5,z),{rotation:yaw(-sign*Math.PI/2),scale:[.9,1,1],groupId:groups.galleries,levelId:levels.gallery});
+  for(const sign of [-1,1])for(const z of [-8.2,8.2])prop('church-ritual-banner',world(sign*7.15,3.1,z),{rotation:yaw(-sign*Math.PI/2),scale:[1.1,2.15,1],groupId:groups.galleries,levelId:levels.gallery});
 
+  // Debris sits at the flanks, leaving the banquet aisle and sacristy access clear.
+  for(let i=0;i<18;i++) {
+    const sign=i%2?1:-1,x=sign*(3.5+(i%3)*.55),z=-6.2+((i*7)%19);
+    prop(i%3===0?'rock-scree':'broken-timber-pile',world(x,.01,z),{name:'Fragmentos e madeira dos bancos',scale:[.65,.35,.7],rotation:yaw(i*1.7),groupId:groups.ritual,levelId:levels.nave,surfaceId:nave.id});
+  }
   // The low room's position and its connection are an adaptation of the unseen plan.
   const hooks=floor('Sala de correntes · piso',13.5,0,-9.5,8,9,{groupId:groups.hooks});
   hooks.lightingZone=zone({position:[0,1.8,0],size:[8.2,3.8,9.2],priority:40,blend:.3,color:'#c62f42',intensity:.34,fogColor:'#881b2e',fogDensity:.018});
   wall('Correntes · parede dos ganchos',17.5,0,-14,9,-Math.PI/2,3.6,{groupId:groups.hooks,material:{...stone,wear:wear(718,.7,'all')}});
   for(const z of [-14,-5])wall('Correntes · parede transversal',9.5,0,z,8,0,3.6,{groupId:groups.hooks});
-  floor('Correntes · teto baixo',13.5,3.6,-9.5,8.3,9.3,{layerId:roofLayer,groupId:groups.roof,thickness:.22});
+  floor('Correntes · teto baixo',13.5,3.6,-9.5,8.3,9.3,{layerId:roofLayer,groupId:groups.roof,thickness:.22,material:stone});
   for(const z of [-11.5,-7.3])prop('church-hook-rack',world(17.16,1.25,z),{rotation:yaw(-Math.PI/2),groupId:groups.hooks,levelId:levels.nave,material:{textureSlot:'iron',wear:{...wearDefaults('rust'),amount:.5,seed:718}}});
   const hookTable=prop('church-banquet-table',world(12.5,0,-10),{scale:[1,1,.8],groupId:groups.hooks,levelId:levels.nave,surfaceId:hooks.id});
   prop('ritual-book',world(12.5,1.04,-10.8),{groupId:groups.hooks,levelId:levels.nave,surfaceId:hookTable.id});
@@ -236,15 +242,15 @@ export function createChurchScene(catalog) {
     e.illumination=source('ritual',{position:[0,2.1,1],intensity:95,distance:17,shadowPolicy:'off',priority:10,color:'#fb1738'});
     e.lightingZone=zone({position:[0,2,0],size:[18,12,18],blend:3,priority:8,color:'#a72d49',intensity:.45,fogColor:'#c33869',fogDensity:.028});
   }
-  const trees=[[-27,18],[-2,23],[1,36],[-18,34],[15,52],[28,58],[-30,32],[4,50],[-29,3],[-31,-24],[8,-20],[16,-13]];
-  for(let i=0;i<38;i++) {
+  const trees=[[-30,18],[-24,23],[-4,21],[3,17],[-33,-9],[9,-29],[-29,-35],[-27,18],[-2,23],[1,36],[-18,34],[15,52],[28,58],[-30,32],[4,50],[-29,3],[-31,-24],[8,-20],[16,-13]];
+  for(let i=0;i<65;i++) {
     const x=-57+random()*114,z=-55+random()*122,path=churchApproachAt(x,z);
     if(path.distance<4.5||x>-33&&x<8&&z>-35&&z<18||Math.hypot(x-34,z-24)<11)continue;
     trees.push([x,z]);
   }
   for(const [i,[x,z]]of trees.filter(([x,z])=>churchApproachAt(x,z).distance>=4.5).entries()) {
     const scale=1.4+random()*1.05;
-    prop(i%4===0?'dead-tree':'bare-mountain-tree',[x,ground(x,z),z],{name:'Árvore seca do vale',scale:[scale,scale*1.25,scale],rotation:yaw(random()*Math.PI*2),groupId:groups.vegetation,levelId:levels.land,material:{textureSlot:'wood',wear:{...wearDefaults('grime'),color:'#29222c',amount:.2,seed:i+1}}});
+    prop('church-ravine-tree',[x,ground(x,z),z],{name:'Árvore seca do vale',scale:[scale*.55,scale*.7,scale*.55],rotation:yaw(random()*Math.PI*2),groupId:groups.vegetation,levelId:levels.land,material:{textureSlot:'wood',wear:{...wearDefaults('grime'),color:'#29222c',amount:.2,seed:i+1}}});
   }
   for(let i=0;i<15;i++) {
     const z=19+random()*43,p=CHURCH_APPROACH[Math.floor(random()*4)],x=p[0]+(random()>.5?1:-1)*(4.6+random()*3),y=ground(x,z);
@@ -261,14 +267,19 @@ export function createChurchScene(catalog) {
     }
     add('terrain',{name:'Cordilheira distante · plano '+(i+1),position:[x,0,z],rotation:yaw(angle),width:w,length:d,segments:n,heights:h,paintLayers:[],material:{...rock,textureColor:['#65566e','#77627c','#705879','#56475f','#64516d'][i],textureSize:8,relief:.01},groupId:groups.horizon,layerId:horizonLayer,levelId:levels.land});
   }
+  for(const e of Object.values(scene.layout.entities)) {
+    if(e.assetRef && ['church-round-arcade','church-clustered-pier','church-buttress','church-window-spandrel','church-curved-balcony'].some(id=>e.assetRef.id==='builtin-'+id)) {
+      e.material={...stone,textureSlot:e.assetRef.id.endsWith('window-spandrel')?'stone':'limestone',wear:wear(420,.28,'base')};
+    }
+  }
   const cameras=[
-    ['01 · Igreja sobre o desfiladeiro',[-64,51,78],[-10,27,-5],48,'perspective',100],
+    ['01 · Igreja sobre o desfiladeiro',[-57,38,73],[-12,31,-3],47,'perspective',100],
     ['02 · Caminho de aproximação',[10,18,62],[-15,31,0],55,'perspective',80],
-    ['03 · Fachada e torre',world(-25,9,37),world(-2,9,13),52,'perspective',60],
-    ['04 · Nave em direção ao altar',world(0,3.1,13.2),world(0,4.1,-12),64,'perspective',40],
-    ['05 · Galeria em direção à entrada',world(4.6,7.2,-12.5),world(0,4.5,14.5),66,'perspective',40],
-    ['06 · Dama de Ferro e Serafim',world(3.5,3,-6),world(0,3.3,-13.5),56,'perspective',30],
-    ['07 · Sala de correntes',world(14.5,1.9,-5.9),world(17,1.8,-10.5),64,'perspective',20],
+    ['03 · Fachada e torre',world(0,8,38),world(-2,10,8),58,'perspective',60],
+    ['04 · Nave em direção ao altar',world(0,3.1,13.2),world(0,4.1,-12),60,'perspective',40],
+    ['05 · Galeria em direção à entrada',world(3.7,8.3,-12.5),world(0,5,14.5),62,'perspective',40],
+    ['06 · Dama de Ferro e Serafim',world(2.7,2.6,-5.8),world(0,4.3,-13.8),58,'perspective',30],
+    ['07 · Sala de correntes',world(12,2,-13.3),world(15.8,1.5,-8.2),65,'perspective',20],
     ['08 · Sacristia',world(7.7,2.1,-21.2),world(-2,1.3,-21.8),62,'perspective',20],
     ['09 · Planta da igreja (ocultar Coberturas)',world(0,68,.01),world(0,0,0),50,'orthographic',48],
     ['10 · Vale e percurso superior',[-10,125,15],[-10,0,14.99],50,'orthographic',160],

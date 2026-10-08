@@ -2,7 +2,7 @@
 
 Implementada em 6 de outubro de 2026 sobre o renderer WebGL existente. Perfis por objeto, zonas espaciais, orçamento por janela e acabamento funcionam com os mesmos assets e comandos de histórico. Complementa [LIGHTING.md](LIGHTING.md), [ENVIRONMENTS.md](ENVIRONMENTS.md) e o [plano e estado das etapas](DYNAMIC_LIGHTING_PLAN.md).
 
-A [Igreja Antiga completa](IGREJA_ANTIGA_CENA.md), entregue em 7 de outubro, combina interior vermelho e exterior violeta com os mesmos controles da engine. Está em Abrir → Cenas de exemplo, além dos quatro estudos de iluminação.
+A [Igreja Antiga completa](IGREJA_ANTIGA_CENA.md), entregue em 7 de outubro, combina interior vermelho e exterior violeta com os mesmos controles da engine. Está em Abrir → Cenas de exemplo. Os quatro estudos técnicos foram movidos para fixtures de desenvolvimento em 8 de outubro.
 
 ## Começar
 
@@ -12,7 +12,7 @@ A [Igreja Antiga completa](IGREJA_ANTIGA_CENA.md), entregue em 7 de outubro, com
 4. Para uma sala, selecione seu piso e ative **Zona de ambiente**. Ajuste largura, altura, profundidade, centro, preenchimento e névoa. O contorno aparece quando o objeto está selecionado. Uma caixa não identifica automaticamente paredes ou portas.
 5. Em **Cena → Atmosfera → Iluminação dinâmica e qualidade**, habilite os acabamentos desejados. Use **Revisão de legibilidade** para clarear temporariamente a janela de trabalho sem mudar o mapa ou o projetor.
 
-Quatro estudos comuns e totalmente editáveis estão em **Abrir → Cenas → Cenas de exemplo**: capela ritual, taverna, escritório e rua chuvosa. A capela é um recorte de estudo do kit, não a reprodução completa da Igreja Antiga e de seu vale. Cada estudo tem enquadramentos geral, superior e interno. As animações começam pausadas para facilitar a comparação; desmarque **Pausar efeitos animados** para animar cintilação/chuva.
+Quatro estudos comuns e totalmente editáveis estão em **`tests/fixtures/scenes/`**, para importação manual ou diagnóstico; não aparecem na galeria nem nos builds: capela ritual, taverna, escritório e rua chuvosa. A capela é um recorte de estudo do kit, não a reprodução completa da Igreja Antiga e de seu vale. Cada estudo tem enquadramentos geral, superior e interno. As animações começam pausadas para facilitar a comparação; desmarque **Pausar efeitos animados** para animar cintilação/chuva.
 
 ## Perfis, ajustes e biblioteca pessoal
 

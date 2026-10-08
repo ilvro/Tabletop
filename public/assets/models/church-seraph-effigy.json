@@ -1,0 +1,1841 @@
+{
+  "name": "Igreja · efígie decapitada do altar",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "stone": {
+      "color": "#95806b",
+      "roughness": 0.96
+    },
+    "wood": {
+      "color": "#39251e",
+      "roughness": 0.9
+    },
+    "iron": {
+      "color": "#181418",
+      "metalness": 0.65,
+      "roughness": 0.7
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        2.5,
+        0.35,
+        1.5
+      ],
+      "position": [
+        0,
+        0.1749999970197677,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        2,
+        0.25,
+        1.2
+      ],
+      "position": [
+        0,
+        0.4749999970197677,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -1.55,
+          0.6
+        ],
+        [
+          -0.92,
+          1.9
+        ],
+        [
+          -0.65,
+          3.6
+        ],
+        [
+          -0.42,
+          4.4
+        ],
+        [
+          -1.05,
+          5.6
+        ],
+        [
+          -0.6,
+          5.9
+        ],
+        [
+          -0.26,
+          5.55
+        ],
+        [
+          0.26,
+          5.55
+        ],
+        [
+          0.6,
+          5.9
+        ],
+        [
+          1.05,
+          5.6
+        ],
+        [
+          0.42,
+          4.4
+        ],
+        [
+          0.65,
+          3.6
+        ],
+        [
+          0.92,
+          1.9
+        ],
+        [
+          1.55,
+          0.6
+        ],
+        [
+          0.3,
+          0.8
+        ],
+        [
+          0,
+          0.6
+        ],
+        [
+          -0.3,
+          0.8
+        ]
+      ],
+      "depth": 0.75,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -1.32,
+          0.65,
+          0.45
+        ],
+        [
+          -1.012,
+          1.5,
+          0.4
+        ],
+        [
+          -0.6335999999999999,
+          3,
+          0.4
+        ],
+        [
+          -0.396,
+          4.25,
+          0.4
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.99,
+          0.65,
+          0.45
+        ],
+        [
+          -0.759,
+          1.5,
+          0.4
+        ],
+        [
+          -0.4752,
+          3,
+          0.4
+        ],
+        [
+          -0.29700000000000004,
+          4.25,
+          0.4
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.66,
+          0.65,
+          0.45
+        ],
+        [
+          -0.506,
+          1.5,
+          0.4
+        ],
+        [
+          -0.31679999999999997,
+          3,
+          0.4
+        ],
+        [
+          -0.198,
+          4.25,
+          0.4
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.33,
+          0.65,
+          0.45
+        ],
+        [
+          -0.253,
+          1.5,
+          0.4
+        ],
+        [
+          -0.15839999999999999,
+          3,
+          0.4
+        ],
+        [
+          -0.099,
+          4.25,
+          0.4
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0,
+          0.65,
+          0.45
+        ],
+        [
+          0,
+          1.5,
+          0.4
+        ],
+        [
+          0,
+          3,
+          0.4
+        ],
+        [
+          0,
+          4.25,
+          0.4
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.33,
+          0.65,
+          0.45
+        ],
+        [
+          0.253,
+          1.5,
+          0.4
+        ],
+        [
+          0.15839999999999999,
+          3,
+          0.4
+        ],
+        [
+          0.099,
+          4.25,
+          0.4
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.66,
+          0.65,
+          0.45
+        ],
+        [
+          0.506,
+          1.5,
+          0.4
+        ],
+        [
+          0.31679999999999997,
+          3,
+          0.4
+        ],
+        [
+          0.198,
+          4.25,
+          0.4
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.99,
+          0.65,
+          0.45
+        ],
+        [
+          0.759,
+          1.5,
+          0.4
+        ],
+        [
+          0.4752,
+          3,
+          0.4
+        ],
+        [
+          0.29700000000000004,
+          4.25,
+          0.4
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          1.32,
+          0.65,
+          0.45
+        ],
+        [
+          1.012,
+          1.5,
+          0.4
+        ],
+        [
+          0.6335999999999999,
+          3,
+          0.4
+        ],
+        [
+          0.396,
+          4.25,
+          0.4
+        ]
+      ],
+      "radius": 0.065,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.28,
+        1.6596385148579798,
+        0.28
+      ],
+      "position": [
+        -1.4,
+        5.849999997019768,
+        0.06
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.07244475182095134,
+        0.04597974528971441,
+        1.130833524203059
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        1.5826875876179733,
+        0.2
+      ],
+      "position": [
+        -2.9,
+        6.449999997019768,
+        0.08499999999999999
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      },
+      "rotation": [
+        -0.04426547548989982,
+        -0.03185982955932749,
+        1.247634799714107
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.055,
+        0.22561028345356915,
+        0.055
+      ],
+      "position": [
+        -3.7,
+        6.749999997019768,
+        0.065
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.1338174445932034,
+        0.08176704306178607,
+        1.0961537823432794
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.055,
+        0.5258326730053958,
+        0.055
+      ],
+      "position": [
+        -3.77,
+        6.899999997019768,
+        0.065
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.057095912519000376,
+        0.020953273413374596,
+        0.7032965044784311
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.055,
+        0.49122296363260537,
+        0.055
+      ],
+      "position": [
+        -3.84,
+        6.749999997019768,
+        0.065
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.06118544318367674,
+        0.04960330886352527,
+        1.3623633994953395
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.055,
+        0.7384443106964798,
+        0.055
+      ],
+      "position": [
+        -3.91,
+        6.899999997019768,
+        0.065
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.04064708678054808,
+        0.022126811852483007,
+        0.9969303714882106
+      ]
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -0.5,
+          5.1
+        ],
+        [
+          -1.4,
+          6.65
+        ],
+        [
+          -2.6,
+          6.75
+        ],
+        [
+          -4.9,
+          7.7
+        ],
+        [
+          -4.5,
+          6.9
+        ],
+        [
+          -3.65,
+          6.6
+        ],
+        [
+          -4,
+          6.1
+        ],
+        [
+          -2.8,
+          5.65
+        ],
+        [
+          -3,
+          5.2
+        ],
+        [
+          -1.8,
+          4.8
+        ]
+      ],
+      "depth": 0.2,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.38
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -1,
+          5
+        ],
+        [
+          -1.22,
+          5.7
+        ],
+        [
+          -2.15,
+          6.2
+        ],
+        [
+          -1.75,
+          5.45
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -1.25,
+          5.11
+        ],
+        [
+          -1.47,
+          5.8100000000000005
+        ],
+        [
+          -2.4,
+          6.3100000000000005
+        ],
+        [
+          -2,
+          5.5600000000000005
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -1.5,
+          5.22
+        ],
+        [
+          -1.72,
+          5.92
+        ],
+        [
+          -2.65,
+          6.42
+        ],
+        [
+          -2.25,
+          5.67
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -1.75,
+          5.33
+        ],
+        [
+          -1.97,
+          6.03
+        ],
+        [
+          -2.9,
+          6.53
+        ],
+        [
+          -2.5,
+          5.78
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -2,
+          5.44
+        ],
+        [
+          -2.22,
+          6.140000000000001
+        ],
+        [
+          -3.15,
+          6.640000000000001
+        ],
+        [
+          -2.75,
+          5.890000000000001
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -2.25,
+          5.55
+        ],
+        [
+          -2.47,
+          6.25
+        ],
+        [
+          -3.4,
+          6.75
+        ],
+        [
+          -3,
+          6
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -2.5,
+          5.66
+        ],
+        [
+          -2.72,
+          6.36
+        ],
+        [
+          -3.65,
+          6.86
+        ],
+        [
+          -3.25,
+          6.11
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -2.75,
+          5.77
+        ],
+        [
+          -2.97,
+          6.47
+        ],
+        [
+          -3.9,
+          6.97
+        ],
+        [
+          -3.5,
+          6.22
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -3,
+          5.88
+        ],
+        [
+          -3.22,
+          6.58
+        ],
+        [
+          -4.15,
+          7.08
+        ],
+        [
+          -3.75,
+          6.33
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -3.25,
+          5.99
+        ],
+        [
+          -3.47,
+          6.69
+        ],
+        [
+          -4.4,
+          7.19
+        ],
+        [
+          -4,
+          6.44
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -3.5,
+          6.1
+        ],
+        [
+          -3.72,
+          6.8
+        ],
+        [
+          -4.65,
+          7.3
+        ],
+        [
+          -4.25,
+          6.55
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -3.75,
+          6.21
+        ],
+        [
+          -3.97,
+          6.91
+        ],
+        [
+          -4.9,
+          7.41
+        ],
+        [
+          -4.5,
+          6.66
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.28,
+        1.6596385148579798,
+        0.28
+      ],
+      "position": [
+        1.4,
+        5.849999997019768,
+        0.06
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.07244475182095134,
+        -0.04597974528971441,
+        -1.130833524203059
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        1.5826875876179733,
+        0.2
+      ],
+      "position": [
+        2.9,
+        6.449999997019768,
+        0.08499999999999999
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      },
+      "rotation": [
+        -0.04426547548989982,
+        0.03185982955932749,
+        -1.247634799714107
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.055,
+        0.22561028345356915,
+        0.055
+      ],
+      "position": [
+        3.7,
+        6.749999997019768,
+        0.065
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.1338174445932034,
+        -0.08176704306178607,
+        -1.0961537823432794
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.055,
+        0.5258326730053958,
+        0.055
+      ],
+      "position": [
+        3.77,
+        6.899999997019768,
+        0.065
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.057095912519000376,
+        -0.020953273413374596,
+        -0.7032965044784311
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.055,
+        0.49122296363260537,
+        0.055
+      ],
+      "position": [
+        3.84,
+        6.749999997019768,
+        0.065
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.06118544318367674,
+        -0.04960330886352527,
+        -1.3623633994953395
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.055,
+        0.7384443106964798,
+        0.055
+      ],
+      "position": [
+        3.91,
+        6.899999997019768,
+        0.065
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      },
+      "rotation": [
+        0.04064708678054808,
+        -0.022126811852483007,
+        -0.9969303714882106
+      ]
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          0.5,
+          5.1
+        ],
+        [
+          1.4,
+          6.65
+        ],
+        [
+          2.6,
+          6.75
+        ],
+        [
+          4.9,
+          7.7
+        ],
+        [
+          4.5,
+          6.9
+        ],
+        [
+          3.65,
+          6.6
+        ],
+        [
+          4,
+          6.1
+        ],
+        [
+          2.8,
+          5.65
+        ],
+        [
+          3,
+          5.2
+        ],
+        [
+          1.8,
+          4.8
+        ]
+      ],
+      "depth": 0.2,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.38
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          1,
+          5
+        ],
+        [
+          1.22,
+          5.7
+        ],
+        [
+          2.15,
+          6.2
+        ],
+        [
+          1.75,
+          5.45
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          1.25,
+          5.11
+        ],
+        [
+          1.47,
+          5.8100000000000005
+        ],
+        [
+          2.4,
+          6.3100000000000005
+        ],
+        [
+          2,
+          5.5600000000000005
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          1.5,
+          5.22
+        ],
+        [
+          1.72,
+          5.92
+        ],
+        [
+          2.65,
+          6.42
+        ],
+        [
+          2.25,
+          5.67
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          1.75,
+          5.33
+        ],
+        [
+          1.97,
+          6.03
+        ],
+        [
+          2.9,
+          6.53
+        ],
+        [
+          2.5,
+          5.78
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          2,
+          5.44
+        ],
+        [
+          2.22,
+          6.140000000000001
+        ],
+        [
+          3.15,
+          6.640000000000001
+        ],
+        [
+          2.75,
+          5.890000000000001
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          2.25,
+          5.55
+        ],
+        [
+          2.47,
+          6.25
+        ],
+        [
+          3.4,
+          6.75
+        ],
+        [
+          3,
+          6
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          2.5,
+          5.66
+        ],
+        [
+          2.72,
+          6.36
+        ],
+        [
+          3.65,
+          6.86
+        ],
+        [
+          3.25,
+          6.11
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          2.75,
+          5.77
+        ],
+        [
+          2.97,
+          6.47
+        ],
+        [
+          3.9,
+          6.97
+        ],
+        [
+          3.5,
+          6.22
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          3,
+          5.88
+        ],
+        [
+          3.22,
+          6.58
+        ],
+        [
+          4.15,
+          7.08
+        ],
+        [
+          3.75,
+          6.33
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          3.25,
+          5.99
+        ],
+        [
+          3.47,
+          6.69
+        ],
+        [
+          4.4,
+          7.19
+        ],
+        [
+          4,
+          6.44
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          3.5,
+          6.1
+        ],
+        [
+          3.72,
+          6.8
+        ],
+        [
+          4.65,
+          7.3
+        ],
+        [
+          4.25,
+          6.55
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          3.75,
+          6.21
+        ],
+        [
+          3.97,
+          6.91
+        ],
+        [
+          4.9,
+          7.41
+        ],
+        [
+          4.5,
+          6.66
+        ]
+      ],
+      "depth": 0.075,
+      "position": [
+        0,
+        -2.9802322831784522e-9,
+        -0.2
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    }
+  ],
+  "mergeParts": true
+}

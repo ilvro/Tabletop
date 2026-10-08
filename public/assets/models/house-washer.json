@@ -1,0 +1,149 @@
+{
+  "name": "Máquina de lavar frontal",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "ivory": {
+      "color": "#e7e0cf",
+      "roughness": 0.78
+    },
+    "green": {
+      "color": "#436958",
+      "roughness": 0.85
+    },
+    "wood": {
+      "color": "#815d3e",
+      "roughness": 0.85
+    },
+    "dark": {
+      "color": "#252e30",
+      "roughness": 0.6
+    },
+    "metal": {
+      "color": "#899491",
+      "roughness": 0.4,
+      "metalness": 0.6
+    },
+    "glass": {
+      "color": "#384e51",
+      "roughness": 0.25
+    },
+    "clay": {
+      "color": "#ad5f3d",
+      "roughness": 0.95
+    },
+    "leaf": {
+      "color": "#46663b",
+      "roughness": 1
+    },
+    "soil": {
+      "color": "#443529",
+      "roughness": 1
+    },
+    "light": {
+      "color": "#fff1cc",
+      "emissive": "#ffe1a2",
+      "emissiveIntensity": 0.5,
+      "roughness": 0.7
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.65,
+        0.87,
+        0.65
+      ],
+      "position": [
+        0,
+        0.43500000238418574,
+        -0.02374999225139618
+      ],
+      "material": "ivory"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.67,
+        0.04,
+        0.67
+      ],
+      "position": [
+        0,
+        0.8900000023841858,
+        -0.02374999225139618
+      ],
+      "material": "ivory"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.23,
+      "radiusBottom": 0.23,
+      "height": 0.04,
+      "position": [
+        0,
+        0.43000000238418573,
+        0.31625000774860385
+      ],
+      "material": "metal",
+      "segments": 16,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.185,
+      "radiusBottom": 0.185,
+      "height": 0.045,
+      "position": [
+        0,
+        0.43000000238418573,
+        0.3362500077486038
+      ],
+      "material": "glass",
+      "segments": 16,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.06,
+        0.02
+      ],
+      "position": [
+        -0.16,
+        0.7700000023841858,
+        0.31625000774860385
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.035,
+      "radiusBottom": 0.035,
+      "height": 0.025,
+      "position": [
+        0.18,
+        0.7700000023841858,
+        0.31625000774860385
+      ],
+      "material": "metal",
+      "segments": 16,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    }
+  ],
+  "mergeParts": true
+}

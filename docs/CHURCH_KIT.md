@@ -1,10 +1,14 @@
 # Kit arquitetônico e ritual da Igreja Antiga
 
-Kit inicial de 6 de outubro, ampliado em 7 de outubro de 2026: **22 assets originais locais**, reutilizáveis e distribuídos na biblioteca, que passa a **224 modelos**. Autoria baseada na composição das seis imagens fornecidas pelo usuário; não são modelos oficiais nem reproduções extraídas da série. A [cena completa do templo e vale](IGREJA_ANTIGA_CENA.md) está disponível na galeria de exemplos.
+Kit inicial de 6 de outubro, ampliado em 7 de outubro de 2026: **30 assets originais locais**, reutilizáveis e distribuídos na biblioteca, que passa a **232 modelos**. Autoria baseada na composição das seis imagens fornecidas pelo usuário; não são modelos oficiais nem reproduções extraídas da série. A [cena completa do templo e vale](IGREJA_ANTIGA_CENA.md) está disponível na galeria de exemplos.
+
+## Reconstrução pelas referências de 7 de outubro
+
+Oito receitas adicionais em `scripts/library-church-reconstruction.js`: cobertura de duas águas, tesoura de madeira, empena triangular, vitral com chumbo em ambas as faces, retábulo monumental, efígie decapitada com pregas/asas fragmentadas, Dama de Ferro com aros espinhados e árvore retorcida. Os modelos anteriores não foram alterados. A cena usa as novas versões; peças anteriores continuam disponíveis para cenas pessoais.
 
 ## Encontrar e usar
 
-Abra **Assets**, procure **igreja antiga** ou filtre a tag **kit gótico**. As peças estão em **Arquitetura / Igreja antiga** e **Ritual / Igreja antiga**. Clique para colocar; colocação repetida, transformações, materiais, copiar/colar, histórico, grupos e salvamento usam os fluxos comuns do editor. Disponível no servidor local e no Pages.
+Abra **Assets**, procure **igreja antiga** ou filtre a tag **kit gótico**. As peças estão em **Arquitetura / Igreja antiga** e **Ritual / Igreja antiga**. A busca retorna 30 peças; use **Mostrar mais assets** depois dos 24 cartões iniciais. Clique para colocar; colocação repetida, transformações, materiais, copiar/colar, histórico, grupos e salvamento usam os fluxos comuns do editor. Disponível no servidor local e no Pages.
 
 Os modelos usam metros, pivot na base e centro horizontal. Frente padrão +Z; teto e nervuras se repetem no eixo Z. O catálogo contém as dimensões/footprints de cada peça, calculados a partir da geometria. Organize cobertura, arquitetura e decoração em grupos/camadas próprios para controlar visibilidade.
 
@@ -46,7 +50,7 @@ Torre, nervuras e cobertura são módulos cenográficos. A torre tem base inferi
 
 ## Materiais e luz
 
-Escolha **Aplicar acabamento em** para editar um material nomeado: `limestone`, `stone`, `carving`, `wornStone`, `wood`, `iron`, `brass`, `cloth`, `glass`, `amberGlass`, `wax`, `flame`, `metal` ou `food`, conforme a peça. A biblioteca utiliza texturas procedurais existentes para alvenaria, madeira, ferro oxidado e microtextura da estátua. Os materiais originais são próprios de cada receita; alterações de uma instância não modificam outra.
+Escolha **Aplicar acabamento em** para editar um material nomeado: `limestone`, `stone`, `carving`, `wornStone`, `wood`, `iron`, `brass`, `cloth`, `glass`, `amberGlass`, `wax`, `flame`, `metal`, `food` ou `ruby`, conforme a peça. A biblioteca utiliza texturas procedurais existentes para alvenaria, madeira, ferro oxidado e microtextura da estátua. Os materiais originais são próprios de cada receita; alterações de uma instância não modificam outra.
 
 O vidro é translúcido, tem emissão e não projeta uma sombra opaca. O vidro sozinho não projeta seu desenho ou sua cor no ambiente. Selecione o modelo e aplique **Luz neste objeto → Janela / vitral** para acrescentar uma spot com padrão procedural editável; escolha a origem/direção para iluminar a nave. O desenho da projeção é independente da geometria do vidro. Nas chamas, use **Vela / candelabro** ou **Tocha / lareira**; uma fonte compartilhada para a mesa pode atender várias velas. Emissão não equivale a uma fonte de luz que ilumina objetos vizinhos.
 

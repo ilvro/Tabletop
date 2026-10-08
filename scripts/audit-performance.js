@@ -12,7 +12,7 @@ import { projectPresentation } from '../src/app/presentation.js';
 const root = fileURLToPath(new URL('..', import.meta.url));
 const names = ['lighting-chapel', 'lighting-office', 'snowy-mountain-pass', 'igreja-antiga'];
 const samples = 25, warmup = 5;
-const documents = await Promise.all(names.map(async name => ({ name, document: JSON.parse(await readFile(path.join(root, 'public/scenes', name + '.json'), 'utf8')) })));
+const documents = await Promise.all(names.map(async name => ({ name, document: JSON.parse(await readFile(path.join(root, name.startsWith('lighting-') ? 'tests/fixtures/scenes' : 'public/scenes', name + '.json'), 'utf8')) })));
 function summary(values) {
   const sorted = [...values].sort((a, b) => a - b);
   return { samples: values.length, p50: sorted[Math.floor(sorted.length * .5)], p95: sorted[Math.floor(sorted.length * .95)], max: sorted.at(-1) };
@@ -78,9 +78,9 @@ if (process.argv.includes('--browser')) {
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
       await page.goto(server.resolvedUrls.local[0] + '__performance_audit');
-      const result = await page.evaluate(async name => {
+      const result = await page.evaluate(async ({name,document}) => {
         const { createViewport } = await import('/src/render/renderer.js');
-        const [document, catalog] = await Promise.all([fetch('/scenes/' + name + '.json').then(r => r.json()), fetch('/assets/catalog.json').then(r => r.json())]);
+        const catalog = await fetch('/assets/catalog.json').then(r => r.json());
         const viewport = createViewport(globalThis.document.getElementById('viewport'), { onError: e => { throw e; } });
         const frame = () => new Promise(resolve => requestAnimationFrame(resolve));
         const summarize = values => { const sorted = [...values].sort((a,b) => a-b); return { samples: values.length, p50: sorted[Math.floor(sorted.length*.5)], p95: sorted[Math.floor(sorted.length*.95)], max: sorted.at(-1) }; };
@@ -118,7 +118,7 @@ if (process.argv.includes('--browser')) {
           const thumbnailMs = performance.now() - start;
           return { name, initialSetDocumentMs, initial, intensitySetDocumentMs: summarize(intensity), unchangedSetDocumentMs: summarize(unchanged), renameSetDocumentMs, afterIntensity, pickingMs: summarize(picking), thumbnailMs, thumbnailBytes: thumbnail?.length ?? 0 };
         } finally { viewport.destroy(); }
-      }, name);
+      }, documents.find(d => d.name === name));
       report.browser.results.push({ ...result, pageErrors: errors });
       await page.close();
     }

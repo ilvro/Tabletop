@@ -49,6 +49,6 @@ export function createLightingExample(catalog,style){
   exterior.name='Exterior · preenchimento global';return validateDocument(scene);
 }
 if(process.argv[1]===fileURLToPath(import.meta.url)){
-  const {assets}=JSON.parse(await readFile(new URL('../public/assets/catalog.json',import.meta.url),'utf8'));await mkdir(new URL('../public/scenes/',import.meta.url),{recursive:true});
-  for(const item of LIGHTING_EXAMPLES)await writeFile(new URL('../public/scenes/'+item.id+'.json',import.meta.url),JSON.stringify(createLightingExample(assets,item.style),null,2)+'\n');
+  const {assets}=JSON.parse(await readFile(new URL('../public/assets/catalog.json',import.meta.url),'utf8'));await mkdir(new URL('../tests/fixtures/scenes/',import.meta.url),{recursive:true});
+  for(const item of LIGHTING_EXAMPLES)await writeFile(new URL('../tests/fixtures/scenes/'+item.id+'.json',import.meta.url),JSON.stringify(createLightingExample(assets,item.style),null,2)+'\n');
 }

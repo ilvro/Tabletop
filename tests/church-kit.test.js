@@ -38,8 +38,8 @@ test('architectural profiles are solid extrusions with outward normals and rejec
 });
 
 test('church catalog models have finite metric geometry, bounded batches, compact previews and isolated materials', async () => {
-  assert.equal(kit.length, 22);
-  assert.equal(filterAssets(catalog, { search: 'igreja antiga' }).length, 22);
+  assert.equal(kit.length, 30);
+  assert.equal(filterAssets(catalog, { search: 'igreja antiga' }).length, 30);
   for (const asset of kit) {
     const { object } = await load(asset.id.slice('builtin-church-'.length));
     try {

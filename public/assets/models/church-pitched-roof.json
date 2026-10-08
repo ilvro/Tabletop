@@ -1,0 +1,67 @@
+{
+  "name": "Igreja · cobertura de duas águas",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "stone": {
+      "color": "#95806b",
+      "roughness": 0.96
+    },
+    "wood": {
+      "color": "#39251e",
+      "roughness": 0.9
+    },
+    "iron": {
+      "color": "#181418",
+      "metalness": 0.65,
+      "roughness": 0.7
+    }
+  },
+  "parts": [
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -9.8,
+          0
+        ],
+        [
+          0,
+          4.5
+        ],
+        [
+          9.8,
+          0
+        ],
+        [
+          9.8,
+          0.3
+        ],
+        [
+          0,
+          4.84
+        ],
+        [
+          -9.8,
+          0.3
+        ]
+      ],
+      "depth": 5,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 2.7,
+        "textureColorMode": "replace",
+        "textureColor": "#8d7565",
+        "textureContrast": 1.4,
+        "relief": 0.025
+      }
+    }
+  ],
+  "mergeParts": true
+}
