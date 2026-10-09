@@ -3,35 +3,13 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "wood": {
-      "color": "#79553e",
-      "roughness": 0.84
-    },
     "dark": {
       "color": "#292b30",
       "roughness": 0.8
     },
-    "metal": {
-      "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
     "white": {
       "color": "#d8d3bd",
       "roughness": 0.72
-    },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
     },
     "black": {
       "color": "#181a20",
@@ -44,30 +22,6 @@
     "paper": {
       "color": "#c8b38b",
       "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
@@ -75,48 +29,472 @@
       "shape": "box",
       "size": [
         0.22,
-        0.06,
+        0.009,
         0.3
       ],
       "position": [
-        -0.12003862030754366,
-        0.029999999552965163,
-        -0.046134905780210705
+        -0.124,
+        0.0046,
+        -0.05
       ],
-      "material": "paper"
+      "material": "white",
+      "rotation": [
+        0,
+        -0.035,
+        0
+      ],
+      "bevel": 0.00117
     },
     {
       "shape": "box",
       "size": [
         0.22,
-        0.04,
+        0.009,
         0.3
       ],
       "position": [
-        0.09996137969245635,
-        0.019999999552965164,
-        0.033865094219789296
+        -0.12,
+        0.0138,
+        -0.044000000000000004
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "bevel": 0.00117
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.009,
+        0.3
+      ],
+      "position": [
+        -0.11599999999999999,
+        0.023,
+        -0.05
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        0.035,
+        0
+      ],
+      "bevel": 0.00117
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.009,
+        0.3
+      ],
+      "position": [
+        -0.124,
+        0.0322,
+        -0.044000000000000004
       ],
       "material": "white",
       "rotation": [
         0,
-        0.18,
+        -0.035,
         0
-      ]
+      ],
+      "bevel": 0.00117
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.009,
+        0.3
+      ],
+      "position": [
+        -0.12,
+        0.0414,
+        -0.05
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "bevel": 0.00117
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.009,
+        0.3
+      ],
+      "position": [
+        -0.11599999999999999,
+        0.0506,
+        -0.044000000000000004
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        0.035,
+        0
+      ],
+      "bevel": 0.00117
     },
     {
       "shape": "box",
       "size": [
         0.23,
-        0.01,
+        0.006,
         0.31
       ],
       "position": [
-        -0.12003862030754366,
-        0.06499999955296516,
-        -0.046134905780210705
+        -0.12,
+        0.059,
+        -0.05
       ],
-      "material": "red"
+      "material": "red",
+      "bevel": 0.002,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.006,
+        0.02
+      ],
+      "position": [
+        -0.05,
+        0.059,
+        0.112
+      ],
+      "material": "red",
+      "bevel": 0.0007800000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.11,
+        0.002,
+        0.045
+      ],
+      "position": [
+        -0.14,
+        0.063,
+        -0.1
+      ],
+      "material": "white",
+      "bevel": 0.00026000000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.004,
+        0.31
+      ],
+      "position": [
+        -0.2,
+        0.064,
+        -0.05
+      ],
+      "material": "dark",
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.23,
+        0.004,
+        0.012
+      ],
+      "position": [
+        -0.12,
+        0.064,
+        0.02
+      ],
+      "material": "dark",
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.008,
+        0.29
+      ],
+      "position": [
+        0.11,
+        0.004,
+        0.035
+      ],
+      "material": "white",
+      "rotation": [
+        0,
+        0.135,
+        0
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.008,
+        0.29
+      ],
+      "position": [
+        0.11,
+        0.0122,
+        0.035
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        0.16499999999999998,
+        0
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.008,
+        0.29
+      ],
+      "position": [
+        0.11,
+        0.0204,
+        0.035
+      ],
+      "material": "white",
+      "rotation": [
+        0,
+        0.195,
+        0
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.008,
+        0.29
+      ],
+      "position": [
+        0.11,
+        0.028600000000000004,
+        0.035
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        0.22499999999999998,
+        0
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.002,
+        0.28
+      ],
+      "position": [
+        0.13,
+        0.034,
+        0.02
+      ],
+      "material": "white",
+      "rotation": [
+        0,
+        -0.12,
+        0
+      ],
+      "bevel": 0.00026000000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.09,
+        0.003,
+        0.11
+      ],
+      "position": [
+        0.09,
+        0.036,
+        0.09
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0.4,
+        0
+      ],
+      "bevel": 0.00039000000000000005
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.0035,
+        0.12
+      ],
+      "position": [
+        0.09,
+        0.0355,
+        0.09
+      ],
+      "material": "white",
+      "rotation": [
+        0,
+        0.4,
+        0
+      ],
+      "bevel": 0.000455
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.005,
+      "radiusBottom": 0.005,
+      "height": 0.14,
+      "position": [
+        0.16,
+        0.04,
+        -0.06
+      ],
+      "material": "black",
+      "segments": 8,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0.8
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.13,
+        0.0015,
+        0.006
+      ],
+      "position": [
+        0.13,
+        0.0355,
+        -0.09000000000000001
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -0.12,
+        0
+      ],
+      "bevel": 0.00019500000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.13,
+        0.0015,
+        0.006
+      ],
+      "position": [
+        0.13,
+        0.0355,
+        -0.05500000000000001
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -0.12,
+        0
+      ],
+      "bevel": 0.00019500000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.13,
+        0.0015,
+        0.006
+      ],
+      "position": [
+        0.13,
+        0.0355,
+        -0.02
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -0.12,
+        0
+      ],
+      "bevel": 0.00019500000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.13,
+        0.0015,
+        0.006
+      ],
+      "position": [
+        0.13,
+        0.0355,
+        0.015000000000000003
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -0.12,
+        0
+      ],
+      "bevel": 0.00019500000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.13,
+        0.0015,
+        0.006
+      ],
+      "position": [
+        0.13,
+        0.0355,
+        0.05
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -0.12,
+        0
+      ],
+      "bevel": 0.00019500000000000002
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.4700772447874124,
+    0.06999999944120645,
+    0.40226981394460726
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "model",
+    "methods": [
+      "pilhas de papéis desalinhados, pasta amarrada com etiqueta, folhas datilografadas, fotografia e caneta",
+      "arestas chanfradas",
+      "curvas de contorno refinadas"
+    ],
+    "seed": 25103
+  }
 }

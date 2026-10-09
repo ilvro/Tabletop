@@ -6,10 +6,6 @@
     "stone": {
       "color": "#a59888",
       "roughness": 0.94
-    },
-    "carving": {
-      "color": "#bcae9b",
-      "roughness": 0.9
     }
   },
   "parts": [
@@ -154,8 +150,23 @@
         "textureColorMode": "replace",
         "textureColor": "#a59888",
         "relief": 0.015
-      }
+      },
+      "edgeBevel": 0.003
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    2.4000000953674316,
+    4.5,
+    0.46000000834465027
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "entalhes e bordas de perfis"
+    ],
+    "seed": 26399
+  }
 }

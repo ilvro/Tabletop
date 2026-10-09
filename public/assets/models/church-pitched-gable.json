@@ -6,15 +6,6 @@
     "stone": {
       "color": "#95806b",
       "roughness": 0.96
-    },
-    "wood": {
-      "color": "#39251e",
-      "roughness": 0.9
-    },
-    "iron": {
-      "color": "#181418",
-      "metalness": 0.65,
-      "roughness": 0.7
     }
   },
   "parts": [
@@ -48,7 +39,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "box",
@@ -75,7 +67,8 @@
         0,
         0,
         -1.1369658931050073
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -102,8 +95,24 @@
         0,
         0,
         -2.0046267604847863
-      ]
+      ],
+      "bevel": 0.012
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    19.696680068969727,
+    4.840000152587891,
+    0.5
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "entalhes e bordas de perfis",
+      "arestas chanfradas"
+    ],
+    "seed": 31094
+  }
 }

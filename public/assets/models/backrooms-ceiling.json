@@ -3,27 +3,13 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "paper": {
-      "color": "#9b8950",
-      "roughness": 1
-    },
-    "trim": {
-      "color": "#776c43",
-      "roughness": 1
-    },
     "tile": {
       "color": "#d0ccb1",
       "roughness": 1
     },
     "frame": {
       "color": "#8a8974",
-      "roughness": 0.8
-    },
-    "tube": {
-      "color": "#fff6c4",
-      "emissive": "#fff5bb",
-      "emissiveIntensity": 1.2,
-      "roughness": 0.8
+      "roughness": 0.7
     }
   },
   "parts": [
@@ -39,7 +25,8 @@
         0.055000000372529036,
         0
       ],
-      "material": "frame"
+      "material": "frame",
+      "bevel": 0.00455
     },
     {
       "shape": "box",
@@ -53,7 +40,17 @@
         0.025000000372529037,
         -1.2
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -67,7 +64,17 @@
         0.025000000372529037,
         -1.2
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -81,7 +88,17 @@
         0.025000000372529037,
         -1.2
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -95,7 +112,17 @@
         0.025000000372529037,
         -1.2
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -109,7 +136,17 @@
         0.025000000372529037,
         -1.2
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -123,7 +160,17 @@
         0.025000000372529037,
         -0.6
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -137,7 +184,17 @@
         0.025000000372529037,
         -0.6
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -151,7 +208,17 @@
         0.025000000372529037,
         -0.6
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -165,7 +232,17 @@
         0.025000000372529037,
         -0.6
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -179,7 +256,17 @@
         0.025000000372529037,
         -0.6
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -193,7 +280,17 @@
         0.025000000372529037,
         0
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -207,7 +304,17 @@
         0.025000000372529037,
         0
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -221,7 +328,17 @@
         0.025000000372529037,
         0
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -235,7 +352,17 @@
         0.025000000372529037,
         0
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -249,7 +376,17 @@
         0.025000000372529037,
         0
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -263,7 +400,17 @@
         0.025000000372529037,
         0.6
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -277,7 +424,17 @@
         0.025000000372529037,
         0.6
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -291,7 +448,17 @@
         0.025000000372529037,
         0.6
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -305,7 +472,17 @@
         0.025000000372529037,
         0.6
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -319,7 +496,17 @@
         0.025000000372529037,
         0.6
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -333,7 +520,17 @@
         0.025000000372529037,
         1.2
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -347,7 +544,17 @@
         0.025000000372529037,
         1.2
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -361,7 +568,17 @@
         0.025000000372529037,
         1.2
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -375,7 +592,17 @@
         0.025000000372529037,
         1.2
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     },
     {
       "shape": "box",
@@ -389,8 +616,32 @@
         0.025000000372529037,
         1.2
       ],
-      "material": "tile"
+      "material": "tile",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#d0ccb1",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    3,
+    0.07249999791383743,
+    3
+  ],
+  "design": {
+    "edition": 2,
+    "family": "liminal",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 60856
+  }
 }

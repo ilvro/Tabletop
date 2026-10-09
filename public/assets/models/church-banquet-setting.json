@@ -5,8 +5,8 @@
   "materials": {
     "metal": {
       "color": "#9c8266",
-      "roughness": 0.5,
-      "metalness": 0.7
+      "roughness": 0.46,
+      "metalness": 0.5
     },
     "food": {
       "color": "#592327",
@@ -15,23 +15,49 @@
   },
   "parts": [
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.18,
       "radiusTop": 0.2,
       "height": 0.025,
-      "segments": 20,
+      "segments": 24,
       "position": [
         -0.07250000715255737,
         0.012500000186264518,
         0
       ],
-      "material": "metal"
+      "material": "metal",
+      "profile": [
+        [
+          0,
+          -0.0125
+        ],
+        [
+          0.1775,
+          -0.0125
+        ],
+        [
+          0.18,
+          -0.01
+        ],
+        [
+          0.2,
+          0.01
+        ],
+        [
+          0.1975,
+          0.0125
+        ],
+        [
+          0,
+          0.0125
+        ]
+      ]
     },
     {
       "shape": "ring",
       "radius": 0.18,
       "tube": 0.014,
-      "segments": 20,
+      "segments": 24,
       "sides": 6,
       "position": [
         -0.07250000715255737,
@@ -53,27 +79,55 @@
         0.10000000018626452,
         0
       ],
-      "material": "food"
+      "material": "food",
+      "segments": 24,
+      "rings": 16
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.025,
-      "segments": 12,
+      "segments": 24,
       "position": [
         0.19749999284744263,
         0.012500000186264518,
         0.12
       ],
-      "material": "metal"
+      "material": "metal",
+      "profile": [
+        [
+          0,
+          -0.0125
+        ],
+        [
+          0.0625,
+          -0.0125
+        ],
+        [
+          0.065,
+          -0.01
+        ],
+        [
+          0.065,
+          0.01
+        ],
+        [
+          0.0625,
+          0.0125
+        ],
+        [
+          0,
+          0.0125
+        ]
+      ]
     },
     {
       "shape": "cylinder",
       "radiusBottom": 0.016,
       "radiusTop": 0.016,
       "height": 0.16,
-      "segments": 10,
+      "segments": 24,
       "position": [
         0.19749999284744263,
         0.10000000018626452,
@@ -82,24 +136,50 @@
       "material": "metal"
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.04,
       "radiusTop": 0.075,
       "height": 0.12,
-      "segments": 16,
+      "segments": 24,
       "position": [
         0.19749999284744263,
         0.23000000018626454,
         0.12
       ],
-      "material": "metal"
+      "material": "metal",
+      "profile": [
+        [
+          0,
+          -0.06
+        ],
+        [
+          0.031,
+          -0.06
+        ],
+        [
+          0.04,
+          -0.051
+        ],
+        [
+          0.075,
+          0.051
+        ],
+        [
+          0.066,
+          0.06
+        ],
+        [
+          0,
+          0.06
+        ]
+      ]
     },
     {
       "shape": "cylinder",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.007,
-      "segments": 16,
+      "segments": 24,
       "position": [
         0.19749999284744263,
         0.2920000001862645,
@@ -108,5 +188,22 @@
       "material": "food"
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    0.5450000166893005,
+    0.2955000102519989,
+    0.4000000059604645
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "perfis torneados e bordas de chapa",
+      "ferragens curvas com vazios reais",
+      "volumes curvos refinados",
+      "curvas de contorno refinadas"
+    ],
+    "seed": 20424
+  }
 }

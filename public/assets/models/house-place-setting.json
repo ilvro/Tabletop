@@ -3,118 +3,270 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "ivory": {
-      "color": "#e7e0cf",
-      "roughness": 0.78
-    },
-    "green": {
-      "color": "#436958",
-      "roughness": 0.85
-    },
-    "wood": {
-      "color": "#815d3e",
-      "roughness": 0.85
-    },
-    "dark": {
-      "color": "#252e30",
-      "roughness": 0.6
-    },
     "metal": {
       "color": "#899491",
       "roughness": 0.4,
-      "metalness": 0.6
+      "metalness": 0.5
+    },
+    "paper": {
+      "color": "#cbbf9d",
+      "roughness": 0.95
     },
     "glass": {
       "color": "#384e51",
       "roughness": 0.25
-    },
-    "clay": {
-      "color": "#ad5f3d",
-      "roughness": 0.95
-    },
-    "leaf": {
-      "color": "#46663b",
-      "roughness": 1
-    },
-    "soil": {
-      "color": "#443529",
-      "roughness": 1
-    },
-    "light": {
-      "color": "#fff1cc",
-      "emissive": "#ffe1a2",
-      "emissiveIntensity": 0.5,
-      "roughness": 0.7
     }
   },
   "parts": [
     {
-      "shape": "cylinder",
-      "radiusTop": 0.14,
-      "radiusBottom": 0.14,
-      "height": 0.018,
-      "position": [
-        -0.010749995708465576,
-        0.008999999701976782,
-        0.02499999850988388
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.09,
+          0
+        ],
+        [
+          0.14,
+          0.018
+        ],
+        [
+          0.14,
+          0.022
+        ],
+        [
+          0.13,
+          0.02
+        ],
+        [
+          0.09,
+          0.008
+        ],
+        [
+          0.07,
+          0.006
+        ],
+        [
+          0,
+          0.006
+        ]
       ],
-      "material": "metal",
-      "segments": 16
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.115,
-      "radiusBottom": 0.115,
-      "height": 0.009,
+      "segments": 24,
       "position": [
-        -0.010749995708465576,
-        0.020999999701976784,
-        0.02499999850988388
-      ],
-      "material": "metal",
-      "segments": 16
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.04,
-      "radiusBottom": 0.04,
-      "height": 0.11,
-      "position": [
-        0.16925000429153442,
-        0.05499999970197678,
-        -0.1250000014901161
-      ],
-      "material": "glass",
-      "segments": 16
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.017,
-        0.01,
-        0.21
-      ],
-      "position": [
-        -0.20074999570846558,
-        0.005999999701976783,
-        0.02499999850988388
+        -0.01,
+        0,
+        0.02
       ],
       "material": "metal"
     },
     {
       "shape": "box",
       "size": [
-        0.017,
-        0.01,
-        0.21
+        0.085,
+        0.005,
+        0.2
       ],
       "position": [
-        0.17925000429153443,
-        0.005999999701976783,
-        0.02499999850988388
+        -0.165,
+        0.0025,
+        0.02
       ],
-      "material": "metal"
+      "material": "paper",
+      "bevel": 0.0006500000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.085,
+        0.004,
+        0.1
+      ],
+      "position": [
+        -0.165,
+        0.0065,
+        0.07
+      ],
+      "material": "paper",
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.014,
+        0.004,
+        0.11
+      ],
+      "position": [
+        -0.165,
+        0.01,
+        0.06
+      ],
+      "material": "metal",
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.004,
+        0.003,
+        0.05
+      ],
+      "position": [
+        -0.17700000000000002,
+        0.01,
+        -0.04
+      ],
+      "material": "metal",
+      "bevel": 0.00039000000000000005
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.004,
+        0.003,
+        0.05
+      ],
+      "position": [
+        -0.169,
+        0.01,
+        -0.04
+      ],
+      "material": "metal",
+      "bevel": 0.00039000000000000005
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.004,
+        0.003,
+        0.05
+      ],
+      "position": [
+        -0.161,
+        0.01,
+        -0.04
+      ],
+      "material": "metal",
+      "bevel": 0.00039000000000000005
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.004,
+        0.003,
+        0.05
+      ],
+      "position": [
+        -0.153,
+        0.01,
+        -0.04
+      ],
+      "material": "metal",
+      "bevel": 0.00039000000000000005
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.003,
+        0.03
+      ],
+      "position": [
+        -0.165,
+        0.01,
+        -0.005
+      ],
+      "material": "metal",
+      "bevel": 0.00039000000000000005
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.014,
+        0.004,
+        0.09
+      ],
+      "position": [
+        0.165,
+        0.002,
+        0.08
+      ],
+      "material": "metal",
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.003,
+        0.11
+      ],
+      "position": [
+        0.165,
+        0.002,
+        -0.02
+      ],
+      "material": "metal",
+      "taper": [
+        1,
+        1
+      ],
+      "bevel": 0.00039000000000000005
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.032,
+          0
+        ],
+        [
+          0.04,
+          0.10999999940395355
+        ],
+        [
+          0.036,
+          0.10999999940395355
+        ],
+        [
+          0.029,
+          0.008
+        ],
+        [
+          0,
+          0.008
+        ]
+      ],
+      "segments": 20,
+      "position": [
+        0.165,
+        0,
+        -0.125
+      ],
+      "material": "glass"
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    0.41850000619888306,
+    0.10999999940395355,
+    0.32999999821186066
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "model",
+    "methods": [
+      "prato com aba, copo, garfo de quatro dentes e faca sobre guardanapo dobrado",
+      "arestas chanfradas"
+    ],
+    "seed": 8756
+  }
 }

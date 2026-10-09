@@ -3,122 +3,132 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "wood": {
-      "color": "#79553e",
-      "roughness": 0.84
-    },
     "dark": {
       "color": "#292b30",
       "roughness": 0.8
     },
     "metal": {
       "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
+      "roughness": 0.46,
+      "metalness": 0.5
     },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
+    "brass": {
+      "color": "#a28a54",
+      "roughness": 0.39,
+      "metalness": 0.5
     }
   },
   "parts": [
     {
-      "shape": "cylinder",
-      "radiusTop": 0.13,
-      "radiusBottom": 0.35,
-      "height": 0.5,
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0.7400000017881394
+        ],
+        [
+          0.060799999237060545,
+          0.7400000017881394
+        ],
+        [
+          0.060799999237060545,
+          0.6142000014841557
+        ],
+        [
+          0.1671999979019165,
+          0.5698000013768674
+        ],
+        [
+          0.20519999742507936,
+          0.4070000009834767
+        ],
+        [
+          0.25839999675750736,
+          0.18500000044703485
+        ],
+        [
+          0.37239999532699586,
+          0.08140000019669534
+        ],
+        [
+          0.3799999952316284,
+          0.03700000008940697
+        ],
+        [
+          0.3495999956130982,
+          0
+        ],
+        [
+          0.32679999589920045,
+          0.02960000007152558
+        ],
+        [
+          0.22799999713897703,
+          0.1480000003576279
+        ],
+        [
+          0.1671999979019165,
+          0.3922000009477139
+        ],
+        [
+          0.12919999837875368,
+          0.488400001180172
+        ],
+        [
+          0,
+          0.5032000012159348
+        ]
+      ],
+      "segments": 32,
       "position": [
         0,
-        0.2900000002980232,
+        0,
         0
       ],
-      "material": "metal",
-      "segments": 12
+      "material": "brass"
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.38,
-      "radiusBottom": 0.38,
-      "height": 0.05,
+      "radiusTop": 0.015,
+      "radiusBottom": 0.015,
+      "height": 0.3552000008583069,
       "position": [
         0,
-        0.03500000029802322,
-        0
-      ],
-      "material": "metal",
-      "segments": 12
-    },
-    {
-      "shape": "sphere",
-      "radius": 0.07,
-      "position": [
-        0,
-        0.07000000029802322,
-        0
-      ],
-      "material": "dark"
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.03,
-      "radiusBottom": 0.03,
-      "height": 0.2,
-      "position": [
-        0,
-        0.6400000002980233,
+        0.30340000073313717,
         0
       ],
       "material": "dark",
-      "segments": 12
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.12919999837875368,
+        0.1110000002682209,
+        0.12919999837875368
+      ],
+      "position": [
+        0,
+        0.10360000025033952,
+        0
+      ],
+      "material": "metal"
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.7599999904632568,
+    0.7400000017881394,
+    0.7599999904632568
+  ],
+  "design": {
+    "edition": 2,
+    "family": "ritual",
+    "reconstruction": "model",
+    "methods": [
+      "sino torneado oco com lábio e badalo interno",
+      "curvas de contorno refinadas"
+    ],
+    "seed": 35660
+  }
 }

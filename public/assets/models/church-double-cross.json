@@ -5,7 +5,7 @@
   "materials": {
     "iron": {
       "color": "#8e3336",
-      "metalness": 0.55,
+      "metalness": 0.5,
       "roughness": 0.55,
       "emissive": "#ee2737",
       "emissiveIntensity": 0.8
@@ -24,7 +24,8 @@
         1.2000000476837165,
         0
       ],
-      "material": "iron"
+      "material": "iron",
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -38,7 +39,8 @@
         1.6500000476837164,
         0
       ],
-      "material": "iron"
+      "material": "iron",
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -52,8 +54,23 @@
         1.2500000476837165,
         0
       ],
-      "material": "iron"
+      "material": "iron",
+      "bevel": 0.009
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    1.149999976158142,
+    2.4000000953674308,
+    0.11999999731779099
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 26689
+  }
 }

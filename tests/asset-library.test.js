@@ -19,7 +19,7 @@ test('expanded catalog resolves every local model and preview with metric bounds
     assert.equal(recipe.unit, 'meter'); assert.equal(recipe.pivot, 'base-center');
     assert.ok(recipe.parts.length > 0 && recipe.parts.length <= 200, asset.id);
     const preview = await readFile(new URL(asset.previewUrl.slice(1), publicRoot), 'utf8');
-    assert.match(preview, /<svg/); assert.doesNotMatch(preview, /NaN|Infinity/);
+    assert.match(preview, /<svg/); assert.doesNotMatch(preview.replace(/data:image\/png;base64,[A-Za-z0-9+/=]+/g,''), /NaN|Infinity/);
     const object = recipeInstance(recipe);
     try {
       const bounds = new THREE.Box3().setFromObject(object), size = bounds.getSize(new THREE.Vector3());

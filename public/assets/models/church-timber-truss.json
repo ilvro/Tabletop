@@ -3,18 +3,13 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
+    "wood": {
+      "color": "#39251e",
+      "roughness": 0.7
+    },
     "stone": {
       "color": "#95806b",
       "roughness": 0.96
-    },
-    "wood": {
-      "color": "#39251e",
-      "roughness": 0.9
-    },
-    "iron": {
-      "color": "#181418",
-      "metalness": 0.65,
-      "roughness": 0.7
     }
   },
   "parts": [
@@ -43,7 +38,8 @@
         0,
         0,
         -1.1417669167498512
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -70,7 +66,8 @@
         0,
         0,
         -1.9998257368399417
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -97,7 +94,8 @@
         0,
         0,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -124,7 +122,8 @@
         0,
         0,
         -1.0679531158670361
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -146,7 +145,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -173,7 +173,8 @@
         0,
         0,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -200,7 +201,8 @@
         0,
         0,
         1.0679531158670361
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -222,7 +224,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -249,8 +252,23 @@
         1.5707963267948963,
         0,
         0
-      ]
+      ],
+      "bevel": 0.009
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    18.92479705810547,
+    4.686405658721923,
+    5
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 29438
+  }
 }

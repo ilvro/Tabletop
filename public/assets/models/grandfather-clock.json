@@ -5,7 +5,7 @@
   "materials": {
     "wood": {
       "color": "#79553e",
-      "roughness": 0.84
+      "roughness": 0.7
     },
     "dark": {
       "color": "#292b30",
@@ -13,104 +13,443 @@
     },
     "metal": {
       "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
+      "roughness": 0.46,
+      "metalness": 0.5
     },
     "black": {
       "color": "#181a20",
       "roughness": 0.85
     },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
     "paper": {
       "color": "#c8b38b",
       "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
     {
       "shape": "box",
       "size": [
-        0.5,
-        1.75,
-        0.3
+        0.5335999846458436,
+        0.07,
+        0.3548500065658241
       ],
       "position": [
         0,
-        0.875,
-        -0.008749996339902283
+        0.035,
+        0
       ],
-      "material": "wood"
+      "material": "wood",
+      "bevel": 0.01,
+      "round": true,
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
     },
     {
       "shape": "box",
       "size": [
-        0.58,
-        0.1,
-        0.36
+        0.4871999859809875,
+        0.36,
+        0.3171000058673322
       ],
       "position": [
         0,
-        1.8,
-        -0.008749996339902283
+        0.25,
+        0
       ],
-      "material": "wood"
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3595999896526337,
+        0.041600000000000005,
+        0.024
+      ],
+      "position": [
+        0,
+        0.1408,
+        0.17055000293366612
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0031200000000000004
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3595999896526337,
+        0.041600000000000005,
+        0.024
+      ],
+      "position": [
+        0,
+        0.3592,
+        0.17055000293366612
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0031200000000000004
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.041600000000000005,
+        0.1768,
+        0.024
+      ],
+      "position": [
+        -0.15899999482631683,
+        0.25,
+        0.17055000293366612
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0031200000000000004
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.041600000000000005,
+        0.1768,
+        0.024
+      ],
+      "position": [
+        0.15899999482631683,
+        0.25,
+        0.17055000293366612
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0031200000000000004
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2763999896526337,
+        0.1768,
+        0.0108
+      ],
+      "position": [
+        0,
+        0.25,
+        0.16575000293366612
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.001404
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.23063998965263366,
+        0.13104,
+        0.012
+      ],
+      "position": [
+        0,
+        0.25,
+        0.17175000293366613
+      ],
+      "material": "wood",
+      "bevel": 0.0048000000000000004,
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5219999849796295,
+        0.03,
+        0.3397500062864274
+      ],
+      "position": [
+        0,
+        0.445,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0039
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3711999893188477,
+        0.82,
+        0.24915000461004677
+      ],
+      "position": [
+        0,
+        0.87,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.30159999132156373,
+        0.05,
+        0.03
+      ],
+      "position": [
+        0,
+        0.525,
+        0.1395750023050234
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0039
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.30159999132156373,
+        0.05,
+        0.03
+      ],
+      "position": [
+        0,
+        1.215,
+        0.1395750023050234
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0039
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.64,
+        0.03
+      ],
+      "position": [
+        -0.12579999566078187,
+        0.87,
+        0.1395750023050234
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0039
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.64,
+        0.03
+      ],
+      "position": [
+        0.12579999566078187,
+        0.87,
+        0.1395750023050234
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0039
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.24359999299049376,
+        0.64,
+        0.01
+      ],
+      "position": [
+        0,
+        0.87,
+        0.12457500230502339
+      ],
+      "material": "dark",
+      "bevel": 0.0013000000000000002
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.18,
-      "radiusBottom": 0.18,
-      "height": 0.025,
+      "radiusTop": 0.005,
+      "radiusBottom": 0.005,
+      "height": 0.52,
       "position": [
         0,
-        1.5,
-        0.16125000366009773
+        0.95,
+        0.1365750023050234
       ],
-      "material": "paper",
-      "segments": 12,
+      "material": "metal",
+      "segments": 8
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          -0.008
+        ],
+        [
+          0.05,
+          -0.005
+        ],
+        [
+          0.058,
+          0
+        ],
+        [
+          0.05,
+          0.005
+        ],
+        [
+          0,
+          0.008
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0,
+        0.66,
+        0.1385750023050234
+      ],
+      "material": "metal",
       "rotation": [
         1.5707963267948966,
         0,
@@ -118,56 +457,486 @@
       ]
     },
     {
-      "shape": "box",
-      "size": [
-        0.012,
-        0.13,
-        0.015
-      ],
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 0.14,
       "position": [
-        0,
-        1.55,
-        0.18125000366009772
+        -0.075,
+        0.98,
+        0.1365750023050234
       ],
-      "material": "black"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.11,
-        0.012,
-        0.015
-      ],
-      "position": [
-        0.04,
-        1.5,
-        0.18125000366009772
-      ],
-      "material": "black"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.29,
-        0.85,
-        0.025
-      ],
-      "position": [
-        0,
-        0.73,
-        0.15525000366009772
-      ],
-      "material": "dark"
+      "material": "metal",
+      "segments": 12
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.075,
-      "radiusBottom": 0.075,
-      "height": 0.02,
+      "radiusTop": 0.003,
+      "radiusBottom": 0.003,
+      "height": 0.27,
+      "position": [
+        -0.075,
+        1.155,
+        0.1365750023050234
+      ],
+      "material": "metal",
+      "segments": 8
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 0.14,
+      "position": [
+        0.075,
+        0.84,
+        0.1365750023050234
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.003,
+      "radiusBottom": 0.003,
+      "height": 0.41000000000000003,
+      "position": [
+        0.075,
+        1.085,
+        0.1365750023050234
+      ],
+      "material": "metal",
+      "segments": 8
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5335999846458436,
+        0.035,
+        0.3548500065658241
+      ],
       "position": [
         0,
-        0.51,
-        0.17625000366009771
+        1.297,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.00455
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.4755999863147735,
+        0.4,
+        0.3095500057276338
+      ],
+      "position": [
+        0,
+        1.51,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.175,
+      "radiusBottom": 0.175,
+      "height": 0.016,
+      "position": [
+        0,
+        1.51,
+        0.15900000279396775
+      ],
+      "material": "metal",
+      "segments": 24,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "profile": [
+        [
+          0,
+          -0.008
+        ],
+        [
+          0.1734,
+          -0.008
+        ],
+        [
+          0.175,
+          -0.0064
+        ],
+        [
+          0.175,
+          0.0064
+        ],
+        [
+          0.1734,
+          0.008
+        ],
+        [
+          0,
+          0.008
+        ]
+      ]
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.155,
+      "radiusBottom": 0.155,
+      "height": 0.018,
+      "position": [
+        0,
+        1.51,
+        0.16100000279396776
+      ],
+      "material": "paper",
+      "segments": 24,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "profile": [
+        [
+          0,
+          -0.009
+        ],
+        [
+          0.1532,
+          -0.009
+        ],
+        [
+          0.155,
+          -0.0072
+        ],
+        [
+          0.155,
+          0.0072
+        ],
+        [
+          0.1532,
+          0.009
+        ],
+        [
+          0,
+          0.009
+        ]
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.011,
+        0.028,
+        0.004
+      ],
+      "position": [
+        0.125,
+        1.51,
+        0.17200000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.006,
+        0.028,
+        0.004
+      ],
+      "position": [
+        0.10825317547305484,
+        1.5725,
+        0.17200000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        -1.0471975511965979
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.006,
+        0.028,
+        0.004
+      ],
+      "position": [
+        0.06250000000000001,
+        1.618253175473055,
+        0.17200000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        -0.5235987755982989
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.011,
+        0.028,
+        0.004
+      ],
+      "position": [
+        7.654042494670958e-18,
+        1.635,
+        0.17200000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.006,
+        0.028,
+        0.004
+      ],
+      "position": [
+        -0.06249999999999997,
+        1.618253175473055,
+        0.17200000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        0.5235987755982987
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.006,
+        0.028,
+        0.004
+      ],
+      "position": [
+        -0.10825317547305484,
+        1.5725,
+        0.17200000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        1.0471975511965979
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.011,
+        0.028,
+        0.004
+      ],
+      "position": [
+        -0.125,
+        1.51,
+        0.17200000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.006,
+        0.028,
+        0.004
+      ],
+      "position": [
+        -0.10825317547305485,
+        1.4475,
+        0.17200000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        2.0943951023931953
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.006,
+        0.028,
+        0.004
+      ],
+      "position": [
+        -0.06250000000000006,
+        1.401746824526945,
+        0.17200000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        2.617993877991494
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.011,
+        0.028,
+        0.004
+      ],
+      "position": [
+        -2.296212748401287e-17,
+        1.385,
+        0.17200000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        3.141592653589793
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.006,
+        0.028,
+        0.004
+      ],
+      "position": [
+        0.06250000000000001,
+        1.401746824526945,
+        0.17200000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        3.6651914291880923
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.006,
+        0.028,
+        0.004
+      ],
+      "position": [
+        0.1082531754730548,
+        1.4475,
+        0.17200000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        4.1887902047863905
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.1,
+        0.004
+      ],
+      "position": [
+        0.022,
+        1.548,
+        0.17500000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        -0.52
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.008,
+        0.135,
+        0.004
+      ],
+      "position": [
+        -0.045,
+        1.555,
+        0.17700000279396774
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        0.78
+      ],
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.012,
+      "position": [
+        0,
+        1.51,
+        0.17700000279396774
       ],
       "material": "metal",
       "segments": 12,
@@ -178,18 +947,443 @@
       ]
     },
     {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.015399999999999999,
+          0
+        ],
+        [
+          0.015399999999999999,
+          0.0308
+        ],
+        [
+          0.022,
+          0.04235
+        ],
+        [
+          0.022,
+          0.06545000000000001
+        ],
+        [
+          0.013199999999999998,
+          0.07700000000000001
+        ],
+        [
+          0.00924,
+          0.17325000000000002
+        ],
+        [
+          0.0165,
+          0.24255000000000002
+        ],
+        [
+          0.0121,
+          0.2772
+        ],
+        [
+          0.0121,
+          0.35035
+        ],
+        [
+          0.018699999999999998,
+          0.3619
+        ],
+        [
+          0.018699999999999998,
+          0.385
+        ],
+        [
+          0,
+          0.385
+        ]
+      ],
+      "segments": 32,
+      "position": [
+        -0.2145999938249588,
+        1.315,
+        0.14100000279396774
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.016,
+          0
+        ],
+        [
+          0.016,
+          0.012
+        ],
+        [
+          0.009,
+          0.02
+        ],
+        [
+          0.02,
+          0.04
+        ],
+        [
+          0.008,
+          0.06
+        ],
+        [
+          0,
+          0.075
+        ]
+      ],
+      "segments": 12,
+      "position": [
+        -0.23199999332427979,
+        1.74,
+        0.07550000139698387
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.015399999999999999,
+          0
+        ],
+        [
+          0.015399999999999999,
+          0.0308
+        ],
+        [
+          0.022,
+          0.04235
+        ],
+        [
+          0.022,
+          0.06545000000000001
+        ],
+        [
+          0.013199999999999998,
+          0.07700000000000001
+        ],
+        [
+          0.00924,
+          0.17325000000000002
+        ],
+        [
+          0.0165,
+          0.24255000000000002
+        ],
+        [
+          0.0121,
+          0.2772
+        ],
+        [
+          0.0121,
+          0.35035
+        ],
+        [
+          0.018699999999999998,
+          0.3619
+        ],
+        [
+          0.018699999999999998,
+          0.385
+        ],
+        [
+          0,
+          0.385
+        ]
+      ],
+      "segments": 32,
+      "position": [
+        0.2145999938249588,
+        1.315,
+        0.14100000279396774
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.016,
+          0
+        ],
+        [
+          0.016,
+          0.012
+        ],
+        [
+          0.009,
+          0.02
+        ],
+        [
+          0.02,
+          0.04
+        ],
+        [
+          0.008,
+          0.06
+        ],
+        [
+          0,
+          0.075
+        ]
+      ],
+      "segments": 12,
+      "position": [
+        0.23199999332427979,
+        1.74,
+        0.07550000139698387
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
       "shape": "box",
       "size": [
-        0.018,
-        0.42,
-        0.016
+        0.5451999843120575,
+        0.03,
+        0.3624000067055225
       ],
       "position": [
         0,
-        0.76,
-        0.17625000366009771
+        1.705,
+        0
       ],
-      "material": "metal"
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0039
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5799999833106995,
+        0.035,
+        0.3775000069849193
+      ],
+      "position": [
+        0,
+        1.737,
+        0
+      ],
+      "material": "wood",
+      "bevel": 0.008,
+      "round": true,
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -0.27839999198913573,
+          0
+        ],
+        [
+          -0.27839999198913573,
+          0.025
+        ],
+        [
+          -0.11599999666213989,
+          0.085
+        ],
+        [
+          -0.057999998331069946,
+          0.05
+        ],
+        [
+          -0.034799998998641966,
+          0.02
+        ],
+        [
+          0.034799998998641966,
+          0.02
+        ],
+        [
+          0.057999998331069946,
+          0.05
+        ],
+        [
+          0.11599999666213989,
+          0.085
+        ],
+        [
+          0.27839999198913573,
+          0.025
+        ],
+        [
+          0.27839999198913573,
+          0
+        ]
+      ],
+      "depth": 0.18875000349245966,
+      "position": [
+        0,
+        1.752,
+        0.07550000139698387
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "edgeBevel": 0.003
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.018,
+          0
+        ],
+        [
+          0.018,
+          0.016
+        ],
+        [
+          0.01,
+          0.026
+        ],
+        [
+          0.026,
+          0.052
+        ],
+        [
+          0.01,
+          0.078
+        ],
+        [
+          0,
+          0.098
+        ]
+      ],
+      "segments": 12,
+      "position": [
+        0,
+        1.752,
+        0.07550000139698387
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.5799999833106995,
+    1.850000000745058,
+    0.3775000069849193
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "model",
+    "methods": [
+      "relógio de coluna com mostrador graduado, pêndulo e pesos atrás da porta, colunas torneadas e frontão",
+      "arestas chanfradas",
+      "curvas de contorno refinadas",
+      "perfis torneados e bordas de chapa",
+      "entalhes e bordas de perfis"
+    ],
+    "seed": 22464
+  }
 }

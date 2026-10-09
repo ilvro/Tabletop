@@ -3,185 +3,988 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "wood": {
-      "color": "#79553e",
-      "roughness": 0.84
-    },
     "dark": {
       "color": "#292b30",
       "roughness": 0.8
     },
-    "metal": {
-      "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
     "stone": {
       "color": "#777873",
       "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
     },
     "violet": {
       "color": "#77529b",
       "emissive": "#64408d",
       "emissiveIntensity": 0.5
     },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
+    "veil": {
+      "color": "#6a4a9a",
+      "emissive": "#6b3fa0",
+      "emissiveIntensity": 0.3,
+      "opacity": 0.1,
+      "roughness": 0.3
     }
   },
   "parts": [
     {
       "shape": "box",
       "size": [
-        0.24,
-        2,
-        0.35
-      ],
-      "position": [
-        -0.85,
-        1.000000000745058,
-        0
-      ],
-      "material": "dark"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.24,
-        2,
-        0.35
-      ],
-      "position": [
-        0.85,
-        1.000000000745058,
-        0
-      ],
-      "material": "dark"
-    },
-    {
-      "shape": "box",
-      "size": [
-        1.94,
-        0.24,
-        0.35
-      ],
-      "position": [
-        0,
-        2.1200000007450583,
-        0
-      ],
-      "material": "dark"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.035,
-        1.9,
-        0.025
-      ],
-      "position": [
-        -0.712,
-        1.000000000745058,
-        0.19
-      ],
-      "material": "violet"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.035,
-        1.9,
-        0.025
-      ],
-      "position": [
-        0.712,
-        1.000000000745058,
-        0.19
-      ],
-      "material": "violet"
-    },
-    {
-      "shape": "box",
-      "size": [
-        1.45,
-        0.035,
-        0.025
-      ],
-      "position": [
-        0,
-        1.982000000745058,
-        0.19
-      ],
-      "material": "violet"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.4,
+        0.42,
         0.1,
         0.5
       ],
       "position": [
         -0.85,
-        0.05000000074505806,
+        0.05,
         0
       ],
-      "material": "stone"
+      "material": "stone",
+      "bevel": 0.015,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
       "size": [
-        0.4,
+        0.27,
+        0.37,
+        0.36
+      ],
+      "position": [
+        -0.866,
+        0.29000000000000004,
+        -0.012
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -0.08,
+        0
+      ],
+      "bevel": 0.018,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.014,
+        0.3
+      ],
+      "position": [
+        -0.85,
+        0.48200000000000004,
+        0
+      ],
+      "material": "violet",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.12,
+        0.008
+      ],
+      "position": [
+        -0.89,
+        0.29000000000000004,
+        0.185
+      ],
+      "material": "violet",
+      "rotation": [
+        0,
+        0,
+        0.4
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.12,
+        0.008
+      ],
+      "position": [
+        -0.82,
+        0.29000000000000004,
+        0.185
+      ],
+      "material": "violet",
+      "rotation": [
+        0,
+        0,
+        -0.5
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.09,
+        0.012,
+        0.008
+      ],
+      "position": [
+        -0.85,
+        0.24000000000000005,
+        0.185
+      ],
+      "material": "violet",
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.25,
+        0.37,
+        0.33999999999999997
+      ],
+      "position": [
+        -0.85,
+        0.675,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "bevel": 0.018,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.014,
+        0.3
+      ],
+      "position": [
+        -0.85,
+        0.867,
+        0
+      ],
+      "material": "violet",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.27,
+        0.37,
+        0.32
+      ],
+      "position": [
+        -0.834,
+        1.06,
+        0.012
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0.08,
+        0
+      ],
+      "bevel": 0.018,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.014,
+        0.3
+      ],
+      "position": [
+        -0.85,
+        1.252,
+        0
+      ],
+      "material": "violet",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.12,
+        0.008
+      ],
+      "position": [
+        -0.89,
+        1.06,
+        0.185
+      ],
+      "material": "violet",
+      "rotation": [
+        0,
+        0,
+        0.4
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.12,
+        0.008
+      ],
+      "position": [
+        -0.82,
+        1.06,
+        0.185
+      ],
+      "material": "violet",
+      "rotation": [
+        0,
+        0,
+        -0.5
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.09,
+        0.012,
+        0.008
+      ],
+      "position": [
+        -0.85,
+        1.01,
+        0.185
+      ],
+      "material": "violet",
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.25,
+        0.37,
+        0.36
+      ],
+      "position": [
+        -0.858,
+        1.445,
+        -0.006
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -0.04,
+        0
+      ],
+      "bevel": 0.018,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.014,
+        0.3
+      ],
+      "position": [
+        -0.85,
+        1.637,
+        0
+      ],
+      "material": "violet",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.27,
+        0.37,
+        0.33999999999999997
+      ],
+      "position": [
+        -0.842,
+        1.83,
+        0.006
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0.04,
+        0
+      ],
+      "bevel": 0.018,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.12,
+        0.008
+      ],
+      "position": [
+        -0.89,
+        1.83,
+        0.185
+      ],
+      "material": "violet",
+      "rotation": [
+        0,
+        0,
+        0.4
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.12,
+        0.008
+      ],
+      "position": [
+        -0.82,
+        1.83,
+        0.185
+      ],
+      "material": "violet",
+      "rotation": [
+        0,
+        0,
+        -0.5
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.09,
+        0.012,
+        0.008
+      ],
+      "position": [
+        -0.85,
+        1.78,
+        0.185
+      ],
+      "material": "violet",
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        1.86,
+        0.02
+      ],
+      "position": [
+        -0.705,
+        1.05,
+        0.1
+      ],
+      "material": "violet",
+      "bevel": 0.0026000000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.64,
+        0.24,
+        0.36
+      ],
+      "position": [
+        -0.68,
+        2.12,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0.03,
+        -0.02
+      ],
+      "bevel": 0.018,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.014,
+        0.22,
+        0.3
+      ],
+      "position": [
+        -0.34,
+        2.12,
+        0
+      ],
+      "material": "violet",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.42,
         0.1,
         0.5
       ],
       "position": [
         0.85,
-        0.05000000074505806,
+        0.05,
         0
       ],
-      "material": "stone"
+      "material": "stone",
+      "bevel": 0.015,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.27,
+        0.37,
+        0.36
+      ],
+      "position": [
+        0.858,
+        0.29000000000000004,
+        0.006
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0.04,
+        0
+      ],
+      "bevel": 0.018,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.014,
+        0.3
+      ],
+      "position": [
+        0.85,
+        0.48200000000000004,
+        0
+      ],
+      "material": "violet",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.12,
+        0.008
+      ],
+      "position": [
+        0.8099999999999999,
+        0.29000000000000004,
+        0.185
+      ],
+      "material": "violet",
+      "rotation": [
+        0,
+        0,
+        0.4
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.12,
+        0.008
+      ],
+      "position": [
+        0.88,
+        0.29000000000000004,
+        0.185
+      ],
+      "material": "violet",
+      "rotation": [
+        0,
+        0,
+        -0.5
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.09,
+        0.012,
+        0.008
+      ],
+      "position": [
+        0.85,
+        0.24000000000000005,
+        0.185
+      ],
+      "material": "violet",
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.25,
+        0.37,
+        0.33999999999999997
+      ],
+      "position": [
+        0.834,
+        0.675,
+        -0.012
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -0.08,
+        0
+      ],
+      "bevel": 0.018,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.014,
+        0.3
+      ],
+      "position": [
+        0.85,
+        0.867,
+        0
+      ],
+      "material": "violet",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.27,
+        0.37,
+        0.32
+      ],
+      "position": [
+        0.85,
+        1.06,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "bevel": 0.018,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.014,
+        0.3
+      ],
+      "position": [
+        0.85,
+        1.252,
+        0
+      ],
+      "material": "violet",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.12,
+        0.008
+      ],
+      "position": [
+        0.8099999999999999,
+        1.06,
+        0.185
+      ],
+      "material": "violet",
+      "rotation": [
+        0,
+        0,
+        0.4
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.12,
+        0.008
+      ],
+      "position": [
+        0.88,
+        1.06,
+        0.185
+      ],
+      "material": "violet",
+      "rotation": [
+        0,
+        0,
+        -0.5
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.09,
+        0.012,
+        0.008
+      ],
+      "position": [
+        0.85,
+        1.01,
+        0.185
+      ],
+      "material": "violet",
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.25,
+        0.37,
+        0.36
+      ],
+      "position": [
+        0.866,
+        1.445,
+        0.012
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0.08,
+        0
+      ],
+      "bevel": 0.018,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.014,
+        0.3
+      ],
+      "position": [
+        0.85,
+        1.637,
+        0
+      ],
+      "material": "violet",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.27,
+        0.37,
+        0.33999999999999997
+      ],
+      "position": [
+        0.842,
+        1.83,
+        -0.006
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -0.04,
+        0
+      ],
+      "bevel": 0.018,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.12,
+        0.008
+      ],
+      "position": [
+        0.8099999999999999,
+        1.83,
+        0.185
+      ],
+      "material": "violet",
+      "rotation": [
+        0,
+        0,
+        0.4
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.12,
+        0.008
+      ],
+      "position": [
+        0.88,
+        1.83,
+        0.185
+      ],
+      "material": "violet",
+      "rotation": [
+        0,
+        0,
+        -0.5
+      ],
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.09,
+        0.012,
+        0.008
+      ],
+      "position": [
+        0.85,
+        1.78,
+        0.185
+      ],
+      "material": "violet",
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        1.86,
+        0.02
+      ],
+      "position": [
+        0.705,
+        1.05,
+        0.1
+      ],
+      "material": "violet",
+      "bevel": 0.0026000000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.64,
+        0.24,
+        0.36
+      ],
+      "position": [
+        0.68,
+        2.12,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        -0.03,
+        0.02
+      ],
+      "bevel": 0.018,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.014,
+        0.22,
+        0.3
+      ],
+      "position": [
+        0.34,
+        2.12,
+        0
+      ],
+      "material": "violet",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.66,
+        0.26,
+        0.38
+      ],
+      "position": [
+        0,
+        2.1,
+        0
+      ],
+      "material": "dark",
+      "taper": [
+        1.12,
+        1
+      ],
+      "bevel": 0.009
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.4,
+        0.02,
+        0.03
+      ],
+      "position": [
+        0,
+        1.975,
+        0.1
+      ],
+      "material": "violet",
+      "bevel": 0.0026000000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.44,
+        1.87,
+        0.008
+      ],
+      "position": [
+        0,
+        1.04,
+        0
+      ],
+      "material": "veil",
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.09,
+        0.07,
+        0.08
+      ],
+      "position": [
+        -0.5,
+        1.86,
+        0.14
+      ],
+      "material": "dark",
+      "rotation": [
+        0.5,
+        0.3,
+        0.15
+      ],
+      "bevel": 0.012,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.078,
+        0.07,
+        0.08
+      ],
+      "position": [
+        0.42,
+        1.82,
+        -0.12
+      ],
+      "material": "dark",
+      "rotation": [
+        1.3,
+        0.78,
+        0.39
+      ],
+      "bevel": 0.012,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.066,
+        0.07,
+        0.08
+      ],
+      "position": [
+        0.56,
+        1.66,
+        0.16
+      ],
+      "material": "dark",
+      "rotation": [
+        2.2,
+        1.32,
+        0.66
+      ],
+      "bevel": 0.012,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05399999999999999,
+        0.07,
+        0.08
+      ],
+      "position": [
+        -0.4,
+        1.7,
+        -0.15
+      ],
+      "material": "dark",
+      "rotation": [
+        0.9,
+        0.54,
+        0.27
+      ],
+      "bevel": 0.012,
+      "round": true
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    2.1000000059604647,
+    2.2399999980628493,
+    0.5
+  ],
+  "design": {
+    "edition": 2,
+    "family": "ritual",
+    "reconstruction": "model",
+    "methods": [
+      "arco de blocos de obsidiana desalinhados com juntas e runas luminosas, véu translúcido e fragmentos suspensos",
+      "arestas chanfradas"
+    ],
+    "seed": 12395
+  }
 }

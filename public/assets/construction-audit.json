@@ -1,0 +1,3318 @@
+{
+  "edition": 2,
+  "assets": [
+    {
+      "id": "builtin-desk",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "marcenaria: tábuas, saia, pernas torneadas e ferragens",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 24,
+      "triangles": 4404,
+      "batches": 4
+    },
+    {
+      "id": "builtin-chair",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "assento montado, travessas, torneados e encosto vazado",
+        "arestas chanfradas",
+        "estofamento com bordas macias"
+      ],
+      "parts": 18,
+      "triangles": 4776,
+      "batches": 2
+    },
+    {
+      "id": "builtin-cabinet",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "arquivo com gavetas separadas, puxadores e porta-etiquetas",
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 30,
+      "triangles": 2348,
+      "batches": 4
+    },
+    {
+      "id": "builtin-crate",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "caixa montada em tábuas com juntas, cantoneiras de madeira e pregos",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 37,
+      "triangles": 2044,
+      "batches": 3
+    },
+    {
+      "id": "builtin-lamp",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "luminária torneada com cúpula oca, pregas e lâmpada interna",
+        "cordas e tubos curvos",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 20,
+      "triangles": 6336,
+      "batches": 3
+    },
+    {
+      "id": "builtin-rug",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "tapete com bordadura tripla e motivos geométricos em relevo baixo",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 48,
+      "triangles": 1552,
+      "batches": 2
+    },
+    {
+      "id": "builtin-dining-table",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "marcenaria: tábuas, saia, pernas torneadas e ferragens",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 17,
+      "triangles": 3852,
+      "batches": 2
+    },
+    {
+      "id": "builtin-bench",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "marcenaria: tábuas, saia, pernas torneadas e ferragens",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 18,
+      "triangles": 3896,
+      "batches": 2
+    },
+    {
+      "id": "builtin-bookshelf",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "móvel de marcenaria refeito: carcaça, cornija, painéis, prateleiras ou gavetas com puxadores",
+        "arestas chanfradas"
+      ],
+      "parts": 154,
+      "triangles": 6776,
+      "batches": 5
+    },
+    {
+      "id": "builtin-single-bed",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "cama/maca com estrutura tubular, cabeceiras curvas e colchão separado",
+        "arestas chanfradas",
+        "estofamento com bordas macias",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 24,
+      "triangles": 4720,
+      "batches": 3
+    },
+    {
+      "id": "builtin-bunk-bed",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "cama/maca com estrutura tubular, cabeceiras curvas e colchão separado",
+        "arestas chanfradas",
+        "estofamento com bordas macias",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 33,
+      "triangles": 6204,
+      "batches": 3
+    },
+    {
+      "id": "builtin-sofa",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "estofamento separado: almofadas, vivos, braços curvos e pés",
+        "arestas chanfradas",
+        "estofamento com bordas macias",
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 18,
+      "triangles": 9708,
+      "batches": 4
+    },
+    {
+      "id": "builtin-wardrobe",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "móvel de marcenaria refeito: carcaça, cornija, painéis, prateleiras ou gavetas com puxadores",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 42,
+      "triangles": 4848,
+      "batches": 3
+    },
+    {
+      "id": "builtin-stove",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "fogão de alvenaria com chapa de ferro, portas de fornalha, gaveta de cinzas e chaminé com chapéu",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 39,
+      "triangles": 7076,
+      "batches": 5
+    },
+    {
+      "id": "builtin-fridge",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "geladeira de cantos arredondados com portas independentes, puxadores cromados, dobradiças e serpentina",
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 21,
+      "triangles": 3756,
+      "batches": 3
+    },
+    {
+      "id": "builtin-sink",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "cuba realmente aberta, bordas arredondadas, dreno e torneira curva",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 20,
+      "triangles": 1176,
+      "batches": 4
+    },
+    {
+      "id": "builtin-bathtub",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "cuba realmente aberta, bordas arredondadas, dreno e torneira curva",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 11,
+      "triangles": 3676,
+      "batches": 2
+    },
+    {
+      "id": "builtin-crt-tv",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "equipamento refeito com molduras, grelhas, controles e teclas individuais",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 17,
+      "triangles": 1244,
+      "batches": 5
+    },
+    {
+      "id": "builtin-computer",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "equipamento refeito com molduras, grelhas, controles e teclas individuais",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 55,
+      "triangles": 2472,
+      "batches": 5
+    },
+    {
+      "id": "builtin-radio",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "equipamento refeito com molduras, grelhas, controles e teclas individuais",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 23,
+      "triangles": 1412,
+      "batches": 5
+    },
+    {
+      "id": "builtin-telephone",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "telefone com disco perfurado, monofone curvo e fio enrolado",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 28,
+      "triangles": 4956,
+      "batches": 3
+    },
+    {
+      "id": "builtin-security-camera",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "câmera com suporte articulado, proteção solar, objetiva embutida, LED e cabo até a placa de parede",
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 13,
+      "triangles": 2308,
+      "batches": 5
+    },
+    {
+      "id": "builtin-server-rack",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "rack com servidores em bandejas individuais, LEDs de estado, alças, ventilação no teto e cabos de manobra",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 75,
+      "triangles": 9240,
+      "batches": 5
+    },
+    {
+      "id": "builtin-generator",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "gerador em quadro tubular com tanque, motor aletado, partida retrátil, silencioso, alternador e painel de tomadas",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 40,
+      "triangles": 7828,
+      "batches": 4
+    },
+    {
+      "id": "builtin-barrel",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "tambor torneado com costuras de chapa, aros e tampões",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 5,
+      "triangles": 1632,
+      "batches": 3
+    },
+    {
+      "id": "builtin-workbench",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "bancada com tampo de pranchas, painel de ferramentas penduradas, torno de bancada, gaveteiro e prateleira",
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 49,
+      "triangles": 6180,
+      "batches": 5
+    },
+    {
+      "id": "builtin-locker",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "armários com portas de venezianas, vincos estampados, trincos com cadeado, dobradiças e plaquetas numeradas",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 67,
+      "triangles": 6804,
+      "batches": 5
+    },
+    {
+      "id": "builtin-gurney",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "cama/maca com estrutura tubular, cabeceiras curvas e colchão separado",
+        "arestas chanfradas",
+        "estofamento com bordas macias",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 27,
+      "triangles": 5636,
+      "batches": 4
+    },
+    {
+      "id": "builtin-wheelchair",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "estrutura tubular reconstruída com pneus, aros e raios vazados",
+        "ferragens curvas com vazios reais",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas",
+        "arestas chanfradas"
+      ],
+      "parts": 68,
+      "triangles": 9192,
+      "batches": 4
+    },
+    {
+      "id": "builtin-microscope",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "microscópio com braço curvo, platina com presilhas, revólver de objetivas, tubo inclinado e botões de foco",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 19,
+      "triangles": 1664,
+      "batches": 4
+    },
+    {
+      "id": "builtin-medical-cart",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "carrinho com rodízios, tampo com gradil, gaveta, prateleiras com borda, instrumentos, cuba e frascos",
+        "curvas de contorno refinadas",
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 50,
+      "triangles": 5676,
+      "batches": 3
+    },
+    {
+      "id": "builtin-iv-stand",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "suporte de cinco pés com rodízios, haste telescópica, ganchos, bolsa de soro, câmara de gotejamento e equipo",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 23,
+      "triangles": 5228,
+      "batches": 4
+    },
+    {
+      "id": "builtin-church-pew",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "banco eclesiástico com laterais recortadas e painéis de encosto",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 23,
+      "triangles": 1124,
+      "batches": 1
+    },
+    {
+      "id": "builtin-confessional",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "confessionário com laterais almofadadas, arco entalhado, treliça, cortina plissada em varão, genuflexório e banco",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "estofamento com bordas macias"
+      ],
+      "parts": 60,
+      "triangles": 9900,
+      "batches": 3
+    },
+    {
+      "id": "builtin-lectern",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "púlpito com coluna de colunelos e arco em relevo, capitel, estante inclinada com batente e missal aberto",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 28,
+      "triangles": 2560,
+      "batches": 4
+    },
+    {
+      "id": "builtin-bell",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "sino torneado oco com lábio e badalo interno",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 3,
+      "triangles": 1648,
+      "batches": 3
+    },
+    {
+      "id": "builtin-gravestone",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "lápide de topo recortado e levemente tombada, com cruz, placa gravada, rachadura, musgo e flores secas",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "cordas e tubos curvos",
+        "densidade e nervuras de folhagem"
+      ],
+      "parts": 22,
+      "triangles": 5470,
+      "batches": 5
+    },
+    {
+      "id": "builtin-coffin",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "silhueta funerária octogonal, tampa separada e alças",
+        "entalhes e bordas de perfis",
+        "cordas e tubos curvos",
+        "arestas chanfradas"
+      ],
+      "parts": 10,
+      "triangles": 1936,
+      "batches": 3
+    },
+    {
+      "id": "builtin-ritual-altar",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "altar de pedra com apoios talhados, sigilos em relevo, canaletas, inscrições, toalha com franja, velas e crânio",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas",
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 67,
+      "triangles": 8600,
+      "batches": 7
+    },
+    {
+      "id": "builtin-candles",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "velas torneadas com borda derretida, gotas de cera e pavios",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 30,
+      "triangles": 17120,
+      "batches": 3
+    },
+    {
+      "id": "builtin-ritual-circle",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "círculo ritual com anéis duplos, pentagrama, sigilo central, vinte glifos traçados e respingos",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 72,
+      "triangles": 5304,
+      "batches": 1
+    },
+    {
+      "id": "builtin-obelisk",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "obelisco afilado com base em degraus, piramídio, glifos em relevo nas quatro faces, fileira luminosa e fissura",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos",
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 61,
+      "triangles": 5612,
+      "batches": 5
+    },
+    {
+      "id": "builtin-chains",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "correntes de elos entrelaçados presas a uma chapa, com algema e gancho nas pontas",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 65,
+      "triangles": 10608,
+      "batches": 2
+    },
+    {
+      "id": "builtin-crystal",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "fragmentos anômalos em prismas lapidados sobre rocha fraturada, com lascas suspensas no ar",
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 14,
+      "triangles": 1900,
+      "batches": 3
+    },
+    {
+      "id": "builtin-ritual-book",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "grimório com lombada de nervuras, bloco de páginas, cantoneiras, fechos com presilhas e sigilo metálico na capa",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 25,
+      "triangles": 4228,
+      "batches": 4
+    },
+    {
+      "id": "builtin-tree",
+      "family": "botanical",
+      "reconstruction": "model",
+      "methods": [
+        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais",
+        "ramos afilados com secção refinada",
+        "densidade e nervuras de folhagem"
+      ],
+      "parts": 38,
+      "triangles": 12576,
+      "batches": 2
+    },
+    {
+      "id": "builtin-pine",
+      "family": "botanical",
+      "reconstruction": "model",
+      "methods": [
+        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais",
+        "ramos afilados com secção refinada",
+        "ramagens com agulhas em volume"
+      ],
+      "parts": 54,
+      "triangles": 32040,
+      "batches": 2
+    },
+    {
+      "id": "builtin-rock",
+      "family": "geological",
+      "reconstruction": "model",
+      "methods": [
+        "pedras fraturadas com volume irregular e encaixe de alvenaria",
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 4,
+      "triangles": 2880,
+      "batches": 2
+    },
+    {
+      "id": "builtin-well",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "poço de pedras irregulares com sarilho, corda enrolada, balde com aros, manivela e telhado de tábuas",
+        "subdivisão mineral preservando parâmetros de escultura",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "entalhes e bordas de perfis",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 63,
+      "triangles": 19860,
+      "batches": 6
+    },
+    {
+      "id": "builtin-hay-bale",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "fardo em fatias prensadas com textura de palha, barbantes e fios soltos",
+        "arestas chanfradas",
+        "densidade e nervuras de folhagem"
+      ],
+      "parts": 11,
+      "triangles": 3141,
+      "batches": 3
+    },
+    {
+      "id": "builtin-handcart",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "carroça com rodas raiadas de madeira, varais, grades de fueiros, descanso e sacos de carga",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 48,
+      "triangles": 6128,
+      "batches": 3
+    },
+    {
+      "id": "builtin-tent",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "barraca com cobertura inclinada, entrada aberta, estrutura e estais",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 13,
+      "triangles": 1372,
+      "batches": 4
+    },
+    {
+      "id": "builtin-campfire",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "fogueira com anel de pedras roliças, lenha em tenda, cinzas, brasas e chamas em camadas",
+        "subdivisão mineral preservando parâmetros de escultura",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 31,
+      "triangles": 7828,
+      "batches": 5
+    },
+    {
+      "id": "builtin-streetlamp",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "poste cônico com base de ferro, braço curvo com mão-francesa, luminária e cartazes colados",
+        "curvas de contorno refinadas",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 17,
+      "triangles": 3268,
+      "batches": 5
+    },
+    {
+      "id": "builtin-dumpster",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "caçamba trapezoidal com nervuras, encaixes de içamento, tampas articuladas, rodízios e sacos à mostra",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 41,
+      "triangles": 6668,
+      "batches": 4
+    },
+    {
+      "id": "builtin-barrier",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "barreira de perfil New Jersey com faixas refletivas, rasgos de içamento, alças de ligação e lascas de concreto",
+        "entalhes e bordas de perfis",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 18,
+      "triangles": 4064,
+      "batches": 4
+    },
+    {
+      "id": "builtin-traffic-cone",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "cone oco com base de borracha, colarinhos refletivos e pés",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 8,
+      "triangles": 748,
+      "batches": 3
+    },
+    {
+      "id": "builtin-evidence-board",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "quadro de cortiça com fotos, recortes, mapa marcado, alfinetes e fios ligando as pistas",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 50,
+      "triangles": 5944,
+      "batches": 6
+    },
+    {
+      "id": "builtin-evidence-case",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "maleta de alumínio com cantoneiras, perfil de vedação, fechos com chave, alça e etiqueta",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 20,
+      "triangles": 4404,
+      "batches": 4
+    },
+    {
+      "id": "builtin-documents",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "pilhas de papéis desalinhados, pasta amarrada com etiqueta, folhas datilografadas, fotografia e caneta",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 24,
+      "triangles": 1300,
+      "batches": 5
+    },
+    {
+      "id": "builtin-suitcase",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "mala de couro com cintas afiveladas, cantoneiras metálicas, fechos, alça e etiquetas de viagem",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 23,
+      "triangles": 6052,
+      "batches": 5
+    },
+    {
+      "id": "builtin-armchair",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "estofamento separado: almofadas, vivos, braços curvos e pés",
+        "arestas chanfradas",
+        "estofamento com bordas macias",
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 12,
+      "triangles": 6780,
+      "batches": 4
+    },
+    {
+      "id": "builtin-coffee-table",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "marcenaria: tábuas, saia, pernas torneadas e ferragens",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 15,
+      "triangles": 3764,
+      "batches": 2
+    },
+    {
+      "id": "builtin-bedside-table",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "móvel de marcenaria refeito: carcaça, cornija, painéis, prateleiras ou gavetas com puxadores",
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 34,
+      "triangles": 5368,
+      "batches": 3
+    },
+    {
+      "id": "builtin-dresser",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "móvel de marcenaria refeito: carcaça, cornija, painéis, prateleiras ou gavetas com puxadores",
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 58,
+      "triangles": 7400,
+      "batches": 3
+    },
+    {
+      "id": "builtin-mirror",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "espelho com moldura em camadas, friso dourado, rosetas nos cantos e frontão entalhado",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 20,
+      "triangles": 1196,
+      "batches": 3
+    },
+    {
+      "id": "builtin-grandfather-clock",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "relógio de coluna com mostrador graduado, pêndulo e pesos atrás da porta, colunas torneadas e frontão",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 48,
+      "triangles": 4856,
+      "batches": 5
+    },
+    {
+      "id": "builtin-toilet",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "louça sanitária com cuba oca, assento e reservatório",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 6,
+      "triangles": 1560,
+      "batches": 3
+    },
+    {
+      "id": "builtin-shower",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "box com paredes azulejadas, base com borda e ralo, registros, chuveiro em pescoço de ganso e lateral de vidro",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 21,
+      "triangles": 3496,
+      "batches": 4
+    },
+    {
+      "id": "builtin-radiator",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "radiador de ferro fundido em colunas, com tubos coletores, pés, registro e purgador",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 35,
+      "triangles": 6820,
+      "batches": 2
+    },
+    {
+      "id": "builtin-desk-fan",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "ventilador com gaiola de arame, pás inclinadas, carcaça do motor e base com seletor",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 35,
+      "triangles": 9604,
+      "batches": 3
+    },
+    {
+      "id": "builtin-reception-counter",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "balcão com tampo de granito boleado, frente almofadada com pilastras e gavetas no lado de atendimento",
+        "arestas chanfradas"
+      ],
+      "parts": 41,
+      "triangles": 3272,
+      "batches": 4
+    },
+    {
+      "id": "builtin-cash-register",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "caixa registradora com gaveta, teclado inclinado de teclas redondas, visor, manivela e bobina",
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 34,
+      "triangles": 2780,
+      "batches": 5
+    },
+    {
+      "id": "builtin-display-case",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "vitrine com caixa de vidro em caixilhos, base almofadada e peças expostas com etiquetas",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "estofamento com bordas macias"
+      ],
+      "parts": 41,
+      "triangles": 2776,
+      "batches": 6
+    },
+    {
+      "id": "builtin-vending-machine",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "máquina de bebidas com vitrine, prateleiras de latas, teclado, moedeiro, gaveta de retirada e letreiro",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 70,
+      "triangles": 6820,
+      "batches": 7
+    },
+    {
+      "id": "builtin-supermarket-shelf",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "gôndola com montantes, prateleiras em mão-francesa, porta-preços e mercadorias variadas com falhas",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 53,
+      "triangles": 8864,
+      "batches": 4
+    },
+    {
+      "id": "builtin-restaurant-booth",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "estofamento separado: almofadas, vivos, braços curvos e pés",
+        "arestas chanfradas",
+        "estofamento com bordas macias",
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 15,
+      "triangles": 8244,
+      "batches": 4
+    },
+    {
+      "id": "builtin-bar-stool",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "banqueta com base em trombeta, coluna cromada, aro de apoio para os pés e assento estofado com vivo",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 12,
+      "triangles": 2424,
+      "batches": 3
+    },
+    {
+      "id": "builtin-pool-table",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "mesa de sinuca com pernas torneadas, tabelas e borrachas, seis caçapas, marcações e bolas",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 90,
+      "triangles": 11952,
+      "batches": 5
+    },
+    {
+      "id": "builtin-piano",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "piano de armário com teclas individuais, painéis almofadados, pedais de latão e arandelas de vela",
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 90,
+      "triangles": 8784,
+      "batches": 7
+    },
+    {
+      "id": "builtin-classroom-desk",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "carteira escolar de tubo curvado contínuo, tampo com porta-livros, assento e encosto de madeira",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas",
+        "arestas chanfradas"
+      ],
+      "parts": 18,
+      "triangles": 2788,
+      "batches": 2
+    },
+    {
+      "id": "builtin-typewriter",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "equipamento refeito com molduras, grelhas, controles e teclas individuais",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 45,
+      "triangles": 4256,
+      "batches": 5
+    },
+    {
+      "id": "builtin-reel-recorder",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "gravador com carretéis vazados, fita no percurso das cabeças, medidores VU e botões giratórios",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 33,
+      "triangles": 4460,
+      "batches": 5
+    },
+    {
+      "id": "builtin-vhs-recorder",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "videocassete com porta de fita, visor, teclas, grelha de ventilação e duas fitas etiquetadas",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 29,
+      "triangles": 2336,
+      "batches": 4
+    },
+    {
+      "id": "builtin-surveillance-monitor",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "central com quatro monitores de tubo, mesa com gaveteiro, console do operador e cabos",
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 55,
+      "triangles": 9788,
+      "batches": 4
+    },
+    {
+      "id": "builtin-oscilloscope",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "osciloscópio com tela e traço senoidal, seletores, conectores, alça e pés",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 30,
+      "triangles": 3052,
+      "batches": 4
+    },
+    {
+      "id": "builtin-laptop",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "equipamento refeito com molduras, grelhas, controles e teclas individuais",
+        "arestas chanfradas"
+      ],
+      "parts": 53,
+      "triangles": 2332,
+      "batches": 5
+    },
+    {
+      "id": "builtin-projector",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "projetor com carrossel de slides ranhurado, objetiva telescópica, grelha de ventilação e pés reguláveis",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 42,
+      "triangles": 3308,
+      "batches": 4
+    },
+    {
+      "id": "builtin-antenna",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "antena com mastro telescópico estaiado, conjunto Yagi, refletor em grade, caixa de junção e para-raios",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 36,
+      "triangles": 4312,
+      "batches": 3
+    },
+    {
+      "id": "builtin-safe",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "cofre com porta rebaixada, disco de segredo graduado, volante de três raios, dobradiças e placa",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 35,
+      "triangles": 3424,
+      "batches": 4
+    },
+    {
+      "id": "builtin-weapon-case",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "estojo rígido com tampa nervurada, cantoneiras, quatro fechos, alça e dobradiças",
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 27,
+      "triangles": 5540,
+      "batches": 3
+    },
+    {
+      "id": "builtin-centrifuge",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "centrífuga com tampa abaulada e aro, painel com visor, seletores, luz de operação e ventilação",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 17,
+      "triangles": 2228,
+      "batches": 6
+    },
+    {
+      "id": "builtin-specimen-jars",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "frascos de vidro com líquido luminoso, tampas rosqueadas, etiquetas e espécimes conservados",
+        "curvas de contorno refinadas",
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 18,
+      "triangles": 2500,
+      "batches": 7
+    },
+    {
+      "id": "builtin-chemical-rack",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "estante com tubos de ensaio de vidro, níveis de reagente diferentes e furos vazios",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 33,
+      "triangles": 7696,
+      "batches": 5
+    },
+    {
+      "id": "builtin-oxygen-tank",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "cilindro com ombro pintado, colar, válvula de volante, regulador com dois manômetros, mangueira e rótulo",
+        "perfis torneados e bordas de chapa",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 24,
+      "triangles": 2688,
+      "batches": 5
+    },
+    {
+      "id": "builtin-autopsy-table",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "mesa de autópsia com cuba rebaixada, canaletas, ralo com dreno e balde, apoio de cabeça e colunas com pedal",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos"
+      ],
+      "parts": 25,
+      "triangles": 4536,
+      "batches": 3
+    },
+    {
+      "id": "builtin-mortuary-cabinet",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "câmara mortuária de quatro portas com guarnição, alavancas de trinco, dobradiças, porta-etiquetas e termômetro",
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 80,
+      "triangles": 7208,
+      "batches": 4
+    },
+    {
+      "id": "builtin-surgical-lamp",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "foco cirúrgico com base lastreada, coluna regulável, braço curvo, cúpula refletora de cinco lâmpadas e manopla",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 22,
+      "triangles": 3680,
+      "batches": 4
+    },
+    {
+      "id": "builtin-containment-pod",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "cápsula de vidro com fluido translúcido, vulto suspenso e tubos, anéis luminosos, estrutura de reforço e console",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos",
+        "arestas chanfradas"
+      ],
+      "parts": 35,
+      "triangles": 9912,
+      "batches": 8
+    },
+    {
+      "id": "builtin-pallet",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "palete com sapatas, longarinas, tábuas de topo desalinhadas e pregos",
+        "arestas chanfradas"
+      ],
+      "parts": 25,
+      "triangles": 1340,
+      "batches": 2
+    },
+    {
+      "id": "builtin-pallet-jack",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "paleteira com garfos chanfrados, roletes, unidade hidráulica, rodas direcionais e timão com alça e gatilho",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 23,
+      "triangles": 3904,
+      "batches": 3
+    },
+    {
+      "id": "builtin-tool-chest",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "carrinho de ferramentas com seis gavetas de puxador contínuo, cantoneiras, alça lateral e rodízios",
+        "curvas de contorno refinadas",
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 37,
+      "triangles": 6116,
+      "batches": 4
+    },
+    {
+      "id": "builtin-pipe-valve",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "tubulação flangeada com cotovelo, válvula de gaveta com volante, linha de desvio em cobre e manômetro",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "arestas chanfradas"
+      ],
+      "parts": 44,
+      "triangles": 4784,
+      "batches": 6
+    },
+    {
+      "id": "builtin-power-panel",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "quadro elétrico com disjuntores individuais, chave geral, medidor, sinaleiros, etiquetas e chicote de cabos",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 49,
+      "triangles": 6836,
+      "batches": 8
+    },
+    {
+      "id": "builtin-water-tank",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "reservatório cônico com cintas, tampa abaulada, registro de saída e tubo de extravasão",
+        "ferragens curvas com vazios reais",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos"
+      ],
+      "parts": 20,
+      "triangles": 3940,
+      "batches": 4
+    },
+    {
+      "id": "builtin-fuel-pump",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "bomba de combustível com mostradores de tambor, emblema, porta de serviço, bico no suporte e mangueira",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 30,
+      "triangles": 3992,
+      "batches": 6
+    },
+    {
+      "id": "builtin-oil-pump",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "cavalete de bombeio com viga oscilante, cabeça de cavalo, torre em A, manivelas com contrapesos, redutor e cabeça de poço",
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "entalhes e bordas de perfis",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 40,
+      "triangles": 4520,
+      "batches": 4
+    },
+    {
+      "id": "builtin-dead-tree",
+      "family": "botanical",
+      "reconstruction": "model",
+      "methods": [
+        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais",
+        "ramos afilados com secção refinada"
+      ],
+      "parts": 36,
+      "triangles": 10368,
+      "batches": 2
+    },
+    {
+      "id": "builtin-stump",
+      "family": "botanical",
+      "reconstruction": "model",
+      "methods": [
+        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "ramos afilados com secção refinada"
+      ],
+      "parts": 13,
+      "triangles": 4704,
+      "batches": 2
+    },
+    {
+      "id": "builtin-bushes",
+      "family": "botanical",
+      "reconstruction": "model",
+      "methods": [
+        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais",
+        "ramos afilados com secção refinada",
+        "densidade e nervuras de folhagem"
+      ],
+      "parts": 38,
+      "triangles": 12576,
+      "batches": 2
+    },
+    {
+      "id": "builtin-iron-fence",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "grade de cemitério com pilaretes de pedra, lanças, barras intermediárias com pinhas, faixa de argolas, volutas e uma barra torta",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 52,
+      "triangles": 6620,
+      "batches": 3
+    },
+    {
+      "id": "builtin-mausoleum",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "mausoléu com escadaria, colunas, alvenaria aparelhada, frontão, portas de bronze com cruzes, urnas e janelas gradeadas",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 48,
+      "triangles": 7296,
+      "batches": 5
+    },
+    {
+      "id": "builtin-ruined-column",
+      "family": "architecture",
+      "reconstruction": "model",
+      "methods": [
+        "coluna quebrada com base moldurada, caneluras, topo fraturado, tambor caído e entulho",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "subdivisão mineral preservando parâmetros de escultura",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 32,
+      "triangles": 4876,
+      "batches": 1
+    },
+    {
+      "id": "builtin-broken-wall",
+      "family": "architecture",
+      "reconstruction": "model",
+      "methods": [
+        "pedras fraturadas com volume irregular e encaixe de alvenaria",
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 11,
+      "triangles": 7920,
+      "batches": 2
+    },
+    {
+      "id": "builtin-sewer-grate",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "grade de ferro com quadro, barras, travessas e parafusos sobre o poço escuro",
+        "arestas chanfradas"
+      ],
+      "parts": 21,
+      "triangles": 1004,
+      "batches": 3
+    },
+    {
+      "id": "builtin-ritual-mask",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "máscara deitada com contorno facial, sobrancelhas, nariz e aberturas escuras",
+        "entalhes e bordas de perfis",
+        "arestas chanfradas"
+      ],
+      "parts": 9,
+      "triangles": 1692,
+      "batches": 5
+    },
+    {
+      "id": "builtin-reliquary",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "relicário com tampa em duas águas, pilastras, cruz frontal, cintas de ferro, cadeado, lacres de cera e fresta luminosa",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "entalhes e bordas de perfis",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 21,
+      "triangles": 2368,
+      "batches": 5
+    },
+    {
+      "id": "builtin-stone-sarcophagus",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "silhueta funerária octogonal, tampa separada e alças",
+        "entalhes e bordas de perfis",
+        "cordas e tubos curvos",
+        "arestas chanfradas"
+      ],
+      "parts": 11,
+      "triangles": 1980,
+      "batches": 4
+    },
+    {
+      "id": "builtin-skull-display",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "escultura de crânio/máscara: órbitas, maçãs, mandíbula e dentes",
+        "entalhes e bordas de perfis",
+        "arestas chanfradas"
+      ],
+      "parts": 18,
+      "triangles": 6176,
+      "batches": 4
+    },
+    {
+      "id": "builtin-effigy",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "efígie de palha amarrada em cruz, com cabeça de saco costurada, faixa, braços em feixes e marca pintada no peito",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais",
+        "arestas chanfradas",
+        "densidade e nervuras de folhagem"
+      ],
+      "parts": 27,
+      "triangles": 3134,
+      "batches": 6
+    },
+    {
+      "id": "builtin-anomalous-portal",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "arco de blocos de obsidiana desalinhados com juntas e runas luminosas, véu translúcido e fragmentos suspensos",
+        "arestas chanfradas"
+      ],
+      "parts": 51,
+      "triangles": 6852,
+      "batches": 4
+    },
+    {
+      "id": "builtin-sedan",
+      "family": "vehicle",
+      "reconstruction": "model",
+      "methods": [
+        "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 57,
+      "triangles": 6748,
+      "batches": 7
+    },
+    {
+      "id": "builtin-delivery-van",
+      "family": "vehicle",
+      "reconstruction": "model",
+      "methods": [
+        "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 53,
+      "triangles": 6572,
+      "batches": 8
+    },
+    {
+      "id": "builtin-ambulance",
+      "family": "vehicle",
+      "reconstruction": "model",
+      "methods": [
+        "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "estofamento com bordas macias"
+      ],
+      "parts": 60,
+      "triangles": 7968,
+      "batches": 8
+    },
+    {
+      "id": "builtin-police-car",
+      "family": "vehicle",
+      "reconstruction": "model",
+      "methods": [
+        "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "estofamento com bordas macias"
+      ],
+      "parts": 60,
+      "triangles": 7968,
+      "batches": 7
+    },
+    {
+      "id": "builtin-motorcycle",
+      "family": "vehicle",
+      "reconstruction": "model",
+      "methods": [
+        "estrutura tubular reconstruída com pneus, aros e raios vazados",
+        "ferragens curvas com vazios reais",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos",
+        "arestas chanfradas"
+      ],
+      "parts": 46,
+      "triangles": 7104,
+      "batches": 5
+    },
+    {
+      "id": "builtin-rowboat",
+      "family": "vehicle",
+      "reconstruction": "model",
+      "methods": [
+        "barco com casco aberto de tábuas curvas, quilha, bordas e bancos",
+        "entalhes e bordas de perfis",
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 18,
+      "triangles": 3664,
+      "batches": 1
+    },
+    {
+      "id": "builtin-rocking-chair",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "cadeira de balanço com esquis curvos, pernas torneadas, braços, ripas e travessa de encosto recortada",
+        "entalhes e bordas de perfis",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "estofamento com bordas macias"
+      ],
+      "parts": 26,
+      "triangles": 7624,
+      "batches": 2
+    },
+    {
+      "id": "builtin-fireplace",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "lareira de tijolos com verga em fiada de pé, console de madeira com mísulas, grelha de ferro, lenha e atiçadores",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 48,
+      "triangles": 4204,
+      "batches": 6
+    },
+    {
+      "id": "builtin-coat-rack",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "cabideiro torneado com pés e ganchos curvos, casaco pendurado e chapéu",
+        "cordas e tubos curvos",
+        "arestas chanfradas"
+      ],
+      "parts": 27,
+      "triangles": 8984,
+      "batches": 3
+    },
+    {
+      "id": "builtin-card-catalog",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "móvel de marcenaria refeito: carcaça, cornija, painéis, prateleiras ou gavetas com puxadores",
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 150,
+      "triangles": 14376,
+      "batches": 4
+    },
+    {
+      "id": "builtin-crib",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "berço com postes torneados, grades de varetas, cabeceiras recortadas, colchão e manta dobrada",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "entalhes e bordas de perfis",
+        "estofamento com bordas macias"
+      ],
+      "parts": 37,
+      "triangles": 6188,
+      "batches": 3
+    },
+    {
+      "id": "builtin-rocking-horse",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "cavalo de balanço com corpo e pescoço modelados, crina, cauda, sela e esquis curvos",
+        "entalhes e bordas de perfis",
+        "perfis torneados e bordas de chapa",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos",
+        "estofamento com bordas macias"
+      ],
+      "parts": 22,
+      "triangles": 5068,
+      "batches": 5
+    },
+    {
+      "id": "builtin-gramophone",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "gramofone com corneta em campânula, prato e disco com sulcos, braço fonográfico e manivela",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 25,
+      "triangles": 4644,
+      "batches": 5
+    },
+    {
+      "id": "builtin-spirit-board",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "tabuleiro com filetes, arcos de letras e algarismos traçados, sol e lua, e prancheta em coração com visor",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 77,
+      "triangles": 4884,
+      "batches": 6
+    },
+    {
+      "id": "builtin-cage",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "jaula com barras individuais, porta acorrentada com cadeado, selos de papel e grilhão preso ao piso",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 97,
+      "triangles": 10400,
+      "batches": 6
+    },
+    {
+      "id": "builtin-restraint-chair",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "cadeira de contenção em pranchas com travessas aparafusadas, correias de pulso, tornozelo e peito e apoio de cabeça",
+        "arestas chanfradas",
+        "estofamento com bordas macias",
+        "cordas e tubos curvos"
+      ],
+      "parts": 37,
+      "triangles": 4544,
+      "batches": 4
+    },
+    {
+      "id": "builtin-privacy-screen",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "biombo de três folhas com tecido plissado, caixilhos tubulares, dobradiças e ponteiras",
+        "curvas de contorno refinadas",
+        "arestas chanfradas"
+      ],
+      "parts": 46,
+      "triangles": 3480,
+      "batches": 3
+    },
+    {
+      "id": "builtin-body-bag",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "saco com volume orgânico fechado, zíper contínuo e alças",
+        "cordas e tubos curvos",
+        "arestas chanfradas"
+      ],
+      "parts": 10,
+      "triangles": 3500,
+      "batches": 3
+    },
+    {
+      "id": "builtin-blood-pool",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "contorno orgânico de líquido com borda irregular e gotas separadas",
+        "entalhes e bordas de perfis",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 7,
+      "triangles": 1112,
+      "batches": 2
+    },
+    {
+      "id": "builtin-grave-cross",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "cova com montículo de terra, pedras de contorno, cruz de madeira amarrada e tombada, placa e tufos de capim",
+        "subdivisão mineral preservando parâmetros de escultura",
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "densidade e nervuras de folhagem"
+      ],
+      "parts": 26,
+      "triangles": 8296,
+      "batches": 6
+    },
+    {
+      "id": "builtin-open-grave",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "cova aberta com caixão ao fundo, bordas e monte de terra revolvida, torrões e pá fincada",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "subdivisão mineral preservando parâmetros de escultura",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 22,
+      "triangles": 6176,
+      "batches": 4
+    },
+    {
+      "id": "builtin-angel-statue",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "anjo que chora sobre pedestal moldurado, com túnica drapeada, cabeça inclinada, mãos no rosto e asas em camadas",
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 27,
+      "triangles": 7524,
+      "batches": 1
+    },
+    {
+      "id": "builtin-ritual-candelabra",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "candelabro de cinco braços com pés em garra, haste torneada, sigilo em anel, espinhos e velas escorridas",
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas",
+        "arestas chanfradas"
+      ],
+      "parts": 49,
+      "triangles": 7192,
+      "batches": 4
+    },
+    {
+      "id": "builtin-chandelier",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "lustre de seis braços em S com arandelas, velas escorridas, corpo torneado e corrente",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 62,
+      "triangles": 9896,
+      "batches": 5
+    },
+    {
+      "id": "builtin-wooden-fence",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "cerca rústica com mourões afilados, tábuas pregadas, uma tábua solta e arame farpado",
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 24,
+      "triangles": 1676,
+      "batches": 3
+    },
+    {
+      "id": "builtin-water-pump",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "bomba manual de ferro fundido com alavanca curva, bica, haste do êmbolo, base de pedra e balde com água",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 15,
+      "triangles": 2800,
+      "batches": 4
+    },
+    {
+      "id": "builtin-log-pile",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "pilha de toras com casca, topos serrados com anéis, meia tora rachada e estacas de contenção",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "arestas chanfradas"
+      ],
+      "parts": 51,
+      "triangles": 12444,
+      "batches": 4
+    },
+    {
+      "id": "builtin-wheelbarrow",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "carrinho de mão com caçamba de chapas inclinadas e borda enrolada, varais de madeira, pés e carga de terra",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos",
+        "perfis torneados e bordas de chapa",
+        "arestas chanfradas",
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 22,
+      "triangles": 3720,
+      "batches": 5
+    },
+    {
+      "id": "builtin-phone-booth",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "orelhão com concha de fibra aberta, forro interno, aparelho com monofone e teclado, prateleira e poste",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos"
+      ],
+      "parts": 30,
+      "triangles": 3604,
+      "batches": 8
+    },
+    {
+      "id": "builtin-bus-stop",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "abrigo de ônibus com cobertura arqueada, fechamento de vidro, banco, painel publicitário e placa com horários",
+        "entalhes e bordas de perfis",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 40,
+      "triangles": 3232,
+      "batches": 6
+    },
+    {
+      "id": "builtin-fire-hydrant",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "hidrante com corpo torneado, três bocais com tampões presos por correntes, porca de manobra e flange aparafusado",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 35,
+      "triangles": 5576,
+      "batches": 2
+    },
+    {
+      "id": "builtin-trash-can",
+      "family": "fabrication",
+      "reconstruction": "model",
+      "methods": [
+        "lixeira de ripas em poste com cintas, saco interno, papel amassado e copo descartado",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais",
+        "subdivisão mineral preservando parâmetros de escultura",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 30,
+      "triangles": 4212,
+      "batches": 6
+    },
+    {
+      "id": "builtin-shopping-cart",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "carrinho de supermercado em arame com cesto afunilado, chassi tubular, grade inferior, alça e rodízios",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas",
+        "arestas chanfradas"
+      ],
+      "parts": 83,
+      "triangles": 6808,
+      "batches": 3
+    },
+    {
+      "id": "builtin-arcade-cabinet",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "fliperama com laterais recortadas, tela inclinada, painel com alavanca e botões, letreiro e porta de fichas",
+        "entalhes e bordas de perfis",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 33,
+      "triangles": 2668,
+      "batches": 7
+    },
+    {
+      "id": "builtin-chalkboard",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "quadro-negro com moldura dupla, calha de giz, apagador e anotações desenhadas a giz",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 27,
+      "triangles": 5404,
+      "batches": 3
+    },
+    {
+      "id": "builtin-jail-bars",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "grade de cela com trecho fixo, porta em trilho, travessas, caixa de fechadura e barras individuais",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 33,
+      "triangles": 2752,
+      "batches": 3
+    },
+    {
+      "id": "builtin-camera-tripod",
+      "family": "instrument",
+      "reconstruction": "model",
+      "methods": [
+        "filmadora em tripé de pernas telescópicas com travas, cabeça com manopla, objetiva, visor, microfone e luz de gravação",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa",
+        "arestas chanfradas"
+      ],
+      "parts": 31,
+      "triangles": 4004,
+      "batches": 5
+    },
+    {
+      "id": "builtin-kerosene-lantern",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "lampião com tanque, queimador e regulador de pavio, globo de vidro com chama, chaminé, guarda de arame e alça",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 13,
+      "triangles": 2492,
+      "batches": 4
+    },
+    {
+      "id": "builtin-globe",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "globo com continentes em relevo, meridiano de latão, eixo inclinado e base torneada",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 24,
+      "triangles": 5344,
+      "batches": 4
+    },
+    {
+      "id": "builtin-bicycle",
+      "family": "vehicle",
+      "reconstruction": "model",
+      "methods": [
+        "bicicleta com quadro tubular, rodas raiadas, para-lamas, transmissão por corrente, selim, guidão curvo e bagageiro",
+        "ferragens curvas com vazios reais",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "arcos com curva refinada",
+        "cordas e tubos curvos",
+        "arestas chanfradas"
+      ],
+      "parts": 57,
+      "triangles": 7772,
+      "batches": 3
+    },
+    {
+      "id": "builtin-mountain-boulder",
+      "family": "geological",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 2,
+      "triangles": 1960,
+      "batches": 1
+    },
+    {
+      "id": "builtin-granite-boulder",
+      "family": "geological",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 2,
+      "triangles": 2560,
+      "batches": 1
+    },
+    {
+      "id": "builtin-stratified-cliff",
+      "family": "geological",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 3,
+      "triangles": 4860,
+      "batches": 1
+    },
+    {
+      "id": "builtin-rock-scree",
+      "family": "geological",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 9,
+      "triangles": 4500,
+      "batches": 1
+    },
+    {
+      "id": "builtin-ruin-masonry-wall",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 32,
+      "triangles": 10240,
+      "batches": 1
+    },
+    {
+      "id": "builtin-ruin-stone-arch",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura",
+        "arcos com curva refinada"
+      ],
+      "parts": 21,
+      "triangles": 4300,
+      "batches": 1
+    },
+    {
+      "id": "builtin-ruin-buttress",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura",
+        "arestas chanfradas"
+      ],
+      "parts": 8,
+      "triangles": 2284,
+      "batches": 1
+    },
+    {
+      "id": "builtin-mountain-timber-bridge",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 22,
+      "triangles": 968,
+      "batches": 1
+    },
+    {
+      "id": "builtin-mountain-roof",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 19,
+      "triangles": 836,
+      "batches": 1
+    },
+    {
+      "id": "builtin-mountain-lantern-post",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 10,
+      "triangles": 492,
+      "batches": 3
+    },
+    {
+      "id": "builtin-alpine-fir",
+      "family": "botanical",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "densidade e nervuras de folhagem",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 78,
+      "triangles": 24768,
+      "batches": 2
+    },
+    {
+      "id": "builtin-alpine-pine",
+      "family": "botanical",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "densidade e nervuras de folhagem",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 78,
+      "triangles": 24768,
+      "batches": 2
+    },
+    {
+      "id": "builtin-bare-mountain-tree",
+      "family": "botanical",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 78,
+      "triangles": 10944,
+      "batches": 1
+    },
+    {
+      "id": "builtin-alpine-fern",
+      "family": "botanical",
+      "reconstruction": "components",
+      "methods": [
+        "densidade e nervuras de folhagem"
+      ],
+      "parts": 4,
+      "triangles": 1848,
+      "batches": 1
+    },
+    {
+      "id": "builtin-dry-grass",
+      "family": "botanical",
+      "reconstruction": "components",
+      "methods": [
+        "densidade e nervuras de folhagem"
+      ],
+      "parts": 3,
+      "triangles": 378,
+      "batches": 1
+    },
+    {
+      "id": "builtin-mountain-cliff-face",
+      "family": "geological",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 3,
+      "triangles": 2336,
+      "batches": 2
+    },
+    {
+      "id": "builtin-mountain-cliff-corner",
+      "family": "geological",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 2,
+      "triangles": 3472,
+      "batches": 1
+    },
+    {
+      "id": "builtin-mountain-cliff-overhang",
+      "family": "geological",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 2,
+      "triangles": 1472,
+      "batches": 2
+    },
+    {
+      "id": "builtin-mountain-rock-spire",
+      "family": "geological",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 2,
+      "triangles": 2296,
+      "batches": 2
+    },
+    {
+      "id": "builtin-mountain-ruin-tower",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 109,
+      "triangles": 19184,
+      "batches": 1
+    },
+    {
+      "id": "builtin-mountain-ruin-corner",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 41,
+      "triangles": 7216,
+      "batches": 1
+    },
+    {
+      "id": "builtin-mountain-timber-platform",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 20,
+      "triangles": 880,
+      "batches": 1
+    },
+    {
+      "id": "builtin-mountain-rope-span",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 3,
+      "triangles": 696,
+      "batches": 2
+    },
+    {
+      "id": "builtin-mountain-rope-post",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 5,
+      "triangles": 952,
+      "batches": 4
+    },
+    {
+      "id": "builtin-mountain-wall-lantern",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 18,
+      "triangles": 1976,
+      "batches": 3
+    },
+    {
+      "id": "builtin-mountain-round-lantern",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 23,
+      "triangles": 3156,
+      "batches": 4
+    },
+    {
+      "id": "builtin-mountain-cave-mouth",
+      "family": "geological",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura",
+        "arcos com curva refinada",
+        "arestas chanfradas"
+      ],
+      "parts": 80,
+      "triangles": 14164,
+      "batches": 4
+    },
+    {
+      "id": "builtin-mountain-uprooted-stump",
+      "family": "botanical",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos",
+        "arestas chanfradas"
+      ],
+      "parts": 15,
+      "triangles": 2812,
+      "batches": 2
+    },
+    {
+      "id": "builtin-mountain-cart-wreck",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 20,
+      "triangles": 1368,
+      "batches": 2
+    },
+    {
+      "id": "builtin-mountain-ruin-high-wall",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 191,
+      "triangles": 10336,
+      "batches": 2
+    },
+    {
+      "id": "builtin-organic-rock",
+      "family": "geological",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 1,
+      "triangles": 11520,
+      "batches": 1
+    },
+    {
+      "id": "builtin-organic-cliff",
+      "family": "geological",
+      "reconstruction": "components",
+      "methods": [
+        "subdivisão mineral preservando parâmetros de escultura"
+      ],
+      "parts": 1,
+      "triangles": 11880,
+      "batches": 1
+    },
+    {
+      "id": "builtin-dense-alpine-fir",
+      "family": "botanical",
+      "reconstruction": "components",
+      "methods": [
+        "ramos afilados com secção refinada",
+        "ramagens com agulhas em volume"
+      ],
+      "parts": 75,
+      "triangles": 64612,
+      "batches": 2
+    },
+    {
+      "id": "builtin-dense-mountain-pine",
+      "family": "botanical",
+      "reconstruction": "components",
+      "methods": [
+        "ramos afilados com secção refinada",
+        "ramagens com agulhas em volume"
+      ],
+      "parts": 71,
+      "triangles": 60960,
+      "batches": 2
+    },
+    {
+      "id": "builtin-forked-dead-branch",
+      "family": "botanical",
+      "reconstruction": "components",
+      "methods": [
+        "ramos afilados com secção refinada"
+      ],
+      "parts": 2,
+      "triangles": 1584,
+      "batches": 1
+    },
+    {
+      "id": "builtin-twisted-mountain-roots",
+      "family": "botanical",
+      "reconstruction": "components",
+      "methods": [
+        "ramos afilados com secção refinada"
+      ],
+      "parts": 5,
+      "triangles": 2880,
+      "batches": 1
+    },
+    {
+      "id": "builtin-winter-dry-shrub",
+      "family": "botanical",
+      "reconstruction": "components",
+      "methods": [
+        "ramos afilados com secção refinada"
+      ],
+      "parts": 7,
+      "triangles": 5040,
+      "batches": 1
+    },
+    {
+      "id": "builtin-wooden-expedition-barrel",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "aduelas curvas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 37,
+      "triangles": 6864,
+      "batches": 4
+    },
+    {
+      "id": "builtin-old-open-crate",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "madeira lascada",
+        "curvas de contorno refinadas",
+        "arestas chanfradas"
+      ],
+      "parts": 31,
+      "triangles": 1360,
+      "batches": 2
+    },
+    {
+      "id": "builtin-old-closed-crate",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "madeira lascada",
+        "curvas de contorno refinadas",
+        "arestas chanfradas"
+      ],
+      "parts": 39,
+      "triangles": 1572,
+      "batches": 2
+    },
+    {
+      "id": "builtin-broken-timber-pile",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "madeira lascada",
+        "arestas chanfradas"
+      ],
+      "parts": 4,
+      "triangles": 116,
+      "batches": 2
+    },
+    {
+      "id": "builtin-church-clustered-pier",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 18,
+      "triangles": 3428,
+      "batches": 3
+    },
+    {
+      "id": "builtin-church-round-arcade",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis",
+        "arestas chanfradas"
+      ],
+      "parts": 6,
+      "triangles": 1032,
+      "batches": 2
+    },
+    {
+      "id": "builtin-church-pointed-arch",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis",
+        "arestas chanfradas"
+      ],
+      "parts": 6,
+      "triangles": 1032,
+      "batches": 2
+    },
+    {
+      "id": "builtin-church-curved-balcony",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos"
+      ],
+      "parts": 42,
+      "triangles": 10136,
+      "batches": 2
+    },
+    {
+      "id": "builtin-church-balustrade",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 29,
+      "triangles": 6568,
+      "batches": 1
+    },
+    {
+      "id": "builtin-church-stained-window",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 12,
+      "triangles": 2076,
+      "batches": 4
+    },
+    {
+      "id": "builtin-church-vault-ribs",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis",
+        "cordas e tubos curvos",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 5,
+      "triangles": 2312,
+      "batches": 1
+    },
+    {
+      "id": "builtin-church-roof-shell",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 1,
+      "triangles": 428,
+      "batches": 1
+    },
+    {
+      "id": "builtin-church-buttress",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 5,
+      "triangles": 236,
+      "batches": 2
+    },
+    {
+      "id": "builtin-church-pinnacle",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 10,
+      "triangles": 756,
+      "batches": 2
+    },
+    {
+      "id": "builtin-church-bell-tower",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 12,
+      "triangles": 2068,
+      "batches": 4
+    },
+    {
+      "id": "builtin-church-iron-maiden",
+      "family": "ritual",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 46,
+      "triangles": 4596,
+      "batches": 2
+    },
+    {
+      "id": "builtin-church-headless-seraph",
+      "family": "ritual",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 49,
+      "triangles": 3096,
+      "batches": 3
+    },
+    {
+      "id": "builtin-church-pointed-chair",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "assento montado, travessas, torneados e encosto vazado",
+        "arestas chanfradas",
+        "estofamento com bordas macias",
+        "entalhes e bordas de perfis",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 16,
+      "triangles": 4280,
+      "batches": 3
+    },
+    {
+      "id": "builtin-church-ritual-banner",
+      "family": "ritual",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis",
+        "perfis torneados e bordas de chapa",
+        "arestas chanfradas"
+      ],
+      "parts": 5,
+      "triangles": 432,
+      "batches": 3
+    },
+    {
+      "id": "builtin-church-hook-rack",
+      "family": "ritual",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 66,
+      "triangles": 13164,
+      "batches": 1
+    },
+    {
+      "id": "builtin-church-banquet-table",
+      "family": "ritual",
+      "reconstruction": "model",
+      "methods": [
+        "marcenaria: tábuas, saia, pernas torneadas e ferragens",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 40,
+      "triangles": 4864,
+      "batches": 2
+    },
+    {
+      "id": "builtin-church-candelabra",
+      "family": "ritual",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 21,
+      "triangles": 5552,
+      "batches": 3
+    },
+    {
+      "id": "builtin-church-ogival-gable",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 1,
+      "triangles": 212,
+      "batches": 1
+    },
+    {
+      "id": "builtin-church-window-spandrel",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 1,
+      "triangles": 244,
+      "batches": 1
+    },
+    {
+      "id": "builtin-church-double-cross",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 3,
+      "triangles": 132,
+      "batches": 1
+    },
+    {
+      "id": "builtin-church-banquet-setting",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais",
+        "volumes curvos refinados",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 7,
+      "triangles": 1920,
+      "batches": 2
+    },
+    {
+      "id": "builtin-church-pitched-roof",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 1,
+      "triangles": 44,
+      "batches": 1
+    },
+    {
+      "id": "builtin-church-timber-truss",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 9,
+      "triangles": 396,
+      "batches": 2
+    },
+    {
+      "id": "builtin-church-pitched-gable",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis",
+        "arestas chanfradas"
+      ],
+      "parts": 3,
+      "triangles": 108,
+      "batches": 1
+    },
+    {
+      "id": "builtin-church-tracery-window",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 95,
+      "triangles": 12700,
+      "batches": 4
+    },
+    {
+      "id": "builtin-church-altar-retable",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 9,
+      "triangles": 476,
+      "batches": 1
+    },
+    {
+      "id": "builtin-church-ravine-tree",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "ramos afilados com secção refinada"
+      ],
+      "parts": 45,
+      "triangles": 10080,
+      "batches": 1
+    },
+    {
+      "id": "builtin-church-seraph-effigy",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "cordas e tubos curvos"
+      ],
+      "parts": 50,
+      "triangles": 3300,
+      "batches": 1
+    },
+    {
+      "id": "builtin-church-spiked-reliquary",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "arestas chanfradas",
+        "entalhes e bordas de perfis",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais",
+        "volumes curvos refinados"
+      ],
+      "parts": 79,
+      "triangles": 7700,
+      "batches": 4
+    },
+    {
+      "id": "builtin-house-roof",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis",
+        "perfis torneados e bordas de chapa",
+        "arestas chanfradas"
+      ],
+      "parts": 39,
+      "triangles": 1864,
+      "batches": 3
+    },
+    {
+      "id": "builtin-house-range",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "fogão com quatro queimadores e trempes, botões, porta de forno envidraçada com puxador e gaveta inferior",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 32,
+      "triangles": 4600,
+      "batches": 4
+    },
+    {
+      "id": "builtin-house-washer",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "máquina de lavar com porta de escotilha, aro metálico, painel com gaveta de sabão, seletor, filtro e mangueiras",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 20,
+      "triangles": 3064,
+      "batches": 4
+    },
+    {
+      "id": "builtin-house-counter",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "balcão com tampo boleado, gavetas, portas almofadadas com puxadores e rodapé recuado",
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 22,
+      "triangles": 2712,
+      "batches": 4
+    },
+    {
+      "id": "builtin-house-plant",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "vaso de barro com pires, terra e planta de hastes arqueadas com folhas largas nervuradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos",
+        "entalhes e bordas de perfis"
+      ],
+      "parts": 31,
+      "triangles": 5672,
+      "batches": 4
+    },
+    {
+      "id": "builtin-house-ceiling-lamp",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "plafon de vidro leitoso abaulado com base metálica, aro, presilhas e arremate central",
+        "ferragens curvas com vazios reais",
+        "arestas chanfradas"
+      ],
+      "parts": 7,
+      "triangles": 1100,
+      "batches": 2
+    },
+    {
+      "id": "builtin-house-curtain",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "cortinas onduladas presas por abraçadeiras, varão de madeira com argolas, suportes e ponteiras torneadas",
+        "entalhes e bordas de perfis",
+        "ferragens curvas com vazios reais",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 23,
+      "triangles": 4600,
+      "batches": 2
+    },
+    {
+      "id": "builtin-house-place-setting",
+      "family": "interior",
+      "reconstruction": "model",
+      "methods": [
+        "prato com aba, copo, garfo de quatro dentes e faca sobre guardanapo dobrado",
+        "arestas chanfradas"
+      ],
+      "parts": 12,
+      "triangles": 976,
+      "batches": 3
+    },
+    {
+      "id": "builtin-house-tile-floor",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 101,
+      "triangles": 4444,
+      "batches": 2
+    },
+    {
+      "id": "builtin-backrooms-wallpaper",
+      "family": "liminal",
+      "reconstruction": "components",
+      "methods": [
+        "entalhes e bordas de perfis",
+        "arestas chanfradas"
+      ],
+      "parts": 102,
+      "triangles": 2920,
+      "batches": 2
+    },
+    {
+      "id": "builtin-backrooms-ceiling",
+      "family": "liminal",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 26,
+      "triangles": 1144,
+      "batches": 2
+    },
+    {
+      "id": "builtin-backrooms-fluorescent",
+      "family": "liminal",
+      "reconstruction": "model",
+      "methods": [
+        "luminária de embutir com refletores inclinados, duas lâmpadas tubulares em soquetes e grelha difusora",
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 25,
+      "triangles": 1108,
+      "batches": 3
+    }
+  ]
+}

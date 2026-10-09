@@ -6,15 +6,6 @@
     "stone": {
       "color": "#95806b",
       "roughness": 0.96
-    },
-    "wood": {
-      "color": "#39251e",
-      "roughness": 0.9
-    },
-    "iron": {
-      "color": "#181418",
-      "metalness": 0.65,
-      "roughness": 0.7
     }
   },
   "parts": [
@@ -38,7 +29,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -60,7 +52,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -82,7 +75,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -104,7 +98,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "profile",
@@ -148,7 +143,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "box",
@@ -170,7 +166,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -192,7 +189,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "profile",
@@ -236,7 +234,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -320,8 +319,24 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    10.300000190734863,
+    10.550000190734863,
+    1
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "entalhes e bordas de perfis"
+    ],
+    "seed": 31979
+  }
 }

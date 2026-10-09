@@ -3,58 +3,19 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "limestone": {
-      "color": "#b1a18a",
-      "roughness": 0.95
-    },
-    "wornStone": {
-      "color": "#524a43",
-      "roughness": 1
-    },
-    "carving": {
-      "color": "#c6b79d",
-      "roughness": 0.88
-    },
-    "wood": {
-      "color": "#482b23",
-      "roughness": 0.87
-    },
-    "iron": {
-      "color": "#343035",
-      "metalness": 0.7,
-      "roughness": 0.55
-    },
-    "brass": {
-      "color": "#9b7750",
-      "metalness": 0.65,
-      "roughness": 0.4
-    },
     "cloth": {
       "color": "#631e2b",
       "roughness": 1
     },
-    "glass": {
-      "color": "#9e122f",
-      "emissive": "#a4132e",
-      "emissiveIntensity": 0.65,
-      "roughness": 0.28,
-      "opacity": 0.72
+    "brass": {
+      "color": "#9b7750",
+      "metalness": 0.5,
+      "roughness": 0.4
     },
-    "amberGlass": {
-      "color": "#b85032",
-      "emissive": "#a83d22",
-      "emissiveIntensity": 0.35,
-      "roughness": 0.3,
-      "opacity": 0.8
-    },
-    "wax": {
-      "color": "#c5af88",
-      "roughness": 0.9
-    },
-    "flame": {
-      "color": "#ffd58a",
-      "emissive": "#ff8a37",
-      "emissiveIntensity": 2
+    "iron": {
+      "color": "#343035",
+      "metalness": 0.5,
+      "roughness": 0.46
     }
   },
   "parts": [
@@ -100,10 +61,11 @@
         0,
         -0.02250000089406967
       ],
-      "material": "cloth"
+      "material": "cloth",
+      "edgeBevel": 0.003
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.04,
       "radiusTop": 0.04,
       "height": 1.66,
@@ -113,7 +75,7 @@
         -0.02250000089406967
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -129,6 +91,32 @@
         0,
         0,
         -1.5707963267948963
+      ],
+      "profile": [
+        [
+          0,
+          -0.83
+        ],
+        [
+          0.0352,
+          -0.83
+        ],
+        [
+          0.04,
+          -0.8251999999999999
+        ],
+        [
+          0.04,
+          0.8251999999999999
+        ],
+        [
+          0.0352,
+          0.83
+        ],
+        [
+          0,
+          0.83
+        ]
       ]
     },
     {
@@ -143,7 +131,8 @@
         1.9,
         0.022499999105930327
       ],
-      "material": "brass"
+      "material": "brass",
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -157,7 +146,8 @@
         2.134,
         0.022499999105930327
       ],
-      "material": "brass"
+      "material": "brass",
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -171,8 +161,25 @@
         1.835,
         0.022499999105930327
       ],
-      "material": "brass"
+      "material": "brass",
+      "bevel": 0.009
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    1.659999966621399,
+    3.0380423069000244,
+    0.125
+  ],
+  "design": {
+    "edition": 2,
+    "family": "ritual",
+    "reconstruction": "components",
+    "methods": [
+      "entalhes e bordas de perfis",
+      "perfis torneados e bordas de chapa",
+      "arestas chanfradas"
+    ],
+    "seed": 20921
+  }
 }

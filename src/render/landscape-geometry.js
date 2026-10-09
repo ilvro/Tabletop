@@ -11,7 +11,7 @@ export function createArchGeometry({innerRadius=1,outerRadius=1.4,start=0,end=Ma
 
 /** Individual bent blades/fronds/needle sprays, rather than cones or solid foliage spheres. */
 export function createFoliageGeometry({size=[1,.5,1],style='needles',seed=42,count=32}={}) {
-  if(!Array.isArray(size)||size.length!==3||!size.every(v=>Number.isFinite(v)&&v>0)||!Number.isInteger(seed)||seed<0||seed>65535||!['needles','fern','grass'].includes(style)||!Number.isInteger(count)||count<4||count>160)throw new Error('Folhagem inválida.');
+  if(!Array.isArray(size)||size.length!==3||!size.every(v=>Number.isFinite(v)&&v>0)||!Number.isInteger(seed)||seed<0||seed>65535||!['needles','fern','grass','broadleaf'].includes(style)||!Number.isInteger(count)||count<4||count>160)throw new Error('Folhagem inválida.');
   let state=(seed>>>0)+1;const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
   const positions=[],uv=[];
   const blade=(base,tip,width,bend)=>{
@@ -21,7 +21,10 @@ export function createFoliageGeometry({size=[1,.5,1],style='needles',seed=42,cou
   };
   for(let i=0;i<count;i++) {
     const angle=random()*Math.PI*2,r=Math.sqrt(random())*.4,base=new THREE.Vector3(Math.cos(angle)*r,style==='needles'?random()*.2:0,Math.sin(angle)*r);
-    if(style==='fern') {
+    if(style==='broadleaf') {
+      const center=new THREE.Vector3((random()-.5)*.9,(random()-.5)*.85,(random()-.5)*.9),axis=new THREE.Vector3(Math.cos(angle),random()-.2,Math.sin(angle)).normalize();
+      blade(center,center.clone().addScaledVector(axis,.12+random()*.14),.04+random()*.04,.035);
+    } else if(style==='fern') {
       const length=.4+random()*.55,axis=new THREE.Vector3(Math.cos(angle),.8+random()*.5,Math.sin(angle)).normalize();
       for(let j=1;j<=7;j++)for(const sign of [-1,1]) {
         const t=j/8,p=base.clone().addScaledVector(axis,length*t),leaf=new THREE.Vector3(-axis.z,.3,axis.x).multiplyScalar(sign*(1-t)*.25);

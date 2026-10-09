@@ -3,71 +3,9 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "wood": {
-      "color": "#79553e",
-      "roughness": 0.84
-    },
-    "dark": {
-      "color": "#292b30",
-      "roughness": 0.8
-    },
-    "metal": {
-      "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
     "stone": {
       "color": "#777873",
       "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
@@ -88,7 +26,17 @@
       "seed": 61,
       "irregularity": 0.8,
       "detail": 3,
-      "seedOffset": 0
+      "seedOffset": 0,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      },
+      "refinement": 1
     },
     {
       "shape": "rock",
@@ -112,7 +60,17 @@
         0,
         0,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      },
+      "refinement": 1
     },
     {
       "shape": "rock",
@@ -136,7 +94,17 @@
         0,
         0.7853981633974483,
         0.15
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      },
+      "refinement": 1
     },
     {
       "shape": "rock",
@@ -160,7 +128,17 @@
         0,
         1.5707963267948966,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      },
+      "refinement": 1
     },
     {
       "shape": "rock",
@@ -184,7 +162,17 @@
         0,
         2.356194490192345,
         0.15
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      },
+      "refinement": 1
     },
     {
       "shape": "rock",
@@ -208,7 +196,17 @@
         0,
         3.141592653589793,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      },
+      "refinement": 1
     },
     {
       "shape": "rock",
@@ -232,7 +230,17 @@
         0,
         3.9269908169872414,
         0.15
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      },
+      "refinement": 1
     },
     {
       "shape": "rock",
@@ -256,7 +264,17 @@
         0,
         4.71238898038469,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      },
+      "refinement": 1
     },
     {
       "shape": "rock",
@@ -280,7 +298,32 @@
         0,
         5.497787143782138,
         0.15
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      },
+      "refinement": 1
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    2.0776257355392866,
+    0.7015561316833897,
+    2.5647179860609994
+  ],
+  "design": {
+    "edition": 2,
+    "family": "geological",
+    "reconstruction": "components",
+    "methods": [
+      "subdivisão mineral preservando parâmetros de escultura"
+    ],
+    "seed": 55139
+  }
 }

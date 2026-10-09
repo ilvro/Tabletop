@@ -5,69 +5,7 @@
   "materials": {
     "wood": {
       "color": "#79553e",
-      "roughness": 0.84
-    },
-    "dark": {
-      "color": "#292b30",
-      "roughness": 0.8
-    },
-    "metal": {
-      "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
+      "roughness": 0.7
     }
   },
   "parts": [
@@ -97,8 +35,8 @@
       ],
       "radius": 0.085,
       "tipRadius": 0.0076500000000000005,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1801,
       "forks": 2,
       "material": "wood",
@@ -140,8 +78,8 @@
       ],
       "radius": 0.085,
       "tipRadius": 0.0076500000000000005,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1818,
       "forks": 2,
       "material": "wood",
@@ -183,8 +121,8 @@
       ],
       "radius": 0.085,
       "tipRadius": 0.0076500000000000005,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1835,
       "forks": 2,
       "material": "wood",
@@ -226,8 +164,8 @@
       ],
       "radius": 0.085,
       "tipRadius": 0.0076500000000000005,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1852,
       "forks": 2,
       "material": "wood",
@@ -269,8 +207,8 @@
       ],
       "radius": 0.085,
       "tipRadius": 0.0076500000000000005,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1869,
       "forks": 2,
       "material": "wood",
@@ -287,5 +225,19 @@
       ]
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    2.015927314758301,
+    0.5219038724899292,
+    1.4923923015594482
+  ],
+  "design": {
+    "edition": 2,
+    "family": "botanical",
+    "reconstruction": "components",
+    "methods": [
+      "ramos afilados com secção refinada"
+    ],
+    "seed": 44353
+  }
 }

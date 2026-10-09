@@ -5,69 +5,20 @@
   "materials": {
     "wood": {
       "color": "#79553e",
-      "roughness": 0.84
-    },
-    "dark": {
-      "color": "#292b30",
-      "roughness": 0.8
+      "roughness": 0.7
     },
     "metal": {
       "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
+      "roughness": 0.46,
+      "metalness": 0.5
     },
     "stone": {
       "color": "#777873",
       "roughness": 0.97
     },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
     "paper": {
       "color": "#c8b38b",
       "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
@@ -90,13 +41,14 @@
         "woodPattern": "grain",
         "textureBrightness": 0.7,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "ring",
       "radius": 0.11,
       "tube": 0.027,
-      "segments": 16,
+      "segments": 24,
       "sides": 6,
       "position": [
         0,
@@ -114,7 +66,7 @@
       "shape": "ring",
       "radius": 0.11,
       "tube": 0.027,
-      "segments": 16,
+      "segments": 24,
       "sides": 6,
       "position": [
         0,
@@ -132,7 +84,7 @@
       "shape": "ring",
       "radius": 0.08,
       "tube": 0.015,
-      "segments": 16,
+      "segments": 24,
       "sides": 6,
       "position": [
         0.13,
@@ -165,8 +117,24 @@
         "rockPattern": "fractured",
         "textureBrightness": 1.2,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.0085
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    0.3199999928474426,
+    1.7000000476837154,
+    0.3199999928474426
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "ferragens curvas com vazios reais"
+    ],
+    "seed": 13284
+  }
 }

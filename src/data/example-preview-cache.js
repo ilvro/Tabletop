@@ -25,7 +25,7 @@ export function createExamplePreviewCache({ databaseFactory = globalThis.indexed
   }
   return {
     async key(example, document, assets) {
-      const dependencies = assets.map(asset => [asset.id, asset.revision, asset.url]);
+      const dependencies = assets.map(asset => [asset.id, asset.revision, asset.url, asset.contentHash]);
       const bytes = new TextEncoder().encode(JSON.stringify([document, dependencies]));
       const digest = await crypto.subtle.digest('SHA-256', bytes);
       return `${example.id}:renderer-1:${Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2, '0')).join('')}`;

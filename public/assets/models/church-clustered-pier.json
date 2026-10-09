@@ -14,47 +14,6 @@
     "carving": {
       "color": "#c6b79d",
       "roughness": 0.88
-    },
-    "wood": {
-      "color": "#482b23",
-      "roughness": 0.87
-    },
-    "iron": {
-      "color": "#343035",
-      "metalness": 0.7,
-      "roughness": 0.55
-    },
-    "brass": {
-      "color": "#9b7750",
-      "metalness": 0.65,
-      "roughness": 0.4
-    },
-    "cloth": {
-      "color": "#631e2b",
-      "roughness": 1
-    },
-    "glass": {
-      "color": "#9e122f",
-      "emissive": "#a4132e",
-      "emissiveIntensity": 0.65,
-      "roughness": 0.28,
-      "opacity": 0.72
-    },
-    "amberGlass": {
-      "color": "#b85032",
-      "emissive": "#a83d22",
-      "emissiveIntensity": 0.35,
-      "roughness": 0.3,
-      "opacity": 0.8
-    },
-    "wax": {
-      "color": "#c5af88",
-      "roughness": 0.9
-    },
-    "flame": {
-      "color": "#ffd58a",
-      "emissive": "#ff8a37",
-      "emissiveIntensity": 2
     }
   },
   "parts": [
@@ -78,7 +37,8 @@
         "textureColorMode": "replace",
         "textureColor": "#a99b88",
         "textureBrightness": 0.9
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -92,10 +52,11 @@
         0.35999999940395355,
         0
       ],
-      "material": "carving"
+      "material": "carving",
+      "bevel": 0.009
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.43,
       "radiusTop": 0.4,
       "height": 4.5,
@@ -105,7 +66,7 @@
         0
       ],
       "material": "limestone",
-      "segments": 12,
+      "segments": 32,
       "surface": {
         "texture": "stone",
         "textureSize": 1.4,
@@ -113,10 +74,36 @@
         "textureColorMode": "replace",
         "textureColor": "#a99b88",
         "textureBrightness": 0.9
-      }
+      },
+      "profile": [
+        [
+          0,
+          -2.25
+        ],
+        [
+          0.418,
+          -2.25
+        ],
+        [
+          0.43,
+          -2.238
+        ],
+        [
+          0.4,
+          2.238
+        ],
+        [
+          0.388,
+          2.25
+        ],
+        [
+          0,
+          2.25
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.17,
       "radiusTop": 0.15,
       "height": 4.35,
@@ -126,7 +113,7 @@
         0
       ],
       "material": "limestone",
-      "segments": 12,
+      "segments": 24,
       "surface": {
         "texture": "stone",
         "textureSize": 1.4,
@@ -134,10 +121,36 @@
         "textureColorMode": "replace",
         "textureColor": "#a99b88",
         "textureBrightness": 0.9
-      }
+      },
+      "profile": [
+        [
+          0,
+          -2.175
+        ],
+        [
+          0.158,
+          -2.175
+        ],
+        [
+          0.17,
+          -2.163
+        ],
+        [
+          0.15,
+          2.163
+        ],
+        [
+          0.13799999999999998,
+          2.175
+        ],
+        [
+          0,
+          2.175
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.24,
       "radiusTop": 0.17,
       "height": 0.25,
@@ -147,10 +160,36 @@
         0
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.125
+        ],
+        [
+          0.22799999999999998,
+          -0.125
+        ],
+        [
+          0.24,
+          -0.113
+        ],
+        [
+          0.17,
+          0.113
+        ],
+        [
+          0.158,
+          0.125
+        ],
+        [
+          0,
+          0.125
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.16,
       "radiusTop": 0.28,
       "height": 0.28,
@@ -160,10 +199,36 @@
         0
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.14
+        ],
+        [
+          0.148,
+          -0.14
+        ],
+        [
+          0.16,
+          -0.128
+        ],
+        [
+          0.28,
+          0.128
+        ],
+        [
+          0.268,
+          0.14
+        ],
+        [
+          0,
+          0.14
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.17,
       "radiusTop": 0.15,
       "height": 4.35,
@@ -173,7 +238,7 @@
         0
       ],
       "material": "limestone",
-      "segments": 12,
+      "segments": 24,
       "surface": {
         "texture": "stone",
         "textureSize": 1.4,
@@ -181,10 +246,36 @@
         "textureColorMode": "replace",
         "textureColor": "#a99b88",
         "textureBrightness": 0.9
-      }
+      },
+      "profile": [
+        [
+          0,
+          -2.175
+        ],
+        [
+          0.158,
+          -2.175
+        ],
+        [
+          0.17,
+          -2.163
+        ],
+        [
+          0.15,
+          2.163
+        ],
+        [
+          0.13799999999999998,
+          2.175
+        ],
+        [
+          0,
+          2.175
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.24,
       "radiusTop": 0.17,
       "height": 0.25,
@@ -194,10 +285,36 @@
         0
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.125
+        ],
+        [
+          0.22799999999999998,
+          -0.125
+        ],
+        [
+          0.24,
+          -0.113
+        ],
+        [
+          0.17,
+          0.113
+        ],
+        [
+          0.158,
+          0.125
+        ],
+        [
+          0,
+          0.125
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.16,
       "radiusTop": 0.28,
       "height": 0.28,
@@ -207,10 +324,36 @@
         0
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.14
+        ],
+        [
+          0.148,
+          -0.14
+        ],
+        [
+          0.16,
+          -0.128
+        ],
+        [
+          0.28,
+          0.128
+        ],
+        [
+          0.268,
+          0.14
+        ],
+        [
+          0,
+          0.14
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.17,
       "radiusTop": 0.15,
       "height": 4.35,
@@ -220,7 +363,7 @@
         0.43
       ],
       "material": "limestone",
-      "segments": 12,
+      "segments": 24,
       "surface": {
         "texture": "stone",
         "textureSize": 1.4,
@@ -228,10 +371,36 @@
         "textureColorMode": "replace",
         "textureColor": "#a99b88",
         "textureBrightness": 0.9
-      }
+      },
+      "profile": [
+        [
+          0,
+          -2.175
+        ],
+        [
+          0.158,
+          -2.175
+        ],
+        [
+          0.17,
+          -2.163
+        ],
+        [
+          0.15,
+          2.163
+        ],
+        [
+          0.13799999999999998,
+          2.175
+        ],
+        [
+          0,
+          2.175
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.24,
       "radiusTop": 0.17,
       "height": 0.25,
@@ -241,10 +410,36 @@
         0.43
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.125
+        ],
+        [
+          0.22799999999999998,
+          -0.125
+        ],
+        [
+          0.24,
+          -0.113
+        ],
+        [
+          0.17,
+          0.113
+        ],
+        [
+          0.158,
+          0.125
+        ],
+        [
+          0,
+          0.125
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.16,
       "radiusTop": 0.28,
       "height": 0.28,
@@ -254,10 +449,36 @@
         0.43
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.14
+        ],
+        [
+          0.148,
+          -0.14
+        ],
+        [
+          0.16,
+          -0.128
+        ],
+        [
+          0.28,
+          0.128
+        ],
+        [
+          0.268,
+          0.14
+        ],
+        [
+          0,
+          0.14
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.17,
       "radiusTop": 0.15,
       "height": 4.35,
@@ -267,7 +488,7 @@
         -0.43
       ],
       "material": "limestone",
-      "segments": 12,
+      "segments": 24,
       "surface": {
         "texture": "stone",
         "textureSize": 1.4,
@@ -275,10 +496,36 @@
         "textureColorMode": "replace",
         "textureColor": "#a99b88",
         "textureBrightness": 0.9
-      }
+      },
+      "profile": [
+        [
+          0,
+          -2.175
+        ],
+        [
+          0.158,
+          -2.175
+        ],
+        [
+          0.17,
+          -2.163
+        ],
+        [
+          0.15,
+          2.163
+        ],
+        [
+          0.13799999999999998,
+          2.175
+        ],
+        [
+          0,
+          2.175
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.24,
       "radiusTop": 0.17,
       "height": 0.25,
@@ -288,10 +535,36 @@
         -0.43
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.125
+        ],
+        [
+          0.22799999999999998,
+          -0.125
+        ],
+        [
+          0.24,
+          -0.113
+        ],
+        [
+          0.17,
+          0.113
+        ],
+        [
+          0.158,
+          0.125
+        ],
+        [
+          0,
+          0.125
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.16,
       "radiusTop": 0.28,
       "height": 0.28,
@@ -301,7 +574,33 @@
         -0.43
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.14
+        ],
+        [
+          0.148,
+          -0.14
+        ],
+        [
+          0.16,
+          -0.128
+        ],
+        [
+          0.28,
+          0.128
+        ],
+        [
+          0.268,
+          0.14
+        ],
+        [
+          0,
+          0.14
+        ]
+      ]
     },
     {
       "shape": "box",
@@ -315,7 +614,8 @@
         5.119999999403953,
         0
       ],
-      "material": "carving"
+      "material": "carving",
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -337,7 +637,8 @@
         "textureColorMode": "replace",
         "textureColor": "#a99b88",
         "textureBrightness": 0.9
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "profile",
@@ -377,8 +678,25 @@
         0.49999999940395357,
         0.584
       ],
-      "material": "wornStone"
+      "material": "wornStone",
+      "edgeBevel": 0.0021599999999999996
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    1.4500000476837158,
+    5.400000095367432,
+    1.4500000476837158
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "perfis torneados e bordas de chapa",
+      "entalhes e bordas de perfis"
+    ],
+    "seed": 5975
+  }
 }

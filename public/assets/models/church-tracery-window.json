@@ -3,36 +3,6 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "limestone": {
-      "color": "#b1a18a",
-      "roughness": 0.95
-    },
-    "wornStone": {
-      "color": "#524a43",
-      "roughness": 1
-    },
-    "carving": {
-      "color": "#c6b79d",
-      "roughness": 0.88
-    },
-    "wood": {
-      "color": "#482b23",
-      "roughness": 0.87
-    },
-    "iron": {
-      "color": "#100b0d",
-      "metalness": 0.25,
-      "roughness": 0.9
-    },
-    "brass": {
-      "color": "#9b7750",
-      "metalness": 0.65,
-      "roughness": 0.4
-    },
-    "cloth": {
-      "color": "#631e2b",
-      "roughness": 1
-    },
     "glass": {
       "color": "#a90b10",
       "emissive": "#ff2014",
@@ -40,21 +10,21 @@
       "roughness": 0.45,
       "opacity": 0.82
     },
+    "limestone": {
+      "color": "#b1a18a",
+      "roughness": 0.95
+    },
+    "iron": {
+      "color": "#100b0d",
+      "metalness": 0.35,
+      "roughness": 0.46
+    },
     "amberGlass": {
       "color": "#b85032",
       "emissive": "#a83d22",
       "emissiveIntensity": 0.35,
       "roughness": 0.3,
       "opacity": 0.8
-    },
-    "wax": {
-      "color": "#c5af88",
-      "roughness": 0.9
-    },
-    "flame": {
-      "color": "#ffd58a",
-      "emissive": "#ff8a37",
-      "emissiveIntensity": 2
     }
   },
   "parts": [
@@ -292,7 +262,8 @@
         "textureColorMode": "replace",
         "textureColor": "#a99b88",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -412,7 +383,8 @@
         0,
         -0.00691601723432541
       ],
-      "material": "glass"
+      "material": "glass",
+      "edgeBevel": 0.003
     },
     {
       "shape": "box",
@@ -437,7 +409,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.00585
     },
     {
       "shape": "box",
@@ -462,7 +435,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.00585
     },
     {
       "shape": "box",
@@ -487,7 +461,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.00585
     },
     {
       "shape": "box",
@@ -512,7 +487,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.00455
     },
     {
       "shape": "box",
@@ -537,7 +513,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.00455
     },
     {
       "shape": "box",
@@ -562,7 +539,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.00455
     },
     {
       "shape": "profile",
@@ -801,7 +779,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1040,7 +1019,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "ring",
@@ -1097,7 +1077,8 @@
         1.15,
         0.05808398276567459
       ],
-      "material": "amberGlass"
+      "material": "amberGlass",
+      "edgeBevel": 0.003
     },
     {
       "shape": "rope",
@@ -1129,8 +1110,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1179,8 +1160,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1229,8 +1210,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1279,8 +1260,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1329,8 +1310,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1379,8 +1360,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1429,8 +1410,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1479,8 +1460,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1529,8 +1510,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1579,8 +1560,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1629,8 +1610,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1679,8 +1660,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1729,8 +1710,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1779,8 +1760,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1829,8 +1810,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1879,8 +1860,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1929,8 +1910,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -1979,8 +1960,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -2029,8 +2010,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -2079,8 +2060,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -2129,8 +2110,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -2179,8 +2160,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -2229,8 +2210,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -2279,8 +2260,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -2329,8 +2310,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -2379,8 +2360,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -2429,8 +2410,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -2479,8 +2460,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -2503,8 +2484,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         -0.46,
         0.63,
@@ -2527,8 +2508,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         -0.46,
         1.39,
@@ -2551,8 +2532,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         -0.46,
         2.15,
@@ -2575,8 +2556,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         0,
         0.63,
@@ -2599,8 +2580,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         0,
         1.39,
@@ -2623,8 +2604,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         0,
         2.15,
@@ -2647,8 +2628,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         0.46,
         0.63,
@@ -2671,8 +2652,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         0.46,
         1.39,
@@ -2695,8 +2676,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         0.46,
         2.15,
@@ -2738,7 +2719,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.00585
     },
     {
       "shape": "box",
@@ -2763,7 +2745,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.00585
     },
     {
       "shape": "box",
@@ -2788,7 +2771,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.00585
     },
     {
       "shape": "box",
@@ -2813,7 +2797,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.00455
     },
     {
       "shape": "box",
@@ -2838,7 +2823,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.00455
     },
     {
       "shape": "box",
@@ -2863,7 +2849,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.00455
     },
     {
       "shape": "profile",
@@ -3102,7 +3089,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -3341,7 +3329,8 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "ring",
@@ -3402,8 +3391,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -3452,8 +3441,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -3502,8 +3491,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -3552,8 +3541,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -3602,8 +3591,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -3652,8 +3641,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -3702,8 +3691,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -3752,8 +3741,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -3802,8 +3791,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -3852,8 +3841,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -3902,8 +3891,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -3952,8 +3941,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4002,8 +3991,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4052,8 +4041,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4102,8 +4091,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4152,8 +4141,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4202,8 +4191,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4252,8 +4241,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4302,8 +4291,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4352,8 +4341,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4402,8 +4391,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4452,8 +4441,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4502,8 +4491,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4552,8 +4541,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4602,8 +4591,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4652,8 +4641,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4702,8 +4691,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4752,8 +4741,8 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 4,
-      "sides": 5,
+      "segments": 6,
+      "sides": 6,
       "position": [
         0,
         0,
@@ -4776,8 +4765,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         -0.46,
         0.63,
@@ -4800,8 +4789,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         -0.46,
         1.39,
@@ -4824,8 +4813,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         -0.46,
         2.15,
@@ -4848,8 +4837,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         0,
         0.63,
@@ -4872,8 +4861,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         0,
         1.39,
@@ -4896,8 +4885,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         0,
         2.15,
@@ -4920,8 +4909,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         0.46,
         0.63,
@@ -4944,8 +4933,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         0.46,
         1.39,
@@ -4968,8 +4957,8 @@
       "shape": "ring",
       "radius": 0.09,
       "tube": 0.017,
-      "segments": 12,
-      "sides": 5,
+      "segments": 24,
+      "sides": 6,
       "position": [
         0.46,
         2.15,
@@ -4989,5 +4978,22 @@
       }
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    2.2799999713897705,
+    4.374537944793701,
+    0.3461679667234421
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "entalhes e bordas de perfis",
+      "arestas chanfradas",
+      "ferragens curvas com vazios reais",
+      "cordas e tubos curvos"
+    ],
+    "seed": 27726
+  }
 }

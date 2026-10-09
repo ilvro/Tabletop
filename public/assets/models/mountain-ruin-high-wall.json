@@ -3,71 +3,9 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "wood": {
-      "color": "#79553e",
-      "roughness": 0.84
-    },
-    "dark": {
-      "color": "#292b30",
-      "roughness": 0.8
-    },
-    "metal": {
-      "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
     "stone": {
       "color": "#777873",
       "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
@@ -95,7 +33,8 @@
         0,
         0,
         0
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -121,7 +60,8 @@
         0.011825758776938202,
         0,
         0.006569865987187891
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -147,7 +87,8 @@
         0.017830932402507663,
         0,
         0.009906073556948704
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -173,7 +114,8 @@
         0.015059801493649008,
         0,
         0.00836655638536056
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -199,7 +141,8 @@
         0.0048763041895416425,
         0,
         0.0027090578830786904
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -225,7 +168,8 @@
         -0.007707288050930718,
         0,
         -0.00428182669496151
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -251,7 +195,8 @@
         0.002697789773933142,
         0,
         0.0014987720966295234
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -277,7 +222,8 @@
         0.01372605210863285,
         0,
         0.007625584504796028
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -303,7 +249,8 @@
         0.01799841348193081,
         0,
         0.009999118601072672
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -329,7 +276,8 @@
         0.013412036888628277,
         0,
         0.0074511316047934885
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -355,7 +303,8 @@
         0.0022243162094140317,
         0,
         0.00123573122745224
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -381,7 +330,8 @@
         -0.010058202879329093,
         0,
         -0.005587890488516163
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -407,7 +357,8 @@
         0.005334634416768936,
         0,
         0.0029636857870938534
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -433,7 +384,8 @@
         0.01531626344161413,
         0,
         0.008509035245341185
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -459,7 +411,8 @@
         0.017759296656728735,
         0,
         0.009866275920404854
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -485,7 +438,8 @@
         0.01146128412850448,
         0,
         0.006367380071391379
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -511,7 +465,8 @@
         -0.00047792077243140227,
         0,
         -0.00026551154023966796
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -537,7 +492,8 @@
         -0.012181895223971536,
         0,
         -0.006767719568873076
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -563,7 +519,8 @@
         0.007850965594460848,
         0,
         0.0043616475524782495
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -589,7 +546,8 @@
         0.01656046868754223,
         0,
         0.009200260381967907
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -615,7 +573,8 @@
         0.017118983758578742,
         0,
         0.009510546532543747
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -641,7 +600,8 @@
         0.009251612207775633,
         0,
         0.005139784559875352
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -667,7 +627,8 @@
         -0.003169361159074567,
         0,
         -0.001760756199485871
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -693,7 +654,8 @@
         -0.014030389253084483,
         0,
         -0.007794660696158047
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -719,7 +681,8 @@
         0.010189937464167246,
         0,
         0.005661076368981804
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -745,7 +708,8 @@
         0.017430560299803336,
         0,
         0.009683644611001853
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -771,7 +735,8 @@
         0.01609193994481004,
         0,
         0.008939966636005579
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -797,7 +762,8 @@
         0.00683293930249539,
         0,
         0.0037960773902752172
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -823,7 +789,8 @@
         -0.005789203256925556,
         0,
         -0.0032162240316253093
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -849,7 +816,8 @@
         -0.015561926074990948,
         0,
         -0.008645514486106082
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -875,7 +843,8 @@
         0.012298710865250176,
         0,
         0.00683261714736121
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -901,7 +870,8 @@
         0.017906882244451312,
         0,
         0.009948267913584065
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -927,7 +897,8 @@
         0.014701366919453703,
         0,
         0.008167426066363169
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -953,7 +924,8 @@
         0.004259905080557148,
         0,
         0.0023666139336428606
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -979,7 +951,8 @@
         -0.008278262832412642,
         0,
         -0.004599034906895913
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1005,7 +978,8 @@
         -0.016741907103361712,
         0,
         -0.009301059501867617
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1031,7 +1005,8 @@
         0.014129646996263588,
         0,
         0.007849803886813105
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1057,7 +1032,8 @@
         0.01797867404502443,
         0,
         0.009988152247235796
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1083,7 +1059,8 @@
         -0.010580310129013316,
         0,
         -0.005877950071674065
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1109,7 +1086,8 @@
         -0.017543675665700902,
         0,
         -0.009746486480944947
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1135,7 +1113,8 @@
         0.01564138361185624,
         0,
         0.008689657562142357
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1161,7 +1140,8 @@
         0.017644313869925606,
         0,
         0.009802396594403115
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1187,7 +1167,8 @@
         -0.012643340140392678,
         0,
         -0.007024077855773711
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1213,7 +1194,8 @@
         -0.017949119197933436,
         0,
         -0.009971732887740798
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1239,7 +1221,8 @@
         0.016799769427479516,
         0,
         0.00933320523748862
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1265,7 +1248,8 @@
         0.016911355170836667,
         0,
         0.009395197317131483
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1291,7 +1275,8 @@
         -0.014420747443208946,
         0,
         -0.008011526357338304
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1317,7 +1302,8 @@
         -0.01794907842105868,
         0,
         -0.00997171023392149
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1343,7 +1329,8 @@
         0.017578635622984184,
         0,
         0.009765908679435657
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1369,7 +1356,8 @@
         0.015796356044476836,
         0,
         0.008775753358042688
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1395,7 +1383,8 @@
         -0.0158723790492159,
         0,
         -0.008817988360675502
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1421,7 +1410,8 @@
         -0.01754355425625738,
         0,
         -0.009746419031254101
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1447,7 +1437,8 @@
         0.017960387016250804,
         0,
         0.009977992786806002
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1473,7 +1464,8 @@
         0.014324505172553646,
         0,
         0.00795805842919647
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1499,7 +1491,8 @@
         -0.016965441491929245,
         0,
         -0.009425245273294025
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1525,7 +1518,8 @@
         -0.016741707804081456,
         0,
         -0.009300948780045254
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1551,7 +1545,8 @@
         0.017936399551789942,
         0,
         0.00996466641766108
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1577,7 +1572,8 @@
         0.012529052790208406,
         0,
         0.006960584883449115
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1603,7 +1599,8 @@
         -0.01767524165607646,
         0,
         -0.009819578697820255
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1629,7 +1626,8 @@
         -0.015561653388196893,
         0,
         -0.008645362993442719
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1655,7 +1653,8 @@
         0.017507215124741238,
         0,
         0.009726230624856244
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1681,7 +1680,8 @@
         0.010450559537813604,
         0,
         0.005805866409896447
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1707,7 +1707,8 @@
         -0.017985744613927126,
         0,
         -0.009992080341070627
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1733,7 +1734,8 @@
         -0.01403004933897954,
         0,
         -0.007794471854988634
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1759,7 +1761,8 @@
         0.016682529339048388,
         0,
         0.009268071855026884
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1785,7 +1788,8 @@
         0.008135980165133701,
         0,
         0.004519988980629834
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1811,7 +1815,8 @@
         -0.01788993586655507,
         0,
         -0.009938853259197262
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1837,7 +1842,8 @@
         -0.012181495761474901,
         0,
         -0.0067674976452638345
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1863,7 +1869,8 @@
         0.015480972476362254,
         0,
         0.008600540264645698
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1889,7 +1896,8 @@
         0.005637602787672057,
         0,
         0.0031320015487066987
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1915,7 +1923,8 @@
         -0.017389979806725533,
         0,
         -0.009661099892625298
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1941,7 +1950,8 @@
         -0.010057752892603604,
         0,
         -0.005587640495890891
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1967,7 +1977,8 @@
         0.013929688623751768,
         0,
         0.007738715902084317
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1993,7 +2004,8 @@
         0.003011867658213106,
         0,
         0.0016732598101183924
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2019,7 +2031,8 @@
         -0.016497170823609842,
         0,
         -0.009165094902005469
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2045,7 +2058,8 @@
         -0.007706797705520127,
         0,
         -0.004281554280844516
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2071,7 +2085,8 @@
         0.012063722468049109,
         0,
         0.006702068037805061
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2097,7 +2112,8 @@
         0.00031809213841267565,
         0,
         0.0001767178546737087
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2123,7 +2139,8 @@
         -0.015231678153909326,
         0,
         -0.008462043418838515
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2149,7 +2166,8 @@
         -0.005181740073152749,
         0,
         -0.002878744485084861
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2175,7 +2193,8 @@
         0.009925227609613108,
         0,
         0.00551401533867395
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2201,7 +2220,8 @@
         -0.002382869325698135,
         0,
         -0.0013238162920545195
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2227,7 +2247,8 @@
         -0.013518128722511777,
         0,
         -0.007510071512506543
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2253,7 +2274,8 @@
         -0.017999826111111075,
         0,
         -0.009999903395061708
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2279,7 +2301,8 @@
         -0.013622090243396459,
         0,
         -0.007567827912998033
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2305,7 +2328,8 @@
         -0.002539622975617977,
         0,
         -0.0014109016531210986
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2331,7 +2355,8 @@
         0.007562514280307523,
         0,
         0.004201396822393069
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2357,7 +2382,8 @@
         -0.005029999952118876,
         0,
         -0.0027944444178438204
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2383,7 +2409,8 @@
         -0.015146770886805792,
         0,
         -0.008414872714892108
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2409,7 +2436,8 @@
         -0.01780836948304997,
         0,
         -0.009893538601694429
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2435,7 +2463,8 @@
         -0.011704768912093972,
         0,
         -0.006502649395607763
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2461,7 +2490,8 @@
         0.00015986614425981928,
         0,
         0.0000888145245887885
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2487,7 +2517,8 @@
         0.005028957978472258,
         0,
         0.002793865543595699
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2513,7 +2544,8 @@
         -0.007563499038579181,
         0,
         -0.004201943910321768
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2539,7 +2571,8 @@
         -0.01643323593028878,
         0,
         -0.009129575516827103
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2565,7 +2598,8 @@
         -0.01721460818942103,
         0,
         -0.009563671216345018
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2591,7 +2625,8 @@
         -0.009523027912993675,
         0,
         -0.005290571062774264
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2617,7 +2652,8 @@
         0.002855743765860736,
         0,
         0.0015865243143670757
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2643,7 +2679,8 @@
         0.002381793675656912,
         0,
         0.0013232187086982847
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2669,7 +2706,8 @@
         -0.009926132906068464,
         0,
         -0.005514518281149147
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2695,7 +2733,8 @@
         -0.017348461625249455,
         0,
         -0.009638034236249699
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2721,7 +2760,8 @@
         -0.016231955751259287,
         0,
         -0.00901775319514405
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2747,7 +2787,8 @@
         -0.007126154441300837,
         0,
         -0.003958974689611577
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2773,7 +2814,8 @@
         0.005487107955068781,
         0,
         0.0030483933083715452
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2799,7 +2841,8 @@
         -0.012064527851349925,
         0,
         -0.006702515472972181
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2825,7 +2868,8 @@
         -0.01787177232434791,
         0,
         -0.009928762402415508
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2851,7 +2895,8 @@
         -0.004568295699057488,
         0,
         -0.0025379420550319383
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2877,7 +2922,8 @@
         0.007994514185469894,
         0,
         0.004441396769705497
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2898,7 +2944,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2919,7 +2966,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2940,7 +2988,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2961,7 +3010,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -2982,7 +3032,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3003,7 +3054,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3024,7 +3076,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3045,7 +3098,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3066,7 +3120,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3087,7 +3142,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3108,7 +3164,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3129,7 +3186,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3150,7 +3208,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3171,7 +3230,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3192,7 +3252,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3213,7 +3274,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3234,7 +3296,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3255,7 +3318,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3276,7 +3340,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3297,7 +3362,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3318,7 +3384,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3339,7 +3406,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3360,7 +3428,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3381,7 +3450,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3402,7 +3472,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3423,7 +3494,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3444,7 +3516,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3465,7 +3538,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3486,7 +3560,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3507,7 +3582,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3528,7 +3604,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3549,7 +3626,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3570,7 +3648,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3591,7 +3670,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3612,7 +3692,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3633,7 +3714,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3654,7 +3736,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3675,7 +3758,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3696,7 +3780,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3717,7 +3802,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3738,7 +3824,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3759,7 +3846,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3780,7 +3868,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3801,7 +3890,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3822,7 +3912,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3843,7 +3934,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3864,7 +3956,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3885,7 +3978,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3906,7 +4000,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3927,7 +4022,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3948,7 +4044,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3969,7 +4066,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -3990,7 +4088,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4011,7 +4110,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4032,7 +4132,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4053,7 +4154,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4074,7 +4176,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4095,7 +4198,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4116,7 +4220,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4137,7 +4242,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4158,7 +4264,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4179,7 +4286,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4200,7 +4308,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4221,7 +4330,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4242,7 +4352,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4263,7 +4374,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4284,7 +4396,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4305,7 +4418,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4326,7 +4440,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4347,7 +4462,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4368,7 +4484,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4389,7 +4506,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4410,7 +4528,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4431,7 +4550,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4452,7 +4572,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -4473,7 +4594,8 @@
         "rockPattern": "fractured",
         "textureBrightness": 0.95,
         "relief": 0.045
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "rock",
@@ -4489,7 +4611,7 @@
       ],
       "form": "fractured",
       "seed": 877,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.75,
       "fixedRock": true,
       "material": "stone",
@@ -4515,7 +4637,7 @@
       ],
       "form": "fractured",
       "seed": 878,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.75,
       "fixedRock": true,
       "material": "stone",
@@ -4541,7 +4663,7 @@
       ],
       "form": "fractured",
       "seed": 879,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.75,
       "fixedRock": true,
       "material": "stone",
@@ -4567,7 +4689,7 @@
       ],
       "form": "fractured",
       "seed": 880,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.75,
       "fixedRock": true,
       "material": "stone",
@@ -4593,7 +4715,7 @@
       ],
       "form": "fractured",
       "seed": 881,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.75,
       "fixedRock": true,
       "material": "stone",
@@ -4619,7 +4741,7 @@
       ],
       "form": "fractured",
       "seed": 882,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.75,
       "fixedRock": true,
       "material": "stone",
@@ -4645,7 +4767,7 @@
       ],
       "form": "fractured",
       "seed": 883,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.75,
       "fixedRock": true,
       "material": "stone",
@@ -4658,5 +4780,20 @@
       }
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    4.32840633392334,
+    7.92423534400217,
+    2.7674999237060547
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "subdivisão mineral preservando parâmetros de escultura"
+    ],
+    "seed": 50311
+  }
 }

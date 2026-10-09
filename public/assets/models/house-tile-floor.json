@@ -3,48 +3,14 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "ivory": {
-      "color": "#e7e0cf",
-      "roughness": 0.78
-    },
-    "green": {
-      "color": "#436958",
-      "roughness": 0.85
-    },
-    "wood": {
-      "color": "#815d3e",
-      "roughness": 0.85
-    },
-    "dark": {
-      "color": "#252e30",
-      "roughness": 0.6
-    },
     "metal": {
       "color": "#899491",
       "roughness": 0.4,
-      "metalness": 0.6
+      "metalness": 0.5
     },
-    "glass": {
-      "color": "#384e51",
-      "roughness": 0.25
-    },
-    "clay": {
-      "color": "#ad5f3d",
-      "roughness": 0.95
-    },
-    "leaf": {
-      "color": "#46663b",
-      "roughness": 1
-    },
-    "soil": {
-      "color": "#443529",
-      "roughness": 1
-    },
-    "light": {
-      "color": "#fff1cc",
-      "emissive": "#ffe1a2",
-      "emissiveIntensity": 0.5,
-      "roughness": 0.7
+    "ivory": {
+      "color": "#e7e0cf",
+      "roughness": 0.78
     }
   },
   "parts": [
@@ -60,7 +26,8 @@
         0.002499999944120647,
         0
       ],
-      "material": "metal"
+      "material": "metal",
+      "bevel": 0.0006500000000000001
     },
     {
       "shape": "box",
@@ -74,7 +41,8 @@
         0.009999999944120647,
         -2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -88,7 +56,8 @@
         0.009999999944120647,
         -2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -102,7 +71,8 @@
         0.009999999944120647,
         -2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -116,7 +86,8 @@
         0.009999999944120647,
         -2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -130,7 +101,8 @@
         0.009999999944120647,
         -2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -144,7 +116,8 @@
         0.009999999944120647,
         -2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -158,7 +131,8 @@
         0.009999999944120647,
         -2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -172,7 +146,8 @@
         0.009999999944120647,
         -2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -186,7 +161,8 @@
         0.009999999944120647,
         -2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -200,7 +176,8 @@
         0.009999999944120647,
         -2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -214,7 +191,8 @@
         0.009999999944120647,
         -1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -228,7 +206,8 @@
         0.009999999944120647,
         -1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -242,7 +221,8 @@
         0.009999999944120647,
         -1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -256,7 +236,8 @@
         0.009999999944120647,
         -1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -270,7 +251,8 @@
         0.009999999944120647,
         -1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -284,7 +266,8 @@
         0.009999999944120647,
         -1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -298,7 +281,8 @@
         0.009999999944120647,
         -1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -312,7 +296,8 @@
         0.009999999944120647,
         -1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -326,7 +311,8 @@
         0.009999999944120647,
         -1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -340,7 +326,8 @@
         0.009999999944120647,
         -1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -354,7 +341,8 @@
         0.009999999944120647,
         -1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -368,7 +356,8 @@
         0.009999999944120647,
         -1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -382,7 +371,8 @@
         0.009999999944120647,
         -1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -396,7 +386,8 @@
         0.009999999944120647,
         -1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -410,7 +401,8 @@
         0.009999999944120647,
         -1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -424,7 +416,8 @@
         0.009999999944120647,
         -1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -438,7 +431,8 @@
         0.009999999944120647,
         -1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -452,7 +446,8 @@
         0.009999999944120647,
         -1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -466,7 +461,8 @@
         0.009999999944120647,
         -1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -480,7 +476,8 @@
         0.009999999944120647,
         -1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -494,7 +491,8 @@
         0.009999999944120647,
         -0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -508,7 +506,8 @@
         0.009999999944120647,
         -0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -522,7 +521,8 @@
         0.009999999944120647,
         -0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -536,7 +536,8 @@
         0.009999999944120647,
         -0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -550,7 +551,8 @@
         0.009999999944120647,
         -0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -564,7 +566,8 @@
         0.009999999944120647,
         -0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -578,7 +581,8 @@
         0.009999999944120647,
         -0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -592,7 +596,8 @@
         0.009999999944120647,
         -0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -606,7 +611,8 @@
         0.009999999944120647,
         -0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -620,7 +626,8 @@
         0.009999999944120647,
         -0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -634,7 +641,8 @@
         0.009999999944120647,
         -0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -648,7 +656,8 @@
         0.009999999944120647,
         -0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -662,7 +671,8 @@
         0.009999999944120647,
         -0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -676,7 +686,8 @@
         0.009999999944120647,
         -0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -690,7 +701,8 @@
         0.009999999944120647,
         -0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -704,7 +716,8 @@
         0.009999999944120647,
         -0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -718,7 +731,8 @@
         0.009999999944120647,
         -0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -732,7 +746,8 @@
         0.009999999944120647,
         -0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -746,7 +761,8 @@
         0.009999999944120647,
         -0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -760,7 +776,8 @@
         0.009999999944120647,
         -0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -774,7 +791,8 @@
         0.009999999944120647,
         0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -788,7 +806,8 @@
         0.009999999944120647,
         0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -802,7 +821,8 @@
         0.009999999944120647,
         0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -816,7 +836,8 @@
         0.009999999944120647,
         0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -830,7 +851,8 @@
         0.009999999944120647,
         0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -844,7 +866,8 @@
         0.009999999944120647,
         0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -858,7 +881,8 @@
         0.009999999944120647,
         0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -872,7 +896,8 @@
         0.009999999944120647,
         0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -886,7 +911,8 @@
         0.009999999944120647,
         0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -900,7 +926,8 @@
         0.009999999944120647,
         0.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -914,7 +941,8 @@
         0.009999999944120647,
         0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -928,7 +956,8 @@
         0.009999999944120647,
         0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -942,7 +971,8 @@
         0.009999999944120647,
         0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -956,7 +986,8 @@
         0.009999999944120647,
         0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -970,7 +1001,8 @@
         0.009999999944120647,
         0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -984,7 +1016,8 @@
         0.009999999944120647,
         0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -998,7 +1031,8 @@
         0.009999999944120647,
         0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1012,7 +1046,8 @@
         0.009999999944120647,
         0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1026,7 +1061,8 @@
         0.009999999944120647,
         0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1040,7 +1076,8 @@
         0.009999999944120647,
         0.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1054,7 +1091,8 @@
         0.009999999944120647,
         1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1068,7 +1106,8 @@
         0.009999999944120647,
         1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1082,7 +1121,8 @@
         0.009999999944120647,
         1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1096,7 +1136,8 @@
         0.009999999944120647,
         1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1110,7 +1151,8 @@
         0.009999999944120647,
         1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1124,7 +1166,8 @@
         0.009999999944120647,
         1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1138,7 +1181,8 @@
         0.009999999944120647,
         1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1152,7 +1196,8 @@
         0.009999999944120647,
         1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1166,7 +1211,8 @@
         0.009999999944120647,
         1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1180,7 +1226,8 @@
         0.009999999944120647,
         1.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1194,7 +1241,8 @@
         0.009999999944120647,
         1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1208,7 +1256,8 @@
         0.009999999944120647,
         1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1222,7 +1271,8 @@
         0.009999999944120647,
         1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1236,7 +1286,8 @@
         0.009999999944120647,
         1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1250,7 +1301,8 @@
         0.009999999944120647,
         1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1264,7 +1316,8 @@
         0.009999999944120647,
         1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1278,7 +1331,8 @@
         0.009999999944120647,
         1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1292,7 +1346,8 @@
         0.009999999944120647,
         1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1306,7 +1361,8 @@
         0.009999999944120647,
         1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1320,7 +1376,8 @@
         0.009999999944120647,
         1.75
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1334,7 +1391,8 @@
         0.009999999944120647,
         2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1348,7 +1406,8 @@
         0.009999999944120647,
         2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1362,7 +1421,8 @@
         0.009999999944120647,
         2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1376,7 +1436,8 @@
         0.009999999944120647,
         2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1390,7 +1451,8 @@
         0.009999999944120647,
         2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1404,7 +1466,8 @@
         0.009999999944120647,
         2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1418,7 +1481,8 @@
         0.009999999944120647,
         2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1432,7 +1496,8 @@
         0.009999999944120647,
         2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1446,7 +1511,8 @@
         0.009999999944120647,
         2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     },
     {
       "shape": "box",
@@ -1460,8 +1526,23 @@
         0.009999999944120647,
         2.25
       ],
-      "material": "ivory"
+      "material": "ivory",
+      "bevel": 0.0008500000000000001
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    5,
+    0.014999999664723871,
+    5
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 37315
+  }
 }

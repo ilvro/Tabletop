@@ -5,65 +5,7 @@
   "materials": {
     "wood": {
       "color": "#79553e",
-      "roughness": 0.84
-    },
-    "dark": {
-      "color": "#292b30",
-      "roughness": 0.8
-    },
-    "metal": {
-      "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
+      "roughness": 0.7
     },
     "green": {
       "color": "#405b43",
@@ -97,8 +39,8 @@
       ],
       "radius": 0.17,
       "tipRadius": 0.015300000000000001,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1301,
       "forks": 0,
       "material": "wood",
@@ -135,8 +77,8 @@
       ],
       "radius": 0.065,
       "tipRadius": 0.00585,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1301,
       "forks": 0,
       "material": "wood",
@@ -173,8 +115,8 @@
       ],
       "radius": 0.065,
       "tipRadius": 0.00585,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1302,
       "forks": 0,
       "material": "wood",
@@ -211,8 +153,8 @@
       ],
       "radius": 0.065,
       "tipRadius": 0.00585,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1303,
       "forks": 0,
       "material": "wood",
@@ -249,8 +191,8 @@
       ],
       "radius": 0.065,
       "tipRadius": 0.00585,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1304,
       "forks": 0,
       "material": "wood",
@@ -287,8 +229,8 @@
       ],
       "radius": 0.065,
       "tipRadius": 0.00585,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1305,
       "forks": 0,
       "material": "wood",
@@ -325,8 +267,8 @@
       ],
       "radius": 0.045,
       "tipRadius": 0.00405,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1301,
       "forks": 2,
       "material": "wood",
@@ -354,7 +296,7 @@
         0.5463593472785162,
         1.1479469533205566
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1301,
       "position": [
         0.9055855707404882,
@@ -397,8 +339,8 @@
       ],
       "radius": 0.045,
       "tipRadius": 0.00405,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1308,
       "forks": 2,
       "material": "wood",
@@ -426,7 +368,7 @@
         0.5463593472785162,
         1.1479469533205566
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1314,
       "position": [
         -0.3395716459317577,
@@ -469,8 +411,8 @@
       ],
       "radius": 0.045,
       "tipRadius": 0.00405,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1315,
       "forks": 2,
       "material": "wood",
@@ -498,7 +440,7 @@
         0.5463593472785162,
         1.1479469533205566
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1327,
       "position": [
         -0.6082379954530006,
@@ -541,8 +483,8 @@
       ],
       "radius": 0.0405,
       "tipRadius": 0.003645,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1330,
       "forks": 2,
       "material": "wood",
@@ -570,7 +512,7 @@
         0.5576555992659864,
         1.2139865803242282
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1348,
       "position": [
         -0.9086841717644782,
@@ -613,8 +555,8 @@
       ],
       "radius": 0.0405,
       "tipRadius": 0.003645,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1337,
       "forks": 2,
       "material": "wood",
@@ -642,7 +584,7 @@
         0.5576555992659864,
         1.2139865803242282
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1361,
       "position": [
         -0.12443650145745669,
@@ -685,8 +627,8 @@
       ],
       "radius": 0.0405,
       "tipRadius": 0.003645,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1344,
       "forks": 2,
       "material": "wood",
@@ -714,7 +656,7 @@
         0.5576555992659864,
         1.2139865803242282
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1374,
       "position": [
         1.071019301603811,
@@ -757,8 +699,8 @@
       ],
       "radius": 0.036,
       "tipRadius": 0.00324,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1359,
       "forks": 2,
       "material": "wood",
@@ -786,7 +728,7 @@
         0.5563604338537081,
         1.2064148440678324
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1395,
       "position": [
         0.29457116762614416,
@@ -829,8 +771,8 @@
       ],
       "radius": 0.036,
       "tipRadius": 0.00324,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1366,
       "forks": 2,
       "material": "wood",
@@ -858,7 +800,7 @@
         0.5563604338537081,
         1.2064148440678324
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1408,
       "position": [
         0.8118223845315187,
@@ -901,8 +843,8 @@
       ],
       "radius": 0.036,
       "tipRadius": 0.00324,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1373,
       "forks": 2,
       "material": "wood",
@@ -930,7 +872,7 @@
         0.5563604338537081,
         1.2064148440678324
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1421,
       "position": [
         0.6559839612615709,
@@ -973,8 +915,8 @@
       ],
       "radius": 0.036,
       "tipRadius": 0.00324,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1380,
       "forks": 2,
       "material": "wood",
@@ -1002,7 +944,7 @@
         0.5563604338537081,
         1.2064148440678324
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1434,
       "position": [
         -0.40972436332567486,
@@ -1045,8 +987,8 @@
       ],
       "radius": 0.036,
       "tipRadius": 0.00324,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1387,
       "forks": 2,
       "material": "wood",
@@ -1074,7 +1016,7 @@
         0.5563604338537081,
         1.2064148440678324
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1447,
       "position": [
         -0.9600889385132013,
@@ -1117,8 +1059,8 @@
       ],
       "radius": 0.0315,
       "tipRadius": 0.002835,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1388,
       "forks": 2,
       "material": "wood",
@@ -1146,7 +1088,7 @@
         0.5426403683426191,
         1.1262052303106966
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1442,
       "position": [
         0.5300092651939617,
@@ -1189,8 +1131,8 @@
       ],
       "radius": 0.0315,
       "tipRadius": 0.002835,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1395,
       "forks": 2,
       "material": "wood",
@@ -1218,7 +1160,7 @@
         0.5426403683426191,
         1.1262052303106966
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1455,
       "position": [
         -0.6556321845596672,
@@ -1261,8 +1203,8 @@
       ],
       "radius": 0.0315,
       "tipRadius": 0.002835,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1402,
       "forks": 2,
       "material": "wood",
@@ -1290,7 +1232,7 @@
         0.5426403683426191,
         1.1262052303106966
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1468,
       "position": [
         -0.8628885984664199,
@@ -1333,8 +1275,8 @@
       ],
       "radius": 0.0315,
       "tipRadius": 0.002835,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1409,
       "forks": 2,
       "material": "wood",
@@ -1362,7 +1304,7 @@
         0.5426403683426191,
         1.1262052303106966
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1481,
       "position": [
         0.051270563526012954,
@@ -1405,8 +1347,8 @@
       ],
       "radius": 0.0315,
       "tipRadius": 0.002835,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1416,
       "forks": 2,
       "material": "wood",
@@ -1434,7 +1376,7 @@
         0.5426403683426191,
         1.1262052303106966
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1494,
       "position": [
         0.8183727418607287,
@@ -1477,8 +1419,8 @@
       ],
       "radius": 0.027,
       "tipRadius": 0.00243,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1417,
       "forks": 2,
       "material": "wood",
@@ -1506,7 +1448,7 @@
         0.5185603222997918,
         0.9854295765218596
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1489,
       "position": [
         -0.7058528761018509,
@@ -1549,8 +1491,8 @@
       ],
       "radius": 0.027,
       "tipRadius": 0.00243,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1424,
       "forks": 2,
       "material": "wood",
@@ -1578,7 +1520,7 @@
         0.5185603222997918,
         0.9854295765218596
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1502,
       "position": [
         -0.21899415160934732,
@@ -1621,8 +1563,8 @@
       ],
       "radius": 0.027,
       "tipRadius": 0.00243,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1431,
       "forks": 2,
       "material": "wood",
@@ -1650,7 +1592,7 @@
         0.5185603222997918,
         0.9854295765218596
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1515,
       "position": [
         0.6952850874204484,
@@ -1693,8 +1635,8 @@
       ],
       "radius": 0.027,
       "tipRadius": 0.00243,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1438,
       "forks": 2,
       "material": "wood",
@@ -1722,7 +1664,7 @@
         0.5185603222997918,
         0.9854295765218596
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1528,
       "position": [
         0.5746388103056651,
@@ -1765,8 +1707,8 @@
       ],
       "radius": 0.027,
       "tipRadius": 0.00243,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1445,
       "forks": 2,
       "material": "wood",
@@ -1794,7 +1736,7 @@
         0.5185603222997918,
         0.9854295765218596
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1541,
       "position": [
         -0.3486484414833265,
@@ -1837,8 +1779,8 @@
       ],
       "radius": 0.0225,
       "tipRadius": 0.002025,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1446,
       "forks": 2,
       "material": "wood",
@@ -1866,7 +1808,7 @@
         0.48757362256913883,
         0.8042765627118884
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1536,
       "position": [
         0.5909368065625707,
@@ -1909,8 +1851,8 @@
       ],
       "radius": 0.0225,
       "tipRadius": 0.002025,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1453,
       "forks": 2,
       "material": "wood",
@@ -1938,7 +1880,7 @@
         0.48757362256913883,
         0.8042765627118884
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1549,
       "position": [
         0.46482411835020165,
@@ -1981,8 +1923,8 @@
       ],
       "radius": 0.0225,
       "tipRadius": 0.002025,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1460,
       "forks": 2,
       "material": "wood",
@@ -2010,7 +1952,7 @@
         0.48757362256913883,
         0.8042765627118884
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1562,
       "position": [
         -0.12007561529447774,
@@ -2053,8 +1995,8 @@
       ],
       "radius": 0.0225,
       "tipRadius": 0.002025,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1467,
       "forks": 2,
       "material": "wood",
@@ -2082,7 +2024,7 @@
         0.48757362256913883,
         0.8042765627118884
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1575,
       "position": [
         -0.6694423227649001,
@@ -2125,8 +2067,8 @@
       ],
       "radius": 0.0225,
       "tipRadius": 0.002025,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1474,
       "forks": 2,
       "material": "wood",
@@ -2154,7 +2096,7 @@
         0.48757362256913883,
         0.8042765627118884
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1588,
       "position": [
         -0.09348175597306316,
@@ -2197,8 +2139,8 @@
       ],
       "radius": 0.018,
       "tipRadius": 0.002,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1475,
       "forks": 2,
       "material": "wood",
@@ -2226,7 +2168,7 @@
         0.45382779963299325,
         0.6069932901621142
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1583,
       "position": [
         0.01819573049587853,
@@ -2269,8 +2211,8 @@
       ],
       "radius": 0.018,
       "tipRadius": 0.002,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1482,
       "forks": 2,
       "material": "wood",
@@ -2298,7 +2240,7 @@
         0.45382779963299325,
         0.6069932901621142
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1596,
       "position": [
         -0.34426192996772537,
@@ -2341,8 +2283,8 @@
       ],
       "radius": 0.018,
       "tipRadius": 0.002,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1489,
       "forks": 2,
       "material": "wood",
@@ -2370,7 +2312,7 @@
         0.45382779963299325,
         0.6069932901621142
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1609,
       "position": [
         0.4667477282742691,
@@ -2413,8 +2355,8 @@
       ],
       "radius": 0.013500000000000002,
       "tipRadius": 0.002,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1504,
       "forks": 2,
       "material": "wood",
@@ -2442,7 +2384,7 @@
         0.42140339901036955,
         0.4174352557529298
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1630,
       "position": [
         -0.127412971716265,
@@ -2485,8 +2427,8 @@
       ],
       "radius": 0.013500000000000002,
       "tipRadius": 0.002,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1511,
       "forks": 2,
       "material": "wood",
@@ -2514,7 +2456,7 @@
         0.42140339901036955,
         0.4174352557529298
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1643,
       "position": [
         0.41136867228679214,
@@ -2557,8 +2499,8 @@
       ],
       "radius": 0.013500000000000002,
       "tipRadius": 0.002,
-      "segments": 16,
-      "sides": 7,
+      "segments": 17,
+      "sides": 8,
       "seed": 1518,
       "forks": 2,
       "material": "wood",
@@ -2586,7 +2528,7 @@
         0.42140339901036955,
         0.4174352557529298
       ],
-      "count": 54,
+      "count": 50,
       "seed": 1656,
       "position": [
         -0.15181583035991075,
@@ -2615,7 +2557,7 @@
         0.55,
         0.42
       ],
-      "count": 36,
+      "count": 32,
       "seed": 1872,
       "position": [
         0.06810691833496094,
@@ -2633,5 +2575,20 @@
       }
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    3.8908464908599854,
+    4.408773422241211,
+    3.7799257040023804
+  ],
+  "design": {
+    "edition": 2,
+    "family": "botanical",
+    "reconstruction": "components",
+    "methods": [
+      "ramos afilados com secção refinada",
+      "ramagens com agulhas em volume"
+    ],
+    "seed": 63769
+  }
 }

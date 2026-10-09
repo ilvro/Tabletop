@@ -3,67 +3,18 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "wood": {
-      "color": "#79553e",
-      "roughness": 0.84
-    },
     "dark": {
       "color": "#292b30",
       "roughness": 0.8
     },
     "metal": {
       "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
+      "roughness": 0.46,
+      "metalness": 0.5
     },
     "stone": {
       "color": "#777873",
       "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
     },
     "green": {
       "color": "#405b43",
@@ -74,44 +25,52 @@
     {
       "shape": "box",
       "size": [
-        2.2,
-        0.2,
-        1.8
+        2.299999952316284,
+        0.1,
+        1.850000023841858
       ],
       "position": [
         0,
-        0.10000000149011612,
+        0.05,
         0
       ],
-      "material": "stone"
+      "material": "stone",
+      "bevel": 0.015,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
       "size": [
-        0.2,
         2.2,
-        1.6
+        0.1,
+        1.75
       ],
       "position": [
-        -0.95,
-        1.300000001490116,
+        0,
+        0.15,
         0
       ],
-      "material": "stone"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.2,
-        2.2,
-        1.6
-      ],
-      "position": [
-        0.95,
-        1.300000001490116,
-        0
-      ],
-      "material": "stone"
+      "material": "stone",
+      "bevel": 0.012,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -122,80 +81,943 @@
       ],
       "position": [
         0,
-        1.300000001490116,
+        1.3,
         -0.7
       ],
-      "material": "stone"
+      "material": "stone",
+      "surface": {
+        "texture": "stone",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "textureSize": 1.3,
+        "relief": 0.02
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
       "size": [
-        2.3,
         0.2,
-        1.85
+        2.2,
+        1.6
       ],
       "position": [
-        0,
-        2.500000001490116,
+        -0.95,
+        1.3,
         0
       ],
-      "material": "stone"
+      "material": "stone",
+      "surface": {
+        "texture": "stone",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "textureSize": 1.3,
+        "relief": 0.02
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
       "size": [
-        2.1,
+        0.55,
+        2.2,
+        0.2
+      ],
+      "position": [
+        -0.675,
+        1.3,
+        0.7
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "stone",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "textureSize": 1.3,
+        "relief": 0.02
+      },
+      "bevel": 0.012
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        2.2,
+        1.6
+      ],
+      "position": [
+        0.95,
+        1.3,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "stone",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "textureSize": 1.3,
+        "relief": 0.02
+      },
+      "bevel": 0.012
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.55,
+        2.2,
+        0.2
+      ],
+      "position": [
+        0.675,
+        1.3,
+        0.7
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "stone",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "textureSize": 1.3,
+        "relief": 0.02
+      },
+      "bevel": 0.012
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.8,
+        0.5,
+        0.2
+      ],
+      "position": [
+        0,
+        2.15,
+        0.7
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "stone",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "textureSize": 1.3,
+        "relief": 0.02
+      },
+      "bevel": 0.012
+    },
+    {
+      "shape": "box",
+      "size": [
+        2.299999952316284,
+        0.2,
+        1.850000023841858
+      ],
+      "position": [
+        0,
+        2.5,
+        0
+      ],
+      "material": "stone",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        2.2,
+        0.05,
+        1.75
+      ],
+      "position": [
+        0,
+        2.385,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      },
+      "bevel": 0.00425
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -1.15,
+          0
+        ],
+        [
+          1.15,
+          0
+        ],
+        [
+          0,
+          0.16
+        ]
+      ],
+      "depth": 1.850000023841858,
+      "position": [
+        0,
+        2.6,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      },
+      "edgeBevel": 0.003
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.17,
+        0.02,
+        1.8315000236034393
+      ],
+      "position": [
+        -0.575,
+        2.692,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        0.138
+      ],
+      "bevel": 0.0026000000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.17,
+        0.02,
+        1.8315000236034393
+      ],
+      "position": [
+        0.575,
+        2.692,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        -0.138
+      ],
+      "bevel": 0.0026000000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.9,
+        0.1,
+        0.012
+      ],
+      "position": [
+        0,
+        2.5,
+        0.921000011920929
+      ],
+      "material": "metal",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.39,
+        1.68,
+        0.06
+      ],
+      "position": [
+        -0.2,
+        1.05,
+        0.6599999999999999
+      ],
+      "material": "dark",
+      "bevel": 0.01,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.03,
+        0.012
+      ],
+      "position": [
+        -0.2,
+        0.31500000000000006,
+        0.692
+      ],
+      "material": "dark",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.03,
+        0.012
+      ],
+      "position": [
+        -0.2,
+        1.7850000000000001,
+        0.692
+      ],
+      "material": "dark",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        1.44,
+        0.012
+      ],
+      "position": [
+        -0.335,
+        1.05,
+        0.692
+      ],
+      "material": "dark",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        1.44,
+        0.012
+      ],
+      "position": [
+        -0.065,
+        1.05,
+        0.692
+      ],
+      "material": "dark",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.035,
+        0.3,
+        0.012
+      ],
+      "position": [
+        -0.2,
+        1.35,
+        0.696
+      ],
+      "material": "metal",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.035,
+        0.012
+      ],
+      "position": [
+        -0.2,
+        1.4,
+        0.696
+      ],
+      "material": "metal",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "ring",
+      "radius": 0.05,
+      "tube": 0.01,
+      "segments": 14,
+      "sides": 8,
+      "position": [
+        -0.07,
+        0.95,
+        0.704
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 0.14,
+      "position": [
+        -0.4,
+        0.5,
+        0.6799999999999999
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 0.14,
+      "position": [
+        -0.4,
+        1.6,
+        0.6799999999999999
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.39,
+        1.68,
+        0.06
+      ],
+      "position": [
+        0.2,
+        1.05,
+        0.6599999999999999
+      ],
+      "material": "dark",
+      "bevel": 0.01,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.03,
+        0.012
+      ],
+      "position": [
+        0.2,
+        0.31500000000000006,
+        0.692
+      ],
+      "material": "dark",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.03,
+        0.012
+      ],
+      "position": [
+        0.2,
+        1.7850000000000001,
+        0.692
+      ],
+      "material": "dark",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        1.44,
+        0.012
+      ],
+      "position": [
+        0.065,
+        1.05,
+        0.692
+      ],
+      "material": "dark",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        1.44,
+        0.012
+      ],
+      "position": [
+        0.335,
+        1.05,
+        0.692
+      ],
+      "material": "dark",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.035,
+        0.3,
+        0.012
+      ],
+      "position": [
+        0.2,
+        1.35,
+        0.696
+      ],
+      "material": "metal",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.035,
+        0.012
+      ],
+      "position": [
+        0.2,
+        1.4,
+        0.696
+      ],
+      "material": "metal",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "ring",
+      "radius": 0.05,
+      "tube": 0.01,
+      "segments": 14,
+      "sides": 8,
+      "position": [
+        0.07,
+        0.95,
+        0.704
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 0.14,
+      "position": [
+        0.4,
+        0.5,
+        0.6799999999999999
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 0.14,
+      "position": [
+        0.4,
+        1.6,
+        0.6799999999999999
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.13,
+          0
+        ],
+        [
+          0.13,
+          0.05
+        ],
+        [
+          0.1,
+          0.07
+        ],
+        [
+          0.095,
+          0.1
+        ],
+        [
+          0.085,
+          1.9
+        ],
+        [
+          0.1,
+          1.93
+        ],
+        [
+          0.13,
+          1.96
+        ],
+        [
+          0.13,
+          2
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        -0.9,
+        0.2,
+        0.82
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.09,
+          0
+        ],
+        [
+          0.07,
+          0.03
+        ],
+        [
+          0.12,
+          0.14
+        ],
+        [
+          0.11,
+          0.24
+        ],
+        [
+          0.06,
+          0.28
+        ],
+        [
+          0.085,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        -0.55,
+        0.2,
+        0.82
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.3,
+        0.05,
+        0.2
+      ],
+      "position": [
+        -0.8,
+        0.215,
+        0.5
+      ],
+      "material": "green",
+      "segments": 24
+    },
+    {
+      "shape": "box",
+      "size": [
         0.16,
-        1.65
+        0.5,
+        0.02
       ],
       "position": [
-        0,
-        2.680000001490116,
+        -1.052,
+        1.5,
         0
       ],
-      "material": "dark"
+      "material": "dark",
+      "bevel": 0.0026000000000000003
     },
     {
-      "shape": "box",
-      "size": [
-        0.7,
-        1.65,
-        0.08
-      ],
+      "shape": "cylinder",
+      "radiusTop": 0.008,
+      "radiusBottom": 0.008,
+      "height": 0.5,
       "position": [
-        0,
-        1.025000001490116,
-        0.75
+        -1.058,
+        1.5,
+        -0.04
       ],
-      "material": "dark"
+      "material": "metal",
+      "segments": 8
     },
     {
-      "shape": "box",
+      "shape": "cylinder",
+      "radiusTop": 0.008,
+      "radiusBottom": 0.008,
+      "height": 0.5,
+      "position": [
+        -1.058,
+        1.5,
+        0.04
+      ],
+      "material": "metal",
+      "segments": 8
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.13,
+          0
+        ],
+        [
+          0.13,
+          0.05
+        ],
+        [
+          0.1,
+          0.07
+        ],
+        [
+          0.095,
+          0.1
+        ],
+        [
+          0.085,
+          1.9
+        ],
+        [
+          0.1,
+          1.93
+        ],
+        [
+          0.13,
+          1.96
+        ],
+        [
+          0.13,
+          2
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        0.9,
+        0.2,
+        0.82
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.09,
+          0
+        ],
+        [
+          0.07,
+          0.03
+        ],
+        [
+          0.12,
+          0.14
+        ],
+        [
+          0.11,
+          0.24
+        ],
+        [
+          0.06,
+          0.28
+        ],
+        [
+          0.085,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        0.55,
+        0.2,
+        0.82
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "ellipsoid",
       "size": [
         0.3,
-        0.09999999999999999,
-        0.016
+        0.05,
+        0.2
       ],
       "position": [
+        0.8,
+        0.215,
+        0.5
+      ],
+      "material": "green",
+      "segments": 24
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.5,
+        0.02
+      ],
+      "position": [
+        1.052,
+        1.5,
+        0
+      ],
+      "material": "dark",
+      "bevel": 0.0026000000000000003
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.008,
+      "radiusBottom": 0.008,
+      "height": 0.5,
+      "position": [
+        1.058,
+        1.5,
+        -0.04
+      ],
+      "material": "metal",
+      "segments": 8
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.008,
+      "radiusBottom": 0.008,
+      "height": 0.5,
+      "position": [
+        1.058,
+        1.5,
+        0.04
+      ],
+      "material": "metal",
+      "segments": 8
+    },
+    {
+      "shape": "ring",
+      "radius": 0.07,
+      "tube": 0.012,
+      "segments": 16,
+      "sides": 8,
+      "position": [
         0,
-        1.450000002980232,
-        0.801
+        2.66,
+        0.927000011920929
       ],
       "material": "metal"
     },
     {
-      "shape": "box",
+      "shape": "ellipsoid",
       "size": [
-        0.09999999999999999,
-        0.3,
-        0.018
+        0.4,
+        0.04,
+        0.3
       ],
       "position": [
-        0,
-        1.450000002980232,
-        0.801
+        -0.7,
+        0.21,
+        0.7
       ],
-      "material": "metal"
+      "material": "green",
+      "segments": 24
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    2.299999952316284,
+    2.759999999701977,
+    1.850000023841858
+  ],
+  "design": {
+    "edition": 2,
+    "family": "ritual",
+    "reconstruction": "model",
+    "methods": [
+      "mausoléu com escadaria, colunas, alvenaria aparelhada, frontão, portas de bronze com cruzes, urnas e janelas gradeadas",
+      "arestas chanfradas",
+      "entalhes e bordas de perfis",
+      "ferragens curvas com vazios reais",
+      "curvas de contorno refinadas"
+    ],
+    "seed": 35365
+  }
 }

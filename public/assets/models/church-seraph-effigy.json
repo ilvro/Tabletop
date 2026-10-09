@@ -6,15 +6,6 @@
     "stone": {
       "color": "#95806b",
       "roughness": 0.96
-    },
-    "wood": {
-      "color": "#39251e",
-      "roughness": 0.9
-    },
-    "iron": {
-      "color": "#181418",
-      "metalness": 0.65,
-      "roughness": 0.7
     }
   },
   "parts": [
@@ -38,7 +29,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -60,7 +52,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "profile",
@@ -148,7 +141,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "rope",
@@ -175,7 +169,7 @@
         ]
       ],
       "radius": 0.065,
-      "segments": 14,
+      "segments": 16,
       "sides": 6,
       "position": [
         0,
@@ -217,7 +211,7 @@
         ]
       ],
       "radius": 0.065,
-      "segments": 14,
+      "segments": 16,
       "sides": 6,
       "position": [
         0,
@@ -259,7 +253,7 @@
         ]
       ],
       "radius": 0.065,
-      "segments": 14,
+      "segments": 16,
       "sides": 6,
       "position": [
         0,
@@ -301,7 +295,7 @@
         ]
       ],
       "radius": 0.065,
-      "segments": 14,
+      "segments": 16,
       "sides": 6,
       "position": [
         0,
@@ -343,7 +337,7 @@
         ]
       ],
       "radius": 0.065,
-      "segments": 14,
+      "segments": 16,
       "sides": 6,
       "position": [
         0,
@@ -385,7 +379,7 @@
         ]
       ],
       "radius": 0.065,
-      "segments": 14,
+      "segments": 16,
       "sides": 6,
       "position": [
         0,
@@ -427,7 +421,7 @@
         ]
       ],
       "radius": 0.065,
-      "segments": 14,
+      "segments": 16,
       "sides": 6,
       "position": [
         0,
@@ -469,7 +463,7 @@
         ]
       ],
       "radius": 0.065,
-      "segments": 14,
+      "segments": 16,
       "sides": 6,
       "position": [
         0,
@@ -511,7 +505,7 @@
         ]
       ],
       "radius": 0.065,
-      "segments": 14,
+      "segments": 16,
       "sides": 6,
       "position": [
         0,
@@ -553,7 +547,8 @@
         0.07244475182095134,
         0.04597974528971441,
         1.130833524203059
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -580,7 +575,8 @@
         -0.04426547548989982,
         -0.03185982955932749,
         1.247634799714107
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -607,7 +603,8 @@
         0.1338174445932034,
         0.08176704306178607,
         1.0961537823432794
-      ]
+      ],
+      "bevel": 0.004675
     },
     {
       "shape": "box",
@@ -634,7 +631,8 @@
         0.057095912519000376,
         0.020953273413374596,
         0.7032965044784311
-      ]
+      ],
+      "bevel": 0.004675
     },
     {
       "shape": "box",
@@ -661,7 +659,8 @@
         0.06118544318367674,
         0.04960330886352527,
         1.3623633994953395
-      ]
+      ],
+      "bevel": 0.004675
     },
     {
       "shape": "box",
@@ -688,7 +687,8 @@
         0.04064708678054808,
         0.022126811852483007,
         0.9969303714882106
-      ]
+      ],
+      "bevel": 0.004675
     },
     {
       "shape": "profile",
@@ -748,7 +748,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -784,7 +785,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -820,7 +822,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -856,7 +859,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -892,7 +896,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -928,7 +933,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -964,7 +970,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1000,7 +1007,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1036,7 +1044,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1072,7 +1081,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1108,7 +1118,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1144,7 +1155,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1180,7 +1192,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "box",
@@ -1207,7 +1220,8 @@
         0.07244475182095134,
         -0.04597974528971441,
         -1.130833524203059
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1234,7 +1248,8 @@
         -0.04426547548989982,
         0.03185982955932749,
         -1.247634799714107
-      ]
+      ],
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -1261,7 +1276,8 @@
         0.1338174445932034,
         -0.08176704306178607,
         -1.0961537823432794
-      ]
+      ],
+      "bevel": 0.004675
     },
     {
       "shape": "box",
@@ -1288,7 +1304,8 @@
         0.057095912519000376,
         -0.020953273413374596,
         -0.7032965044784311
-      ]
+      ],
+      "bevel": 0.004675
     },
     {
       "shape": "box",
@@ -1315,7 +1332,8 @@
         0.06118544318367674,
         -0.04960330886352527,
         -1.3623633994953395
-      ]
+      ],
+      "bevel": 0.004675
     },
     {
       "shape": "box",
@@ -1342,7 +1360,8 @@
         0.04064708678054808,
         -0.022126811852483007,
         -0.9969303714882106
-      ]
+      ],
+      "bevel": 0.004675
     },
     {
       "shape": "profile",
@@ -1402,7 +1421,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1438,7 +1458,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1474,7 +1495,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1510,7 +1532,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1546,7 +1569,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1582,7 +1606,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1618,7 +1643,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1654,7 +1680,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1690,7 +1717,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1726,7 +1754,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1762,7 +1791,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1798,7 +1828,8 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1834,8 +1865,25 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      }
+      },
+      "edgeBevel": 0.003
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    9.800000190734863,
+    7.699999809265137,
+    1.5
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "entalhes e bordas de perfis",
+      "cordas e tubos curvos"
+    ],
+    "seed": 40525
+  }
 }

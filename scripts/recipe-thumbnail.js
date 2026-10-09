@@ -1,16 +1,29 @@
 import {deflateSync} from 'node:zlib';
 
-// Offline rasterization of the same sorted recipe faces. Dense needles otherwise
-// produced multi-megabyte SVGs and tens of thousands of DOM drawing primitives.
+// Offline rasterization of the recipe faces with a depth buffer. Sorting faces by
+// centroid let large chamfered panels paint over the parts in front of them, and
+// dense needles produced multi-megabyte SVGs with tens of thousands of polygons.
 export function rasterThumbnail(triangles) {
-  const width=320,height=308,pixels=Buffer.alloc(width*height*3);
+  const width=320,height=308,pixels=Buffer.alloc(width*height*3),depth=new Float32Array(width*height).fill(Infinity);
   for(let i=0;i<pixels.length;i+=3){pixels[i]=32;pixels[i+1]=39;pixels[i+2]=43;}
-  const span=(y,start,end,color)=>{for(let x=Math.max(0,start);x<Math.min(width,end);x++){const i=(y*width+x)*3;pixels[i]=color[0];pixels[i+1]=color[1];pixels[i+2]=color[2];}};
-  for(let y=238;y<274;y++){const dy=(y+.5-256)/18;if(Math.abs(dy)<1){const dx=Math.sqrt(1-dy*dy)*102;span(y,Math.ceil(160-dx),Math.ceil(160+dx),[20,27,32]);}}
-  for(const triangle of triangles) {
-    const points=triangle.points.split(' ').map(pair=>pair.split(',').map(Number).map(v=>v*2)),color=[1,3,5].map(i=>parseInt(triangle.color.slice(i,i+2),16)),min=Math.max(0,Math.floor(Math.min(...points.map(p=>p[1])))),max=Math.min(height,Math.ceil(Math.max(...points.map(p=>p[1]))));
-    for(let y=min;y<max;y++) {const row=y+.5,crossings=[];for(let i=0;i<3;i++){const a=points[i],b=points[(i+1)%3];if((a[1]<=row&&b[1]>row)||(b[1]<=row&&a[1]>row))crossings.push(a[0]+(row-a[1])*(b[0]-a[0])/(b[1]-a[1]));}if(crossings.length===2)span(y,Math.ceil(Math.min(...crossings)-.5),Math.ceil(Math.max(...crossings)-.5),color);}
-  }
+  for(let y=238;y<274;y++){const dy=(y+.5-256)/18;if(Math.abs(dy)<1){const dx=Math.sqrt(1-dy*dy)*102;for(let x=Math.max(0,Math.ceil(160-dx));x<Math.min(width,Math.ceil(160+dx));x++){const i=(y*width+x)*3;pixels[i]=20;pixels[i+1]=27;pixels[i+2]=32;}}}
+  const draw=({points,color,opacity=1})=>{
+    const [a,b,c]=points.map(([x,y,z])=>[x*2,y*2,z]),area=(b[0]-a[0])*(c[1]-a[1])-(c[0]-a[0])*(b[1]-a[1]);
+    if(Math.abs(area)<1e-9)return;
+    const rgb=[1,3,5].map(i=>parseInt(color.slice(i,i+2),16));
+    const x0=Math.max(0,Math.floor(Math.min(a[0],b[0],c[0]))),x1=Math.min(width-1,Math.ceil(Math.max(a[0],b[0],c[0]))),y0=Math.max(0,Math.floor(Math.min(a[1],b[1],c[1]))),y1=Math.min(height-1,Math.ceil(Math.max(a[1],b[1],c[1])));
+    for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++) {
+      const px=x+.5,py=y+.5,u=((b[0]-px)*(c[1]-py)-(c[0]-px)*(b[1]-py))/area,v=((c[0]-px)*(a[1]-py)-(a[0]-px)*(c[1]-py))/area,t=1-u-v;
+      if(u<0||v<0||t<0)continue;
+      const z=u*a[2]+v*b[2]+t*c[2],at=y*width+x;
+      if(z>=depth[at])continue;
+      // Glass tints what is behind it and leaves the depth untouched.
+      if(opacity<1){for(let k=0;k<3;k++)pixels[at*3+k]=Math.round(pixels[at*3+k]*(1-opacity)+rgb[k]*opacity);continue;}
+      depth[at]=z;pixels[at*3]=rgb[0];pixels[at*3+1]=rgb[1];pixels[at*3+2]=rgb[2];
+    }
+  };
+  for(const triangle of triangles)if(!(triangle.opacity<1))draw(triangle);
+  for(const triangle of triangles.filter(t=>t.opacity<1).sort((a,b)=>b.z-a.z))draw(triangle);
   const crc=buffer=>{let value=0xffffffff;for(const byte of buffer){value^=byte;for(let i=0;i<8;i++)value=(value>>>1)^((value&1)?0xedb88320:0);}return (value^0xffffffff)>>>0;};
   const chunk=(type,data)=>{const bytes=Buffer.concat([Buffer.from(type),data]),size=Buffer.alloc(4),checksum=Buffer.alloc(4);size.writeUInt32BE(data.length);checksum.writeUInt32BE(crc(bytes));return Buffer.concat([size,bytes,checksum]);};
   const header=Buffer.alloc(13);header.writeUInt32BE(width,0);header.writeUInt32BE(height,4);header[8]=8;header[9]=2;

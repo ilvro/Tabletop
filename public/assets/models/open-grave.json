@@ -5,195 +5,550 @@
   "materials": {
     "wood": {
       "color": "#79553e",
-      "roughness": 0.84
-    },
-    "dark": {
-      "color": "#292b30",
-      "roughness": 0.8
+      "roughness": 0.7
     },
     "metal": {
       "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
+      "roughness": 0.46,
+      "metalness": 0.5
     },
     "rust": {
       "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
+      "roughness": 0.9,
+      "metalness": 0
     },
     "black": {
       "color": "#181a20",
       "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
     {
       "shape": "box",
       "size": [
-        0.8,
+        0.84,
         0.02,
-        1.7
+        1.74
       ],
       "position": [
-        -0.47499998807907107,
-        0.010000005960464483,
+        -0.47,
+        0.01,
         0
       ],
-      "material": "black"
+      "material": "black",
+      "bevel": 0.0026000000000000003
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -0.69,
+          0.72
+        ],
+        [
+          -0.24999999999999997,
+          0.72
+        ],
+        [
+          -0.13999999999999996,
+          0.3
+        ],
+        [
+          -0.22999999999999998,
+          -0.72
+        ],
+        [
+          -0.71,
+          -0.72
+        ],
+        [
+          -0.8,
+          0.3
+        ]
+      ],
+      "depth": 0.03,
+      "position": [
+        0,
+        0.035,
+        0
+      ],
+      "material": "wood",
+      "rotation": [
+        -1.5707963267948966,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "box",
       "size": [
-        1.2,
-        0.25,
-        0.2
+        0.04,
+        0.008,
+        0.5
       ],
       "position": [
-        -0.47499998807907107,
-        0.12500000596046448,
-        -0.95
-      ],
-      "material": "rust"
-    },
-    {
-      "shape": "box",
-      "size": [
-        1.2,
-        0.25,
-        0.2
-      ],
-      "position": [
-        -0.47499998807907107,
-        0.12500000596046448,
-        0.95
-      ],
-      "material": "rust"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.2,
-        0.25,
-        1.7
-      ],
-      "position": [
-        -0.9749999880790711,
-        0.12500000596046448,
-        0
-      ],
-      "material": "rust"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.2,
-        0.25,
-        1.7
-      ],
-      "position": [
-        0.025000011920928933,
-        0.12500000596046448,
-        0
-      ],
-      "material": "rust"
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.3,
-      "radiusBottom": 0.5,
-      "height": 0.3,
-      "position": [
-        0.575000011920929,
-        0.15000000596046448,
-        0
-      ],
-      "material": "rust",
-      "segments": 12
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.1,
-      "radiusBottom": 0.3,
-      "height": 0.2,
-      "position": [
-        0.575000011920929,
-        0.4000000059604645,
-        0
-      ],
-      "material": "rust",
-      "segments": 12
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.2,
-        0.25,
-        0.02
-      ],
-      "position": [
-        0.575000011920929,
-        0.5000000059604645,
-        0
+        -0.47,
+        0.055,
+        -0.2
       ],
       "material": "metal",
-      "rotation": [
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.008,
+        0.04
+      ],
+      "position": [
+        -0.47,
+        0.055,
+        -0.32
+      ],
+      "material": "metal",
+      "bevel": 0.0010400000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.2,
+        1.9
+      ],
+      "position": [
+        -1.04,
+        0.1,
+        0
+      ],
+      "material": "rust",
+      "taper": [
+        0.4,
+        0.94
+      ],
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.44,
+        0.18,
+        0.28
+      ],
+      "position": [
+        -0.47,
+        0.09,
+        -0.99
+      ],
+      "material": "rust",
+      "taper": [
+        0.92,
+        0.4
+      ],
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.2,
+        1.9
+      ],
+      "position": [
+        0.09999999999999998,
+        0.1,
+        0
+      ],
+      "material": "rust",
+      "taper": [
+        0.4,
+        0.94
+      ],
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.44,
+        0.18,
+        0.28
+      ],
+      "position": [
+        -0.47,
+        0.09,
+        0.99
+      ],
+      "material": "rust",
+      "taper": [
+        0.92,
+        0.4
+      ],
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "rock",
+      "form": "rounded",
+      "size": [
+        1.05,
+        0.52,
+        1.2
+      ],
+      "position": [
+        0.6,
         0,
+        0
+      ],
+      "seed": 5,
+      "detail": 4,
+      "irregularity": 0.3,
+      "fixedRock": true,
+      "material": "rust",
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "rounded",
+      "size": [
+        0.6,
+        0.3,
+        0.7
+      ],
+      "position": [
+        0.56,
+        0.36,
+        0.02
+      ],
+      "seed": 6,
+      "detail": 4,
+      "irregularity": 0.3,
+      "fixedRock": true,
+      "material": "rust",
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.16,
+        0.096,
+        0.16
+      ],
+      "position": [
+        0.2,
         0,
+        0.9
+      ],
+      "seed": 8,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "rust",
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.2,
+        0.12,
         0.2
-      ]
+      ],
+      "position": [
+        0.95,
+        0,
+        -0.75
+      ],
+      "seed": 9,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "rust",
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.14,
+        0.084,
+        0.14
+      ],
+      "position": [
+        1,
+        0,
+        0.7
+      ],
+      "seed": 10,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "rust",
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.12,
+        0.072,
+        0.12
+      ],
+      "position": [
+        0.3,
+        0,
+        -0.85
+      ],
+      "seed": 11,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "rust",
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.1,
+        0.06,
+        0.1
+      ],
+      "position": [
+        -0.3,
+        0.14,
+        1
+      ],
+      "seed": 12,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "rust",
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.12,
+        0.072,
+        0.12
+      ],
+      "position": [
+        -1.02,
+        0.14,
+        0.4
+      ],
+      "seed": 13,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "rust",
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.15,
+        0.09,
+        0.15
+      ],
+      "position": [
+        -0.95,
+        0.14,
+        -0.6
+      ],
+      "seed": 14,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "rust",
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.1,
+        0.06,
+        0.1
+      ],
+      "position": [
+        0.05,
+        0.18,
+        0.3
+      ],
+      "seed": 15,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "rust",
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.12,
+        0.072,
+        0.12
+      ],
+      "position": [
+        -0.5,
+        0.14,
+        -0.98
+      ],
+      "seed": 16,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "rust",
+      "surface": {
+        "texture": "mud",
+        "textureColor": "#824b34",
+        "textureColorMode": "replace",
+        "textureSize": 0.7,
+        "relief": 0.03,
+        "textureBrightness": 0.42,
+        "textureSaturation": 0.55
+      }
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.016,
-      "radiusBottom": 0.016,
-      "height": 0.9,
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 0.84,
       "position": [
-        0.461000011920929,
-        1.0630000059604645,
+        0.653,
+        0.96,
         0
       ],
       "material": "wood",
@@ -201,27 +556,114 @@
       "rotation": [
         0,
         0,
-        0.2
-      ]
+        -0.22
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
     },
     {
-      "shape": "box",
-      "size": [
-        0.12,
-        0.03,
-        0.03
+      "shape": "profile",
+      "contour": [
+        [
+          -0.11,
+          0
+        ],
+        [
+          -0.12,
+          0.2
+        ],
+        [
+          -0.05,
+          0.26
+        ],
+        [
+          0.05,
+          0.26
+        ],
+        [
+          0.12,
+          0.2
+        ],
+        [
+          0.11,
+          0
+        ],
+        [
+          0,
+          -0.1
+        ]
       ],
+      "depth": 0.008,
       "position": [
-        0.3720000119209289,
-        1.5040000059604646,
+        0.56,
+        0.41000000000000003,
+        0
+      ],
+      "material": "metal",
+      "rotation": [
+        1.5707963267948957,
+        1.3507963267948961,
+        -1.5707963267948957
+      ],
+      "edgeBevel": 0.00096
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.014,
+      "segments": 14,
+      "sides": 8,
+      "position": [
+        0.76,
+        1.4606211638807576,
         0
       ],
       "material": "wood",
       "rotation": [
         0,
-        0,
-        0.2
-      ]
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    2.1500000238418577,
+    1.5306211638807576,
+    2.100000002980232
+  ],
+  "design": {
+    "edition": 2,
+    "family": "ritual",
+    "reconstruction": "model",
+    "methods": [
+      "cova aberta com caixão ao fundo, bordas e monte de terra revolvida, torrões e pá fincada",
+      "arestas chanfradas",
+      "entalhes e bordas de perfis",
+      "subdivisão mineral preservando parâmetros de escultura",
+      "curvas de contorno refinadas",
+      "ferragens curvas com vazios reais"
+    ],
+    "seed": 30795
+  }
 }

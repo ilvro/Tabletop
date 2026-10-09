@@ -3,140 +3,181 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "wood": {
-      "color": "#79553e",
-      "roughness": 0.84
-    },
     "dark": {
       "color": "#292b30",
       "roughness": 0.8
     },
     "metal": {
       "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
+      "roughness": 0.46,
+      "metalness": 0.5
     },
     "white": {
       "color": "#d8d3bd",
       "roughness": 0.72
-    },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
     {
-      "shape": "cylinder",
-      "radiusTop": 0.2,
-      "radiusBottom": 0.17,
-      "height": 0.24,
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.16,
+          0
+        ],
+        [
+          0.18,
+          0.04
+        ],
+        [
+          0.12,
+          0.12
+        ],
+        [
+          0.12,
+          0.23
+        ],
+        [
+          0.22,
+          0.32
+        ],
+        [
+          0.25,
+          0.39
+        ],
+        [
+          0.25,
+          0.43
+        ],
+        [
+          0.21,
+          0.44
+        ],
+        [
+          0.2,
+          0.4
+        ],
+        [
+          0.16,
+          0.3
+        ],
+        [
+          0.06,
+          0.25
+        ],
+        [
+          0,
+          0.25
+        ]
+      ],
+      "segments": 32,
       "position": [
         0,
-        0.11999999731779099,
-        0.062499996274709695
+        0,
+        0.1
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.38,
+        0.55,
+        0.15
+      ],
+      "position": [
+        0,
+        0.46,
+        -0.21
       ],
       "material": "white",
-      "segments": 12
+      "bevel": 0.025
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.4,
+        0.04,
+        0.17
+      ],
+      "position": [
+        0,
+        0.755,
+        -0.21
+      ],
+      "material": "white",
+      "bevel": 0.012
+    },
+    {
+      "shape": "ring",
+      "radius": 0.227,
+      "tube": 0.022,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        0,
+        0.441,
+        0.1
+      ],
+      "material": "white",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.23,
-      "radiusBottom": 0.23,
-      "height": 0.12,
-      "position": [
-        0,
-        0.299999997317791,
-        0.0724999962747097
-      ],
-      "material": "white",
-      "segments": 12
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.16,
-      "radiusBottom": 0.16,
+      "radiusTop": 0.016,
+      "radiusBottom": 0.016,
       "height": 0.012,
       "position": [
+        0.12,
+        0.65,
+        -0.125
+      ],
+      "material": "metal",
+      "segments": 24,
+      "rotation": [
+        1.5707963267948966,
         0,
-        0.366999997317791,
-        0.0724999962747097
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.017,
+      "radiusBottom": 0.017,
+      "height": 0.006,
+      "position": [
+        0,
+        0.217599998998642,
+        0.07260000010728836
       ],
       "material": "dark",
-      "segments": 12
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.4,
-        0.4,
-        0.18
-      ],
-      "position": [
-        0,
-        0.439999997317791,
-        -0.1975000037252903
-      ],
-      "material": "white"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.43,
-        0.04,
-        0.21
-      ],
-      "position": [
-        0,
-        0.659999997317791,
-        -0.1975000037252903
-      ],
-      "material": "white"
+      "segments": 24
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.46000000834465027,
+    0.6799999968707562,
+    0.6050000008940697
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "model",
+    "methods": [
+      "louça sanitária com cuba oca, assento e reservatório",
+      "arestas chanfradas",
+      "ferragens curvas com vazios reais",
+      "curvas de contorno refinadas"
+    ],
+    "seed": 48662
+  }
 }

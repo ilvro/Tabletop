@@ -1,0 +1,10 @@
+{
+  "name": "Luminária de chão", "unit": "meter", "pivot": "base-center",
+  "materials": { "brass": { "color": "#b99a61", "roughness": 0.4, "metalness": 0.7 }, "shade": { "color": "#efe0b6", "roughness": 0.82, "emissive": "#e4a04a", "emissiveIntensity": 0.18 }, "dark": { "color": "#293735", "roughness": 0.6, "metalness": 0.3 } },
+  "parts": [
+    { "shape": "cylinder", "radiusTop": 0.21, "radiusBottom": 0.24, "height": 0.07, "segments": 20, "position": [0, 0.035, 0], "material": "dark" },
+    { "shape": "cylinder", "radiusTop": 0.023, "radiusBottom": 0.028, "height": 1.43, "segments": 12, "position": [0, 0.77, 0], "material": "brass" },
+    { "shape": "cylinder", "radiusTop": 0.15, "radiusBottom": 0.31, "height": 0.32, "segments": 24, "openEnded": true, "position": [0, 1.51, 0], "material": "shade" },
+    { "shape": "sphere", "radius": 0.07, "position": [0, 1.45, 0], "material": "shade" }
+  ]
+}

@@ -3,39 +3,14 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "wood": {
-      "color": "#79553e",
-      "roughness": 0.84
-    },
     "dark": {
       "color": "#292b30",
       "roughness": 0.8
     },
     "metal": {
       "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
+      "roughness": 0.46,
+      "metalness": 0.5
     },
     "red": {
       "color": "#873c3c",
@@ -45,129 +20,360 @@
       "color": "#c8b38b",
       "roughness": 0.98
     },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
     "violet": {
       "color": "#77529b",
       "emissive": "#64408d",
       "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
     {
+      "shape": "ellipsoid",
+      "size": [
+        0.04,
+        0.04,
+        0.04
+      ],
+      "position": [
+        -0.15,
+        0.02,
+        -0.1
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.04,
+        0.04,
+        0.04
+      ],
+      "position": [
+        -0.15,
+        0.02,
+        0.1
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.04,
+        0.04,
+        0.04
+      ],
+      "position": [
+        0.15,
+        0.02,
+        -0.1
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.04,
+        0.04,
+        0.04
+      ],
+      "position": [
+        0.15,
+        0.02,
+        0.1
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
       "shape": "box",
       "size": [
-        0.36,
-        0.04,
-        0.26
+        0.36000001430511475,
+        0.035,
+        0.25999999046325684
       ],
       "position": [
         0,
-        0.019999999552965164,
+        0.045,
         0
       ],
-      "material": "metal"
+      "material": "metal",
+      "bevel": 0.008,
+      "round": true
     },
     {
       "shape": "box",
       "size": [
         0.29,
-        0.23,
+        0.18,
         0.19
       ],
       "position": [
         0,
-        0.15499999955296517,
+        0.15,
         0
       ],
-      "material": "dark"
+      "material": "dark",
+      "bevel": 0.009
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.014,
+      "radiusBottom": 0.014,
+      "height": 0.18,
+      "position": [
+        -0.145,
+        0.15,
+        -0.095
+      ],
+      "material": "paper",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.014,
+      "radiusBottom": 0.014,
+      "height": 0.18,
+      "position": [
+        -0.145,
+        0.15,
+        0.095
+      ],
+      "material": "paper",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.014,
+      "radiusBottom": 0.014,
+      "height": 0.18,
+      "position": [
+        0.145,
+        0.15,
+        -0.095
+      ],
+      "material": "paper",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.014,
+      "radiusBottom": 0.014,
+      "height": 0.18,
+      "position": [
+        0.145,
+        0.15,
+        0.095
+      ],
+      "material": "paper",
+      "segments": 12
     },
     {
       "shape": "box",
       "size": [
         0.35,
-        0.04,
+        0.02,
         0.25
       ],
       "position": [
         0,
-        0.2899999995529651,
+        0.249,
         0
       ],
-      "material": "metal"
+      "material": "metal",
+      "bevel": 0.006,
+      "round": true
     },
     {
-      "shape": "box",
-      "size": [
-        0.025,
-        0.25,
-        0.025
+      "shape": "profile",
+      "contour": [
+        [
+          -0.125,
+          0
+        ],
+        [
+          0.125,
+          0
+        ],
+        [
+          0,
+          0.052
+        ]
       ],
+      "depth": 0.34,
       "position": [
-        -0.145,
-        0.15499999955296517,
-        0.097
+        0,
+        0.258,
+        0
       ],
-      "material": "paper"
+      "material": "metal",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "box",
       "size": [
-        0.025,
-        0.25,
-        0.025
-      ],
-      "position": [
-        0.145,
-        0.15499999955296517,
-        0.097
-      ],
-      "material": "paper"
-    },
-    {
-      "shape": "box",
-      "size": [
+        0.04,
         0.13,
-        0.043333333333333335,
-        0.016
+        0.012
       ],
       "position": [
         0,
-        0.16999999910593036,
-        0.106
+        0.16,
+        0.098
       ],
-      "material": "paper"
+      "material": "paper",
+      "bevel": 0.0015600000000000002
     },
     {
       "shape": "box",
       "size": [
-        0.043333333333333335,
         0.13,
+        0.04,
+        0.012
+      ],
+      "position": [
+        0,
+        0.175,
+        0.098
+      ],
+      "material": "paper",
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.28,
+        0.005,
+        0.185
+      ],
+      "position": [
+        0,
+        0.2415,
+        0
+      ],
+      "material": "violet",
+      "bevel": 0.0006500000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.014,
+        0.2,
+        0.2
+      ],
+      "position": [
+        -0.09,
+        0.155,
+        0
+      ],
+      "material": "metal",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.014,
+        0.2,
+        0.2
+      ],
+      "position": [
+        0.09,
+        0.155,
+        0
+      ],
+      "material": "metal",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.045,
         0.018
       ],
       "position": [
         0,
-        0.16999999910593036,
-        0.106
+        0.09,
+        0.107
       ],
-      "material": "paper"
+      "material": "metal",
+      "bevel": 0.006,
+      "round": true
+    },
+    {
+      "shape": "ring",
+      "radius": 0.014,
+      "tube": 0.004,
+      "segments": 14,
+      "sides": 8,
+      "position": [
+        0,
+        0.118,
+        0.107
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 0.006,
+      "position": [
+        -0.09,
+        0.2,
+        0.101
+      ],
+      "material": "red",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 0.006,
+      "position": [
+        0.09,
+        0.13,
+        0.101
+      ],
+      "material": "red",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.36000001430511475,
+    0.3099999991059303,
+    0.25999999046325684
+  ],
+  "design": {
+    "edition": 2,
+    "family": "ritual",
+    "reconstruction": "model",
+    "methods": [
+      "relicário com tampa em duas águas, pilastras, cruz frontal, cintas de ferro, cadeado, lacres de cera e fresta luminosa",
+      "arestas chanfradas",
+      "curvas de contorno refinadas",
+      "entalhes e bordas de perfis",
+      "ferragens curvas com vazios reais"
+    ],
+    "seed": 5163
+  }
 }

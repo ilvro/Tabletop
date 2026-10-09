@@ -5,113 +5,285 @@
   "materials": {
     "wood": {
       "color": "#79553e",
-      "roughness": 0.84
-    },
-    "dark": {
-      "color": "#292b30",
-      "roughness": 0.8
-    },
-    "metal": {
-      "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
+      "roughness": 0.7
     },
     "paper": {
       "color": "#c8b38b",
       "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
     {
       "shape": "box",
       "size": [
-        1,
-        0.6,
+        0.127,
+        0.600000011920929,
         0.65
       ],
       "position": [
-        0,
-        0.30000001192092896,
+        -0.4375,
+        0.3000000059604645,
         0
       ],
-      "material": "paper"
+      "material": "paper",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "grass",
+        "textureColor": "#c8b38b",
+        "textureColorMode": "replace",
+        "textureSize": 0.45,
+        "relief": 0.02
+      }
     },
     {
       "shape": "box",
       "size": [
-        0.025,
-        0.62,
-        0.67
+        0.127,
+        0.588000011920929,
+        0.636
+      ],
+      "position": [
+        -0.3125,
+        0.2940000059604645,
+        0
+      ],
+      "material": "paper",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "grass",
+        "textureColor": "#c8b38b",
+        "textureColorMode": "replace",
+        "textureSize": 0.45,
+        "relief": 0.02
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.127,
+        0.576000011920929,
+        0.65
+      ],
+      "position": [
+        -0.1875,
+        0.2880000059604645,
+        0
+      ],
+      "material": "paper",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "grass",
+        "textureColor": "#c8b38b",
+        "textureColorMode": "replace",
+        "textureSize": 0.45,
+        "relief": 0.02
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.127,
+        0.600000011920929,
+        0.636
+      ],
+      "position": [
+        -0.0625,
+        0.3000000059604645,
+        0
+      ],
+      "material": "paper",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "grass",
+        "textureColor": "#c8b38b",
+        "textureColorMode": "replace",
+        "textureSize": 0.45,
+        "relief": 0.02
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.127,
+        0.588000011920929,
+        0.65
+      ],
+      "position": [
+        0.0625,
+        0.2940000059604645,
+        0
+      ],
+      "material": "paper",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "grass",
+        "textureColor": "#c8b38b",
+        "textureColorMode": "replace",
+        "textureSize": 0.45,
+        "relief": 0.02
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.127,
+        0.576000011920929,
+        0.636
+      ],
+      "position": [
+        0.1875,
+        0.2880000059604645,
+        0
+      ],
+      "material": "paper",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "grass",
+        "textureColor": "#c8b38b",
+        "textureColorMode": "replace",
+        "textureSize": 0.45,
+        "relief": 0.02
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.127,
+        0.600000011920929,
+        0.65
+      ],
+      "position": [
+        0.3125,
+        0.3000000059604645,
+        0
+      ],
+      "material": "paper",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "grass",
+        "textureColor": "#c8b38b",
+        "textureColorMode": "replace",
+        "textureSize": 0.45,
+        "relief": 0.02
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.127,
+        0.588000011920929,
+        0.636
+      ],
+      "position": [
+        0.4375,
+        0.2940000059604645,
+        0
+      ],
+      "material": "paper",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "grass",
+        "textureColor": "#c8b38b",
+        "textureColorMode": "replace",
+        "textureSize": 0.45,
+        "relief": 0.02
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.016,
+        0.6200000143051148,
+        0.6700000166893005
       ],
       "position": [
         -0.3,
-        0.31000001192092896,
+        0.3100000071525574,
         0
       ],
-      "material": "wood"
+      "material": "wood",
+      "bevel": 0.005,
+      "round": true,
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
     },
     {
       "shape": "box",
       "size": [
-        0.025,
-        0.62,
-        0.67
+        0.016,
+        0.6200000143051148,
+        0.6700000166893005
       ],
       "position": [
         0.3,
-        0.31000001192092896,
+        0.3100000071525574,
         0
       ],
-      "material": "wood"
+      "material": "wood",
+      "bevel": 0.005,
+      "round": true,
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "foliage",
+      "style": "grass",
+      "size": [
+        0.9,
+        0.09,
+        0.6
+      ],
+      "position": [
+        0,
+        0.3000000059604645,
+        0
+      ],
+      "count": 47,
+      "seed": 91,
+      "material": "paper"
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1,
+    0.6200000143051148,
+    0.6700000166893005
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "model",
+    "methods": [
+      "fardo em fatias prensadas com textura de palha, barbantes e fios soltos",
+      "arestas chanfradas",
+      "densidade e nervuras de folhagem"
+    ],
+    "seed": 25294
+  }
 }

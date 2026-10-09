@@ -7,54 +7,9 @@
       "color": "#b1a18a",
       "roughness": 0.95
     },
-    "wornStone": {
-      "color": "#524a43",
-      "roughness": 1
-    },
     "carving": {
       "color": "#c6b79d",
       "roughness": 0.88
-    },
-    "wood": {
-      "color": "#482b23",
-      "roughness": 0.87
-    },
-    "iron": {
-      "color": "#343035",
-      "metalness": 0.7,
-      "roughness": 0.55
-    },
-    "brass": {
-      "color": "#9b7750",
-      "metalness": 0.65,
-      "roughness": 0.4
-    },
-    "cloth": {
-      "color": "#631e2b",
-      "roughness": 1
-    },
-    "glass": {
-      "color": "#9e122f",
-      "emissive": "#a4132e",
-      "emissiveIntensity": 0.65,
-      "roughness": 0.28,
-      "opacity": 0.72
-    },
-    "amberGlass": {
-      "color": "#b85032",
-      "emissive": "#a83d22",
-      "emissiveIntensity": 0.35,
-      "roughness": 0.3,
-      "opacity": 0.8
-    },
-    "wax": {
-      "color": "#c5af88",
-      "roughness": 0.9
-    },
-    "flame": {
-      "color": "#ffd58a",
-      "emissive": "#ff8a37",
-      "emissiveIntensity": 2
     }
   },
   "parts": [
@@ -181,23 +136,50 @@
         -1.5707963267948966,
         0,
         0
+      ],
+      "edgeBevel": 0.003
+    },
+    {
+      "shape": "lathe",
+      "radiusBottom": 0.065,
+      "radiusTop": 0.065,
+      "height": 0.68,
+      "position": [
+        1.8540511737228722,
+        1.54,
+        -0.8464697034690882
+      ],
+      "material": "carving",
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.34
+        ],
+        [
+          0.0572,
+          -0.34
+        ],
+        [
+          0.065,
+          -0.33220000000000005
+        ],
+        [
+          0.065,
+          0.33220000000000005
+        ],
+        [
+          0.0572,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
       ]
     },
     {
-      "shape": "cylinder",
-      "radiusBottom": 0.065,
-      "radiusTop": 0.065,
-      "height": 0.68,
-      "position": [
-        1.8540511737228722,
-        1.54,
-        -0.8464697034690882
-      ],
-      "material": "carving",
-      "segments": 12
-    },
-    {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.11,
       "radiusTop": 0.06,
       "height": 0.18,
@@ -207,10 +189,36 @@
         -0.8464697034690882
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.098,
+          -0.09
+        ],
+        [
+          0.11,
+          -0.078
+        ],
+        [
+          0.06,
+          0.078
+        ],
+        [
+          0.048,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.06,
       "radiusTop": 0.11,
       "height": 0.18,
@@ -220,10 +228,36 @@
         -0.8464697034690882
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.048,
+          -0.09
+        ],
+        [
+          0.06,
+          -0.078
+        ],
+        [
+          0.11,
+          0.078
+        ],
+        [
+          0.098,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.68,
@@ -233,10 +267,36 @@
         -0.30837965896981023
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.34
+        ],
+        [
+          0.0572,
+          -0.34
+        ],
+        [
+          0.065,
+          -0.33220000000000005
+        ],
+        [
+          0.065,
+          0.33220000000000005
+        ],
+        [
+          0.0572,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.11,
       "radiusTop": 0.06,
       "height": 0.18,
@@ -246,10 +306,36 @@
         -0.30837965896981023
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.098,
+          -0.09
+        ],
+        [
+          0.11,
+          -0.078
+        ],
+        [
+          0.06,
+          0.078
+        ],
+        [
+          0.048,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.06,
       "radiusTop": 0.11,
       "height": 0.18,
@@ -259,10 +345,36 @@
         -0.30837965896981023
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.048,
+          -0.09
+        ],
+        [
+          0.06,
+          -0.078
+        ],
+        [
+          0.11,
+          0.078
+        ],
+        [
+          0.098,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.68,
@@ -272,10 +384,36 @@
         0.16911162209655162
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.34
+        ],
+        [
+          0.0572,
+          -0.34
+        ],
+        [
+          0.065,
+          -0.33220000000000005
+        ],
+        [
+          0.065,
+          0.33220000000000005
+        ],
+        [
+          0.0572,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.11,
       "radiusTop": 0.06,
       "height": 0.18,
@@ -285,10 +423,36 @@
         0.16911162209655162
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.098,
+          -0.09
+        ],
+        [
+          0.11,
+          -0.078
+        ],
+        [
+          0.06,
+          0.078
+        ],
+        [
+          0.048,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.06,
       "radiusTop": 0.11,
       "height": 0.18,
@@ -298,10 +462,36 @@
         0.16911162209655162
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.048,
+          -0.09
+        ],
+        [
+          0.06,
+          -0.078
+        ],
+        [
+          0.11,
+          0.078
+        ],
+        [
+          0.098,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.68,
@@ -311,10 +501,36 @@
         0.5438692057163288
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.34
+        ],
+        [
+          0.0572,
+          -0.34
+        ],
+        [
+          0.065,
+          -0.33220000000000005
+        ],
+        [
+          0.065,
+          0.33220000000000005
+        ],
+        [
+          0.0572,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.11,
       "radiusTop": 0.06,
       "height": 0.18,
@@ -324,10 +540,36 @@
         0.5438692057163288
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.098,
+          -0.09
+        ],
+        [
+          0.11,
+          -0.078
+        ],
+        [
+          0.06,
+          0.078
+        ],
+        [
+          0.048,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.06,
       "radiusTop": 0.11,
       "height": 0.18,
@@ -337,10 +579,36 @@
         0.5438692057163288
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.048,
+          -0.09
+        ],
+        [
+          0.06,
+          -0.078
+        ],
+        [
+          0.11,
+          0.078
+        ],
+        [
+          0.098,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.68,
@@ -350,10 +618,36 @@
         0.7828236167324516
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.34
+        ],
+        [
+          0.0572,
+          -0.34
+        ],
+        [
+          0.065,
+          -0.33220000000000005
+        ],
+        [
+          0.065,
+          0.33220000000000005
+        ],
+        [
+          0.0572,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.11,
       "radiusTop": 0.06,
       "height": 0.18,
@@ -363,10 +657,36 @@
         0.7828236167324516
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.098,
+          -0.09
+        ],
+        [
+          0.11,
+          -0.078
+        ],
+        [
+          0.06,
+          0.078
+        ],
+        [
+          0.048,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.06,
       "radiusTop": 0.11,
       "height": 0.18,
@@ -376,10 +696,36 @@
         0.7828236167324516
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.048,
+          -0.09
+        ],
+        [
+          0.06,
+          -0.078
+        ],
+        [
+          0.11,
+          0.078
+        ],
+        [
+          0.098,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.68,
@@ -389,10 +735,36 @@
         0.8648889657482506
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.34
+        ],
+        [
+          0.0572,
+          -0.34
+        ],
+        [
+          0.065,
+          -0.33220000000000005
+        ],
+        [
+          0.065,
+          0.33220000000000005
+        ],
+        [
+          0.0572,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.11,
       "radiusTop": 0.06,
       "height": 0.18,
@@ -402,10 +774,36 @@
         0.8648889657482506
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.098,
+          -0.09
+        ],
+        [
+          0.11,
+          -0.078
+        ],
+        [
+          0.06,
+          0.078
+        ],
+        [
+          0.048,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.06,
       "radiusTop": 0.11,
       "height": 0.18,
@@ -415,10 +813,36 @@
         0.8648889657482506
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.048,
+          -0.09
+        ],
+        [
+          0.06,
+          -0.078
+        ],
+        [
+          0.11,
+          0.078
+        ],
+        [
+          0.098,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.68,
@@ -428,10 +852,36 @@
         0.7828236167324516
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.34
+        ],
+        [
+          0.0572,
+          -0.34
+        ],
+        [
+          0.065,
+          -0.33220000000000005
+        ],
+        [
+          0.065,
+          0.33220000000000005
+        ],
+        [
+          0.0572,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.11,
       "radiusTop": 0.06,
       "height": 0.18,
@@ -441,10 +891,36 @@
         0.7828236167324516
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.098,
+          -0.09
+        ],
+        [
+          0.11,
+          -0.078
+        ],
+        [
+          0.06,
+          0.078
+        ],
+        [
+          0.048,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.06,
       "radiusTop": 0.11,
       "height": 0.18,
@@ -454,10 +930,36 @@
         0.7828236167324516
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.048,
+          -0.09
+        ],
+        [
+          0.06,
+          -0.078
+        ],
+        [
+          0.11,
+          0.078
+        ],
+        [
+          0.098,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.68,
@@ -467,10 +969,36 @@
         0.5438692057163288
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.34
+        ],
+        [
+          0.0572,
+          -0.34
+        ],
+        [
+          0.065,
+          -0.33220000000000005
+        ],
+        [
+          0.065,
+          0.33220000000000005
+        ],
+        [
+          0.0572,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.11,
       "radiusTop": 0.06,
       "height": 0.18,
@@ -480,10 +1008,36 @@
         0.5438692057163288
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.098,
+          -0.09
+        ],
+        [
+          0.11,
+          -0.078
+        ],
+        [
+          0.06,
+          0.078
+        ],
+        [
+          0.048,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.06,
       "radiusTop": 0.11,
       "height": 0.18,
@@ -493,10 +1047,36 @@
         0.5438692057163288
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.048,
+          -0.09
+        ],
+        [
+          0.06,
+          -0.078
+        ],
+        [
+          0.11,
+          0.078
+        ],
+        [
+          0.098,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.68,
@@ -506,10 +1086,36 @@
         0.16911162209655184
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.34
+        ],
+        [
+          0.0572,
+          -0.34
+        ],
+        [
+          0.065,
+          -0.33220000000000005
+        ],
+        [
+          0.065,
+          0.33220000000000005
+        ],
+        [
+          0.0572,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.11,
       "radiusTop": 0.06,
       "height": 0.18,
@@ -519,10 +1125,36 @@
         0.16911162209655184
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.098,
+          -0.09
+        ],
+        [
+          0.11,
+          -0.078
+        ],
+        [
+          0.06,
+          0.078
+        ],
+        [
+          0.048,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.06,
       "radiusTop": 0.11,
       "height": 0.18,
@@ -532,10 +1164,36 @@
         0.16911162209655184
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.048,
+          -0.09
+        ],
+        [
+          0.06,
+          -0.078
+        ],
+        [
+          0.11,
+          0.078
+        ],
+        [
+          0.098,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.68,
@@ -545,10 +1203,36 @@
         -0.3083796589698099
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.34
+        ],
+        [
+          0.0572,
+          -0.34
+        ],
+        [
+          0.065,
+          -0.33220000000000005
+        ],
+        [
+          0.065,
+          0.33220000000000005
+        ],
+        [
+          0.0572,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.11,
       "radiusTop": 0.06,
       "height": 0.18,
@@ -558,10 +1242,36 @@
         -0.3083796589698099
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.098,
+          -0.09
+        ],
+        [
+          0.11,
+          -0.078
+        ],
+        [
+          0.06,
+          0.078
+        ],
+        [
+          0.048,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.06,
       "radiusTop": 0.11,
       "height": 0.18,
@@ -571,10 +1281,36 @@
         -0.3083796589698099
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.048,
+          -0.09
+        ],
+        [
+          0.06,
+          -0.078
+        ],
+        [
+          0.11,
+          0.078
+        ],
+        [
+          0.098,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.68,
@@ -584,10 +1320,36 @@
         -0.846469703469088
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.34
+        ],
+        [
+          0.0572,
+          -0.34
+        ],
+        [
+          0.065,
+          -0.33220000000000005
+        ],
+        [
+          0.065,
+          0.33220000000000005
+        ],
+        [
+          0.0572,
+          0.34
+        ],
+        [
+          0,
+          0.34
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.11,
       "radiusTop": 0.06,
       "height": 0.18,
@@ -597,10 +1359,36 @@
         -0.846469703469088
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.098,
+          -0.09
+        ],
+        [
+          0.11,
+          -0.078
+        ],
+        [
+          0.06,
+          0.078
+        ],
+        [
+          0.048,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.06,
       "radiusTop": 0.11,
       "height": 0.18,
@@ -610,7 +1398,33 @@
         -0.846469703469088
       ],
       "material": "carving",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.09
+        ],
+        [
+          0.048,
+          -0.09
+        ],
+        [
+          0.06,
+          -0.078
+        ],
+        [
+          0.11,
+          0.078
+        ],
+        [
+          0.098,
+          0.09
+        ],
+        [
+          0,
+          0.09
+        ]
+      ]
     },
     {
       "shape": "rope",
@@ -682,7 +1496,7 @@
         ]
       ],
       "radius": 0.075,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -761,7 +1575,7 @@
         ]
       ],
       "radius": 0.075,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -796,10 +1610,11 @@
         0,
         -0.8451110342517495
       ],
-      "material": "carving"
+      "material": "carving",
+      "edgeBevel": 0.003
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.12,
       "radiusTop": 0.12,
       "height": 1.3695254652615994,
@@ -809,11 +1624,37 @@
         -0.29511103425174956
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.067953115867036,
         0,
         0
+      ],
+      "profile": [
+        [
+          0,
+          -0.6847627326307997
+        ],
+        [
+          0.108,
+          -0.6847627326307997
+        ],
+        [
+          0.12,
+          -0.6727627326307997
+        ],
+        [
+          0.12,
+          0.6727627326307997
+        ],
+        [
+          0.108,
+          0.6847627326307997
+        ],
+        [
+          0,
+          0.6847627326307997
+        ]
       ]
     },
     {
@@ -842,10 +1683,11 @@
         0,
         -0.8451110342517495
       ],
-      "material": "carving"
+      "material": "carving",
+      "edgeBevel": 0.003
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.12,
       "radiusTop": 0.12,
       "height": 1.3695254652615994,
@@ -855,11 +1697,37 @@
         -0.29511103425174956
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.067953115867036,
         0,
         0
+      ],
+      "profile": [
+        [
+          0,
+          -0.6847627326307997
+        ],
+        [
+          0.108,
+          -0.6847627326307997
+        ],
+        [
+          0.12,
+          -0.6727627326307997
+        ],
+        [
+          0.12,
+          0.6727627326307997
+        ],
+        [
+          0.108,
+          0.6847627326307997
+        ],
+        [
+          0,
+          0.6847627326307997
+        ]
       ]
     },
     {
@@ -888,10 +1756,11 @@
         0,
         -0.8451110342517495
       ],
-      "material": "carving"
+      "material": "carving",
+      "edgeBevel": 0.003
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.12,
       "radiusTop": 0.12,
       "height": 1.3695254652615994,
@@ -901,13 +1770,55 @@
         -0.29511103425174956
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.067953115867036,
         0,
         0
+      ],
+      "profile": [
+        [
+          0,
+          -0.6847627326307997
+        ],
+        [
+          0.108,
+          -0.6847627326307997
+        ],
+        [
+          0.12,
+          -0.6727627326307997
+        ],
+        [
+          0.12,
+          0.6727627326307997
+        ],
+        [
+          0.108,
+          0.6847627326307997
+        ],
+        [
+          0,
+          0.6847627326307997
+        ]
       ]
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    4,
+    2.0350000858306885,
+    2.0097780227661133
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "entalhes e bordas de perfis",
+      "perfis torneados e bordas de chapa",
+      "cordas e tubos curvos"
+    ],
+    "seed": 3593
+  }
 }

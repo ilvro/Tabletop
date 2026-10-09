@@ -1,0 +1,3038 @@
+{
+  "assets": [
+    {
+      "id": "builtin-desk",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Mesa de investigação",
+      "category": "Mobiliário / Mesas",
+      "tags": [
+        "mesa",
+        "madeira",
+        "escritório"
+      ],
+      "footprint": [
+        1.8,
+        0.85
+      ],
+      "supportHeight": 0.82,
+      "url": "/assets/models/desk.json",
+      "previewUrl": "/assets/previews/desk.svg",
+      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "era": "Contemporânea",
+      "contexts": [
+        "Escritório",
+        "Delegacia"
+      ],
+      "description": "Modelo original do kit inicial Tabletop, disponível localmente."
+    },
+    {
+      "id": "builtin-chair",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cadeira",
+      "category": "Mobiliário / Assentos",
+      "tags": [
+        "cadeira",
+        "madeira",
+        "escritório"
+      ],
+      "footprint": [
+        0.55,
+        0.55
+      ],
+      "url": "/assets/models/chair.json",
+      "previewUrl": "/assets/previews/chair.svg",
+      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "era": "Colonial / século XIX",
+      "contexts": [
+        "Casa",
+        "Escritório"
+      ],
+      "description": "Modelo original do kit inicial Tabletop, disponível localmente."
+    },
+    {
+      "id": "builtin-cabinet",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Arquivo metálico",
+      "category": "Mobiliário / Armazenamento",
+      "tags": [
+        "armário",
+        "arquivo",
+        "industrial"
+      ],
+      "footprint": [
+        0.9,
+        0.55
+      ],
+      "url": "/assets/models/cabinet.json",
+      "previewUrl": "/assets/previews/cabinet.svg",
+      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "era": "Décadas de 1970–1990",
+      "contexts": [
+        "Arquivo",
+        "Delegacia",
+        "Escritório"
+      ],
+      "description": "Modelo original do kit inicial Tabletop, disponível localmente."
+    },
+    {
+      "id": "builtin-crate",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Caixa de madeira",
+      "category": "Industrial / Armazenamento",
+      "tags": [
+        "caixa",
+        "madeira",
+        "depósito"
+      ],
+      "footprint": [
+        0.82,
+        0.82
+      ],
+      "url": "/assets/models/crate.json",
+      "previewUrl": "/assets/previews/crate.svg",
+      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "era": "Atemporal",
+      "contexts": [
+        "Depósito",
+        "Fazenda"
+      ],
+      "description": "Modelo original do kit inicial Tabletop, disponível localmente."
+    },
+    {
+      "id": "builtin-lamp",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Luminária de chão",
+      "category": "Mobiliário / Iluminação",
+      "tags": [
+        "luminária",
+        "luz",
+        "escritório"
+      ],
+      "footprint": [
+        0.62,
+        0.62
+      ],
+      "url": "/assets/models/lamp.json",
+      "previewUrl": "/assets/previews/lamp.svg",
+      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "era": "Contemporânea",
+      "contexts": [
+        "Casa",
+        "Escritório"
+      ],
+      "description": "Modelo original do kit inicial Tabletop, disponível localmente."
+    },
+    {
+      "id": "builtin-rug",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Tapete de sala",
+      "category": "Mobiliário / Decoração",
+      "tags": [
+        "tapete",
+        "tecido",
+        "decoração"
+      ],
+      "footprint": [
+        2.4,
+        1.8
+      ],
+      "url": "/assets/models/rug.json",
+      "previewUrl": "/assets/previews/rug.svg",
+      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "era": "Atemporal",
+      "contexts": [
+        "Casa",
+        "Hotel"
+      ],
+      "description": "Modelo original do kit inicial Tabletop, disponível localmente."
+    },
+    {
+      "id": "builtin-dining-table",
+      "footprint": [
+        2.21,
+        1
+      ],
+      "bounds": [
+        2.2,
+        0.78,
+        1
+      ],
+      "supportHeight": 0.7799999940395355
+    },
+    {
+      "id": "builtin-bench",
+      "footprint": [
+        1.61,
+        0.42
+      ],
+      "bounds": [
+        1.6,
+        0.45,
+        0.42
+      ],
+      "supportHeight": 0.4500000023841858
+    },
+    {
+      "id": "builtin-bookshelf",
+      "footprint": [
+        1.21,
+        0.38
+      ],
+      "bounds": [
+        1.2,
+        1.9,
+        0.38
+      ]
+    },
+    {
+      "id": "builtin-single-bed",
+      "footprint": [
+        1,
+        2.06
+      ],
+      "bounds": [
+        1,
+        0.875,
+        2.05
+      ],
+      "supportHeight": 0.5149999970197678
+    },
+    {
+      "id": "builtin-bunk-bed",
+      "footprint": [
+        1.08,
+        2.12
+      ],
+      "bounds": [
+        1.07,
+        1.95,
+        2.117
+      ]
+    },
+    {
+      "id": "builtin-sofa",
+      "footprint": [
+        1.91,
+        0.85
+      ],
+      "bounds": [
+        1.9,
+        0.945,
+        0.84
+      ]
+    },
+    {
+      "id": "builtin-wardrobe",
+      "footprint": [
+        1.42,
+        0.8
+      ],
+      "bounds": [
+        1.42,
+        2.01,
+        0.79
+      ]
+    },
+    {
+      "id": "builtin-stove",
+      "footprint": [
+        1.37,
+        0.78
+      ],
+      "bounds": [
+        1.36,
+        2.27,
+        0.78
+      ]
+    },
+    {
+      "id": "builtin-fridge",
+      "footprint": [
+        0.73,
+        0.78
+      ],
+      "bounds": [
+        0.72,
+        1.6,
+        0.775
+      ]
+    },
+    {
+      "id": "builtin-sink",
+      "footprint": [
+        1.26,
+        0.61
+      ],
+      "bounds": [
+        1.26,
+        1.018,
+        0.6
+      ],
+      "supportHeight": 0.7700000143051148
+    },
+    {
+      "id": "builtin-bathtub",
+      "footprint": [
+        0.91,
+        1.71
+      ],
+      "bounds": [
+        0.9,
+        0.65,
+        1.7
+      ]
+    },
+    {
+      "id": "builtin-crt-tv",
+      "footprint": [
+        0.7,
+        0.53
+      ],
+      "bounds": [
+        0.7,
+        0.93,
+        0.523
+      ]
+    },
+    {
+      "id": "builtin-computer",
+      "footprint": [
+        0.7,
+        0.52
+      ],
+      "bounds": [
+        0.69,
+        0.705,
+        0.515
+      ]
+    },
+    {
+      "id": "builtin-radio",
+      "footprint": [
+        0.5,
+        0.26
+      ],
+      "bounds": [
+        0.5,
+        0.66,
+        0.255
+      ]
+    },
+    {
+      "id": "builtin-telephone",
+      "footprint": [
+        0.39,
+        0.27
+      ],
+      "bounds": [
+        0.39,
+        0.208,
+        0.265
+      ]
+    },
+    {
+      "id": "builtin-security-camera",
+      "footprint": [
+        0.18,
+        0.48
+      ],
+      "bounds": [
+        0.17,
+        0.34,
+        0.48
+      ]
+    },
+    {
+      "id": "builtin-server-rack",
+      "footprint": [
+        0.65,
+        0.86
+      ],
+      "bounds": [
+        0.65,
+        1.9,
+        0.856
+      ]
+    },
+    {
+      "id": "builtin-generator",
+      "footprint": [
+        0.81,
+        0.56
+      ],
+      "bounds": [
+        0.8,
+        0.66,
+        0.55
+      ]
+    },
+    {
+      "id": "builtin-barrel",
+      "footprint": [
+        0.63,
+        0.63
+      ],
+      "bounds": [
+        0.624,
+        0.925,
+        0.624
+      ]
+    },
+    {
+      "id": "builtin-workbench",
+      "footprint": [
+        1.8,
+        0.7
+      ],
+      "bounds": [
+        1.8,
+        1.65,
+        0.7
+      ],
+      "supportHeight": 0.9699999964237213
+    },
+    {
+      "id": "builtin-locker",
+      "footprint": [
+        1.21,
+        0.56
+      ],
+      "bounds": [
+        1.2,
+        1.85,
+        0.559
+      ]
+    },
+    {
+      "id": "builtin-gurney",
+      "footprint": [
+        0.84,
+        1.9
+      ],
+      "bounds": [
+        0.835,
+        0.977,
+        1.9
+      ],
+      "supportHeight": 0.8399999982118607
+    },
+    {
+      "id": "builtin-wheelchair",
+      "footprint": [
+        0.72,
+        0.94
+      ],
+      "bounds": [
+        0.72,
+        0.98,
+        0.93
+      ]
+    },
+    {
+      "id": "builtin-microscope",
+      "footprint": [
+        0.29,
+        0.23
+      ],
+      "bounds": [
+        0.28,
+        0.47,
+        0.222
+      ]
+    },
+    {
+      "id": "builtin-medical-cart",
+      "footprint": [
+        0.7,
+        0.5
+      ],
+      "bounds": [
+        0.7,
+        0.91,
+        0.5
+      ],
+      "supportHeight": 0.8499999986588955
+    },
+    {
+      "id": "builtin-iv-stand",
+      "footprint": [
+        0.37,
+        0.32
+      ],
+      "bounds": [
+        0.36,
+        1.72,
+        0.32
+      ]
+    },
+    {
+      "id": "builtin-church-pew",
+      "footprint": [
+        2.04,
+        0.61
+      ],
+      "bounds": [
+        2.04,
+        1.055,
+        0.6
+      ],
+      "supportHeight": 0.4500000023841858
+    },
+    {
+      "id": "builtin-confessional",
+      "footprint": [
+        1.21,
+        1.01
+      ],
+      "bounds": [
+        1.2,
+        2.08,
+        1.003
+      ]
+    },
+    {
+      "id": "builtin-lectern",
+      "footprint": [
+        0.7,
+        0.51
+      ],
+      "bounds": [
+        0.7,
+        1.224,
+        0.502
+      ]
+    },
+    {
+      "id": "builtin-bell",
+      "footprint": [
+        0.76,
+        0.76
+      ],
+      "bounds": [
+        0.76,
+        0.74,
+        0.76
+      ]
+    },
+    {
+      "id": "builtin-gravestone",
+      "footprint": [
+        0.86,
+        0.61
+      ],
+      "bounds": [
+        0.85,
+        0.97,
+        0.6
+      ]
+    },
+    {
+      "id": "builtin-coffin",
+      "footprint": [
+        0.78,
+        1.96
+      ],
+      "bounds": [
+        0.78,
+        0.48,
+        1.95
+      ]
+    },
+    {
+      "id": "builtin-ritual-altar",
+      "footprint": [
+        1.61,
+        0.81
+      ],
+      "bounds": [
+        1.6,
+        1.021,
+        0.8
+      ],
+      "supportHeight": 1.0050000119209288
+    },
+    {
+      "id": "builtin-candles",
+      "footprint": [
+        0.45,
+        0.13
+      ],
+      "bounds": [
+        0.45,
+        0.394,
+        0.13
+      ]
+    },
+    {
+      "id": "builtin-ritual-circle",
+      "footprint": [
+        2.44,
+        2.44
+      ],
+      "bounds": [
+        2.435,
+        0.014,
+        2.435
+      ]
+    },
+    {
+      "id": "builtin-obelisk",
+      "footprint": [
+        0.81,
+        0.81
+      ],
+      "bounds": [
+        0.8,
+        2.28,
+        0.8
+      ]
+    },
+    {
+      "id": "builtin-chains",
+      "footprint": [
+        0.15,
+        0.03
+      ],
+      "bounds": [
+        0.145,
+        1.567,
+        0.025
+      ]
+    },
+    {
+      "id": "builtin-crystal",
+      "footprint": [
+        0.53,
+        0.47
+      ],
+      "bounds": [
+        0.528,
+        0.68,
+        0.46
+      ]
+    },
+    {
+      "id": "builtin-ritual-book",
+      "footprint": [
+        0.32,
+        0.42
+      ],
+      "bounds": [
+        0.32,
+        0.118,
+        0.42
+      ]
+    },
+    {
+      "id": "builtin-tree",
+      "footprint": [
+        2.25,
+        1.61
+      ],
+      "bounds": [
+        2.24,
+        3.25,
+        1.6
+      ]
+    },
+    {
+      "id": "builtin-pine",
+      "footprint": [
+        1.66,
+        1.66
+      ],
+      "bounds": [
+        1.66,
+        3.4,
+        1.66
+      ]
+    },
+    {
+      "id": "builtin-rock",
+      "footprint": [
+        2.05,
+        1.5
+      ],
+      "bounds": [
+        2.05,
+        0.7,
+        1.5
+      ]
+    },
+    {
+      "id": "builtin-well",
+      "footprint": [
+        1.71,
+        1.42
+      ],
+      "bounds": [
+        1.7,
+        1.66,
+        1.42
+      ]
+    },
+    {
+      "id": "builtin-hay-bale",
+      "footprint": [
+        1,
+        0.68
+      ],
+      "bounds": [
+        1,
+        0.62,
+        0.67
+      ],
+      "supportHeight": 0.600000011920929
+    },
+    {
+      "id": "builtin-handcart",
+      "footprint": [
+        1.39,
+        2.63
+      ],
+      "bounds": [
+        1.38,
+        0.925,
+        2.63
+      ]
+    },
+    {
+      "id": "builtin-tent",
+      "footprint": [
+        1.94,
+        2.33
+      ],
+      "bounds": [
+        1.939,
+        1.437,
+        2.33
+      ]
+    },
+    {
+      "id": "builtin-campfire",
+      "footprint": [
+        1.01,
+        1.01
+      ],
+      "bounds": [
+        1,
+        0.495,
+        1.007
+      ]
+    },
+    {
+      "id": "builtin-streetlamp",
+      "footprint": [
+        0.93,
+        0.41
+      ],
+      "bounds": [
+        0.92,
+        3.305,
+        0.4
+      ]
+    },
+    {
+      "id": "builtin-dumpster",
+      "footprint": [
+        1.61,
+        1
+      ],
+      "bounds": [
+        1.6,
+        1.16,
+        1
+      ]
+    },
+    {
+      "id": "builtin-barrier",
+      "footprint": [
+        2,
+        0.65
+      ],
+      "bounds": [
+        2,
+        0.85,
+        0.65
+      ]
+    },
+    {
+      "id": "builtin-traffic-cone",
+      "footprint": [
+        0.37,
+        0.37
+      ],
+      "bounds": [
+        0.36,
+        0.54,
+        0.36
+      ]
+    },
+    {
+      "id": "builtin-evidence-board",
+      "footprint": [
+        1.5,
+        0.07
+      ],
+      "bounds": [
+        1.5,
+        1,
+        0.069
+      ]
+    },
+    {
+      "id": "builtin-evidence-case",
+      "footprint": [
+        0.52,
+        0.4
+      ],
+      "bounds": [
+        0.52,
+        0.216,
+        0.395
+      ]
+    },
+    {
+      "id": "builtin-documents",
+      "footprint": [
+        0.48,
+        0.41
+      ],
+      "bounds": [
+        0.47,
+        0.07,
+        0.402
+      ]
+    },
+    {
+      "id": "builtin-suitcase",
+      "footprint": [
+        0.65,
+        0.24
+      ],
+      "bounds": [
+        0.65,
+        0.465,
+        0.235
+      ]
+    },
+    {
+      "id": "builtin-armchair",
+      "footprint": [
+        0.84,
+        0.81
+      ],
+      "bounds": [
+        0.84,
+        1.02,
+        0.8
+      ]
+    },
+    {
+      "id": "builtin-coffee-table",
+      "footprint": [
+        1.11,
+        0.61
+      ],
+      "bounds": [
+        1.1,
+        0.42,
+        0.6
+      ],
+      "supportHeight": 0.42000000178813934
+    },
+    {
+      "id": "builtin-bedside-table",
+      "footprint": [
+        0.5,
+        0.47
+      ],
+      "bounds": [
+        0.5,
+        0.585,
+        0.468
+      ],
+      "supportHeight": 0.5850000059604644
+    },
+    {
+      "id": "builtin-dresser",
+      "footprint": [
+        1.15,
+        0.6
+      ],
+      "bounds": [
+        1.15,
+        0.895,
+        0.598
+      ],
+      "supportHeight": 0.8950000119209289
+    },
+    {
+      "id": "builtin-mirror",
+      "footprint": [
+        0.75,
+        0.11
+      ],
+      "bounds": [
+        0.74,
+        1.24,
+        0.107
+      ]
+    },
+    {
+      "id": "builtin-grandfather-clock",
+      "footprint": [
+        0.58,
+        0.38
+      ],
+      "bounds": [
+        0.58,
+        1.85,
+        0.378
+      ]
+    },
+    {
+      "id": "builtin-toilet",
+      "footprint": [
+        0.47,
+        0.61
+      ],
+      "bounds": [
+        0.46,
+        0.68,
+        0.605
+      ]
+    },
+    {
+      "id": "builtin-shower",
+      "footprint": [
+        0.9,
+        0.9
+      ],
+      "bounds": [
+        0.9,
+        2,
+        0.9
+      ]
+    },
+    {
+      "id": "builtin-radiator",
+      "footprint": [
+        0.81,
+        0.18
+      ],
+      "bounds": [
+        0.8,
+        0.66,
+        0.17
+      ]
+    },
+    {
+      "id": "builtin-desk-fan",
+      "footprint": [
+        0.38,
+        0.24
+      ],
+      "bounds": [
+        0.38,
+        0.6,
+        0.24
+      ]
+    },
+    {
+      "id": "builtin-reception-counter",
+      "footprint": [
+        2.21,
+        0.81
+      ],
+      "bounds": [
+        2.2,
+        1.06,
+        0.8
+      ],
+      "supportHeight": 1.06
+    },
+    {
+      "id": "builtin-cash-register",
+      "footprint": [
+        0.42,
+        0.39
+      ],
+      "bounds": [
+        0.42,
+        0.395,
+        0.38
+      ]
+    },
+    {
+      "id": "builtin-display-case",
+      "footprint": [
+        1.15,
+        0.61
+      ],
+      "bounds": [
+        1.15,
+        1.208,
+        0.6
+      ],
+      "supportHeight": 0.7600000143051148
+    },
+    {
+      "id": "builtin-vending-machine",
+      "footprint": [
+        0.86,
+        0.8
+      ],
+      "bounds": [
+        0.85,
+        1.8,
+        0.795
+      ]
+    },
+    {
+      "id": "builtin-supermarket-shelf",
+      "footprint": [
+        1.41,
+        0.45
+      ],
+      "bounds": [
+        1.4,
+        1.65,
+        0.45
+      ]
+    },
+    {
+      "id": "builtin-restaurant-booth",
+      "footprint": [
+        1.4,
+        0.67
+      ],
+      "bounds": [
+        1.4,
+        0.995,
+        0.665
+      ]
+    },
+    {
+      "id": "builtin-bar-stool",
+      "footprint": [
+        0.44,
+        0.44
+      ],
+      "bounds": [
+        0.44,
+        0.81,
+        0.44
+      ]
+    },
+    {
+      "id": "builtin-pool-table",
+      "footprint": [
+        2.21,
+        1.26
+      ],
+      "bounds": [
+        2.2,
+        0.855,
+        1.25
+      ]
+    },
+    {
+      "id": "builtin-piano",
+      "footprint": [
+        1.4,
+        0.68
+      ],
+      "bounds": [
+        1.4,
+        1.05,
+        0.67
+      ]
+    },
+    {
+      "id": "builtin-classroom-desk",
+      "footprint": [
+        0.61,
+        0.94
+      ],
+      "bounds": [
+        0.6,
+        0.795,
+        0.935
+      ],
+      "supportHeight": 0.7649999982118607
+    },
+    {
+      "id": "builtin-typewriter",
+      "footprint": [
+        0.42,
+        0.34
+      ],
+      "bounds": [
+        0.42,
+        0.435,
+        0.33
+      ]
+    },
+    {
+      "id": "builtin-reel-recorder",
+      "footprint": [
+        0.48,
+        0.24
+      ],
+      "bounds": [
+        0.48,
+        0.48,
+        0.235
+      ]
+    },
+    {
+      "id": "builtin-vhs-recorder",
+      "footprint": [
+        0.44,
+        0.32
+      ],
+      "bounds": [
+        0.43,
+        0.119,
+        0.313
+      ]
+    },
+    {
+      "id": "builtin-surveillance-monitor",
+      "footprint": [
+        1.5,
+        0.61
+      ],
+      "bounds": [
+        1.5,
+        1.64,
+        0.6
+      ]
+    },
+    {
+      "id": "builtin-oscilloscope",
+      "footprint": [
+        0.42,
+        0.37
+      ],
+      "bounds": [
+        0.42,
+        0.25,
+        0.361
+      ]
+    },
+    {
+      "id": "builtin-laptop",
+      "footprint": [
+        0.35,
+        0.24
+      ],
+      "bounds": [
+        0.35,
+        0.242,
+        0.24
+      ]
+    },
+    {
+      "id": "builtin-projector",
+      "footprint": [
+        0.35,
+        0.41
+      ],
+      "bounds": [
+        0.34,
+        0.265,
+        0.402
+      ]
+    },
+    {
+      "id": "builtin-antenna",
+      "footprint": [
+        1.11,
+        0.56
+      ],
+      "bounds": [
+        1.1,
+        2.672,
+        0.55
+      ]
+    },
+    {
+      "id": "builtin-safe",
+      "footprint": [
+        0.65,
+        0.69
+      ],
+      "bounds": [
+        0.65,
+        0.85,
+        0.685
+      ]
+    },
+    {
+      "id": "builtin-weapon-case",
+      "footprint": [
+        1,
+        0.4
+      ],
+      "bounds": [
+        1,
+        0.19,
+        0.4
+      ]
+    },
+    {
+      "id": "builtin-centrifuge",
+      "footprint": [
+        0.41,
+        0.44
+      ],
+      "bounds": [
+        0.4,
+        0.27,
+        0.435
+      ]
+    },
+    {
+      "id": "builtin-specimen-jars",
+      "footprint": [
+        0.4,
+        0.12
+      ],
+      "bounds": [
+        0.394,
+        0.264,
+        0.115
+      ]
+    },
+    {
+      "id": "builtin-chemical-rack",
+      "footprint": [
+        0.38,
+        0.16
+      ],
+      "bounds": [
+        0.38,
+        0.21,
+        0.16
+      ]
+    },
+    {
+      "id": "builtin-oxygen-tank",
+      "footprint": [
+        0.32,
+        0.32
+      ],
+      "bounds": [
+        0.32,
+        1.192,
+        0.32
+      ]
+    },
+    {
+      "id": "builtin-autopsy-table",
+      "footprint": [
+        0.86,
+        2.1
+      ],
+      "bounds": [
+        0.855,
+        0.925,
+        2.1
+      ],
+      "supportHeight": 0.8599999856948852
+    },
+    {
+      "id": "builtin-mortuary-cabinet",
+      "footprint": [
+        1.71,
+        2.19
+      ],
+      "bounds": [
+        1.7,
+        1.6,
+        2.185
+      ]
+    },
+    {
+      "id": "builtin-surgical-lamp",
+      "footprint": [
+        0.97,
+        0.5
+      ],
+      "bounds": [
+        0.96,
+        1.403,
+        0.5
+      ]
+    },
+    {
+      "id": "builtin-containment-pod",
+      "footprint": [
+        1,
+        1.04
+      ],
+      "bounds": [
+        1,
+        1.89,
+        1.038
+      ]
+    },
+    {
+      "id": "builtin-pallet",
+      "footprint": [
+        1.11,
+        0.81
+      ],
+      "bounds": [
+        1.1,
+        0.145,
+        0.8
+      ],
+      "supportHeight": 0.14499999865889548
+    },
+    {
+      "id": "builtin-pallet-jack",
+      "footprint": [
+        0.66,
+        1.51
+      ],
+      "bounds": [
+        0.65,
+        0.985,
+        1.505
+      ]
+    },
+    {
+      "id": "builtin-tool-chest",
+      "footprint": [
+        0.78,
+        0.51
+      ],
+      "bounds": [
+        0.78,
+        0.855,
+        0.5
+      ],
+      "supportHeight": 0.8550000014901161
+    },
+    {
+      "id": "builtin-pipe-valve",
+      "footprint": [
+        0.76,
+        0.34
+      ],
+      "bounds": [
+        0.757,
+        1.285,
+        0.339
+      ]
+    },
+    {
+      "id": "builtin-power-panel",
+      "footprint": [
+        0.58,
+        0.21
+      ],
+      "bounds": [
+        0.58,
+        0.75,
+        0.204
+      ]
+    },
+    {
+      "id": "builtin-water-tank",
+      "footprint": [
+        1.53,
+        1.47
+      ],
+      "bounds": [
+        1.52,
+        1.265,
+        1.46
+      ]
+    },
+    {
+      "id": "builtin-fuel-pump",
+      "footprint": [
+        0.69,
+        0.61
+      ],
+      "bounds": [
+        0.685,
+        1.53,
+        0.6
+      ]
+    },
+    {
+      "id": "builtin-oil-pump",
+      "footprint": [
+        2.6,
+        1.11
+      ],
+      "bounds": [
+        2.599,
+        2.219,
+        1.1
+      ]
+    },
+    {
+      "id": "builtin-dead-tree",
+      "footprint": [
+        1.25,
+        0.63
+      ],
+      "bounds": [
+        1.248,
+        2.611,
+        0.625
+      ]
+    },
+    {
+      "id": "builtin-stump",
+      "footprint": [
+        0.62,
+        0.62
+      ],
+      "bounds": [
+        0.62,
+        0.465,
+        0.62
+      ],
+      "supportHeight": 0.4649999986588955
+    },
+    {
+      "id": "builtin-bushes",
+      "footprint": [
+        1.34,
+        0.81
+      ],
+      "bounds": [
+        1.34,
+        0.8,
+        0.8
+      ]
+    },
+    {
+      "id": "builtin-iron-fence",
+      "footprint": [
+        2.08,
+        0.08
+      ],
+      "bounds": [
+        2.075,
+        1.45,
+        0.075
+      ]
+    },
+    {
+      "id": "builtin-mausoleum",
+      "footprint": [
+        2.3,
+        1.86
+      ],
+      "bounds": [
+        2.3,
+        2.76,
+        1.85
+      ]
+    },
+    {
+      "id": "builtin-ruined-column",
+      "footprint": [
+        1.13,
+        0.65
+      ],
+      "bounds": [
+        1.125,
+        1.369,
+        0.65
+      ]
+    },
+    {
+      "id": "builtin-broken-wall",
+      "footprint": [
+        1.98,
+        0.77
+      ],
+      "bounds": [
+        1.971,
+        0.773,
+        0.764
+      ]
+    },
+    {
+      "id": "builtin-sewer-grate",
+      "footprint": [
+        0.8,
+        0.61
+      ],
+      "bounds": [
+        0.8,
+        0.035,
+        0.6
+      ]
+    },
+    {
+      "id": "builtin-ritual-mask",
+      "footprint": [
+        0.3,
+        0.32
+      ],
+      "bounds": [
+        0.293,
+        0.065,
+        0.317
+      ]
+    },
+    {
+      "id": "builtin-reliquary",
+      "footprint": [
+        0.37,
+        0.26
+      ],
+      "bounds": [
+        0.36,
+        0.31,
+        0.26
+      ]
+    },
+    {
+      "id": "builtin-stone-sarcophagus",
+      "footprint": [
+        1,
+        2.21
+      ],
+      "bounds": [
+        1,
+        0.825,
+        2.2
+      ]
+    },
+    {
+      "id": "builtin-skull-display",
+      "footprint": [
+        0.31,
+        0.31
+      ],
+      "bounds": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    },
+    {
+      "id": "builtin-effigy",
+      "footprint": [
+        1.11,
+        0.29
+      ],
+      "bounds": [
+        1.1,
+        1.7,
+        0.28
+      ]
+    },
+    {
+      "id": "builtin-anomalous-portal",
+      "footprint": [
+        2.11,
+        0.5
+      ],
+      "bounds": [
+        2.1,
+        2.24,
+        0.5
+      ]
+    },
+    {
+      "id": "builtin-sedan",
+      "footprint": [
+        1.81,
+        3.8
+      ],
+      "bounds": [
+        1.8,
+        1.54,
+        3.79
+      ]
+    },
+    {
+      "id": "builtin-delivery-van",
+      "footprint": [
+        1.99,
+        4.3
+      ],
+      "bounds": [
+        1.98,
+        2.175,
+        4.298
+      ]
+    },
+    {
+      "id": "builtin-ambulance",
+      "footprint": [
+        1.99,
+        4.3
+      ],
+      "bounds": [
+        1.98,
+        2.285,
+        4.298
+      ]
+    },
+    {
+      "id": "builtin-police-car",
+      "footprint": [
+        1.81,
+        3.8
+      ],
+      "bounds": [
+        1.8,
+        1.7,
+        3.79
+      ]
+    },
+    {
+      "id": "builtin-motorcycle",
+      "footprint": [
+        0.57,
+        1.87
+      ],
+      "bounds": [
+        0.57,
+        0.978,
+        1.86
+      ]
+    },
+    {
+      "id": "builtin-rowboat",
+      "footprint": [
+        1.41,
+        2.41
+      ],
+      "bounds": [
+        1.401,
+        0.46,
+        2.4
+      ]
+    },
+    {
+      "id": "builtin-rocking-chair",
+      "footprint": [
+        0.6,
+        0.9
+      ],
+      "bounds": [
+        0.59,
+        1.16,
+        0.892
+      ]
+    },
+    {
+      "id": "builtin-fireplace",
+      "footprint": [
+        1.86,
+        0.81
+      ],
+      "bounds": [
+        1.85,
+        2.43,
+        0.8
+      ]
+    },
+    {
+      "id": "builtin-coat-rack",
+      "footprint": [
+        0.49,
+        0.45
+      ],
+      "bounds": [
+        0.485,
+        1.885,
+        0.45
+      ]
+    },
+    {
+      "id": "builtin-card-catalog",
+      "footprint": [
+        0.95,
+        0.56
+      ],
+      "bounds": [
+        0.95,
+        1.29,
+        0.55
+      ],
+      "supportHeight": 1.290000001490116
+    },
+    {
+      "id": "builtin-crib",
+      "footprint": [
+        0.76,
+        1.3
+      ],
+      "bounds": [
+        0.75,
+        1,
+        1.29
+      ]
+    },
+    {
+      "id": "builtin-rocking-horse",
+      "footprint": [
+        0.21,
+        1.02
+      ],
+      "bounds": [
+        0.2,
+        0.979,
+        1.01
+      ]
+    },
+    {
+      "id": "builtin-gramophone",
+      "footprint": [
+        0.5,
+        0.47
+      ],
+      "bounds": [
+        0.5,
+        0.703,
+        0.462
+      ]
+    },
+    {
+      "id": "builtin-spirit-board",
+      "footprint": [
+        0.51,
+        0.35
+      ],
+      "bounds": [
+        0.5,
+        0.031,
+        0.34
+      ]
+    },
+    {
+      "id": "builtin-cage",
+      "footprint": [
+        1.22,
+        1.24
+      ],
+      "bounds": [
+        1.22,
+        1.425,
+        1.235
+      ]
+    },
+    {
+      "id": "builtin-restraint-chair",
+      "footprint": [
+        0.71,
+        0.51
+      ],
+      "bounds": [
+        0.7,
+        1.405,
+        0.505
+      ]
+    },
+    {
+      "id": "builtin-privacy-screen",
+      "footprint": [
+        1.72,
+        0.35
+      ],
+      "bounds": [
+        1.714,
+        1.685,
+        0.347
+      ]
+    },
+    {
+      "id": "builtin-body-bag",
+      "footprint": [
+        0.5,
+        1.8
+      ],
+      "bounds": [
+        0.5,
+        0.3,
+        1.795
+      ]
+    },
+    {
+      "id": "builtin-blood-pool",
+      "footprint": [
+        1.36,
+        0.82
+      ],
+      "bounds": [
+        1.355,
+        0.008,
+        0.82
+      ]
+    },
+    {
+      "id": "builtin-grave-cross",
+      "footprint": [
+        0.7,
+        1.71
+      ],
+      "bounds": [
+        0.7,
+        1.1,
+        1.7
+      ]
+    },
+    {
+      "id": "builtin-open-grave",
+      "footprint": [
+        2.16,
+        2.11
+      ],
+      "bounds": [
+        2.15,
+        1.531,
+        2.1
+      ]
+    },
+    {
+      "id": "builtin-angel-statue",
+      "footprint": [
+        0.67,
+        0.73
+      ],
+      "bounds": [
+        0.66,
+        1.685,
+        0.727
+      ]
+    },
+    {
+      "id": "builtin-ritual-candelabra",
+      "footprint": [
+        0.68,
+        0.41
+      ],
+      "bounds": [
+        0.67,
+        1.385,
+        0.4
+      ]
+    },
+    {
+      "id": "builtin-chandelier",
+      "footprint": [
+        0.78,
+        0.69
+      ],
+      "bounds": [
+        0.78,
+        1.02,
+        0.686
+      ]
+    },
+    {
+      "id": "builtin-wooden-fence",
+      "footprint": [
+        2.01,
+        0.15
+      ],
+      "bounds": [
+        2,
+        1.1,
+        0.14
+      ]
+    },
+    {
+      "id": "builtin-water-pump",
+      "footprint": [
+        0.61,
+        1.13
+      ],
+      "bounds": [
+        0.6,
+        1.272,
+        1.129
+      ]
+    },
+    {
+      "id": "builtin-log-pile",
+      "footprint": [
+        1.11,
+        0.73
+      ],
+      "bounds": [
+        1.108,
+        0.648,
+        0.72
+      ]
+    },
+    {
+      "id": "builtin-wheelbarrow",
+      "footprint": [
+        0.72,
+        1.63
+      ],
+      "bounds": [
+        0.717,
+        0.788,
+        1.63
+      ]
+    },
+    {
+      "id": "builtin-phone-booth",
+      "footprint": [
+        0.76,
+        0.87
+      ],
+      "bounds": [
+        0.76,
+        2.34,
+        0.86
+      ]
+    },
+    {
+      "id": "builtin-bus-stop",
+      "footprint": [
+        2.88,
+        1.3
+      ],
+      "bounds": [
+        2.875,
+        2.575,
+        1.3
+      ]
+    },
+    {
+      "id": "builtin-fire-hydrant",
+      "footprint": [
+        0.45,
+        0.31
+      ],
+      "bounds": [
+        0.445,
+        0.77,
+        0.31
+      ]
+    },
+    {
+      "id": "builtin-trash-can",
+      "footprint": [
+        0.45,
+        0.5
+      ],
+      "bounds": [
+        0.45,
+        1.081,
+        0.5
+      ]
+    },
+    {
+      "id": "builtin-shopping-cart",
+      "footprint": [
+        0.61,
+        0.93
+      ],
+      "bounds": [
+        0.6,
+        1.038,
+        0.92
+      ]
+    },
+    {
+      "id": "builtin-arcade-cabinet",
+      "footprint": [
+        0.65,
+        0.95
+      ],
+      "bounds": [
+        0.65,
+        1.75,
+        0.95
+      ]
+    },
+    {
+      "id": "builtin-chalkboard",
+      "footprint": [
+        1.8,
+        0.11
+      ],
+      "bounds": [
+        1.8,
+        1,
+        0.105
+      ]
+    },
+    {
+      "id": "builtin-jail-bars",
+      "footprint": [
+        2.31,
+        0.11
+      ],
+      "bounds": [
+        2.3,
+        2.4,
+        0.1
+      ]
+    },
+    {
+      "id": "builtin-camera-tripod",
+      "footprint": [
+        0.73,
+        0.63
+      ],
+      "bounds": [
+        0.726,
+        1.496,
+        0.629
+      ]
+    },
+    {
+      "id": "builtin-kerosene-lantern",
+      "footprint": [
+        0.16,
+        0.16
+      ],
+      "bounds": [
+        0.16,
+        0.344,
+        0.16
+      ]
+    },
+    {
+      "id": "builtin-globe",
+      "footprint": [
+        0.38,
+        0.33
+      ],
+      "bounds": [
+        0.375,
+        0.567,
+        0.326
+      ]
+    },
+    {
+      "id": "builtin-bicycle",
+      "footprint": [
+        0.5,
+        1.66
+      ],
+      "bounds": [
+        0.5,
+        0.975,
+        1.66
+      ]
+    },
+    {
+      "id": "builtin-mountain-boulder",
+      "footprint": [
+        3,
+        2.01
+      ],
+      "bounds": [
+        3,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "builtin-granite-boulder",
+      "footprint": [
+        3.21,
+        2.5
+      ],
+      "bounds": [
+        3.2,
+        2.2,
+        2.5
+      ]
+    },
+    {
+      "id": "builtin-stratified-cliff",
+      "footprint": [
+        5.7,
+        3.15
+      ],
+      "bounds": [
+        5.7,
+        6,
+        3.15
+      ]
+    },
+    {
+      "id": "builtin-rock-scree",
+      "footprint": [
+        2.08,
+        2.57
+      ],
+      "bounds": [
+        2.078,
+        0.702,
+        2.565
+      ]
+    },
+    {
+      "id": "builtin-ruin-masonry-wall",
+      "footprint": [
+        3.97,
+        0.56
+      ],
+      "bounds": [
+        3.96,
+        1.89,
+        0.55
+      ]
+    },
+    {
+      "id": "builtin-ruin-stone-arch",
+      "footprint": [
+        3.08,
+        0.67
+      ],
+      "bounds": [
+        3.08,
+        3.57,
+        0.66
+      ]
+    },
+    {
+      "id": "builtin-ruin-buttress",
+      "footprint": [
+        1,
+        1.11
+      ],
+      "bounds": [
+        1,
+        2.42,
+        1.1
+      ]
+    },
+    {
+      "id": "builtin-mountain-timber-bridge",
+      "footprint": [
+        2.19,
+        3.91
+      ],
+      "bounds": [
+        2.18,
+        1.35,
+        3.9
+      ]
+    },
+    {
+      "id": "builtin-mountain-roof",
+      "footprint": [
+        3.3,
+        3.02
+      ],
+      "bounds": [
+        3.3,
+        1.624,
+        3.019
+      ]
+    },
+    {
+      "id": "builtin-mountain-lantern-post",
+      "footprint": [
+        0.74,
+        0.24
+      ],
+      "bounds": [
+        0.74,
+        1.55,
+        0.24
+      ]
+    },
+    {
+      "id": "builtin-alpine-fir",
+      "footprint": [
+        3.46,
+        3.13
+      ],
+      "bounds": [
+        3.459,
+        4.5,
+        3.128
+      ]
+    },
+    {
+      "id": "builtin-alpine-pine",
+      "footprint": [
+        3.68,
+        3.26
+      ],
+      "bounds": [
+        3.675,
+        3.5,
+        3.259
+      ]
+    },
+    {
+      "id": "builtin-bare-mountain-tree",
+      "footprint": [
+        3.05,
+        2.65
+      ],
+      "bounds": [
+        3.047,
+        3.8,
+        2.642
+      ]
+    },
+    {
+      "id": "builtin-alpine-fern",
+      "footprint": [
+        1.1,
+        1.09
+      ],
+      "bounds": [
+        1.093,
+        0.65,
+        1.083
+      ]
+    },
+    {
+      "id": "builtin-dry-grass",
+      "footprint": [
+        0.86,
+        0.72
+      ],
+      "bounds": [
+        0.85,
+        0.65,
+        0.71
+      ]
+    },
+    {
+      "id": "builtin-mountain-cliff-face",
+      "footprint": [
+        8,
+        3.46
+      ],
+      "bounds": [
+        8,
+        7,
+        3.45
+      ]
+    },
+    {
+      "id": "builtin-mountain-cliff-corner",
+      "footprint": [
+        6,
+        6
+      ],
+      "bounds": [
+        6,
+        6,
+        6
+      ]
+    },
+    {
+      "id": "builtin-mountain-cliff-overhang",
+      "footprint": [
+        6,
+        4.45
+      ],
+      "bounds": [
+        6,
+        5,
+        4.45
+      ]
+    },
+    {
+      "id": "builtin-mountain-rock-spire",
+      "footprint": [
+        3.2,
+        2.8
+      ],
+      "bounds": [
+        3.2,
+        9,
+        2.8
+      ]
+    },
+    {
+      "id": "builtin-mountain-ruin-tower",
+      "footprint": [
+        3.8,
+        3.03
+      ],
+      "bounds": [
+        3.8,
+        3.25,
+        3.025
+      ]
+    },
+    {
+      "id": "builtin-mountain-ruin-corner",
+      "footprint": [
+        2.99,
+        2.99
+      ],
+      "bounds": [
+        2.98,
+        1.87,
+        2.98
+      ]
+    },
+    {
+      "id": "builtin-mountain-timber-platform",
+      "footprint": [
+        3,
+        3
+      ],
+      "bounds": [
+        3,
+        1.2,
+        3
+      ],
+      "supportHeight": 1.200000011920929
+    },
+    {
+      "id": "builtin-mountain-rope-span",
+      "footprint": [
+        5.16,
+        0.06
+      ],
+      "bounds": [
+        5.16,
+        0.856,
+        0.06
+      ]
+    },
+    {
+      "id": "builtin-mountain-rope-post",
+      "footprint": [
+        0.32,
+        0.32
+      ],
+      "bounds": [
+        0.32,
+        1.7,
+        0.32
+      ]
+    },
+    {
+      "id": "builtin-mountain-wall-lantern",
+      "footprint": [
+        0.91,
+        0.29
+      ],
+      "bounds": [
+        0.91,
+        0.885,
+        0.28
+      ]
+    },
+    {
+      "id": "builtin-mountain-round-lantern",
+      "footprint": [
+        1.17,
+        0.47
+      ],
+      "bounds": [
+        1.165,
+        1.007,
+        0.47
+      ]
+    },
+    {
+      "id": "builtin-mountain-cave-mouth",
+      "footprint": [
+        6.91,
+        6.73
+      ],
+      "bounds": [
+        6.9,
+        6.1,
+        6.725
+      ]
+    },
+    {
+      "id": "builtin-mountain-uprooted-stump",
+      "footprint": [
+        1.94,
+        2.57
+      ],
+      "bounds": [
+        1.93,
+        1.116,
+        2.563
+      ]
+    },
+    {
+      "id": "builtin-mountain-cart-wreck",
+      "footprint": [
+        2.17,
+        2.62
+      ],
+      "bounds": [
+        2.165,
+        0.893,
+        2.619
+      ]
+    },
+    {
+      "id": "builtin-mountain-ruin-high-wall",
+      "footprint": [
+        4.33,
+        2.77
+      ],
+      "bounds": [
+        4.328,
+        7.924,
+        2.767
+      ]
+    },
+    {
+      "id": "builtin-organic-rock",
+      "footprint": [
+        3.21,
+        2.8
+      ],
+      "bounds": [
+        3.2,
+        2.5,
+        2.8
+      ]
+    },
+    {
+      "id": "builtin-organic-cliff",
+      "footprint": [
+        8,
+        3.41
+      ],
+      "bounds": [
+        8,
+        7,
+        3.4
+      ]
+    },
+    {
+      "id": "builtin-dense-alpine-fir",
+      "footprint": [
+        3.87,
+        4.01
+      ],
+      "bounds": [
+        3.867,
+        5.307,
+        4.001
+      ]
+    },
+    {
+      "id": "builtin-dense-mountain-pine",
+      "footprint": [
+        3.9,
+        3.78
+      ],
+      "bounds": [
+        3.891,
+        4.409,
+        3.78
+      ]
+    },
+    {
+      "id": "builtin-forked-dead-branch",
+      "footprint": [
+        1.73,
+        1.09
+      ],
+      "bounds": [
+        1.723,
+        0.592,
+        1.082
+      ]
+    },
+    {
+      "id": "builtin-twisted-mountain-roots",
+      "footprint": [
+        2.02,
+        1.5
+      ],
+      "bounds": [
+        2.016,
+        0.522,
+        1.492
+      ]
+    },
+    {
+      "id": "builtin-winter-dry-shrub",
+      "footprint": [
+        0.7,
+        0.6
+      ],
+      "bounds": [
+        0.698,
+        0.692,
+        0.592
+      ]
+    },
+    {
+      "id": "builtin-wooden-expedition-barrel",
+      "footprint": [
+        0.87,
+        0.87
+      ],
+      "bounds": [
+        0.865,
+        0.962,
+        0.865
+      ]
+    },
+    {
+      "id": "builtin-old-open-crate",
+      "footprint": [
+        1.23,
+        1.01
+      ],
+      "bounds": [
+        1.22,
+        0.547,
+        1.005
+      ]
+    },
+    {
+      "id": "builtin-old-closed-crate",
+      "footprint": [
+        1.25,
+        1.01
+      ],
+      "bounds": [
+        1.24,
+        0.623,
+        1.008
+      ]
+    },
+    {
+      "id": "builtin-broken-timber-pile",
+      "footprint": [
+        1.64,
+        1.22
+      ],
+      "bounds": [
+        1.633,
+        0.248,
+        1.214
+      ]
+    },
+    {
+      "id": "builtin-church-clustered-pier",
+      "footprint": [
+        1.46,
+        1.46
+      ],
+      "bounds": [
+        1.45,
+        5.4,
+        1.45
+      ]
+    },
+    {
+      "id": "builtin-church-round-arcade",
+      "footprint": [
+        4.56,
+        0.9
+      ],
+      "bounds": [
+        4.55,
+        5,
+        0.9
+      ]
+    },
+    {
+      "id": "builtin-church-pointed-arch",
+      "footprint": [
+        3.85,
+        0.9
+      ],
+      "bounds": [
+        3.85,
+        5.704,
+        0.9
+      ]
+    },
+    {
+      "id": "builtin-church-curved-balcony",
+      "footprint": [
+        4,
+        2.01
+      ],
+      "bounds": [
+        4,
+        2.035,
+        2.01
+      ]
+    },
+    {
+      "id": "builtin-church-balustrade",
+      "footprint": [
+        3.1,
+        0.31
+      ],
+      "bounds": [
+        3.1,
+        1.06,
+        0.3
+      ]
+    },
+    {
+      "id": "builtin-church-stained-window",
+      "footprint": [
+        2.28,
+        0.29
+      ],
+      "bounds": [
+        2.28,
+        4.375,
+        0.28
+      ]
+    },
+    {
+      "id": "builtin-church-vault-ribs",
+      "footprint": [
+        9.89,
+        4.31
+      ],
+      "bounds": [
+        9.88,
+        8.67,
+        4.3
+      ]
+    },
+    {
+      "id": "builtin-church-roof-shell",
+      "footprint": [
+        10.28,
+        4
+      ],
+      "bounds": [
+        10.28,
+        9.003,
+        4
+      ]
+    },
+    {
+      "id": "builtin-church-buttress",
+      "footprint": [
+        1.25,
+        2.1
+      ],
+      "bounds": [
+        1.25,
+        6.08,
+        2.1
+      ]
+    },
+    {
+      "id": "builtin-church-pinnacle",
+      "footprint": [
+        0.75,
+        0.75
+      ],
+      "bounds": [
+        0.75,
+        2.92,
+        0.75
+      ]
+    },
+    {
+      "id": "builtin-church-bell-tower",
+      "footprint": [
+        4.41,
+        4.41
+      ],
+      "bounds": [
+        4.4,
+        13.19,
+        4.4
+      ]
+    },
+    {
+      "id": "builtin-church-iron-maiden",
+      "footprint": [
+        2.13,
+        1.61
+      ],
+      "bounds": [
+        2.126,
+        3.33,
+        1.6
+      ]
+    },
+    {
+      "id": "builtin-church-headless-seraph",
+      "footprint": [
+        6.56,
+        1.3
+      ],
+      "bounds": [
+        6.56,
+        5.35,
+        1.3
+      ]
+    },
+    {
+      "id": "builtin-church-pointed-chair",
+      "footprint": [
+        0.7,
+        0.66
+      ],
+      "bounds": [
+        0.7,
+        2.1,
+        0.655
+      ]
+    },
+    {
+      "id": "builtin-church-ritual-banner",
+      "footprint": [
+        1.66,
+        0.13
+      ],
+      "bounds": [
+        1.66,
+        3.038,
+        0.125
+      ]
+    },
+    {
+      "id": "builtin-church-hook-rack",
+      "footprint": [
+        3.8,
+        0.22
+      ],
+      "bounds": [
+        3.8,
+        1.59,
+        0.217
+      ]
+    },
+    {
+      "id": "builtin-church-banquet-table",
+      "footprint": [
+        1.36,
+        5.41
+      ],
+      "bounds": [
+        1.35,
+        1.04,
+        5.4
+      ],
+      "supportHeight": 1.04
+    },
+    {
+      "id": "builtin-church-candelabra",
+      "footprint": [
+        1.03,
+        0.5
+      ],
+      "bounds": [
+        1.03,
+        1.375,
+        0.5
+      ]
+    },
+    {
+      "id": "builtin-church-ogival-gable",
+      "footprint": [
+        10.28,
+        0.44
+      ],
+      "bounds": [
+        10.28,
+        9.003,
+        0.44
+      ]
+    },
+    {
+      "id": "builtin-church-window-spandrel",
+      "footprint": [
+        2.41,
+        0.47
+      ],
+      "bounds": [
+        2.4,
+        4.5,
+        0.46
+      ]
+    },
+    {
+      "id": "builtin-church-double-cross",
+      "footprint": [
+        1.15,
+        0.12
+      ],
+      "bounds": [
+        1.15,
+        2.4,
+        0.12
+      ]
+    },
+    {
+      "id": "builtin-church-banquet-setting",
+      "footprint": [
+        0.55,
+        0.41
+      ],
+      "bounds": [
+        0.545,
+        0.296,
+        0.4
+      ]
+    },
+    {
+      "id": "builtin-church-pitched-roof",
+      "footprint": [
+        19.61,
+        5
+      ],
+      "bounds": [
+        19.6,
+        4.84,
+        5
+      ]
+    },
+    {
+      "id": "builtin-church-timber-truss",
+      "footprint": [
+        18.93,
+        5
+      ],
+      "bounds": [
+        18.925,
+        4.686,
+        5
+      ]
+    },
+    {
+      "id": "builtin-church-pitched-gable",
+      "footprint": [
+        19.7,
+        0.5
+      ],
+      "bounds": [
+        19.697,
+        4.84,
+        0.5
+      ]
+    },
+    {
+      "id": "builtin-church-tracery-window",
+      "footprint": [
+        2.28,
+        0.35
+      ],
+      "bounds": [
+        2.28,
+        4.375,
+        0.346
+      ]
+    },
+    {
+      "id": "builtin-church-altar-retable",
+      "footprint": [
+        10.31,
+        1
+      ],
+      "bounds": [
+        10.3,
+        10.55,
+        1
+      ]
+    },
+    {
+      "id": "builtin-church-ravine-tree",
+      "footprint": [
+        6.86,
+        6.49
+      ],
+      "bounds": [
+        6.853,
+        9.622,
+        6.486
+      ]
+    },
+    {
+      "id": "builtin-church-seraph-effigy",
+      "footprint": [
+        9.81,
+        1.5
+      ],
+      "bounds": [
+        9.8,
+        7.7,
+        1.5
+      ]
+    },
+    {
+      "id": "builtin-church-spiked-reliquary",
+      "footprint": [
+        2.13,
+        2.05
+      ],
+      "bounds": [
+        2.126,
+        3.33,
+        2.041
+      ]
+    },
+    {
+      "id": "builtin-house-roof",
+      "footprint": [
+        13.11,
+        16.04
+      ],
+      "bounds": [
+        13.1,
+        2.65,
+        16.035
+      ]
+    },
+    {
+      "id": "builtin-house-range",
+      "footprint": [
+        0.67,
+        0.73
+      ],
+      "bounds": [
+        0.66,
+        0.906,
+        0.725
+      ]
+    },
+    {
+      "id": "builtin-house-washer",
+      "footprint": [
+        0.68,
+        0.72
+      ],
+      "bounds": [
+        0.67,
+        0.91,
+        0.718
+      ],
+      "supportHeight": 0.9100000023841858
+    },
+    {
+      "id": "builtin-house-counter",
+      "footprint": [
+        1.26,
+        0.7
+      ],
+      "bounds": [
+        1.26,
+        0.88,
+        0.69
+      ],
+      "supportHeight": 0.8799999991059304
+    },
+    {
+      "id": "builtin-house-plant",
+      "footprint": [
+        0.76,
+        0.76
+      ],
+      "bounds": [
+        0.753,
+        1.347,
+        0.755
+      ]
+    },
+    {
+      "id": "builtin-house-ceiling-lamp",
+      "footprint": [
+        0.55,
+        0.55
+      ],
+      "bounds": [
+        0.54,
+        0.117,
+        0.54
+      ]
+    },
+    {
+      "id": "builtin-house-curtain",
+      "footprint": [
+        2.12,
+        0.12
+      ],
+      "bounds": [
+        2.12,
+        1.733,
+        0.114
+      ]
+    },
+    {
+      "id": "builtin-house-place-setting",
+      "footprint": [
+        0.42,
+        0.33
+      ],
+      "bounds": [
+        0.419,
+        0.11,
+        0.33
+      ]
+    },
+    {
+      "id": "builtin-house-tile-floor",
+      "footprint": [
+        5,
+        5
+      ],
+      "bounds": [
+        5,
+        0.015,
+        5
+      ],
+      "supportHeight": 0.014999999944120646
+    },
+    {
+      "id": "builtin-backrooms-wallpaper",
+      "footprint": [
+        3,
+        0.25
+      ],
+      "bounds": [
+        3,
+        2.797,
+        0.245
+      ]
+    },
+    {
+      "id": "builtin-backrooms-ceiling",
+      "footprint": [
+        3,
+        3
+      ],
+      "bounds": [
+        3,
+        0.072,
+        3
+      ]
+    },
+    {
+      "id": "builtin-backrooms-fluorescent",
+      "footprint": [
+        1.25,
+        0.48
+      ],
+      "bounds": [
+        1.24,
+        0.12,
+        0.48
+      ]
+    }
+  ]
+}

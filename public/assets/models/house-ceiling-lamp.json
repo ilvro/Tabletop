@@ -3,42 +3,10 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "ivory": {
-      "color": "#e7e0cf",
-      "roughness": 0.78
-    },
-    "green": {
-      "color": "#436958",
-      "roughness": 0.85
-    },
-    "wood": {
-      "color": "#815d3e",
-      "roughness": 0.85
-    },
-    "dark": {
-      "color": "#252e30",
-      "roughness": 0.6
-    },
     "metal": {
       "color": "#899491",
       "roughness": 0.4,
-      "metalness": 0.6
-    },
-    "glass": {
-      "color": "#384e51",
-      "roughness": 0.25
-    },
-    "clay": {
-      "color": "#ad5f3d",
-      "roughness": 0.95
-    },
-    "leaf": {
-      "color": "#46663b",
-      "roughness": 1
-    },
-    "soil": {
-      "color": "#443529",
-      "roughness": 1
+      "metalness": 0.5
     },
     "light": {
       "color": "#fff1cc",
@@ -49,31 +17,191 @@
   },
   "parts": [
     {
-      "shape": "cylinder",
-      "radiusTop": 0.27,
-      "radiusBottom": 0.27,
-      "height": 0.055,
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0.11749999940395356
+        ],
+        [
+          0.27,
+          0.11749999940395356
+        ],
+        [
+          0.27,
+          0.085
+        ],
+        [
+          0.25,
+          0.075
+        ],
+        [
+          0,
+          0.075
+        ]
+      ],
+      "segments": 24,
       "position": [
         0,
-        0.09000000044703484,
+        0,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.262,
+      "tube": 0.008,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        0,
+        0.082,
         0
       ],
       "material": "metal",
-      "segments": 16
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
     },
     {
-      "shape": "cylinder",
-      "radiusTop": 0.26,
-      "radiusBottom": 0.23,
-      "height": 0.07,
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0.012
+        ],
+        [
+          0.1,
+          0.018
+        ],
+        [
+          0.19,
+          0.04
+        ],
+        [
+          0.235,
+          0.066
+        ],
+        [
+          0.24,
+          0.08
+        ]
+      ],
+      "segments": 24,
       "position": [
         0,
-        0.035000000447034836,
+        0,
         0
       ],
-      "material": "light",
-      "segments": 16
+      "material": "light"
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.012,
+          0
+        ],
+        [
+          0.016,
+          0.012
+        ],
+        [
+          0,
+          0.014
+        ]
+      ],
+      "segments": 12,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.02,
+        0.012
+      ],
+      "position": [
+        0.245,
+        0.07,
+        0
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.02,
+        0.012
+      ],
+      "position": [
+        -0.12249999999999994,
+        0.07,
+        0.2121762239271875
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        -2.0943951023931953,
+        0
+      ],
+      "bevel": 0.0015600000000000002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.02,
+        0.012
+      ],
+      "position": [
+        -0.12250000000000011,
+        0.07,
+        -0.21217622392718744
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        -4.1887902047863905,
+        0
+      ],
+      "bevel": 0.0015600000000000002
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    0.5400000214576721,
+    0.11749999940395356,
+    0.5400000214576721
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "model",
+    "methods": [
+      "plafon de vidro leitoso abaulado com base metálica, aro, presilhas e arremate central",
+      "ferragens curvas com vazios reais",
+      "arestas chanfradas"
+    ],
+    "seed": 41214
+  }
 }

@@ -3,58 +3,9 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "limestone": {
-      "color": "#b1a18a",
-      "roughness": 0.95
-    },
-    "wornStone": {
-      "color": "#524a43",
-      "roughness": 1
-    },
     "carving": {
       "color": "#c6b79d",
       "roughness": 0.88
-    },
-    "wood": {
-      "color": "#482b23",
-      "roughness": 0.87
-    },
-    "iron": {
-      "color": "#343035",
-      "metalness": 0.7,
-      "roughness": 0.55
-    },
-    "brass": {
-      "color": "#9b7750",
-      "metalness": 0.65,
-      "roughness": 0.4
-    },
-    "cloth": {
-      "color": "#631e2b",
-      "roughness": 1
-    },
-    "glass": {
-      "color": "#9e122f",
-      "emissive": "#a4132e",
-      "emissiveIntensity": 0.65,
-      "roughness": 0.28,
-      "opacity": 0.72
-    },
-    "amberGlass": {
-      "color": "#b85032",
-      "emissive": "#a83d22",
-      "emissiveIntensity": 0.35,
-      "roughness": 0.3,
-      "opacity": 0.8
-    },
-    "wax": {
-      "color": "#c5af88",
-      "roughness": 0.9
-    },
-    "flame": {
-      "color": "#ffd58a",
-      "emissive": "#ff8a37",
-      "emissiveIntensity": 2
     }
   },
   "parts": [
@@ -284,7 +235,8 @@
         0,
         -2
       ],
-      "material": "carving"
+      "material": "carving",
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -512,7 +464,8 @@
         0,
         2
       ],
-      "material": "carving"
+      "material": "carving",
+      "edgeBevel": 0.003
     },
     {
       "shape": "rope",
@@ -544,7 +497,7 @@
         ]
       ],
       "radius": 0.095,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -583,7 +536,7 @@
         ]
       ],
       "radius": 0.095,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -593,7 +546,7 @@
       "material": "carving"
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.25,
       "radiusTop": 0.25,
       "height": 4.3,
@@ -603,13 +556,55 @@
         0
       ],
       "material": "carving",
-      "segments": 12,
+      "segments": 24,
       "rotation": [
         1.5707963267948966,
         0,
         0
+      ],
+      "profile": [
+        [
+          0,
+          -2.15
+        ],
+        [
+          0.238,
+          -2.15
+        ],
+        [
+          0.25,
+          -2.138
+        ],
+        [
+          0.25,
+          2.138
+        ],
+        [
+          0.238,
+          2.15
+        ],
+        [
+          0,
+          2.15
+        ]
       ]
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    9.880000114440918,
+    8.670000076293945,
+    4.300000190734863
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "entalhes e bordas de perfis",
+      "cordas e tubos curvos",
+      "perfis torneados e bordas de chapa"
+    ],
+    "seed": 41920
+  }
 }

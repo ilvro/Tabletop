@@ -3,122 +3,490 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "wood": {
-      "color": "#79553e",
-      "roughness": 0.84
-    },
     "dark": {
       "color": "#292b30",
       "roughness": 0.8
     },
     "metal": {
       "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
+      "roughness": 0.46,
+      "metalness": 0.5
     },
     "white": {
       "color": "#d8d3bd",
       "roughness": 0.72
     },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
     "flame": {
       "color": "#edb45e",
       "emissive": "#ef943d",
       "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
     {
-      "shape": "cylinder",
-      "radiusTop": 0.14,
-      "radiusBottom": 0.14,
-      "height": 0.035,
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.14,
+          0
+        ],
+        [
+          0.15,
+          0.015
+        ],
+        [
+          0.12,
+          0.035
+        ],
+        [
+          0.03,
+          0.05
+        ],
+        [
+          0,
+          0.05
+        ]
+      ],
+      "segments": 24,
       "position": [
-        -0.33999999970197675,
-        0.017500000074505806,
+        -0.34,
+        0,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.045,
+        0.035,
+        0.045
+      ],
+      "position": [
+        -0.21000000000000002,
+        0.018,
         0
       ],
       "material": "dark",
       "segments": 12
     },
     {
-      "shape": "cylinder",
-      "radiusTop": 0.024,
-      "radiusBottom": 0.024,
-      "height": 1.35,
+      "shape": "ellipsoid",
+      "size": [
+        0.045,
+        0.035,
+        0.045
+      ],
       "position": [
-        -0.33999999970197675,
-        0.7100000000745058,
+        -0.29982779073125687,
+        0.018,
+        0.12363734711836996
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.045,
+        0.035,
+        0.045
+      ],
+      "position": [
+        -0.4451722092687432,
+        0.018,
+        0.07641208279802153
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.045,
+        0.035,
+        0.045
+      ],
+      "position": [
+        -0.4451722092687432,
+        0.018,
+        -0.0764120827980215
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.045,
+        0.035,
+        0.045
+      ],
+      "position": [
+        -0.29982779073125687,
+        0.018,
+        -0.12363734711836998
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.018,
+      "radiusBottom": 0.018,
+      "height": 1.22,
+      "position": [
+        -0.34,
+        0.66,
         0
       ],
       "material": "metal",
       "segments": 12
     },
     {
-      "shape": "box",
-      "size": [
-        0.65,
-        0.035,
-        0.04
-      ],
+      "shape": "lathe",
+      "radiusTop": 0.026,
+      "radiusBottom": 0.026,
+      "height": 0.06,
       "position": [
-        -0.04999999970197677,
-        1.3850000000745057,
+        -0.34,
+        0.9,
+        0
+      ],
+      "material": "dark",
+      "segments": 12,
+      "profile": [
+        [
+          0,
+          -0.03
+        ],
+        [
+          0.022879999999999998,
+          -0.03
+        ],
+        [
+          0.026,
+          -0.026879999999999998
+        ],
+        [
+          0.026,
+          0.026879999999999998
+        ],
+        [
+          0.022879999999999998,
+          0.03
+        ],
+        [
+          0,
+          0.03
+        ]
+      ]
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.0063,
+          0
+        ],
+        [
+          0.005600000000000001,
+          0.0084
+        ],
+        [
+          0.014,
+          0.0126
+        ],
+        [
+          0.014,
+          0.0196
+        ],
+        [
+          0.0084,
+          0.0252
+        ],
+        [
+          0,
+          0.025900000000000003
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        -0.315,
+        0.9,
+        0
+      ],
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.34,
+          1.25,
+          0
+        ],
+        [
+          -0.3,
+          1.36,
+          0
+        ],
+        [
+          -0.1,
+          1.385,
+          0
+        ],
+        [
+          0.14,
+          1.38,
+          0
+        ],
+        [
+          0.23,
+          1.345,
+          0
+        ]
+      ],
+      "radius": 0.014,
+      "segments": 34,
+      "sides": 8,
+      "position": [
+        0,
+        0,
         0
       ],
       "material": "metal"
     },
     {
-      "shape": "cylinder",
-      "radiusTop": 0.25,
-      "radiusBottom": 0.25,
-      "height": 0.075,
+      "shape": "ellipsoid",
+      "size": [
+        0.06,
+        0.06,
+        0.06
+      ],
       "position": [
-        0.2300000002980232,
-        1.3300000000745058,
+        -0.34,
+        1.27,
+        0
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.03,
+      "radiusBottom": 0.03,
+      "height": 0.05,
+      "position": [
+        0.23,
+        1.335,
+        0
+      ],
+      "material": "dark",
+      "segments": 12,
+      "profile": [
+        [
+          0,
+          -0.025
+        ],
+        [
+          0.0264,
+          -0.025
+        ],
+        [
+          0.03,
+          -0.021400000000000002
+        ],
+        [
+          0.03,
+          0.021400000000000002
+        ],
+        [
+          0.0264,
+          0.025
+        ],
+        [
+          0,
+          0.025
+        ]
+      ]
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0.055
+        ],
+        [
+          0.08,
+          0.05
+        ],
+        [
+          0.19,
+          0.02
+        ],
+        [
+          0.24,
+          0
+        ],
+        [
+          0.25,
+          0
+        ],
+        [
+          0.2,
+          0.03
+        ],
+        [
+          0.08,
+          0.065
+        ],
+        [
+          0,
+          0.07
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        0.23,
+        1.27,
+        0
+      ],
+      "material": "white"
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0.048
+        ],
+        [
+          0.08,
+          0.043
+        ],
+        [
+          0.19,
+          0.014
+        ],
+        [
+          0.236,
+          -0.004
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        0.23,
+        1.27,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.245,
+      "tube": 0.007,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        0.23,
+        1.27,
+        0
+      ],
+      "material": "metal",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.05,
+      "radiusBottom": 0.05,
+      "height": 0.008,
+      "position": [
+        0.23,
+        1.282,
+        0
+      ],
+      "material": "flame",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.008,
+      "position": [
+        0.37,
+        1.274,
+        0
+      ],
+      "material": "flame",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.008,
+      "position": [
+        0.23,
+        1.274,
+        0.14
+      ],
+      "material": "flame",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.008,
+      "position": [
+        0.09,
+        1.274,
+        1.7145055188062947e-17
+      ],
+      "material": "flame",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.045,
+      "radiusBottom": 0.045,
+      "height": 0.008,
+      "position": [
+        0.22999999999999998,
+        1.274,
+        -0.14
+      ],
+      "material": "flame",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.07,
+      "position": [
+        0.23,
+        1.25,
         0
       ],
       "material": "white",
@@ -126,81 +494,35 @@
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.038,
-      "radiusBottom": 0.038,
-      "height": 0.015,
+      "radiusTop": 0.018,
+      "radiusBottom": 0.018,
+      "height": 0.012,
       "position": [
-        0.3700000002980232,
-        1.2850000000745057,
+        0.23,
+        1.22,
         0
       ],
-      "material": "flame",
-      "segments": 12
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.038,
-      "radiusBottom": 0.038,
-      "height": 0.015,
-      "position": [
-        0.30000000029802326,
-        1.2850000000745057,
-        0.12124355652982141
-      ],
-      "material": "flame",
-      "segments": 12
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.038,
-      "radiusBottom": 0.038,
-      "height": 0.015,
-      "position": [
-        0.16000000029802325,
-        1.2850000000745057,
-        0.12124355652982143
-      ],
-      "material": "flame",
-      "segments": 12
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.038,
-      "radiusBottom": 0.038,
-      "height": 0.015,
-      "position": [
-        0.09000000029802319,
-        1.2850000000745057,
-        1.7145055188062947e-17
-      ],
-      "material": "flame",
-      "segments": 12
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.038,
-      "radiusBottom": 0.038,
-      "height": 0.015,
-      "position": [
-        0.16000000029802314,
-        1.2850000000745057,
-        -0.1212435565298214
-      ],
-      "material": "flame",
-      "segments": 12
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.038,
-      "radiusBottom": 0.038,
-      "height": 0.015,
-      "position": [
-        0.30000000029802326,
-        1.2850000000745057,
-        -0.12124355652982141
-      ],
-      "material": "flame",
+      "material": "white",
       "segments": 12
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.9600000005960464,
+    1.4025000001490115,
+    0.5
+  ],
+  "design": {
+    "edition": 2,
+    "family": "instrument",
+    "reconstruction": "model",
+    "methods": [
+      "foco cirúrgico com base lastreada, coluna regulável, braço curvo, cúpula refletora de cinco lâmpadas e manopla",
+      "curvas de contorno refinadas",
+      "perfis torneados e bordas de chapa",
+      "cordas e tubos curvos",
+      "ferragens curvas com vazios reais"
+    ],
+    "seed": 38272
+  }
 }

@@ -8,6 +8,7 @@ import {createBranchGeometry,createConiferGeometry,createTimberGeometry,createSt
 import { createProfileGeometry } from './architectural-primitives.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { surfacePreset } from '../domain/materials.js';
+import { craftedBox, turnedGeometry, ellipsoidGeometry } from './crafted-geometry.js';
 
 const sharedGeometryOwners=new WeakMap();
 export function releaseGeometry(geometry,owners=1){const state=sharedGeometryOwners.get(geometry);if(!state){geometry.dispose();return;}state.refs-=owners;if(state.refs===0)sharedGeometryOwners.delete(geometry);if(state.refs===0||state.refs===state.templateRefs)geometry.dispose();}
@@ -59,10 +60,16 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null, ve
     for (const part of recipe.parts) {
       let geometry;
       switch (part.shape) {
-        case 'box': geometry = new THREE.BoxGeometry(...part.size); break;
+        case 'box': geometry = craftedBox(part); break;
+        case 'lathe': geometry = turnedGeometry(part); break;
+        case 'ellipsoid': geometry = ellipsoidGeometry(part); break;
         case 'cylinder': geometry = new THREE.CylinderGeometry(part.radiusTop, part.radiusBottom, part.height, part.segments ?? 16, 1, part.openEnded ?? false); break;
-        case 'sphere': geometry = new THREE.SphereGeometry(part.radius, 16, 12); break;
-        case 'rock': geometry = createRockGeometry({ ...part, ...(rockShape && !part.fixedRock ? { ...rockShape, seed:(rockShape.seed+(part.seedOffset??0))%65536 } : {}) }); break;
+        case 'sphere': geometry = new THREE.SphereGeometry(part.radius, part.segments ?? 16, part.rings ?? 12); break;
+        case 'rock': {
+          const settings={...part,...(rockShape&&!part.fixedRock?{...rockShape,seed:(rockShape.seed+(part.seedOffset??0))%65536}:{})};
+          if(part.refinement)settings.detail=Math.min(8,(settings.detail??5)+part.refinement);
+          geometry=createRockGeometry(settings);break;
+        }
         case 'rope': geometry=createRopeGeometry(part);break;
         case 'ring': geometry=createRingGeometry(part);break;
         case 'arch': geometry=createArchGeometry(part);break;
@@ -104,10 +111,12 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null, ve
     for(const mesh of [...group.children])disposeObject(mesh);
     for(const batch of batches.values()) {const geometry=mergeGeometries(batch.geometries);if(batch.rocks.length)geometry.userData.rocks=batch.rocks;if(batch.snowProxies.length)geometry.userData.snowProxies=batch.snowProxies;for(const g of batch.geometries)g.dispose();const mesh=new THREE.Mesh(geometry,batch.material);mesh.userData.materialSlot=batch.slot;mesh.castShadow=!batch.material.transparent;mesh.receiveShadow=true;group.add(mesh);}
   }
-  if((rockShape || vegetationSeed!=null) && metricBounds) {
+  const fittedBounds = ((rockShape || vegetationSeed!=null) && metricBounds) ? metricBounds : recipe.fitBounds;
+  if(fittedBounds) {
+    if(!Array.isArray(fittedBounds)||fittedBounds.length!==3||fittedBounds.some(v=>!Number.isFinite(v)||v<=0)) {disposeObject(group);throw new Error('Dimensões de receita inválidas.');}
     group.updateMatrixWorld(true);
     const bounds=new THREE.Box3().setFromObject(group),size=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3());
-    group.scale.set(metricBounds[0]/size.x,metricBounds[1]/size.y,metricBounds[2]/size.z);
+    group.scale.set(fittedBounds[0]/size.x,fittedBounds[1]/size.y,fittedBounds[2]/size.z);
     group.position.set(-center.x*group.scale.x,-bounds.min.y*group.scale.y,-center.z*group.scale.z);
   }
   return group;
@@ -143,7 +152,7 @@ export function createAssetCache() {
   const modelLoader = new GLTFLoader();
   const textureLoader = new THREE.TextureLoader();
   let destroyed = false;
-  const keyOf = (record) => `${record.id}@${record.revision ?? 1}:${record.type}:${record.url}`;
+  const keyOf = (record) => `${record.id}@${record.revision ?? 1}:${record.type}:${record.url}:${record.contentHash??''}`;
 
   async function load(record) {
     const key = keyOf(record);

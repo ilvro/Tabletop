@@ -5,69 +5,7 @@
   "materials": {
     "wood": {
       "color": "#79553e",
-      "roughness": 0.84
-    },
-    "dark": {
-      "color": "#292b30",
-      "roughness": 0.8
-    },
-    "metal": {
-      "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
+      "roughness": 0.7
     }
   },
   "parts": [
@@ -90,7 +28,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -111,7 +50,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -132,7 +72,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -153,7 +94,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -174,7 +116,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -195,7 +138,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -216,7 +160,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -237,7 +182,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -258,7 +204,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -279,7 +226,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -300,7 +248,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -321,7 +270,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -342,7 +292,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -363,7 +314,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -384,7 +336,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -405,7 +358,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -426,7 +380,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -447,7 +402,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -468,7 +424,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -489,7 +446,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -510,7 +468,8 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -531,8 +490,23 @@
         "woodPattern": "grain",
         "textureBrightness": 0.8,
         "relief": 0.025
-      }
+      },
+      "bevel": 0.009
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    2.180000066757202,
+    1.3500000238418577,
+    3.9000000953674316
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 27624
+  }
 }

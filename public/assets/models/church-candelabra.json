@@ -3,50 +3,6 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "limestone": {
-      "color": "#b1a18a",
-      "roughness": 0.95
-    },
-    "wornStone": {
-      "color": "#524a43",
-      "roughness": 1
-    },
-    "carving": {
-      "color": "#c6b79d",
-      "roughness": 0.88
-    },
-    "wood": {
-      "color": "#482b23",
-      "roughness": 0.87
-    },
-    "iron": {
-      "color": "#343035",
-      "metalness": 0.7,
-      "roughness": 0.55
-    },
-    "brass": {
-      "color": "#9b7750",
-      "metalness": 0.65,
-      "roughness": 0.4
-    },
-    "cloth": {
-      "color": "#631e2b",
-      "roughness": 1
-    },
-    "glass": {
-      "color": "#9e122f",
-      "emissive": "#a4132e",
-      "emissiveIntensity": 0.65,
-      "roughness": 0.28,
-      "opacity": 0.72
-    },
-    "amberGlass": {
-      "color": "#b85032",
-      "emissive": "#a83d22",
-      "emissiveIntensity": 0.35,
-      "roughness": 0.3,
-      "opacity": 0.8
-    },
     "wax": {
       "color": "#c5af88",
       "roughness": 0.9
@@ -55,11 +11,16 @@
       "color": "#ffd58a",
       "emissive": "#ff8a37",
       "emissiveIntensity": 2
+    },
+    "brass": {
+      "color": "#9b7750",
+      "metalness": 0.5,
+      "roughness": 0.4
     }
   },
   "parts": [
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.25,
       "radiusTop": 0.16,
       "height": 0.1,
@@ -69,10 +30,36 @@
         0
       ],
       "material": "brass",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.05
+        ],
+        [
+          0.24,
+          -0.05
+        ],
+        [
+          0.25,
+          -0.04
+        ],
+        [
+          0.16,
+          0.04
+        ],
+        [
+          0.15,
+          0.05
+        ],
+        [
+          0,
+          0.05
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.045,
       "radiusTop": 0.04,
       "height": 0.75,
@@ -82,7 +69,33 @@
         0
       ],
       "material": "brass",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.375
+        ],
+        [
+          0.039599999999999996,
+          -0.375
+        ],
+        [
+          0.045,
+          -0.3696
+        ],
+        [
+          0.04,
+          0.3696
+        ],
+        [
+          0.0346,
+          0.375
+        ],
+        [
+          0,
+          0.375
+        ]
+      ]
     },
     {
       "shape": "rope",
@@ -104,7 +117,7 @@
         ]
       ],
       "radius": 0.025,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -114,7 +127,7 @@
       "material": "brass"
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.075,
       "radiusTop": 0.075,
       "height": 0.04,
@@ -124,10 +137,36 @@
         0
       ],
       "material": "brass",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.02
+        ],
+        [
+          0.071,
+          -0.02
+        ],
+        [
+          0.075,
+          -0.016
+        ],
+        [
+          0.075,
+          0.016
+        ],
+        [
+          0.071,
+          0.02
+        ],
+        [
+          0,
+          0.02
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.04,
       "radiusTop": 0.04,
       "height": 0.22,
@@ -137,7 +176,33 @@
         0
       ],
       "material": "wax",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.11
+        ],
+        [
+          0.0352,
+          -0.11
+        ],
+        [
+          0.04,
+          -0.1052
+        ],
+        [
+          0.04,
+          0.1052
+        ],
+        [
+          0.0352,
+          0.11
+        ],
+        [
+          0,
+          0.11
+        ]
+      ]
     },
     {
       "shape": "cylinder",
@@ -150,7 +215,7 @@
         0
       ],
       "material": "flame",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "rope",
@@ -172,7 +237,7 @@
         ]
       ],
       "radius": 0.025,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -182,7 +247,7 @@
       "material": "brass"
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.075,
       "radiusTop": 0.075,
       "height": 0.04,
@@ -192,10 +257,36 @@
         0
       ],
       "material": "brass",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.02
+        ],
+        [
+          0.071,
+          -0.02
+        ],
+        [
+          0.075,
+          -0.016
+        ],
+        [
+          0.075,
+          0.016
+        ],
+        [
+          0.071,
+          0.02
+        ],
+        [
+          0,
+          0.02
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.04,
       "radiusTop": 0.04,
       "height": 0.22,
@@ -205,7 +296,33 @@
         0
       ],
       "material": "wax",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.11
+        ],
+        [
+          0.0352,
+          -0.11
+        ],
+        [
+          0.04,
+          -0.1052
+        ],
+        [
+          0.04,
+          0.1052
+        ],
+        [
+          0.0352,
+          0.11
+        ],
+        [
+          0,
+          0.11
+        ]
+      ]
     },
     {
       "shape": "cylinder",
@@ -218,10 +335,10 @@
         0
       ],
       "material": "flame",
-      "segments": 12
+      "segments": 24
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.075,
       "radiusTop": 0.075,
       "height": 0.04,
@@ -231,10 +348,36 @@
         0
       ],
       "material": "brass",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.02
+        ],
+        [
+          0.071,
+          -0.02
+        ],
+        [
+          0.075,
+          -0.016
+        ],
+        [
+          0.075,
+          0.016
+        ],
+        [
+          0.071,
+          0.02
+        ],
+        [
+          0,
+          0.02
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.04,
       "radiusTop": 0.04,
       "height": 0.22,
@@ -244,7 +387,33 @@
         0
       ],
       "material": "wax",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.11
+        ],
+        [
+          0.0352,
+          -0.11
+        ],
+        [
+          0.04,
+          -0.1052
+        ],
+        [
+          0.04,
+          0.1052
+        ],
+        [
+          0.0352,
+          0.11
+        ],
+        [
+          0,
+          0.11
+        ]
+      ]
     },
     {
       "shape": "cylinder",
@@ -257,7 +426,7 @@
         0
       ],
       "material": "flame",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "rope",
@@ -279,7 +448,7 @@
         ]
       ],
       "radius": 0.025,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -289,7 +458,7 @@
       "material": "brass"
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.075,
       "radiusTop": 0.075,
       "height": 0.04,
@@ -299,10 +468,36 @@
         0
       ],
       "material": "brass",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.02
+        ],
+        [
+          0.071,
+          -0.02
+        ],
+        [
+          0.075,
+          -0.016
+        ],
+        [
+          0.075,
+          0.016
+        ],
+        [
+          0.071,
+          0.02
+        ],
+        [
+          0,
+          0.02
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.04,
       "radiusTop": 0.04,
       "height": 0.22,
@@ -312,7 +507,33 @@
         0
       ],
       "material": "wax",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.11
+        ],
+        [
+          0.0352,
+          -0.11
+        ],
+        [
+          0.04,
+          -0.1052
+        ],
+        [
+          0.04,
+          0.1052
+        ],
+        [
+          0.0352,
+          0.11
+        ],
+        [
+          0,
+          0.11
+        ]
+      ]
     },
     {
       "shape": "cylinder",
@@ -325,7 +546,7 @@
         0
       ],
       "material": "flame",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "rope",
@@ -347,7 +568,7 @@
         ]
       ],
       "radius": 0.025,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -357,7 +578,7 @@
       "material": "brass"
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.075,
       "radiusTop": 0.075,
       "height": 0.04,
@@ -367,10 +588,36 @@
         0
       ],
       "material": "brass",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.02
+        ],
+        [
+          0.071,
+          -0.02
+        ],
+        [
+          0.075,
+          -0.016
+        ],
+        [
+          0.075,
+          0.016
+        ],
+        [
+          0.071,
+          0.02
+        ],
+        [
+          0,
+          0.02
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.04,
       "radiusTop": 0.04,
       "height": 0.22,
@@ -380,7 +627,33 @@
         0
       ],
       "material": "wax",
-      "segments": 12
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.11
+        ],
+        [
+          0.0352,
+          -0.11
+        ],
+        [
+          0.04,
+          -0.1052
+        ],
+        [
+          0.04,
+          0.1052
+        ],
+        [
+          0.0352,
+          0.11
+        ],
+        [
+          0,
+          0.11
+        ]
+      ]
     },
     {
       "shape": "cylinder",
@@ -393,8 +666,24 @@
         0
       ],
       "material": "flame",
-      "segments": 12
+      "segments": 24
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    1.0299999713897705,
+    1.375,
+    0.5
+  ],
+  "design": {
+    "edition": 2,
+    "family": "ritual",
+    "reconstruction": "components",
+    "methods": [
+      "perfis torneados e bordas de chapa",
+      "cordas e tubos curvos",
+      "curvas de contorno refinadas"
+    ],
+    "seed": 28424
+  }
 }

@@ -14,47 +14,6 @@
     "carving": {
       "color": "#c6b79d",
       "roughness": 0.88
-    },
-    "wood": {
-      "color": "#482b23",
-      "roughness": 0.87
-    },
-    "iron": {
-      "color": "#343035",
-      "metalness": 0.7,
-      "roughness": 0.55
-    },
-    "brass": {
-      "color": "#9b7750",
-      "metalness": 0.65,
-      "roughness": 0.4
-    },
-    "cloth": {
-      "color": "#631e2b",
-      "roughness": 1
-    },
-    "glass": {
-      "color": "#9e122f",
-      "emissive": "#a4132e",
-      "emissiveIntensity": 0.65,
-      "roughness": 0.28,
-      "opacity": 0.72
-    },
-    "amberGlass": {
-      "color": "#b85032",
-      "emissive": "#a83d22",
-      "emissiveIntensity": 0.35,
-      "roughness": 0.3,
-      "opacity": 0.8
-    },
-    "wax": {
-      "color": "#c5af88",
-      "roughness": 0.9
-    },
-    "flame": {
-      "color": "#ffd58a",
-      "emissive": "#ff8a37",
-      "emissiveIntensity": 2
     }
   },
   "parts": [
@@ -78,7 +37,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -100,10 +60,11 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "bevel": 0.009
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.65,
       "radiusTop": 0.26,
       "height": 2.2,
@@ -113,7 +74,7 @@
         0
       ],
       "material": "carving",
-      "segments": 16,
+      "segments": 32,
       "surface": {
         "texture": "concrete",
         "textureSize": 0.8,
@@ -121,10 +82,36 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "profile": [
+        [
+          0,
+          -1.1
+        ],
+        [
+          0.638,
+          -1.1
+        ],
+        [
+          0.65,
+          -1.088
+        ],
+        [
+          0.26,
+          1.088
+        ],
+        [
+          0.248,
+          1.1
+        ],
+        [
+          0,
+          1.1
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.3,
       "radiusTop": 0.55,
       "height": 0.85,
@@ -134,7 +121,7 @@
         0
       ],
       "material": "carving",
-      "segments": 12,
+      "segments": 32,
       "surface": {
         "texture": "concrete",
         "textureSize": 0.8,
@@ -142,7 +129,33 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "profile": [
+        [
+          0,
+          -0.425
+        ],
+        [
+          0.288,
+          -0.425
+        ],
+        [
+          0.3,
+          -0.413
+        ],
+        [
+          0.55,
+          0.413
+        ],
+        [
+          0.538,
+          0.425
+        ],
+        [
+          0,
+          0.425
+        ]
+      ]
     },
     {
       "shape": "profile",
@@ -183,7 +196,8 @@
         0,
         0,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -224,7 +238,8 @@
         0,
         -0.5235987755982988,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -265,7 +280,8 @@
         0,
         -1.0471975511965976,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -306,7 +322,8 @@
         0,
         -1.5707963267948966,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -347,7 +364,8 @@
         0,
         -2.0943951023931953,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -388,7 +406,8 @@
         0,
         -2.6179938779914944,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -429,7 +448,8 @@
         0,
         -3.141592653589793,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -470,7 +490,8 @@
         0,
         -3.665191429188092,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -511,7 +532,8 @@
         0,
         -4.1887902047863905,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -552,7 +574,8 @@
         0,
         -4.71238898038469,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -593,7 +616,8 @@
         0,
         -5.235987755982989,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -634,10 +658,11 @@
         0,
         -5.759586531581287,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.19,
       "radiusTop": 0.16,
       "height": 0.16,
@@ -647,10 +672,36 @@
         0
       ],
       "material": "wornStone",
-      "segments": 7
+      "segments": 24,
+      "profile": [
+        [
+          0,
+          -0.08
+        ],
+        [
+          0.178,
+          -0.08
+        ],
+        [
+          0.19,
+          -0.068
+        ],
+        [
+          0.16,
+          0.068
+        ],
+        [
+          0.148,
+          0.08
+        ],
+        [
+          0,
+          0.08
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.17,
       "radiusTop": 0.12,
       "height": 0.7839005038906406,
@@ -660,7 +711,7 @@
         0.09000000000000001
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "concrete",
         "textureSize": 0.8,
@@ -673,10 +724,36 @@
         0.18133601369548288,
         0.1394131975458873,
         1.3097781526456749
+      ],
+      "profile": [
+        [
+          0,
+          -0.3919502519453203
+        ],
+        [
+          0.158,
+          -0.3919502519453203
+        ],
+        [
+          0.17,
+          -0.3799502519453203
+        ],
+        [
+          0.12,
+          0.3799502519453203
+        ],
+        [
+          0.108,
+          0.3919502519453203
+        ],
+        [
+          0,
+          0.3919502519453203
+        ]
       ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.12,
       "radiusTop": 0.07,
       "height": 0.6711929677819932,
@@ -686,7 +763,7 @@
         0.13
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "concrete",
         "textureSize": 0.8,
@@ -699,6 +776,32 @@
         -0.08961089176215935,
         -0.0467888710445037,
         0.9619952437019008
+      ],
+      "profile": [
+        [
+          0,
+          -0.3355964838909966
+        ],
+        [
+          0.108,
+          -0.3355964838909966
+        ],
+        [
+          0.12,
+          -0.3235964838909966
+        ],
+        [
+          0.07,
+          0.3235964838909966
+        ],
+        [
+          0.05800000000000001,
+          0.3355964838909966
+        ],
+        [
+          0,
+          0.3355964838909966
+        ]
       ]
     },
     {
@@ -747,7 +850,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -783,7 +887,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -819,7 +924,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -855,7 +961,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -891,7 +998,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -927,7 +1035,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -963,7 +1072,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -999,7 +1109,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1035,7 +1146,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1071,7 +1183,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1107,7 +1220,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1143,7 +1257,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1179,7 +1294,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1215,10 +1331,11 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.17,
       "radiusTop": 0.12,
       "height": 0.7839005038906406,
@@ -1228,7 +1345,7 @@
         0.09000000000000001
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "concrete",
         "textureSize": 0.8,
@@ -1241,10 +1358,36 @@
         0.18133601369548288,
         -0.1394131975458873,
         -1.3097781526456749
+      ],
+      "profile": [
+        [
+          0,
+          -0.3919502519453203
+        ],
+        [
+          0.158,
+          -0.3919502519453203
+        ],
+        [
+          0.17,
+          -0.3799502519453203
+        ],
+        [
+          0.12,
+          0.3799502519453203
+        ],
+        [
+          0.108,
+          0.3919502519453203
+        ],
+        [
+          0,
+          0.3919502519453203
+        ]
       ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.12,
       "radiusTop": 0.07,
       "height": 0.6711929677819932,
@@ -1254,7 +1397,7 @@
         0.13
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "concrete",
         "textureSize": 0.8,
@@ -1267,6 +1410,32 @@
         -0.08961089176215935,
         0.0467888710445037,
         -0.9619952437019008
+      ],
+      "profile": [
+        [
+          0,
+          -0.3355964838909966
+        ],
+        [
+          0.108,
+          -0.3355964838909966
+        ],
+        [
+          0.12,
+          -0.3235964838909966
+        ],
+        [
+          0.07,
+          0.3235964838909966
+        ],
+        [
+          0.05800000000000001,
+          0.3355964838909966
+        ],
+        [
+          0,
+          0.3355964838909966
+        ]
       ]
     },
     {
@@ -1315,7 +1484,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1351,7 +1521,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1387,7 +1558,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1423,7 +1595,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1459,7 +1632,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1495,7 +1669,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1531,7 +1706,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1567,7 +1743,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1603,7 +1780,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1639,7 +1817,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1675,7 +1854,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1711,7 +1891,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1747,7 +1928,8 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     },
     {
       "shape": "profile",
@@ -1783,8 +1965,25 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      }
+      },
+      "edgeBevel": 0.003
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    6.559999942779541,
+    5.349999904632568,
+    1.2999999523162842
+  ],
+  "design": {
+    "edition": 2,
+    "family": "ritual",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "perfis torneados e bordas de chapa",
+      "entalhes e bordas de perfis"
+    ],
+    "seed": 1136
+  }
 }

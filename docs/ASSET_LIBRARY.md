@@ -63,7 +63,7 @@ A projeção dos jogadores recebe os dados necessários à renderização dos as
 
 ## Modelos e limites
 
-Os modelos são receitas estáticas de primitivas e malhas geológicas procedurais, com materiais próprios e prévias SVG geradas da mesma geometria. Execute `node scripts/generate-library.js` na raiz para regenerar os 159 modelos adicionais, suas prévias e o catálogo. Os IDs do kit inicial permanecem iguais; footprints antigos foram corrigidos para abranger a geometria.
+Os modelos são receitas estáticas de primitivas e malhas geológicas procedurais, com materiais próprios e prévias SVG geradas da mesma geometria. Execute `node scripts/generate-library.js` na raiz para regenerar os 244 modelos, suas prévias e o catálogo (ver [Reconstrução da biblioteca](#reconstrução-da-biblioteca)). Os IDs do kit inicial permanecem iguais; footprints antigos foram corrigidos para abranger a geometria.
 
 Mesas, bancos, cama, pia, bancada, maca, carrinhos, altar e outros móveis têm altura de apoio anotada. A segunda ampliação inclui apoios na mesa de centro, criado-mudo, cômoda, balcão, vitrine, carteira escolar, mesa de autópsia, palete e toco. Veículos, dispositivos, móveis fechados e túmulos são estáticos e cenográficos; portas e mecanismos não possuem interação automática. Props de parede/teto usam a fixação manual do inspetor. A terceira ampliação anota apoio no fichário de biblioteca. Velas, cristais, fogueira, poste, lareira, lustre, candelabro, lampião, fliperama e luz da filmadora têm emissive estático na receita. Novas fogueiras colocadas pelo editor recebem chamas animadas e luz própria; outros objetos podem receber fogo/fumaça pelo inspetor. Instâncias antigas conservam sua aparência até edição explícita. Texturas locais também podem substituir um material nomeado do objeto: [MATERIALS.md](MATERIALS.md).
 
@@ -118,3 +118,20 @@ Nove assets acrescentam abeto/pinheiro densos, galho bifurcado, raízes torcidas
 ## Complementos da Igreja Antiga
 
 Em 7 de outubro, o kit passou a 22 peças com empena ogival, alvenaria vazada para vitral, cruz dupla e prato/cálice. Busca **igreja antiga**. A [cena completa do templo e vale](IGREJA_ANTIGA_CENA.md) está em Abrir → Cenas de exemplo; carregar cria uma cópia editável independente.
+
+## Reconstrução da biblioteca
+
+Em 8 de outubro de 2026 os 244 modelos foram regenerados (`geometryEdition: 2`). IDs, footprints, envelopes métricos, alturas de apoio e slots públicos de material são os mesmos: cenas e personalizações salvas continuam válidas e passam a exibir a nova geometria.
+
+- **Modelos dedicados (171):** todos os 161 props originais e dez complementos (fogão, lavadora, balcão, vaso, plafon, cortinas, louça, fluorescente das Backrooms, anjo e lampião). Cada um é escrito como montagem — tábuas, saias, pernas torneadas, almofadas, portas almofadadas, puxadores, dobradiças, rodízios, vidro, tubos curvos, correntes — em `scripts/library-atelier-*.js` e `scripts/library-craft-*.js`.
+- **Kits refinados (73):** montanha, igreja, casa e Backrooms conservam suas fontes e recebem chanfros, perfis torneados e subdivisão em `scripts/library-construction.js`.
+
+Fontes e contrato ficam em `scripts/library-source/` (`contracts.json`, receitas do kit inicial e `slots.json`); o gerador nunca lê os modelos publicados, portanto regenerar não acumula refinamentos. `public/assets/construction-audit.json` lista família, métodos, peças, lotes e triângulos por modelo.
+
+Para acrescentar ou refazer um modelo dedicado, escreva um `case` no ateliê correspondente retornando `done('descrição', ...acabamentos)`. As peças são posicionadas em metros dentro do envelope `[w,h,d]`, com base em `y=0` e frente em `+Z`; o gerador ajusta o resultado ao envelope exato, então a peça deve ocupá-lo (em móveis com apoio, o ponto mais alto deve coincidir com a altura do envelope). Use os slots de material já existentes no modelo; acabamentos extras vêm de `FINISH` no kit.
+
+Primitivas de receita: `box` (com `bevel`, `round`, `cushion`, `taper`), `lathe` (com `arc`, `start`, `faceted`), `ellipsoid`, `cylinder`, `sphere`, `ring`, `rope`, `profile`, `arch`, `rock`, `branch`, `conifer`, `foliage`, `timber` e `stave`.
+
+Revisão visual: `node scripts/review-library.js` grava pranchas de todos os modelos em `test-results/library-review/`; passe IDs sem o prefixo para revisar alguns (`node scripts/review-library.js stove piano`). A iluminação é neutra e sem mapa de ambiente, como no padrão do aplicativo.
+
+Limites: a geometria é procedural, sem escultura orgânica nem texturas pintadas à mão; metais usam metalicidade moderada para permanecer legíveis sem reflexos. Instanciamento e níveis de detalhe não foram implementados.

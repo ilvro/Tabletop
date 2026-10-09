@@ -15,6 +15,8 @@ import {addChurchReconstruction} from './library-church-reconstruction.js';
 import {addResidentialLibrary} from './library-residential.js';
 import {addBackroomsLibrary} from './library-backrooms.js';
 import {rasterThumbnail} from './recipe-thumbnail.js';
+import {reconstructAsset} from './library-construction.js';
+import {createHash} from 'node:crypto';
 
 const materials = {
   wood: { color: '#79553e', roughness: .84 }, dark: { color: '#292b30', roughness: .8 },
@@ -122,7 +124,7 @@ for (const id of churchIds) { alpineIds.add(id); detailIds.add(id); }
 for (const id of addResidentialLibrary({add,modern})) { alpineIds.add(id); detailIds.add(id); }
 for (const id of addBackroomsLibrary({add,modern})) { alpineIds.add(id); detailIds.add(id); }
 
-function preview(object,raster=false) {
+function preview(object) {
   object.updateMatrixWorld(true);
   const camera = new THREE.PerspectiveCamera(35, 1, .01, 100);
   const bounds = new THREE.Box3().setFromObject(object), center = bounds.getCenter(new THREE.Vector3());
@@ -136,31 +138,33 @@ function preview(object,raster=false) {
     for (let i = 0; i < (index?.count ?? positions.count); i += 3) {
       const points = [0, 1, 2].map(j => new THREE.Vector3().fromBufferAttribute(positions, index ? index.getX(i + j) : i + j).applyMatrix4(mesh.matrixWorld));
       const normal = new THREE.Vector3().subVectors(points[1], points[0]).cross(new THREE.Vector3().subVectors(points[2], points[0])).normalize();
-      if (normal.dot(new THREE.Vector3().subVectors(camera.position, points[0])) <= 0) continue;
+      // Recipe materials are double sided: open shells show their inside, lit as seen.
+      if (normal.dot(new THREE.Vector3().subVectors(camera.position, points[0])) < 0) normal.negate();
       const projected = points.map(p => p.clone().project(camera));
       const color = (mesh.material.userData.recipePreviewColor?new THREE.Color(mesh.material.userData.recipePreviewColor):mesh.material.color.clone()).multiplyScalar(.55 + .45 * Math.max(0, normal.dot(light)));
-      triangles.push({ z: projected.reduce((sum, p) => sum + p.z, 0) / 3, points: projected.map(p => `${(80 + p.x * 78).toFixed(2)},${(77 - p.y * 78).toFixed(2)}`).join(' '), color: `#${color.getHexString()}` });
+      triangles.push({ z: projected.reduce((sum, p) => sum + p.z, 0) / 3, points: projected.map(p => [80 + p.x * 78, 77 - p.y * 78, p.z]), color: `#${color.getHexString()}`, opacity: mesh.material.opacity });
     }
   });
-  triangles.sort((a, b) => b.z - a.z);
-  if(raster)return rasterThumbnail(triangles);
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 154"><rect width="160" height="154" fill="#20272b"/><ellipse cx="80" cy="128" rx="51" ry="9" fill="#141b20"/>${triangles.map(t => `<polygon points="${t.points}" fill="${t.color}"/>`).join('')}</svg>\n`;
+  return rasterThumbnail(triangles);
 }
 
-const catalog = JSON.parse(await readFile('public/assets/catalog.json', 'utf8'));
+const catalog = JSON.parse(await readFile('scripts/library-source/contracts.json', 'utf8'));
 const originals = catalog.assets.filter(asset => ['desk', 'chair', 'cabinet', 'crate', 'lamp', 'rug'].some(id => asset.id === `builtin-${id}`));
 const categories = ['Mobiliário / Mesas', 'Mobiliário / Assentos', 'Mobiliário / Armazenamento', 'Industrial / Armazenamento', 'Mobiliário / Iluminação', 'Mobiliário / Decoração'];
 for (const [i, asset] of originals.entries()) {
   asset.category = categories[i]; asset.era = [modern, colonial, retro, timeless, modern, timeless][i];
   asset.contexts = [['Escritório', 'Delegacia'], ['Casa', 'Escritório'], ['Arquivo', 'Delegacia', 'Escritório'], ['Depósito', 'Fazenda'], ['Casa', 'Escritório'], ['Casa', 'Hotel']][i];
   asset.description = 'Modelo original do kit inicial Tabletop, disponível localmente.';
-  const object = recipeInstance(JSON.parse(await readFile(`public${asset.url}`, 'utf8')));
+  const initialRecipe=JSON.parse(await readFile(`scripts/library-source/${asset.id.slice(8)}.json`,'utf8'));
+  asset.parts=initialRecipe.parts;asset.materials=initialRecipe.materials;
+  const object = recipeInstance(initialRecipe);
   const size = new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3());
   asset.footprint = asset.footprint.map((extent, axis) => Math.max(extent, Math.ceil([size.x, size.z][axis] * 100 - .0001) / 100));
   disposeObject(object);
 }
-for (const asset of assets) {
-  const recipe = { name: asset.name, unit: 'meter', pivot: 'base-center', materials: asset.materials ?? materials, parts: asset.parts, ...(alpineIds.has(asset.id)?{mergeParts:true}:{}) };
+const records=[],audit=[];
+for (const asset of [...originals,...assets]) {
+  let recipe = { name: asset.name, unit: 'meter', pivot: 'base-center', materials: asset.materials ?? materials, parts: structuredClone(asset.parts), ...(alpineIds.has(asset.id)?{mergeParts:true}:{}) };
   const object = recipeInstance(recipe);
   let bounds = new THREE.Box3().setFromObject(object);
   // Move the geometry to an exact base pivot, preserving annotated support heights.
@@ -170,16 +174,24 @@ for (const asset of assets) {
     part.position[0] -= center.x; part.position[1] -= bottom; part.position[2] -= center.z;
   }
   disposeObject(object);
-  const normalized = recipeInstance(recipe);
+  let normalized = recipeInstance(recipe);
   bounds = new THREE.Box3().setFromObject(normalized);
   const extent = bounds.getSize(new THREE.Vector3());
-  if (asset.supportHeight) asset.supportHeight -= bottom;
+  if (asset.supportHeight) asset.supportHeight = catalog.assets.find(a=>a.id===asset.id)?.supportHeight ?? asset.supportHeight-bottom;
+  disposeObject(normalized);
+  recipe=reconstructAsset(asset,recipe,extent.toArray());
+  try{normalized=recipeInstance(recipe);}catch(error){throw new Error(`${asset.id}: ${error.message}`,{cause:error});}
+  let triangles=0;normalized.traverse(m=>{if(m.isMesh)triangles+=(m.geometry.index?.count??m.geometry.attributes.position.count)/3;});
+  audit.push({id:asset.id,family:recipe.design.family,reconstruction:recipe.design.reconstruction,methods:recipe.design.methods,parts:recipe.parts.length,triangles,batches:normalized.children.length});
   await writeFile(`public/assets/models/${asset.id.slice(8)}.json`, `${JSON.stringify(recipe, null, 2)}\n`);
-  await writeFile(`public/assets/previews/${asset.id.slice(8)}.svg`, preview(normalized,detailIds.has(asset.id)));
+  await writeFile(`public/assets/previews/${asset.id.slice(8)}.svg`, preview(normalized));
   disposeObject(normalized);
   const { parts, materials: assetMaterials, ...record } = asset;
-  Object.assign(record, { footprint: [Math.ceil(extent.x * 100) / 100, Math.ceil(extent.z * 100) / 100], bounds: [extent.x, extent.y, extent.z].map(n => Math.round(n * 1000) / 1000), url: `/assets/models/${asset.id.slice(8)}.json`, previewUrl: `/assets/previews/${asset.id.slice(8)}.svg` });
-  originals.push(record);
+  const existing=catalog.assets.find(a=>a.id===asset.id);
+  Object.assign(record, { footprint: existing.footprint, bounds: [extent.x, extent.y, extent.z].map(n => Math.round(n * 1000) / 1000), url: `/assets/models/${asset.id.slice(8)}.json`, previewUrl: `/assets/previews/${asset.id.slice(8)}.svg` });
+  record.geometryEdition=2;record.contentHash=createHash('sha256').update(JSON.stringify(recipe)).digest('hex');
+  records.push(record);
 }
-await writeFile('public/assets/catalog.json', `${JSON.stringify({ assets: originals }, null, 2)}\n`);
-console.log(`Catálogo gerado: ${originals.length} assets originais (${assets.length} novos).`);
+await writeFile('public/assets/catalog.json', `${JSON.stringify({ assets: records }, null, 2)}\n`);
+await writeFile('public/assets/construction-audit.json',`${JSON.stringify({edition:2,assets:audit},null,2)}\n`);
+console.log(`Biblioteca reconstruída: ${records.length} modelos; ${audit.reduce((s,a)=>s+a.triangles,0)} triângulos no acervo inteiro.`);

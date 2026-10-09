@@ -1,0 +1,1164 @@
+{
+ "builtin-desk": [
+  "edge",
+  "metal",
+  "wood"
+ ],
+ "builtin-chair": [
+  "fabric",
+  "frame"
+ ],
+ "builtin-cabinet": [
+  "detail",
+  "drawer",
+  "shell"
+ ],
+ "builtin-crate": [
+  "board",
+  "brace",
+  "strap"
+ ],
+ "builtin-lamp": [
+  "brass",
+  "dark",
+  "shade"
+ ],
+ "builtin-rug": [
+  "border",
+  "fabric"
+ ],
+ "builtin-dining-table": [
+  "wood"
+ ],
+ "builtin-bench": [
+  "wood"
+ ],
+ "builtin-bookshelf": [
+  "dark",
+  "paper",
+  "red",
+  "wood"
+ ],
+ "builtin-single-bed": [
+  "cloth",
+  "metal",
+  "white"
+ ],
+ "builtin-bunk-bed": [
+  "cloth",
+  "metal"
+ ],
+ "builtin-sofa": [
+  "cloth",
+  "dark",
+  "wood"
+ ],
+ "builtin-wardrobe": [
+  "dark",
+  "metal",
+  "wood"
+ ],
+ "builtin-stove": [
+  "black",
+  "dark",
+  "metal",
+  "stone"
+ ],
+ "builtin-fridge": [
+  "dark",
+  "metal",
+  "white"
+ ],
+ "builtin-sink": [
+  "metal",
+  "stone",
+  "white"
+ ],
+ "builtin-bathtub": [
+  "metal",
+  "white"
+ ],
+ "builtin-crt-tv": [
+  "black",
+  "dark",
+  "metal",
+  "screen"
+ ],
+ "builtin-computer": [
+  "black",
+  "dark",
+  "metal",
+  "screen"
+ ],
+ "builtin-radio": [
+  "black",
+  "dark",
+  "metal",
+  "screen"
+ ],
+ "builtin-telephone": [
+  "black",
+  "metal"
+ ],
+ "builtin-security-camera": [
+  "black",
+  "dark",
+  "metal",
+  "white"
+ ],
+ "builtin-server-rack": [
+  "black",
+  "dark",
+  "screen",
+  "violet"
+ ],
+ "builtin-generator": [
+  "dark",
+  "metal",
+  "red"
+ ],
+ "builtin-barrel": [
+  "dark",
+  "metal",
+  "rust"
+ ],
+ "builtin-workbench": [
+  "dark",
+  "metal",
+  "rust",
+  "wood"
+ ],
+ "builtin-locker": [
+  "black",
+  "cloth",
+  "dark",
+  "metal"
+ ],
+ "builtin-gurney": [
+  "black",
+  "cloth",
+  "metal",
+  "white"
+ ],
+ "builtin-wheelchair": [
+  "black",
+  "cloth",
+  "dark",
+  "metal"
+ ],
+ "builtin-microscope": [
+  "black",
+  "dark",
+  "metal",
+  "white"
+ ],
+ "builtin-medical-cart": [
+  "black",
+  "metal",
+  "white"
+ ],
+ "builtin-iv-stand": [
+  "metal",
+  "white"
+ ],
+ "builtin-church-pew": [
+  "wood"
+ ],
+ "builtin-confessional": [
+  "red",
+  "wood"
+ ],
+ "builtin-lectern": [
+  "paper",
+  "wood"
+ ],
+ "builtin-bell": [
+  "dark",
+  "metal"
+ ],
+ "builtin-gravestone": [
+  "dark",
+  "paper",
+  "stone"
+ ],
+ "builtin-coffin": [
+  "dark",
+  "metal",
+  "wood"
+ ],
+ "builtin-ritual-altar": [
+  "red",
+  "stone"
+ ],
+ "builtin-candles": [
+  "dark",
+  "flame",
+  "wax"
+ ],
+ "builtin-ritual-circle": [
+  "red"
+ ],
+ "builtin-obelisk": [
+  "dark",
+  "paper",
+  "stone"
+ ],
+ "builtin-chains": [
+  "dark",
+  "metal"
+ ],
+ "builtin-crystal": [
+  "screen",
+  "stone",
+  "violet"
+ ],
+ "builtin-ritual-book": [
+  "dark",
+  "metal",
+  "paper",
+  "red"
+ ],
+ "builtin-tree": [
+  "green",
+  "wood"
+ ],
+ "builtin-pine": [
+  "green",
+  "wood"
+ ],
+ "builtin-rock": [
+  "dark",
+  "stone"
+ ],
+ "builtin-well": [
+  "paper",
+  "stone",
+  "wood"
+ ],
+ "builtin-hay-bale": [
+  "paper",
+  "wood"
+ ],
+ "builtin-handcart": [
+  "dark",
+  "wood"
+ ],
+ "builtin-tent": [
+  "cloth",
+  "dark",
+  "metal"
+ ],
+ "builtin-campfire": [
+  "flame",
+  "stone",
+  "wood"
+ ],
+ "builtin-streetlamp": [
+  "dark",
+  "flame",
+  "metal"
+ ],
+ "builtin-dumpster": [
+  "black",
+  "cloth",
+  "dark",
+  "paper"
+ ],
+ "builtin-barrier": [
+  "paper",
+  "stone"
+ ],
+ "builtin-traffic-cone": [
+  "black",
+  "rust",
+  "white"
+ ],
+ "builtin-evidence-board": [
+  "paper",
+  "red",
+  "white",
+  "wood"
+ ],
+ "builtin-evidence-case": [
+  "black",
+  "dark",
+  "metal"
+ ],
+ "builtin-documents": [
+  "paper",
+  "red",
+  "white"
+ ],
+ "builtin-suitcase": [
+  "dark",
+  "metal",
+  "wood"
+ ],
+ "builtin-armchair": [
+  "dark",
+  "red",
+  "wood"
+ ],
+ "builtin-coffee-table": [
+  "wood"
+ ],
+ "builtin-bedside-table": [
+  "dark",
+  "metal",
+  "wood"
+ ],
+ "builtin-dresser": [
+  "dark",
+  "metal",
+  "wood"
+ ],
+ "builtin-mirror": [
+  "metal",
+  "paper",
+  "wood"
+ ],
+ "builtin-grandfather-clock": [
+  "black",
+  "dark",
+  "metal",
+  "paper",
+  "wood"
+ ],
+ "builtin-toilet": [
+  "dark",
+  "white"
+ ],
+ "builtin-shower": [
+  "metal",
+  "stone",
+  "white"
+ ],
+ "builtin-radiator": [
+  "dark",
+  "metal"
+ ],
+ "builtin-desk-fan": [
+  "cloth",
+  "dark",
+  "metal"
+ ],
+ "builtin-reception-counter": [
+  "dark",
+  "stone",
+  "wood"
+ ],
+ "builtin-cash-register": [
+  "black",
+  "dark",
+  "metal",
+  "screen",
+  "white"
+ ],
+ "builtin-display-case": [
+  "dark",
+  "metal",
+  "paper",
+  "red",
+  "wood"
+ ],
+ "builtin-vending-machine": [
+  "black",
+  "dark",
+  "red",
+  "screen",
+  "white"
+ ],
+ "builtin-supermarket-shelf": [
+  "cloth",
+  "metal",
+  "paper",
+  "red"
+ ],
+ "builtin-restaurant-booth": [
+  "dark",
+  "paper",
+  "red"
+ ],
+ "builtin-bar-stool": [
+  "dark",
+  "metal",
+  "red"
+ ],
+ "builtin-pool-table": [
+  "black",
+  "green",
+  "red",
+  "white",
+  "wood"
+ ],
+ "builtin-piano": [
+  "black",
+  "dark",
+  "white",
+  "wood"
+ ],
+ "builtin-classroom-desk": [
+  "metal",
+  "wood"
+ ],
+ "builtin-typewriter": [
+  "black",
+  "metal",
+  "paper",
+  "white"
+ ],
+ "builtin-reel-recorder": [
+  "black",
+  "dark",
+  "metal",
+  "screen",
+  "white"
+ ],
+ "builtin-vhs-recorder": [
+  "black",
+  "dark",
+  "paper",
+  "screen"
+ ],
+ "builtin-surveillance-monitor": [
+  "dark",
+  "metal",
+  "screen"
+ ],
+ "builtin-oscilloscope": [
+  "black",
+  "metal",
+  "screen",
+  "white"
+ ],
+ "builtin-laptop": [
+  "black",
+  "dark",
+  "metal",
+  "screen"
+ ],
+ "builtin-projector": [
+  "black",
+  "dark",
+  "metal",
+  "screen"
+ ],
+ "builtin-antenna": [
+  "dark",
+  "metal"
+ ],
+ "builtin-safe": [
+  "black",
+  "dark",
+  "metal"
+ ],
+ "builtin-weapon-case": [
+  "black",
+  "green",
+  "metal"
+ ],
+ "builtin-centrifuge": [
+  "black",
+  "dark",
+  "metal",
+  "screen",
+  "white"
+ ],
+ "builtin-specimen-jars": [
+  "metal",
+  "paper",
+  "screen"
+ ],
+ "builtin-chemical-rack": [
+  "metal",
+  "red",
+  "screen"
+ ],
+ "builtin-oxygen-tank": [
+  "dark",
+  "green",
+  "metal",
+  "white"
+ ],
+ "builtin-autopsy-table": [
+  "black",
+  "dark",
+  "metal"
+ ],
+ "builtin-mortuary-cabinet": [
+  "dark",
+  "metal",
+  "paper"
+ ],
+ "builtin-surgical-lamp": [
+  "dark",
+  "flame",
+  "metal",
+  "white"
+ ],
+ "builtin-containment-pod": [
+  "dark",
+  "metal",
+  "screen",
+  "violet"
+ ],
+ "builtin-pallet": [
+  "wood"
+ ],
+ "builtin-pallet-jack": [
+  "black",
+  "metal",
+  "red"
+ ],
+ "builtin-tool-chest": [
+  "black",
+  "dark",
+  "metal",
+  "red"
+ ],
+ "builtin-pipe-valve": [
+  "metal",
+  "red",
+  "rust"
+ ],
+ "builtin-power-panel": [
+  "dark",
+  "metal",
+  "paper",
+  "white"
+ ],
+ "builtin-water-tank": [
+  "cloth",
+  "dark",
+  "metal"
+ ],
+ "builtin-fuel-pump": [
+  "black",
+  "dark",
+  "metal",
+  "paper",
+  "red",
+  "white"
+ ],
+ "builtin-oil-pump": [
+  "dark",
+  "metal",
+  "rust"
+ ],
+ "builtin-dead-tree": [
+  "dark",
+  "wood"
+ ],
+ "builtin-stump": [
+  "paper",
+  "wood"
+ ],
+ "builtin-bushes": [
+  "green",
+  "wood"
+ ],
+ "builtin-iron-fence": [
+  "dark",
+  "metal",
+  "stone"
+ ],
+ "builtin-mausoleum": [
+  "dark",
+  "metal",
+  "stone"
+ ],
+ "builtin-ruined-column": [
+  "stone"
+ ],
+ "builtin-broken-wall": [
+  "dark",
+  "stone"
+ ],
+ "builtin-sewer-grate": [
+  "dark",
+  "metal"
+ ],
+ "builtin-ritual-mask": [
+  "black",
+  "dark",
+  "paper",
+  "red",
+  "wood"
+ ],
+ "builtin-reliquary": [
+  "dark",
+  "metal",
+  "paper"
+ ],
+ "builtin-stone-sarcophagus": [
+  "dark",
+  "paper",
+  "stone"
+ ],
+ "builtin-skull-display": [
+  "black",
+  "dark",
+  "paper",
+  "white"
+ ],
+ "builtin-effigy": [
+  "paper",
+  "red",
+  "wood"
+ ],
+ "builtin-anomalous-portal": [
+  "dark",
+  "stone",
+  "violet"
+ ],
+ "builtin-sedan": [
+  "black",
+  "cloth",
+  "metal",
+  "red",
+  "screen",
+  "white"
+ ],
+ "builtin-delivery-van": [
+  "black",
+  "cloth",
+  "metal",
+  "screen",
+  "white"
+ ],
+ "builtin-ambulance": [
+  "black",
+  "metal",
+  "red",
+  "screen",
+  "white"
+ ],
+ "builtin-police-car": [
+  "black",
+  "dark",
+  "metal",
+  "red",
+  "screen",
+  "white"
+ ],
+ "builtin-motorcycle": [
+  "black",
+  "dark",
+  "metal",
+  "red",
+  "white"
+ ],
+ "builtin-rowboat": [
+  "wood"
+ ],
+ "builtin-rocking-chair": [
+  "red",
+  "wood"
+ ],
+ "builtin-fireplace": [
+  "black",
+  "dark",
+  "flame",
+  "red",
+  "stone",
+  "wood"
+ ],
+ "builtin-coat-rack": [
+  "black",
+  "dark",
+  "wood"
+ ],
+ "builtin-card-catalog": [
+  "dark",
+  "metal",
+  "paper",
+  "wood"
+ ],
+ "builtin-crib": [
+  "cloth",
+  "white",
+  "wood"
+ ],
+ "builtin-rocking-horse": [
+  "black",
+  "dark",
+  "paper",
+  "red",
+  "wood"
+ ],
+ "builtin-gramophone": [
+  "black",
+  "metal",
+  "red",
+  "wax",
+  "wood"
+ ],
+ "builtin-spirit-board": [
+  "black",
+  "dark",
+  "paper",
+  "wax",
+  "white",
+  "wood"
+ ],
+ "builtin-cage": [
+  "dark",
+  "metal"
+ ],
+ "builtin-restraint-chair": [
+  "cloth",
+  "dark",
+  "metal",
+  "wood"
+ ],
+ "builtin-privacy-screen": [
+  "black",
+  "metal",
+  "white"
+ ],
+ "builtin-body-bag": [
+  "black",
+  "metal",
+  "white"
+ ],
+ "builtin-blood-pool": [
+  "red",
+  "rust"
+ ],
+ "builtin-grave-cross": [
+  "green",
+  "paper",
+  "rust",
+  "stone",
+  "wood"
+ ],
+ "builtin-open-grave": [
+  "black",
+  "metal",
+  "rust",
+  "wood"
+ ],
+ "builtin-angel-statue": [
+  "stone"
+ ],
+ "builtin-ritual-candelabra": [
+  "dark",
+  "flame",
+  "wax"
+ ],
+ "builtin-chandelier": [
+  "dark",
+  "flame",
+  "metal",
+  "wax"
+ ],
+ "builtin-wooden-fence": [
+  "dark",
+  "wood"
+ ],
+ "builtin-water-pump": [
+  "dark",
+  "metal",
+  "stone"
+ ],
+ "builtin-log-pile": [
+  "dark",
+  "paper",
+  "wood"
+ ],
+ "builtin-wheelbarrow": [
+  "black",
+  "metal",
+  "rust",
+  "wood"
+ ],
+ "builtin-phone-booth": [
+  "black",
+  "cloth",
+  "dark",
+  "metal",
+  "rust",
+  "stone",
+  "white"
+ ],
+ "builtin-bus-stop": [
+  "cloth",
+  "dark",
+  "metal",
+  "paper",
+  "white"
+ ],
+ "builtin-fire-hydrant": [
+  "metal",
+  "red"
+ ],
+ "builtin-trash-can": [
+  "cloth",
+  "dark",
+  "paper"
+ ],
+ "builtin-shopping-cart": [
+  "black",
+  "metal",
+  "red"
+ ],
+ "builtin-arcade-cabinet": [
+  "black",
+  "dark",
+  "metal",
+  "red",
+  "screen",
+  "violet"
+ ],
+ "builtin-chalkboard": [
+  "green",
+  "white",
+  "wood"
+ ],
+ "builtin-jail-bars": [
+  "dark",
+  "metal"
+ ],
+ "builtin-camera-tripod": [
+  "black",
+  "dark",
+  "flame",
+  "metal",
+  "screen"
+ ],
+ "builtin-kerosene-lantern": [
+  "dark",
+  "flame",
+  "metal"
+ ],
+ "builtin-globe": [
+  "cloth",
+  "paper",
+  "wax",
+  "wood"
+ ],
+ "builtin-bicycle": [
+  "black",
+  "metal",
+  "red"
+ ],
+ "builtin-mountain-boulder": [
+  "stone"
+ ],
+ "builtin-granite-boulder": [
+  "stone"
+ ],
+ "builtin-stratified-cliff": [
+  "stone"
+ ],
+ "builtin-rock-scree": [
+  "stone"
+ ],
+ "builtin-ruin-masonry-wall": [
+  "stone"
+ ],
+ "builtin-ruin-stone-arch": [
+  "stone"
+ ],
+ "builtin-ruin-buttress": [
+  "stone"
+ ],
+ "builtin-mountain-timber-bridge": [
+  "wood"
+ ],
+ "builtin-mountain-roof": [
+  "wood"
+ ],
+ "builtin-mountain-lantern-post": [
+  "flame",
+  "metal",
+  "wood"
+ ],
+ "builtin-alpine-fir": [
+  "green",
+  "wood"
+ ],
+ "builtin-alpine-pine": [
+  "green",
+  "wood"
+ ],
+ "builtin-bare-mountain-tree": [
+  "wood"
+ ],
+ "builtin-alpine-fern": [
+  "green"
+ ],
+ "builtin-dry-grass": [
+  "paper"
+ ],
+ "builtin-mountain-cliff-face": [
+  "stone"
+ ],
+ "builtin-mountain-cliff-corner": [
+  "stone"
+ ],
+ "builtin-mountain-cliff-overhang": [
+  "stone"
+ ],
+ "builtin-mountain-rock-spire": [
+  "stone"
+ ],
+ "builtin-mountain-ruin-tower": [
+  "stone"
+ ],
+ "builtin-mountain-ruin-corner": [
+  "stone"
+ ],
+ "builtin-mountain-timber-platform": [
+  "wood"
+ ],
+ "builtin-mountain-rope-span": [
+  "metal",
+  "paper"
+ ],
+ "builtin-mountain-rope-post": [
+  "metal",
+  "paper",
+  "stone",
+  "wood"
+ ],
+ "builtin-mountain-wall-lantern": [
+  "flame",
+  "metal",
+  "wood"
+ ],
+ "builtin-mountain-round-lantern": [
+  "dark",
+  "flame",
+  "metal",
+  "wood"
+ ],
+ "builtin-mountain-cave-mouth": [
+  "black",
+  "stone"
+ ],
+ "builtin-mountain-uprooted-stump": [
+  "wood"
+ ],
+ "builtin-mountain-cart-wreck": [
+  "wood"
+ ],
+ "builtin-mountain-ruin-high-wall": [
+  "stone"
+ ],
+ "builtin-organic-rock": [
+  "stone"
+ ],
+ "builtin-organic-cliff": [
+  "stone"
+ ],
+ "builtin-dense-alpine-fir": [
+  "green",
+  "wood"
+ ],
+ "builtin-dense-mountain-pine": [
+  "green",
+  "wood"
+ ],
+ "builtin-forked-dead-branch": [
+  "wood"
+ ],
+ "builtin-twisted-mountain-roots": [
+  "wood"
+ ],
+ "builtin-winter-dry-shrub": [
+  "wood"
+ ],
+ "builtin-wooden-expedition-barrel": [
+  "dark",
+  "metal",
+  "wood"
+ ],
+ "builtin-old-open-crate": [
+  "metal",
+  "wood"
+ ],
+ "builtin-old-closed-crate": [
+  "metal",
+  "wood"
+ ],
+ "builtin-broken-timber-pile": [
+  "metal",
+  "wood"
+ ],
+ "builtin-church-clustered-pier": [
+  "carving",
+  "limestone",
+  "wornStone"
+ ],
+ "builtin-church-round-arcade": [
+  "carving",
+  "limestone"
+ ],
+ "builtin-church-pointed-arch": [
+  "carving",
+  "limestone"
+ ],
+ "builtin-church-curved-balcony": [
+  "carving",
+  "limestone"
+ ],
+ "builtin-church-balustrade": [
+  "carving"
+ ],
+ "builtin-church-stained-window": [
+  "amberGlass",
+  "glass",
+  "iron",
+  "limestone"
+ ],
+ "builtin-church-vault-ribs": [
+  "carving"
+ ],
+ "builtin-church-roof-shell": [
+  "limestone"
+ ],
+ "builtin-church-buttress": [
+  "carving",
+  "limestone"
+ ],
+ "builtin-church-pinnacle": [
+  "carving",
+  "limestone"
+ ],
+ "builtin-church-bell-tower": [
+  "brass",
+  "carving",
+  "iron",
+  "limestone"
+ ],
+ "builtin-church-iron-maiden": [
+  "brass",
+  "iron"
+ ],
+ "builtin-church-headless-seraph": [
+  "carving",
+  "limestone",
+  "wornStone"
+ ],
+ "builtin-church-pointed-chair": [
+  "brass",
+  "wood"
+ ],
+ "builtin-church-ritual-banner": [
+  "brass",
+  "cloth",
+  "iron"
+ ],
+ "builtin-church-hook-rack": [
+  "iron"
+ ],
+ "builtin-church-banquet-table": [
+  "wood"
+ ],
+ "builtin-church-candelabra": [
+  "brass",
+  "flame",
+  "wax"
+ ],
+ "builtin-church-ogival-gable": [
+  "stone"
+ ],
+ "builtin-church-window-spandrel": [
+  "stone"
+ ],
+ "builtin-church-double-cross": [
+  "iron"
+ ],
+ "builtin-church-banquet-setting": [
+  "food",
+  "metal"
+ ],
+ "builtin-church-pitched-roof": [
+  "stone"
+ ],
+ "builtin-church-timber-truss": [
+  "stone",
+  "wood"
+ ],
+ "builtin-church-pitched-gable": [
+  "stone"
+ ],
+ "builtin-church-tracery-window": [
+  "amberGlass",
+  "glass",
+  "iron",
+  "limestone"
+ ],
+ "builtin-church-altar-retable": [
+  "stone"
+ ],
+ "builtin-church-ravine-tree": [
+  "wood"
+ ],
+ "builtin-church-seraph-effigy": [
+  "stone"
+ ],
+ "builtin-church-spiked-reliquary": [
+  "brass",
+  "iron",
+  "ruby"
+ ],
+ "builtin-house-roof": [
+  "clay",
+  "ivory",
+  "wood"
+ ],
+ "builtin-house-range": [
+  "dark",
+  "glass",
+  "ivory",
+  "metal"
+ ],
+ "builtin-house-washer": [
+  "dark",
+  "glass",
+  "ivory",
+  "metal"
+ ],
+ "builtin-house-counter": [
+  "dark",
+  "green",
+  "ivory",
+  "metal"
+ ],
+ "builtin-house-plant": [
+  "clay",
+  "leaf",
+  "soil"
+ ],
+ "builtin-house-ceiling-lamp": [
+  "light",
+  "metal"
+ ],
+ "builtin-house-curtain": [
+  "ivory",
+  "wood"
+ ],
+ "builtin-house-place-setting": [
+  "glass",
+  "metal"
+ ],
+ "builtin-house-tile-floor": [
+  "ivory",
+  "metal"
+ ],
+ "builtin-backrooms-wallpaper": [
+  "paper",
+  "trim"
+ ],
+ "builtin-backrooms-ceiling": [
+  "frame",
+  "tile"
+ ],
+ "builtin-backrooms-fluorescent": [
+  "frame",
+  "tile",
+  "tube"
+ ]
+}

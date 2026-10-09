@@ -3,63 +3,20 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "limestone": {
-      "color": "#b1a18a",
-      "roughness": 0.95
-    },
-    "wornStone": {
-      "color": "#524a43",
-      "roughness": 1
-    },
-    "carving": {
-      "color": "#c6b79d",
-      "roughness": 0.88
-    },
-    "wood": {
-      "color": "#482b23",
-      "roughness": 0.87
+    "brass": {
+      "color": "#9b7750",
+      "metalness": 0.5,
+      "roughness": 0.4
     },
     "iron": {
       "color": "#343035",
-      "metalness": 0.7,
-      "roughness": 0.55
-    },
-    "brass": {
-      "color": "#9b7750",
-      "metalness": 0.65,
-      "roughness": 0.4
-    },
-    "cloth": {
-      "color": "#631e2b",
-      "roughness": 1
-    },
-    "glass": {
-      "color": "#9e122f",
-      "emissive": "#a4132e",
-      "emissiveIntensity": 0.65,
-      "roughness": 0.28,
-      "opacity": 0.72
-    },
-    "amberGlass": {
-      "color": "#b85032",
-      "emissive": "#a83d22",
-      "emissiveIntensity": 0.35,
-      "roughness": 0.3,
-      "opacity": 0.8
-    },
-    "wax": {
-      "color": "#c5af88",
-      "roughness": 0.9
-    },
-    "flame": {
-      "color": "#ffd58a",
-      "emissive": "#ff8a37",
-      "emissiveIntensity": 2
+      "metalness": 0.5,
+      "roughness": 0.46
     }
   },
   "parts": [
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.8,
       "radiusTop": 0.8,
       "height": 0.22,
@@ -69,7 +26,7 @@
         0
       ],
       "material": "iron",
-      "segments": 20,
+      "segments": 32,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -80,10 +37,36 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "profile": [
+        [
+          0,
+          -0.11
+        ],
+        [
+          0.788,
+          -0.11
+        ],
+        [
+          0.8,
+          -0.098
+        ],
+        [
+          0.8,
+          0.098
+        ],
+        [
+          0.788,
+          0.11
+        ],
+        [
+          0,
+          0.11
+        ]
+      ]
     },
     {
-      "shape": "cylinder",
+      "shape": "lathe",
       "radiusBottom": 0.66,
       "radiusTop": 0.66,
       "height": 0.12,
@@ -93,7 +76,33 @@
         0
       ],
       "material": "brass",
-      "segments": 20
+      "segments": 32,
+      "profile": [
+        [
+          0,
+          -0.06
+        ],
+        [
+          0.648,
+          -0.06
+        ],
+        [
+          0.66,
+          -0.048
+        ],
+        [
+          0.66,
+          0.048
+        ],
+        [
+          0.648,
+          0.06
+        ],
+        [
+          0,
+          0.06
+        ]
+      ]
     },
     {
       "shape": "box",
@@ -123,7 +132,8 @@
         0,
         -1.5707963267948966,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -153,7 +163,8 @@
         0,
         -1.8325957145940461,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -183,7 +194,8 @@
         0,
         -2.0943951023931953,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -213,7 +225,8 @@
         0,
         -2.356194490192345,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -243,7 +256,8 @@
         0,
         -2.617993877991494,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -273,7 +287,8 @@
         0,
         -2.879793265790644,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -303,7 +318,8 @@
         0,
         -3.141592653589793,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -333,7 +349,8 @@
         0,
         -3.4033920413889422,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -363,7 +380,8 @@
         0,
         -3.6651914291880914,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -393,7 +411,8 @@
         0,
         -3.9269908169872414,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -423,7 +442,8 @@
         0,
         -4.188790204786391,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -453,7 +473,8 @@
         0,
         -4.4505895925855405,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "box",
@@ -483,7 +504,8 @@
         0,
         -4.71238898038469,
         0
-      ]
+      ],
+      "bevel": 0.009
     },
     {
       "shape": "profile",
@@ -531,7 +553,8 @@
         0,
         -0.65,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "cylinder",
@@ -544,7 +567,7 @@
         0.43499999999999994
       ],
       "material": "brass",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.5707963267948963,
         0,
@@ -562,7 +585,7 @@
         0.43499999999999994
       ],
       "material": "brass",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.5707963267948963,
         0,
@@ -580,7 +603,7 @@
         0.43499999999999994
       ],
       "material": "brass",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.5707963267948963,
         0,
@@ -598,7 +621,7 @@
         0.43499999999999994
       ],
       "material": "brass",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.5707963267948963,
         0,
@@ -616,7 +639,7 @@
         0.43499999999999994
       ],
       "material": "brass",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.5707963267948963,
         0,
@@ -634,7 +657,7 @@
         0.43499999999999994
       ],
       "material": "brass",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.5707963267948963,
         0,
@@ -687,7 +710,8 @@
         0,
         0.65,
         0
-      ]
+      ],
+      "edgeBevel": 0.003
     },
     {
       "shape": "cylinder",
@@ -700,7 +724,7 @@
         0.43499999999999994
       ],
       "material": "brass",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.5707963267948963,
         0,
@@ -718,7 +742,7 @@
         0.43499999999999994
       ],
       "material": "brass",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.5707963267948963,
         0,
@@ -736,7 +760,7 @@
         0.43499999999999994
       ],
       "material": "brass",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.5707963267948963,
         0,
@@ -754,7 +778,7 @@
         0.43499999999999994
       ],
       "material": "brass",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.5707963267948963,
         0,
@@ -772,7 +796,7 @@
         0.43499999999999994
       ],
       "material": "brass",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.5707963267948963,
         0,
@@ -790,7 +814,7 @@
         0.43499999999999994
       ],
       "material": "brass",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         1.5707963267948963,
         0,
@@ -827,7 +851,7 @@
         ]
       ],
       "radius": 0.045,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -866,7 +890,7 @@
         ]
       ],
       "radius": 0.045,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -905,7 +929,7 @@
         ]
       ],
       "radius": 0.045,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -943,7 +967,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -972,7 +996,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1001,7 +1025,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1030,7 +1054,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1059,7 +1083,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1088,7 +1112,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1117,7 +1141,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1146,7 +1170,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1175,7 +1199,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1204,7 +1228,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1233,7 +1257,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1262,7 +1286,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1291,7 +1315,7 @@
         -0.2
       ],
       "material": "iron",
-      "segments": 10,
+      "segments": 24,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1310,5 +1334,24 @@
       ]
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    2.126065254211426,
+    3.3299999237060547,
+    1.600000023841858
+  ],
+  "design": {
+    "edition": 2,
+    "family": "ritual",
+    "reconstruction": "components",
+    "methods": [
+      "perfis torneados e bordas de chapa",
+      "arestas chanfradas",
+      "entalhes e bordas de perfis",
+      "curvas de contorno refinadas",
+      "cordas e tubos curvos",
+      "ferragens curvas com vazios reais"
+    ],
+    "seed": 12960
+  }
 }

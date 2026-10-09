@@ -5,7 +5,7 @@
   "materials": {
     "wood": {
       "color": "#79553e",
-      "roughness": 0.84
+      "roughness": 0.7
     },
     "dark": {
       "color": "#292b30",
@@ -13,402 +13,1917 @@
     },
     "metal": {
       "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
+      "roughness": 0.46,
+      "metalness": 0.5
     },
     "stone": {
       "color": "#777873",
       "roughness": 0.97
     },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
     "paper": {
       "color": "#c8b38b",
       "roughness": 0.98
     },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
+    "glass": {
+      "color": "#293c42",
+      "roughness": 0.13,
+      "metalness": 0.23
     }
   },
   "parts": [
     {
-      "shape": "box",
+      "shape": "rock",
+      "form": "fractured",
       "size": [
-        0.19,
-        0.75,
-        0.29
+        0.36,
+        0.37,
+        0.25
       ],
       "position": [
         0.6,
-        0.3750000119209289,
+        0,
         0
       ],
+      "seed": 70,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
       "material": "stone",
       "rotation": [
         0,
-        0,
+        1.5707963267948966,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
     },
     {
-      "shape": "box",
+      "shape": "rock",
+      "form": "fractured",
       "size": [
-        0.19,
-        0.75,
-        0.29
+        0.36,
+        0.37,
+        0.25
       ],
       "position": [
-        0.5405813207414515,
-        0.3750000119209289,
-        0.26033024347053485
+        0.5047521196987087,
+        0,
+        0.32438449047335854
       ],
+      "seed": 71,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
       "material": "stone",
       "rotation": [
         0,
-        -0.4487989505128276,
+        0.9995976625058433,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
     },
     {
-      "shape": "box",
+      "shape": "rock",
+      "form": "fractured",
       "size": [
-        0.19,
-        0.75,
-        0.29
+        0.36,
+        0.37,
+        0.25
       ],
       "position": [
-        0.37409388111524017,
-        0.3750000119209289,
-        0.46909888948081785
+        0.24924900780113185,
+        0,
+        0.545779197212711
       ],
+      "seed": 72,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
       "material": "stone",
       "rotation": [
         0,
-        -0.8975979010256552,
+        0.42839899821678995,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
     },
     {
-      "shape": "box",
+      "shape": "rock",
+      "form": "fractured",
       "size": [
-        0.19,
-        0.75,
-        0.29
+        0.36,
+        0.37,
+        0.25
       ],
       "position": [
-        0.13351256037378867,
-        0.3750000119209289,
-        0.5849567473090942
+        -0.085388902963971,
+        0,
+        0.5938928651285597
       ],
+      "seed": 73,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
       "material": "stone",
       "rotation": [
         0,
-        -1.3463968515384828,
+        -0.14279966607226324,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
     },
     {
-      "shape": "box",
+      "shape": "rock",
+      "form": "fractured",
       "size": [
-        0.19,
-        0.75,
-        0.29
+        0.36,
+        0.37,
+        0.25
       ],
       "position": [
-        -0.13351256037378859,
-        0.3750000119209289,
-        0.5849567473090942
+        -0.392916440367171,
+        0,
+        0.453449744612555
       ],
+      "seed": 74,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
       "material": "stone",
       "rotation": [
         0,
-        -1.7951958020513104,
+        -0.7139983303613167,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
     },
     {
-      "shape": "box",
+      "shape": "rock",
+      "form": "fractured",
       "size": [
-        0.19,
-        0.75,
-        0.29
+        0.36,
+        0.37,
+        0.25
       ],
       "position": [
-        -0.37409388111524006,
-        0.3750000119209289,
-        0.4690988894808179
+        -0.5756957841686984,
+        0,
+        0.1690395341048578
       ],
+      "seed": 75,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
       "material": "stone",
       "rotation": [
         0,
-        -2.243994752564138,
+        -1.28519699465037,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
     },
     {
-      "shape": "box",
+      "shape": "rock",
+      "form": "fractured",
       "size": [
-        0.19,
-        0.75,
-        0.29
+        0.36,
+        0.37,
+        0.25
       ],
       "position": [
-        -0.5405813207414514,
-        0.3750000119209289,
-        0.2603302434705349
+        -0.5756957841686985,
+        0,
+        -0.16903953410485764
       ],
+      "seed": 76,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
       "material": "stone",
       "rotation": [
         0,
-        -2.6927937030769655,
+        -1.856395658939423,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        -0.3929164403671711,
+        0,
+        -0.4534497446125549
+      ],
+      "seed": 77,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        -2.4275943232284765,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        -0.08538890296397113,
+        0,
+        -0.5938928651285595
+      ],
+      "seed": 78,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        -2.99879298751753,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        0.24924900780113163,
+        0,
+        -0.5457791972127111
+      ],
+      "seed": 79,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        -3.569991651806583,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        0.5047521196987087,
+        0,
+        -0.32438449047335843
+      ],
+      "seed": 80,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        -4.141190316095637,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        0.5766332629864626,
+        0.35,
+        0.16581338913846824
+      ],
+      "seed": 83,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        1.2907963267948965,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        0.39544928338642865,
+        0.35,
+        0.4512425780765375
+      ],
+      "seed": 84,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        0.7195976625058432,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        0.08871295042232144,
+        0.35,
+        0.5934054368030063
+      ],
+      "seed": 85,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        0.14839899821678992,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        -0.24618911748511788,
+        0.35,
+        0.547166262146981
+      ],
+      "seed": 86,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        -0.42279966607226327,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        -0.5029278800802137,
+        0.35,
+        0.3272056653513538
+      ],
+      "seed": 87,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        -0.9939983303613165,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        -0.599990594268435,
+        0.35,
+        0.0033595817314257706
+      ],
+      "seed": 88,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        -1.5651969946503703,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        -0.5065605341073879,
+        0.35,
+        -0.3215531453505593
+      ],
+      "seed": 89,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        -2.1363956589394233,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        -0.2523010835529453,
+        0.35,
+        -0.5443750207696985
+      ],
+      "seed": 90,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        -2.7075943232284763,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        0.08206217835528778,
+        0.35,
+        -0.5943616734645538
+      ],
+      "seed": 91,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        -3.27879298751753,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        0.39037127845936154,
+        0.35,
+        -0.45564269439331906
+      ],
+      "seed": 92,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        -3.849991651806583,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.36,
+        0.37,
+        0.25
+      ],
+      "position": [
+        0.5747402558842378,
+        0.35,
+        -0.1722603792696417
+      ],
+      "seed": 93,
+      "detail": 4,
+      "irregularity": 0.6,
+      "fixedRock": true,
+      "material": "stone",
+      "rotation": [
+        0,
+        -4.421190316095637,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
     },
     {
       "shape": "box",
       "size": [
-        0.19,
+        0.4,
+        0.08,
+        0.3
+      ],
+      "position": [
+        0.6,
         0.75,
-        0.29
+        0
+      ],
+      "material": "stone",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "bevel": 0.025,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.4,
+        0.08,
+        0.3
+      ],
+      "position": [
+        0.4854101966249684,
+        0.75,
+        0.3526711513754839
+      ],
+      "material": "stone",
+      "rotation": [
+        0,
+        0.9424777960769379,
+        0
+      ],
+      "bevel": 0.025,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.4,
+        0.08,
+        0.3
+      ],
+      "position": [
+        0.18541019662496847,
+        0.75,
+        0.570633909777092
+      ],
+      "material": "stone",
+      "rotation": [
+        0,
+        0.3141592653589793,
+        0
+      ],
+      "bevel": 0.025,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.4,
+        0.08,
+        0.3
+      ],
+      "position": [
+        -0.1854101966249684,
+        0.75,
+        0.5706339097770922
+      ],
+      "material": "stone",
+      "rotation": [
+        0,
+        -0.3141592653589793,
+        0
+      ],
+      "bevel": 0.025,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.4,
+        0.08,
+        0.3
+      ],
+      "position": [
+        -0.48541019662496837,
+        0.75,
+        0.35267115137548394
+      ],
+      "material": "stone",
+      "rotation": [
+        0,
+        -0.9424777960769379,
+        0
+      ],
+      "bevel": 0.025,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.4,
+        0.08,
+        0.3
       ],
       "position": [
         -0.6,
-        0.3750000119209289,
+        0.75,
         7.347880794884119e-17
       ],
       "material": "stone",
       "rotation": [
         0,
-        -3.141592653589793,
+        -1.5707963267948966,
         0
-      ]
+      ],
+      "bevel": 0.025,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
     },
     {
       "shape": "box",
       "size": [
-        0.19,
-        0.75,
-        0.29
-      ],
-      "position": [
-        -0.5405813207414515,
-        0.3750000119209289,
-        -0.2603302434705348
-      ],
-      "material": "stone",
-      "rotation": [
-        0,
-        -3.5903916041026207,
-        0
-      ]
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.19,
-        0.75,
-        0.29
-      ],
-      "position": [
-        -0.3740938811152402,
-        0.3750000119209289,
-        -0.4690988894808178
-      ],
-      "material": "stone",
-      "rotation": [
-        0,
-        -4.039190554615448,
-        0
-      ]
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.19,
-        0.75,
-        0.29
-      ],
-      "position": [
-        -0.13351256037378875,
-        0.3750000119209289,
-        -0.5849567473090942
-      ],
-      "material": "stone",
-      "rotation": [
-        0,
-        -4.487989505128276,
-        0
-      ]
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.19,
-        0.75,
-        0.29
-      ],
-      "position": [
-        0.133512560373788,
-        0.3750000119209289,
-        -0.5849567473090943
-      ],
-      "material": "stone",
-      "rotation": [
-        0,
-        -4.936788455641103,
-        0
-      ]
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.19,
-        0.75,
-        0.29
-      ],
-      "position": [
-        0.37409388111524,
-        0.3750000119209289,
-        -0.4690988894808179
-      ],
-      "material": "stone",
-      "rotation": [
-        0,
-        -5.385587406153931,
-        0
-      ]
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.19,
-        0.75,
-        0.29
-      ],
-      "position": [
-        0.5405813207414516,
-        0.3750000119209289,
-        -0.2603302434705345
-      ],
-      "material": "stone",
-      "rotation": [
-        0,
-        -5.8343863566667595,
-        0
-      ]
-    },
-    {
-      "shape": "box",
-      "size": [
+        0.4,
         0.08,
-        1.6,
-        0.08
+        0.3
       ],
       "position": [
-        -0.72,
-        0.800000011920929,
+        -0.4854101966249684,
+        0.75,
+        -0.3526711513754838
+      ],
+      "material": "stone",
+      "rotation": [
+        0,
+        -2.199114857512855,
         0
       ],
-      "material": "wood"
+      "bevel": 0.025,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
     },
     {
       "shape": "box",
       "size": [
+        0.4,
         0.08,
-        1.6,
-        0.08
+        0.3
       ],
       "position": [
-        0.72,
-        0.800000011920929,
+        -0.18541019662496852,
+        0.75,
+        -0.570633909777092
+      ],
+      "material": "stone",
+      "rotation": [
+        0,
+        -2.827433388230814,
         0
       ],
-      "material": "wood"
+      "bevel": 0.025,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
     },
     {
       "shape": "box",
       "size": [
-        1.7,
+        0.4,
         0.08,
-        1.1
+        0.3
       ],
+      "position": [
+        0.18541019662496833,
+        0.75,
+        -0.5706339097770922
+      ],
+      "material": "stone",
+      "rotation": [
+        0,
+        -3.4557519189487724,
+        0
+      ],
+      "bevel": 0.025,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.4,
+        0.08,
+        0.3
+      ],
+      "position": [
+        0.48541019662496837,
+        0.75,
+        -0.352671151375484
+      ],
+      "material": "stone",
+      "rotation": [
+        0,
+        -4.084070449666731,
+        0
+      ],
+      "bevel": 0.025,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureColor": "#777873",
+        "textureColorMode": "replace",
+        "rockPattern": "granite",
+        "textureSize": 0.7,
+        "relief": 0.02,
+        "rockCracks": 0.2
+      }
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0.47,
+          0
+        ],
+        [
+          0.47,
+          0.72
+        ]
+      ],
+      "segments": 32,
       "position": [
         0,
-        1.620000011920929,
+        0.02,
         0
       ],
-      "material": "wood"
+      "material": "dark"
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.07,
-      "radiusBottom": 0.07,
-      "height": 1.5,
+      "radiusTop": 0.47,
+      "radiusBottom": 0.47,
+      "height": 0.01,
       "position": [
         0,
-        1.280000011920929,
+        0.34,
+        0
+      ],
+      "material": "glass",
+      "segments": 32
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.86,
+        0.1
+      ],
+      "position": [
+        -0.62,
+        1.2,
         0
       ],
       "material": "wood",
-      "segments": 12,
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.5,
+        0.07
+      ],
+      "position": [
+        -0.42,
+        1.33,
+        0
+      ],
+      "material": "wood",
       "rotation": [
         0,
         0,
-        1.5707963267948966
+        -0.75
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -0.6,
+          0
+        ],
+        [
+          0,
+          0.42
+        ],
+        [
+          0.6,
+          0
+        ]
+      ],
+      "depth": 0.04,
+      "position": [
+        -0.72,
+        1.22,
+        0
+      ],
+      "material": "wood",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "edgeBevel": 0.003
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.86,
+        0.1
+      ],
+      "position": [
+        0.62,
+        1.2,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.5,
+        0.07
+      ],
+      "position": [
+        0.42,
+        1.33,
+        0
+      ],
+      "material": "wood",
+      "rotation": [
+        0,
+        0,
+        0.75
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -0.6,
+          0
+        ],
+        [
+          0,
+          0.42
+        ],
+        [
+          0.6,
+          0
+        ]
+      ],
+      "depth": 0.04,
+      "position": [
+        0.72,
+        1.22,
+        0
+      ],
+      "material": "wood",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "edgeBevel": 0.003
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.07,
+      "radiusBottom": 0.07,
+      "height": 1.14,
+      "position": [
+        0,
+        1.08,
+        0
+      ],
+      "material": "wood",
+      "segments": 16,
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "profile": [
+        [
+          0,
+          -0.57
+        ],
+        [
+          0.0616,
+          -0.57
+        ],
+        [
+          0.07,
+          -0.5616
+        ],
+        [
+          0.07,
+          0.5616
+        ],
+        [
+          0.0616,
+          0.57
+        ],
+        [
+          0,
+          0.57
+        ]
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.078,
+      "tube": 0.012,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        -0.12,
+        1.08,
+        0
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.078,
+      "tube": 0.012,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        -0.072,
+        1.08,
+        0
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.078,
+      "tube": 0.012,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        -0.023999999999999994,
+        1.08,
+        0
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.078,
+      "tube": 0.012,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        0.023999999999999994,
+        1.08,
+        0
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.078,
+      "tube": 0.012,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        0.07200000000000001,
+        1.08,
+        0
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.078,
+      "tube": 0.012,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        0.12,
+        1.08,
+        0
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
       ]
     },
     {
       "shape": "cylinder",
       "radiusTop": 0.008,
       "radiusBottom": 0.008,
-      "height": 0.6,
+      "height": 0.42,
       "position": [
-        0,
-        0.920000011920929,
-        0
+        0.03,
+        0.86,
+        0.07
       ],
       "material": "paper",
-      "segments": 12
+      "segments": 8
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.57,
+          1.08,
+          0
+        ],
+        [
+          0.72,
+          1.08,
+          0
+        ],
+        [
+          0.74,
+          0.95,
+          0.04
+        ],
+        [
+          0.74,
+          0.9,
+          0.06
+        ]
+      ],
+      "radius": 0.012,
+      "segments": 18,
+      "sides": 8,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.018,
+      "radiusBottom": 0.018,
+      "height": 0.1,
+      "position": [
+        0.79,
+        0.9,
+        0.06
+      ],
+      "material": "wood",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.1,
+          0
+        ],
+        [
+          0.13,
+          0.22
+        ],
+        [
+          0.135,
+          0.22
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        0.03,
+        0.43,
+        0.07
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.118,
+      "tube": 0.006,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        0.03,
+        0.53,
+        0.07
+      ],
+      "material": "metal",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.132,
+      "tube": 0.006,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        0.03,
+        0.63,
+        0.07
+      ],
+      "material": "metal",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.1,
+          0.65,
+          0.07
+        ],
+        [
+          0.03,
+          0.74,
+          0.07
+        ],
+        [
+          0.16,
+          0.65,
+          0.07
+        ]
+      ],
+      "radius": 0.006,
+      "segments": 18,
+      "sides": 8,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.7000000476837158,
+        0.025,
+        0.17
+      ],
+      "position": [
+        0,
+        1.61,
+        -0.12
+      ],
+      "material": "wood",
+      "rotation": [
+        -0.62,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0032500000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.7000000476837158,
+        0.025,
+        0.17
+      ],
+      "position": [
+        0,
+        1.5050000000000001,
+        -0.24666666666666667
+      ],
+      "material": "wood",
+      "rotation": [
+        -0.62,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0032500000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.7000000476837158,
+        0.025,
+        0.17
+      ],
+      "position": [
+        0,
+        1.4000000000000001,
+        -0.37333333333333335
+      ],
+      "material": "wood",
+      "rotation": [
+        -0.62,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0032500000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.7000000476837158,
+        0.025,
+        0.17
+      ],
+      "position": [
+        0,
+        1.2950000000000002,
+        -0.5
+      ],
+      "material": "wood",
+      "rotation": [
+        -0.62,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0032500000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.7000000476837158,
+        0.025,
+        0.17
+      ],
+      "position": [
+        0,
+        1.61,
+        0.12
+      ],
+      "material": "wood",
+      "rotation": [
+        0.62,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0032500000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.7000000476837158,
+        0.025,
+        0.17
+      ],
+      "position": [
+        0,
+        1.5050000000000001,
+        0.24666666666666667
+      ],
+      "material": "wood",
+      "rotation": [
+        0.62,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0032500000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.7000000476837158,
+        0.025,
+        0.17
+      ],
+      "position": [
+        0,
+        1.4000000000000001,
+        0.37333333333333335
+      ],
+      "material": "wood",
+      "rotation": [
+        0.62,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0032500000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.7000000476837158,
+        0.025,
+        0.17
+      ],
+      "position": [
+        0,
+        1.2950000000000002,
+        0.5
+      ],
+      "material": "wood",
+      "rotation": [
+        0.62,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0032500000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.7000000476837158,
+        0.05,
+        0.06
+      ],
+      "position": [
+        0,
+        1.635,
+        0
+      ],
+      "material": "wood",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#79553e",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.006500000000000001
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.7000000476837158,
+    1.6600000110268593,
+    1.4196808645987975
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "model",
+    "methods": [
+      "poço de pedras irregulares com sarilho, corda enrolada, balde com aros, manivela e telhado de tábuas",
+      "subdivisão mineral preservando parâmetros de escultura",
+      "arestas chanfradas",
+      "curvas de contorno refinadas",
+      "entalhes e bordas de perfis",
+      "perfis torneados e bordas de chapa",
+      "ferragens curvas com vazios reais",
+      "cordas e tubos curvos"
+    ],
+    "seed": 5911
+  }
 }

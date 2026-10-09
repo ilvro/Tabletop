@@ -3,406 +3,675 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "wood": {
-      "color": "#79553e",
-      "roughness": 0.84
-    },
     "dark": {
       "color": "#292b30",
       "roughness": 0.8
     },
     "metal": {
       "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
+      "roughness": 0.46,
+      "metalness": 0.5
     },
     "white": {
       "color": "#d8d3bd",
       "roughness": 0.72
     },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
-    },
     "black": {
       "color": "#181a20",
       "roughness": 0.85
     },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
     "paper": {
       "color": "#c8b38b",
       "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
     {
       "shape": "box",
       "size": [
-        0.42,
-        0.12,
-        0.33
+        0.41999998688697815,
+        0.06,
+        0.33000001311302185
       ],
       "position": [
         0,
-        0.05999999865889549,
+        0.035,
         0
       ],
-      "material": "black"
+      "material": "black",
+      "bevel": 0.02
     },
     {
-      "shape": "cylinder",
-      "radiusTop": 0.033,
-      "radiusBottom": 0.033,
-      "height": 0.38,
+      "shape": "box",
+      "size": [
+        0.37799998819828035,
+        0.14789999954402447,
+        0.14850000590085985
+      ],
       "position": [
         0,
-        0.1899999986588955,
-        -0.1
+        0.10439999967813492,
+        -0.06600000262260437
+      ],
+      "material": "dark",
+      "bevel": 0.02
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.0478499998524785,
+      "radiusBottom": 0.0478499998524785,
+      "height": 0.35279998898506165,
+      "position": [
+        0,
+        0.25229999922215934,
+        -0.09240000367164612
       ],
       "material": "metal",
-      "segments": 12,
+      "segments": 24,
       "rotation": [
         0,
         0,
         1.5707963267948966
+      ],
+      "profile": [
+        [
+          0,
+          -0.17639999449253083
+        ],
+        [
+          0.04210799987018108,
+          -0.17639999449253083
+        ],
+        [
+          0.0478499998524785,
+          -0.17065799451023342
+        ],
+        [
+          0.0478499998524785,
+          0.17065799451023342
+        ],
+        [
+          0.04210799987018108,
+          0.17639999449253083
+        ],
+        [
+          0,
+          0.17639999449253083
+        ]
       ]
     },
     {
       "shape": "box",
       "size": [
-        0.27,
-        0.25,
+        0.2519999921321869,
+        0.19574999939650298,
         0.008
       ],
       "position": [
         0,
-        0.3099999986588955,
-        -0.12
+        0.33494999896734956,
+        -0.11220000445842744
       ],
-      "material": "paper"
+      "material": "paper",
+      "rotation": [
+        0.12,
+        0,
+        0
+      ],
+      "bevel": 0.0010400000000000001
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        -0.15,
-        0.1349999986588955,
-        -0.01
+        -0.15119999527931213,
+        0.06524999979883432,
+        0.12540000498294832
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        -0.09999999999999999,
-        0.1349999986588955,
-        -0.01
+        -0.11759999632835388,
+        0.06524999979883432,
+        0.12540000498294832
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        -0.04999999999999999,
-        0.1349999986588955,
-        -0.01
+        -0.08399999737739564,
+        0.06524999979883432,
+        0.12540000498294832
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        2.7755575615628914e-17,
-        0.1349999986588955,
-        -0.01
+        -0.05039999842643738,
+        0.06524999979883432,
+        0.12540000498294832
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        0.05000000000000002,
-        0.1349999986588955,
-        -0.01
+        -0.016799999475479128,
+        0.06524999979883432,
+        0.12540000498294832
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        0.1,
-        0.1349999986588955,
-        -0.01
+        0.016799999475479128,
+        0.06524999979883432,
+        0.12540000498294832
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        0.15000000000000005,
-        0.1349999986588955,
-        -0.01
+        0.05039999842643738,
+        0.06524999979883432,
+        0.12540000498294832
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        -0.15,
-        0.1349999986588955,
-        0.045
+        0.08399999737739564,
+        0.06524999979883432,
+        0.12540000498294832
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        -0.09999999999999999,
-        0.1349999986588955,
-        0.045
+        0.11759999632835388,
+        0.06524999979883432,
+        0.12540000498294832
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        -0.04999999999999999,
-        0.1349999986588955,
-        0.045
+        0.15119999527931213,
+        0.06524999979883432,
+        0.12540000498294832
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        2.7755575615628914e-17,
-        0.1349999986588955,
-        0.045
+        -0.15119999527931213,
+        0.08047499975189566,
+        0.0891000035405159
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        0.05000000000000002,
-        0.1349999986588955,
-        0.045
+        -0.11759999632835388,
+        0.08047499975189566,
+        0.0891000035405159
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        0.1,
-        0.1349999986588955,
-        0.045
+        -0.08399999737739564,
+        0.08047499975189566,
+        0.0891000035405159
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        0.15000000000000005,
-        0.1349999986588955,
-        0.045
+        -0.05039999842643738,
+        0.08047499975189566,
+        0.0891000035405159
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        -0.15,
-        0.1349999986588955,
-        0.1
+        -0.016799999475479128,
+        0.08047499975189566,
+        0.0891000035405159
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        -0.09999999999999999,
-        0.1349999986588955,
-        0.1
+        0.016799999475479128,
+        0.08047499975189566,
+        0.0891000035405159
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        -0.04999999999999999,
-        0.1349999986588955,
-        0.1
+        0.05039999842643738,
+        0.08047499975189566,
+        0.0891000035405159
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        2.7755575615628914e-17,
-        0.1349999986588955,
-        0.1
+        0.08399999737739564,
+        0.08047499975189566,
+        0.0891000035405159
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        0.05000000000000002,
-        0.1349999986588955,
-        0.1
+        0.11759999632835388,
+        0.08047499975189566,
+        0.0891000035405159
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        0.1,
-        0.1349999986588955,
-        0.1
+        0.15119999527931213,
+        0.08047499975189566,
+        0.0891000035405159
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
     },
     {
       "shape": "cylinder",
-      "radiusTop": 0.012,
-      "radiusBottom": 0.012,
-      "height": 0.015,
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
       "position": [
-        0.15000000000000005,
-        0.1349999986588955,
-        0.1
+        -0.15119999527931213,
+        0.095699999704957,
+        0.0528000020980835
       ],
       "material": "white",
-      "segments": 12
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        -0.11759999632835388,
+        0.095699999704957,
+        0.0528000020980835
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        -0.08399999737739564,
+        0.095699999704957,
+        0.0528000020980835
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        -0.05039999842643738,
+        0.095699999704957,
+        0.0528000020980835
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        -0.016799999475479128,
+        0.095699999704957,
+        0.0528000020980835
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        0.016799999475479128,
+        0.095699999704957,
+        0.0528000020980835
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        0.05039999842643738,
+        0.095699999704957,
+        0.0528000020980835
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        0.08399999737739564,
+        0.095699999704957,
+        0.0528000020980835
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        0.11759999632835388,
+        0.095699999704957,
+        0.0528000020980835
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        0.15119999527931213,
+        0.095699999704957,
+        0.0528000020980835
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        -0.15119999527931213,
+        0.11092499965801836,
+        0.01650000065565109
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        -0.11759999632835388,
+        0.11092499965801836,
+        0.01650000065565109
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        -0.08399999737739564,
+        0.11092499965801836,
+        0.01650000065565109
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        -0.05039999842643738,
+        0.11092499965801836,
+        0.01650000065565109
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        -0.016799999475479128,
+        0.11092499965801836,
+        0.01650000065565109
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        0.016799999475479128,
+        0.11092499965801836,
+        0.01650000065565109
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        0.05039999842643738,
+        0.11092499965801836,
+        0.01650000065565109
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        0.08399999737739564,
+        0.11092499965801836,
+        0.01650000065565109
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        0.11759999632835388,
+        0.11092499965801836,
+        0.01650000065565109
+      ],
+      "material": "white",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.009659999698400498,
+      "radiusBottom": 0.009659999698400498,
+      "height": 0.012,
+      "position": [
+        0.15119999527931213,
+        0.11092499965801836,
+        0.01650000065565109
+      ],
+      "material": "white",
+      "segments": 24
     },
     {
       "shape": "box",
       "size": [
-        0.28,
-        0.017,
-        0.035
+        0.18479999423027038,
+        0.013,
+        0.025
       ],
       "position": [
         0,
-        0.1349999986588955,
-        0.14
+        0.04349999986588955,
+        0.15180000603199006
       ],
-      "material": "metal"
+      "material": "dark",
+      "bevel": 0.0016899999999999999
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.41999998688697815,
+    0.4349999986588955,
+    0.33000001311302185
+  ],
+  "design": {
+    "edition": 2,
+    "family": "instrument",
+    "reconstruction": "model",
+    "methods": [
+      "equipamento refeito com molduras, grelhas, controles e teclas individuais",
+      "arestas chanfradas",
+      "perfis torneados e bordas de chapa",
+      "curvas de contorno refinadas"
+    ],
+    "seed": 15286
+  }
 }

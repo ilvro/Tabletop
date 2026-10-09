@@ -3,71 +3,9 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "wood": {
-      "color": "#79553e",
-      "roughness": 0.84
-    },
-    "dark": {
-      "color": "#292b30",
-      "roughness": 0.8
-    },
-    "metal": {
-      "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
     "stone": {
       "color": "#777873",
       "roughness": 0.97
-    },
-    "black": {
-      "color": "#181a20",
-      "roughness": 0.85
-    },
-    "red": {
-      "color": "#873c3c",
-      "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
@@ -85,7 +23,7 @@
       ],
       "form": "fractured",
       "seed": 102,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -110,7 +48,7 @@
       ],
       "form": "fractured",
       "seed": 103,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -135,7 +73,7 @@
       ],
       "form": "fractured",
       "seed": 104,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -160,7 +98,7 @@
       ],
       "form": "fractured",
       "seed": 105,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -185,7 +123,7 @@
       ],
       "form": "fractured",
       "seed": 106,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -210,7 +148,7 @@
       ],
       "form": "fractured",
       "seed": 107,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -235,7 +173,7 @@
       ],
       "form": "fractured",
       "seed": 108,
-      "detail": 2,
+      "detail": 3,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -265,8 +203,24 @@
         "rockPattern": "fractured",
         "textureBrightness": 1.3,
         "relief": 0.06
-      }
+      },
+      "bevel": 0.01105
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    1,
+    2.4200000762939453,
+    1.100000023841858
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "subdivisão mineral preservando parâmetros de escultura",
+      "arestas chanfradas"
+    ],
+    "seed": 57794
+  }
 }

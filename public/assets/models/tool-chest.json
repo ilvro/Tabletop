@@ -3,35 +3,14 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "wood": {
-      "color": "#79553e",
-      "roughness": 0.84
-    },
     "dark": {
       "color": "#292b30",
       "roughness": 0.8
     },
     "metal": {
       "color": "#87918e",
-      "roughness": 0.5,
-      "metalness": 0.55
-    },
-    "rust": {
-      "color": "#824b34",
-      "roughness": 0.95,
-      "metalness": 0.25
-    },
-    "cloth": {
-      "color": "#64776e",
-      "roughness": 0.98
-    },
-    "white": {
-      "color": "#d8d3bd",
-      "roughness": 0.72
-    },
-    "stone": {
-      "color": "#777873",
-      "roughness": 0.97
+      "roughness": 0.46,
+      "metalness": 0.5
     },
     "black": {
       "color": "#181a20",
@@ -40,276 +19,879 @@
     "red": {
       "color": "#873c3c",
       "roughness": 0.86
-    },
-    "paper": {
-      "color": "#c8b38b",
-      "roughness": 0.98
-    },
-    "screen": {
-      "color": "#436f6b",
-      "emissive": "#356c68",
-      "emissiveIntensity": 0.45,
-      "roughness": 0.4
-    },
-    "wax": {
-      "color": "#d8bd87",
-      "roughness": 0.85
-    },
-    "flame": {
-      "color": "#edb45e",
-      "emissive": "#ef943d",
-      "emissiveIntensity": 0.9
-    },
-    "violet": {
-      "color": "#77529b",
-      "emissive": "#64408d",
-      "emissiveIntensity": 0.5
-    },
-    "green": {
-      "color": "#405b43",
-      "roughness": 1
     }
   },
   "parts": [
     {
+      "shape": "cylinder",
+      "radiusTop": 0.01575,
+      "radiusBottom": 0.01575,
+      "height": 0.0225,
+      "position": [
+        -0.32,
+        0.10124999999999999,
+        -0.17
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.0405,
+        0.058499999999999996,
+        0.0135
+      ],
+      "position": [
+        -0.32,
+        0.0675,
+        -0.17
+      ],
+      "material": "metal",
+      "bevel": 0.001755
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0.027,
+          -0.0135
+        ],
+        [
+          0.04185,
+          -0.0135
+        ],
+        [
+          0.045,
+          -0.00675
+        ],
+        [
+          0.045,
+          0.00675
+        ],
+        [
+          0.04185,
+          0.0135
+        ],
+        [
+          0.027,
+          0.0135
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        -0.32,
+        0.045,
+        -0.15875
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          -0.007425
+        ],
+        [
+          0.0081,
+          -0.00945
+        ],
+        [
+          0.00972,
+          -0.006075
+        ],
+        [
+          0.0243,
+          -0.00675
+        ],
+        [
+          0.027,
+          -0.010125
+        ],
+        [
+          0.027,
+          0.010125
+        ],
+        [
+          0.0243,
+          0.00675
+        ],
+        [
+          0.00972,
+          0.006075
+        ],
+        [
+          0.0081,
+          0.00945
+        ],
+        [
+          0,
+          0.007425
+        ]
+      ],
+      "segments": 12,
+      "position": [
+        -0.32,
+        0.045,
+        -0.15875
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.01575,
+      "radiusBottom": 0.01575,
+      "height": 0.0225,
+      "position": [
+        -0.32,
+        0.10124999999999999,
+        0.17
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.0405,
+        0.058499999999999996,
+        0.0135
+      ],
+      "position": [
+        -0.32,
+        0.0675,
+        0.17
+      ],
+      "material": "metal",
+      "bevel": 0.001755
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0.027,
+          -0.0135
+        ],
+        [
+          0.04185,
+          -0.0135
+        ],
+        [
+          0.045,
+          -0.00675
+        ],
+        [
+          0.045,
+          0.00675
+        ],
+        [
+          0.04185,
+          0.0135
+        ],
+        [
+          0.027,
+          0.0135
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        -0.32,
+        0.045,
+        0.18125000000000002
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          -0.007425
+        ],
+        [
+          0.0081,
+          -0.00945
+        ],
+        [
+          0.00972,
+          -0.006075
+        ],
+        [
+          0.0243,
+          -0.00675
+        ],
+        [
+          0.027,
+          -0.010125
+        ],
+        [
+          0.027,
+          0.010125
+        ],
+        [
+          0.0243,
+          0.00675
+        ],
+        [
+          0.00972,
+          0.006075
+        ],
+        [
+          0.0081,
+          0.00945
+        ],
+        [
+          0,
+          0.007425
+        ]
+      ],
+      "segments": 12,
+      "position": [
+        -0.32,
+        0.045,
+        0.18125000000000002
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.01575,
+      "radiusBottom": 0.01575,
+      "height": 0.0225,
+      "position": [
+        0.32,
+        0.10124999999999999,
+        -0.17
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.0405,
+        0.058499999999999996,
+        0.0135
+      ],
+      "position": [
+        0.32,
+        0.0675,
+        -0.17
+      ],
+      "material": "metal",
+      "bevel": 0.001755
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0.027,
+          -0.0135
+        ],
+        [
+          0.04185,
+          -0.0135
+        ],
+        [
+          0.045,
+          -0.00675
+        ],
+        [
+          0.045,
+          0.00675
+        ],
+        [
+          0.04185,
+          0.0135
+        ],
+        [
+          0.027,
+          0.0135
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0.32,
+        0.045,
+        -0.15875
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          -0.007425
+        ],
+        [
+          0.0081,
+          -0.00945
+        ],
+        [
+          0.00972,
+          -0.006075
+        ],
+        [
+          0.0243,
+          -0.00675
+        ],
+        [
+          0.027,
+          -0.010125
+        ],
+        [
+          0.027,
+          0.010125
+        ],
+        [
+          0.0243,
+          0.00675
+        ],
+        [
+          0.00972,
+          0.006075
+        ],
+        [
+          0.0081,
+          0.00945
+        ],
+        [
+          0,
+          0.007425
+        ]
+      ],
+      "segments": 12,
+      "position": [
+        0.32,
+        0.045,
+        -0.15875
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.01575,
+      "radiusBottom": 0.01575,
+      "height": 0.0225,
+      "position": [
+        0.32,
+        0.10124999999999999,
+        0.17
+      ],
+      "material": "metal",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.0405,
+        0.058499999999999996,
+        0.0135
+      ],
+      "position": [
+        0.32,
+        0.0675,
+        0.17
+      ],
+      "material": "metal",
+      "bevel": 0.001755
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0.027,
+          -0.0135
+        ],
+        [
+          0.04185,
+          -0.0135
+        ],
+        [
+          0.045,
+          -0.00675
+        ],
+        [
+          0.045,
+          0.00675
+        ],
+        [
+          0.04185,
+          0.0135
+        ],
+        [
+          0.027,
+          0.0135
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0.32,
+        0.045,
+        0.18125000000000002
+      ],
+      "material": "black",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          -0.007425
+        ],
+        [
+          0.0081,
+          -0.00945
+        ],
+        [
+          0.00972,
+          -0.006075
+        ],
+        [
+          0.0243,
+          -0.00675
+        ],
+        [
+          0.027,
+          -0.010125
+        ],
+        [
+          0.027,
+          0.010125
+        ],
+        [
+          0.0243,
+          0.00675
+        ],
+        [
+          0.00972,
+          0.006075
+        ],
+        [
+          0.0081,
+          0.00945
+        ],
+        [
+          0,
+          0.007425
+        ]
+      ],
+      "segments": 12,
+      "position": [
+        0.32,
+        0.045,
+        0.18125000000000002
+      ],
+      "material": "metal",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
       "shape": "box",
       "size": [
         0.75,
-        0.72,
-        0.4
+        0.69,
+        0.46
       ],
       "position": [
         0,
-        0.4600000014901161,
+        0.475,
         0
       ],
-      "material": "red"
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.1,
-      "radiusBottom": 0.1,
-      "height": 0.06,
-      "position": [
-        -0.315,
-        0.10000000149011612,
-        -0.15
-      ],
-      "material": "black",
-      "segments": 12,
-      "rotation": [
-        0,
-        0,
-        1.5707963267948966
-      ]
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.1,
-      "radiusBottom": 0.1,
-      "height": 0.06,
-      "position": [
-        -0.315,
-        0.10000000149011612,
-        0.15
-      ],
-      "material": "black",
-      "segments": 12,
-      "rotation": [
-        0,
-        0,
-        1.5707963267948966
-      ]
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.1,
-      "radiusBottom": 0.1,
-      "height": 0.06,
-      "position": [
-        0.315,
-        0.10000000149011612,
-        -0.15
-      ],
-      "material": "black",
-      "segments": 12,
-      "rotation": [
-        0,
-        0,
-        1.5707963267948966
-      ]
-    },
-    {
-      "shape": "cylinder",
-      "radiusTop": 0.1,
-      "radiusBottom": 0.1,
-      "height": 0.06,
-      "position": [
-        0.315,
-        0.10000000149011612,
-        0.15
-      ],
-      "material": "black",
-      "segments": 12,
-      "rotation": [
-        0,
-        0,
-        1.5707963267948966
-      ]
+      "material": "red",
+      "bevel": 0.012,
+      "round": true
     },
     {
       "shape": "box",
       "size": [
-        0.67,
-        0.1,
-        0.018
-      ],
-      "position": [
-        0,
-        0.23000000149011612,
-        0.21
-      ],
-      "material": "dark"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.48,
-        0.018,
-        0.025
-      ],
-      "position": [
-        0,
-        0.23000000149011612,
-        0.23
-      ],
-      "material": "metal"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.67,
-        0.1,
-        0.018
-      ],
-      "position": [
-        0,
-        0.3500000014901161,
-        0.21
-      ],
-      "material": "dark"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.48,
-        0.018,
-        0.025
-      ],
-      "position": [
-        0,
-        0.3500000014901161,
-        0.23
-      ],
-      "material": "metal"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.67,
-        0.1,
-        0.018
-      ],
-      "position": [
-        0,
-        0.4700000014901161,
-        0.21
-      ],
-      "material": "dark"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.48,
-        0.018,
-        0.025
-      ],
-      "position": [
-        0,
-        0.4700000014901161,
-        0.23
-      ],
-      "material": "metal"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.67,
-        0.1,
-        0.018
-      ],
-      "position": [
-        0,
-        0.5900000014901161,
-        0.21
-      ],
-      "material": "dark"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.48,
-        0.018,
-        0.025
-      ],
-      "position": [
-        0,
-        0.5900000014901161,
-        0.23
-      ],
-      "material": "metal"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.67,
-        0.1,
-        0.018
-      ],
-      "position": [
-        0,
-        0.7100000014901161,
-        0.21
-      ],
-      "material": "dark"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.48,
-        0.018,
-        0.025
-      ],
-      "position": [
-        0,
-        0.7100000014901161,
-        0.23
-      ],
-      "material": "metal"
-    },
-    {
-      "shape": "box",
-      "size": [
-        0.78,
+        0.7799999713897705,
         0.035,
-        0.43
+        0.5000000029802323
       ],
       "position": [
         0,
         0.8375000014901162,
         0
       ],
-      "material": "black"
+      "material": "black",
+      "bevel": 0.008,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.7,
+        0.66,
+        0.004
+      ],
+      "position": [
+        0,
+        0.475,
+        0.23199999999999998
+      ],
+      "material": "dark",
+      "bevel": 0.0005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.68,
+        0.13799999999999998,
+        0.016
+      ],
+      "position": [
+        0,
+        0.235,
+        0.239
+      ],
+      "material": "red",
+      "bevel": 0.004,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.66,
+        0.014,
+        0.02
+      ],
+      "position": [
+        0,
+        0.29,
+        0.249
+      ],
+      "material": "metal",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.68,
+        0.13799999999999998,
+        0.016
+      ],
+      "position": [
+        0,
+        0.385,
+        0.239
+      ],
+      "material": "red",
+      "bevel": 0.004,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.66,
+        0.014,
+        0.02
+      ],
+      "position": [
+        0,
+        0.43999999999999995,
+        0.249
+      ],
+      "material": "metal",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.68,
+        0.098,
+        0.016
+      ],
+      "position": [
+        0,
+        0.515,
+        0.239
+      ],
+      "material": "red",
+      "bevel": 0.004,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.66,
+        0.014,
+        0.02
+      ],
+      "position": [
+        0,
+        0.5499999999999999,
+        0.249
+      ],
+      "material": "metal",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.68,
+        0.078,
+        0.016
+      ],
+      "position": [
+        0,
+        0.615,
+        0.239
+      ],
+      "material": "red",
+      "bevel": 0.004,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.66,
+        0.014,
+        0.02
+      ],
+      "position": [
+        0,
+        0.6399999999999999,
+        0.249
+      ],
+      "material": "metal",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.68,
+        0.05800000000000001,
+        0.016
+      ],
+      "position": [
+        0,
+        0.695,
+        0.239
+      ],
+      "material": "red",
+      "bevel": 0.004,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.66,
+        0.014,
+        0.02
+      ],
+      "position": [
+        0,
+        0.71,
+        0.249
+      ],
+      "material": "metal",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.68,
+        0.05800000000000001,
+        0.016
+      ],
+      "position": [
+        0,
+        0.765,
+        0.239
+      ],
+      "material": "red",
+      "bevel": 0.004,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.66,
+        0.014,
+        0.02
+      ],
+      "position": [
+        0,
+        0.78,
+        0.249
+      ],
+      "material": "metal",
+      "bevel": 0.00182
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.375,
+          0.6,
+          -0.1
+        ],
+        [
+          0.4,
+          0.6,
+          -0.09
+        ],
+        [
+          0.4,
+          0.6,
+          0.09
+        ],
+        [
+          0.375,
+          0.6,
+          0.1
+        ]
+      ],
+      "radius": 0.01,
+      "segments": 18,
+      "sides": 8,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.008,
+      "position": [
+        0.3,
+        0.79,
+        0.243
+      ],
+      "material": "metal",
+      "segments": 12,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.69,
+        0.04
+      ],
+      "position": [
+        -0.365,
+        0.475,
+        -0.22
+      ],
+      "material": "black",
+      "bevel": 0.014,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.69,
+        0.04
+      ],
+      "position": [
+        -0.365,
+        0.475,
+        0.22
+      ],
+      "material": "black",
+      "bevel": 0.014,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.69,
+        0.04
+      ],
+      "position": [
+        0.365,
+        0.475,
+        -0.22
+      ],
+      "material": "black",
+      "bevel": 0.014,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.69,
+        0.04
+      ],
+      "position": [
+        0.365,
+        0.475,
+        0.22
+      ],
+      "material": "black",
+      "bevel": 0.014,
+      "round": true
     }
-  ]
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.7799999713897705,
+    0.855000001564622,
+    0.5000000029802323
+  ],
+  "design": {
+    "edition": 2,
+    "family": "fabrication",
+    "reconstruction": "model",
+    "methods": [
+      "carrinho de ferramentas com seis gavetas de puxador contínuo, cantoneiras, alça lateral e rodízios",
+      "curvas de contorno refinadas",
+      "arestas chanfradas",
+      "cordas e tubos curvos"
+    ],
+    "seed": 44565
+  }
 }

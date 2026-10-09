@@ -10,20 +10,6 @@
     "trim": {
       "color": "#776c43",
       "roughness": 1
-    },
-    "tile": {
-      "color": "#d0ccb1",
-      "roughness": 1
-    },
-    "frame": {
-      "color": "#8a8974",
-      "roughness": 0.8
-    },
-    "tube": {
-      "color": "#fff6c4",
-      "emissive": "#fff5bb",
-      "emissiveIntensity": 1.2,
-      "roughness": 0.8
     }
   },
   "parts": [
@@ -53,7 +39,8 @@
         0.24999999865889544,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -81,7 +68,8 @@
         0.24999999865889544,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -109,7 +97,8 @@
         0.24999999865889544,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -137,7 +126,8 @@
         0.24999999865889544,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -165,7 +155,8 @@
         0.24999999865889544,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -193,7 +184,8 @@
         0.24999999865889544,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -221,7 +213,8 @@
         0.24999999865889544,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -249,7 +242,8 @@
         0.6099999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -277,7 +271,8 @@
         0.6099999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -305,7 +300,8 @@
         0.6099999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -333,7 +329,8 @@
         0.6099999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -361,7 +358,8 @@
         0.6099999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -389,7 +387,8 @@
         0.6099999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -417,7 +416,8 @@
         0.6099999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -445,7 +445,8 @@
         0.9699999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -473,7 +474,8 @@
         0.9699999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -501,7 +503,8 @@
         0.9699999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -529,7 +532,8 @@
         0.9699999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -557,7 +561,8 @@
         0.9699999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -585,7 +590,8 @@
         0.9699999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -613,7 +619,8 @@
         0.9699999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -641,7 +648,8 @@
         1.3299999986588955,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -669,7 +677,8 @@
         1.3299999986588955,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -697,7 +706,8 @@
         1.3299999986588955,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -725,7 +735,8 @@
         1.3299999986588955,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -753,7 +764,8 @@
         1.3299999986588955,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -781,7 +793,8 @@
         1.3299999986588955,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -809,7 +822,8 @@
         1.3299999986588955,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -837,7 +851,8 @@
         1.6899999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -865,7 +880,8 @@
         1.6899999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -893,7 +909,8 @@
         1.6899999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -921,7 +938,8 @@
         1.6899999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -949,7 +967,8 @@
         1.6899999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -977,7 +996,8 @@
         1.6899999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1005,7 +1025,8 @@
         1.6899999986588954,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1033,7 +1054,8 @@
         2.0499999986588953,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1061,7 +1083,8 @@
         2.0499999986588953,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1089,7 +1112,8 @@
         2.0499999986588953,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1117,7 +1141,8 @@
         2.0499999986588953,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1145,7 +1170,8 @@
         2.0499999986588953,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1173,7 +1199,8 @@
         2.0499999986588953,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1201,7 +1228,8 @@
         2.0499999986588953,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1229,7 +1257,8 @@
         2.4099999986588956,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1257,7 +1286,8 @@
         2.4099999986588956,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1285,7 +1315,8 @@
         2.4099999986588956,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1313,7 +1344,8 @@
         2.4099999986588956,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1341,7 +1373,8 @@
         2.4099999986588956,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1369,7 +1402,8 @@
         2.4099999986588956,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1397,7 +1431,8 @@
         2.4099999986588956,
         -0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1425,7 +1460,8 @@
         0.24999999865889544,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1453,7 +1489,8 @@
         0.24999999865889544,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1481,7 +1518,8 @@
         0.24999999865889544,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1509,7 +1547,8 @@
         0.24999999865889544,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1537,7 +1576,8 @@
         0.24999999865889544,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1565,7 +1605,8 @@
         0.24999999865889544,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1593,7 +1634,8 @@
         0.24999999865889544,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1621,7 +1663,8 @@
         0.6099999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1649,7 +1692,8 @@
         0.6099999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1677,7 +1721,8 @@
         0.6099999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1705,7 +1750,8 @@
         0.6099999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1733,7 +1779,8 @@
         0.6099999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1761,7 +1808,8 @@
         0.6099999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1789,7 +1837,8 @@
         0.6099999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1817,7 +1866,8 @@
         0.9699999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1845,7 +1895,8 @@
         0.9699999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1873,7 +1924,8 @@
         0.9699999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1901,7 +1953,8 @@
         0.9699999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1929,7 +1982,8 @@
         0.9699999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1957,7 +2011,8 @@
         0.9699999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -1985,7 +2040,8 @@
         0.9699999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2013,7 +2069,8 @@
         1.3299999986588955,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2041,7 +2098,8 @@
         1.3299999986588955,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2069,7 +2127,8 @@
         1.3299999986588955,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2097,7 +2156,8 @@
         1.3299999986588955,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2125,7 +2185,8 @@
         1.3299999986588955,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2153,7 +2214,8 @@
         1.3299999986588955,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2181,7 +2243,8 @@
         1.3299999986588955,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2209,7 +2272,8 @@
         1.6899999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2237,7 +2301,8 @@
         1.6899999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2265,7 +2330,8 @@
         1.6899999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2293,7 +2359,8 @@
         1.6899999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2321,7 +2388,8 @@
         1.6899999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2349,7 +2417,8 @@
         1.6899999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2377,7 +2446,8 @@
         1.6899999986588954,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2405,7 +2475,8 @@
         2.0499999986588953,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2433,7 +2504,8 @@
         2.0499999986588953,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2461,7 +2533,8 @@
         2.0499999986588953,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2489,7 +2562,8 @@
         2.0499999986588953,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2517,7 +2591,8 @@
         2.0499999986588953,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2545,7 +2620,8 @@
         2.0499999986588953,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2573,7 +2649,8 @@
         2.0499999986588953,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2601,7 +2678,8 @@
         2.4099999986588956,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2629,7 +2707,8 @@
         2.4099999986588956,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2657,7 +2736,8 @@
         2.4099999986588956,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2685,7 +2765,8 @@
         2.4099999986588956,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2713,7 +2794,8 @@
         2.4099999986588956,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2741,7 +2823,8 @@
         2.4099999986588956,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "profile",
@@ -2769,7 +2852,8 @@
         2.4099999986588956,
         0.107
       ],
-      "material": "paper"
+      "material": "paper",
+      "edgeBevel": 0.0014399999999999999
     },
     {
       "shape": "box",
@@ -2783,7 +2867,8 @@
         0.05999999865889544,
         -0.108
       ],
-      "material": "trim"
+      "material": "trim",
+      "bevel": 0.00286
     },
     {
       "shape": "box",
@@ -2797,7 +2882,8 @@
         2.7749999986588954,
         -0.11
       ],
-      "material": "trim"
+      "material": "trim",
+      "bevel": 0.0032500000000000003
     },
     {
       "shape": "box",
@@ -2811,7 +2897,8 @@
         0.05999999865889544,
         0.108
       ],
-      "material": "trim"
+      "material": "trim",
+      "bevel": 0.00286
     },
     {
       "shape": "box",
@@ -2825,8 +2912,24 @@
         2.7749999986588954,
         0.11
       ],
-      "material": "trim"
+      "material": "trim",
+      "bevel": 0.0032500000000000003
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    3,
+    2.797499895095825,
+    0.24500000476837158
+  ],
+  "design": {
+    "edition": 2,
+    "family": "liminal",
+    "reconstruction": "components",
+    "methods": [
+      "entalhes e bordas de perfis",
+      "arestas chanfradas"
+    ],
+    "seed": 62525
+  }
 }

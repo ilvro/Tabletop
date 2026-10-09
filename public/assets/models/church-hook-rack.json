@@ -3,58 +3,10 @@
   "unit": "meter",
   "pivot": "base-center",
   "materials": {
-    "limestone": {
-      "color": "#b1a18a",
-      "roughness": 0.95
-    },
-    "wornStone": {
-      "color": "#524a43",
-      "roughness": 1
-    },
-    "carving": {
-      "color": "#c6b79d",
-      "roughness": 0.88
-    },
-    "wood": {
-      "color": "#482b23",
-      "roughness": 0.87
-    },
     "iron": {
       "color": "#343035",
-      "metalness": 0.7,
-      "roughness": 0.55
-    },
-    "brass": {
-      "color": "#9b7750",
-      "metalness": 0.65,
-      "roughness": 0.4
-    },
-    "cloth": {
-      "color": "#631e2b",
-      "roughness": 1
-    },
-    "glass": {
-      "color": "#9e122f",
-      "emissive": "#a4132e",
-      "emissiveIntensity": 0.65,
-      "roughness": 0.28,
-      "opacity": 0.72
-    },
-    "amberGlass": {
-      "color": "#b85032",
-      "emissive": "#a83d22",
-      "emissiveIntensity": 0.35,
-      "roughness": 0.3,
-      "opacity": 0.8
-    },
-    "wax": {
-      "color": "#c5af88",
-      "roughness": 0.9
-    },
-    "flame": {
-      "color": "#ffd58a",
-      "emissive": "#ff8a37",
-      "emissiveIntensity": 2
+      "metalness": 0.5,
+      "roughness": 0.46
     }
   },
   "parts": [
@@ -81,13 +33,14 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      }
+      },
+      "bevel": 0.009
     },
     {
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -1.6,
@@ -116,7 +69,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -1.581761798117185,
@@ -145,7 +98,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -1.5644841514427585,
@@ -174,7 +127,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -1.5490770254222426,
@@ -203,7 +156,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -1.5363518703970909,
@@ -232,7 +185,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -1.5269788847791583,
@@ -261,7 +214,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -1.5214517175702114,
@@ -290,7 +243,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -1.5200614692462888,
@@ -319,7 +272,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -1.5228813603078042,
@@ -348,7 +301,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -1.5297628749600738,
@@ -377,7 +330,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -1.5403435830258625,
@@ -406,7 +359,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -1.5540662281316342,
@@ -461,7 +414,7 @@
         ]
       ],
       "radius": 0.045,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -485,7 +438,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -0.8,
@@ -514,7 +467,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -0.7817617981171849,
@@ -543,7 +496,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -0.7644841514427585,
@@ -572,7 +525,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -0.7490770254222426,
@@ -601,7 +554,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -0.7363518703970907,
@@ -630,7 +583,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -0.7269788847791584,
@@ -659,7 +612,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -0.7214517175702113,
@@ -688,7 +641,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -0.7200614692462888,
@@ -717,7 +670,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -0.7228813603078041,
@@ -746,7 +699,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -0.7297628749600737,
@@ -775,7 +728,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -0.7403435830258625,
@@ -804,7 +757,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         -0.7540662281316343,
@@ -859,7 +812,7 @@
         ]
       ],
       "radius": 0.045,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -883,7 +836,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0,
@@ -912,7 +865,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.018238201882815074,
@@ -941,7 +894,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.03551584855724158,
@@ -970,7 +923,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.05092297457775744,
@@ -999,7 +952,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.06364812960290929,
@@ -1028,7 +981,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.07302111522084169,
@@ -1057,7 +1010,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.07854828242978878,
@@ -1086,7 +1039,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.07993853075371124,
@@ -1115,7 +1068,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.07711863969219585,
@@ -1144,7 +1097,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.07023712503992624,
@@ -1173,7 +1126,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.0596564169741376,
@@ -1202,7 +1155,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.04593377186836579,
@@ -1257,7 +1210,7 @@
         ]
       ],
       "radius": 0.045,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -1281,7 +1234,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.8000000000000003,
@@ -1310,7 +1263,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.8182382018828154,
@@ -1339,7 +1292,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.8355158485572418,
@@ -1368,7 +1321,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.8509229745777577,
@@ -1397,7 +1350,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.8636481296029096,
@@ -1426,7 +1379,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.8730211152208419,
@@ -1455,7 +1408,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.878548282429789,
@@ -1484,7 +1437,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.8799385307537115,
@@ -1513,7 +1466,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.8771186396921962,
@@ -1542,7 +1495,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.8702371250399266,
@@ -1571,7 +1524,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.8596564169741379,
@@ -1600,7 +1553,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         0.845933771868366,
@@ -1655,7 +1608,7 @@
         ]
       ],
       "radius": 0.045,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -1679,7 +1632,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         1.6,
@@ -1708,7 +1661,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         1.6182382018828152,
@@ -1737,7 +1690,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         1.6355158485572416,
@@ -1766,7 +1719,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         1.6509229745777576,
@@ -1795,7 +1748,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         1.6636481296029093,
@@ -1824,7 +1777,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         1.6730211152208418,
@@ -1853,7 +1806,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         1.6785482824297888,
@@ -1882,7 +1835,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         1.6799385307537114,
@@ -1911,7 +1864,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         1.677118639692196,
@@ -1940,7 +1893,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         1.6702371250399264,
@@ -1969,7 +1922,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         1.6596564169741377,
@@ -1998,7 +1951,7 @@
       "shape": "ring",
       "radius": 0.055,
       "tube": 0.012,
-      "segments": 12,
+      "segments": 14,
       "sides": 6,
       "position": [
         1.645933771868366,
@@ -2053,7 +2006,7 @@
         ]
       ],
       "radius": 0.045,
-      "segments": 36,
+      "segments": 38,
       "sides": 8,
       "position": [
         0,
@@ -2074,5 +2027,21 @@
       }
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    3.799999952316284,
+    1.5900616645812988,
+    0.21700000762939453
+  ],
+  "design": {
+    "edition": 2,
+    "family": "ritual",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "ferragens curvas com vazios reais",
+      "cordas e tubos curvos"
+    ],
+    "seed": 64868
+  }
 }

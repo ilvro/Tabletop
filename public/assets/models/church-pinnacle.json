@@ -7,54 +7,9 @@
       "color": "#b1a18a",
       "roughness": 0.95
     },
-    "wornStone": {
-      "color": "#524a43",
-      "roughness": 1
-    },
     "carving": {
       "color": "#c6b79d",
       "roughness": 0.88
-    },
-    "wood": {
-      "color": "#482b23",
-      "roughness": 0.87
-    },
-    "iron": {
-      "color": "#343035",
-      "metalness": 0.7,
-      "roughness": 0.55
-    },
-    "brass": {
-      "color": "#9b7750",
-      "metalness": 0.65,
-      "roughness": 0.4
-    },
-    "cloth": {
-      "color": "#631e2b",
-      "roughness": 1
-    },
-    "glass": {
-      "color": "#9e122f",
-      "emissive": "#a4132e",
-      "emissiveIntensity": 0.65,
-      "roughness": 0.28,
-      "opacity": 0.72
-    },
-    "amberGlass": {
-      "color": "#b85032",
-      "emissive": "#a83d22",
-      "emissiveIntensity": 0.35,
-      "roughness": 0.3,
-      "opacity": 0.8
-    },
-    "wax": {
-      "color": "#c5af88",
-      "roughness": 0.9
-    },
-    "flame": {
-      "color": "#ffd58a",
-      "emissive": "#ff8a37",
-      "emissiveIntensity": 2
     }
   },
   "parts": [
@@ -78,7 +33,8 @@
         "textureColorMode": "replace",
         "textureColor": "#a99b88",
         "textureBrightness": 0.9
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -100,7 +56,8 @@
         "textureColorMode": "replace",
         "textureColor": "#a99b88",
         "textureBrightness": 0.9
-      }
+      },
+      "bevel": 0.012
     },
     {
       "shape": "box",
@@ -114,7 +71,8 @@
         1.3500000035762787,
         0
       ],
-      "material": "carving"
+      "material": "carving",
+      "bevel": 0.009
     },
     {
       "shape": "cylinder",
@@ -127,7 +85,7 @@
         0
       ],
       "material": "carving",
-      "segments": 4,
+      "segments": 24,
       "rotation": [
         0,
         0.7853981633974483,
@@ -145,7 +103,7 @@
         0
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         0,
         0,
@@ -163,7 +121,7 @@
         0
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         0,
         0,
@@ -181,7 +139,7 @@
         0
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         0,
         0,
@@ -199,7 +157,7 @@
         0
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         0,
         0,
@@ -217,7 +175,7 @@
         0
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         0,
         0,
@@ -235,7 +193,7 @@
         0
       ],
       "material": "carving",
-      "segments": 10,
+      "segments": 24,
       "rotation": [
         0,
         0,
@@ -243,5 +201,20 @@
       ]
     }
   ],
-  "mergeParts": true
+  "mergeParts": true,
+  "fitBounds": [
+    0.75,
+    2.9200000762939453,
+    0.75
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "curvas de contorno refinadas"
+    ],
+    "seed": 56721
+  }
 }

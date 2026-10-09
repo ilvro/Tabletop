@@ -24,6 +24,7 @@ test('derived example cache detects content and asset changes without requiring 
   assert.equal(await cache.key(example, structuredClone(scene), assets), key);
   assert.notEqual(await cache.key(example, { ...scene, name: 'Mudou' }, assets), key);
   assert.notEqual(await cache.key(example, scene, [{ ...assets[0], revision: 2 }]), key);
+  assert.notEqual(await cache.key(example, scene, [{ ...assets[0], contentHash: 'new-geometry' }]), key);
   await cache.write(key, 'data:image/jpeg;base64,/9j/2Q==');
   assert.equal(await cache.read(key), null, 'storage unavailable does not block rendering');
 });
