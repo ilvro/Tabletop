@@ -235,8 +235,7 @@
         0,
         -2
       ],
-      "material": "carving",
-      "edgeBevel": 0.003
+      "material": "carving"
     },
     {
       "shape": "profile",
@@ -464,8 +463,7 @@
         0,
         2
       ],
-      "material": "carving",
-      "edgeBevel": 0.003
+      "material": "carving"
     },
     {
       "shape": "rope",
@@ -497,7 +495,7 @@
         ]
       ],
       "radius": 0.095,
-      "segments": 38,
+      "segments": 36,
       "sides": 8,
       "position": [
         0,
@@ -536,7 +534,7 @@
         ]
       ],
       "radius": 0.095,
-      "segments": 38,
+      "segments": 36,
       "sides": 8,
       "position": [
         0,
@@ -601,7 +599,6 @@
     "family": "architecture",
     "reconstruction": "components",
     "methods": [
-      "entalhes e bordas de perfis",
       "cordas e tubos curvos",
       "perfis torneados e bordas de chapa"
     ],

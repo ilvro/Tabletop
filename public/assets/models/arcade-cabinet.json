@@ -92,8 +92,7 @@
         0,
         -1.5707963267948966,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -150,8 +149,7 @@
         0,
         -1.5707963267948966,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "box",
@@ -297,7 +295,7 @@
         0.272
       ],
       "material": "black",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -312,7 +310,7 @@
         0.272
       ],
       "material": "black",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -547,7 +545,7 @@
         0,
         0
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -567,7 +565,7 @@
         0,
         0
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -587,7 +585,7 @@
         0,
         0
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -607,7 +605,7 @@
         0,
         0
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -622,7 +620,7 @@
         0.296
       ],
       "material": "violet",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -637,7 +635,7 @@
         0.3
       ],
       "material": "metal",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -652,7 +650,7 @@
         0.3
       ],
       "material": "metal",
-      "bevel": 0.00182
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -667,7 +665,6 @@
     "reconstruction": "model",
     "methods": [
       "fliperama com laterais recortadas, tela inclinada, painel com alavanca e botões, letreiro e porta de fichas",
-      "entalhes e bordas de perfis",
       "arestas chanfradas",
       "curvas de contorno refinadas"
     ],

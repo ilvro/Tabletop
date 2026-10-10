@@ -427,7 +427,7 @@
         0,
         0.15
       ],
-      "bevel": 0.0013000000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -447,7 +447,7 @@
         0,
         0.3
       ],
-      "bevel": 0.0013000000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -467,7 +467,7 @@
         0,
         0.78
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -487,7 +487,7 @@
         0,
         -0.78
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -507,7 +507,7 @@
         0,
         0.78
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -527,7 +527,7 @@
         0,
         -0.78
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -542,7 +542,7 @@
         0.112
       ],
       "material": "black",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -557,7 +557,7 @@
         0.113
       ],
       "material": "black",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -572,7 +572,7 @@
         0.113
       ],
       "material": "black",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -587,7 +587,7 @@
         0.113
       ],
       "material": "black",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -602,7 +602,7 @@
         0.113
       ],
       "material": "black",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -617,7 +617,7 @@
         0.113
       ],
       "material": "black",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "ring",
@@ -645,7 +645,7 @@
         0.127
       ],
       "material": "red",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -660,7 +660,7 @@
         0.127
       ],
       "material": "red",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "foliage",
@@ -675,7 +675,7 @@
         0.36,
         0
       ],
-      "count": 34,
+      "count": 26,
       "seed": 44,
       "material": "paper"
     }
@@ -693,9 +693,7 @@
     "methods": [
       "efígie de palha amarrada em cruz, com cabeça de saco costurada, faixa, braços em feixes e marca pintada no peito",
       "perfis torneados e bordas de chapa",
-      "ferragens curvas com vazios reais",
-      "arestas chanfradas",
-      "densidade e nervuras de folhagem"
+      "ferragens curvas com vazios reais"
     ],
     "seed": 53535
   }

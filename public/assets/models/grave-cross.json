@@ -559,7 +559,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -583,7 +583,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -610,7 +610,7 @@
         0,
         -0.05
       ],
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -630,7 +630,7 @@
         0,
         -0.05
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -650,7 +650,7 @@
         0,
         -0.05
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "foliage",
@@ -665,7 +665,7 @@
         0,
         -0.5
       ],
-      "count": 19,
+      "count": 14,
       "seed": 30,
       "material": "green"
     },
@@ -682,7 +682,7 @@
         0,
         0.2
       ],
-      "count": 19,
+      "count": 14,
       "seed": 31,
       "material": "green"
     },
@@ -699,7 +699,7 @@
         0,
         0.6
       ],
-      "count": 19,
+      "count": 14,
       "seed": 32,
       "material": "green"
     },
@@ -716,7 +716,7 @@
         0,
         -0.62
       ],
-      "count": 19,
+      "count": 14,
       "seed": 33,
       "material": "green"
     },
@@ -748,10 +748,8 @@
     "reconstruction": "model",
     "methods": [
       "cova com montículo de terra, pedras de contorno, cruz de madeira amarrada e tombada, placa e tufos de capim",
-      "subdivisão mineral preservando parâmetros de escultura",
       "arestas chanfradas",
-      "cordas e tubos curvos",
-      "densidade e nervuras de folhagem"
+      "cordas e tubos curvos"
     ],
     "seed": 44047
   }

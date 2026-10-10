@@ -33,7 +33,8 @@
         0.1770000003516674,
         0
       ],
-      "material": "paper"
+      "material": "paper",
+      "segments": 24
     },
     {
       "shape": "ellipsoid",
@@ -47,7 +48,8 @@
         0.07200000014305115,
         0.030000001192092896
       ],
-      "material": "paper"
+      "material": "paper",
+      "segments": 24
     },
     {
       "shape": "ellipsoid",
@@ -61,7 +63,8 @@
         0.1800000003576279,
         0.10650000423192978
       ],
-      "material": "black"
+      "material": "black",
+      "segments": 16
     },
     {
       "shape": "ellipsoid",
@@ -80,7 +83,8 @@
         0,
         0,
         0.18
-      ]
+      ],
+      "segments": 16
     },
     {
       "shape": "ellipsoid",
@@ -94,7 +98,8 @@
         0.1110000002205372,
         0.07500000298023224
       ],
-      "material": "paper"
+      "material": "paper",
+      "segments": 16
     },
     {
       "shape": "ellipsoid",
@@ -108,7 +113,8 @@
         0.1800000003576279,
         0.10650000423192978
       ],
-      "material": "black"
+      "material": "black",
+      "segments": 16
     },
     {
       "shape": "ellipsoid",
@@ -127,7 +133,8 @@
         0,
         0,
         -0.18
-      ]
+      ],
+      "segments": 16
     },
     {
       "shape": "ellipsoid",
@@ -141,7 +148,8 @@
         0.1110000002205372,
         0.07500000298023224
       ],
-      "material": "paper"
+      "material": "paper",
+      "segments": 16
     },
     {
       "shape": "profile",
@@ -165,8 +173,7 @@
         0.10200000020265582,
         0.12900000512599946
       ],
-      "material": "black",
-      "edgeBevel": 0.003
+      "material": "black"
     },
     {
       "shape": "box",
@@ -316,7 +323,6 @@
     "reconstruction": "model",
     "methods": [
       "escultura de crânio/máscara: órbitas, maçãs, mandíbula e dentes",
-      "entalhes e bordas de perfis",
       "arestas chanfradas"
     ],
     "seed": 53801

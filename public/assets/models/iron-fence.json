@@ -347,7 +347,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -524,7 +524,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -673,7 +673,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -860,7 +860,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,

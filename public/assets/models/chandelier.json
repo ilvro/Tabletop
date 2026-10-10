@@ -357,7 +357,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -510,7 +510,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -544,7 +544,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -697,7 +697,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -731,7 +731,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -884,7 +884,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -918,7 +918,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1071,7 +1071,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1105,7 +1105,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1258,7 +1258,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1292,7 +1292,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1445,7 +1445,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,

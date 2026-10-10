@@ -230,7 +230,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -254,7 +254,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -278,7 +278,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -302,7 +302,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -352,7 +352,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -661,7 +661,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -695,7 +695,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,

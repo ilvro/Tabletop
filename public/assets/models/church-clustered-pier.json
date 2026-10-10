@@ -678,8 +678,7 @@
         0.49999999940395357,
         0.584
       ],
-      "material": "wornStone",
-      "edgeBevel": 0.0021599999999999996
+      "material": "wornStone"
     }
   ],
   "mergeParts": true,
@@ -694,8 +693,7 @@
     "reconstruction": "components",
     "methods": [
       "arestas chanfradas",
-      "perfis torneados e bordas de chapa",
-      "entalhes e bordas de perfis"
+      "perfis torneados e bordas de chapa"
     ],
     "seed": 5975
   }

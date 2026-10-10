@@ -161,7 +161,7 @@
         "textureColor": "#777873",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00102
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -190,7 +190,7 @@
         "textureColor": "#777873",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00102
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -219,7 +219,7 @@
         "textureColor": "#777873",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00102
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -348,7 +348,7 @@
         "textureColor": "#777873",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00102
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -377,7 +377,7 @@
         "textureColor": "#777873",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00102
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -406,7 +406,7 @@
         "textureColor": "#777873",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00102
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -446,7 +446,7 @@
         0
       ],
       "material": "red",
-      "bevel": 0.00208000004939735
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -461,7 +461,7 @@
         0.396
       ],
       "material": "red",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -476,7 +476,7 @@
         0.396
       ],
       "material": "red",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -491,7 +491,7 @@
         0.396
       ],
       "material": "red",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -506,7 +506,7 @@
         0.396
       ],
       "material": "red",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -521,7 +521,7 @@
         0.396
       ],
       "material": "red",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -536,7 +536,7 @@
         0.396
       ],
       "material": "red",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -551,7 +551,7 @@
         0.396
       ],
       "material": "red",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -566,7 +566,7 @@
         -0.3
       ],
       "material": "dark",
-      "bevel": 0.00039000000000000005
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -581,7 +581,7 @@
         0.3
       ],
       "material": "dark",
-      "bevel": 0.00039000000000000005
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -601,7 +601,7 @@
         0,
         -0.3
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -621,7 +621,7 @@
         0,
         0.9
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -641,7 +641,7 @@
         0,
         0.5
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -661,7 +661,7 @@
         0,
         -0.9
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -681,7 +681,7 @@
         0,
         -0.3
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -701,7 +701,7 @@
         0,
         -0.9
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -721,7 +721,7 @@
         0,
         0.5
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -741,7 +741,7 @@
         0,
         0.9
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -761,7 +761,7 @@
         0,
         -0.3
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -781,7 +781,7 @@
         0,
         -0.9
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -801,7 +801,7 @@
         0,
         0.5
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -821,7 +821,7 @@
         0,
         -0.9
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -1406,8 +1406,7 @@
       "altar de pedra com apoios talhados, sigilos em relevo, canaletas, inscrições, toalha com franja, velas e crânio",
       "arestas chanfradas",
       "ferragens curvas com vazios reais",
-      "curvas de contorno refinadas",
-      "subdivisão mineral preservando parâmetros de escultura"
+      "curvas de contorno refinadas"
     ],
     "seed": 58297
   }

@@ -105,7 +105,7 @@
         "textureColor": "#777873",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00102
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -217,7 +217,7 @@
         ]
       ],
       "radius": 0.018,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -255,7 +255,7 @@
         ]
       ],
       "radius": 0.018,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -293,7 +293,7 @@
         ]
       ],
       "radius": 0.018,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -331,7 +331,7 @@
         ]
       ],
       "radius": 0.018,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -369,7 +369,7 @@
         ]
       ],
       "radius": 0.018,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -407,7 +407,7 @@
         ]
       ],
       "radius": 0.018,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -445,7 +445,7 @@
         ]
       ],
       "radius": 0.018,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -483,7 +483,7 @@
         ]
       ],
       "radius": 0.018,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -521,7 +521,7 @@
         ]
       ],
       "radius": 0.018,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -670,7 +670,7 @@
         ]
       ],
       "radius": 0.04,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -748,8 +748,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -811,8 +810,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -874,8 +872,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "rope",
@@ -902,7 +899,7 @@
         ]
       ],
       "radius": 0.04,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -980,8 +977,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1043,8 +1039,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1106,8 +1101,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "edgeBevel": 0.003
+      }
     }
   ],
   "mergeParts": true,
@@ -1123,8 +1117,7 @@
     "methods": [
       "anjo que chora sobre pedestal moldurado, com túnica drapeada, cabeça inclinada, mãos no rosto e asas em camadas",
       "arestas chanfradas",
-      "cordas e tubos curvos",
-      "entalhes e bordas de perfis"
+      "cordas e tubos curvos"
     ],
     "seed": 3193
   }

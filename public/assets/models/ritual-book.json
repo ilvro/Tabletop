@@ -51,7 +51,7 @@
         0
       ],
       "material": "paper",
-      "bevel": 0.002145
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -66,7 +66,7 @@
         0
       ],
       "material": "paper",
-      "bevel": 0.002145
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -81,7 +81,7 @@
         0
       ],
       "material": "paper",
-      "bevel": 0.002145
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -96,7 +96,7 @@
         0
       ],
       "material": "paper",
-      "bevel": 0.002145
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -223,7 +223,7 @@
         -0.1
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -254,7 +254,7 @@
         -0.1
       ],
       "material": "dark",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -285,7 +285,7 @@
         0.1
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -316,7 +316,7 @@
         0.1
       ],
       "material": "dark",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "ring",
@@ -354,7 +354,7 @@
         0,
         0
       ],
-      "bevel": 0.0006500000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -374,7 +374,7 @@
         2.0943951023931953,
         0
       ],
-      "bevel": 0.0006500000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -394,7 +394,7 @@
         4.1887902047863905,
         0
       ],
-      "bevel": 0.0006500000000000001
+      "bevel": 0
     },
     {
       "shape": "ellipsoid",
@@ -429,7 +429,7 @@
         0,
         0
       ],
-      "bevel": 0.00039000000000000005
+      "bevel": 0
     }
   ],
   "mergeParts": true,

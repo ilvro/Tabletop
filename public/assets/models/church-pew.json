@@ -144,8 +144,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "box",
@@ -251,8 +250,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "box",
@@ -330,7 +328,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -356,7 +354,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -382,7 +380,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -408,7 +406,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -434,7 +432,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -460,7 +458,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -486,7 +484,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -512,7 +510,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -538,7 +536,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -564,7 +562,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -590,7 +588,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -616,7 +614,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -642,7 +640,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -668,7 +666,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -694,7 +692,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -720,7 +718,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -735,8 +733,7 @@
     "reconstruction": "model",
     "methods": [
       "banco eclesiástico com laterais recortadas e painéis de encosto",
-      "arestas chanfradas",
-      "entalhes e bordas de perfis"
+      "arestas chanfradas"
     ],
     "seed": 3973
   }

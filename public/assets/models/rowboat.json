@@ -139,8 +139,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -272,8 +271,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -405,8 +403,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -538,8 +535,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -671,8 +667,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -804,8 +799,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -937,8 +931,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1070,8 +1063,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1203,8 +1195,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1336,8 +1327,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1469,8 +1459,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1602,8 +1591,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "box",
@@ -1739,7 +1727,7 @@
         ]
       ],
       "radius": 0.018,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -1789,7 +1777,7 @@
         ]
       ],
       "radius": 0.018,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -1822,7 +1810,6 @@
     "reconstruction": "model",
     "methods": [
       "barco com casco aberto de tábuas curvas, quilha, bordas e bancos",
-      "entalhes e bordas de perfis",
       "arestas chanfradas",
       "cordas e tubos curvos"
     ],

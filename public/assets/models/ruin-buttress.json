@@ -23,7 +23,7 @@
       ],
       "form": "fractured",
       "seed": 102,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -48,7 +48,7 @@
       ],
       "form": "fractured",
       "seed": 103,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -73,7 +73,7 @@
       ],
       "form": "fractured",
       "seed": 104,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -98,7 +98,7 @@
       ],
       "form": "fractured",
       "seed": 105,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -123,7 +123,7 @@
       ],
       "form": "fractured",
       "seed": 106,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -148,7 +148,7 @@
       ],
       "form": "fractured",
       "seed": 107,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -173,7 +173,7 @@
       ],
       "form": "fractured",
       "seed": 108,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -218,7 +218,6 @@
     "family": "architecture",
     "reconstruction": "components",
     "methods": [
-      "subdivisão mineral preservando parâmetros de escultura",
       "arestas chanfradas"
     ],
     "seed": 57794

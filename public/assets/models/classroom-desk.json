@@ -54,7 +54,7 @@
         ]
       ],
       "radius": 0.013,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -102,7 +102,7 @@
         -0.24
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -162,7 +162,7 @@
         ]
       ],
       "radius": 0.013,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -210,7 +210,7 @@
         -0.24
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -286,7 +286,7 @@
         -0.42
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "cylinder",

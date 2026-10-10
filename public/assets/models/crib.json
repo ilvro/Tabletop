@@ -658,8 +658,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.0026399999999999996
+      }
     },
     {
       "shape": "box",
@@ -1028,8 +1027,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.0026399999999999996
+      }
     },
     {
       "shape": "box",
@@ -1162,7 +1160,6 @@
       "berço com postes torneados, grades de varetas, cabeceiras recortadas, colchão e manta dobrada",
       "arestas chanfradas",
       "curvas de contorno refinadas",
-      "entalhes e bordas de perfis",
       "estofamento com bordas macias"
     ],
     "seed": 12305

@@ -208,7 +208,7 @@
       "radiusBottom": 0.035,
       "radiusTop": 0.025,
       "height": 0.035,
-      "segments": 24,
+      "segments": 16,
       "position": [
         0.347499980032444,
         0.5424999904632568,
@@ -368,7 +368,7 @@
       "radiusBottom": 0.011,
       "radiusTop": 0.011,
       "height": 0.3,
-      "segments": 24,
+      "segments": 8,
       "position": [
         0.5224999800324439,
         0.19249999046325683,
@@ -381,7 +381,7 @@
       "radiusBottom": 0.011,
       "radiusTop": 0.011,
       "height": 0.3,
-      "segments": 24,
+      "segments": 8,
       "position": [
         0.4712436667400898,
         0.19249999046325683,
@@ -394,7 +394,7 @@
       "radiusBottom": 0.011,
       "radiusTop": 0.011,
       "height": 0.3,
-      "segments": 24,
+      "segments": 8,
       "position": [
         0.347499980032444,
         0.19249999046325683,
@@ -407,7 +407,7 @@
       "radiusBottom": 0.011,
       "radiusTop": 0.011,
       "height": 0.3,
-      "segments": 24,
+      "segments": 8,
       "position": [
         0.22375629332479818,
         0.19249999046325683,
@@ -420,7 +420,7 @@
       "radiusBottom": 0.011,
       "radiusTop": 0.011,
       "height": 0.3,
-      "segments": 24,
+      "segments": 8,
       "position": [
         0.17249998003244404,
         0.19249999046325683,
@@ -433,7 +433,7 @@
       "radiusBottom": 0.011,
       "radiusTop": 0.011,
       "height": 0.3,
-      "segments": 24,
+      "segments": 8,
       "position": [
         0.22375629332479818,
         0.19249999046325683,
@@ -446,7 +446,7 @@
       "radiusBottom": 0.011,
       "radiusTop": 0.011,
       "height": 0.3,
-      "segments": 24,
+      "segments": 8,
       "position": [
         0.347499980032444,
         0.19249999046325683,
@@ -459,7 +459,7 @@
       "radiusBottom": 0.011,
       "radiusTop": 0.011,
       "height": 0.3,
-      "segments": 24,
+      "segments": 8,
       "position": [
         0.4712436667400898,
         0.19249999046325683,

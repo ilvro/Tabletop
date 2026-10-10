@@ -67,7 +67,7 @@
         -0.02
       ],
       "material": "black",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -274,7 +274,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -328,7 +328,7 @@
         0.16789999856054783
       ],
       "material": "paper",
-      "bevel": 0.00039000000000000005
+      "bevel": 0
     },
     {
       "shape": "cylinder",

@@ -44,7 +44,7 @@
         0.04
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -83,7 +83,7 @@
         0.04
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -122,7 +122,7 @@
         0.04
       ],
       "material": "paper",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -161,7 +161,7 @@
         0.09923086232578757
       ],
       "material": "paper",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -174,7 +174,7 @@
         0.09923086232578757
       ],
       "material": "black",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -187,7 +187,7 @@
         0.07992241444575601
       ],
       "material": "paper",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -200,7 +200,7 @@
         0.07992241444575601
       ],
       "material": "black",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -213,7 +213,7 @@
         0.047938882057498085
       ],
       "material": "paper",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -226,7 +226,7 @@
         0.047938882057498085
       ],
       "material": "black",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -239,7 +239,7 @@
         0.013434810709444682
       ],
       "material": "paper",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -252,7 +252,7 @@
         0.013434810709444682
       ],
       "material": "black",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -265,7 +265,7 @@
         -0.012635000739515546
       ],
       "material": "paper",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -278,7 +278,7 @@
         -0.012635000739515546
       ],
       "material": "black",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -291,7 +291,7 @@
         -0.02199357135482325
       ],
       "material": "paper",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -304,7 +304,7 @@
         -0.02199357135482325
       ],
       "material": "black",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -317,7 +317,7 @@
         -0.011669621090618407
       ],
       "material": "paper",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -330,7 +330,7 @@
         -0.011669621090618407
       ],
       "material": "black",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -343,7 +343,7 @@
         0.01505906878976079
       ],
       "material": "paper",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -356,7 +356,7 @@
         0.01505906878976079
       ],
       "material": "black",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -369,7 +369,7 @@
         0.04970632810519197
       ],
       "material": "paper",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -382,7 +382,7 @@
         0.04970632810519197
       ],
       "material": "black",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -395,7 +395,7 @@
         0.08127189682886186
       ],
       "material": "paper",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -408,7 +408,7 @@
         0.08127189682886186
       ],
       "material": "black",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "rope",
@@ -435,7 +435,7 @@
         ]
       ],
       "radius": 0.027,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -456,7 +456,8 @@
         0.135,
         -0.075
       ],
-      "material": "black"
+      "material": "black",
+      "segments": 16
     },
     {
       "shape": "ellipsoid",
@@ -470,7 +471,8 @@
         0.135,
         -0.075
       ],
-      "material": "black"
+      "material": "black",
+      "segments": 16
     },
     {
       "shape": "rope",
@@ -557,7 +559,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,

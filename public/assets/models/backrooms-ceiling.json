@@ -26,7 +26,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.00455
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -50,7 +50,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -74,7 +74,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -98,7 +98,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -122,7 +122,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -146,7 +146,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -170,7 +170,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -194,7 +194,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -218,7 +218,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -242,7 +242,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -266,7 +266,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -290,7 +290,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -314,7 +314,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -338,7 +338,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -362,7 +362,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -386,7 +386,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -410,7 +410,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -434,7 +434,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -458,7 +458,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -482,7 +482,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -506,7 +506,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -530,7 +530,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -554,7 +554,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -578,7 +578,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -602,7 +602,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -626,7 +626,7 @@
         "textureColor": "#d0ccb1",
         "textureColorMode": "replace"
       },
-      "bevel": 0.00425
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -640,7 +640,7 @@
     "family": "liminal",
     "reconstruction": "components",
     "methods": [
-      "arestas chanfradas"
+      "fonte detalhada preservada"
     ],
     "seed": 60856
   }

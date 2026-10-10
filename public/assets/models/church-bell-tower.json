@@ -315,8 +315,7 @@
         0,
         0,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -549,8 +548,7 @@
         0,
         0,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -783,8 +781,7 @@
         0,
         1.5707963267948966,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -1017,8 +1014,7 @@
         0,
         1.5707963267948966,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "box",
@@ -1054,7 +1050,7 @@
         0
       ],
       "material": "iron",
-      "segments": 24,
+      "segments": 32,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -1130,7 +1126,6 @@
     "reconstruction": "components",
     "methods": [
       "arestas chanfradas",
-      "entalhes e bordas de perfis",
       "curvas de contorno refinadas"
     ],
     "seed": 15868

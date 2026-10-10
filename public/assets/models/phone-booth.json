@@ -371,7 +371,7 @@
         ]
       ],
       "radius": 0.014,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -435,7 +435,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -637,7 +637,7 @@
         -0.092
       ],
       "material": "metal",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -668,7 +668,7 @@
         -0.11
       ],
       "material": "black",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",

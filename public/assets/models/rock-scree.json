@@ -35,8 +35,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "refinement": 1
+      }
     },
     {
       "shape": "rock",
@@ -69,8 +68,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "refinement": 1
+      }
     },
     {
       "shape": "rock",
@@ -103,8 +101,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "refinement": 1
+      }
     },
     {
       "shape": "rock",
@@ -137,8 +134,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "refinement": 1
+      }
     },
     {
       "shape": "rock",
@@ -171,8 +167,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "refinement": 1
+      }
     },
     {
       "shape": "rock",
@@ -205,8 +200,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "refinement": 1
+      }
     },
     {
       "shape": "rock",
@@ -239,8 +233,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "refinement": 1
+      }
     },
     {
       "shape": "rock",
@@ -273,8 +266,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "refinement": 1
+      }
     },
     {
       "shape": "rock",
@@ -307,8 +299,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "refinement": 1
+      }
     }
   ],
   "mergeParts": true,
@@ -322,7 +313,7 @@
     "family": "geological",
     "reconstruction": "components",
     "methods": [
-      "subdivisão mineral preservando parâmetros de escultura"
+      "fonte detalhada preservada"
     ],
     "seed": 55139
   }

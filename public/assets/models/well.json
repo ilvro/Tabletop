@@ -1185,8 +1185,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "box",
@@ -1283,8 +1282,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "lathe",
@@ -1487,7 +1485,7 @@
         ]
       ],
       "radius": 0.012,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1620,7 +1618,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1916,10 +1914,8 @@
     "reconstruction": "model",
     "methods": [
       "poço de pedras irregulares com sarilho, corda enrolada, balde com aros, manivela e telhado de tábuas",
-      "subdivisão mineral preservando parâmetros de escultura",
       "arestas chanfradas",
       "curvas de contorno refinadas",
-      "entalhes e bordas de perfis",
       "perfis torneados e bordas de chapa",
       "ferragens curvas com vazios reais",
       "cordas e tubos curvos"

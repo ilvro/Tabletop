@@ -51,8 +51,7 @@
         0.10000000149011612,
         0
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -88,8 +87,7 @@
         0.10000000149011612,
         -8
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -125,8 +123,7 @@
         0.10000000149011612,
         -7.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -162,8 +159,7 @@
         0.10000000149011612,
         -7
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -199,8 +195,7 @@
         0.10000000149011612,
         -6.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -236,8 +231,7 @@
         0.10000000149011612,
         -6
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -273,8 +267,7 @@
         0.10000000149011612,
         -5.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -310,8 +303,7 @@
         0.10000000149011612,
         -5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -347,8 +339,7 @@
         0.10000000149011612,
         -4.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -384,8 +375,7 @@
         0.10000000149011612,
         -4
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -421,8 +411,7 @@
         0.10000000149011612,
         -3.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -458,8 +447,7 @@
         0.10000000149011612,
         -3
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -495,8 +483,7 @@
         0.10000000149011612,
         -2.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -532,8 +519,7 @@
         0.10000000149011612,
         -2
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -569,8 +555,7 @@
         0.10000000149011612,
         -1.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -606,8 +591,7 @@
         0.10000000149011612,
         -1
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -643,8 +627,7 @@
         0.10000000149011612,
         -0.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -680,8 +663,7 @@
         0.10000000149011612,
         0
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -717,8 +699,7 @@
         0.10000000149011612,
         0.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -754,8 +735,7 @@
         0.10000000149011612,
         1
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -791,8 +771,7 @@
         0.10000000149011612,
         1.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -828,8 +807,7 @@
         0.10000000149011612,
         2
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -865,8 +843,7 @@
         0.10000000149011612,
         2.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -902,8 +879,7 @@
         0.10000000149011612,
         3
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -939,8 +915,7 @@
         0.10000000149011612,
         3.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -976,8 +951,7 @@
         0.10000000149011612,
         4
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -1013,8 +987,7 @@
         0.10000000149011612,
         4.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -1050,8 +1023,7 @@
         0.10000000149011612,
         5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -1087,8 +1059,7 @@
         0.10000000149011612,
         5.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -1124,8 +1095,7 @@
         0.10000000149011612,
         6
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -1161,8 +1131,7 @@
         0.10000000149011612,
         6.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -1198,8 +1167,7 @@
         0.10000000149011612,
         7
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -1235,8 +1203,7 @@
         0.10000000149011612,
         7.5
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -1272,8 +1239,7 @@
         0.10000000149011612,
         8
       ],
-      "material": "clay",
-      "edgeBevel": 0.003
+      "material": "clay"
     },
     {
       "shape": "profile",
@@ -1297,8 +1263,7 @@
         0.10000000149011612,
         -7.5
       ],
-      "material": "ivory",
-      "edgeBevel": 0.003
+      "material": "ivory"
     },
     {
       "shape": "profile",
@@ -1322,8 +1287,7 @@
         0.10000000149011612,
         7.5
       ],
-      "material": "ivory",
-      "edgeBevel": 0.003
+      "material": "ivory"
     },
     {
       "shape": "lathe",
@@ -1433,7 +1397,6 @@
     "family": "interior",
     "reconstruction": "components",
     "methods": [
-      "entalhes e bordas de perfis",
       "perfis torneados e bordas de chapa",
       "arestas chanfradas"
     ],

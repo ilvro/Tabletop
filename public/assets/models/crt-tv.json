@@ -112,7 +112,7 @@
         0.251563002422601
       ],
       "material": "black",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -127,7 +127,7 @@
         0.251563002422601
       ],
       "material": "black",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -142,7 +142,7 @@
         0.251563002422601
       ],
       "material": "black",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -157,7 +157,7 @@
         0.251563002422601
       ],
       "material": "black",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -172,7 +172,7 @@
         0.251563002422601
       ],
       "material": "black",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -187,7 +187,7 @@
         0.251563002422601
       ],
       "material": "black",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -202,7 +202,7 @@
         0.251563002422601
       ],
       "material": "black",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -217,7 +217,7 @@
         0.251563002422601
       ],
       "material": "black",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -232,7 +232,7 @@
         0.251563002422601
       ],
       "material": "black",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -245,7 +245,7 @@
         0.2562700024679303
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         1.5707963267948966,
         0,
@@ -289,7 +289,7 @@
         0.2562700024679303
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         1.5707963267948966,
         0,
@@ -333,7 +333,7 @@
         -0.015690000151097776
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 8,
       "rotation": [
         0,
         0,
@@ -351,7 +351,7 @@
         -0.015690000151097776
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 8,
       "rotation": [
         0,
         0,

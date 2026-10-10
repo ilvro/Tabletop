@@ -164,8 +164,7 @@
         -1.5707963267948966,
         0,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "ring",
@@ -611,8 +610,7 @@
         -1.5707963267948966,
         0,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "ring",
@@ -949,7 +947,6 @@
     "reconstruction": "model",
     "methods": [
       "cortinas onduladas presas por abraçadeiras, varão de madeira com argolas, suportes e ponteiras torneadas",
-      "entalhes e bordas de perfis",
       "ferragens curvas com vazios reais",
       "arestas chanfradas",
       "curvas de contorno refinadas"

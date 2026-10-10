@@ -144,7 +144,7 @@
         0.356
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -309,7 +309,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -359,7 +359,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -485,7 +485,7 @@
         0,
         0.1
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "ring",
@@ -535,8 +535,7 @@
         0,
         0,
         -0.3
-      ],
-      "edgeBevel": 0.0007199999999999999
+      ]
     },
     {
       "shape": "box",
@@ -696,7 +695,7 @@
         0,
         -0.12
       ],
-      "bevel": 0.0013000000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -716,7 +715,7 @@
         0,
         0.12
       ],
-      "bevel": 0.0013000000000000002
+      "bevel": 0
     },
     {
       "shape": "rope",
@@ -738,7 +737,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -900,7 +899,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1025,8 +1024,7 @@
       "arestas chanfradas",
       "cordas e tubos curvos",
       "curvas de contorno refinadas",
-      "ferragens curvas com vazios reais",
-      "entalhes e bordas de perfis"
+      "ferragens curvas com vazios reais"
     ],
     "seed": 40214
   }

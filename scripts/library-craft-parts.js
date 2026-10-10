@@ -1,4 +1,6 @@
 // Shared modelling vocabulary; values are metres, not screen-space decoration.
+// Tessellation follows size: a rivet does not need the sides of a barrel.
+export const sidesFor=radius=>radius<.012?8:radius<.035?12:radius<.09?16:radius<.3?24:32;
 export const box = (size,position,material='wood',rotation,bevel) => ({shape:'box',size,position,material,...(rotation?{rotation}:{}),...(bevel?{bevel:Math.min(bevel,Math.min(...size)*.48)}:{})});
 export const cylinder = (radius,height,position,material='metal',radiusTop=radius,rotation) => ({shape:'cylinder',radiusTop,radiusBottom:radius,height,position,material,segments:24,...(rotation?{rotation}:{})});
 export const ellipsoid = (size,position,material='cloth',rotation) => ({shape:'ellipsoid',size,position,material,...(rotation?{rotation}:{})});

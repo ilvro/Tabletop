@@ -31,7 +31,7 @@
         0.85
       ],
       "geometryEdition": 2,
-      "contentHash": "233b47855c4fd204f2dee502a088dfd475497ee8277dfc642358248a1ebe39e7"
+      "contentHash": "9a383de094bf68571429963fc9a7b103c6ffa51335b73880ab6c2a040cb84833"
     },
     {
       "id": "builtin-chair",
@@ -63,7 +63,7 @@
         0.505
       ],
       "geometryEdition": 2,
-      "contentHash": "ac554f42f402b571ee941ec66a466ae45c4883001a1b89a35fd5621430b3f1a2"
+      "contentHash": "4e5bc95908e9f82313fc320c281d11e641cc7924e9edcf4db6f5990f8bd550fd"
     },
     {
       "id": "builtin-cabinet",
@@ -96,7 +96,7 @@
         0.546
       ],
       "geometryEdition": 2,
-      "contentHash": "aa68826018531d1d185535b5f1ce483c8780ec8b0cba95b33e64ae9931c575a5"
+      "contentHash": "6d3e925ff1d690ef3c51e035be4c8773f0935e20fc1e7be072a0a885ca17159e"
     },
     {
       "id": "builtin-crate",
@@ -128,7 +128,7 @@
         0.82
       ],
       "geometryEdition": 2,
-      "contentHash": "7cc37316a9627809ba12967c30c05b5c7dad7cc6db8c2860372141eed893b68a"
+      "contentHash": "702818631699cd8d2e5e925024dbabdd0368958c1b3a50fdc5a892420d388c6c"
     },
     {
       "id": "builtin-lamp",
@@ -160,7 +160,7 @@
         0.62
       ],
       "geometryEdition": 2,
-      "contentHash": "9f94f20afaf5ef005b454a9b9454c7456f906d8bab7329b115cf39c0acac8f18"
+      "contentHash": "e4f2aaf10688015ac28ea7841a9e3191da7f84e7206fdfcb62d84a77a61717dc"
     },
     {
       "id": "builtin-rug",
@@ -192,7 +192,7 @@
         1.8
       ],
       "geometryEdition": 2,
-      "contentHash": "ad3da99b206745e40d3bc54b129336c8b2fc0f2c4493afe93595eee275b95634"
+      "contentHash": "61deaa2ddb516e8e1e15957720011ed0ce144c285f21b73413c46427919856be"
     },
     {
       "id": "builtin-dining-table",
@@ -226,7 +226,7 @@
       "url": "/assets/models/dining-table.json",
       "previewUrl": "/assets/previews/dining-table.svg",
       "geometryEdition": 2,
-      "contentHash": "f6d7b60645c6f367356ad7cda2b1c3560d300f9aa75139d57a94b17d6e4059a3"
+      "contentHash": "b8d869e20f5ddd68d2a0d8f397616b2c2fd983089650f3f37792113b12c79351"
     },
     {
       "id": "builtin-bench",
@@ -260,7 +260,7 @@
       "url": "/assets/models/bench.json",
       "previewUrl": "/assets/previews/bench.svg",
       "geometryEdition": 2,
-      "contentHash": "2755065ed009367d08d21d0e86cb939aeb4bcfbe195dad675c4828d0ebf843ff"
+      "contentHash": "e585fea2b7717ff7be454edafea8a1636fdf7d2c93251373ab220b7b9cf24f71"
     },
     {
       "id": "builtin-bookshelf",
@@ -294,7 +294,7 @@
       "url": "/assets/models/bookshelf.json",
       "previewUrl": "/assets/previews/bookshelf.svg",
       "geometryEdition": 2,
-      "contentHash": "32781b54e65a08f0b96785f2dcf92d86b590d9b582d777502e5942adcb99378c"
+      "contentHash": "29996f9dca9cfe3f18d0cce9a062375c70ec35f042393150668134943f31cfdd"
     },
     {
       "id": "builtin-single-bed",
@@ -328,7 +328,7 @@
       "url": "/assets/models/single-bed.json",
       "previewUrl": "/assets/previews/single-bed.svg",
       "geometryEdition": 2,
-      "contentHash": "2ee4df6e41cc9229d80b7b2c0c6ce93211045cf4d8bd6e8617d816c73e340a01"
+      "contentHash": "9e636ff7e1420304a41cdddb296dd61f66889e67ecc06636c707ae9ae8d2a376"
     },
     {
       "id": "builtin-bunk-bed",
@@ -361,7 +361,7 @@
       "url": "/assets/models/bunk-bed.json",
       "previewUrl": "/assets/previews/bunk-bed.svg",
       "geometryEdition": 2,
-      "contentHash": "ca81097a4fafce3642e756d68ed36576f3b610ce37642cfb65253fb5995a831b"
+      "contentHash": "a12c1f753e0e6527c9e5988deaeb48c57779ec4589d4dea904693a12bb24538b"
     },
     {
       "id": "builtin-sofa",
@@ -393,7 +393,7 @@
       "url": "/assets/models/sofa.json",
       "previewUrl": "/assets/previews/sofa.svg",
       "geometryEdition": 2,
-      "contentHash": "e303e548750ffa711a708bac385028db4b7434e59f1290933956c28ef1d6db78"
+      "contentHash": "4234ce7972fb55f34fc05799e6f2e52eda59f680afdaf3d29e976468b2fd6bc1"
     },
     {
       "id": "builtin-wardrobe",
@@ -425,7 +425,7 @@
       "url": "/assets/models/wardrobe.json",
       "previewUrl": "/assets/previews/wardrobe.svg",
       "geometryEdition": 2,
-      "contentHash": "d22c6fce0db5f01a7a9df7ff32ffcc045edc03bf9bfbec1760ba4eaea57a46c4"
+      "contentHash": "739a9c4b8cdaf2a7c70cfc9199cb899ee5674b71e3623258b18525d0737782e4"
     },
     {
       "id": "builtin-stove",
@@ -458,7 +458,7 @@
       "url": "/assets/models/stove.json",
       "previewUrl": "/assets/previews/stove.svg",
       "geometryEdition": 2,
-      "contentHash": "bccdb566716fd4f7de4d78d1c486cfff70678a827c5da6abaf09b3a708d40f84"
+      "contentHash": "664ac5e143fca40d133b8bd45bff70f8962be60dde02b0ea7ebc265ed419d2e1"
     },
     {
       "id": "builtin-fridge",
@@ -491,7 +491,7 @@
       "url": "/assets/models/fridge.json",
       "previewUrl": "/assets/previews/fridge.svg",
       "geometryEdition": 2,
-      "contentHash": "9581f641af2894d76e7ff5c315a1f3fd5800fa9003bd54a62c8d69bf5dfbcc3d"
+      "contentHash": "b742965cead9e3af3ea146736297e80bdca33d7471a76bf679c7f8a29d0e69db"
     },
     {
       "id": "builtin-sink",
@@ -525,7 +525,7 @@
       "url": "/assets/models/sink.json",
       "previewUrl": "/assets/previews/sink.svg",
       "geometryEdition": 2,
-      "contentHash": "588063527e752b307976c592e98dba51ddbf5b171a49ff5dc04373fef823191d"
+      "contentHash": "4ebc35f4bb0a2db159b68d707f038d09e82b09a8056fb2e4de9eb201d032557e"
     },
     {
       "id": "builtin-bathtub",
@@ -558,7 +558,7 @@
       "url": "/assets/models/bathtub.json",
       "previewUrl": "/assets/previews/bathtub.svg",
       "geometryEdition": 2,
-      "contentHash": "8687bb72b6b5fc088ca8885ea2e42b98c31385a9cb3a1a55b92e1cc9fcb3c0a5"
+      "contentHash": "ef4cd7f0edf2c571fbc89706b0fc430b9d9aac9ebc83e3e8c995e40bc2613a1c"
     },
     {
       "id": "builtin-crt-tv",
@@ -592,7 +592,7 @@
       "url": "/assets/models/crt-tv.json",
       "previewUrl": "/assets/previews/crt-tv.svg",
       "geometryEdition": 2,
-      "contentHash": "c456d11ad237c3e815e0d32c809a0a37b56aebbbe9b363d9ffbf6b6d63ecb84d"
+      "contentHash": "cb7e103d38667512f454f6cda49ce8de1919e2d604cad80a13136a44464e777d"
     },
     {
       "id": "builtin-computer",
@@ -626,7 +626,7 @@
       "url": "/assets/models/computer.json",
       "previewUrl": "/assets/previews/computer.svg",
       "geometryEdition": 2,
-      "contentHash": "da7c9e6b9c642053a26da7d0b3d8d6c2f5f0ea9cd3b1f3ed66547bc8b63aa9ad"
+      "contentHash": "1009e6bd4edf09cdf8a934870831921b2f6ced96b582389a7264d0f6eb42b1d6"
     },
     {
       "id": "builtin-radio",
@@ -660,7 +660,7 @@
       "url": "/assets/models/radio.json",
       "previewUrl": "/assets/previews/radio.svg",
       "geometryEdition": 2,
-      "contentHash": "92170b11e5b828b297af14106a575aa7b8101e5ddb3de8158f9cf8aa136d6b9a"
+      "contentHash": "097e26f377b0c6821f4e03e59bb2666ac734f52b833f4de3b1aa1b4812d7e886"
     },
     {
       "id": "builtin-telephone",
@@ -693,7 +693,7 @@
       "url": "/assets/models/telephone.json",
       "previewUrl": "/assets/previews/telephone.svg",
       "geometryEdition": 2,
-      "contentHash": "29ef7e5f76ec6c1db4b74bb947a82ce743b3df41a5daa28e26288527d8daee57"
+      "contentHash": "9ab6415d081340aaa6e761329bc481e0f4a0021b83ece30ed1d313da35182603"
     },
     {
       "id": "builtin-security-camera",
@@ -727,7 +727,7 @@
       "url": "/assets/models/security-camera.json",
       "previewUrl": "/assets/previews/security-camera.svg",
       "geometryEdition": 2,
-      "contentHash": "ac775d157c6c12397b118cb38cc8d69451ba48a2975b276df6bf27652dd1b503"
+      "contentHash": "f6a143a1f6d5bf1f1eaed55dc39639ad092f36af3cdc49c70013e4686d24ca66"
     },
     {
       "id": "builtin-server-rack",
@@ -761,7 +761,7 @@
       "url": "/assets/models/server-rack.json",
       "previewUrl": "/assets/previews/server-rack.svg",
       "geometryEdition": 2,
-      "contentHash": "a68f2ab5b4d861fc8c66b59ae7d77080dbfeb7d7330c69867e8c1dd1a536f9cd"
+      "contentHash": "772ccff2acad4ee6dd8050657e5022d72185e8f349ebafa517ae8fed3a290607"
     },
     {
       "id": "builtin-generator",
@@ -795,7 +795,7 @@
       "url": "/assets/models/generator.json",
       "previewUrl": "/assets/previews/generator.svg",
       "geometryEdition": 2,
-      "contentHash": "b642652688b47ef1884bc201ad07a53f33003e97225725100f25e21bb613bb24"
+      "contentHash": "d2c7990a4d9ebda2f46dfb1f4557c54ac36784822fad148e5ce6ecd07e87e32e"
     },
     {
       "id": "builtin-barrel",
@@ -829,7 +829,7 @@
       "url": "/assets/models/barrel.json",
       "previewUrl": "/assets/previews/barrel.svg",
       "geometryEdition": 2,
-      "contentHash": "b8d3c9cf649121ef8c3b085e7eaf992ead2cf898cd122c05a1f7776d520ce8f2"
+      "contentHash": "d974bbb7ea1123cf4715fa4fada71921cf4f9e4b2cdf5f1983b124e3e8bf4992"
     },
     {
       "id": "builtin-workbench",
@@ -864,7 +864,7 @@
       "url": "/assets/models/workbench.json",
       "previewUrl": "/assets/previews/workbench.svg",
       "geometryEdition": 2,
-      "contentHash": "1c39275a83a17b9873029e0ee8ffe9a03a8141742408d6b0a8e0be4b69ee9479"
+      "contentHash": "558701034afa12cdcf2d9f5b809d08f98e2a45714165fb8d1e466123d62451d7"
     },
     {
       "id": "builtin-locker",
@@ -897,7 +897,7 @@
       "url": "/assets/models/locker.json",
       "previewUrl": "/assets/previews/locker.svg",
       "geometryEdition": 2,
-      "contentHash": "39d9de69195c7e4f094c3831417797b40ba913022bcb9049f1f87fddb1911d33"
+      "contentHash": "044f81e399339c8165af75bc5833942b9ad568cf73f6085f888ae7441b2dc7fe"
     },
     {
       "id": "builtin-gurney",
@@ -932,7 +932,7 @@
       "url": "/assets/models/gurney.json",
       "previewUrl": "/assets/previews/gurney.svg",
       "geometryEdition": 2,
-      "contentHash": "b758e2f2da49def51ea1e278e9ad4c2032b64aa4fa27dcd194b6c1579a6a1bc6"
+      "contentHash": "d65750337abf0dad2b864deebb45f90982115ce4c9f65993d4e2485ac581b714"
     },
     {
       "id": "builtin-wheelchair",
@@ -964,7 +964,7 @@
       "url": "/assets/models/wheelchair.json",
       "previewUrl": "/assets/previews/wheelchair.svg",
       "geometryEdition": 2,
-      "contentHash": "95d079529d7c958fc3035b27dd69116818a98ab81e978505251bb128f14531a7"
+      "contentHash": "7c8b80bcb9e902b32917dafffd7a031a8f30a0470dcec441f06ef25bf1ee7be1"
     },
     {
       "id": "builtin-microscope",
@@ -997,7 +997,7 @@
       "url": "/assets/models/microscope.json",
       "previewUrl": "/assets/previews/microscope.svg",
       "geometryEdition": 2,
-      "contentHash": "862cf1e85d2f1025bfddef49a356ddb7f53ae06bde404b9c13692ef58a616b82"
+      "contentHash": "33a1185363ec31515d36d06b84fbaaa176c3a805e786f2d9b3cd137b3503a6c9"
     },
     {
       "id": "builtin-medical-cart",
@@ -1031,7 +1031,7 @@
       "url": "/assets/models/medical-cart.json",
       "previewUrl": "/assets/previews/medical-cart.svg",
       "geometryEdition": 2,
-      "contentHash": "25aa710127bc1c75cd965aee3ae857ca34051770734ee8381728032ce897fe10"
+      "contentHash": "f0fe70b9f3f45bc49d1daa416a0b0bb54b4350df07abce902fd0137045ab5e65"
     },
     {
       "id": "builtin-iv-stand",
@@ -1063,7 +1063,7 @@
       "url": "/assets/models/iv-stand.json",
       "previewUrl": "/assets/previews/iv-stand.svg",
       "geometryEdition": 2,
-      "contentHash": "2f4631b45edaebcb211daa5b1a176ece544a9791afb0770a780b4552268d4baf"
+      "contentHash": "e99078c5d8efeef8c665e3e0b649106310827f6656ba3634c863aaae50729e98"
     },
     {
       "id": "builtin-church-pew",
@@ -1096,7 +1096,7 @@
       "url": "/assets/models/church-pew.json",
       "previewUrl": "/assets/previews/church-pew.svg",
       "geometryEdition": 2,
-      "contentHash": "8113811d2ae5defb5c4973f5fcd6edf23b57003f3fa198843228ccba93059a30"
+      "contentHash": "6eeceb92cdecce356cdc797ff3ace25b90e95f1983f42797890f3830ae936ea4"
     },
     {
       "id": "builtin-confessional",
@@ -1129,7 +1129,7 @@
       "url": "/assets/models/confessional.json",
       "previewUrl": "/assets/previews/confessional.svg",
       "geometryEdition": 2,
-      "contentHash": "23e0f893cbed7d322cb82f496617f18117e3983f566044b45b5af14f247c9733"
+      "contentHash": "c4d3cf4b6eb385db299a46229373c2d58c42a2796825b596238698c2a2d4c107"
     },
     {
       "id": "builtin-lectern",
@@ -1163,7 +1163,7 @@
       "url": "/assets/models/lectern.json",
       "previewUrl": "/assets/previews/lectern.svg",
       "geometryEdition": 2,
-      "contentHash": "fb8b7157926c75a74b845fae56bd7b18f2c03dd7ab7d8f4ceb3931c3c0eaee27"
+      "contentHash": "5dd78a6b50a287a070b186c4e71f586a2f1f88061b89276a02033619743a396f"
     },
     {
       "id": "builtin-bell",
@@ -1197,7 +1197,7 @@
       "url": "/assets/models/bell.json",
       "previewUrl": "/assets/previews/bell.svg",
       "geometryEdition": 2,
-      "contentHash": "d81bdbef292a730a950022d43597506acfde91e7b43196a53e619298a1da5812"
+      "contentHash": "d8ed853b1d7f0313ae7fdb1b3f77f7b3cc95ae68197dc5a886c9559d52e2800c"
     },
     {
       "id": "builtin-gravestone",
@@ -1230,7 +1230,7 @@
       "url": "/assets/models/gravestone.json",
       "previewUrl": "/assets/previews/gravestone.svg",
       "geometryEdition": 2,
-      "contentHash": "af148f6849c1dc92223a83f394cfbf0865784841a0350f8f7606d2804e7aee98"
+      "contentHash": "dc68402ae9baf8d37b9b28a635d58801dda0c3a07b8b453d3e89b6c5ba4432d7"
     },
     {
       "id": "builtin-coffin",
@@ -1264,7 +1264,7 @@
       "url": "/assets/models/coffin.json",
       "previewUrl": "/assets/previews/coffin.svg",
       "geometryEdition": 2,
-      "contentHash": "d2560f149d7d2c780b2b7ff97da9eb2c02db2466ba83c0d810f7bb79c3678b84"
+      "contentHash": "5df2b9ea429b71fe19668363f9845307e8dd7ac1aac9a8ee8fc7007a4e8853d5"
     },
     {
       "id": "builtin-ritual-altar",
@@ -1300,7 +1300,7 @@
       "url": "/assets/models/ritual-altar.json",
       "previewUrl": "/assets/previews/ritual-altar.svg",
       "geometryEdition": 2,
-      "contentHash": "d5e5621b2ebf9b328d6e591b226a1000d41b96012f2c58a5de79c032ea2825d9"
+      "contentHash": "281ef54e3fea3873919bf94dd34c495aca869f722d662518aa1bce582e7f1344"
     },
     {
       "id": "builtin-candles",
@@ -1334,7 +1334,7 @@
       "url": "/assets/models/candles.json",
       "previewUrl": "/assets/previews/candles.svg",
       "geometryEdition": 2,
-      "contentHash": "32e5ee183ba7e62aba5ffe34884caeab61ffac4e8eb993f97c90a66f49cbaa9b"
+      "contentHash": "861dd1eb61900897430030b23bfe5dcf5141f6b3e326174e5f05e259112410f4"
     },
     {
       "id": "builtin-ritual-circle",
@@ -1369,7 +1369,7 @@
       "url": "/assets/models/ritual-circle.json",
       "previewUrl": "/assets/previews/ritual-circle.svg",
       "geometryEdition": 2,
-      "contentHash": "bd01c2f1aedc98322a2c270939b029eccb6bd9b4ceae5a0b407d75fc2cda8224"
+      "contentHash": "95feff015becd55c6edeb4f5a6b300d6ba28ae27f9db0938e33b4e6432d3ebb2"
     },
     {
       "id": "builtin-obelisk",
@@ -1403,7 +1403,7 @@
       "url": "/assets/models/obelisk.json",
       "previewUrl": "/assets/previews/obelisk.svg",
       "geometryEdition": 2,
-      "contentHash": "b2c710a32a9327cc27374d2c12ed45e3f09033290603948a18f9244005f9671e"
+      "contentHash": "4349884c81c0fe0457511c9cc4ea03cc3ba9ebde28902b8c8966471ad6a19317"
     },
     {
       "id": "builtin-chains",
@@ -1438,7 +1438,7 @@
       "url": "/assets/models/chains.json",
       "previewUrl": "/assets/previews/chains.svg",
       "geometryEdition": 2,
-      "contentHash": "5275849322eaada476312200b0cf1575a4efef7baa0ff6afe6746d72f0b3a3dd"
+      "contentHash": "c50ed69e68e19156f4e91dee014023375967ffae71b3d0288aabf6b8154ddbba"
     },
     {
       "id": "builtin-crystal",
@@ -1472,7 +1472,7 @@
       "url": "/assets/models/crystal.json",
       "previewUrl": "/assets/previews/crystal.svg",
       "geometryEdition": 2,
-      "contentHash": "d9677e13898175b361e7549980e5621953a0e77ff74d8517a0859b85922a1920"
+      "contentHash": "238afdfcf148698d9e80d7578434019eec57cf7dc4ccab74bcb439fbbf3d27cf"
     },
     {
       "id": "builtin-ritual-book",
@@ -1506,7 +1506,7 @@
       "url": "/assets/models/ritual-book.json",
       "previewUrl": "/assets/previews/ritual-book.svg",
       "geometryEdition": 2,
-      "contentHash": "70a89c12c65b06fe6d94c5e4eb881343a039871e3f447b0ed19070655343121f"
+      "contentHash": "a5750a1b1675d588d3963610a2e690570d31d153481be68fb1861186d540e500"
     },
     {
       "id": "builtin-tree",
@@ -1540,7 +1540,7 @@
       "url": "/assets/models/tree.json",
       "previewUrl": "/assets/previews/tree.svg",
       "geometryEdition": 2,
-      "contentHash": "e81636d95ddc43d79f0797c0424d80bdbc2c3ef8055ae5dc4e534ba3372fd877"
+      "contentHash": "7f25ee155701524a7303ed49f1da6c07cb80f3c4b23a7ae9b8c488a57439a5b0"
     },
     {
       "id": "builtin-pine",
@@ -1573,7 +1573,7 @@
       "url": "/assets/models/pine.json",
       "previewUrl": "/assets/previews/pine.svg",
       "geometryEdition": 2,
-      "contentHash": "d4adf872b5d2df0fdf3c7aac111d1a7459e9d4ce8914626b6945f10ce714dfff"
+      "contentHash": "2bfb48f5474aba175ae3369196fecde1c8a3078a2d7b3ebbdff577c9e42d0850"
     },
     {
       "id": "builtin-rock",
@@ -1607,7 +1607,7 @@
       "url": "/assets/models/rock.json",
       "previewUrl": "/assets/previews/rock.svg",
       "geometryEdition": 2,
-      "contentHash": "2fc6bfd6f915105616ec6c06333351da52815329e9272b113f15ae4e0c69b4f3"
+      "contentHash": "de1e8ee0f95de6907e1821f86031519b2365cbb94c64d6a81c55b6ba456a28ab"
     },
     {
       "id": "builtin-well",
@@ -1641,7 +1641,7 @@
       "url": "/assets/models/well.json",
       "previewUrl": "/assets/previews/well.svg",
       "geometryEdition": 2,
-      "contentHash": "d7b0fd35901f9ba3b00d2e89fa6239e8d32923133f19a1a435d755fe0362b61c"
+      "contentHash": "89f1d567330458f5ca68f9c9ecf8174be42e95cb5b8a0d25705bad0c4b1a5943"
     },
     {
       "id": "builtin-hay-bale",
@@ -1675,7 +1675,7 @@
       "url": "/assets/models/hay-bale.json",
       "previewUrl": "/assets/previews/hay-bale.svg",
       "geometryEdition": 2,
-      "contentHash": "828c9b6d0aec04b5795df00fbe98c53d3e1e57ba385e2600adeea91c23398987"
+      "contentHash": "b3a77db6f0cf6b47e622204fc4382765a07884485f62f8d3b19f3a6befc96374"
     },
     {
       "id": "builtin-handcart",
@@ -1740,7 +1740,7 @@
       "url": "/assets/models/tent.json",
       "previewUrl": "/assets/previews/tent.svg",
       "geometryEdition": 2,
-      "contentHash": "370f104e1f6ae9c3a90ad482f30cd08049fd204046ec272a946c6cacf74e06f5"
+      "contentHash": "57730bf43f57876ac73c841b1939c210a1c30edc4d6b751f94ff6dddbcb12cba"
     },
     {
       "id": "builtin-campfire",
@@ -1774,7 +1774,7 @@
       "url": "/assets/models/campfire.json",
       "previewUrl": "/assets/previews/campfire.svg",
       "geometryEdition": 2,
-      "contentHash": "86c569110c0929ac28cd2cfb01ea3a1e2c31fb6cee735e1d76c1ac4056221f0c"
+      "contentHash": "14d92065d11127e0daf7a1a3948f46723bce0257b1286966c5db2bb8a6860e41"
     },
     {
       "id": "builtin-streetlamp",
@@ -1808,7 +1808,7 @@
       "url": "/assets/models/streetlamp.json",
       "previewUrl": "/assets/previews/streetlamp.svg",
       "geometryEdition": 2,
-      "contentHash": "3e18aa9114e49e3e977457b16e3a2bd1d9bc6fbd6f65e335b0f07dd907515edc"
+      "contentHash": "25ed3c6290269d6ed118f010f3ddd903768f3e7ca22320e2647fa47c1552da92"
     },
     {
       "id": "builtin-dumpster",
@@ -1842,7 +1842,7 @@
       "url": "/assets/models/dumpster.json",
       "previewUrl": "/assets/previews/dumpster.svg",
       "geometryEdition": 2,
-      "contentHash": "eea02a52c97223f7c31c47bb9924515c85c780cbd1ef6f6bb48cdcd67a88e9de"
+      "contentHash": "dfcb15cf97810215f600b73d9ae158a66b71469983cfae23a402460e346ef375"
     },
     {
       "id": "builtin-barrier",
@@ -1876,7 +1876,7 @@
       "url": "/assets/models/barrier.json",
       "previewUrl": "/assets/previews/barrier.svg",
       "geometryEdition": 2,
-      "contentHash": "0d1133be92d780fc1051f822845b7eac23f2fa1b8271efb5cd686e66c51a1397"
+      "contentHash": "a643d275f4d5c1354ca62ea3d30f2c607a852228d38aab914c7dfea6fe386612"
     },
     {
       "id": "builtin-traffic-cone",
@@ -1944,7 +1944,7 @@
       "url": "/assets/models/evidence-board.json",
       "previewUrl": "/assets/previews/evidence-board.svg",
       "geometryEdition": 2,
-      "contentHash": "dac7cad67870017a15c0ee47447290ee274d297e00420122f553b51067a695fc"
+      "contentHash": "6558db24a1488e57144c476dfad15f7e004658b3839f7b9cc4b17ade0313ebc0"
     },
     {
       "id": "builtin-evidence-case",
@@ -1978,7 +1978,7 @@
       "url": "/assets/models/evidence-case.json",
       "previewUrl": "/assets/previews/evidence-case.svg",
       "geometryEdition": 2,
-      "contentHash": "b8333e09d7f0e9ee15b33720ed4ebbae888006c71d0d898800caef1b7837763c"
+      "contentHash": "e567b93de4c5f34c92122d6119a410a4be4cdc277e776219ff55a91abe93e788"
     },
     {
       "id": "builtin-documents",
@@ -2012,7 +2012,7 @@
       "url": "/assets/models/documents.json",
       "previewUrl": "/assets/previews/documents.svg",
       "geometryEdition": 2,
-      "contentHash": "3fff4ba08ef6c3e5e3f188dbef239235ca131fc7c4bb5bdf976487e780ddc55c"
+      "contentHash": "95209b86c1fa7e7dbfa10bd851dcec385fe6e320721affa28a43228f31c22712"
     },
     {
       "id": "builtin-suitcase",
@@ -2046,7 +2046,7 @@
       "url": "/assets/models/suitcase.json",
       "previewUrl": "/assets/previews/suitcase.svg",
       "geometryEdition": 2,
-      "contentHash": "a0125eec625e9e9ad09dc81e0da4bb41259443aff13d37ab51723146c2540b5d"
+      "contentHash": "5807e67176715b9db5b8c6e32f8aff38d714d8a50024b311687f7ca5e8eb5500"
     },
     {
       "id": "builtin-armchair",
@@ -2079,7 +2079,7 @@
       "url": "/assets/models/armchair.json",
       "previewUrl": "/assets/previews/armchair.svg",
       "geometryEdition": 2,
-      "contentHash": "4e23a589725401c188f488a3ae935a087b9cfbd88f19387e0418ce6f4c35a63c"
+      "contentHash": "91c2a069725d8b5a9b93014e7035f9005a5d266d82fe60de86d7fc6beb6b36b5"
     },
     {
       "id": "builtin-coffee-table",
@@ -2112,7 +2112,7 @@
       "url": "/assets/models/coffee-table.json",
       "previewUrl": "/assets/previews/coffee-table.svg",
       "geometryEdition": 2,
-      "contentHash": "af7edee53f529b3b9ef562d3a4e49d95fa615e61f3bcb7ff1cb5c20ee277cd84"
+      "contentHash": "ba82c250c62cc810195c6f5d622cf30691c44619d1ee5f9a11e2f57c2b612223"
     },
     {
       "id": "builtin-bedside-table",
@@ -2146,7 +2146,7 @@
       "url": "/assets/models/bedside-table.json",
       "previewUrl": "/assets/previews/bedside-table.svg",
       "geometryEdition": 2,
-      "contentHash": "f4bb9a0295c1ff1e48a786276e6addc64a5983de1b91f36acab6a1160f8731fc"
+      "contentHash": "552d40f7ebc326314130bbfb2d7cfb0b701b31b11b0442d798a38e3969dce315"
     },
     {
       "id": "builtin-dresser",
@@ -2179,7 +2179,7 @@
       "url": "/assets/models/dresser.json",
       "previewUrl": "/assets/previews/dresser.svg",
       "geometryEdition": 2,
-      "contentHash": "f84c8f10a5bfe2baad83e067ef98527dfaaba782509d915126f55eae0988fb42"
+      "contentHash": "033a498e70402dace6bb696ada06e31499e58db74a19d4addd03b6aa0a2e6cd2"
     },
     {
       "id": "builtin-mirror",
@@ -2213,7 +2213,7 @@
       "url": "/assets/models/mirror.json",
       "previewUrl": "/assets/previews/mirror.svg",
       "geometryEdition": 2,
-      "contentHash": "9a78d489aa7084029ef5935b23e6fa8c136a5c13f8e28343148971242182efa8"
+      "contentHash": "c173a82016b1ef709d8c9b743018378585bad98bdae6590ef993890fd8990b1e"
     },
     {
       "id": "builtin-grandfather-clock",
@@ -2247,7 +2247,7 @@
       "url": "/assets/models/grandfather-clock.json",
       "previewUrl": "/assets/previews/grandfather-clock.svg",
       "geometryEdition": 2,
-      "contentHash": "20cad21de559816c2b8e011d0d356f6e5098d8d7379be0cc6cdaafbc69847bdd"
+      "contentHash": "fc0fb578e3a7f4f794e7bd2648b1fc3dd90e0f4e8fb4d5f72ab1efafd76d8c5c"
     },
     {
       "id": "builtin-toilet",
@@ -2280,7 +2280,7 @@
       "url": "/assets/models/toilet.json",
       "previewUrl": "/assets/previews/toilet.svg",
       "geometryEdition": 2,
-      "contentHash": "485d20c1768d6cc5ef876c3c62d53875c61da267e910bc73211d76568b4ee257"
+      "contentHash": "d54cfcc6bf419a3ebb0e9b4e6790641e6dc11c82fcec9df9f29187708a187ffe"
     },
     {
       "id": "builtin-shower",
@@ -2313,7 +2313,7 @@
       "url": "/assets/models/shower.json",
       "previewUrl": "/assets/previews/shower.svg",
       "geometryEdition": 2,
-      "contentHash": "cec9b771581b683c7ade6e2851bf08ec25685bdd2f78e4bc2e46f729808aff9e"
+      "contentHash": "db7db176bb70ffc036a41280ee6e7838d66e3da4efe5161a42f2ebdd717a09ec"
     },
     {
       "id": "builtin-radiator",
@@ -2380,7 +2380,7 @@
       "url": "/assets/models/desk-fan.json",
       "previewUrl": "/assets/previews/desk-fan.svg",
       "geometryEdition": 2,
-      "contentHash": "01379b1a64eb8fe8601448bb3c729544e8024f25ae0251c2f3b4f4e435400918"
+      "contentHash": "3039e91eef47c43a0f5747fa48b7743d6975c098eada0f52b9543802a647d5dc"
     },
     {
       "id": "builtin-reception-counter",
@@ -2414,7 +2414,7 @@
       "url": "/assets/models/reception-counter.json",
       "previewUrl": "/assets/previews/reception-counter.svg",
       "geometryEdition": 2,
-      "contentHash": "7fdd083ddd1d3fb1ed7950d85a4df960af19da39f260d95681a7c39a94bdf291"
+      "contentHash": "f5ea51e89a877d74e2446cb1f18d2fb203f80f00e311e6976ac7dbdf68721406"
     },
     {
       "id": "builtin-cash-register",
@@ -2448,7 +2448,7 @@
       "url": "/assets/models/cash-register.json",
       "previewUrl": "/assets/previews/cash-register.svg",
       "geometryEdition": 2,
-      "contentHash": "4fee3925039121cd33449e22a8dbfd68ff20c5c5e50dc288e2ffaa660204c5cb"
+      "contentHash": "c78d1ad330d633502a72c018828c8366a3a9d8cd386e1dda11a1be2120bb4165"
     },
     {
       "id": "builtin-display-case",
@@ -2483,7 +2483,7 @@
       "url": "/assets/models/display-case.json",
       "previewUrl": "/assets/previews/display-case.svg",
       "geometryEdition": 2,
-      "contentHash": "58da3c8c6b2039f2788bfcc0ceea045e9f55b7c6c3cfb457d84c84fd89aee358"
+      "contentHash": "edb55cad1eb01749574b9e32c3b0e57c08a4f291daf4c0d46b3be650ba5dce8f"
     },
     {
       "id": "builtin-vending-machine",
@@ -2517,7 +2517,7 @@
       "url": "/assets/models/vending-machine.json",
       "previewUrl": "/assets/previews/vending-machine.svg",
       "geometryEdition": 2,
-      "contentHash": "890cf89c568ec22bd950e6760728ac84a09343de0dd93f8b750bef665b4cfcb9"
+      "contentHash": "e806a4c4b61e68d80dacefbb964feb0954d13c6726f3d6c179fcf4cd354168d1"
     },
     {
       "id": "builtin-supermarket-shelf",
@@ -2549,7 +2549,7 @@
       "url": "/assets/models/supermarket-shelf.json",
       "previewUrl": "/assets/previews/supermarket-shelf.svg",
       "geometryEdition": 2,
-      "contentHash": "5d341532bcf5e87143c4c0c2e416de42be15f4afddf5d9dd40e909ac6cef127f"
+      "contentHash": "44def668dbb301d42ab0f504bad4c6d1f1769859b660f28730e410877b89ac6b"
     },
     {
       "id": "builtin-restaurant-booth",
@@ -2581,7 +2581,7 @@
       "url": "/assets/models/restaurant-booth.json",
       "previewUrl": "/assets/previews/restaurant-booth.svg",
       "geometryEdition": 2,
-      "contentHash": "1fb2a46ba52cdd1e68d3bcc0d3d4ab48492f892ee9f825b9259e419ae549690f"
+      "contentHash": "bbf66dcd2ce15eb84f4c7d2033ecc69cc322e801add45d12c51bf7316e705f54"
     },
     {
       "id": "builtin-bar-stool",
@@ -2648,7 +2648,7 @@
       "url": "/assets/models/pool-table.json",
       "previewUrl": "/assets/previews/pool-table.svg",
       "geometryEdition": 2,
-      "contentHash": "1bc64fc9bd3906dc3b6c7a2b2c0bf8b4571dc211816114941efbd08ac6b0cb2f"
+      "contentHash": "ed50db89bc8b39dfb0097fa825d3f41280b4cbcf8bba2ed987ae5b2f69b789a1"
     },
     {
       "id": "builtin-piano",
@@ -2682,7 +2682,7 @@
       "url": "/assets/models/piano.json",
       "previewUrl": "/assets/previews/piano.svg",
       "geometryEdition": 2,
-      "contentHash": "e63816ef62340b9ee397528f64d2c788ca3e10e7be7f7717727668d1e1a7edbe"
+      "contentHash": "aee0b501e675edac862ab204fe010cca9e9fd92a3b1887b160bcede9fc7222ce"
     },
     {
       "id": "builtin-classroom-desk",
@@ -2716,7 +2716,7 @@
       "url": "/assets/models/classroom-desk.json",
       "previewUrl": "/assets/previews/classroom-desk.svg",
       "geometryEdition": 2,
-      "contentHash": "00d9876d6d0417c32a622e39ee1849ca810bb5de4393780d90fcc5d73572489e"
+      "contentHash": "4f0eb411a001ee1cbf4a2b0ec9e92ecadc365d5662698c8edbddde9f5affdfac"
     },
     {
       "id": "builtin-typewriter",
@@ -2750,7 +2750,7 @@
       "url": "/assets/models/typewriter.json",
       "previewUrl": "/assets/previews/typewriter.svg",
       "geometryEdition": 2,
-      "contentHash": "cc343d2816bed38a7a13ab5a5d229fda32a18a694f3ac209cf5dfa87cbd9d4eb"
+      "contentHash": "6b6d93c221146e67bb06dd9f9e15f31e48f8cae56fa63887729ed4b5d0a0dad7"
     },
     {
       "id": "builtin-reel-recorder",
@@ -2785,7 +2785,7 @@
       "url": "/assets/models/reel-recorder.json",
       "previewUrl": "/assets/previews/reel-recorder.svg",
       "geometryEdition": 2,
-      "contentHash": "711d308800e4d5e3d4de9e31fb6683de02c69b871f4a4becee9cfc3768f28f05"
+      "contentHash": "eae30a6b1917354056d2c5ff49407bc1015dd1330d5abf7210dfa6aff5ed3aea"
     },
     {
       "id": "builtin-vhs-recorder",
@@ -2819,7 +2819,7 @@
       "url": "/assets/models/vhs-recorder.json",
       "previewUrl": "/assets/previews/vhs-recorder.svg",
       "geometryEdition": 2,
-      "contentHash": "8b2a7e80595fd7ccc22a4a6002d26b71e39d0997e03c78769ada3f71be672599"
+      "contentHash": "056c88922b5b1680cb60a1e630e56d3805ccfcac926a0c853f944ddbae671d1e"
     },
     {
       "id": "builtin-surveillance-monitor",
@@ -2853,7 +2853,7 @@
       "url": "/assets/models/surveillance-monitor.json",
       "previewUrl": "/assets/previews/surveillance-monitor.svg",
       "geometryEdition": 2,
-      "contentHash": "19c7e3ac593765722b16d458f7f027e4761fd70b72971ca495ee057bca74e87f"
+      "contentHash": "f9d84e51d6240b23ebfb2e7183f2f1bc8dca28d003e13467ab026afdd784c389"
     },
     {
       "id": "builtin-oscilloscope",
@@ -2887,7 +2887,7 @@
       "url": "/assets/models/oscilloscope.json",
       "previewUrl": "/assets/previews/oscilloscope.svg",
       "geometryEdition": 2,
-      "contentHash": "ba97013ff86bf3b5c8e2255e5b9bd2c868c46593372d1091b104834533f3b115"
+      "contentHash": "8b2a24301ecb1464ddeda78e15f0a32d64d6b96572e98c6bf9c747e758e256e5"
     },
     {
       "id": "builtin-laptop",
@@ -2921,7 +2921,7 @@
       "url": "/assets/models/laptop.json",
       "previewUrl": "/assets/previews/laptop.svg",
       "geometryEdition": 2,
-      "contentHash": "835dbba19f31c21d2dd0ce940d6833d01d3638c6b4e41d4d91f3b8711c005839"
+      "contentHash": "27c2cecf635792f273ba6901eb946b37152c82b6a8fab4b112f8d932d54e20da"
     },
     {
       "id": "builtin-projector",
@@ -2955,7 +2955,7 @@
       "url": "/assets/models/projector.json",
       "previewUrl": "/assets/previews/projector.svg",
       "geometryEdition": 2,
-      "contentHash": "5c75482e6d3446f7621b6c1fd0ec888a5382cd662c9d4075ce32f1dd0fd4734e"
+      "contentHash": "e8a69444cac38bd96dd7057b6bc3551c1c676cf4c3ebccf9c600e981a73109ed"
     },
     {
       "id": "builtin-antenna",
@@ -2989,7 +2989,7 @@
       "url": "/assets/models/antenna.json",
       "previewUrl": "/assets/previews/antenna.svg",
       "geometryEdition": 2,
-      "contentHash": "7e0e49acc1f83f05447ad01d7d473dce7b79c94b740f83f902f95befc5e9fa17"
+      "contentHash": "c2a8b36ed8895d9fe56aa130bcddd3f780b2f8e675a325898bc62ccffbd0ced2"
     },
     {
       "id": "builtin-safe",
@@ -3023,7 +3023,7 @@
       "url": "/assets/models/safe.json",
       "previewUrl": "/assets/previews/safe.svg",
       "geometryEdition": 2,
-      "contentHash": "c04f908c7a394ab179571b38e6015fa38097cb4d48165aa523c67dc284be2549"
+      "contentHash": "0c5b72c30f5224957b946c8d42ef699208833e210fd47b8ea3eb61a569e4c249"
     },
     {
       "id": "builtin-weapon-case",
@@ -3057,7 +3057,7 @@
       "url": "/assets/models/weapon-case.json",
       "previewUrl": "/assets/previews/weapon-case.svg",
       "geometryEdition": 2,
-      "contentHash": "aa833b384daa901f3742ad0db012f1705ab8e7feeee52dca26a760000a777f61"
+      "contentHash": "de5816b162c6c3e424194d7d67846af9191fbe1061605ded617af7e88d5c337f"
     },
     {
       "id": "builtin-centrifuge",
@@ -3090,7 +3090,7 @@
       "url": "/assets/models/centrifuge.json",
       "previewUrl": "/assets/previews/centrifuge.svg",
       "geometryEdition": 2,
-      "contentHash": "25814849136872649b16699feaa1b06d338efab2e22cf0826e7e03094aa0c884"
+      "contentHash": "6ba8fb3038ba7aff14c43454ad42c4ab5551fb1a4bb0727bfa51ba41f0df2658"
     },
     {
       "id": "builtin-specimen-jars",
@@ -3124,7 +3124,7 @@
       "url": "/assets/models/specimen-jars.json",
       "previewUrl": "/assets/previews/specimen-jars.svg",
       "geometryEdition": 2,
-      "contentHash": "748d98d082144cb1639f565a2093e2912762446093d5f5e9738c7076f06b5112"
+      "contentHash": "3eaeeae2a3efd67dc176dc80481e35762347f82ebfad1c8bbd55fe05f5b0a899"
     },
     {
       "id": "builtin-chemical-rack",
@@ -3157,7 +3157,7 @@
       "url": "/assets/models/chemical-rack.json",
       "previewUrl": "/assets/previews/chemical-rack.svg",
       "geometryEdition": 2,
-      "contentHash": "782b0eeb5c00e0626e49457cd593021e01724195b0e0cc2c0b7f2fb82d5831fe"
+      "contentHash": "6b218bd226442d8621332b17882a25405ff32259cdfd921a6ba30e38a6c90b8e"
     },
     {
       "id": "builtin-oxygen-tank",
@@ -3191,7 +3191,7 @@
       "url": "/assets/models/oxygen-tank.json",
       "previewUrl": "/assets/previews/oxygen-tank.svg",
       "geometryEdition": 2,
-      "contentHash": "993c733ace709c75ba54d68ae27da89c997546c5b53b2de32e7f81b4bf87a379"
+      "contentHash": "265c74cfd613e2b9d0f349bfb5da80746b74443c0c11c16eb264a779aec26a65"
     },
     {
       "id": "builtin-autopsy-table",
@@ -3226,7 +3226,7 @@
       "url": "/assets/models/autopsy-table.json",
       "previewUrl": "/assets/previews/autopsy-table.svg",
       "geometryEdition": 2,
-      "contentHash": "015cfa19379331e1bb80af1d85957013bf6f541e1735be6c1c5bb051f301de2e"
+      "contentHash": "cbd9c273103976a885238d4eb100ce137a44885f25c75cec94f832ca9195faff"
     },
     {
       "id": "builtin-mortuary-cabinet",
@@ -3259,7 +3259,7 @@
       "url": "/assets/models/mortuary-cabinet.json",
       "previewUrl": "/assets/previews/mortuary-cabinet.svg",
       "geometryEdition": 2,
-      "contentHash": "6fb8b1bef3b3f4f7cd247446554aec25fc56f95d1330565c79d926c1385f93b3"
+      "contentHash": "af2cbab9537734195dad0672862933a0907e1f4f51845738a1c1bae427727d0c"
     },
     {
       "id": "builtin-surgical-lamp",
@@ -3292,7 +3292,7 @@
       "url": "/assets/models/surgical-lamp.json",
       "previewUrl": "/assets/previews/surgical-lamp.svg",
       "geometryEdition": 2,
-      "contentHash": "56dd1731cbdd548840b32ab57dd9f85d7068d97b8ea40e893bb14cb24016e932"
+      "contentHash": "d5eae0e9684d3f7cb95a1da553e45a687ff1c2396ad1577f221a2dc9379edc1f"
     },
     {
       "id": "builtin-containment-pod",
@@ -3326,7 +3326,7 @@
       "url": "/assets/models/containment-pod.json",
       "previewUrl": "/assets/previews/containment-pod.svg",
       "geometryEdition": 2,
-      "contentHash": "95b49078398b6638712f090c3fadbc11f713a34da2cbc7607f8b70b10b8de8f6"
+      "contentHash": "ad5eabc498e07b409c5374004a58e7005ba625ecadc9133b00b32fffe33fa6b7"
     },
     {
       "id": "builtin-pallet",
@@ -3393,7 +3393,7 @@
       "url": "/assets/models/pallet-jack.json",
       "previewUrl": "/assets/previews/pallet-jack.svg",
       "geometryEdition": 2,
-      "contentHash": "ef71e2a965c9bf8bdb3d36dcd7a8a02d2a286ae2db97b05e310d9960df63d191"
+      "contentHash": "fe14671f40c93cac45f434416ac9e7587c5929a0d93e3c64d6d60f55093c45b8"
     },
     {
       "id": "builtin-tool-chest",
@@ -3428,7 +3428,7 @@
       "url": "/assets/models/tool-chest.json",
       "previewUrl": "/assets/previews/tool-chest.svg",
       "geometryEdition": 2,
-      "contentHash": "564eab6d149a1654f4c227708d1bc9ebcf4c8993751bb9de2bae19032b1f7876"
+      "contentHash": "af34b2e647c93776e6828630d199017e16102f0d5ca3e1e562519f130705d00a"
     },
     {
       "id": "builtin-pipe-valve",
@@ -3462,7 +3462,7 @@
       "url": "/assets/models/pipe-valve.json",
       "previewUrl": "/assets/previews/pipe-valve.svg",
       "geometryEdition": 2,
-      "contentHash": "85713f9e4c953623d0345b1b9655cd997ce7d198af6003ecfc28165c59988069"
+      "contentHash": "514a117e3c1d47b07cba066d533bf255299cf6e1b5b7434a1696eee0a16823b2"
     },
     {
       "id": "builtin-power-panel",
@@ -3496,7 +3496,7 @@
       "url": "/assets/models/power-panel.json",
       "previewUrl": "/assets/previews/power-panel.svg",
       "geometryEdition": 2,
-      "contentHash": "ed2425acb2eefb8608ca8af6acb16d37c8ff7ccb7534fcd10574f4792d03ee66"
+      "contentHash": "2e603e888feea18e219e69b6cd4698a71e9d89cb0eba730c9bed3d9383124d9e"
     },
     {
       "id": "builtin-water-tank",
@@ -3529,7 +3529,7 @@
       "url": "/assets/models/water-tank.json",
       "previewUrl": "/assets/previews/water-tank.svg",
       "geometryEdition": 2,
-      "contentHash": "b199c00744d091e98ef2531e84e43aae3040b18c35f19243980f55accb6828f8"
+      "contentHash": "0d53ba7abe5619de9274529a99d15838e6a40a30d85e5889ebc48808405aa2f9"
     },
     {
       "id": "builtin-fuel-pump",
@@ -3563,7 +3563,7 @@
       "url": "/assets/models/fuel-pump.json",
       "previewUrl": "/assets/previews/fuel-pump.svg",
       "geometryEdition": 2,
-      "contentHash": "e3e84de8410a55975f5e59c6b46f6942bb933a79dd9f246950bc110c82b6b5e4"
+      "contentHash": "75e044a202195f72c3550ed5d4b15e1667d6336a2bbf0b67f3804f042158527b"
     },
     {
       "id": "builtin-oil-pump",
@@ -3597,7 +3597,7 @@
       "url": "/assets/models/oil-pump.json",
       "previewUrl": "/assets/previews/oil-pump.svg",
       "geometryEdition": 2,
-      "contentHash": "2a266f05d9df3749630b9ca5a6ad6b3000ac9bcd1865ddcf53485cd0e84e2795"
+      "contentHash": "f260b0528c292b341742a081d5fc1d867e8d196d22a32b5deca8f269fdb22846"
     },
     {
       "id": "builtin-dead-tree",
@@ -3631,7 +3631,7 @@
       "url": "/assets/models/dead-tree.json",
       "previewUrl": "/assets/previews/dead-tree.svg",
       "geometryEdition": 2,
-      "contentHash": "8ac69bc408a6ee1bf601817f20be8832e83e27bd38f8330a95b8cdf3789c7474"
+      "contentHash": "b0a5429b19d2c71dfb3ea519c580e5268745e2fa7105e8e3e68634207c171179"
     },
     {
       "id": "builtin-stump",
@@ -3665,7 +3665,7 @@
       "url": "/assets/models/stump.json",
       "previewUrl": "/assets/previews/stump.svg",
       "geometryEdition": 2,
-      "contentHash": "eadf113c1539e1884158b2bd1fd92b9dfbcdfdd1bb445cbb6aa80da13bb797d3"
+      "contentHash": "d35d52e7a337b7dadb786f1f0c65c4b3b1a787bcc8d172ab40da2257db89cf2d"
     },
     {
       "id": "builtin-bushes",
@@ -3699,7 +3699,7 @@
       "url": "/assets/models/bushes.json",
       "previewUrl": "/assets/previews/bushes.svg",
       "geometryEdition": 2,
-      "contentHash": "281dadbf307b145ccddace9278e8a395e61ba7eaefe46a10b3ca0c029889c5d9"
+      "contentHash": "fb00c6aa0874374107d8ef61a0dbecfc78bda3b49a3072cd25b5a310c787acf5"
     },
     {
       "id": "builtin-iron-fence",
@@ -3733,7 +3733,7 @@
       "url": "/assets/models/iron-fence.json",
       "previewUrl": "/assets/previews/iron-fence.svg",
       "geometryEdition": 2,
-      "contentHash": "943b64c47e1672cb91da15182b1e65a556044ec3fe95b53a5ff500a4e2dc6594"
+      "contentHash": "88829712aa713e30934dee9a32be1d107fc7bcde7cd2245b032d1e6eaa411056"
     },
     {
       "id": "builtin-mausoleum",
@@ -3766,7 +3766,7 @@
       "url": "/assets/models/mausoleum.json",
       "previewUrl": "/assets/previews/mausoleum.svg",
       "geometryEdition": 2,
-      "contentHash": "9db5d5db2a6eacc25ef4dced99b18f38e7977d68a1f914275a48ab12360c89fd"
+      "contentHash": "7747726e8552c94e21de45fd5fd158cf8afc0fda72b66513c40a63ff253b69bb"
     },
     {
       "id": "builtin-ruined-column",
@@ -3800,7 +3800,7 @@
       "url": "/assets/models/ruined-column.json",
       "previewUrl": "/assets/previews/ruined-column.svg",
       "geometryEdition": 2,
-      "contentHash": "d89ef2f99c9595da8fdd628622603d230ee898b92f7aed213a5acedd6b40106e"
+      "contentHash": "a3cf15d1bb8a1ca178de3dc513518d51171d5b9d4d57f675572089123f76d317"
     },
     {
       "id": "builtin-broken-wall",
@@ -3834,7 +3834,7 @@
       "url": "/assets/models/broken-wall.json",
       "previewUrl": "/assets/previews/broken-wall.svg",
       "geometryEdition": 2,
-      "contentHash": "75c0e559c24e4c6158f85d1b93eff3232e623f9399a64d274517ef4a2b362896"
+      "contentHash": "710b119f7e2e44e9892de13cf9ffcf62d2a4dcce3d1c75fc5c5e00d860758cef"
     },
     {
       "id": "builtin-sewer-grate",
@@ -3868,7 +3868,7 @@
       "url": "/assets/models/sewer-grate.json",
       "previewUrl": "/assets/previews/sewer-grate.svg",
       "geometryEdition": 2,
-      "contentHash": "441307606fd3e3c15502348bfc8ae9e3c3e94dd865692339bf57b6e84f038197"
+      "contentHash": "ac84308b4d24d3a540d9e333e422d4ab1c5d615f98a9647ca3aff854dd73671d"
     },
     {
       "id": "builtin-ritual-mask",
@@ -3902,7 +3902,7 @@
       "url": "/assets/models/ritual-mask.json",
       "previewUrl": "/assets/previews/ritual-mask.svg",
       "geometryEdition": 2,
-      "contentHash": "494847e68d4562cf7dd47f7509e4c46763bc086e86e18613332a2bd080ae9366"
+      "contentHash": "21e698914ee740ab682af0659fe78ad61a09b0da987db43bd52be0fc983c33b4"
     },
     {
       "id": "builtin-reliquary",
@@ -3936,7 +3936,7 @@
       "url": "/assets/models/reliquary.json",
       "previewUrl": "/assets/previews/reliquary.svg",
       "geometryEdition": 2,
-      "contentHash": "f468e18a5e1b718f7718232c732f373ade8b0581e72a8efff973b4c0b435c952"
+      "contentHash": "8d6be748449db8d2068581047c0a2927e68de36df5485aafc45b83976aa969e7"
     },
     {
       "id": "builtin-stone-sarcophagus",
@@ -3970,7 +3970,7 @@
       "url": "/assets/models/stone-sarcophagus.json",
       "previewUrl": "/assets/previews/stone-sarcophagus.svg",
       "geometryEdition": 2,
-      "contentHash": "1d18fddf685530aaca8d68faa511f9d499837c49722b638786c733917da5ea25"
+      "contentHash": "de6f39936b4b32456a5b622ca4a586c64333566e999764498cdf3b750453ad54"
     },
     {
       "id": "builtin-skull-display",
@@ -4004,7 +4004,7 @@
       "url": "/assets/models/skull-display.json",
       "previewUrl": "/assets/previews/skull-display.svg",
       "geometryEdition": 2,
-      "contentHash": "af071643093582c7e4933ce440c3cd54a8659873e3e094cb899430e41164b7c6"
+      "contentHash": "82c116bc386f8cca91a5c2407243a31e455a9a1c6b2304a8f62136aca78386bb"
     },
     {
       "id": "builtin-effigy",
@@ -4038,7 +4038,7 @@
       "url": "/assets/models/effigy.json",
       "previewUrl": "/assets/previews/effigy.svg",
       "geometryEdition": 2,
-      "contentHash": "b39633db629569426b6da3ee561bf0730fdd0a90342c0d593f80c24141b87eea"
+      "contentHash": "b09decc1176672140583eddd0e157c961c8cb5260778299714bf590e8b9046fb"
     },
     {
       "id": "builtin-anomalous-portal",
@@ -4072,7 +4072,7 @@
       "url": "/assets/models/anomalous-portal.json",
       "previewUrl": "/assets/previews/anomalous-portal.svg",
       "geometryEdition": 2,
-      "contentHash": "39c06b1baad06ebd4957e2d1c9bbee7137d61409c153dfea8b22f89a528e700f"
+      "contentHash": "ea42ca81fb359eb9a1377e25a17704f65511b6a9bb2355f6f5969b2faa4c06de"
     },
     {
       "id": "builtin-sedan",
@@ -4106,7 +4106,7 @@
       "url": "/assets/models/sedan.json",
       "previewUrl": "/assets/previews/sedan.svg",
       "geometryEdition": 2,
-      "contentHash": "9463b438c10adb1c02357f3e30d13765d1bd0ad2b91bc81e9fc5acc7a859cda6"
+      "contentHash": "33d6c21f678ca90f2361c8b00d2f8bb16b8fa09709cf4c618457e7df9b515ca1"
     },
     {
       "id": "builtin-delivery-van",
@@ -4140,7 +4140,7 @@
       "url": "/assets/models/delivery-van.json",
       "previewUrl": "/assets/previews/delivery-van.svg",
       "geometryEdition": 2,
-      "contentHash": "e33df99b633f703ae438fc103a598febcd9a7e8e103ce5986892de6e1e3519a8"
+      "contentHash": "2698f076a7bd2660a7d0ebd19c50a10961bb4c14a228d89d5522c9ad37bc6a0f"
     },
     {
       "id": "builtin-ambulance",
@@ -4174,7 +4174,7 @@
       "url": "/assets/models/ambulance.json",
       "previewUrl": "/assets/previews/ambulance.svg",
       "geometryEdition": 2,
-      "contentHash": "76ab091ed9b4206495db3f9531d96a21922470599d05302dc2adfe3b878d6916"
+      "contentHash": "3386cd0f0b7f36e48a4522d773fd20a87966a1136fc5ca36e8767ad2c63ca6f7"
     },
     {
       "id": "builtin-police-car",
@@ -4208,7 +4208,7 @@
       "url": "/assets/models/police-car.json",
       "previewUrl": "/assets/previews/police-car.svg",
       "geometryEdition": 2,
-      "contentHash": "35cbd64998896d3701680ca67cfcca78f9edefe1aa189d7a0922bc30064acee2"
+      "contentHash": "0bb52a833f87d630820cf229af9c0a8256ec2ded91af80e2aa4dac6b85c0ed49"
     },
     {
       "id": "builtin-motorcycle",
@@ -4241,7 +4241,7 @@
       "url": "/assets/models/motorcycle.json",
       "previewUrl": "/assets/previews/motorcycle.svg",
       "geometryEdition": 2,
-      "contentHash": "8d9c743aa18e103220a6eecfc512aa08261b0f06141f6d0976ea41592533d6e3"
+      "contentHash": "63b4b3854a7429bffb5904329a801cfc85794438635a51cb2f1bdb66d9bd8c20"
     },
     {
       "id": "builtin-rowboat",
@@ -4275,7 +4275,7 @@
       "url": "/assets/models/rowboat.json",
       "previewUrl": "/assets/previews/rowboat.svg",
       "geometryEdition": 2,
-      "contentHash": "2434792e0b5c8d477cfc3c50fcbebd05d22f0523ad187c948723fb1df620e834"
+      "contentHash": "227cff2888c84b03bdc463fa80faa66fa855fb6967af225859441ee4bc22683f"
     },
     {
       "id": "builtin-rocking-chair",
@@ -4309,7 +4309,7 @@
       "url": "/assets/models/rocking-chair.json",
       "previewUrl": "/assets/previews/rocking-chair.svg",
       "geometryEdition": 2,
-      "contentHash": "6289c8d86cce474fefc886ec02797dea2d349d19af32600121794b67d669107e"
+      "contentHash": "95e7e689194855624f47f66e82f4327346ceac63b75d4e5f32875377bef51c53"
     },
     {
       "id": "builtin-fireplace",
@@ -4343,7 +4343,7 @@
       "url": "/assets/models/fireplace.json",
       "previewUrl": "/assets/previews/fireplace.svg",
       "geometryEdition": 2,
-      "contentHash": "158b3beb177504508b8d9a7f0b29e04578507d94b842826502cf21cb2d741774"
+      "contentHash": "f61987fa4ea31f4d0a15e04ef19bfae6d49f370d5fb851ee94ad97a153e9ddd1"
     },
     {
       "id": "builtin-coat-rack",
@@ -4377,7 +4377,7 @@
       "url": "/assets/models/coat-rack.json",
       "previewUrl": "/assets/previews/coat-rack.svg",
       "geometryEdition": 2,
-      "contentHash": "d70a2b31da1fe3678c2dc7ba10e0f0bab132dc7027ca2c2ccf72839045acce22"
+      "contentHash": "25b4dca77bf7d209e9f5a568466c04de4867d67ec390519c7a02ee3ce7a60ab7"
     },
     {
       "id": "builtin-card-catalog",
@@ -4412,7 +4412,7 @@
       "url": "/assets/models/card-catalog.json",
       "previewUrl": "/assets/previews/card-catalog.svg",
       "geometryEdition": 2,
-      "contentHash": "091b52c36b013e32a6688fffb509349bb6381e2fb20f1488a2fd3c3679eb98d2"
+      "contentHash": "65ebdafffd7b806cc5b2a7caf4289823d1f5849ecaf7d7779fd00d875fa2c0c8"
     },
     {
       "id": "builtin-crib",
@@ -4446,7 +4446,7 @@
       "url": "/assets/models/crib.json",
       "previewUrl": "/assets/previews/crib.svg",
       "geometryEdition": 2,
-      "contentHash": "6565053608ba84b5339590187323408e1c7a39109d236c22210adee5cedd35f8"
+      "contentHash": "7c7ebdb814012042001783d70d9faa0c89ef345254005b18d9482573ea68bdac"
     },
     {
       "id": "builtin-rocking-horse",
@@ -4480,7 +4480,7 @@
       "url": "/assets/models/rocking-horse.json",
       "previewUrl": "/assets/previews/rocking-horse.svg",
       "geometryEdition": 2,
-      "contentHash": "5dc0f25209f9824bc44ebf8c53757655a50b8ef5c123a7c7474d84350c374393"
+      "contentHash": "449a44a3ec929a51b6936bc1d0518d098e71a4b5e241f8cc3be6e555c1887ecd"
     },
     {
       "id": "builtin-gramophone",
@@ -4514,7 +4514,7 @@
       "url": "/assets/models/gramophone.json",
       "previewUrl": "/assets/previews/gramophone.svg",
       "geometryEdition": 2,
-      "contentHash": "c565b7c585da2378d6ff8b037731afca8479d24b8bc106706ce525c55ac0a7d8"
+      "contentHash": "104d236f1f40f72dbb7eb508a152c04712bb48e2b7ac2e11c8fa9bba5e6a5a70"
     },
     {
       "id": "builtin-spirit-board",
@@ -4548,7 +4548,7 @@
       "url": "/assets/models/spirit-board.json",
       "previewUrl": "/assets/previews/spirit-board.svg",
       "geometryEdition": 2,
-      "contentHash": "87f60a665cbfecbef6bbb98661aef4d7c6280b64d794798378f81514450411a6"
+      "contentHash": "bf679ae1a6f2dd55377cd7b4b3e59a665940a8d9cff5586f91178249118e121c"
     },
     {
       "id": "builtin-cage",
@@ -4582,7 +4582,7 @@
       "url": "/assets/models/cage.json",
       "previewUrl": "/assets/previews/cage.svg",
       "geometryEdition": 2,
-      "contentHash": "2588125a29ea47607e4272c3339563c7a4d2c3b5399e13cefda1bd4f2bb29ed7"
+      "contentHash": "541074edafb66b701168175872e3e3418474924f9e355155a8833f617100b22c"
     },
     {
       "id": "builtin-restraint-chair",
@@ -4616,7 +4616,7 @@
       "url": "/assets/models/restraint-chair.json",
       "previewUrl": "/assets/previews/restraint-chair.svg",
       "geometryEdition": 2,
-      "contentHash": "e9c5cdc3243b5a57f481faffad8a42cbb82e5fd940f67b45fd94c6de43e2fc2a"
+      "contentHash": "635c727d06d03eff401495dfe212f0287ad8d344dbb9c302c66e269796c8d823"
     },
     {
       "id": "builtin-privacy-screen",
@@ -4650,7 +4650,7 @@
       "url": "/assets/models/privacy-screen.json",
       "previewUrl": "/assets/previews/privacy-screen.svg",
       "geometryEdition": 2,
-      "contentHash": "7cd1986d94c695efc6a623e0303657de7b7e51f0a3d6c8fbdd8cac72c9eb4950"
+      "contentHash": "06bbe70df3214b2a366fc7e09c983e452cecbf8f94383ba5758295f021d25628"
     },
     {
       "id": "builtin-body-bag",
@@ -4684,7 +4684,7 @@
       "url": "/assets/models/body-bag.json",
       "previewUrl": "/assets/previews/body-bag.svg",
       "geometryEdition": 2,
-      "contentHash": "028d48f05faa08181cc0568e20d19cc2cbf7641b73eaf78465b351415b9ceff8"
+      "contentHash": "c2d6af3d81193be1621c0a5b193aaea16fae8d57a7259245a48ac0002967ed43"
     },
     {
       "id": "builtin-blood-pool",
@@ -4718,7 +4718,7 @@
       "url": "/assets/models/blood-pool.json",
       "previewUrl": "/assets/previews/blood-pool.svg",
       "geometryEdition": 2,
-      "contentHash": "31065aa016a7de9b12337ea3e026028d0e7faaac3d2c1579681612d5697ec5b8"
+      "contentHash": "0778b2d3d5497d4cc8660b7a3b8d51c398d407e75c9c2457ac3163b4faf50bb5"
     },
     {
       "id": "builtin-grave-cross",
@@ -4752,7 +4752,7 @@
       "url": "/assets/models/grave-cross.json",
       "previewUrl": "/assets/previews/grave-cross.svg",
       "geometryEdition": 2,
-      "contentHash": "55f98e0c2357c439acdd2d8b20c14b8ec5631a71cd4fd224594592b9ff53c3e4"
+      "contentHash": "69b381e13bf7ee86c6ea8991ca8e87412083a150951cae33ee56db32daa50078"
     },
     {
       "id": "builtin-open-grave",
@@ -4787,7 +4787,7 @@
       "url": "/assets/models/open-grave.json",
       "previewUrl": "/assets/previews/open-grave.svg",
       "geometryEdition": 2,
-      "contentHash": "7ce340b79b4b8a6658306bff1ece3848eb35e2e6d95322554e5ffa02c51fb4e8"
+      "contentHash": "f0dd76a36ae31d2fccc321ea5a7bce5c7d0f91b02ba0e732fc51fd6562ce1085"
     },
     {
       "id": "builtin-angel-statue",
@@ -4821,7 +4821,7 @@
       "url": "/assets/models/angel-statue.json",
       "previewUrl": "/assets/previews/angel-statue.svg",
       "geometryEdition": 2,
-      "contentHash": "3fa1b762a189e3db8a5745f23576e1137190bf2efaae222aaa58537875ee2605"
+      "contentHash": "294aa31ad00c9553475450ed7dd2ba59956e0a17e61a2bed1a3e60157e1a0aa4"
     },
     {
       "id": "builtin-ritual-candelabra",
@@ -4855,7 +4855,7 @@
       "url": "/assets/models/ritual-candelabra.json",
       "previewUrl": "/assets/previews/ritual-candelabra.svg",
       "geometryEdition": 2,
-      "contentHash": "a3b97489d34ca2c403a3b4b849f3f83a4e487814b21676ebbe71cd5e13da654e"
+      "contentHash": "3c841283662a6be61cb5210b4ea0fe60f321b7bf9275015bd1be952861518393"
     },
     {
       "id": "builtin-chandelier",
@@ -4889,7 +4889,7 @@
       "url": "/assets/models/chandelier.json",
       "previewUrl": "/assets/previews/chandelier.svg",
       "geometryEdition": 2,
-      "contentHash": "63c07c30a00088ca8027d1358aadd7ce1d33dd7d00ce0456289bec69167dc6e5"
+      "contentHash": "e548465a7b625d3587a934616dc711ca8052845144213920188af12601071e47"
     },
     {
       "id": "builtin-wooden-fence",
@@ -4923,7 +4923,7 @@
       "url": "/assets/models/wooden-fence.json",
       "previewUrl": "/assets/previews/wooden-fence.svg",
       "geometryEdition": 2,
-      "contentHash": "d3b04dc5d9c58ad795924dba4126c459f76121d1511dd37e9898a22d774af2f1"
+      "contentHash": "e1c38346fbd573a88f5a450f2d5333bc667ece50e17dd42d20f0a3044a33ba78"
     },
     {
       "id": "builtin-water-pump",
@@ -4957,7 +4957,7 @@
       "url": "/assets/models/water-pump.json",
       "previewUrl": "/assets/previews/water-pump.svg",
       "geometryEdition": 2,
-      "contentHash": "e14a41dc806446ac6511f539f6d60b8a0c89a81faf2bc980ad3276b60e4c726e"
+      "contentHash": "cbe28431e37f59e341487a04ed6eaa7b5a353abca34f87c01bf9943f4a701db3"
     },
     {
       "id": "builtin-log-pile",
@@ -4991,7 +4991,7 @@
       "url": "/assets/models/log-pile.json",
       "previewUrl": "/assets/previews/log-pile.svg",
       "geometryEdition": 2,
-      "contentHash": "605eae77733a718334f96fc89f7724ed50ee57028844c3299376c96dc23a9495"
+      "contentHash": "84ec81c3995eaf5a69b83afb9363f870485eac8ede94732311c43ba791e7ab82"
     },
     {
       "id": "builtin-wheelbarrow",
@@ -5025,7 +5025,7 @@
       "url": "/assets/models/wheelbarrow.json",
       "previewUrl": "/assets/previews/wheelbarrow.svg",
       "geometryEdition": 2,
-      "contentHash": "8d3144e3e7741bc758a30a26bc5be481e63bba6263bcb7a20c0a397bd971e89c"
+      "contentHash": "f01ee8227a3fca693dbc32de3f882478b5d776ea007c0868789a009a49ff2c24"
     },
     {
       "id": "builtin-phone-booth",
@@ -5059,7 +5059,7 @@
       "url": "/assets/models/phone-booth.json",
       "previewUrl": "/assets/previews/phone-booth.svg",
       "geometryEdition": 2,
-      "contentHash": "0af86bf371e52257c819f2e4f2298966dd1ed7c3e6b2616f11b5479fd71bb1b1"
+      "contentHash": "33a3fdc54b1f3010a8181f286e740346a2aa4d3847eb8c61d1e1fb9b479b5a5f"
     },
     {
       "id": "builtin-bus-stop",
@@ -5093,7 +5093,7 @@
       "url": "/assets/models/bus-stop.json",
       "previewUrl": "/assets/previews/bus-stop.svg",
       "geometryEdition": 2,
-      "contentHash": "436d2848ada6d81a4e7fa6823a7fdc42142b44f3c068e8f62671c6e06ab90b35"
+      "contentHash": "3720c4a4489dea0a084da9f6a3426144a0afb246e056ab4cba4872eccf187ca7"
     },
     {
       "id": "builtin-fire-hydrant",
@@ -5160,7 +5160,7 @@
       "url": "/assets/models/trash-can.json",
       "previewUrl": "/assets/previews/trash-can.svg",
       "geometryEdition": 2,
-      "contentHash": "294266158acf00aceebe07296bc4daf7b30fe91fb50bde2f1e14402cd89a7642"
+      "contentHash": "aae35be575d56c4ea4c79c62eee7d509bf6cc8876c374cd14a3d163acd911433"
     },
     {
       "id": "builtin-shopping-cart",
@@ -5194,7 +5194,7 @@
       "url": "/assets/models/shopping-cart.json",
       "previewUrl": "/assets/previews/shopping-cart.svg",
       "geometryEdition": 2,
-      "contentHash": "870f86b1eb6b93822b5b0b0bcab75117392aa3bfa6879cc0944e218d48a96ee7"
+      "contentHash": "1a6010a92ee488f91c6a886f78709c92359af5b0fd0ebb823e0e30c85b0b966e"
     },
     {
       "id": "builtin-arcade-cabinet",
@@ -5228,7 +5228,7 @@
       "url": "/assets/models/arcade-cabinet.json",
       "previewUrl": "/assets/previews/arcade-cabinet.svg",
       "geometryEdition": 2,
-      "contentHash": "2f591287821518b7b65cecceda43c887c480e99646933f005ab63b6202bad81c"
+      "contentHash": "47784ea65c1800fdc4c8d4a331cf4f3927fe9e3778f6656ac9d1bd3a5139ae15"
     },
     {
       "id": "builtin-chalkboard",
@@ -5263,7 +5263,7 @@
       "url": "/assets/models/chalkboard.json",
       "previewUrl": "/assets/previews/chalkboard.svg",
       "geometryEdition": 2,
-      "contentHash": "b78d6ca7312cdc48c311ab07a98f9d56ac29127ee56adb1709861db8d25199fa"
+      "contentHash": "4d524387546df85f237a9d65af8575cb35ebe1f1200a1c6496725a804610abad"
     },
     {
       "id": "builtin-jail-bars",
@@ -5298,7 +5298,7 @@
       "url": "/assets/models/jail-bars.json",
       "previewUrl": "/assets/previews/jail-bars.svg",
       "geometryEdition": 2,
-      "contentHash": "cd623359a7ca7d18a7f015a0a813130c0745f3cffbacb340b19d90360995d0b6"
+      "contentHash": "a7648e97ebdd37c0f00510c5cbc05a3195d183cf6cd7d41a5e1bb8e4c8bf776a"
     },
     {
       "id": "builtin-camera-tripod",
@@ -5332,7 +5332,7 @@
       "url": "/assets/models/camera-tripod.json",
       "previewUrl": "/assets/previews/camera-tripod.svg",
       "geometryEdition": 2,
-      "contentHash": "bfcb7a24d2175106955bfdafb0d518aa3faa2b0910919b5033e3b30e9ed10b8d"
+      "contentHash": "799088784fd0c5c5b8662d40b7925644c9e515094eca64060a8b89d1f4459c46"
     },
     {
       "id": "builtin-kerosene-lantern",
@@ -5366,7 +5366,7 @@
       "url": "/assets/models/kerosene-lantern.json",
       "previewUrl": "/assets/previews/kerosene-lantern.svg",
       "geometryEdition": 2,
-      "contentHash": "10d831c656b41dd6353a2b73e379f461435f52969aefe570d2dd7dcf9b680657"
+      "contentHash": "4e37b53fa7451d54cbd6ed3b7b6f13c88e5d77c93ee2773d7bd4e05223b28165"
     },
     {
       "id": "builtin-globe",
@@ -5433,7 +5433,7 @@
       "url": "/assets/models/bicycle.json",
       "previewUrl": "/assets/previews/bicycle.svg",
       "geometryEdition": 2,
-      "contentHash": "a9b89db1f6918be3259e6fe2f40b161e90bed602eb47250bc144bf2e42fd4918"
+      "contentHash": "b3e1037402271358be319fbf56b95abfad52feb219b052d3f465371b50bddde1"
     },
     {
       "id": "builtin-mountain-boulder",
@@ -5467,7 +5467,7 @@
       "url": "/assets/models/mountain-boulder.json",
       "previewUrl": "/assets/previews/mountain-boulder.svg",
       "geometryEdition": 2,
-      "contentHash": "657f31a1fe76b18b369b64a2b4a236293110aa094ec8f1c91d5102ba3b120f94"
+      "contentHash": "67abcf32ef63596e6b82b9ac2fe490dabd51097f28d405fbc5a84ad9b7573bf2"
     },
     {
       "id": "builtin-granite-boulder",
@@ -5501,7 +5501,7 @@
       "url": "/assets/models/granite-boulder.json",
       "previewUrl": "/assets/previews/granite-boulder.svg",
       "geometryEdition": 2,
-      "contentHash": "9c5a897af48b0aadaf86d89b6640f9a0ed2f93046ec4918e51d46f318f70030b"
+      "contentHash": "256dabde24156ae8e8d9e3f5dfca0d5c43154c38fc456ca06ac8d1a7b2b437dc"
     },
     {
       "id": "builtin-stratified-cliff",
@@ -5537,7 +5537,7 @@
       "url": "/assets/models/stratified-cliff.json",
       "previewUrl": "/assets/previews/stratified-cliff.svg",
       "geometryEdition": 2,
-      "contentHash": "1b64010ac5a23b7bdff9c946227d8f8cf5745f1834869d3bb6cde9017be78b54"
+      "contentHash": "48e73290aa1e1b53b34f676dc8fc77f3f388607e6f786fdd9163c23ab9c01d00"
     },
     {
       "id": "builtin-rock-scree",
@@ -5571,7 +5571,7 @@
       "url": "/assets/models/rock-scree.json",
       "previewUrl": "/assets/previews/rock-scree.svg",
       "geometryEdition": 2,
-      "contentHash": "01513ae4e3aeb1bb9868707b6dbc5a3a459d0d2ca0269d169e30b2c80e60ab87"
+      "contentHash": "c6e05ef3812410e59a62593bcabe8753ce447c60c985a18621f242f26b9e5a12"
     },
     {
       "id": "builtin-ruin-masonry-wall",
@@ -5605,7 +5605,7 @@
       "url": "/assets/models/ruin-masonry-wall.json",
       "previewUrl": "/assets/previews/ruin-masonry-wall.svg",
       "geometryEdition": 2,
-      "contentHash": "a836eb7f526edf6a72c8f23b52c948a383e97104773e66946ada2903a7f4f98c"
+      "contentHash": "0cd5604604663eefcababc783e9471dd2961f3334b9294ad17d62daea37af1f0"
     },
     {
       "id": "builtin-ruin-stone-arch",
@@ -5639,7 +5639,7 @@
       "url": "/assets/models/ruin-stone-arch.json",
       "previewUrl": "/assets/previews/ruin-stone-arch.svg",
       "geometryEdition": 2,
-      "contentHash": "144790fa2d21b819364cf5d4407a9182092b3d6808309299283922390eb2cfdf"
+      "contentHash": "14f23da96c6bd43fd0a6958018d07c6f4879408f354b2d292de3ca29343b4530"
     },
     {
       "id": "builtin-ruin-buttress",
@@ -5673,7 +5673,7 @@
       "url": "/assets/models/ruin-buttress.json",
       "previewUrl": "/assets/previews/ruin-buttress.svg",
       "geometryEdition": 2,
-      "contentHash": "f592ac55ed487cab8cbcb0c6f1fb0377a1aa4d215b59170dd5d9ded4403352b7"
+      "contentHash": "d5eb5005726c8486ec67a23ca228d2f36f182f4ded4d9d8c31f0b1e6d8c71108"
     },
     {
       "id": "builtin-mountain-timber-bridge",
@@ -5775,7 +5775,7 @@
       "url": "/assets/models/mountain-lantern-post.json",
       "previewUrl": "/assets/previews/mountain-lantern-post.svg",
       "geometryEdition": 2,
-      "contentHash": "3b01d4710860e6f03c21a069ca343ac76dda7aa3e80c0877623528fb65656a33"
+      "contentHash": "60b91a8086b374c8427e3e52e4f303a03b3839e15a35debd4faed9694d9c5ada"
     },
     {
       "id": "builtin-alpine-fir",
@@ -5808,7 +5808,7 @@
       "url": "/assets/models/alpine-fir.json",
       "previewUrl": "/assets/previews/alpine-fir.svg",
       "geometryEdition": 2,
-      "contentHash": "1f81115f606919fcfdd615830ed2ad0d58897953142d8797f5445cd2aa88a64c"
+      "contentHash": "c112ae199d57e66368a2e9dfa30417914580c59cf66953b3164def36afcd7ce2"
     },
     {
       "id": "builtin-alpine-pine",
@@ -5841,7 +5841,7 @@
       "url": "/assets/models/alpine-pine.json",
       "previewUrl": "/assets/previews/alpine-pine.svg",
       "geometryEdition": 2,
-      "contentHash": "f900a79914b76a37fdb55a9ac48a92a4be06b465912b29d85e19497c2efc5f5c"
+      "contentHash": "7c72b7b42552c5f45750d9be0a38e93e43dab882978f55fd3d4c554661cf0e00"
     },
     {
       "id": "builtin-bare-mountain-tree",
@@ -5874,7 +5874,7 @@
       "url": "/assets/models/bare-mountain-tree.json",
       "previewUrl": "/assets/previews/bare-mountain-tree.svg",
       "geometryEdition": 2,
-      "contentHash": "3b47df0513e5de352cbe46af1d6185865ecde14b0e330d1b1263ae59f7d784cf"
+      "contentHash": "02c366d1265f9907c40d3a473382be467e7aae43c61ef1a9a95481fd59d1202e"
     },
     {
       "id": "builtin-alpine-fern",
@@ -5907,7 +5907,7 @@
       "url": "/assets/models/alpine-fern.json",
       "previewUrl": "/assets/previews/alpine-fern.svg",
       "geometryEdition": 2,
-      "contentHash": "e5c6cdf1d0fbf054a8e9e6e9c59e4aa7a3f5068222587ec1e0d774aae88ea2cd"
+      "contentHash": "633147824834173cb225542294e181555acddb6fe7295b3bb56210a1d3b877e7"
     },
     {
       "id": "builtin-dry-grass",
@@ -5940,7 +5940,7 @@
       "url": "/assets/models/dry-grass.json",
       "previewUrl": "/assets/previews/dry-grass.svg",
       "geometryEdition": 2,
-      "contentHash": "dc393eee6ca6847a41e38cece9ce122231b527f5950c6a63b44be37dadc35fef"
+      "contentHash": "922f48cd30e25b8e016770f285eed22c2f3cef75068186a733a165fd13ce9006"
     },
     {
       "id": "builtin-mountain-cliff-face",
@@ -5974,7 +5974,7 @@
       "url": "/assets/models/mountain-cliff-face.json",
       "previewUrl": "/assets/previews/mountain-cliff-face.svg",
       "geometryEdition": 2,
-      "contentHash": "b4b217931b453fcef2b4733f22926808bd4107042b959c2ab8165b8544708bf3"
+      "contentHash": "a81069f1b8d080263df7334584e480d25c60dda8e5bd892dbf75f2862d509552"
     },
     {
       "id": "builtin-mountain-cliff-corner",
@@ -6008,7 +6008,7 @@
       "url": "/assets/models/mountain-cliff-corner.json",
       "previewUrl": "/assets/previews/mountain-cliff-corner.svg",
       "geometryEdition": 2,
-      "contentHash": "e6e2fd8a1772c7622654c9172105ab81eaee62816ed566771e303c30aea49466"
+      "contentHash": "df1dc3fde8941542bc7eb4ef252177fc24aa12cc2553c4a48ce9a26b8db9910f"
     },
     {
       "id": "builtin-mountain-cliff-overhang",
@@ -6042,7 +6042,7 @@
       "url": "/assets/models/mountain-cliff-overhang.json",
       "previewUrl": "/assets/previews/mountain-cliff-overhang.svg",
       "geometryEdition": 2,
-      "contentHash": "ce3ae77242c2eb02d4a725cc8cf5a56d0cb580a16c070b7c2ed83e705fa5e881"
+      "contentHash": "4b19db3d24a0a029a3a60aa8537bf43296ce8889baf148ada691ed2003267a87"
     },
     {
       "id": "builtin-mountain-rock-spire",
@@ -6076,7 +6076,7 @@
       "url": "/assets/models/mountain-rock-spire.json",
       "previewUrl": "/assets/previews/mountain-rock-spire.svg",
       "geometryEdition": 2,
-      "contentHash": "121806ca49741014dbab04b7e8025a9e9c30b51736c4cbdb481fd0141eaeafb0"
+      "contentHash": "8424ec03a27fef3260328d6b8350d4ba6efeaf266a751dd8bb6b900d3cac48dd"
     },
     {
       "id": "builtin-mountain-ruin-tower",
@@ -6109,7 +6109,7 @@
       "url": "/assets/models/mountain-ruin-tower.json",
       "previewUrl": "/assets/previews/mountain-ruin-tower.svg",
       "geometryEdition": 2,
-      "contentHash": "49cd9a985665685530802485f418dc9b4b468a9247d0b1bf5816e627de8627bd"
+      "contentHash": "900e56d3f71c597324372283dd665080542df1a3d280d7efe74745093e5ee1c4"
     },
     {
       "id": "builtin-mountain-ruin-corner",
@@ -6142,7 +6142,7 @@
       "url": "/assets/models/mountain-ruin-corner.json",
       "previewUrl": "/assets/previews/mountain-ruin-corner.svg",
       "geometryEdition": 2,
-      "contentHash": "48213c598446e0ef0c1a48aa7037c6efb294df999c47ee21d37efb6c7e082076"
+      "contentHash": "494fc4f820ecf0ba79ac1292bbd7a2e9ff08b7515b6e83680af90c9bd4c4bf89"
     },
     {
       "id": "builtin-mountain-timber-platform",
@@ -6209,7 +6209,7 @@
       "url": "/assets/models/mountain-rope-span.json",
       "previewUrl": "/assets/previews/mountain-rope-span.svg",
       "geometryEdition": 2,
-      "contentHash": "0b9fb1ec14087a403d44868605e99cb9114a67824e839d198b3280bdbff0a7ba"
+      "contentHash": "d82fafbeac8bdbbe035963ad4d49ba6eca92e7fdd7c7cc0f78531af37003000d"
     },
     {
       "id": "builtin-mountain-rope-post",
@@ -6308,7 +6308,7 @@
       "url": "/assets/models/mountain-round-lantern.json",
       "previewUrl": "/assets/previews/mountain-round-lantern.svg",
       "geometryEdition": 2,
-      "contentHash": "c792ffe06bf4fbf571194ae5f575f9746d4bd981902c30f09c480574f429cb5c"
+      "contentHash": "e6f66bffac1d7169b356d4df7d73601b2a0ebb27f0b4e1c1ae6a7733ce1614a4"
     },
     {
       "id": "builtin-mountain-cave-mouth",
@@ -6341,7 +6341,7 @@
       "url": "/assets/models/mountain-cave-mouth.json",
       "previewUrl": "/assets/previews/mountain-cave-mouth.svg",
       "geometryEdition": 2,
-      "contentHash": "d0c35d97f7198c7224103089fa7fb341af2aa505d0ad85414fd7cd4b12ec28f9"
+      "contentHash": "cc861a070039d174d8a622ab2e54d10cb1d06aedbc867968cd71fabd031efe81"
     },
     {
       "id": "builtin-mountain-uprooted-stump",
@@ -6374,7 +6374,7 @@
       "url": "/assets/models/mountain-uprooted-stump.json",
       "previewUrl": "/assets/previews/mountain-uprooted-stump.svg",
       "geometryEdition": 2,
-      "contentHash": "bdd3ee4f6b5a547dc1ff5a21529493bbb4002bae7de12d4c6492d72b8f0943d5"
+      "contentHash": "dc90cfba134cde21badd62bf071162935d84962ec24daaaa54354b575a948e99"
     },
     {
       "id": "builtin-mountain-cart-wreck",
@@ -6440,7 +6440,7 @@
       "url": "/assets/models/mountain-ruin-high-wall.json",
       "previewUrl": "/assets/previews/mountain-ruin-high-wall.svg",
       "geometryEdition": 2,
-      "contentHash": "f87b831ee1628a692a20bd0bc71f4e5362211952e73dbdca9bbfba49184c6399"
+      "contentHash": "7cdeb778492c3fad382542c67e3f8e9f2d7eb0158abeb99defbccaa8c139bdaa"
     },
     {
       "id": "builtin-organic-rock",
@@ -6475,7 +6475,7 @@
       "url": "/assets/models/organic-rock.json",
       "previewUrl": "/assets/previews/organic-rock.svg",
       "geometryEdition": 2,
-      "contentHash": "037f16dcd56203127b123cc888bb1047f157c937d77c2b2b9a65debb33ac17c6"
+      "contentHash": "cd6b6bdb054cb2e246d9861e56f029ea9d0c6349ac6231e5a3c1c97ce9ee0f8c"
     },
     {
       "id": "builtin-organic-cliff",
@@ -6510,7 +6510,7 @@
       "url": "/assets/models/organic-cliff.json",
       "previewUrl": "/assets/previews/organic-cliff.svg",
       "geometryEdition": 2,
-      "contentHash": "8ce6577a2684e7dba80fa48a0dd128e720460a9077973f3c3d57895019a21bef"
+      "contentHash": "740c4a278455c7029fd0de5b666cd10cdcde559c466a9d23c39fb7a71c376048"
     },
     {
       "id": "builtin-dense-alpine-fir",
@@ -6545,7 +6545,7 @@
       "url": "/assets/models/dense-alpine-fir.json",
       "previewUrl": "/assets/previews/dense-alpine-fir.svg",
       "geometryEdition": 2,
-      "contentHash": "daed0af548f03bff34b67d7d55457f8fa3f06d41e9bc079146d35a7018eb7b26"
+      "contentHash": "a53a8bf375abfab022279bac058c989baca0fb6e1a8c966a676fb7e4fcc64016"
     },
     {
       "id": "builtin-dense-mountain-pine",
@@ -6580,7 +6580,7 @@
       "url": "/assets/models/dense-mountain-pine.json",
       "previewUrl": "/assets/previews/dense-mountain-pine.svg",
       "geometryEdition": 2,
-      "contentHash": "55ea8ecb34963b556fa74b98229816fd199c4d7e0f6cc67f6717b1d9db687ca3"
+      "contentHash": "435b323b761cf4ebc406a939184edd5010c105a0e8ee560add89a4e5f8bdcd70"
     },
     {
       "id": "builtin-forked-dead-branch",
@@ -6615,7 +6615,7 @@
       "url": "/assets/models/forked-dead-branch.json",
       "previewUrl": "/assets/previews/forked-dead-branch.svg",
       "geometryEdition": 2,
-      "contentHash": "eb783289af917d397f19ef6826bad514e8cd184a5018aef5be36b404ff382003"
+      "contentHash": "ea6ef3fa330ceb0d3805950eef7fdbec534b2f7d393e372872f4fe40623c8bfb"
     },
     {
       "id": "builtin-twisted-mountain-roots",
@@ -6650,7 +6650,7 @@
       "url": "/assets/models/twisted-mountain-roots.json",
       "previewUrl": "/assets/previews/twisted-mountain-roots.svg",
       "geometryEdition": 2,
-      "contentHash": "8c80ae185e29d6c09764978f32a6fd219f6509e5cc0768da743589555ad0e5cc"
+      "contentHash": "c1c47cf5b02e8487ba0a3c40f08fa5e1ec689032110669359a4f851cbdf11c92"
     },
     {
       "id": "builtin-winter-dry-shrub",
@@ -6685,7 +6685,7 @@
       "url": "/assets/models/winter-dry-shrub.json",
       "previewUrl": "/assets/previews/winter-dry-shrub.svg",
       "geometryEdition": 2,
-      "contentHash": "370e86db8e10314a2b80ad9162b8fc02286d87ce7347e02889e8bd69a73a2d4e"
+      "contentHash": "36ba24a10e68fd70eace66586257be84a82cfaff7d0e902946d6c6c25b28c21b"
     },
     {
       "id": "builtin-wooden-expedition-barrel",
@@ -6720,7 +6720,7 @@
       "url": "/assets/models/wooden-expedition-barrel.json",
       "previewUrl": "/assets/previews/wooden-expedition-barrel.svg",
       "geometryEdition": 2,
-      "contentHash": "1381ed0b3ca6b49901990c2c84c7720dc16a5114d967f59c9d65d2bd3a1fb1b6"
+      "contentHash": "705c5b649dcc953d659b566a652718117d59cbfd41ad96e682dcc42f7194b285"
     },
     {
       "id": "builtin-old-open-crate",
@@ -6755,7 +6755,7 @@
       "url": "/assets/models/old-open-crate.json",
       "previewUrl": "/assets/previews/old-open-crate.svg",
       "geometryEdition": 2,
-      "contentHash": "51b6afffe7db0ea606431d4d8e601c11ca12d6d267cba41950b053f8d55fdabf"
+      "contentHash": "173958b735c87175c6f321fcfaa8fbe0b0e61b2563b7fe940211a82ab8ca45c0"
     },
     {
       "id": "builtin-old-closed-crate",
@@ -6790,7 +6790,7 @@
       "url": "/assets/models/old-closed-crate.json",
       "previewUrl": "/assets/previews/old-closed-crate.svg",
       "geometryEdition": 2,
-      "contentHash": "8ccbfc038f0d065b55c8597e50e3ed7ab42d3d70f79a23da09e39cb3786f88e2"
+      "contentHash": "09b54a95339a2c286ab0e3b6b763e8102f18365a09c9468a89217113c53bbbf3"
     },
     {
       "id": "builtin-broken-timber-pile",
@@ -6825,7 +6825,7 @@
       "url": "/assets/models/broken-timber-pile.json",
       "previewUrl": "/assets/previews/broken-timber-pile.svg",
       "geometryEdition": 2,
-      "contentHash": "c67f135550ead8883f59b7ba6787ef282a430c4488b7ceaa4db8bfa433b0e7fa"
+      "contentHash": "642f016b11beca31ea90874013a88c4be5310b54402705d609c171303225e6f4"
     },
     {
       "id": "builtin-church-clustered-pier",
@@ -6858,7 +6858,7 @@
       "url": "/assets/models/church-clustered-pier.json",
       "previewUrl": "/assets/previews/church-clustered-pier.svg",
       "geometryEdition": 2,
-      "contentHash": "08489fb085bf38fed1bd46a331dd0d5875aa75eeb6449f164cee27d5b3a16c53"
+      "contentHash": "04539fd0e3e6b9205ab19389cacc03f14c5d4d658a97b660c554da80ae18ef17"
     },
     {
       "id": "builtin-church-round-arcade",
@@ -6891,7 +6891,7 @@
       "url": "/assets/models/church-round-arcade.json",
       "previewUrl": "/assets/previews/church-round-arcade.svg",
       "geometryEdition": 2,
-      "contentHash": "496b8d0616dbdfd5c12796b25861ef16f8da8decaabed1c97c0ab5326599e251"
+      "contentHash": "e77c2ed475f8ed5df5abfaf8590bcbb99c16e999eeabcc6492f6ff4fd97b4be2"
     },
     {
       "id": "builtin-church-pointed-arch",
@@ -6924,7 +6924,7 @@
       "url": "/assets/models/church-pointed-arch.json",
       "previewUrl": "/assets/previews/church-pointed-arch.svg",
       "geometryEdition": 2,
-      "contentHash": "e79b7f94914b6b29a39b871352ad1fb5f9ade6bc1f2312de140be58290b3c9fe"
+      "contentHash": "046500d795cf02184082130d58ec975fb4fb45705d308b23d4192c1f33d11f94"
     },
     {
       "id": "builtin-church-curved-balcony",
@@ -6957,7 +6957,7 @@
       "url": "/assets/models/church-curved-balcony.json",
       "previewUrl": "/assets/previews/church-curved-balcony.svg",
       "geometryEdition": 2,
-      "contentHash": "1aba9e58f727ca1ac3f7880ac3a0d3841590c50f9047eb55076469574976e105"
+      "contentHash": "9f046631a1cffbf6e7367bd0ca20b33ab1fd9524beeda16e4f3f19e5386861ff"
     },
     {
       "id": "builtin-church-balustrade",
@@ -6990,7 +6990,7 @@
       "url": "/assets/models/church-balustrade.json",
       "previewUrl": "/assets/previews/church-balustrade.svg",
       "geometryEdition": 2,
-      "contentHash": "5ca7b168032d00510537df8c930125f272e103cdb5296d72bfc80adbccd7d424"
+      "contentHash": "3ca35ae227f3b6785890620d706712aac5a51a2f597fc15bbc92cde81f2f9a5a"
     },
     {
       "id": "builtin-church-stained-window",
@@ -7023,7 +7023,7 @@
       "url": "/assets/models/church-stained-window.json",
       "previewUrl": "/assets/previews/church-stained-window.svg",
       "geometryEdition": 2,
-      "contentHash": "b97cd80d789df56491ab649d472e9a8f3ba154c77110fc07edcc4cb31795e3d4"
+      "contentHash": "047c51525363187d4301e6863e208f31962f89b89a1319fe4b85c07d857cf8dc"
     },
     {
       "id": "builtin-church-vault-ribs",
@@ -7056,7 +7056,7 @@
       "url": "/assets/models/church-vault-ribs.json",
       "previewUrl": "/assets/previews/church-vault-ribs.svg",
       "geometryEdition": 2,
-      "contentHash": "f26920edcc022fe6ce3ba12ce7971adf1c8811e99c8dbe3e9a3cc5fdb900f7a3"
+      "contentHash": "611a566ed3a5db233897913e282927bcba90c6f4f6463e48e250fc05d743ac34"
     },
     {
       "id": "builtin-church-roof-shell",
@@ -7089,7 +7089,7 @@
       "url": "/assets/models/church-roof-shell.json",
       "previewUrl": "/assets/previews/church-roof-shell.svg",
       "geometryEdition": 2,
-      "contentHash": "b4312457ab0509d7da68132e2af8670f009682040a41a83439f35f4152835a11"
+      "contentHash": "450bff150173cd1547f352b2add0e88b0eeca1555b43a390e14f4e8552db41bf"
     },
     {
       "id": "builtin-church-buttress",
@@ -7122,7 +7122,7 @@
       "url": "/assets/models/church-buttress.json",
       "previewUrl": "/assets/previews/church-buttress.svg",
       "geometryEdition": 2,
-      "contentHash": "e8fdf438dcb449d170b333db18b930905ec71f1c936028d0020ce0c84292844e"
+      "contentHash": "42fe2cfa3fc93fc02ba931920f4f01d5fec0da0c263d8c5f6f78d40069e5de92"
     },
     {
       "id": "builtin-church-pinnacle",
@@ -7155,7 +7155,7 @@
       "url": "/assets/models/church-pinnacle.json",
       "previewUrl": "/assets/previews/church-pinnacle.svg",
       "geometryEdition": 2,
-      "contentHash": "80074de3ad66a9db642b77ae2e4f33ebefb6fb562ac3d73ce091869ece5b6040"
+      "contentHash": "110c5db94cc64cd16cdcbf9e42a3f93629db0dc29d28b1af1b9d8bc9aac3f2a6"
     },
     {
       "id": "builtin-church-bell-tower",
@@ -7188,7 +7188,7 @@
       "url": "/assets/models/church-bell-tower.json",
       "previewUrl": "/assets/previews/church-bell-tower.svg",
       "geometryEdition": 2,
-      "contentHash": "b252bc1083fe5491f3c4d264b0614f31842b888362d7fba8bbd75508a09d04a5"
+      "contentHash": "c08e644b72ccf26c95d486a1ed808ad65dce6e84cd629bd2c18bfb850f3c5f3e"
     },
     {
       "id": "builtin-church-iron-maiden",
@@ -7222,7 +7222,7 @@
       "url": "/assets/models/church-iron-maiden.json",
       "previewUrl": "/assets/previews/church-iron-maiden.svg",
       "geometryEdition": 2,
-      "contentHash": "60903d793ad1a51f3131f8ba868a9f2939772b0aecfae37a3ab99e37078825cf"
+      "contentHash": "0609dd27c02453a1dd37df0974d8387c608a81a8b5b49afdbae82d0500c164de"
     },
     {
       "id": "builtin-church-headless-seraph",
@@ -7256,7 +7256,7 @@
       "url": "/assets/models/church-headless-seraph.json",
       "previewUrl": "/assets/previews/church-headless-seraph.svg",
       "geometryEdition": 2,
-      "contentHash": "f27f0db46924419b9c65e150f9d084a22b809d8794ca8d5f0f536696cb17cb20"
+      "contentHash": "99defe0308f27d655db1e959535054ac5a8216e8d25e4c1ad54d3754dd412dfd"
     },
     {
       "id": "builtin-church-pointed-chair",
@@ -7290,7 +7290,7 @@
       "url": "/assets/models/church-pointed-chair.json",
       "previewUrl": "/assets/previews/church-pointed-chair.svg",
       "geometryEdition": 2,
-      "contentHash": "eda75ddae242f8be58a14cb366d143aef2dc7b731c35f368d4d5a8d79ffe3906"
+      "contentHash": "8d09a1f37f5a154cc2808b38f6f424fa6b550b2fbcf39de176a2487452969122"
     },
     {
       "id": "builtin-church-ritual-banner",
@@ -7324,7 +7324,7 @@
       "url": "/assets/models/church-ritual-banner.json",
       "previewUrl": "/assets/previews/church-ritual-banner.svg",
       "geometryEdition": 2,
-      "contentHash": "f6935255546c72a95b8439e0010affafb7c85bd320b4e1d69665d969280759cd"
+      "contentHash": "c0d5c26b6da65ef198c6274cc46fff535a873f90f09d242e4e37f0bc5a26664e"
     },
     {
       "id": "builtin-church-hook-rack",
@@ -7358,7 +7358,7 @@
       "url": "/assets/models/church-hook-rack.json",
       "previewUrl": "/assets/previews/church-hook-rack.svg",
       "geometryEdition": 2,
-      "contentHash": "01b35b561de6263f0256f307b042be9ef3f7228971bbba707b7e54c451d631ec"
+      "contentHash": "7f3043f291d53577ec7d19097ee9af3ea1186574463923f859307efd050a72a2"
     },
     {
       "id": "builtin-church-banquet-table",
@@ -7393,7 +7393,7 @@
       "url": "/assets/models/church-banquet-table.json",
       "previewUrl": "/assets/previews/church-banquet-table.svg",
       "geometryEdition": 2,
-      "contentHash": "b477b36aa3bfd3c2390600dde55b6cc7ca1960dfb82c46ad92d7bc7eab0d7a3b"
+      "contentHash": "790d5700064caf550df6f03189c3ce5fd93f8c9472f88ada3176d076bd2bd0ff"
     },
     {
       "id": "builtin-church-candelabra",
@@ -7427,7 +7427,7 @@
       "url": "/assets/models/church-candelabra.json",
       "previewUrl": "/assets/previews/church-candelabra.svg",
       "geometryEdition": 2,
-      "contentHash": "fea70479518f7b93f3a3469fa0699bbdc8462d61b258d1f198d1fb8a3e4c8d06"
+      "contentHash": "38a199f16cf1a8da6326bdabbccec5ca953032637bb5e1be11dcde1069ace062"
     },
     {
       "id": "builtin-church-ogival-gable",
@@ -7459,7 +7459,7 @@
       "url": "/assets/models/church-ogival-gable.json",
       "previewUrl": "/assets/previews/church-ogival-gable.svg",
       "geometryEdition": 2,
-      "contentHash": "d7f1190a9b87f02b417f009c02924458f80602ffa99cddac8f85b1549ed57a66"
+      "contentHash": "30f41cb363834306941d64d7971762c9eaf36940acecd72b186dffade05e6ac4"
     },
     {
       "id": "builtin-church-window-spandrel",
@@ -7491,7 +7491,7 @@
       "url": "/assets/models/church-window-spandrel.json",
       "previewUrl": "/assets/previews/church-window-spandrel.svg",
       "geometryEdition": 2,
-      "contentHash": "54a2125c5f630b522edf5cd224256341992bd8bc2b77a3a21ce34e7147bcd4a3"
+      "contentHash": "0840863044f3b482891301bb43ac4c5d9f834325f5f4fa7c99fcf4a71a747720"
     },
     {
       "id": "builtin-church-double-cross",
@@ -7555,7 +7555,7 @@
       "url": "/assets/models/church-banquet-setting.json",
       "previewUrl": "/assets/previews/church-banquet-setting.svg",
       "geometryEdition": 2,
-      "contentHash": "e52326d0fa2c0f49ba0fe00a26117ce4372efb3fd0213a63662b08dcba13b767"
+      "contentHash": "3d60ad40a02f14148e05a76fd6e0768a87586fb58351cd81336b7d147be77a82"
     },
     {
       "id": "builtin-church-pitched-roof",
@@ -7587,7 +7587,7 @@
       "url": "/assets/models/church-pitched-roof.json",
       "previewUrl": "/assets/previews/church-pitched-roof.svg",
       "geometryEdition": 2,
-      "contentHash": "2c547c57ff8c539072413e21729eb1ae5f93ae5ef8ed8a32da3e976f10408304"
+      "contentHash": "ca875790fb163bafd5db8b2f715198fd33b7981a18340e63d4639a5450ed401d"
     },
     {
       "id": "builtin-church-timber-truss",
@@ -7651,7 +7651,7 @@
       "url": "/assets/models/church-pitched-gable.json",
       "previewUrl": "/assets/previews/church-pitched-gable.svg",
       "geometryEdition": 2,
-      "contentHash": "d01f7a3712df32530ecd268022bde322e7f471e84d4cd65b90e08da993991939"
+      "contentHash": "a4c1de8a3b1803a50955ee68c7ab33c0b5898c5f79c56e058c2ebc9907d93483"
     },
     {
       "id": "builtin-church-tracery-window",
@@ -7683,7 +7683,7 @@
       "url": "/assets/models/church-tracery-window.json",
       "previewUrl": "/assets/previews/church-tracery-window.svg",
       "geometryEdition": 2,
-      "contentHash": "080713ba720d0451956c10082d7e2be5ebf9423cd630550e0104479c33409948"
+      "contentHash": "86ba26248acecb6906b96bcc0bf5e2afcdd2175470b701f8d88c766e5f16c519"
     },
     {
       "id": "builtin-church-altar-retable",
@@ -7715,7 +7715,7 @@
       "url": "/assets/models/church-altar-retable.json",
       "previewUrl": "/assets/previews/church-altar-retable.svg",
       "geometryEdition": 2,
-      "contentHash": "807d75bc628f506c8ec2971c90406774829cfdba562a38470937b57d0306fc78"
+      "contentHash": "dfa943a012a94e1231b4275d17bfbe714327823b7ba4d28f0b932b2e0ae04dea"
     },
     {
       "id": "builtin-church-ravine-tree",
@@ -7747,7 +7747,7 @@
       "url": "/assets/models/church-ravine-tree.json",
       "previewUrl": "/assets/previews/church-ravine-tree.svg",
       "geometryEdition": 2,
-      "contentHash": "deab2bd82d7d531b81e69c3bff0babc3b94ff526adee84f0fda303a7f78f1a21"
+      "contentHash": "38d42a6fa3c2c9ae61765b397eb7214e3d45ca985febed46a568f6e917d1e510"
     },
     {
       "id": "builtin-church-seraph-effigy",
@@ -7779,7 +7779,7 @@
       "url": "/assets/models/church-seraph-effigy.json",
       "previewUrl": "/assets/previews/church-seraph-effigy.svg",
       "geometryEdition": 2,
-      "contentHash": "20b7ba8bdb520c9c0b28ebd6ef7d6ae8dcb0d25d777a5196938a9ac5102369dd"
+      "contentHash": "9d8172c80af17bf0e1a84b80b513ba83942fbf438fa1f5053d2d8331b2fc70d0"
     },
     {
       "id": "builtin-church-spiked-reliquary",
@@ -7811,7 +7811,7 @@
       "url": "/assets/models/church-spiked-reliquary.json",
       "previewUrl": "/assets/previews/church-spiked-reliquary.svg",
       "geometryEdition": 2,
-      "contentHash": "a26f24a5fb77d9db77ed77f3a14c6e387865eee3412916eb9649c3417c1b1a01"
+      "contentHash": "bb78f3d209a49c2de747b41585054ef4ec8803eecdc7680b40f46fbc1e945f5d"
     },
     {
       "id": "builtin-house-roof",
@@ -7843,7 +7843,7 @@
       "url": "/assets/models/house-roof.json",
       "previewUrl": "/assets/previews/house-roof.svg",
       "geometryEdition": 2,
-      "contentHash": "c1e015fc2fde0d37740f8e1ee58ca76759bc7c67668b5ef9c5a7e9225a18e0f6"
+      "contentHash": "f31fc7072ed0ea8d119de3b66c37779a04611f8fcac80cac67c3eb1c85d0e83b"
     },
     {
       "id": "builtin-house-range",
@@ -7875,7 +7875,7 @@
       "url": "/assets/models/house-range.json",
       "previewUrl": "/assets/previews/house-range.svg",
       "geometryEdition": 2,
-      "contentHash": "2032c7cf66a62367af7ef42d037670b6d7a17a2918211b9afa6a735c7668176d"
+      "contentHash": "b0879e92dd0e3dbe5abb2f2ac50b133ca0e73a5db0b7f7dac45f3599f4a51f3d"
     },
     {
       "id": "builtin-house-washer",
@@ -7908,7 +7908,7 @@
       "url": "/assets/models/house-washer.json",
       "previewUrl": "/assets/previews/house-washer.svg",
       "geometryEdition": 2,
-      "contentHash": "ba8b9d2b6d1af566932acc11c9b4b0b3db552cd8ea0907e2db2798327912f0df"
+      "contentHash": "3c07280c1324701eea8ff831fbc4ad5e76ed91851091b17d34304c4b8216cb35"
     },
     {
       "id": "builtin-house-counter",
@@ -7941,7 +7941,7 @@
       "url": "/assets/models/house-counter.json",
       "previewUrl": "/assets/previews/house-counter.svg",
       "geometryEdition": 2,
-      "contentHash": "4148d451698c38af742e297ca75df04d43390b10083f726b8201d7dcaed9863d"
+      "contentHash": "aaa9cf927cf4260f085793f9199b3fb61f2449f04db63b50b8e56091f171dd28"
     },
     {
       "id": "builtin-house-plant",
@@ -7973,7 +7973,7 @@
       "url": "/assets/models/house-plant.json",
       "previewUrl": "/assets/previews/house-plant.svg",
       "geometryEdition": 2,
-      "contentHash": "3ea637ee41a5db2ff100cb97dd15dd4a3493e2b30f3b58220cdd98f3da7b5223"
+      "contentHash": "06269090337fda0b4d9275ecdb29f61bc49044aa49b746cf104b1b33ee471e60"
     },
     {
       "id": "builtin-house-ceiling-lamp",
@@ -8005,7 +8005,7 @@
       "url": "/assets/models/house-ceiling-lamp.json",
       "previewUrl": "/assets/previews/house-ceiling-lamp.svg",
       "geometryEdition": 2,
-      "contentHash": "7bb561b1d2de6e7b316bf85123b667ad50d25cff81bfd4c4be89a1804186c5b9"
+      "contentHash": "8a0ce8bfffb3b9e67eb551f7b38f26c0306792ad017c2899bfab40d75738dc17"
     },
     {
       "id": "builtin-house-curtain",
@@ -8037,7 +8037,7 @@
       "url": "/assets/models/house-curtain.json",
       "previewUrl": "/assets/previews/house-curtain.svg",
       "geometryEdition": 2,
-      "contentHash": "595ce54fd2f41b6b43288ba3a4b8f71d2e7e6b846f686f32b23748955135a026"
+      "contentHash": "9fbe1e984fdcd86455fbc3751ec6798582666674b516ebf7c2ff5c706ba356b4"
     },
     {
       "id": "builtin-house-place-setting",
@@ -8069,7 +8069,7 @@
       "url": "/assets/models/house-place-setting.json",
       "previewUrl": "/assets/previews/house-place-setting.svg",
       "geometryEdition": 2,
-      "contentHash": "8954f391a39f994a563c224d6487a02ba3ba3048e0649e6e140226f71074ebda"
+      "contentHash": "3d3cb59f4d054efc9c163fed48a2f2785d94df60cd16b836cefbba971879bbef"
     },
     {
       "id": "builtin-house-tile-floor",
@@ -8102,7 +8102,7 @@
       "url": "/assets/models/house-tile-floor.json",
       "previewUrl": "/assets/previews/house-tile-floor.svg",
       "geometryEdition": 2,
-      "contentHash": "08f6b8740c981bdd4b421fe2180f83a89e83b79acdb93b9d928cd100da29acb6"
+      "contentHash": "5090d8157556a67e94dd81efe39e3558d0a2894a73ca4a8a07fbe0f5fa2eca78"
     },
     {
       "id": "builtin-backrooms-wallpaper",
@@ -8134,7 +8134,7 @@
       "url": "/assets/models/backrooms-wallpaper.json",
       "previewUrl": "/assets/previews/backrooms-wallpaper.svg",
       "geometryEdition": 2,
-      "contentHash": "49bf80804462247b50e5cb5593ad634fa4954bd66f1f72186f9b343bb3569708"
+      "contentHash": "30f1978aa0cfc13da0d87274703db3570f955626cd23b1f8268bc5cefce6ed1f"
     },
     {
       "id": "builtin-backrooms-ceiling",
@@ -8166,7 +8166,7 @@
       "url": "/assets/models/backrooms-ceiling.json",
       "previewUrl": "/assets/previews/backrooms-ceiling.svg",
       "geometryEdition": 2,
-      "contentHash": "d1d461764f5d0fc2386249fb6da1450e15716509db9028fd61568d529f99ffdc"
+      "contentHash": "15f53494756127c390c423e1e74586e9ac5c638f4a22445cfadb0edbd95d093a"
     },
     {
       "id": "builtin-backrooms-fluorescent",
@@ -8198,7 +8198,7 @@
       "url": "/assets/models/backrooms-fluorescent.json",
       "previewUrl": "/assets/previews/backrooms-fluorescent.svg",
       "geometryEdition": 2,
-      "contentHash": "dddcae87b0799a81673f8b8e6afe50e67cfac11fc79f64886a28be69d3fb8383"
+      "contentHash": "274e62ed54b0c1b5180a7ec850ceb0ea9d5f39b90da0efdc9232d8497721604f"
     }
   ]
 }

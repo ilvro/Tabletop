@@ -89,8 +89,7 @@
         0,
         -1.5707963267948966,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "box",
@@ -134,7 +133,7 @@
         0.03
       ],
       "material": "white",
-      "bevel": 0.00039000000000000005
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -154,7 +153,7 @@
         -0.5,
         0
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -174,7 +173,7 @@
         0.5,
         0
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -505,7 +504,6 @@
     "methods": [
       "microscópio com braço curvo, platina com presilhas, revólver de objetivas, tubo inclinado e botões de foco",
       "arestas chanfradas",
-      "entalhes e bordas de perfis",
       "curvas de contorno refinadas",
       "perfis torneados e bordas de chapa"
     ],

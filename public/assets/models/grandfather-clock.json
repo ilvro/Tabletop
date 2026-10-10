@@ -207,7 +207,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.001404
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -404,7 +404,7 @@
         0.12457500230502339
       ],
       "material": "dark",
-      "bevel": 0.0013000000000000002
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -666,7 +666,7 @@
         0,
         -1.5707963267948966
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -686,7 +686,7 @@
         0,
         -1.0471975511965979
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -706,7 +706,7 @@
         0,
         -0.5235987755982989
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -726,7 +726,7 @@
         0,
         0
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -746,7 +746,7 @@
         0,
         0.5235987755982987
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -766,7 +766,7 @@
         0,
         1.0471975511965979
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -786,7 +786,7 @@
         0,
         1.5707963267948966
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -806,7 +806,7 @@
         0,
         2.0943951023931953
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -826,7 +826,7 @@
         0,
         2.617993877991494
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -846,7 +846,7 @@
         0,
         3.141592653589793
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -866,7 +866,7 @@
         0,
         3.6651914291880923
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -886,7 +886,7 @@
         0,
         4.1887902047863905
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -906,7 +906,7 @@
         0,
         -0.52
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -926,7 +926,7 @@
         0,
         0.78
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -1312,8 +1312,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "lathe",
@@ -1381,8 +1380,7 @@
       "relógio de coluna com mostrador graduado, pêndulo e pesos atrás da porta, colunas torneadas e frontão",
       "arestas chanfradas",
       "curvas de contorno refinadas",
-      "perfis torneados e bordas de chapa",
-      "entalhes e bordas de perfis"
+      "perfis torneados e bordas de chapa"
     ],
     "seed": 22464
   }

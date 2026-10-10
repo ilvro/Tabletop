@@ -61,8 +61,7 @@
         0,
         -0.02250000089406967
       ],
-      "material": "cloth",
-      "edgeBevel": 0.003
+      "material": "cloth"
     },
     {
       "shape": "lathe",
@@ -75,7 +74,7 @@
         -0.02250000089406967
       ],
       "material": "iron",
-      "segments": 24,
+      "segments": 16,
       "surface": {
         "texture": "metal",
         "textureSize": 0.65,
@@ -176,7 +175,6 @@
     "family": "ritual",
     "reconstruction": "components",
     "methods": [
-      "entalhes e bordas de perfis",
       "perfis torneados e bordas de chapa",
       "arestas chanfradas"
     ],

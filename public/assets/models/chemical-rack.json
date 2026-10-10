@@ -60,7 +60,7 @@
         0
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",

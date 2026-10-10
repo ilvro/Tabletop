@@ -39,8 +39,7 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "box",
@@ -110,7 +109,6 @@
     "family": "architecture",
     "reconstruction": "components",
     "methods": [
-      "entalhes e bordas de perfis",
       "arestas chanfradas"
     ],
     "seed": 31094

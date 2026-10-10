@@ -1143,7 +1143,7 @@
         0
       ],
       "material": "dark",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "rope",
@@ -1170,7 +1170,7 @@
         ]
       ],
       "radius": 0.007,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,

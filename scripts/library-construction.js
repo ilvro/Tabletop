@@ -1,8 +1,7 @@
 import * as THREE from 'three';
-import {box, cylinder, ring, frame, CRAFT_MATERIALS} from './library-craft-parts.js';
+import {box, cylinder, ring, frame, sidesFor, CRAFT_MATERIALS} from './library-craft-parts.js';
 import {craftModel} from './library-craft-models.js';
 import {retainCraftSlots} from './library-craft-slots.js';
-import {ROCK_PRESETS} from '../src/domain/rocks.js';
 
 const hash=s=>[...s].reduce((a,c)=>(Math.imul(a,31)+c.charCodeAt(0))>>>0,713)%65536;
 const woodenSlots=/wood|timber|frame|edge|bark|trunk|beam|oak|board|brace/;
@@ -72,10 +71,12 @@ export function reconstructAsset(asset,source,bounds) {
       const [w,h,d]=p.size,min=Math.min(w,h,d);
       // Authored models state their own upholstery; `cloth` is also a paint slot.
       const soft=fabric&&!authored;
-      p.bevel=p.bevel??Math.min(min*(soft?.3:stone?.085:.13),soft?.035:stone?.012:.009);
+      // A chamfer under about 2 mm is never seen; thin sheets, labels and the tiled
+      // Backrooms modules (hundreds per map) stay 12 triangles.
+      p.bevel=p.bevel??((min<.02||group==='liminal')&&!soft?0:Math.min(min*(soft?.3:stone?.085:.13),soft?.035:stone?.012:.009));
       if(p.cushion)methods.add('estofamento com bordas macias');
       else if(soft&&h>.04&&w>.16&&d>.12){p.cushion=true;methods.add('estofamento com bordas macias');}
-      else methods.add('arestas chanfradas');
+      else if(p.bevel)methods.add('arestas chanfradas');
       // Assembled, inset panels retain real thickness instead of drawing a frame
       // on a solid cube; all parts stay inside the original panel envelope.
       if(!authored&&wood&&w>.28&&h>.3&&d<.13&&room>=4) {
@@ -106,27 +107,27 @@ export function reconstructAsset(asset,source,bounds) {
       if(!p.openEnded&&p.radiusTop/p.radiusBottom>.25&&radius>.022&&height>.012&&!m.emissiveIntensity) {
         const edge=Math.min(height*.1,radius*.12,.012),r0=p.radiusBottom,r1=p.radiusTop;
         p.shape='lathe';p.profile=[[0,-height/2],[Math.max(0,r0-edge),-height/2],[r0,-height/2+edge],[r1,height/2-edge],[Math.max(0,r1-edge),height/2],[0,height/2]];
-        // Authored parts already carry a tessellation chosen for their size.
-        p.segments=authored?.sized?p.segments:radius>.3?32:24;methods.add('perfis torneados e bordas de chapa');
-      } else {if(!authored?.sized)p.segments=Math.max(p.segments??12,24);methods.add('curvas de contorno refinadas');}
+        p.segments=authored?.sized?p.segments:sidesFor(radius);methods.add('perfis torneados e bordas de chapa');
+      } else {if(!authored?.sized)p.segments=sidesFor(radius);methods.add('curvas de contorno refinadas');}
     } else if(p.shape==='sphere') {
       if(group==='geological') {p.shape='rock';p.size=[p.radius*2,p.radius*2,p.radius*2];p.position[1]-=p.radius;p.seed=(seed+index)%65536;p.detail=4;p.irregularity=.65;p.form='rounded';methods.add('malha mineral irregular');}
       else if(group==='botanical'&&/green|leaf|foliage/.test(slot)) {p.shape='foliage';p.size=[p.radius*2,p.radius*2,p.radius*2];p.position[1]-=p.radius;p.style='broadleaf';p.count=100;p.seed=(seed+index)%65536;methods.add('folhas individuais em volume');}
-      else {p.segments=24;p.rings=16;methods.add('volumes curvos refinados');}
-    } else if(p.shape==='rock') {if(ROCK_PRESETS[asset.id])p.refinement=1;else p.detail=Math.min(8,(p.detail??3)+1);methods.add('subdivisão mineral preservando parâmetros de escultura');}
-    else if(p.shape==='branch') {p.sides=Math.min(12,(p.sides??7)+1);p.segments=Math.min(48,(p.segments??14)+1);methods.add('ramos afilados com secção refinada');}
-    else if(p.shape==='conifer') {p.count=Math.max(12,Math.min(120,(p.count??60)+(id.startsWith('dense-')?-4:1)));methods.add('ramagens com agulhas em volume');}
-    else if(p.shape==='foliage') {p.count=Math.min(160,Math.ceil((p.count??32)*1.3));methods.add('densidade e nervuras de folhagem');}
+      else {p.segments=sidesFor(p.radius);p.rings=Math.ceil(p.segments*.66);methods.add('volumes curvos refinados');}
+    }
+    // Earlier passes written without a size rule: the same tessellation by radius.
+    else if(authored&&!authored.sized&&p.shape==='lathe')p.segments=sidesFor(Math.max(...p.profile.map(q=>q[0])));
+    else if(authored&&!authored.sized&&p.shape==='ellipsoid')p.segments=Math.max(8,sidesFor(Math.max(...p.size)/2));
+    // Rock, branch, needle and leaf sources keep their own density: raising it
+    // multiplied triangles in the most repeated scenery without a visible gain.
     else if(p.shape==='ring') {p.segments=Math.max(p.segments??12,p.radius<.08?14:24);p.sides=Math.max(p.sides??6,6);methods.add('ferragens curvas com vazios reais');}
-    else if(p.shape==='rope') {p.segments=Math.min(64,(p.segments??24)+2);p.sides=Math.max(p.sides??6,6);methods.add('cordas e tubos curvos');}
-    else if(p.shape==='profile') {p.edgeBevel=Math.min(.003,p.depth*.12);methods.add('entalhes e bordas de perfis');}
+    else if(p.shape==='rope') {p.sides=Math.max(p.sides??6,6);methods.add('cordas e tubos curvos');}
     else if(p.shape==='arch') {p.segments=Math.min(32,(p.segments??8)+4);methods.add('arcos com curva refinada');}
-    else if(p.shape==='timber') {p.damage=Math.min(.65,(p.damage??.3)+.04);methods.add('madeira lascada');}
     else if(p.shape==='stave') {p.angularSegments=Math.min(8,(p.angularSegments??3)+1);methods.add('aduelas curvas');}
     parts.push(p);
   }
   if(parts.length>200)throw new Error(`${id}: excedeu orçamento de peças (${parts.length})`);
   recipe.parts=parts;recipe.mergeParts=true;recipe.fitBounds=bounds;
+  if(!methods.size)methods.add('fonte detalhada preservada');
   recipe.design={edition:2,family:group,reconstruction:authored?'model':'components',methods:[...methods],seed};
   // Do not ship the entire global palette for every object.
   // Reflections are off by default: without an environment, a fully metallic

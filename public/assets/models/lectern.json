@@ -288,8 +288,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.00168
+      }
     },
     {
       "shape": "box",
@@ -315,7 +314,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -341,7 +340,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -424,7 +423,7 @@
         0,
         -0.04
       ],
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -465,7 +464,7 @@
         -1.734723475976807e-18,
         -0.07
       ],
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -485,7 +484,7 @@
         -1.734723475976807e-18,
         -0.07
       ],
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -505,7 +504,7 @@
         -1.734723475976807e-18,
         -0.07
       ],
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -525,7 +524,7 @@
         -1.734723475976807e-18,
         -0.07
       ],
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -545,7 +544,7 @@
         -1.734723475976807e-18,
         -0.07
       ],
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -565,7 +564,7 @@
         0,
         0.04
       ],
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -606,7 +605,7 @@
         1.734723475976807e-18,
         0.07
       ],
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -626,7 +625,7 @@
         1.734723475976807e-18,
         0.07
       ],
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -646,7 +645,7 @@
         1.734723475976807e-18,
         0.07
       ],
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -666,7 +665,7 @@
         1.734723475976807e-18,
         0.07
       ],
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -686,7 +685,7 @@
         1.734723475976807e-18,
         0.07
       ],
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -706,7 +705,7 @@
         0,
         0
       ],
-      "bevel": 0.00039000000000000005
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -722,8 +721,7 @@
     "methods": [
       "púlpito com coluna de colunelos e arco em relevo, capitel, estante inclinada com batente e missal aberto",
       "arestas chanfradas",
-      "curvas de contorno refinadas",
-      "entalhes e bordas de perfis"
+      "curvas de contorno refinadas"
     ],
     "seed": 51854
   }

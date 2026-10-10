@@ -84,8 +84,7 @@
         "textureColorMode": "replace",
         "textureSize": 1.4,
         "relief": 0.012
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "box",
@@ -105,7 +104,7 @@
         0,
         -0.5000000000000001
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -125,7 +124,7 @@
         0,
         -0.5000000000000001
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -145,7 +144,7 @@
         0,
         -0.5000000000000001
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -231,7 +230,7 @@
         0,
         -0.5000000000000001
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -251,7 +250,7 @@
         0,
         -0.5000000000000001
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -271,7 +270,7 @@
         0,
         -0.5000000000000001
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -430,10 +429,8 @@
     "reconstruction": "model",
     "methods": [
       "barreira de perfil New Jersey com faixas refletivas, rasgos de içamento, alças de ligação e lascas de concreto",
-      "entalhes e bordas de perfis",
       "arestas chanfradas",
-      "ferragens curvas com vazios reais",
-      "subdivisão mineral preservando parâmetros de escultura"
+      "ferragens curvas com vazios reais"
     ],
     "seed": 40142
   }

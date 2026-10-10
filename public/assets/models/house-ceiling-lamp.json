@@ -144,7 +144,7 @@
         0,
         0
       ],
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -164,7 +164,7 @@
         -2.0943951023931953,
         0
       ],
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -184,7 +184,7 @@
         -4.1887902047863905,
         0
       ],
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -199,8 +199,7 @@
     "reconstruction": "model",
     "methods": [
       "plafon de vidro leitoso abaulado com base metálica, aro, presilhas e arremate central",
-      "ferragens curvas com vazios reais",
-      "arestas chanfradas"
+      "ferragens curvas com vazios reais"
     ],
     "seed": 41214
   }

@@ -103,8 +103,7 @@
         0,
         -1.5707963267948966,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "box",
@@ -302,7 +301,7 @@
         -0.5
       ],
       "material": "pane",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -332,7 +331,7 @@
         -0.5
       ],
       "material": "pane",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -362,7 +361,7 @@
         -0.5
       ],
       "material": "pane",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -422,7 +421,7 @@
         0
       ],
       "material": "pane",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -608,7 +607,7 @@
         -0.42
       ],
       "material": "paper",
-      "bevel": 0.0013000000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -623,7 +622,7 @@
         -0.41300000000000003
       ],
       "material": "dark",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -638,7 +637,7 @@
         -0.41300000000000003
       ],
       "material": "white",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -653,7 +652,7 @@
         -0.41300000000000003
       ],
       "material": "dark",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -668,7 +667,7 @@
         -0.41300000000000003
       ],
       "material": "dark",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -756,7 +755,7 @@
         0.47
       ],
       "material": "white",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -799,7 +798,6 @@
     "reconstruction": "model",
     "methods": [
       "abrigo de ônibus com cobertura arqueada, fechamento de vidro, banco, painel publicitário e placa com horários",
-      "entalhes e bordas de perfis",
       "arestas chanfradas",
       "perfis torneados e bordas de chapa",
       "curvas de contorno refinadas"

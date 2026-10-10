@@ -32,7 +32,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.0026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -47,7 +47,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -70,7 +70,7 @@
       "surface": {
         "texture": "none"
       },
-      "bevel": 0.00102
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -85,7 +85,7 @@
         -0.225
       ],
       "material": "frame",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -118,7 +118,7 @@
         -0.11
       ],
       "material": "frame",
-      "bevel": 0.0026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -133,7 +133,7 @@
         -0.11
       ],
       "material": "frame",
-      "bevel": 0.0026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -148,7 +148,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -171,7 +171,7 @@
       "surface": {
         "texture": "none"
       },
-      "bevel": 0.00102
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -186,7 +186,7 @@
         0.225
       ],
       "material": "frame",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -219,7 +219,7 @@
         0.11
       ],
       "material": "frame",
-      "bevel": 0.0026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -234,7 +234,7 @@
         0.11
       ],
       "material": "frame",
-      "bevel": 0.0026000000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -256,7 +256,7 @@
       "surface": {
         "texture": "none"
       },
-      "bevel": 0.00425
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -271,7 +271,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -286,7 +286,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -301,7 +301,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -316,7 +316,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -331,7 +331,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -346,7 +346,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -361,7 +361,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -376,7 +376,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -391,7 +391,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -406,7 +406,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -421,7 +421,7 @@
         0
       ],
       "material": "frame",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -436,7 +436,6 @@
     "reconstruction": "model",
     "methods": [
       "luminária de embutir com refletores inclinados, duas lâmpadas tubulares em soquetes e grelha difusora",
-      "arestas chanfradas",
       "curvas de contorno refinadas"
     ],
     "seed": 22499

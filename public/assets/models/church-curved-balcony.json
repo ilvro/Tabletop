@@ -136,8 +136,7 @@
         -1.5707963267948966,
         0,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "lathe",
@@ -150,7 +149,7 @@
         -0.8464697034690882
       ],
       "material": "carving",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -267,7 +266,7 @@
         -0.30837965896981023
       ],
       "material": "carving",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -384,7 +383,7 @@
         0.16911162209655162
       ],
       "material": "carving",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -501,7 +500,7 @@
         0.5438692057163288
       ],
       "material": "carving",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -618,7 +617,7 @@
         0.7828236167324516
       ],
       "material": "carving",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -735,7 +734,7 @@
         0.8648889657482506
       ],
       "material": "carving",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -852,7 +851,7 @@
         0.7828236167324516
       ],
       "material": "carving",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -969,7 +968,7 @@
         0.5438692057163288
       ],
       "material": "carving",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -1086,7 +1085,7 @@
         0.16911162209655184
       ],
       "material": "carving",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -1203,7 +1202,7 @@
         -0.3083796589698099
       ],
       "material": "carving",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -1320,7 +1319,7 @@
         -0.846469703469088
       ],
       "material": "carving",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -1496,7 +1495,7 @@
         ]
       ],
       "radius": 0.075,
-      "segments": 38,
+      "segments": 36,
       "sides": 8,
       "position": [
         0,
@@ -1575,7 +1574,7 @@
         ]
       ],
       "radius": 0.075,
-      "segments": 38,
+      "segments": 36,
       "sides": 8,
       "position": [
         0,
@@ -1610,8 +1609,7 @@
         0,
         -0.8451110342517495
       ],
-      "material": "carving",
-      "edgeBevel": 0.003
+      "material": "carving"
     },
     {
       "shape": "lathe",
@@ -1683,8 +1681,7 @@
         0,
         -0.8451110342517495
       ],
-      "material": "carving",
-      "edgeBevel": 0.003
+      "material": "carving"
     },
     {
       "shape": "lathe",
@@ -1756,8 +1753,7 @@
         0,
         -0.8451110342517495
       ],
-      "material": "carving",
-      "edgeBevel": 0.003
+      "material": "carving"
     },
     {
       "shape": "lathe",
@@ -1815,7 +1811,6 @@
     "family": "architecture",
     "reconstruction": "components",
     "methods": [
-      "entalhes e bordas de perfis",
       "perfis torneados e bordas de chapa",
       "cordas e tubos curvos"
     ],

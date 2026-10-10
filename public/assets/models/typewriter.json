@@ -67,7 +67,7 @@
         -0.09240000367164612
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 16,
       "rotation": [
         0,
         0,
@@ -118,7 +118,7 @@
         0,
         0
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -131,7 +131,7 @@
         0.12540000498294832
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -144,7 +144,7 @@
         0.12540000498294832
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -157,7 +157,7 @@
         0.12540000498294832
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -170,7 +170,7 @@
         0.12540000498294832
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -183,7 +183,7 @@
         0.12540000498294832
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -196,7 +196,7 @@
         0.12540000498294832
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -209,7 +209,7 @@
         0.12540000498294832
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -222,7 +222,7 @@
         0.12540000498294832
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -235,7 +235,7 @@
         0.12540000498294832
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -248,7 +248,7 @@
         0.12540000498294832
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -261,7 +261,7 @@
         0.0891000035405159
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -274,7 +274,7 @@
         0.0891000035405159
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -287,7 +287,7 @@
         0.0891000035405159
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -300,7 +300,7 @@
         0.0891000035405159
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -313,7 +313,7 @@
         0.0891000035405159
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -326,7 +326,7 @@
         0.0891000035405159
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -339,7 +339,7 @@
         0.0891000035405159
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -352,7 +352,7 @@
         0.0891000035405159
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -365,7 +365,7 @@
         0.0891000035405159
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -378,7 +378,7 @@
         0.0891000035405159
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -391,7 +391,7 @@
         0.0528000020980835
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -404,7 +404,7 @@
         0.0528000020980835
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -417,7 +417,7 @@
         0.0528000020980835
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -430,7 +430,7 @@
         0.0528000020980835
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -443,7 +443,7 @@
         0.0528000020980835
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -456,7 +456,7 @@
         0.0528000020980835
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -469,7 +469,7 @@
         0.0528000020980835
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -482,7 +482,7 @@
         0.0528000020980835
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -495,7 +495,7 @@
         0.0528000020980835
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -508,7 +508,7 @@
         0.0528000020980835
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -521,7 +521,7 @@
         0.01650000065565109
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -534,7 +534,7 @@
         0.01650000065565109
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -547,7 +547,7 @@
         0.01650000065565109
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -560,7 +560,7 @@
         0.01650000065565109
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -573,7 +573,7 @@
         0.01650000065565109
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -586,7 +586,7 @@
         0.01650000065565109
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -599,7 +599,7 @@
         0.01650000065565109
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -612,7 +612,7 @@
         0.01650000065565109
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -625,7 +625,7 @@
         0.01650000065565109
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -638,7 +638,7 @@
         0.01650000065565109
       ],
       "material": "white",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "box",
@@ -653,7 +653,7 @@
         0.15180000603199006
       ],
       "material": "dark",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     }
   ],
   "mergeParts": true,

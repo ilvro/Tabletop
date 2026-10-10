@@ -85,7 +85,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -502,7 +502,7 @@
         -0.06
       ],
       "material": "screen",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -517,7 +517,7 @@
         -0.1
       ],
       "material": "white",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -532,7 +532,7 @@
         -0.1
       ],
       "material": "white",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -547,7 +547,7 @@
         -0.1
       ],
       "material": "white",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -598,7 +598,7 @@
         0,
         0
       ],
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "ellipsoid",

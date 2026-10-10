@@ -48,7 +48,7 @@
         -0.17
       ],
       "material": "metal",
-      "bevel": 0.001755
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -174,7 +174,7 @@
         0.17
       ],
       "material": "metal",
-      "bevel": 0.001755
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -300,7 +300,7 @@
         -0.17
       ],
       "material": "metal",
-      "bevel": 0.001755
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -426,7 +426,7 @@
         0.17
       ],
       "material": "metal",
-      "bevel": 0.001755
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -571,7 +571,7 @@
         0.23199999999999998
       ],
       "material": "dark",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -602,7 +602,7 @@
         0.249
       ],
       "material": "metal",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -633,7 +633,7 @@
         0.249
       ],
       "material": "metal",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -664,7 +664,7 @@
         0.249
       ],
       "material": "metal",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -695,7 +695,7 @@
         0.249
       ],
       "material": "metal",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -726,7 +726,7 @@
         0.249
       ],
       "material": "metal",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -757,7 +757,7 @@
         0.249
       ],
       "material": "metal",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "rope",
@@ -784,7 +784,7 @@
         ]
       ],
       "radius": 0.01,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,

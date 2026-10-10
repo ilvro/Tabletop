@@ -147,7 +147,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -173,7 +173,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -199,7 +199,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -225,7 +225,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -251,7 +251,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -277,7 +277,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -303,7 +303,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -329,7 +329,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -407,7 +407,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -433,7 +433,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -459,7 +459,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -485,7 +485,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -511,7 +511,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -537,7 +537,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -563,7 +563,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -589,7 +589,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "profile",
@@ -648,8 +648,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "box",
@@ -737,8 +736,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "cylinder",
@@ -1083,7 +1081,7 @@
         0.438
       ],
       "material": "brass",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1114,7 +1112,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1145,7 +1143,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1176,7 +1174,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1207,7 +1205,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1238,7 +1236,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1269,7 +1267,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1300,7 +1298,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1331,7 +1329,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1362,7 +1360,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1393,7 +1391,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1598,7 +1596,6 @@
     "methods": [
       "confessionário com laterais almofadadas, arco entalhado, treliça, cortina plissada em varão, genuflexório e banco",
       "arestas chanfradas",
-      "entalhes e bordas de perfis",
       "curvas de contorno refinadas",
       "ferragens curvas com vazios reais",
       "estofamento com bordas macias"

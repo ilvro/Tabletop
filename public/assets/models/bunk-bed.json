@@ -153,7 +153,7 @@
         -0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 12,
       "profile": [
         [
           0,
@@ -192,7 +192,7 @@
         -0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -231,7 +231,7 @@
         0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 12,
       "profile": [
         [
           0,
@@ -270,7 +270,7 @@
         0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -309,7 +309,7 @@
         -0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 12,
       "profile": [
         [
           0,
@@ -348,7 +348,7 @@
         -0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -387,7 +387,7 @@
         0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 12,
       "profile": [
         [
           0,
@@ -426,7 +426,7 @@
         0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -479,7 +479,7 @@
         ]
       ],
       "radius": 0.021,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -499,7 +499,7 @@
         -0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -512,7 +512,7 @@
         -0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -525,7 +525,7 @@
         -0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -538,7 +538,7 @@
         -0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -551,7 +551,7 @@
         -0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "rope",
@@ -578,7 +578,7 @@
         ]
       ],
       "radius": 0.021,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -598,7 +598,7 @@
         0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -611,7 +611,7 @@
         0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -624,7 +624,7 @@
         0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -637,7 +637,7 @@
         0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -650,7 +650,7 @@
         0.9420650000132621
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "box",

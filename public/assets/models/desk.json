@@ -313,7 +313,7 @@
           0.735
         ]
       ],
-      "segments": 32,
+      "segments": 16,
       "position": [
         -0.8149999761581421,
         0,
@@ -343,7 +343,7 @@
         -0.389000011920929
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 8,
       "rotation": [
         1.5707963267948966,
         0,
@@ -406,7 +406,7 @@
           0.735
         ]
       ],
-      "segments": 32,
+      "segments": 16,
       "position": [
         -0.8149999761581421,
         0,
@@ -436,7 +436,7 @@
         0.389000011920929
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 8,
       "rotation": [
         1.5707963267948966,
         0,
@@ -499,7 +499,7 @@
           0.735
         ]
       ],
-      "segments": 32,
+      "segments": 16,
       "position": [
         0.8149999761581421,
         0,
@@ -529,7 +529,7 @@
         -0.389000011920929
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 8,
       "rotation": [
         1.5707963267948966,
         0,
@@ -592,7 +592,7 @@
           0.735
         ]
       ],
-      "segments": 32,
+      "segments": 16,
       "position": [
         0.8149999761581421,
         0,
@@ -622,7 +622,7 @@
         0.389000011920929
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 8,
       "rotation": [
         1.5707963267948966,
         0,
@@ -705,7 +705,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -731,7 +731,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -757,7 +757,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -783,7 +783,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "rope",
@@ -810,7 +810,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,

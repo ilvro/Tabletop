@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import * as THREE from 'three';
-import {craftedBox,turnedGeometry,ellipsoidGeometry} from '../src/render/crafted-geometry.js';
+import {craftedBox,turnedGeometry,ellipsoidGeometry,weldVertices} from '../src/render/crafted-geometry.js';
 import {recipeInstance,disposeObject} from '../src/render/asset-cache.js';
 
 const read=async path=>JSON.parse(await readFile(path,'utf8'));
@@ -91,5 +91,24 @@ test('materials stay legible without an environment map and public slots survive
     const recipe=await read('public'+asset.url),before=await read('scripts/library-source/slots.json');
     for(const [slot,material] of Object.entries(recipe.materials))assert.ok((material.metalness??0)<=.5,asset.id+' '+slot+' metalness');
     for(const slot of before[asset.id]??[])assert.ok(recipe.materials[slot],asset.id+' keeps slot '+slot);
+  }
+});
+
+test('welding indexes batched recipes without moving a triangle or softening an edge',async()=>{
+  const soup=craftedBox({size:[1,.5,.25],bevel:.02}),welded=weldVertices(soup);
+  try {
+    // 44 chamfer triangles: the two triangles of a flat face share corners (6 faces and 12 edge strips of 4, 8 corners of 3); different faces do not.
+    assert.equal(welded.index.count,soup.attributes.position.count);assert.equal(welded.attributes.position.count,96);
+    for(const name of ['position','normal','uv'])for(let i=0;i<welded.index.count;i++)for(let k=0;k<soup.attributes[name].itemSize;k++)
+      assert.ok(Math.abs(welded.attributes[name].array[welded.index.array[i]*soup.attributes[name].itemSize+k]-soup.attributes[name].array[i*soup.attributes[name].itemSize+k])<1e-4,name);
+    assert.equal(weldVertices(welded),welded,'already indexed geometry is returned as is');
+  }finally{soup.dispose();welded.dispose();}
+  const {assets}=await read('public/assets/catalog.json');
+  for(const id of ['chair','backrooms-ceiling','organic-rock','mountain-boulder']) {
+    const object=recipeInstance(await read('public'+assets.find(a=>a.id==='builtin-'+id).url));
+    try {
+      // Sculptable rock keeps its vertex order; everything else is indexed.
+      object.traverse(mesh=>{if(mesh.isMesh)assert.equal(!!mesh.geometry.index,!(mesh.geometry.userData.rocks||mesh.geometry.userData.rock||mesh.geometry.userData.snowProxies),id);});
+    }finally{disposeObject(object);}
   }
 });

@@ -12,7 +12,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 24,
-      "triangles": 4404,
+      "triangles": 2452,
       "batches": 4
     },
     {
@@ -25,7 +25,7 @@
         "estofamento com bordas macias"
       ],
       "parts": 18,
-      "triangles": 4776,
+      "triangles": 2856,
       "batches": 2
     },
     {
@@ -39,7 +39,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 30,
-      "triangles": 2348,
+      "triangles": 1516,
       "batches": 4
     },
     {
@@ -52,7 +52,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 37,
-      "triangles": 2044,
+      "triangles": 1532,
       "batches": 3
     },
     {
@@ -65,7 +65,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 20,
-      "triangles": 6336,
+      "triangles": 5208,
       "batches": 3
     },
     {
@@ -73,12 +73,10 @@
       "family": "interior",
       "reconstruction": "model",
       "methods": [
-        "tapete com bordadura tripla e motivos geométricos em relevo baixo",
-        "arestas chanfradas",
-        "entalhes e bordas de perfis"
+        "tapete com bordadura tripla e motivos geométricos em relevo baixo"
       ],
       "parts": 48,
-      "triangles": 1552,
+      "triangles": 576,
       "batches": 2
     },
     {
@@ -91,7 +89,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 17,
-      "triangles": 3852,
+      "triangles": 2060,
       "batches": 2
     },
     {
@@ -104,7 +102,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 18,
-      "triangles": 3896,
+      "triangles": 2104,
       "batches": 2
     },
     {
@@ -116,7 +114,7 @@
         "arestas chanfradas"
       ],
       "parts": 154,
-      "triangles": 6776,
+      "triangles": 4472,
       "batches": 5
     },
     {
@@ -132,7 +130,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 24,
-      "triangles": 4720,
+      "triangles": 3216,
       "batches": 3
     },
     {
@@ -148,7 +146,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 33,
-      "triangles": 6204,
+      "triangles": 4700,
       "batches": 3
     },
     {
@@ -163,7 +161,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 18,
-      "triangles": 9708,
+      "triangles": 8076,
       "batches": 4
     },
     {
@@ -176,7 +174,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 42,
-      "triangles": 4848,
+      "triangles": 2576,
       "batches": 3
     },
     {
@@ -192,7 +190,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 39,
-      "triangles": 7076,
+      "triangles": 6820,
       "batches": 5
     },
     {
@@ -207,7 +205,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 21,
-      "triangles": 3756,
+      "triangles": 3500,
       "batches": 3
     },
     {
@@ -221,7 +219,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 20,
-      "triangles": 1176,
+      "triangles": 1096,
       "batches": 4
     },
     {
@@ -235,7 +233,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 11,
-      "triangles": 3676,
+      "triangles": 2060,
       "batches": 2
     },
     {
@@ -249,7 +247,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 17,
-      "triangles": 1244,
+      "triangles": 588,
       "batches": 5
     },
     {
@@ -262,7 +260,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 55,
-      "triangles": 2472,
+      "triangles": 2392,
       "batches": 5
     },
     {
@@ -276,7 +274,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 23,
-      "triangles": 1412,
+      "triangles": 708,
       "batches": 5
     },
     {
@@ -291,7 +289,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 28,
-      "triangles": 4956,
+      "triangles": 2732,
       "batches": 3
     },
     {
@@ -304,7 +302,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 13,
-      "triangles": 2308,
+      "triangles": 2244,
       "batches": 5
     },
     {
@@ -319,7 +317,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 75,
-      "triangles": 9240,
+      "triangles": 7608,
       "batches": 5
     },
     {
@@ -335,7 +333,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 40,
-      "triangles": 7828,
+      "triangles": 7444,
       "batches": 4
     },
     {
@@ -348,7 +346,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 5,
-      "triangles": 1632,
+      "triangles": 1536,
       "batches": 3
     },
     {
@@ -360,11 +358,10 @@
         "arestas chanfradas",
         "cordas e tubos curvos",
         "curvas de contorno refinadas",
-        "ferragens curvas com vazios reais",
-        "entalhes e bordas de perfis"
+        "ferragens curvas com vazios reais"
       ],
       "parts": 49,
-      "triangles": 6180,
+      "triangles": 5904,
       "batches": 5
     },
     {
@@ -378,7 +375,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 67,
-      "triangles": 6804,
+      "triangles": 5556,
       "batches": 5
     },
     {
@@ -394,7 +391,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 27,
-      "triangles": 5636,
+      "triangles": 3812,
       "batches": 4
     },
     {
@@ -410,7 +407,7 @@
         "arestas chanfradas"
       ],
       "parts": 68,
-      "triangles": 9192,
+      "triangles": 7304,
       "batches": 4
     },
     {
@@ -420,12 +417,11 @@
       "methods": [
         "microscópio com braço curvo, platina com presilhas, revólver de objetivas, tubo inclinado e botões de foco",
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "curvas de contorno refinadas",
         "perfis torneados e bordas de chapa"
       ],
       "parts": 19,
-      "triangles": 1664,
+      "triangles": 1532,
       "batches": 4
     },
     {
@@ -439,7 +435,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 50,
-      "triangles": 5676,
+      "triangles": 5260,
       "batches": 3
     },
     {
@@ -454,7 +450,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 23,
-      "triangles": 5228,
+      "triangles": 4908,
       "batches": 4
     },
     {
@@ -463,11 +459,10 @@
       "reconstruction": "model",
       "methods": [
         "banco eclesiástico com laterais recortadas e painéis de encosto",
-        "arestas chanfradas",
-        "entalhes e bordas de perfis"
+        "arestas chanfradas"
       ],
       "parts": 23,
-      "triangles": 1124,
+      "triangles": 508,
       "batches": 1
     },
     {
@@ -477,13 +472,12 @@
       "methods": [
         "confessionário com laterais almofadadas, arco entalhado, treliça, cortina plissada em varão, genuflexório e banco",
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "curvas de contorno refinadas",
         "ferragens curvas com vazios reais",
         "estofamento com bordas macias"
       ],
       "parts": 60,
-      "triangles": 9900,
+      "triangles": 8988,
       "batches": 3
     },
     {
@@ -493,11 +487,10 @@
       "methods": [
         "púlpito com coluna de colunelos e arco em relevo, capitel, estante inclinada com batente e missal aberto",
         "arestas chanfradas",
-        "curvas de contorno refinadas",
-        "entalhes e bordas de perfis"
+        "curvas de contorno refinadas"
       ],
       "parts": 28,
-      "triangles": 2560,
+      "triangles": 2040,
       "batches": 4
     },
     {
@@ -509,7 +502,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 3,
-      "triangles": 1648,
+      "triangles": 1200,
       "batches": 3
     },
     {
@@ -519,12 +512,10 @@
       "methods": [
         "lápide de topo recortado e levemente tombada, com cruz, placa gravada, rachadura, musgo e flores secas",
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
-        "cordas e tubos curvos",
-        "densidade e nervuras de folhagem"
+        "cordas e tubos curvos"
       ],
       "parts": 22,
-      "triangles": 5470,
+      "triangles": 5100,
       "batches": 5
     },
     {
@@ -533,12 +524,10 @@
       "reconstruction": "model",
       "methods": [
         "silhueta funerária octogonal, tampa separada e alças",
-        "entalhes e bordas de perfis",
-        "cordas e tubos curvos",
-        "arestas chanfradas"
+        "cordas e tubos curvos"
       ],
       "parts": 10,
-      "triangles": 1936,
+      "triangles": 1616,
       "batches": 3
     },
     {
@@ -549,11 +538,10 @@
         "altar de pedra com apoios talhados, sigilos em relevo, canaletas, inscrições, toalha com franja, velas e crânio",
         "arestas chanfradas",
         "ferragens curvas com vazios reais",
-        "curvas de contorno refinadas",
-        "subdivisão mineral preservando parâmetros de escultura"
+        "curvas de contorno refinadas"
       ],
       "parts": 67,
-      "triangles": 8600,
+      "triangles": 7704,
       "batches": 7
     },
     {
@@ -565,7 +553,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 30,
-      "triangles": 17120,
+      "triangles": 4200,
       "batches": 3
     },
     {
@@ -574,11 +562,10 @@
       "reconstruction": "model",
       "methods": [
         "círculo ritual com anéis duplos, pentagrama, sigilo central, vinte glifos traçados e respingos",
-        "arestas chanfradas",
         "curvas de contorno refinadas"
       ],
       "parts": 72,
-      "triangles": 5304,
+      "triangles": 3672,
       "batches": 1
     },
     {
@@ -589,11 +576,10 @@
         "obelisco afilado com base em degraus, piramídio, glifos em relevo nas quatro faces, fileira luminosa e fissura",
         "arestas chanfradas",
         "ferragens curvas com vazios reais",
-        "cordas e tubos curvos",
-        "subdivisão mineral preservando parâmetros de escultura"
+        "cordas e tubos curvos"
       ],
       "parts": 61,
-      "triangles": 5612,
+      "triangles": 4108,
       "batches": 5
     },
     {
@@ -608,7 +594,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 65,
-      "triangles": 10608,
+      "triangles": 10544,
       "batches": 2
     },
     {
@@ -616,8 +602,7 @@
       "family": "ritual",
       "reconstruction": "model",
       "methods": [
-        "fragmentos anômalos em prismas lapidados sobre rocha fraturada, com lascas suspensas no ar",
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fragmentos anômalos em prismas lapidados sobre rocha fraturada, com lascas suspensas no ar"
       ],
       "parts": 14,
       "triangles": 1900,
@@ -633,7 +618,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 25,
-      "triangles": 4228,
+      "triangles": 3844,
       "batches": 4
     },
     {
@@ -641,12 +626,10 @@
       "family": "botanical",
       "reconstruction": "model",
       "methods": [
-        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais",
-        "ramos afilados com secção refinada",
-        "densidade e nervuras de folhagem"
+        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais"
       ],
       "parts": 38,
-      "triangles": 12576,
+      "triangles": 10080,
       "batches": 2
     },
     {
@@ -654,12 +637,10 @@
       "family": "botanical",
       "reconstruction": "model",
       "methods": [
-        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais",
-        "ramos afilados com secção refinada",
-        "ramagens com agulhas em volume"
+        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais"
       ],
       "parts": 54,
-      "triangles": 32040,
+      "triangles": 30000,
       "batches": 2
     },
     {
@@ -667,11 +648,10 @@
       "family": "geological",
       "reconstruction": "model",
       "methods": [
-        "pedras fraturadas com volume irregular e encaixe de alvenaria",
-        "subdivisão mineral preservando parâmetros de escultura"
+        "pedras fraturadas com volume irregular e encaixe de alvenaria"
       ],
       "parts": 4,
-      "triangles": 2880,
+      "triangles": 2000,
       "batches": 2
     },
     {
@@ -680,16 +660,14 @@
       "reconstruction": "model",
       "methods": [
         "poço de pedras irregulares com sarilho, corda enrolada, balde com aros, manivela e telhado de tábuas",
-        "subdivisão mineral preservando parâmetros de escultura",
         "arestas chanfradas",
         "curvas de contorno refinadas",
-        "entalhes e bordas de perfis",
         "perfis torneados e bordas de chapa",
         "ferragens curvas com vazios reais",
         "cordas e tubos curvos"
       ],
       "parts": 63,
-      "triangles": 19860,
+      "triangles": 19772,
       "batches": 6
     },
     {
@@ -698,11 +676,10 @@
       "reconstruction": "model",
       "methods": [
         "fardo em fatias prensadas com textura de palha, barbantes e fios soltos",
-        "arestas chanfradas",
-        "densidade e nervuras de folhagem"
+        "arestas chanfradas"
       ],
       "parts": 11,
-      "triangles": 3141,
+      "triangles": 3108,
       "batches": 3
     },
     {
@@ -726,13 +703,11 @@
       "reconstruction": "model",
       "methods": [
         "barraca com cobertura inclinada, entrada aberta, estrutura e estais",
-        "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "curvas de contorno refinadas",
         "cordas e tubos curvos"
       ],
       "parts": 13,
-      "triangles": 1372,
+      "triangles": 828,
       "batches": 4
     },
     {
@@ -741,7 +716,6 @@
       "reconstruction": "model",
       "methods": [
         "fogueira com anel de pedras roliças, lenha em tenda, cinzas, brasas e chamas em camadas",
-        "subdivisão mineral preservando parâmetros de escultura",
         "curvas de contorno refinadas",
         "perfis torneados e bordas de chapa"
       ],
@@ -756,13 +730,13 @@
       "methods": [
         "poste cônico com base de ferro, braço curvo com mão-francesa, luminária e cartazes colados",
         "curvas de contorno refinadas",
-        "arestas chanfradas",
         "perfis torneados e bordas de chapa",
         "ferragens curvas com vazios reais",
-        "cordas e tubos curvos"
+        "cordas e tubos curvos",
+        "arestas chanfradas"
       ],
       "parts": 17,
-      "triangles": 3268,
+      "triangles": 3012,
       "batches": 5
     },
     {
@@ -774,11 +748,10 @@
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas",
-        "cordas e tubos curvos",
-        "entalhes e bordas de perfis"
+        "cordas e tubos curvos"
       ],
       "parts": 41,
-      "triangles": 6668,
+      "triangles": 6560,
       "batches": 4
     },
     {
@@ -787,13 +760,11 @@
       "reconstruction": "model",
       "methods": [
         "barreira de perfil New Jersey com faixas refletivas, rasgos de içamento, alças de ligação e lascas de concreto",
-        "entalhes e bordas de perfis",
         "arestas chanfradas",
-        "ferragens curvas com vazios reais",
-        "subdivisão mineral preservando parâmetros de escultura"
+        "ferragens curvas com vazios reais"
       ],
       "parts": 18,
-      "triangles": 4064,
+      "triangles": 3832,
       "batches": 4
     },
     {
@@ -820,7 +791,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 50,
-      "triangles": 5944,
+      "triangles": 4952,
       "batches": 6
     },
     {
@@ -834,7 +805,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 20,
-      "triangles": 4404,
+      "triangles": 4308,
       "batches": 4
     },
     {
@@ -847,7 +818,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 24,
-      "triangles": 1300,
+      "triangles": 596,
       "batches": 5
     },
     {
@@ -862,7 +833,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 23,
-      "triangles": 6052,
+      "triangles": 5892,
       "batches": 5
     },
     {
@@ -877,7 +848,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 12,
-      "triangles": 6780,
+      "triangles": 5212,
       "batches": 4
     },
     {
@@ -890,7 +861,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 15,
-      "triangles": 3764,
+      "triangles": 1972,
       "batches": 2
     },
     {
@@ -903,7 +874,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 34,
-      "triangles": 5368,
+      "triangles": 3192,
       "batches": 3
     },
     {
@@ -916,7 +887,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 58,
-      "triangles": 7400,
+      "triangles": 4584,
       "batches": 3
     },
     {
@@ -925,11 +896,10 @@
       "reconstruction": "model",
       "methods": [
         "espelho com moldura em camadas, friso dourado, rosetas nos cantos e frontão entalhado",
-        "arestas chanfradas",
-        "entalhes e bordas de perfis"
+        "arestas chanfradas"
       ],
       "parts": 20,
-      "triangles": 1196,
+      "triangles": 840,
       "batches": 3
     },
     {
@@ -940,11 +910,10 @@
         "relógio de coluna com mostrador graduado, pêndulo e pesos atrás da porta, colunas torneadas e frontão",
         "arestas chanfradas",
         "curvas de contorno refinadas",
-        "perfis torneados e bordas de chapa",
-        "entalhes e bordas de perfis"
+        "perfis torneados e bordas de chapa"
       ],
       "parts": 48,
-      "triangles": 4856,
+      "triangles": 4304,
       "batches": 5
     },
     {
@@ -958,7 +927,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 6,
-      "triangles": 1560,
+      "triangles": 1272,
       "batches": 3
     },
     {
@@ -973,7 +942,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 21,
-      "triangles": 3496,
+      "triangles": 3400,
       "batches": 4
     },
     {
@@ -1002,7 +971,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 35,
-      "triangles": 9604,
+      "triangles": 8964,
       "batches": 3
     },
     {
@@ -1014,7 +983,7 @@
         "arestas chanfradas"
       ],
       "parts": 41,
-      "triangles": 3272,
+      "triangles": 3144,
       "batches": 4
     },
     {
@@ -1029,7 +998,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 34,
-      "triangles": 2780,
+      "triangles": 2588,
       "batches": 5
     },
     {
@@ -1043,7 +1012,7 @@
         "estofamento com bordas macias"
       ],
       "parts": 41,
-      "triangles": 2776,
+      "triangles": 2488,
       "batches": 6
     },
     {
@@ -1056,7 +1025,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 70,
-      "triangles": 6820,
+      "triangles": 6468,
       "batches": 7
     },
     {
@@ -1069,7 +1038,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 53,
-      "triangles": 8864,
+      "triangles": 8544,
       "batches": 4
     },
     {
@@ -1084,7 +1053,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 15,
-      "triangles": 8244,
+      "triangles": 6644,
       "batches": 4
     },
     {
@@ -1112,7 +1081,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 90,
-      "triangles": 11952,
+      "triangles": 11280,
       "batches": 5
     },
     {
@@ -1126,7 +1095,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 90,
-      "triangles": 8784,
+      "triangles": 8624,
       "batches": 7
     },
     {
@@ -1140,7 +1109,7 @@
         "arestas chanfradas"
       ],
       "parts": 18,
-      "triangles": 2788,
+      "triangles": 2628,
       "batches": 2
     },
     {
@@ -1154,7 +1123,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 45,
-      "triangles": 4256,
+      "triangles": 1552,
       "batches": 5
     },
     {
@@ -1169,7 +1138,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 33,
-      "triangles": 4460,
+      "triangles": 4236,
       "batches": 5
     },
     {
@@ -1182,7 +1151,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 29,
-      "triangles": 2336,
+      "triangles": 1984,
       "batches": 4
     },
     {
@@ -1196,7 +1165,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 55,
-      "triangles": 9788,
+      "triangles": 9276,
       "batches": 4
     },
     {
@@ -1210,7 +1179,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 30,
-      "triangles": 3052,
+      "triangles": 2572,
       "batches": 4
     },
     {
@@ -1222,7 +1191,7 @@
         "arestas chanfradas"
       ],
       "parts": 53,
-      "triangles": 2332,
+      "triangles": 2300,
       "batches": 5
     },
     {
@@ -1238,7 +1207,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 42,
-      "triangles": 3308,
+      "triangles": 2380,
       "batches": 4
     },
     {
@@ -1253,7 +1222,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 36,
-      "triangles": 4312,
+      "triangles": 4088,
       "batches": 3
     },
     {
@@ -1268,7 +1237,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 35,
-      "triangles": 3424,
+      "triangles": 2912,
       "batches": 4
     },
     {
@@ -1282,7 +1251,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 27,
-      "triangles": 5540,
+      "triangles": 5348,
       "batches": 3
     },
     {
@@ -1296,7 +1265,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 17,
-      "triangles": 2228,
+      "triangles": 2068,
       "batches": 6
     },
     {
@@ -1306,11 +1275,10 @@
       "methods": [
         "frascos de vidro com líquido luminoso, tampas rosqueadas, etiquetas e espécimes conservados",
         "curvas de contorno refinadas",
-        "arestas chanfradas",
         "cordas e tubos curvos"
       ],
       "parts": 18,
-      "triangles": 2500,
+      "triangles": 2340,
       "batches": 7
     },
     {
@@ -1324,7 +1292,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 33,
-      "triangles": 7696,
+      "triangles": 7664,
       "batches": 5
     },
     {
@@ -1339,7 +1307,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 24,
-      "triangles": 2688,
+      "triangles": 2592,
       "batches": 5
     },
     {
@@ -1354,7 +1322,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 25,
-      "triangles": 4536,
+      "triangles": 4344,
       "batches": 3
     },
     {
@@ -1369,7 +1337,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 80,
-      "triangles": 7208,
+      "triangles": 5736,
       "batches": 4
     },
     {
@@ -1384,7 +1352,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 22,
-      "triangles": 3680,
+      "triangles": 3648,
       "batches": 4
     },
     {
@@ -1399,7 +1367,7 @@
         "arestas chanfradas"
       ],
       "parts": 35,
-      "triangles": 9912,
+      "triangles": 9752,
       "batches": 8
     },
     {
@@ -1426,7 +1394,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 23,
-      "triangles": 3904,
+      "triangles": 3872,
       "batches": 3
     },
     {
@@ -1440,7 +1408,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 37,
-      "triangles": 6116,
+      "triangles": 5732,
       "batches": 4
     },
     {
@@ -1452,11 +1420,10 @@
         "perfis torneados e bordas de chapa",
         "cordas e tubos curvos",
         "curvas de contorno refinadas",
-        "ferragens curvas com vazios reais",
-        "arestas chanfradas"
+        "ferragens curvas com vazios reais"
       ],
       "parts": 44,
-      "triangles": 4784,
+      "triangles": 4656,
       "batches": 6
     },
     {
@@ -1468,11 +1435,10 @@
         "arestas chanfradas",
         "curvas de contorno refinadas",
         "perfis torneados e bordas de chapa",
-        "cordas e tubos curvos",
-        "entalhes e bordas de perfis"
+        "cordas e tubos curvos"
       ],
       "parts": 49,
-      "triangles": 6836,
+      "triangles": 6088,
       "batches": 8
     },
     {
@@ -1482,12 +1448,11 @@
       "methods": [
         "reservatório cônico com cintas, tampa abaulada, registro de saída e tubo de extravasão",
         "ferragens curvas com vazios reais",
-        "arestas chanfradas",
         "perfis torneados e bordas de chapa",
         "cordas e tubos curvos"
       ],
       "parts": 20,
-      "triangles": 3940,
+      "triangles": 3620,
       "batches": 4
     },
     {
@@ -1502,7 +1467,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 30,
-      "triangles": 3992,
+      "triangles": 3416,
       "batches": 6
     },
     {
@@ -1515,11 +1480,10 @@
         "cordas e tubos curvos",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas",
-        "entalhes e bordas de perfis",
         "ferragens curvas com vazios reais"
       ],
       "parts": 40,
-      "triangles": 4520,
+      "triangles": 4236,
       "batches": 4
     },
     {
@@ -1527,11 +1491,10 @@
       "family": "botanical",
       "reconstruction": "model",
       "methods": [
-        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais",
-        "ramos afilados com secção refinada"
+        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais"
       ],
       "parts": 36,
-      "triangles": 10368,
+      "triangles": 8640,
       "batches": 2
     },
     {
@@ -1541,11 +1504,10 @@
       "methods": [
         "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais",
         "curvas de contorno refinadas",
-        "ferragens curvas com vazios reais",
-        "ramos afilados com secção refinada"
+        "ferragens curvas com vazios reais"
       ],
       "parts": 13,
-      "triangles": 4704,
+      "triangles": 4336,
       "batches": 2
     },
     {
@@ -1553,12 +1515,10 @@
       "family": "botanical",
       "reconstruction": "model",
       "methods": [
-        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais",
-        "ramos afilados com secção refinada",
-        "densidade e nervuras de folhagem"
+        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais"
       ],
       "parts": 38,
-      "triangles": 12576,
+      "triangles": 10080,
       "batches": 2
     },
     {
@@ -1573,7 +1533,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 52,
-      "triangles": 6620,
+      "triangles": 6492,
       "batches": 3
     },
     {
@@ -1583,12 +1543,11 @@
       "methods": [
         "mausoléu com escadaria, colunas, alvenaria aparelhada, frontão, portas de bronze com cruzes, urnas e janelas gradeadas",
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "ferragens curvas com vazios reais",
         "curvas de contorno refinadas"
       ],
       "parts": 48,
-      "triangles": 7296,
+      "triangles": 6868,
       "batches": 5
     },
     {
@@ -1599,7 +1558,6 @@
         "coluna quebrada com base moldurada, caneluras, topo fraturado, tambor caído e entulho",
         "arestas chanfradas",
         "curvas de contorno refinadas",
-        "subdivisão mineral preservando parâmetros de escultura",
         "perfis torneados e bordas de chapa"
       ],
       "parts": 32,
@@ -1611,11 +1569,10 @@
       "family": "architecture",
       "reconstruction": "model",
       "methods": [
-        "pedras fraturadas com volume irregular e encaixe de alvenaria",
-        "subdivisão mineral preservando parâmetros de escultura"
+        "pedras fraturadas com volume irregular e encaixe de alvenaria"
       ],
       "parts": 11,
-      "triangles": 7920,
+      "triangles": 5500,
       "batches": 2
     },
     {
@@ -1627,7 +1584,7 @@
         "arestas chanfradas"
       ],
       "parts": 21,
-      "triangles": 1004,
+      "triangles": 972,
       "batches": 3
     },
     {
@@ -1635,12 +1592,10 @@
       "family": "ritual",
       "reconstruction": "model",
       "methods": [
-        "máscara deitada com contorno facial, sobrancelhas, nariz e aberturas escuras",
-        "entalhes e bordas de perfis",
-        "arestas chanfradas"
+        "máscara deitada com contorno facial, sobrancelhas, nariz e aberturas escuras"
       ],
       "parts": 9,
-      "triangles": 1692,
+      "triangles": 424,
       "batches": 5
     },
     {
@@ -1651,11 +1606,10 @@
         "relicário com tampa em duas águas, pilastras, cruz frontal, cintas de ferro, cadeado, lacres de cera e fresta luminosa",
         "arestas chanfradas",
         "curvas de contorno refinadas",
-        "entalhes e bordas de perfis",
         "ferragens curvas com vazios reais"
       ],
       "parts": 21,
-      "triangles": 2368,
+      "triangles": 2196,
       "batches": 5
     },
     {
@@ -1664,12 +1618,10 @@
       "reconstruction": "model",
       "methods": [
         "silhueta funerária octogonal, tampa separada e alças",
-        "entalhes e bordas de perfis",
-        "cordas e tubos curvos",
-        "arestas chanfradas"
+        "cordas e tubos curvos"
       ],
       "parts": 11,
-      "triangles": 1980,
+      "triangles": 1628,
       "batches": 4
     },
     {
@@ -1678,11 +1630,10 @@
       "reconstruction": "model",
       "methods": [
         "escultura de crânio/máscara: órbitas, maçãs, mandíbula e dentes",
-        "entalhes e bordas de perfis",
         "arestas chanfradas"
       ],
       "parts": 18,
-      "triangles": 6176,
+      "triangles": 3764,
       "batches": 4
     },
     {
@@ -1692,12 +1643,10 @@
       "methods": [
         "efígie de palha amarrada em cruz, com cabeça de saco costurada, faixa, braços em feixes e marca pintada no peito",
         "perfis torneados e bordas de chapa",
-        "ferragens curvas com vazios reais",
-        "arestas chanfradas",
-        "densidade e nervuras de folhagem"
+        "ferragens curvas com vazios reais"
       ],
       "parts": 27,
-      "triangles": 3134,
+      "triangles": 2662,
       "batches": 6
     },
     {
@@ -1709,7 +1658,7 @@
         "arestas chanfradas"
       ],
       "parts": 51,
-      "triangles": 6852,
+      "triangles": 5924,
       "batches": 4
     },
     {
@@ -1719,12 +1668,11 @@
       "methods": [
         "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas"
       ],
       "parts": 57,
-      "triangles": 6748,
+      "triangles": 5148,
       "batches": 7
     },
     {
@@ -1734,12 +1682,11 @@
       "methods": [
         "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas"
       ],
       "parts": 53,
-      "triangles": 6572,
+      "triangles": 5356,
       "batches": 8
     },
     {
@@ -1749,13 +1696,12 @@
       "methods": [
         "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas",
         "estofamento com bordas macias"
       ],
       "parts": 60,
-      "triangles": 7968,
+      "triangles": 6624,
       "batches": 8
     },
     {
@@ -1765,13 +1711,12 @@
       "methods": [
         "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas",
         "estofamento com bordas macias"
       ],
       "parts": 60,
-      "triangles": 7968,
+      "triangles": 6368,
       "batches": 7
     },
     {
@@ -1786,7 +1731,7 @@
         "arestas chanfradas"
       ],
       "parts": 46,
-      "triangles": 7104,
+      "triangles": 5712,
       "batches": 5
     },
     {
@@ -1795,12 +1740,11 @@
       "reconstruction": "model",
       "methods": [
         "barco com casco aberto de tábuas curvas, quilha, bordas e bancos",
-        "entalhes e bordas de perfis",
         "arestas chanfradas",
         "cordas e tubos curvos"
       ],
       "parts": 18,
-      "triangles": 3664,
+      "triangles": 2400,
       "batches": 1
     },
     {
@@ -1809,13 +1753,12 @@
       "reconstruction": "model",
       "methods": [
         "cadeira de balanço com esquis curvos, pernas torneadas, braços, ripas e travessa de encosto recortada",
-        "entalhes e bordas de perfis",
         "arestas chanfradas",
         "curvas de contorno refinadas",
         "estofamento com bordas macias"
       ],
       "parts": 26,
-      "triangles": 7624,
+      "triangles": 7260,
       "batches": 2
     },
     {
@@ -1825,12 +1768,11 @@
       "methods": [
         "lareira de tijolos com verga em fiada de pé, console de madeira com mísulas, grelha de ferro, lenha e atiçadores",
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "curvas de contorno refinadas",
         "perfis torneados e bordas de chapa"
       ],
       "parts": 48,
-      "triangles": 4204,
+      "triangles": 4156,
       "batches": 6
     },
     {
@@ -1843,7 +1785,7 @@
         "arestas chanfradas"
       ],
       "parts": 27,
-      "triangles": 8984,
+      "triangles": 8632,
       "batches": 3
     },
     {
@@ -1856,7 +1798,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 150,
-      "triangles": 14376,
+      "triangles": 9000,
       "batches": 4
     },
     {
@@ -1867,11 +1809,10 @@
         "berço com postes torneados, grades de varetas, cabeceiras recortadas, colchão e manta dobrada",
         "arestas chanfradas",
         "curvas de contorno refinadas",
-        "entalhes e bordas de perfis",
         "estofamento com bordas macias"
       ],
       "parts": 37,
-      "triangles": 6188,
+      "triangles": 6132,
       "batches": 3
     },
     {
@@ -1880,7 +1821,6 @@
       "reconstruction": "model",
       "methods": [
         "cavalo de balanço com corpo e pescoço modelados, crina, cauda, sela e esquis curvos",
-        "entalhes e bordas de perfis",
         "perfis torneados e bordas de chapa",
         "arestas chanfradas",
         "curvas de contorno refinadas",
@@ -1888,7 +1828,7 @@
         "estofamento com bordas macias"
       ],
       "parts": 22,
-      "triangles": 5068,
+      "triangles": 4732,
       "batches": 5
     },
     {
@@ -1904,7 +1844,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 25,
-      "triangles": 4644,
+      "triangles": 4388,
       "batches": 5
     },
     {
@@ -1915,11 +1855,10 @@
         "tabuleiro com filetes, arcos de letras e algarismos traçados, sol e lua, e prancheta em coração com visor",
         "arestas chanfradas",
         "ferragens curvas com vazios reais",
-        "curvas de contorno refinadas",
-        "entalhes e bordas de perfis"
+        "curvas de contorno refinadas"
       ],
       "parts": 77,
-      "triangles": 4884,
+      "triangles": 2900,
       "batches": 6
     },
     {
@@ -1933,7 +1872,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 97,
-      "triangles": 10400,
+      "triangles": 9888,
       "batches": 6
     },
     {
@@ -1947,7 +1886,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 37,
-      "triangles": 4544,
+      "triangles": 4416,
       "batches": 4
     },
     {
@@ -1956,11 +1895,10 @@
       "reconstruction": "model",
       "methods": [
         "biombo de três folhas com tecido plissado, caixilhos tubulares, dobradiças e ponteiras",
-        "curvas de contorno refinadas",
-        "arestas chanfradas"
+        "curvas de contorno refinadas"
       ],
       "parts": 46,
-      "triangles": 3480,
+      "triangles": 2904,
       "batches": 3
     },
     {
@@ -1969,11 +1907,10 @@
       "reconstruction": "model",
       "methods": [
         "saco com volume orgânico fechado, zíper contínuo e alças",
-        "cordas e tubos curvos",
-        "arestas chanfradas"
+        "cordas e tubos curvos"
       ],
       "parts": 10,
-      "triangles": 3500,
+      "triangles": 3868,
       "batches": 3
     },
     {
@@ -1982,11 +1919,10 @@
       "reconstruction": "model",
       "methods": [
         "contorno orgânico de líquido com borda irregular e gotas separadas",
-        "entalhes e bordas de perfis",
         "curvas de contorno refinadas"
       ],
       "parts": 7,
-      "triangles": 1112,
+      "triangles": 552,
       "batches": 2
     },
     {
@@ -1995,13 +1931,11 @@
       "reconstruction": "model",
       "methods": [
         "cova com montículo de terra, pedras de contorno, cruz de madeira amarrada e tombada, placa e tufos de capim",
-        "subdivisão mineral preservando parâmetros de escultura",
         "arestas chanfradas",
-        "cordas e tubos curvos",
-        "densidade e nervuras de folhagem"
+        "cordas e tubos curvos"
       ],
       "parts": 26,
-      "triangles": 8296,
+      "triangles": 8076,
       "batches": 6
     },
     {
@@ -2011,13 +1945,11 @@
       "methods": [
         "cova aberta com caixão ao fundo, bordas e monte de terra revolvida, torrões e pá fincada",
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
-        "subdivisão mineral preservando parâmetros de escultura",
         "curvas de contorno refinadas",
         "ferragens curvas com vazios reais"
       ],
       "parts": 22,
-      "triangles": 6176,
+      "triangles": 6060,
       "batches": 4
     },
     {
@@ -2027,11 +1959,10 @@
       "methods": [
         "anjo que chora sobre pedestal moldurado, com túnica drapeada, cabeça inclinada, mãos no rosto e asas em camadas",
         "arestas chanfradas",
-        "cordas e tubos curvos",
-        "entalhes e bordas de perfis"
+        "cordas e tubos curvos"
       ],
       "parts": 27,
-      "triangles": 7524,
+      "triangles": 6924,
       "batches": 1
     },
     {
@@ -2042,11 +1973,10 @@
         "candelabro de cinco braços com pés em garra, haste torneada, sigilo em anel, espinhos e velas escorridas",
         "cordas e tubos curvos",
         "ferragens curvas com vazios reais",
-        "curvas de contorno refinadas",
-        "arestas chanfradas"
+        "curvas de contorno refinadas"
       ],
       "parts": 49,
-      "triangles": 7192,
+      "triangles": 6840,
       "batches": 4
     },
     {
@@ -2060,7 +1990,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 62,
-      "triangles": 9896,
+      "triangles": 9512,
       "batches": 5
     },
     {
@@ -2073,7 +2003,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 24,
-      "triangles": 1676,
+      "triangles": 1420,
       "batches": 3
     },
     {
@@ -2088,7 +2018,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 15,
-      "triangles": 2800,
+      "triangles": 2704,
       "batches": 4
     },
     {
@@ -2103,7 +2033,7 @@
         "arestas chanfradas"
       ],
       "parts": 51,
-      "triangles": 12444,
+      "triangles": 12412,
       "batches": 4
     },
     {
@@ -2115,11 +2045,10 @@
         "curvas de contorno refinadas",
         "cordas e tubos curvos",
         "perfis torneados e bordas de chapa",
-        "arestas chanfradas",
-        "subdivisão mineral preservando parâmetros de escultura"
+        "arestas chanfradas"
       ],
       "parts": 22,
-      "triangles": 3720,
+      "triangles": 3464,
       "batches": 5
     },
     {
@@ -2133,7 +2062,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 30,
-      "triangles": 3604,
+      "triangles": 3476,
       "batches": 8
     },
     {
@@ -2142,13 +2071,12 @@
       "reconstruction": "model",
       "methods": [
         "abrigo de ônibus com cobertura arqueada, fechamento de vidro, banco, painel publicitário e placa com horários",
-        "entalhes e bordas de perfis",
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas"
       ],
       "parts": 40,
-      "triangles": 3232,
+      "triangles": 2856,
       "batches": 6
     },
     {
@@ -2174,11 +2102,10 @@
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
         "ferragens curvas com vazios reais",
-        "subdivisão mineral preservando parâmetros de escultura",
         "curvas de contorno refinadas"
       ],
       "parts": 30,
-      "triangles": 4212,
+      "triangles": 3636,
       "batches": 6
     },
     {
@@ -2192,7 +2119,7 @@
         "arestas chanfradas"
       ],
       "parts": 83,
-      "triangles": 6808,
+      "triangles": 4600,
       "batches": 3
     },
     {
@@ -2201,12 +2128,11 @@
       "reconstruction": "model",
       "methods": [
         "fliperama com laterais recortadas, tela inclinada, painel com alavanca e botões, letreiro e porta de fichas",
-        "entalhes e bordas de perfis",
         "arestas chanfradas",
         "curvas de contorno refinadas"
       ],
       "parts": 33,
-      "triangles": 2668,
+      "triangles": 2300,
       "batches": 7
     },
     {
@@ -2221,7 +2147,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 27,
-      "triangles": 5404,
+      "triangles": 4924,
       "batches": 3
     },
     {
@@ -2236,7 +2162,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 33,
-      "triangles": 2752,
+      "triangles": 2688,
       "batches": 3
     },
     {
@@ -2251,7 +2177,7 @@
         "arestas chanfradas"
       ],
       "parts": 31,
-      "triangles": 4004,
+      "triangles": 3620,
       "batches": 5
     },
     {
@@ -2266,7 +2192,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 13,
-      "triangles": 2492,
+      "triangles": 2396,
       "batches": 4
     },
     {
@@ -2296,7 +2222,7 @@
         "arestas chanfradas"
       ],
       "parts": 57,
-      "triangles": 7772,
+      "triangles": 7100,
       "batches": 3
     },
     {
@@ -2304,10 +2230,10 @@
       "family": "geological",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 2,
-      "triangles": 1960,
+      "triangles": 1440,
       "batches": 1
     },
     {
@@ -2315,10 +2241,10 @@
       "family": "geological",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 2,
-      "triangles": 2560,
+      "triangles": 1960,
       "batches": 1
     },
     {
@@ -2326,10 +2252,10 @@
       "family": "geological",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 3,
-      "triangles": 4860,
+      "triangles": 3840,
       "batches": 1
     },
     {
@@ -2337,10 +2263,10 @@
       "family": "geological",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 9,
-      "triangles": 4500,
+      "triangles": 2880,
       "batches": 1
     },
     {
@@ -2348,10 +2274,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 32,
-      "triangles": 10240,
+      "triangles": 5760,
       "batches": 1
     },
     {
@@ -2359,11 +2285,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura",
         "arcos com curva refinada"
       ],
       "parts": 21,
-      "triangles": 4300,
+      "triangles": 2900,
       "batches": 1
     },
     {
@@ -2371,11 +2296,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura",
         "arestas chanfradas"
       ],
       "parts": 8,
-      "triangles": 2284,
+      "triangles": 1304,
       "batches": 1
     },
     {
@@ -2409,7 +2333,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 10,
-      "triangles": 492,
+      "triangles": 444,
       "batches": 3
     },
     {
@@ -2418,11 +2342,10 @@
       "reconstruction": "components",
       "methods": [
         "perfis torneados e bordas de chapa",
-        "densidade e nervuras de folhagem",
         "curvas de contorno refinadas"
       ],
       "parts": 78,
-      "triangles": 24768,
+      "triangles": 21384,
       "batches": 2
     },
     {
@@ -2431,11 +2354,10 @@
       "reconstruction": "components",
       "methods": [
         "perfis torneados e bordas de chapa",
-        "densidade e nervuras de folhagem",
         "curvas de contorno refinadas"
       ],
       "parts": 78,
-      "triangles": 24768,
+      "triangles": 21384,
       "batches": 2
     },
     {
@@ -2447,7 +2369,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 78,
-      "triangles": 10944,
+      "triangles": 5832,
       "batches": 1
     },
     {
@@ -2455,10 +2377,10 @@
       "family": "botanical",
       "reconstruction": "components",
       "methods": [
-        "densidade e nervuras de folhagem"
+        "fonte detalhada preservada"
       ],
       "parts": 4,
-      "triangles": 1848,
+      "triangles": 1344,
       "batches": 1
     },
     {
@@ -2466,10 +2388,10 @@
       "family": "botanical",
       "reconstruction": "components",
       "methods": [
-        "densidade e nervuras de folhagem"
+        "fonte detalhada preservada"
       ],
       "parts": 3,
-      "triangles": 378,
+      "triangles": 288,
       "batches": 1
     },
     {
@@ -2477,10 +2399,10 @@
       "family": "geological",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 3,
-      "triangles": 2336,
+      "triangles": 1856,
       "batches": 2
     },
     {
@@ -2488,10 +2410,10 @@
       "family": "geological",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 2,
-      "triangles": 3472,
+      "triangles": 3008,
       "batches": 1
     },
     {
@@ -2499,10 +2421,10 @@
       "family": "geological",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 2,
-      "triangles": 1472,
+      "triangles": 1196,
       "batches": 2
     },
     {
@@ -2510,10 +2432,10 @@
       "family": "geological",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 2,
-      "triangles": 2296,
+      "triangles": 1892,
       "batches": 2
     },
     {
@@ -2521,10 +2443,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 109,
-      "triangles": 19184,
+      "triangles": 14824,
       "batches": 1
     },
     {
@@ -2532,10 +2454,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 41,
-      "triangles": 7216,
+      "triangles": 5576,
       "batches": 1
     },
     {
@@ -2558,7 +2480,7 @@
         "ferragens curvas com vazios reais"
       ],
       "parts": 3,
-      "triangles": 696,
+      "triangles": 672,
       "batches": 2
     },
     {
@@ -2596,7 +2518,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 23,
-      "triangles": 3156,
+      "triangles": 2564,
       "batches": 4
     },
     {
@@ -2604,12 +2526,11 @@
       "family": "geological",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura",
         "arcos com curva refinada",
         "arestas chanfradas"
       ],
       "parts": 80,
-      "triangles": 14164,
+      "triangles": 10784,
       "batches": 4
     },
     {
@@ -2622,7 +2543,7 @@
         "arestas chanfradas"
       ],
       "parts": 15,
-      "triangles": 2812,
+      "triangles": 2644,
       "batches": 2
     },
     {
@@ -2642,11 +2563,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "arestas chanfradas",
-        "subdivisão mineral preservando parâmetros de escultura"
+        "arestas chanfradas"
       ],
       "parts": 191,
-      "triangles": 10336,
+      "triangles": 9356,
       "batches": 2
     },
     {
@@ -2654,10 +2574,10 @@
       "family": "geological",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 1,
-      "triangles": 11520,
+      "triangles": 8820,
       "batches": 1
     },
     {
@@ -2665,10 +2585,10 @@
       "family": "geological",
       "reconstruction": "components",
       "methods": [
-        "subdivisão mineral preservando parâmetros de escultura"
+        "fonte detalhada preservada"
       ],
       "parts": 1,
-      "triangles": 11880,
+      "triangles": 9344,
       "batches": 1
     },
     {
@@ -2676,11 +2596,10 @@
       "family": "botanical",
       "reconstruction": "components",
       "methods": [
-        "ramos afilados com secção refinada",
-        "ramagens com agulhas em volume"
+        "fonte detalhada preservada"
       ],
       "parts": 75,
-      "triangles": 64612,
+      "triangles": 64888,
       "batches": 2
     },
     {
@@ -2688,11 +2607,10 @@
       "family": "botanical",
       "reconstruction": "components",
       "methods": [
-        "ramos afilados com secção refinada",
-        "ramagens com agulhas em volume"
+        "fonte detalhada preservada"
       ],
       "parts": 71,
-      "triangles": 60960,
+      "triangles": 61208,
       "batches": 2
     },
     {
@@ -2700,10 +2618,10 @@
       "family": "botanical",
       "reconstruction": "components",
       "methods": [
-        "ramos afilados com secção refinada"
+        "fonte detalhada preservada"
       ],
       "parts": 2,
-      "triangles": 1584,
+      "triangles": 1358,
       "batches": 1
     },
     {
@@ -2711,10 +2629,10 @@
       "family": "botanical",
       "reconstruction": "components",
       "methods": [
-        "ramos afilados com secção refinada"
+        "fonte detalhada preservada"
       ],
       "parts": 5,
-      "triangles": 2880,
+      "triangles": 2450,
       "batches": 1
     },
     {
@@ -2722,10 +2640,10 @@
       "family": "botanical",
       "reconstruction": "components",
       "methods": [
-        "ramos afilados com secção refinada"
+        "fonte detalhada preservada"
       ],
       "parts": 7,
-      "triangles": 5040,
+      "triangles": 4312,
       "batches": 1
     },
     {
@@ -2737,7 +2655,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 37,
-      "triangles": 6864,
+      "triangles": 6784,
       "batches": 4
     },
     {
@@ -2745,12 +2663,11 @@
       "family": "interior",
       "reconstruction": "components",
       "methods": [
-        "madeira lascada",
         "curvas de contorno refinadas",
         "arestas chanfradas"
       ],
       "parts": 31,
-      "triangles": 1360,
+      "triangles": 848,
       "batches": 2
     },
     {
@@ -2758,12 +2675,11 @@
       "family": "interior",
       "reconstruction": "components",
       "methods": [
-        "madeira lascada",
         "curvas de contorno refinadas",
         "arestas chanfradas"
       ],
       "parts": 39,
-      "triangles": 1572,
+      "triangles": 1060,
       "batches": 2
     },
     {
@@ -2771,7 +2687,6 @@
       "family": "interior",
       "reconstruction": "components",
       "methods": [
-        "madeira lascada",
         "arestas chanfradas"
       ],
       "parts": 4,
@@ -2784,11 +2699,10 @@
       "reconstruction": "components",
       "methods": [
         "arestas chanfradas",
-        "perfis torneados e bordas de chapa",
-        "entalhes e bordas de perfis"
+        "perfis torneados e bordas de chapa"
       ],
       "parts": 18,
-      "triangles": 3428,
+      "triangles": 3400,
       "batches": 3
     },
     {
@@ -2796,11 +2710,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis",
         "arestas chanfradas"
       ],
       "parts": 6,
-      "triangles": 1032,
+      "triangles": 600,
       "batches": 2
     },
     {
@@ -2808,11 +2721,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis",
         "arestas chanfradas"
       ],
       "parts": 6,
-      "triangles": 1032,
+      "triangles": 600,
       "batches": 2
     },
     {
@@ -2820,12 +2732,11 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis",
         "perfis torneados e bordas de chapa",
         "cordas e tubos curvos"
       ],
       "parts": 42,
-      "triangles": 10136,
+      "triangles": 9044,
       "batches": 2
     },
     {
@@ -2837,7 +2748,7 @@
         "perfis torneados e bordas de chapa"
       ],
       "parts": 29,
-      "triangles": 6568,
+      "triangles": 5848,
       "batches": 1
     },
     {
@@ -2845,12 +2756,11 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis",
         "arestas chanfradas",
         "ferragens curvas com vazios reais"
       ],
       "parts": 12,
-      "triangles": 2076,
+      "triangles": 1304,
       "batches": 4
     },
     {
@@ -2858,12 +2768,11 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis",
         "cordas e tubos curvos",
         "perfis torneados e bordas de chapa"
       ],
       "parts": 5,
-      "triangles": 2312,
+      "triangles": 1816,
       "batches": 1
     },
     {
@@ -2871,10 +2780,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis"
+        "fonte detalhada preservada"
       ],
       "parts": 1,
-      "triangles": 428,
+      "triangles": 212,
       "batches": 1
     },
     {
@@ -2882,11 +2791,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "arestas chanfradas",
-        "entalhes e bordas de perfis"
+        "arestas chanfradas"
       ],
       "parts": 5,
-      "triangles": 236,
+      "triangles": 204,
       "batches": 2
     },
     {
@@ -2898,7 +2806,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 10,
-      "triangles": 756,
+      "triangles": 580,
       "batches": 2
     },
     {
@@ -2907,11 +2815,10 @@
       "reconstruction": "components",
       "methods": [
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "curvas de contorno refinadas"
       ],
       "parts": 12,
-      "triangles": 2068,
+      "triangles": 1220,
       "batches": 4
     },
     {
@@ -2921,13 +2828,12 @@
       "methods": [
         "perfis torneados e bordas de chapa",
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "curvas de contorno refinadas",
         "cordas e tubos curvos",
         "ferragens curvas com vazios reais"
       ],
       "parts": 46,
-      "triangles": 4596,
+      "triangles": 4060,
       "batches": 2
     },
     {
@@ -2936,11 +2842,10 @@
       "reconstruction": "components",
       "methods": [
         "arestas chanfradas",
-        "perfis torneados e bordas de chapa",
-        "entalhes e bordas de perfis"
+        "perfis torneados e bordas de chapa"
       ],
       "parts": 49,
-      "triangles": 3096,
+      "triangles": 2432,
       "batches": 3
     },
     {
@@ -2951,11 +2856,10 @@
         "assento montado, travessas, torneados e encosto vazado",
         "arestas chanfradas",
         "estofamento com bordas macias",
-        "entalhes e bordas de perfis",
         "curvas de contorno refinadas"
       ],
       "parts": 16,
-      "triangles": 4280,
+      "triangles": 2224,
       "batches": 3
     },
     {
@@ -2963,12 +2867,11 @@
       "family": "ritual",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis",
         "perfis torneados e bordas de chapa",
         "arestas chanfradas"
       ],
       "parts": 5,
-      "triangles": 432,
+      "triangles": 320,
       "batches": 3
     },
     {
@@ -2981,7 +2884,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 66,
-      "triangles": 13164,
+      "triangles": 13004,
       "batches": 1
     },
     {
@@ -2994,7 +2897,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 40,
-      "triangles": 4864,
+      "triangles": 3072,
       "batches": 2
     },
     {
@@ -3007,7 +2910,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 21,
-      "triangles": 5552,
+      "triangles": 4424,
       "batches": 3
     },
     {
@@ -3015,10 +2918,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis"
+        "fonte detalhada preservada"
       ],
       "parts": 1,
-      "triangles": 212,
+      "triangles": 104,
       "batches": 1
     },
     {
@@ -3026,10 +2929,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis"
+        "fonte detalhada preservada"
       ],
       "parts": 1,
-      "triangles": 244,
+      "triangles": 120,
       "batches": 1
     },
     {
@@ -3054,7 +2957,7 @@
         "curvas de contorno refinadas"
       ],
       "parts": 7,
-      "triangles": 1920,
+      "triangles": 1280,
       "batches": 2
     },
     {
@@ -3062,10 +2965,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis"
+        "fonte detalhada preservada"
       ],
       "parts": 1,
-      "triangles": 44,
+      "triangles": 20,
       "batches": 1
     },
     {
@@ -3084,11 +2987,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis",
         "arestas chanfradas"
       ],
       "parts": 3,
-      "triangles": 108,
+      "triangles": 96,
       "batches": 1
     },
     {
@@ -3096,13 +2998,12 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis",
         "arestas chanfradas",
         "ferragens curvas com vazios reais",
         "cordas e tubos curvos"
       ],
       "parts": 95,
-      "triangles": 12700,
+      "triangles": 10152,
       "batches": 4
     },
     {
@@ -3110,11 +3011,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "arestas chanfradas",
-        "entalhes e bordas de perfis"
+        "arestas chanfradas"
       ],
       "parts": 9,
-      "triangles": 476,
+      "triangles": 364,
       "batches": 1
     },
     {
@@ -3122,10 +3022,10 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
-        "ramos afilados com secção refinada"
+        "fonte detalhada preservada"
       ],
       "parts": 45,
-      "triangles": 10080,
+      "triangles": 8190,
       "batches": 1
     },
     {
@@ -3134,11 +3034,10 @@
       "reconstruction": "components",
       "methods": [
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "cordas e tubos curvos"
       ],
       "parts": 50,
-      "triangles": 3300,
+      "triangles": 2552,
       "batches": 1
     },
     {
@@ -3148,14 +3047,13 @@
       "methods": [
         "perfis torneados e bordas de chapa",
         "arestas chanfradas",
-        "entalhes e bordas de perfis",
         "curvas de contorno refinadas",
         "cordas e tubos curvos",
         "ferragens curvas com vazios reais",
         "volumes curvos refinados"
       ],
       "parts": 79,
-      "triangles": 7700,
+      "triangles": 7164,
       "batches": 4
     },
     {
@@ -3163,12 +3061,11 @@
       "family": "interior",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis",
         "perfis torneados e bordas de chapa",
         "arestas chanfradas"
       ],
       "parts": 39,
-      "triangles": 1864,
+      "triangles": 1024,
       "batches": 3
     },
     {
@@ -3183,7 +3080,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 32,
-      "triangles": 4600,
+      "triangles": 4280,
       "batches": 4
     },
     {
@@ -3197,7 +3094,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 20,
-      "triangles": 3064,
+      "triangles": 2904,
       "batches": 4
     },
     {
@@ -3210,7 +3107,7 @@
         "cordas e tubos curvos"
       ],
       "parts": 22,
-      "triangles": 2712,
+      "triangles": 2488,
       "batches": 4
     },
     {
@@ -3220,11 +3117,10 @@
       "methods": [
         "vaso de barro com pires, terra e planta de hastes arqueadas com folhas largas nervuradas",
         "curvas de contorno refinadas",
-        "cordas e tubos curvos",
-        "entalhes e bordas de perfis"
+        "cordas e tubos curvos"
       ],
       "parts": 31,
-      "triangles": 5672,
+      "triangles": 4776,
       "batches": 4
     },
     {
@@ -3233,11 +3129,10 @@
       "reconstruction": "model",
       "methods": [
         "plafon de vidro leitoso abaulado com base metálica, aro, presilhas e arremate central",
-        "ferragens curvas com vazios reais",
-        "arestas chanfradas"
+        "ferragens curvas com vazios reais"
       ],
       "parts": 7,
-      "triangles": 1100,
+      "triangles": 1004,
       "batches": 2
     },
     {
@@ -3246,13 +3141,12 @@
       "reconstruction": "model",
       "methods": [
         "cortinas onduladas presas por abraçadeiras, varão de madeira com argolas, suportes e ponteiras torneadas",
-        "entalhes e bordas de perfis",
         "ferragens curvas com vazios reais",
         "arestas chanfradas",
         "curvas de contorno refinadas"
       ],
       "parts": 23,
-      "triangles": 4600,
+      "triangles": 4328,
       "batches": 2
     },
     {
@@ -3260,11 +3154,10 @@
       "family": "interior",
       "reconstruction": "model",
       "methods": [
-        "prato com aba, copo, garfo de quatro dentes e faca sobre guardanapo dobrado",
-        "arestas chanfradas"
+        "prato com aba, copo, garfo de quatro dentes e faca sobre guardanapo dobrado"
       ],
       "parts": 12,
-      "triangles": 976,
+      "triangles": 656,
       "batches": 3
     },
     {
@@ -3272,10 +3165,10 @@
       "family": "interior",
       "reconstruction": "components",
       "methods": [
-        "arestas chanfradas"
+        "fonte detalhada preservada"
       ],
       "parts": 101,
-      "triangles": 4444,
+      "triangles": 1212,
       "batches": 2
     },
     {
@@ -3283,11 +3176,10 @@
       "family": "liminal",
       "reconstruction": "components",
       "methods": [
-        "entalhes e bordas de perfis",
-        "arestas chanfradas"
+        "fonte detalhada preservada"
       ],
       "parts": 102,
-      "triangles": 2920,
+      "triangles": 1224,
       "batches": 2
     },
     {
@@ -3295,10 +3187,10 @@
       "family": "liminal",
       "reconstruction": "components",
       "methods": [
-        "arestas chanfradas"
+        "fonte detalhada preservada"
       ],
       "parts": 26,
-      "triangles": 1144,
+      "triangles": 312,
       "batches": 2
     },
     {
@@ -3307,11 +3199,10 @@
       "reconstruction": "model",
       "methods": [
         "luminária de embutir com refletores inclinados, duas lâmpadas tubulares em soquetes e grelha difusora",
-        "arestas chanfradas",
         "curvas de contorno refinadas"
       ],
       "parts": 25,
-      "triangles": 1108,
+      "triangles": 372,
       "batches": 3
     }
   ]

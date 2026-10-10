@@ -128,7 +128,7 @@
         ]
       ],
       "radius": 0.05,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -152,7 +152,7 @@
         ]
       ],
       "radius": 0.05,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -176,7 +176,7 @@
         ]
       ],
       "radius": 0.03,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -200,7 +200,7 @@
         ]
       ],
       "radius": 0.03,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -301,7 +301,7 @@
         ]
       ],
       "radius": 0.05,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -325,7 +325,7 @@
         ]
       ],
       "radius": 0.05,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -349,7 +349,7 @@
         ]
       ],
       "radius": 0.03,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -373,7 +373,7 @@
         ]
       ],
       "radius": 0.03,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -645,8 +645,7 @@
         0,
         0
       ],
-      "material": "rust",
-      "edgeBevel": 0.003
+      "material": "rust"
     },
     {
       "shape": "box",
@@ -1081,7 +1080,6 @@
       "cordas e tubos curvos",
       "perfis torneados e bordas de chapa",
       "curvas de contorno refinadas",
-      "entalhes e bordas de perfis",
       "ferragens curvas com vazios reais"
     ],
     "seed": 8012

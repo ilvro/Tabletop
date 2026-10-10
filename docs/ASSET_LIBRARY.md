@@ -124,7 +124,7 @@ Em 7 de outubro, o kit passou a 22 peças com empena ogival, alvenaria vazada pa
 Em 8 de outubro de 2026 os 244 modelos foram regenerados (`geometryEdition: 2`). IDs, footprints, envelopes métricos, alturas de apoio e slots públicos de material são os mesmos: cenas e personalizações salvas continuam válidas e passam a exibir a nova geometria.
 
 - **Modelos dedicados (171):** todos os 161 props originais e dez complementos (fogão, lavadora, balcão, vaso, plafon, cortinas, louça, fluorescente das Backrooms, anjo e lampião). Cada um é escrito como montagem — tábuas, saias, pernas torneadas, almofadas, portas almofadadas, puxadores, dobradiças, rodízios, vidro, tubos curvos, correntes — em `scripts/library-atelier-*.js` e `scripts/library-craft-*.js`.
-- **Kits refinados (73):** montanha, igreja, casa e Backrooms conservam suas fontes e recebem chanfros, perfis torneados e subdivisão em `scripts/library-construction.js`.
+- **Kits refinados (73):** montanha, igreja, casa e Backrooms conservam suas fontes e recebem chanfros visíveis e perfis torneados em `scripts/library-construction.js`, sem aumento de densidade (ver [RENDER_SCALE_PLAN.md](RENDER_SCALE_PLAN.md)).
 
 Fontes e contrato ficam em `scripts/library-source/` (`contracts.json`, receitas do kit inicial e `slots.json`); o gerador nunca lê os modelos publicados, portanto regenerar não acumula refinamentos. `public/assets/construction-audit.json` lista família, métodos, peças, lotes e triângulos por modelo.
 

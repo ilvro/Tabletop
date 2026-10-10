@@ -1,11 +1,10 @@
 import * as THREE from 'three';
-import {box,cylinder,ellipsoid,ring,turned,curve,profile,cushion,frame,spindle} from './library-craft-parts.js';
+import {sidesFor,box,cylinder,ellipsoid,ring,turned,curve,profile,cushion,frame,spindle} from './library-craft-parts.js';
 
 // Assemblies shared by the authored models: every helper returns recipe parts
 // in metres, so a model reads as joinery and hardware instead of coordinates.
 export {box as b,ring as r,curve,profile as p,cushion,frame,spindle};
-// Tessellation follows size: a rivet does not need the sides of a barrel.
-const sides=radius=>radius<.012?8:radius<.035?12:radius<.09?16:radius<.3?24:32;
+const sides=sidesFor;
 export const e=(size,position,material,rotation)=>({...ellipsoid(size,position,material,rotation),segments:Math.max(8,sides(Math.max(...size)/2))});
 export const t=(points,position,material,rotation)=>({...turned(points,position,material,rotation),segments:sides(Math.max(...points.map(q=>q[0])))});
 export const AX={x:[0,0,-Math.PI/2],z:[Math.PI/2,0,0]};
@@ -14,7 +13,7 @@ export const c=(radius,height,position,material='metal',axis,top=radius)=>({...c
 export const rb=(size,position,material,radius=.02,rotation)=>({...box(size,position,material,rotation),bevel:Math.min(radius,Math.min(...size)*.49),round:true});
 export const tb=(size,position,material,taper,rotation)=>({...box(size,position,material,rotation),taper});
 export const lathe=(points,position,material,axis,extra)=>({...t(points,position,material,AX[axis]),...extra});
-export const rock=(size,position,material='stone',seed=1,form='rounded',rotation,irregularity=.6)=>({shape:'rock',form,size,position,seed,detail:3,irregularity,fixedRock:true,material,...(rotation?{rotation}:{})});
+export const rock=(size,position,material='stone',seed=1,form='rounded',rotation,irregularity=.6)=>({shape:'rock',form,size,position,seed,detail:4,irregularity,fixedRock:true,material,...(rotation?{rotation}:{})});
 export const along=(n,a,b)=>Array.from({length:n},(_,i)=>n===1?(a+b)/2:a+(b-a)*i/(n-1));
 export const polar=(n,radius,fn,phase=0)=>Array.from({length:n},(_,i)=>{const a=phase+i*TAU/n;return fn(Math.cos(a)*radius,Math.sin(a)*radius,a,i);}).flat();
 // Flat silhouette standing in the ZY plane (side panels, brackets, rockers).

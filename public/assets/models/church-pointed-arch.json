@@ -247,8 +247,7 @@
         "textureColorMode": "replace",
         "textureColor": "#a99b88",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -476,8 +475,7 @@
         3.5762786065873797e-9,
         0
       ],
-      "material": "carving",
-      "edgeBevel": 0.003
+      "material": "carving"
     },
     {
       "shape": "box",
@@ -567,7 +565,6 @@
     "family": "architecture",
     "reconstruction": "components",
     "methods": [
-      "entalhes e bordas de perfis",
       "arestas chanfradas"
     ],
     "seed": 23089

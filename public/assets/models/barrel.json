@@ -116,7 +116,7 @@
         0
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -129,7 +129,7 @@
         0
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",

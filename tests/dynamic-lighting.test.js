@@ -69,7 +69,7 @@ test('emission restores materials, while source transformation and zones follow 
   const host=new THREE.Group();host.position.set(5,0,0);host.scale.set(2,2,2);const material=new THREE.MeshStandardMaterial({emissive:'#123456',emissiveIntensity:.3});material.name='glass';host.add(new THREE.Mesh(new THREE.BoxGeometry(),material));host.updateMatrixWorld();const objects=new Map([[e.id,host]]),bindings=new Map();
   const [d]=updateBoundLights(s,objects,bindings,0,true);assert.deepEqual(new THREE.Vector3().setFromMatrixPosition(d.wrapper.matrixWorld).toArray(),[7,4,6]);assert.equal(material.emissiveIntensity,1.5);
   applyBoundEmission(host,{...e,illumination:null},s.look);assert.equal(material.emissive.getHexString(),'123456');assert.equal(material.emissiveIntensity,.3);
-  e.lightingZone=structuredClone(ZONE_DEFAULTS);const zones=createLightingZones();zones.update(s,objects);assert.equal(zones.uniforms.zoneCount.value,1);assert.deepEqual(new THREE.Vector3(5,4,0).applyMatrix4(zones.uniforms.zoneInverse.value[0]).toArray(),[0,0,0]);
+  e.lightingZone=structuredClone(ZONE_DEFAULTS);const zones=createLightingZones();zones.update(s,objects);assert.equal(zones.uniforms.zoneCount.value,1);assert.deepEqual(new THREE.Vector3(5,4,0).applyMatrix4(new THREE.Matrix4().fromArray(zones.uniforms.zoneInverse.value,0)).toArray(),[0,0,0]);
   host.visible=false;zones.update(s,objects);assert.equal(zones.uniforms.zoneCount.value,0);disposeObject(host);
 });
 

@@ -35,8 +35,8 @@
       ],
       "radius": 0.065,
       "tipRadius": 0.00585,
-      "segments": 17,
-      "sides": 8,
+      "segments": 16,
+      "sides": 7,
       "seed": 1607,
       "forks": 5,
       "material": "wood",
@@ -73,8 +73,8 @@
       ],
       "radius": 0.029,
       "tipRadius": 0.00261,
-      "segments": 17,
-      "sides": 8,
+      "segments": 16,
+      "sides": 7,
       "seed": 1621,
       "forks": 2,
       "material": "wood",
@@ -102,7 +102,7 @@
     "family": "botanical",
     "reconstruction": "components",
     "methods": [
-      "ramos afilados com secção refinada"
+      "fonte detalhada preservada"
     ],
     "seed": 38600
   }

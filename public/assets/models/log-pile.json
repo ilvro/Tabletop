@@ -1377,7 +1377,7 @@
         0
       ],
       "material": "paper",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",

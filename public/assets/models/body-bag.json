@@ -30,7 +30,8 @@
         0.15000000596046448,
         0
       ],
-      "material": "black"
+      "material": "black",
+      "segments": 32
     },
     {
       "shape": "ellipsoid",
@@ -44,7 +45,8 @@
         0.1410000056028366,
         -0.610300002026558
       ],
-      "material": "black"
+      "material": "black",
+      "segments": 24
     },
     {
       "shape": "rope",
@@ -71,7 +73,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -100,7 +102,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -129,7 +131,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -158,7 +160,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -187,7 +189,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -216,7 +218,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -245,7 +247,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -267,7 +269,7 @@
         -0.43080000143051145
       ],
       "material": "white",
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -282,8 +284,7 @@
     "reconstruction": "model",
     "methods": [
       "saco com volume orgânico fechado, zíper contínuo e alças",
-      "cordas e tubos curvos",
-      "arestas chanfradas"
+      "cordas e tubos curvos"
     ],
     "seed": 45862
   }

@@ -80,15 +80,15 @@
         0
       ],
       "material": "food",
-      "segments": 24,
-      "rings": 16
+      "segments": 16,
+      "rings": 11
     },
     {
       "shape": "lathe",
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.025,
-      "segments": 24,
+      "segments": 16,
       "position": [
         0.19749999284744263,
         0.012500000186264518,
@@ -127,7 +127,7 @@
       "radiusBottom": 0.016,
       "radiusTop": 0.016,
       "height": 0.16,
-      "segments": 24,
+      "segments": 12,
       "position": [
         0.19749999284744263,
         0.10000000018626452,
@@ -140,7 +140,7 @@
       "radiusBottom": 0.04,
       "radiusTop": 0.075,
       "height": 0.12,
-      "segments": 24,
+      "segments": 16,
       "position": [
         0.19749999284744263,
         0.23000000018626454,
@@ -179,7 +179,7 @@
       "radiusBottom": 0.065,
       "radiusTop": 0.065,
       "height": 0.007,
-      "segments": 24,
+      "segments": 16,
       "position": [
         0.19749999284744263,
         0.2920000001862645,

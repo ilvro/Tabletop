@@ -96,7 +96,7 @@
         ]
       ],
       "radius": 0.07,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -816,7 +816,7 @@
         ]
       ],
       "radius": 0.012,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -918,7 +918,7 @@
         0,
         -0.75
       ],
-      "bevel": 0.0003952
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -933,7 +933,7 @@
         -0.136
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -951,8 +951,7 @@
       "perfis torneados e bordas de chapa",
       "cordas e tubos curvos",
       "curvas de contorno refinadas",
-      "ferragens curvas com vazios reais",
-      "arestas chanfradas"
+      "ferragens curvas com vazios reais"
     ],
     "seed": 34874
   }

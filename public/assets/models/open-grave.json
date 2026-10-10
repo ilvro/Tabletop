@@ -88,8 +88,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "box",
@@ -104,7 +103,7 @@
         -0.2
       ],
       "material": "metal",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -119,7 +118,7 @@
         -0.32
       ],
       "material": "metal",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -613,8 +612,7 @@
         1.5707963267948957,
         1.3507963267948961,
         -1.5707963267948957
-      ],
-      "edgeBevel": 0.00096
+      ]
     },
     {
       "shape": "ring",
@@ -659,8 +657,6 @@
     "methods": [
       "cova aberta com caixão ao fundo, bordas e monte de terra revolvida, torrões e pá fincada",
       "arestas chanfradas",
-      "entalhes e bordas de perfis",
-      "subdivisão mineral preservando parâmetros de escultura",
       "curvas de contorno refinadas",
       "ferragens curvas com vazios reais"
     ],

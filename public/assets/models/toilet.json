@@ -74,7 +74,7 @@
           0.25
         ]
       ],
-      "segments": 32,
+      "segments": 24,
       "position": [
         0,
         0,
@@ -141,7 +141,7 @@
         -0.125
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         1.5707963267948966,
         0,
@@ -159,7 +159,7 @@
         0.07260000010728836
       ],
       "material": "dark",
-      "segments": 24
+      "segments": 12
     }
   ],
   "mergeParts": true,

@@ -78,8 +78,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -137,8 +136,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "rope",
@@ -165,7 +163,7 @@
         ]
       ],
       "radius": 0.012,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -199,7 +197,7 @@
         ]
       ],
       "radius": 0.012,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -233,7 +231,7 @@
         ]
       ],
       "radius": 0.012,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -267,7 +265,7 @@
         ]
       ],
       "radius": 0.012,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -301,7 +299,7 @@
         ]
       ],
       "radius": 0.012,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -335,7 +333,7 @@
         ]
       ],
       "radius": 0.012,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -357,7 +355,7 @@
         -0.13200000286102295
       ],
       "material": "brass",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -372,7 +370,7 @@
         -0.28600000619888305
       ],
       "material": "dark",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -387,7 +385,7 @@
         0.41800000905990603
       ],
       "material": "paper",
-      "bevel": 0.0006500000000000001
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -402,9 +400,7 @@
     "reconstruction": "model",
     "methods": [
       "silhueta funerária octogonal, tampa separada e alças",
-      "entalhes e bordas de perfis",
-      "cordas e tubos curvos",
-      "arestas chanfradas"
+      "cordas e tubos curvos"
     ],
     "seed": 379
   }

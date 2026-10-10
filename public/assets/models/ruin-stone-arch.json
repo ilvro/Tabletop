@@ -23,7 +23,7 @@
       ],
       "form": "fractured",
       "seed": 73,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -48,7 +48,7 @@
       ],
       "form": "fractured",
       "seed": 74,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -73,7 +73,7 @@
       ],
       "form": "fractured",
       "seed": 75,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -98,7 +98,7 @@
       ],
       "form": "fractured",
       "seed": 76,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -123,7 +123,7 @@
       ],
       "form": "fractured",
       "seed": 77,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -148,7 +148,7 @@
       ],
       "form": "fractured",
       "seed": 99,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -173,7 +173,7 @@
       ],
       "form": "fractured",
       "seed": 100,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -198,7 +198,7 @@
       ],
       "form": "fractured",
       "seed": 101,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -223,7 +223,7 @@
       ],
       "form": "fractured",
       "seed": 102,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -248,7 +248,7 @@
       ],
       "form": "fractured",
       "seed": 103,
-      "detail": 3,
+      "detail": 2,
       "irregularity": 0.6,
       "material": "stone",
       "surface": {
@@ -513,7 +513,6 @@
     "family": "architecture",
     "reconstruction": "components",
     "methods": [
-      "subdivisão mineral preservando parâmetros de escultura",
       "arcos com curva refinada"
     ],
     "seed": 65306

@@ -53,7 +53,7 @@
           0.15
         ]
       ],
-      "segments": 32,
+      "segments": 24,
       "position": [
         0,
         0,
@@ -121,7 +121,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -150,7 +150,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -179,7 +179,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -208,7 +208,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -237,7 +237,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -266,7 +266,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -295,7 +295,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -324,7 +324,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -353,7 +353,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -382,7 +382,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -411,7 +411,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -440,7 +440,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -469,7 +469,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -498,7 +498,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -527,7 +527,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -556,7 +556,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -577,7 +577,8 @@
         1.4361999970525503,
         0
       ],
-      "material": "shade"
+      "material": "shade",
+      "segments": 16
     },
     {
       "shape": "lathe",
@@ -590,7 +591,7 @@
         0
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 12,
       "profile": [
         [
           0,

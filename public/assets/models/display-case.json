@@ -201,7 +201,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.001404
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -357,7 +357,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.001404
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -500,7 +500,7 @@
         -0.28000001192092894
       ],
       "material": "pane",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -515,7 +515,7 @@
         0
       ],
       "material": "pane",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -620,7 +620,7 @@
         0.28000001192092894
       ],
       "material": "pane",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -635,7 +635,7 @@
         0
       ],
       "material": "pane",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -680,7 +680,7 @@
         0
       ],
       "material": "pane",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -734,7 +734,7 @@
         0.5,
         0
       ],
-      "bevel": 0.0006500000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -754,7 +754,7 @@
         0.5,
         0
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "cylinder",

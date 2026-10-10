@@ -54,7 +54,7 @@
           0.17935999971747396
         ]
       ],
-      "segments": 32,
+      "segments": 16,
       "position": [
         0.12599999866485598,
         0,
@@ -73,7 +73,7 @@
         0
       ],
       "material": "dark",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "ellipsoid",
@@ -87,7 +87,8 @@
         0.20908499968804417,
         0
       ],
-      "material": "flame"
+      "material": "flame",
+      "segments": 12
     },
     {
       "shape": "ellipsoid",
@@ -101,7 +102,8 @@
         0.17555249973807482,
         0
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 8
     },
     {
       "shape": "ellipsoid",
@@ -115,7 +117,8 @@
         0.16924049974749236,
         0.0320892219275699
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 12
     },
     {
       "shape": "ellipsoid",
@@ -129,7 +132,8 @@
         0.1629284997569099,
         -0.037769085912459255
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 12
     },
     {
       "shape": "lathe",
@@ -167,7 +171,7 @@
           0.20894749967332926
         ]
       ],
-      "segments": 32,
+      "segments": 16,
       "position": [
         -0.09282645237220753,
         0,
@@ -186,7 +190,7 @@
         0.023734627427488334
       ],
       "material": "dark",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "ellipsoid",
@@ -200,7 +204,8 @@
         0.23867249964389947,
         0.023734627427488334
       ],
-      "material": "flame"
+      "material": "flame",
+      "segments": 12
     },
     {
       "shape": "ellipsoid",
@@ -214,7 +219,8 @@
         0.20513999969393013,
         0.057132610460615976
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 8
     },
     {
       "shape": "ellipsoid",
@@ -228,7 +234,8 @@
         0.19882799970334766,
         0.021417757699398115
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 12
     },
     {
       "shape": "ellipsoid",
@@ -242,7 +249,8 @@
         0.1925159997127652,
         -0.00693639475860695
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 12
     },
     {
       "shape": "lathe",
@@ -280,7 +288,7 @@
           0.2385349996291846
         ]
       ],
-      "segments": 32,
+      "segments": 16,
       "position": [
         0.01077381643539932,
         0,
@@ -299,7 +307,7 @@
         -0.03497144898120312
       ],
       "material": "dark",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "ellipsoid",
@@ -313,7 +321,8 @@
         0.26825999959975483,
         -0.03497144898120312
       ],
-      "material": "flame"
+      "material": "flame",
+      "segments": 12
     },
     {
       "shape": "ellipsoid",
@@ -327,7 +336,8 @@
         0.23472749964978545,
         0.0011185655070846262
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 8
     },
     {
       "shape": "ellipsoid",
@@ -341,7 +351,8 @@
         0.228415499659203,
         -0.0695642910217395
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 12
     },
     {
       "shape": "ellipsoid",
@@ -355,7 +366,8 @@
         0.22210349966862053,
         -0.03034561108970417
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 12
     },
     {
       "shape": "lathe",
@@ -393,7 +405,7 @@
           0.26812249958503986
         ]
       ],
-      "segments": 32,
+      "segments": 16,
       "position": [
         0.076951925883241,
         0,
@@ -412,7 +424,7 @@
         0.027793556344567396
       ],
       "material": "dark",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "ellipsoid",
@@ -426,7 +438,8 @@
         0.2978474995556101,
         0.027793556344567396
       ],
-      "material": "flame"
+      "material": "flame",
+      "segments": 12
     },
     {
       "shape": "ellipsoid",
@@ -440,7 +453,8 @@
         0.26431499960564075,
         0.03339460940511263
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 8
     },
     {
       "shape": "ellipsoid",
@@ -454,7 +468,8 @@
         0.25800299961505824,
         -0.0072707585694106285
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 12
     },
     {
       "shape": "ellipsoid",
@@ -468,7 +483,8 @@
         0.2516909996244758,
         0.06346328028936087
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 12
     },
     {
       "shape": "lathe",
@@ -506,7 +522,7 @@
           0.2977099995408952
         ]
       ],
-      "segments": 32,
+      "segments": 16,
       "position": [
         -0.12415753641384554,
         0,
@@ -525,7 +541,7 @@
         -0.0059805710443789975
       ],
       "material": "dark",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "ellipsoid",
@@ -539,7 +555,8 @@
         0.32743499951146543,
         -0.0059805710443789975
       ],
-      "material": "flame"
+      "material": "flame",
+      "segments": 12
     },
     {
       "shape": "ellipsoid",
@@ -553,7 +570,8 @@
         0.29390249956149606,
         -0.036018061764861956
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 8
     },
     {
       "shape": "ellipsoid",
@@ -567,7 +585,8 @@
         0.2875904995709136,
         -0.009278389407260487
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 12
     },
     {
       "shape": "ellipsoid",
@@ -581,7 +600,8 @@
         0.28127849958033113,
         0.027938459258225877
       ],
-      "material": "wax"
+      "material": "wax",
+      "segments": 12
     }
   ],
   "mergeParts": true,

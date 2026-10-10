@@ -98,8 +98,7 @@
         0,
         1.5707963267948966,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "lathe",
@@ -205,7 +204,7 @@
         -1.1370000002235174
       ],
       "material": "dark",
-      "segments": 24,
+      "segments": 16,
       "rotation": [
         0,
         0,
@@ -249,7 +248,7 @@
         -1.1370000002235174
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -267,7 +266,7 @@
         -1.0110420767654242
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -285,7 +284,7 @@
         -1.0591537223740581
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -303,7 +302,7 @@
         -1.2148462780729767
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -321,7 +320,7 @@
         -1.2629579236816106
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -432,7 +431,7 @@
         1.1370000002235174
       ],
       "material": "dark",
-      "segments": 24,
+      "segments": 16,
       "rotation": [
         0,
         0,
@@ -476,7 +475,7 @@
         1.1370000002235174
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -494,7 +493,7 @@
         1.2629579236816106
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -512,7 +511,7 @@
         1.2148462780729767
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -530,7 +529,7 @@
         1.0591537223740581
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -548,7 +547,7 @@
         1.0110420767654242
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -583,7 +582,7 @@
         -0.45480000008940696
       ],
       "material": "metal",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -613,7 +612,7 @@
         0.4927000000968576
       ],
       "material": "metal",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -764,7 +763,7 @@
         -1.1370000002235174
       ],
       "material": "dark",
-      "segments": 24,
+      "segments": 16,
       "rotation": [
         0,
         0,
@@ -808,7 +807,7 @@
         -1.1370000002235174
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -826,7 +825,7 @@
         -1.0110420767654242
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -844,7 +843,7 @@
         -1.0591537223740581
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -862,7 +861,7 @@
         -1.2148462780729767
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -880,7 +879,7 @@
         -1.2629579236816106
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -991,7 +990,7 @@
         1.1370000002235174
       ],
       "material": "dark",
-      "segments": 24,
+      "segments": 16,
       "rotation": [
         0,
         0,
@@ -1035,7 +1034,7 @@
         1.1370000002235174
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -1053,7 +1052,7 @@
         1.2629579236816106
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -1071,7 +1070,7 @@
         1.2148462780729767
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -1089,7 +1088,7 @@
         1.0591537223740581
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -1107,7 +1106,7 @@
         1.0110420767654242
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -1142,7 +1141,7 @@
         -0.45480000008940696
       ],
       "material": "metal",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1172,7 +1171,7 @@
         0.4927000000968576
       ],
       "material": "metal",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1282,7 +1281,7 @@
         1.8950000003725291
       ],
       "material": "dark",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1297,7 +1296,7 @@
         1.8950000003725291
       ],
       "material": "dark",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1312,7 +1311,7 @@
         1.8950000003725291
       ],
       "material": "dark",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1327,7 +1326,7 @@
         1.8950000003725291
       ],
       "material": "dark",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1342,7 +1341,7 @@
         1.8950000003725291
       ],
       "material": "dark",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1373,7 +1372,6 @@
     "methods": [
       "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
       "arestas chanfradas",
-      "entalhes e bordas de perfis",
       "perfis torneados e bordas de chapa",
       "curvas de contorno refinadas"
     ],

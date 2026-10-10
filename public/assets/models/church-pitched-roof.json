@@ -51,8 +51,7 @@
         "textureColor": "#8d7565",
         "textureContrast": 1.4,
         "relief": 0.025
-      },
-      "edgeBevel": 0.003
+      }
     }
   ],
   "mergeParts": true,
@@ -66,7 +65,7 @@
     "family": "architecture",
     "reconstruction": "components",
     "methods": [
-      "entalhes e bordas de perfis"
+      "fonte detalhada preservada"
     ],
     "seed": 55039
   }

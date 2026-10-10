@@ -132,7 +132,7 @@
         0.098
       ],
       "material": "metal",
-      "bevel": 0.0013000000000000002
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -221,7 +221,7 @@
         ]
       ],
       "radius": 0.028,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -250,7 +250,7 @@
         ]
       ],
       "radius": 0.012,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -308,7 +308,7 @@
         0,
         0.05
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -328,7 +328,7 @@
         0,
         0.05
       ],
-      "bevel": 0.00039000000000000005
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -348,7 +348,7 @@
         0,
         -0.08
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -363,7 +363,7 @@
         0.056
       ],
       "material": "white",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -378,7 +378,7 @@
         0.056
       ],
       "material": "white",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -394,10 +394,10 @@
     "methods": [
       "poste cônico com base de ferro, braço curvo com mão-francesa, luminária e cartazes colados",
       "curvas de contorno refinadas",
-      "arestas chanfradas",
       "perfis torneados e bordas de chapa",
       "ferragens curvas com vazios reais",
-      "cordas e tubos curvos"
+      "cordas e tubos curvos",
+      "arestas chanfradas"
     ],
     "seed": 996
   }

@@ -57,7 +57,7 @@
         0.052170000390350815
       ],
       "material": "black",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -284,7 +284,7 @@
         0.06275000043958426
       ],
       "material": "screen",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -304,7 +304,7 @@
         0,
         -0.5
       ],
-      "bevel": 0.00039000000000000005
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -531,7 +531,7 @@
         0.06275000043958426
       ],
       "material": "screen",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -551,7 +551,7 @@
         0,
         -0.5
       ],
-      "bevel": 0.00039000000000000005
+      "bevel": 0
     },
     {
       "shape": "rope",
@@ -583,7 +583,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -876,7 +876,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,

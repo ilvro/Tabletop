@@ -84,7 +84,7 @@
         -0.13905000152885916
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "box",
@@ -849,7 +849,7 @@
         0.21115000232160092
       ],
       "material": "black",
-      "bevel": 0.00091
+      "bevel": 0
     }
   ],
   "mergeParts": true,

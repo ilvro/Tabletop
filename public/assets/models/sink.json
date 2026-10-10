@@ -402,7 +402,7 @@
         0
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "rope",
@@ -429,7 +429,7 @@
         ]
       ],
       "radius": 0.016,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,

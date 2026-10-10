@@ -284,8 +284,7 @@
         "rockCracks": 0.08,
         "textureColor": "#777873",
         "textureColorMode": "replace"
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "box",
@@ -340,7 +339,7 @@
         0.921000011920929
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -371,7 +370,7 @@
         0.692
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -386,7 +385,7 @@
         0.692
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -401,7 +400,7 @@
         0.692
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -416,7 +415,7 @@
         0.692
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -431,7 +430,7 @@
         0.696
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -446,7 +445,7 @@
         0.696
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "ring",
@@ -516,7 +515,7 @@
         0.692
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -531,7 +530,7 @@
         0.692
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -546,7 +545,7 @@
         0.692
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -561,7 +560,7 @@
         0.692
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -576,7 +575,7 @@
         0.696
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -591,7 +590,7 @@
         0.696
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "ring",
@@ -1014,7 +1013,6 @@
     "methods": [
       "mausoléu com escadaria, colunas, alvenaria aparelhada, frontão, portas de bronze com cruzes, urnas e janelas gradeadas",
       "arestas chanfradas",
-      "entalhes e bordas de perfis",
       "ferragens curvas com vazios reais",
       "curvas de contorno refinadas"
     ],

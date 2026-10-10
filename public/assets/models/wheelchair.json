@@ -69,7 +69,7 @@
         -0.15810000101327898
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 16,
       "rotation": [
         0,
         0,
@@ -117,7 +117,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -141,7 +141,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -165,7 +165,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -189,7 +189,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -213,7 +213,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -237,7 +237,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -261,7 +261,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -285,7 +285,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -309,7 +309,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -333,7 +333,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -357,7 +357,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -381,7 +381,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -437,7 +437,7 @@
         0.31620000202655796
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 8,
       "rotation": [
         0,
         0,
@@ -459,7 +459,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -483,7 +483,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -507,7 +507,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -531,7 +531,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -555,7 +555,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -579,7 +579,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -603,7 +603,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -627,7 +627,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -651,7 +651,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -675,7 +675,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -699,7 +699,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -723,7 +723,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -762,7 +762,7 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -848,7 +848,7 @@
         -0.15810000101327898
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 16,
       "rotation": [
         0,
         0,
@@ -896,7 +896,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -920,7 +920,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -944,7 +944,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -968,7 +968,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -992,7 +992,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1016,7 +1016,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1040,7 +1040,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1064,7 +1064,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1088,7 +1088,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1112,7 +1112,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1136,7 +1136,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1160,7 +1160,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1216,7 +1216,7 @@
         0.31620000202655796
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 8,
       "rotation": [
         0,
         0,
@@ -1238,7 +1238,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1262,7 +1262,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1286,7 +1286,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1310,7 +1310,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1334,7 +1334,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1358,7 +1358,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1382,7 +1382,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1406,7 +1406,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1430,7 +1430,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1454,7 +1454,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1478,7 +1478,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1502,7 +1502,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1541,7 +1541,7 @@
         ]
       ],
       "radius": 0.017,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,

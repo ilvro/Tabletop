@@ -139,8 +139,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.0026399999999999996
+      }
     },
     {
       "shape": "lathe",
@@ -400,8 +399,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.0026399999999999996
+      }
     },
     {
       "shape": "lathe",
@@ -707,8 +705,7 @@
         0,
         -1.5707963267948966,
         0
-      ],
-      "edgeBevel": 0.0026399999999999996
+      ]
     },
     {
       "shape": "rope",
@@ -735,7 +732,7 @@
         ]
       ],
       "radius": 0.02,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -773,7 +770,7 @@
         -0.05
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -788,7 +785,7 @@
         -0.05
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -837,7 +834,7 @@
         0,
         0
       ],
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -852,7 +849,6 @@
     "reconstruction": "model",
     "methods": [
       "cavalo de balanço com corpo e pescoço modelados, crina, cauda, sela e esquis curvos",
-      "entalhes e bordas de perfis",
       "perfis torneados e bordas de chapa",
       "arestas chanfradas",
       "curvas de contorno refinadas",

@@ -980,7 +980,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1014,7 +1014,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1041,7 +1041,7 @@
         0,
         0
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "profile",
@@ -1070,8 +1070,7 @@
         0.09,
         0,
         0
-      ],
-      "edgeBevel": 0.0007199999999999999
+      ]
     },
     {
       "shape": "ellipsoid",
@@ -1134,8 +1133,7 @@
       "arestas chanfradas",
       "perfis torneados e bordas de chapa",
       "curvas de contorno refinadas",
-      "cordas e tubos curvos",
-      "entalhes e bordas de perfis"
+      "cordas e tubos curvos"
     ],
     "seed": 20619
   }

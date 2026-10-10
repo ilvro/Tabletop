@@ -112,7 +112,7 @@
         ]
       ],
       "radius": 0.016,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -178,7 +178,7 @@
         ]
       ],
       "radius": 0.016,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -244,7 +244,7 @@
         ]
       ],
       "radius": 0.016,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -310,7 +310,7 @@
         ]
       ],
       "radius": 0.016,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -376,7 +376,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -442,7 +442,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -508,7 +508,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -574,7 +574,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -640,7 +640,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -706,7 +706,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -840,7 +840,7 @@
         0.168
       ],
       "material": "black",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "lathe",

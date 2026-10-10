@@ -120,27 +120,38 @@ class HeightFogPass extends ShaderPass {
 
 /** Lazy optional GPU pipeline. Each viewport owns and can suppress its effects. */
 export function createEffectsPipeline(renderer, scene, { offscreen = false } = {}) {
-  const zones=createLightingZones();let activeZones=zones,sources=[],quality={steps:12},tier='balanced',fallbackDepth;
+  const zones=createLightingZones();let activeZones=zones,sources=[],quality={steps:12},tier='balanced',fallbackDepth,sceneDepth=null;
   let composer, renderPass, volumePass, bloomPass, outputPass,aoPass;
   let currentLook = {}, enabled = true, width = 1, height = 1,hadLocalFog=false;
+  // Effects draw into an offscreen target, which bypasses the canvas antialiasing
+  // and used to be capped at one physical pixel per CSS pixel: switching AO or
+  // bloom on softened the whole image. Outside the economy tier the target is
+  // multisampled. Fog and bloom run on every pixel of it, so resolution follows
+  // the tier: measured on the church at 1.6x, full resolution costs 32 ms a frame
+  // against 23 ms at 1.25x and 18 ms at 1x.
+  let sharpTarget=true,appliedRatio=0;
+  const sharp=()=>tier!=='economy',effectsRatio=()=>Math.min(renderer.getPixelRatio(),tier==='economy'?1:tier==='high'?Infinity:1.25);
+  const aoSize=()=>[Math.max(1,width*effectsRatio()/2|0),Math.max(1,height*effectsRatio()/2|0)];
   function dispose() {
     if (!composer) return;
     for (const pass of composer.passes) pass.dispose();
-    composer.dispose(); composer = null; bloomPass = null;aoPass=null;
+    composer.dispose(); composer = null; bloomPass = null;aoPass=null;appliedRatio=0;
     fallbackDepth?.dispose();fallbackDepth=null;
   }
   function configure(look = currentLook) {
     currentLook = look;
-    const localFog=activeZones.uniforms.zoneFog.value.slice(0,activeZones.uniforms.zoneCount.value).some(v=>v.w>0);
+    const localFog=activeZones.hasFog();
     hadLocalFog=localFog;
     const ao=enabled&&look.rendering?.ao&&tier!=='economy';
     if (!offscreen && (!enabled || !(look.volumetricFog?.enabled || look.bloom?.enabled||localFog||ao))) { dispose(); return; }
+    if (composer && sharpTarget !== sharp()) dispose();
     if (!composer) {
-      const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, depthTexture: new THREE.DepthTexture(1, 1) });
+      sharpTarget = sharp();
+      const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, depthTexture: new THREE.DepthTexture(1, 1), samples: sharpTarget ? 4 : 0 });
       composer = new EffectComposer(renderer, target);
-      // Cap effects at one physical pixel per CSS pixel; bloom uses half-size mips.
-      composer.setPixelRatio(Math.min(renderer.getPixelRatio(), 1));
       renderPass = new RenderPass(scene, null);
+      // The composer alternates its two targets; remember which one holds this frame's depth.
+      const drawScene=renderPass.render.bind(renderPass);renderPass.render=(r,writeBuffer,readBuffer,...rest)=>{sceneDepth=readBuffer.depthTexture;drawScene(r,writeBuffer,readBuffer,...rest);};
       volumePass = new HeightFogPass(activeZones);
       fallbackDepth=new THREE.DepthTexture(1,1,THREE.UnsignedIntType);fallbackDepth.compareFunction=THREE.LessEqualCompare;fallbackDepth.needsUpdate=true;
       volumePass.uniforms.volumeShadow0.value=fallbackDepth;volumePass.uniforms.volumeShadow1.value=fallbackDepth;
@@ -148,6 +159,7 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false } = {
       composer.addPass(renderPass); composer.addPass(volumePass); composer.addPass(outputPass);
       composer.setSize(width, height);
     }
+    if(appliedRatio!==effectsRatio()){appliedRatio=effectsRatio();composer.setPixelRatio(appliedRatio);}
     volumePass.enabled = enabled&&Boolean(look.volumetricFog?.enabled||localFog);
     const f=look.volumetricFog;
     volumePass.uniforms.fogColor.value.set(f?.color??'#9daac2');
@@ -156,11 +168,14 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false } = {
     volumePass.uniforms.localFog.value=activeZones.uniforms.zoneCount.value>0;
     volumePass.uniforms.scattering.value=!!look.rendering?.volumetricLights&&tier!=='economy'&&(look.rendering?.volumeStrength??.5)>0;
     volumePass.uniforms.volumeStrength.value=look.rendering?.volumeStrength??.5;
-    if(ao&&!aoPass){aoPass=new GTAOPass(scene,new THREE.PerspectiveCamera(),Math.max(1,width/2|0),Math.max(1,height/2|0));
-      const draw=aoPass.render.bind(aoPass);aoPass.render=(...args)=>{const hidden=[];scene.traverse(o=>{const materials=Array.isArray(o.material)?o.material:[o.material];if(o.visible&&(o.userData.editHelper||o.userData.decorative||materials.some(m=>m?.transparent))){hidden.push(o);o.visible=false;}});try{draw(...args);}finally{for(const o of hidden)o.visible=true;}};
+    if(ao&&!aoPass){aoPass=new GTAOPass(scene,new THREE.PerspectiveCamera(),...aoSize());
+      // The pass would draw the whole scene again for depth and normals. The frame
+      // already has depth, and the shaders derive normals from it: sample that.
+      aoPass._renderGBuffer=false;for(const material of [aoPass.gtaoMaterial,aoPass.pdMaterial]){material.defines.NORMAL_VECTOR_TYPE=0;material.uniforms.tNormal.value=null;material.needsUpdate=true;}
+      const draw=aoPass.render.bind(aoPass);aoPass.render=(...args)=>{aoPass.gtaoMaterial.uniforms.tDepth.value=aoPass.pdMaterial.uniforms.tDepth.value=sceneDepth;draw(...args);};
       composer.insertPass(aoPass,2);}
     else if(!ao&&aoPass){composer.removePass(aoPass);aoPass.dispose();aoPass=null;}
-    if(aoPass){aoPass.blendIntensity=look.rendering.aoIntensity??.35;aoPass.updateGtaoMaterial({radius:look.rendering.aoRadius??.6});aoPass.setSize(Math.max(1,width/2|0),Math.max(1,height/2|0));}
+    if(aoPass){aoPass.blendIntensity=look.rendering.aoIntensity??.35;aoPass.updateGtaoMaterial({radius:look.rendering.aoRadius??.6});aoPass.setSize(...aoSize());}
     if (enabled && look.bloom?.enabled && !bloomPass) {
       bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height));
       composer.insertPass(bloomPass, composer.passes.length - 1);
@@ -173,12 +188,12 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false } = {
     configure,
     setQuality(value){tier=value;configure();},
     setLighting(value,lights,q){const before=hadLocalFog;activeZones=value;sources=lights;quality=q;
-      const after=value.uniforms.zoneFog.value.slice(0,value.uniforms.zoneCount.value).some(v=>v.w>0);
+      const after=value.hasFog();
       if(before!==after||after&&!composer&&enabled)configure();
       if(volumePass&&composer){Object.assign(volumePass.uniforms,value.uniforms);volumePass.uniforms.localFog.value=value.uniforms.zoneCount.value>0;volumePass.uniforms.steps.value=q.steps;volumePass.sources=sources;}
     },
     setEnabled(value) { enabled = value; configure(); },
-    resize(w, h) { if (width === w && height === h) return; width = w; height = h; composer?.setSize(w, h);aoPass?.setSize(Math.max(1,w/2|0),Math.max(1,h/2|0)); },
+    resize(w, h) { if (width === w && height === h) return; width = w; height = h; composer?.setSize(w, h);aoPass?.setSize(...aoSize()); },
     render(camera, seconds, target = null) {
       if (!composer) { renderer.render(scene, camera); return; }
       camera.updateMatrixWorld();
@@ -187,9 +202,11 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false } = {
       volumePass.uniforms.inverseProjection.value.copy(camera.projectionMatrixInverse);
       volumePass.uniforms.cameraWorld.value.copy(camera.matrixWorld);
       const previous=renderer.getRenderTarget();composer.renderToScreen=!target;
-      try{composer.render(seconds);if(target){composer.copyPass.renderToScreen=false;composer.copyPass.render(renderer,target,composer.readBuffer);}}finally{renderer.setRenderTarget(previous);}
+      // Colour, AO and shadow passes draw the same frame: update world matrices once.
+      scene.updateMatrixWorld();scene.matrixWorldAutoUpdate=false;
+      try{composer.render(seconds);if(target){composer.copyPass.renderToScreen=false;composer.copyPass.render(renderer,target,composer.readBuffer);}}finally{scene.matrixWorldAutoUpdate=true;renderer.setRenderTarget(previous);}
     },
-    info() { return { enabled, bloom: Boolean(composer && bloomPass), volumetricFog: Boolean(composer && volumePass.enabled), ao:!!aoPass,scattering:!!composer&&volumePass.uniforms.scattering.value,steps:quality.steps,pixelRatio: Math.min(renderer.getPixelRatio(), 1) }; },
+    info() { return { enabled, bloom: Boolean(composer && bloomPass), volumetricFog: Boolean(composer && volumePass.enabled), ao:!!aoPass,scattering:!!composer&&volumePass.uniforms.scattering.value,steps:quality.steps,pixelRatio: effectsRatio(),samples:composer&&sharpTarget?4:0 }; },
     dispose,
   };
 }

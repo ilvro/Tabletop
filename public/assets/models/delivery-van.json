@@ -102,8 +102,7 @@
         0,
         1.5707963267948966,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "lathe",
@@ -253,7 +252,7 @@
         -1.289250000268221
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -271,7 +270,7 @@
         -1.1113548768476642
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -289,7 +288,7 @@
         -1.1793047675614594
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -307,7 +306,7 @@
         -1.3991952329749826
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -325,7 +324,7 @@
         -1.4671451236887778
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -480,7 +479,7 @@
         1.289250000268221
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -498,7 +497,7 @@
         1.4671451236887778
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -516,7 +515,7 @@
         1.3991952329749826
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -534,7 +533,7 @@
         1.1793047675614594
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -552,7 +551,7 @@
         1.1113548768476642
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -587,7 +586,7 @@
         0.5157000001072883
       ],
       "material": "metal",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -782,7 +781,7 @@
         -1.289250000268221
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -800,7 +799,7 @@
         -1.1113548768476642
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -818,7 +817,7 @@
         -1.1793047675614594
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -836,7 +835,7 @@
         -1.3991952329749826
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -854,7 +853,7 @@
         -1.4671451236887778
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -1009,7 +1008,7 @@
         1.289250000268221
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -1027,7 +1026,7 @@
         1.4671451236887778
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -1045,7 +1044,7 @@
         1.3991952329749826
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -1063,7 +1062,7 @@
         1.1793047675614594
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -1081,7 +1080,7 @@
         1.1113548768476642
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         0,
         0,
@@ -1116,7 +1115,7 @@
         0.5157000001072883
       ],
       "material": "metal",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1226,7 +1225,7 @@
         2.148750000447035
       ],
       "material": "dark",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1241,7 +1240,7 @@
         2.148750000447035
       ],
       "material": "dark",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1256,7 +1255,7 @@
         2.148750000447035
       ],
       "material": "dark",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1271,7 +1270,7 @@
         2.148750000447035
       ],
       "material": "dark",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1286,7 +1285,7 @@
         2.148750000447035
       ],
       "material": "dark",
-      "bevel": 0.0016899999999999999
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1317,7 +1316,6 @@
     "methods": [
       "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
       "arestas chanfradas",
-      "entalhes e bordas de perfis",
       "perfis torneados e bordas de chapa",
       "curvas de contorno refinadas"
     ],

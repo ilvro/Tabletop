@@ -27,7 +27,7 @@
         0.1145937634101698
       ],
       "seed": 182,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -54,7 +54,7 @@
         -0.08450072097887953
       ],
       "seed": 193,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -81,7 +81,7 @@
         0.010026837806890286
       ],
       "seed": 204,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -108,7 +108,7 @@
         0.06971326660777505
       ],
       "seed": 215,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -135,7 +135,7 @@
         -0.11283908717973958
       ],
       "seed": 226,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -162,7 +162,7 @@
         0.09670040089972638
       ],
       "seed": 237,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -189,7 +189,7 @@
         -0.029773448647814747
       ],
       "seed": 248,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -216,7 +216,7 @@
         -0.052790893053948906
       ],
       "seed": 259,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -243,7 +243,7 @@
         0.10762879419939887
       ],
       "seed": 270,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -270,7 +270,7 @@
         -0.10593869985388844
       ],
       "seed": 281,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -297,7 +297,7 @@
         0.04860826881033651
       ],
       "seed": 292,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "dark"
     }
@@ -313,8 +313,7 @@
     "family": "architecture",
     "reconstruction": "model",
     "methods": [
-      "pedras fraturadas com volume irregular e encaixe de alvenaria",
-      "subdivisão mineral preservando parâmetros de escultura"
+      "pedras fraturadas com volume irregular e encaixe de alvenaria"
     ],
     "seed": 28249
   }

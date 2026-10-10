@@ -130,7 +130,7 @@
         0.023000000000000003
       ],
       "material": "dark",
-      "bevel": 0.0013000000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -145,7 +145,7 @@
         0.031000000000000003
       ],
       "material": "metal",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -160,7 +160,7 @@
         0.031000000000000003
       ],
       "material": "metal",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -196,7 +196,7 @@
         0,
         0
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -232,7 +232,7 @@
         0,
         0
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -268,7 +268,7 @@
         0,
         0
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -304,7 +304,7 @@
         0,
         0
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -340,7 +340,7 @@
         0,
         0
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -376,7 +376,7 @@
         0,
         0
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -412,7 +412,7 @@
         0,
         0
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -448,7 +448,7 @@
         0,
         0
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -484,7 +484,7 @@
         0,
         0
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -520,7 +520,7 @@
         0,
         0
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -556,7 +556,7 @@
         0,
         0
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -592,7 +592,7 @@
         0,
         0
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -710,7 +710,7 @@
         0,
         -0.75
       ],
-      "bevel": 0.00041600000000000003
+      "bevel": 0
     },
     {
       "shape": "ellipsoid",
@@ -755,7 +755,7 @@
         0.030000000000000002
       ],
       "material": "paper",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -770,7 +770,7 @@
         0.030000000000000002
       ],
       "material": "paper",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "rope",
@@ -792,7 +792,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -821,7 +821,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -850,7 +850,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -879,7 +879,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -910,8 +910,7 @@
         0.08,
         0.031000000000000003
       ],
-      "material": "paper",
-      "edgeBevel": 0.0007199999999999999
+      "material": "paper"
     },
     {
       "shape": "box",
@@ -926,7 +925,7 @@
         0.035
       ],
       "material": "black",
-      "bevel": 0.00039000000000000005
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -970,8 +969,7 @@
       "arestas chanfradas",
       "curvas de contorno refinadas",
       "perfis torneados e bordas de chapa",
-      "cordas e tubos curvos",
-      "entalhes e bordas de perfis"
+      "cordas e tubos curvos"
     ],
     "seed": 42195
   }

@@ -71,3 +71,38 @@ export function ellipsoidGeometry({size, segments = 24}) {
       !Number.isInteger(segments) || segments < 8 || segments > 48) throw new Error('Volume orgânico inválido.');
   return new THREE.SphereGeometry(1, segments, Math.ceil(segments*.66)).scale(...size.map(v=>v/2));
 }
+
+/** Index a triangle soup, sharing vertices whose position, normal and UV agree.
+ * Hard edges keep separate vertices. Integer hashing keeps this near linear:
+ * templates are built once per asset, but the largest have 190 thousand vertices. */
+export function weldVertices(geometry) {
+  const position=geometry.attributes.position,names=Object.keys(geometry.attributes),count=position.count;
+  if(geometry.index||!count)return geometry;
+  const sources=names.map(name=>geometry.attributes[name]),stride=sources.reduce((n,a)=>n+a.itemSize,0);
+  const quantised=new Int32Array(count*stride);
+  for(let offset=0,s=0;s<sources.length;offset+=sources[s].itemSize,s++) {
+    const {array,itemSize}=sources[s];
+    for(let i=0;i<count;i++)for(let k=0;k<itemSize;k++)quantised[i*stride+offset+k]=Math.round(array[i*itemSize+k]*1e4);
+  }
+  let capacity=1;while(capacity<count*2)capacity<<=1;
+  const table=new Int32Array(capacity).fill(-1),remap=new Uint32Array(count),kept=[];
+  for(let i=0;i<count;i++) {
+    let hash=0;for(let k=0;k<stride;k++)hash=Math.imul(hash^quantised[i*stride+k],0x9E3779B1);
+    let slot=(hash>>>0)&(capacity-1);
+    for(;;slot=(slot+1)&(capacity-1)) {
+      const other=table[slot];
+      if(other<0){table[slot]=i;remap[i]=kept.length;kept.push(i);break;}
+      let same=true;for(let k=0;k<stride&&same;k++)same=quantised[i*stride+k]===quantised[other*stride+k];
+      if(same){remap[i]=remap[other];break;}
+    }
+  }
+  const welded=new THREE.BufferGeometry();
+  for(const [s,name] of names.entries()) {
+    const {array,itemSize,normalized}=sources[s],out=new array.constructor(kept.length*itemSize);
+    for(let i=0;i<kept.length;i++)for(let k=0;k<itemSize;k++)out[i*itemSize+k]=array[kept[i]*itemSize+k];
+    welded.setAttribute(name,new THREE.BufferAttribute(out,itemSize,normalized));
+  }
+  welded.setIndex(new THREE.BufferAttribute(kept.length>65535?remap:Uint16Array.from(remap),1));
+  welded.userData={...geometry.userData};
+  return welded;
+}

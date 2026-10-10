@@ -527,8 +527,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -580,8 +579,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "box",
@@ -1258,7 +1256,6 @@
     "methods": [
       "lareira de tijolos com verga em fiada de pé, console de madeira com mísulas, grelha de ferro, lenha e atiçadores",
       "arestas chanfradas",
-      "entalhes e bordas de perfis",
       "curvas de contorno refinadas",
       "perfis torneados e bordas de chapa"
     ],

@@ -47,6 +47,8 @@ Uma sombra pontual consome seis vistas; uma spot, uma. Prioridade, influência n
 
 Sombras **Prioritárias** recebem preferência dentro do orçamento de fontes já selecionadas; **Desligadas** não consomem vistas. Fontes sem sombra podem atravessar paredes. Projeções de spot exigem uma sombra ativa; sem orçamento, a fonte usa sua cor sem o desenho. Cor/intensidade/cintilação preservam o cache de sombra; alterações espaciais invalidam as fontes afetadas. Sol/lua têm sombra adicional ao orçamento local, focada na área útil da vista e estabilizada em texels; objetos distantes dessa área podem ficar sem sua sombra.
 
+A qualidade também define a nitidez quando há efeitos de tela (AO, bloom, névoa): Econômica desenha os efeitos sem antialiasing e a até 1 pixel por pixel CSS; Equilibrada usa antialiasing 4× e até 1,25×; Alta usa 4× e a resolução do renderizador (até 1,6×). Em telas de alta densidade com névoa e bloom, Alta custa bem mais por quadro; medições em [VISUAL_FIDELITY_PLAN.md](VISUAL_FIDELITY_PLAN.md).
+
 O projetor tem seu seletor **Econômica/Equilibrada/Alta**, independente do editor. Preferências são da sessão de cada janela e não entram no documento ou histórico. Navegação e qualidade nunca publicam outra câmera. Fontes e zonas são derivadas somente depois de filtrar os objetos privados.
 
 ## Acabamento e limites

@@ -34,8 +34,7 @@
         "textureSize": 2.4,
         "textureSeed": 43,
         "relief": 0.07
-      },
-      "refinement": 1
+      }
     }
   ],
   "mergeParts": true,
@@ -49,7 +48,7 @@
     "family": "geological",
     "reconstruction": "components",
     "methods": [
-      "subdivisão mineral preservando parâmetros de escultura"
+      "fonte detalhada preservada"
     ],
     "seed": 43093
   }

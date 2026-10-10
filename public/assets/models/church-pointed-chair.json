@@ -74,7 +74,7 @@
           0.5639999723434448
         ]
       ],
-      "segments": 32,
+      "segments": 12,
       "position": [
         -0.27999999523162844,
         0,
@@ -149,7 +149,7 @@
           0.5639999723434448
         ]
       ],
-      "segments": 32,
+      "segments": 12,
       "position": [
         -0.27999999523162844,
         0,
@@ -224,7 +224,7 @@
           0.5639999723434448
         ]
       ],
-      "segments": 32,
+      "segments": 12,
       "position": [
         0.27999999523162844,
         0,
@@ -299,7 +299,7 @@
           0.5639999723434448
         ]
       ],
-      "segments": 32,
+      "segments": 12,
       "position": [
         0.27999999523162844,
         0,
@@ -525,8 +525,7 @@
         "textureColor": "#482b23",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "box",
@@ -617,7 +616,7 @@
         0.22924998998641966
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         1.5707963267948966,
         0,
@@ -635,7 +634,7 @@
         0.22924998998641966
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 12,
       "rotation": [
         1.5707963267948966,
         0,
@@ -657,7 +656,6 @@
       "assento montado, travessas, torneados e encosto vazado",
       "arestas chanfradas",
       "estofamento com bordas macias",
-      "entalhes e bordas de perfis",
       "curvas de contorno refinadas"
     ],
     "seed": 34890

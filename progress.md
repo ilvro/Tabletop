@@ -2,6 +2,30 @@
 
 Atualizado em 8 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Fidelidade visual — etapa 1 concluída (10 de outubro)
+
+Plano e andamento em [docs/VISUAL_FIDELITY_PLAN.md](docs/VISUAL_FIDELITY_PLAN.md).
+
+Etapa 1, nitidez com efeitos ligados: o alvo dos efeitos tem multisampling 4× fora da qualidade Econômica e sua resolução segue a qualidade da janela (Econômica até 1×, Equilibrada/Personalizada até 1,25×, Alta até 1,6×); antes, ligar AO, bloom ou névoa desenhava sem antialiasing e a 1× em qualquer tela. Custo medido na RX 580: 1–2 ms por quadro em tela comum; em tela 2× na Igreja (névoa e bloom), 18 ms antes, 23 ms em Equilibrada e 32 ms em Alta. Capturas antes/depois conferidas na sala da Casa em 1× e 2×.
+
+Validação: novo `tests/e2e/effects-sharpness.test.js`; 237 testes unitários, builds local/Pages e 21 roteiros E2E de efeitos (iluminação dinâmica, materiais/efeitos, ambientes, capas, desempenho, equivalência de materiais, iluminação, Casa) aprovados.
+
+Pendente: etapa 2 (iluminação indireta por zona), 3 (materiais PBR e desgaste localizado), 4 (modelos-herói em GLB), 5 (decalques, reflexos locais, miniaturas). A ampliação do AO de meia resolução ainda não respeita bordas.
+
+## Desempenho de renderização em escala — etapas 1 a 4 concluídas (10 de outubro)
+
+Plano e medições em [docs/RENDER_SCALE_PLAN.md](docs/RENDER_SCALE_PLAN.md); o plano visual que vem depois está em [docs/VISUAL_FIDELITY_PLAN.md](docs/VISUAL_FIDELITY_PLAN.md).
+
+Concluído: medição reproduzível (custo estático, tempo de quadro, perfil de CPU e capturas na GPU da máquina); retirada do refinamento sem efeito visível; geometria indexada por soldagem de vértices; uniforms das zonas de iluminação em arrays planos; cache de modelos ampliado para 128 assets; materiais compartilhados durante o desenho entre malhas idênticas, inclusive peças com desgaste; matrizes de mundo atualizadas uma vez por quadro; oclusão ambiente lendo a profundidade do próprio quadro em vez de redesenhar a cena.
+
+Medidas: Backrooms 590 mil → 259 mil triângulos e 1,77 mi → 458 mil vértices; Igreja 1,76 mi → 1,34 mi triângulos e 5,3 mi → 1,4 mi vértices. Tempo de quadro na RX 580 com câmera em movimento (p50, primeira câmera), da primeira medição no hardware até agora: Backrooms 26,6 → 9,4 ms, Casa 21,0 → 10,2 ms, Igreja 37,1 → 17,4 ms, Montanha 3,9 → 3,6 ms. As medições variam cerca de 2 ms com a carga da máquina. Chamadas de desenho nas cenas com AO caíram pela metade (Igreja 1 787 → 933).
+
+Como funciona o compartilhamento: o material é trocado apenas durante o quadro e devolvido em seguida, de modo que edição, seleção e miniaturas continuam operando no material próprio de cada instância. AO: capturas antes/depois em cinco vistas diferem 0,17–0,27% (RMS); tokens de imagem com recorte por alfa passam a participar da oclusão, rótulos e auxiliares continuam fora.
+
+Validação: 237 testes unitários/de integração e builds local/Pages aprovados. E2E: 36 roteiros após as etapas 2–3 e os arrays planos; 31 após o compartilhamento de materiais, com duas correções (materiais que não são padrão quebravam o agrupamento; o teste de transferência de material esperava que só o slot colado tivesse textura, o que deixou de valer desde que a caixa reconstruída traz madeira nas tábuas); 20 após o AO (iluminação dinâmica com pixels de AO, equivalência de quadro, desempenho, materiais/efeitos, capas, Backrooms, Igreja, editor), todos aprovados. Os E2E de interface usam `dist/`; é preciso `npm run build` antes. A cena da montanha foi regenerada pelo seu gerador, pois os envelopes dos kits voltaram aos valores originais.
+
+Pendente: vidro de dupla face (o three.js verifica o programa a cada quadro), 5 (instanciamento, a decidir por medição), 6 (LOD e sombras econômicas), 7 (descarte por cômodo). A Igreja fica em torno de 57 quadros por segundo em movimento nas vistas mais pesadas. Emendas coplanares podem trocar de superfície em linhas de um pixel porque a ordem de desenho segue o material. Não há medição com editor e projetor abertos ao mesmo tempo.
+
 ## Reconstrução da biblioteca inteira — concluída (8 de outubro)
 
 Escopo: substituir os 244 modelos distribuídos preservando IDs, envelopes métricos, footprints, apoios e slots públicos de material. Geração determinística a partir de fontes imutáveis em `scripts/library-source/`; o catálogo registra `geometryEdition` e `contentHash`, e as capas/caches derivados passam a depender do hash.

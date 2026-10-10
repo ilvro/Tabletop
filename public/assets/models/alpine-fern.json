@@ -17,7 +17,7 @@
         0.65,
         0.7
       ],
-      "count": 11,
+      "count": 8,
       "seed": 211,
       "position": [
         0.19667981266975404,
@@ -39,7 +39,7 @@
         0.65,
         0.7
       ],
-      "count": 11,
+      "count": 8,
       "seed": 212,
       "position": [
         -0.0290890861893509,
@@ -61,7 +61,7 @@
         0.65,
         0.7
       ],
-      "count": 11,
+      "count": 8,
       "seed": 213,
       "position": [
         -0.1966798258461382,
@@ -83,7 +83,7 @@
         0.65,
         0.7
       ],
-      "count": 11,
+      "count": 8,
       "seed": 214,
       "position": [
         0.07227536121235008,
@@ -109,7 +109,7 @@
     "family": "botanical",
     "reconstruction": "components",
     "methods": [
-      "densidade e nervuras de folhagem"
+      "fonte detalhada preservada"
     ],
     "seed": 63300
   }

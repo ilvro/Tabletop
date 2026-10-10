@@ -36,8 +36,7 @@
         "rockPattern": "strata",
         "textureBrightness": 1.05,
         "relief": 0.045
-      },
-      "refinement": 1
+      }
     },
     {
       "shape": "rock",
@@ -63,8 +62,7 @@
         "rockPattern": "fractured",
         "textureBrightness": 1.2,
         "relief": 0.045
-      },
-      "refinement": 1
+      }
     },
     {
       "shape": "rock",
@@ -90,8 +88,7 @@
         "rockPattern": "fractured",
         "textureBrightness": 1.2,
         "relief": 0.045
-      },
-      "refinement": 1
+      }
     }
   ],
   "mergeParts": true,
@@ -105,7 +102,7 @@
     "family": "geological",
     "reconstruction": "components",
     "methods": [
-      "subdivisão mineral preservando parâmetros de escultura"
+      "fonte detalhada preservada"
     ],
     "seed": 5121
   }

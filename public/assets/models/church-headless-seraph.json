@@ -196,8 +196,7 @@
         0,
         0,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -238,8 +237,7 @@
         0,
         -0.5235987755982988,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -280,8 +278,7 @@
         0,
         -1.0471975511965976,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -322,8 +319,7 @@
         0,
         -1.5707963267948966,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -364,8 +360,7 @@
         0,
         -2.0943951023931953,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -406,8 +401,7 @@
         0,
         -2.6179938779914944,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -448,8 +442,7 @@
         0,
         -3.141592653589793,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -490,8 +483,7 @@
         0,
         -3.665191429188092,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -532,8 +524,7 @@
         0,
         -4.1887902047863905,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -574,8 +565,7 @@
         0,
         -4.71238898038469,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -616,8 +606,7 @@
         0,
         -5.235987755982989,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "profile",
@@ -658,8 +647,7 @@
         0,
         -5.759586531581287,
         0
-      ],
-      "edgeBevel": 0.003
+      ]
     },
     {
       "shape": "lathe",
@@ -850,8 +838,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -887,8 +874,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -924,8 +910,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -961,8 +946,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -998,8 +982,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1035,8 +1018,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1072,8 +1054,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1109,8 +1090,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1146,8 +1126,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1183,8 +1162,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1220,8 +1198,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1257,8 +1234,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1294,8 +1270,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1331,8 +1306,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "lathe",
@@ -1484,8 +1458,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1521,8 +1494,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1558,8 +1530,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1595,8 +1566,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1632,8 +1602,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1669,8 +1638,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1706,8 +1674,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1743,8 +1710,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1780,8 +1746,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1817,8 +1782,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1854,8 +1818,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1891,8 +1854,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1928,8 +1890,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1965,8 +1926,7 @@
         "textureColorMode": "replace",
         "textureColor": "#b9ac99",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     }
   ],
   "mergeParts": true,
@@ -1981,8 +1941,7 @@
     "reconstruction": "components",
     "methods": [
       "arestas chanfradas",
-      "perfis torneados e bordas de chapa",
-      "entalhes e bordas de perfis"
+      "perfis torneados e bordas de chapa"
     ],
     "seed": 1136
   }

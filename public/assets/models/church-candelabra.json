@@ -69,7 +69,7 @@
         0
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -117,7 +117,7 @@
         ]
       ],
       "radius": 0.025,
-      "segments": 38,
+      "segments": 36,
       "sides": 8,
       "position": [
         0,
@@ -137,7 +137,7 @@
         0
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -176,7 +176,7 @@
         0
       ],
       "material": "wax",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -215,7 +215,7 @@
         0
       ],
       "material": "flame",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "rope",
@@ -237,7 +237,7 @@
         ]
       ],
       "radius": 0.025,
-      "segments": 38,
+      "segments": 36,
       "sides": 8,
       "position": [
         0,
@@ -257,7 +257,7 @@
         0
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -296,7 +296,7 @@
         0
       ],
       "material": "wax",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -335,7 +335,7 @@
         0
       ],
       "material": "flame",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "lathe",
@@ -348,7 +348,7 @@
         0
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -387,7 +387,7 @@
         0
       ],
       "material": "wax",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -426,7 +426,7 @@
         0
       ],
       "material": "flame",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "rope",
@@ -448,7 +448,7 @@
         ]
       ],
       "radius": 0.025,
-      "segments": 38,
+      "segments": 36,
       "sides": 8,
       "position": [
         0,
@@ -468,7 +468,7 @@
         0
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -507,7 +507,7 @@
         0
       ],
       "material": "wax",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -546,7 +546,7 @@
         0
       ],
       "material": "flame",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "rope",
@@ -568,7 +568,7 @@
         ]
       ],
       "radius": 0.025,
-      "segments": 38,
+      "segments": 36,
       "sides": 8,
       "position": [
         0,
@@ -588,7 +588,7 @@
         0
       ],
       "material": "brass",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -627,7 +627,7 @@
         0
       ],
       "material": "wax",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -666,7 +666,7 @@
         0
       ],
       "material": "flame",
-      "segments": 24
+      "segments": 12
     }
   ],
   "mergeParts": true,

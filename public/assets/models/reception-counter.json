@@ -205,7 +205,7 @@
         0.3272000047683716
       ],
       "material": "dark",
-      "bevel": 0.001404
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -339,7 +339,7 @@
         0.3272000047683716
       ],
       "material": "dark",
-      "bevel": 0.001404
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -473,7 +473,7 @@
         0.3272000047683716
       ],
       "material": "dark",
-      "bevel": 0.001404
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -607,7 +607,7 @@
         0.3272000047683716
       ],
       "material": "dark",
-      "bevel": 0.001404
+      "bevel": 0
     },
     {
       "shape": "box",

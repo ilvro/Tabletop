@@ -91,7 +91,8 @@ for (const mode of ['server', 'pages']) test(`material eyedropper, scoped paste,
   assert.equal((await snapshot()).layout.entities[prop.id].material.textureSlot, 'strap');
   await page.waitForFunction(id => {
     const materials = window.__tabletop.stats().surfaceMaterials.filter(material => material.id === id);
-    return materials.length > 0 && materials.every(material => material.slot === 'strap' && material.texture === 'wood');
+    // Board and brace keep the wood finish built into the rebuilt crate; the paste reaches only the strap.
+    return materials.some(material => material.slot === 'strap' && material.texture === 'wood') && materials.every(material => material.texture === 'wood');
   }, prop.id);
 
   await action('save'); await page.waitForFunction(() => document.getElementById('save-status').textContent.startsWith('Salvo'));

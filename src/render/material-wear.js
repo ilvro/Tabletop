@@ -52,13 +52,15 @@ export function wearCoordinates(object) {
 export function applyMaterialWear(material, wear, coordinates, matrix) {
   let base = hooks.get(material);
   if (base) { material.onBeforeCompile = base.compile; material.customProgramCacheKey = base.key; }
-  delete material.userData.wear;
+  delete material.userData.wear; delete material.userData.wearSpace;
   if (!wear?.enabled || wear.amount === 0) { if (base) material.needsUpdate = true; return; }
   if (!base) {
     base = { compile: material.onBeforeCompile, key: material.customProgramCacheKey, program: material.customProgramCacheKey() };
     hooks.set(material, base);
   }
   material.userData.wear = structuredClone(wear);
+  // The object-local frame of the layer; with `wear` it identifies the uniforms for material sharing.
+  material.userData.wearSpace = [...matrix.elements, ...coordinates.min.toArray(), ...coordinates.extent.toArray()].map(v => Math.round(v * 1e4) / 1e4);
   material.onBeforeCompile = shader => {
     base.compile.call(material, shader);
     Object.assign(shader.uniforms, {

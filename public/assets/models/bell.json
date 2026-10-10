@@ -98,7 +98,7 @@
         0
       ],
       "material": "dark",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "ellipsoid",
@@ -112,7 +112,8 @@
         0.10360000025033952,
         0
       ],
-      "material": "metal"
+      "material": "metal",
+      "segments": 16
     }
   ],
   "mergeParts": true,

@@ -132,7 +132,7 @@
         0.054000000000000006
       ],
       "material": "paper",
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "ellipsoid",
@@ -258,7 +258,7 @@
         0.054000000000000006
       ],
       "material": "paper",
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "ellipsoid",
@@ -310,7 +310,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -413,7 +413,7 @@
         0.054000000000000006
       ],
       "material": "paper",
-      "bevel": 0.00026000000000000003
+      "bevel": 0
     },
     {
       "shape": "rope",
@@ -440,7 +440,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -463,7 +463,6 @@
     "methods": [
       "frascos de vidro com líquido luminoso, tampas rosqueadas, etiquetas e espécimes conservados",
       "curvas de contorno refinadas",
-      "arestas chanfradas",
       "cordas e tubos curvos"
     ],
     "seed": 63796

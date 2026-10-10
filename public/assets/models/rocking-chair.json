@@ -127,8 +127,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "lathe",
@@ -556,8 +555,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "lathe",
@@ -1057,8 +1055,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "box",
@@ -1089,7 +1086,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1120,7 +1117,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1151,7 +1148,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1182,7 +1179,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1213,7 +1210,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1249,7 +1246,6 @@
     "reconstruction": "model",
     "methods": [
       "cadeira de balanço com esquis curvos, pernas torneadas, braços, ripas e travessa de encosto recortada",
-      "entalhes e bordas de perfis",
       "arestas chanfradas",
       "curvas de contorno refinadas",
       "estofamento com bordas macias"

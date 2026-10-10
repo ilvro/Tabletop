@@ -42,7 +42,7 @@
         ]
       ],
       "radius": 0.014,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -86,7 +86,7 @@
         ]
       ],
       "radius": 0.014,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -130,7 +130,7 @@
         ]
       ],
       "radius": 0.014,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -310,7 +310,7 @@
         ]
       ],
       "radius": 0.011,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -336,7 +336,7 @@
         0.1,
         0.1
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -489,7 +489,7 @@
         ]
       ],
       "radius": 0.011,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -515,7 +515,7 @@
         0.1,
         0.1
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -794,7 +794,7 @@
         ]
       ],
       "radius": 0.011,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -820,7 +820,7 @@
         0.1,
         0.1
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -973,7 +973,7 @@
         ]
       ],
       "radius": 0.011,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -999,7 +999,7 @@
         0.1,
         0.1
       ],
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -1142,8 +1142,7 @@
       "candelabro de cinco braços com pés em garra, haste torneada, sigilo em anel, espinhos e velas escorridas",
       "cordas e tubos curvos",
       "ferragens curvas com vazios reais",
-      "curvas de contorno refinadas",
-      "arestas chanfradas"
+      "curvas de contorno refinadas"
     ],
     "seed": 51724
   }

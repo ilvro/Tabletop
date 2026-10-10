@@ -32,6 +32,7 @@ import { createLightObject, updateLightEffects } from './lighting.js';
 import { createEffectsPipeline } from './effects.js';
 import { advanceVelocity, navigationDirection, interpolateCamera } from './camera-motion.js';
 import { createRuler } from './ruler.js';
+import { createMaterialSharing } from './material-sharing.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
@@ -161,6 +162,7 @@ export function createViewport(container, {
   let effectTime = 0, animatedLights = false, animatedAtmosphere = false;
   scene.background = new THREE.Color('#25373a');
   const content = new THREE.Group();
+  const materialSharing = createMaterialSharing(); let shareMaterials = true;
   const lighting = new THREE.Group();
   const preview = new THREE.Group();
   scene.add(content, lighting, preview);
@@ -313,7 +315,8 @@ export function createViewport(container, {
     renderer.info.reset();
     if (renderer.shadowMap.needsUpdate) diagnostics.count('shadowFrames');
     gpuTimer.begin();
-    try { diagnostics.measure('render', () => effects.render(camera, seconds)); } finally { gpuTimer.end();releaseRetired(); }
+    if (shareMaterials) diagnostics.measure('shareMaterials', () => materialSharing.begin(content));
+    try { diagnostics.measure('render', () => effects.render(camera, seconds)); } finally { materialSharing.end();gpuTimer.end();releaseRetired(); }
     sample('render',started);
     if ((moving || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
     else lastFrameTime = null;
@@ -552,7 +555,7 @@ export function createViewport(container, {
         const label = parent.children.find((child) => child.isSprite);
         if (label) label.position.y = 1.7;
         tagEntity(parent, entity.id);
-        assetsDirty=true;diagnostics.count('assetsInstalled');
+        assetsDirty=true;diagnostics.count('assetsInstalled');materialSharing.invalidate();
         invalidate();
       }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } }));
       return;
@@ -570,7 +573,7 @@ export function createViewport(container, {
       tagEntity(parent, entity.id);
       onMaterialSlots(entity.id);
       parent.updateWorldMatrix(true,true);if(snowRegions!==null)snowRegions.push(new THREE.Box3().setFromObject(parent));
-      assetsDirty = true; diagnostics.count('assetsInstalled');
+      assetsDirty = true; diagnostics.count('assetsInstalled');materialSharing.invalidate();
       invalidate();
     }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } }));
   }
@@ -615,7 +618,7 @@ export function createViewport(container, {
   function setDocument(next,{force=false}={}) {
     const started=performance.now();
     if (!force && next === sceneDocument && isTrustedSnapshot(next)) { diagnostics.count('documentUpdatesSkipped'); return; }
-    diagnostics.count('documentUpdates');
+    diagnostics.count('documentUpdates');materialSharing.invalidate();
     const old=sceneDocument;
     if(!next||force||old?.id!==next.id)releaseRetired();
     if(force||old?.id!==next?.id)snowRegions=null;
@@ -1391,7 +1394,9 @@ export function createViewport(container, {
     isBusy() {return Boolean(pointer||transform.dragging||transition||navigationKeys.size||orbitMoving);},
     performance() {return {...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported};},
     resetPerformance() {diagnostics.reset();},
-    getInfo() { return {performance:{...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported}, directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
+    /** Diagnostic switch: the frame must look the same either way. */
+    setMaterialSharing(value) { shareMaterials = !!value; invalidate(); },
+    getInfo() { return {performance:{...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported}, materialSharing:materialSharing.info(), directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
       assetDiagnostics:[...objects].flatMap(([id,object])=>{const diagnostics=[];object.traverse(child=>{if(child.userData.diagnostic)diagnostics.push({id,message:child.userData.diagnostic});});return diagnostics;}),
       sculptedRocks:[...objects].flatMap(([id,object])=>{let vertices=0,triangles=0;object.traverse(m=>{if(m.geometry?.userData.sculptPrepared){vertices+=m.geometry.attributes.position.count;triangles+=m.geometry.index.count/3;}});return vertices?[{id,vertices,triangles,samples:records.get(id)?.rockSculpt?.stamps.length??0,bounds:new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3()).toArray()}]:[];}),
       rockGeometries: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.geometry?.userData.rock) list.push({id,...child.geometry.userData.rock,triangles:(child.geometry.index?.count??child.geometry.attributes.position.count)/3});for(const rock of child.geometry?.userData.rocks??[])list.push({id,...rock});});return list;}),

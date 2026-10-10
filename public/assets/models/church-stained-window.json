@@ -262,8 +262,7 @@
         "textureColorMode": "replace",
         "textureColor": "#a99b88",
         "textureBrightness": 0.9
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -383,8 +382,7 @@
         0,
         -0.04
       ],
-      "material": "glass",
-      "edgeBevel": 0.003
+      "material": "glass"
     },
     {
       "shape": "box",
@@ -779,8 +777,7 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "profile",
@@ -1019,8 +1016,7 @@
         "textureSaturation": 0.3,
         "textureBrightness": 0.7,
         "relief": 0.008
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "ring",
@@ -1077,8 +1073,7 @@
         1.15,
         0.025
       ],
-      "material": "amberGlass",
-      "edgeBevel": 0.003
+      "material": "amberGlass"
     }
   ],
   "mergeParts": true,
@@ -1092,7 +1087,6 @@
     "family": "architecture",
     "reconstruction": "components",
     "methods": [
-      "entalhes e bordas de perfis",
       "arestas chanfradas",
       "ferragens curvas com vazios reais"
     ],

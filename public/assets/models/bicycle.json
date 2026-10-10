@@ -521,7 +521,7 @@
         ]
       ],
       "radius": 0.014,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -545,7 +545,7 @@
         ]
       ],
       "radius": 0.016,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -569,7 +569,7 @@
         ]
       ],
       "radius": 0.015,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -593,7 +593,7 @@
         ]
       ],
       "radius": 0.018,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -643,7 +643,7 @@
         ]
       ],
       "radius": 0.01,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -667,7 +667,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -696,7 +696,7 @@
         ]
       ],
       "radius": 0.011,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -718,7 +718,7 @@
         -0.08
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -769,7 +769,7 @@
         ]
       ],
       "radius": 0.01,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -793,7 +793,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -822,7 +822,7 @@
         ]
       ],
       "radius": 0.011,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -844,7 +844,7 @@
         -0.08
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -940,7 +940,7 @@
         ]
       ],
       "radius": 0.011,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -1035,7 +1035,7 @@
         0,
         0
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1055,7 +1055,7 @@
         0,
         0
       ],
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1093,7 +1093,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1117,7 +1117,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1141,7 +1141,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1165,7 +1165,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1189,7 +1189,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,
@@ -1213,7 +1213,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 4,
+      "segments": 2,
       "sides": 8,
       "position": [
         0,

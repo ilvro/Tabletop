@@ -57,7 +57,7 @@
         -0.22
       ],
       "material": "metal",
-      "bevel": 0.0013650000000000001
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -209,7 +209,7 @@
         0.22
       ],
       "material": "metal",
-      "bevel": 0.0013650000000000001
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -361,7 +361,7 @@
         -0.22
       ],
       "material": "metal",
-      "bevel": 0.0013650000000000001
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -513,7 +513,7 @@
         0.22
       ],
       "material": "metal",
-      "bevel": 0.0013650000000000001
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -753,7 +753,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -791,7 +791,7 @@
         -0.22
       ],
       "material": "metal",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -806,7 +806,7 @@
         0.22
       ],
       "material": "metal",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -837,7 +837,7 @@
         -0.22
       ],
       "material": "metal",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -852,7 +852,7 @@
         0.22
       ],
       "material": "metal",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -921,7 +921,7 @@
         0.03
       ],
       "material": "white",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -941,7 +941,7 @@
         -0.18,
         0
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -961,7 +961,7 @@
         0,
         0
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -981,7 +981,7 @@
         0.18,
         0
       ],
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "lathe",

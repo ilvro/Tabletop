@@ -189,8 +189,7 @@
         1.5707963267948966,
         0,
         0
-      ],
-      "edgeBevel": 0.0006
+      ]
     },
     {
       "shape": "profile",
@@ -367,8 +366,7 @@
         1.5707963267948966,
         0,
         0
-      ],
-      "edgeBevel": 0.0006
+      ]
     },
     {
       "shape": "cylinder",
@@ -381,7 +379,7 @@
         0.35259999724477525
       ],
       "material": "red",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -394,7 +392,7 @@
         0.38539999698847527
       ],
       "material": "red",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -407,7 +405,7 @@
         0.35259999724477525
       ],
       "material": "red",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -420,7 +418,7 @@
         0.38539999698847527
       ],
       "material": "red",
-      "segments": 24
+      "segments": 12
     },
     {
       "shape": "cylinder",
@@ -433,7 +431,7 @@
         0.35259999724477525
       ],
       "material": "red",
-      "segments": 24
+      "segments": 12
     }
   ],
   "mergeParts": true,
@@ -448,7 +446,6 @@
     "reconstruction": "model",
     "methods": [
       "contorno orgânico de líquido com borda irregular e gotas separadas",
-      "entalhes e bordas de perfis",
       "curvas de contorno refinadas"
     ],
     "seed": 31640

@@ -27,7 +27,7 @@
         0.22499999999999998
       ],
       "seed": 182,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -54,7 +54,7 @@
         -0.16591358599678022
       ],
       "seed": 193,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -81,7 +81,7 @@
         0.01968727127387544
       ],
       "seed": 204,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -108,7 +108,7 @@
         0.13687904576975743
       ],
       "seed": 215,
-      "detail": 5,
+      "detail": 4,
       "irregularity": 0.8,
       "material": "dark"
     }
@@ -124,8 +124,7 @@
     "family": "geological",
     "reconstruction": "model",
     "methods": [
-      "pedras fraturadas com volume irregular e encaixe de alvenaria",
-      "subdivisão mineral preservando parâmetros de escultura"
+      "pedras fraturadas com volume irregular e encaixe de alvenaria"
     ],
     "seed": 62894
   }

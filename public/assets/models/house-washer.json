@@ -230,7 +230,7 @@
         0.318
       ],
       "material": "dark",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -245,7 +245,7 @@
         0.312
       ],
       "material": "dark",
-      "bevel": 0.0007800000000000001
+      "bevel": 0
     },
     {
       "shape": "lathe",
@@ -375,7 +375,7 @@
         0.3
       ],
       "material": "dark",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "rope",
@@ -397,7 +397,7 @@
         ]
       ],
       "radius": 0.012,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -426,7 +426,7 @@
         ]
       ],
       "radius": 0.012,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,

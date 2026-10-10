@@ -8,7 +8,7 @@ import {createBranchGeometry,createConiferGeometry,createTimberGeometry,createSt
 import { createProfileGeometry } from './architectural-primitives.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { surfacePreset } from '../domain/materials.js';
-import { craftedBox, turnedGeometry, ellipsoidGeometry } from './crafted-geometry.js';
+import { craftedBox, turnedGeometry, ellipsoidGeometry, weldVertices } from './crafted-geometry.js';
 
 const sharedGeometryOwners=new WeakMap();
 export function releaseGeometry(geometry,owners=1){const state=sharedGeometryOwners.get(geometry);if(!state){geometry.dispose();return;}state.refs-=owners;if(state.refs===0)sharedGeometryOwners.delete(geometry);if(state.refs===0||state.refs===state.templateRefs)geometry.dispose();}
@@ -67,7 +67,6 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null, ve
         case 'sphere': geometry = new THREE.SphereGeometry(part.radius, part.segments ?? 16, part.rings ?? 12); break;
         case 'rock': {
           const settings={...part,...(rockShape&&!part.fixedRock?{...rockShape,seed:(rockShape.seed+(part.seedOffset??0))%65536}:{})};
-          if(part.refinement)settings.detail=Math.min(8,(settings.detail??5)+part.refinement);
           geometry=createRockGeometry(settings);break;
         }
         case 'rope': geometry=createRopeGeometry(part);break;
@@ -109,7 +108,13 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null, ve
       if(mesh.geometry.userData.rock)batches.get(key).rocks.push({...mesh.geometry.userData.rock,triangles:(mesh.geometry.index?.count??mesh.geometry.attributes.position.count)/3});
     }
     for(const mesh of [...group.children])disposeObject(mesh);
-    for(const batch of batches.values()) {const geometry=mergeGeometries(batch.geometries);if(batch.rocks.length)geometry.userData.rocks=batch.rocks;if(batch.snowProxies.length)geometry.userData.snowProxies=batch.snowProxies;for(const g of batch.geometries)g.dispose();const mesh=new THREE.Mesh(geometry,batch.material);mesh.userData.materialSlot=batch.slot;mesh.castShadow=!batch.material.transparent;mesh.receiveShadow=true;group.add(mesh);}
+    for(const batch of batches.values()) {
+      let geometry=mergeGeometries(batch.geometries);
+      // Weld vertices that agree in position, normal and UV: hard edges stay hard,
+      // while memory and vertex work drop. Sculptable rock and snow proxies keep
+      // their own vertex order.
+      if(!batch.rocks.length&&!batch.snowProxies.length){const welded=weldVertices(geometry);geometry.dispose();geometry=welded;}
+      if(batch.rocks.length)geometry.userData.rocks=batch.rocks;if(batch.snowProxies.length)geometry.userData.snowProxies=batch.snowProxies;for(const g of batch.geometries)g.dispose();const mesh=new THREE.Mesh(geometry,batch.material);mesh.userData.materialSlot=batch.slot;mesh.castShadow=!batch.material.transparent;mesh.receiveShadow=true;group.add(mesh);}
   }
   const fittedBounds = ((rockShape || vegetationSeed!=null) && metricBounds) ? metricBounds : recipe.fitBounds;
   if(fittedBounds) {
@@ -209,7 +214,7 @@ export function createAssetCache() {
           if(!entry){const root=recipeInstance(resource,rockShape,record.bounds,vegetationSeed);root.traverse(mesh=>{if(mesh.geometry){const state=sharedGeometryOwners.get(mesh.geometry);if(state){state.refs++;state.templateRefs++;}else sharedGeometryOwners.set(mesh.geometry,{refs:1,templateRefs:1});}});entry={assetKey,root};}
           templates.delete(key);templates.set(key,entry);
           const instance=entry.root.clone(true);instance.traverse(mesh=>{if(!mesh.isMesh)return;sharedGeometryOwners.get(mesh.geometry).refs++;mesh.material=Array.isArray(mesh.material)?mesh.material.map(m=>m.clone()):mesh.material.clone();});
-          while(templates.size>32){const oldest=templates.keys().next().value;disposeTemplate(templates.get(oldest).root);templates.delete(oldest);}
+          while(templates.size>128){const oldest=templates.keys().next().value;disposeTemplate(templates.get(oldest).root);templates.delete(oldest);}
           return instance;
         }
         // CPU templates avoid replaying long sculpt histories on unrelated scene edits.

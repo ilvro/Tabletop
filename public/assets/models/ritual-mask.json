@@ -83,8 +83,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "ellipsoid",
@@ -98,7 +97,8 @@
         0.043860000177323825,
         0.006339395655884657
       ],
-      "material": "black"
+      "material": "black",
+      "segments": 12
     },
     {
       "shape": "profile",
@@ -138,8 +138,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.0015480000062584878
+      }
     },
     {
       "shape": "ellipsoid",
@@ -153,7 +152,8 @@
         0.043860000177323825,
         0.006339395655884657
       ],
-      "material": "black"
+      "material": "black",
+      "segments": 12
     },
     {
       "shape": "profile",
@@ -193,8 +193,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.0015480000062584878
+      }
     },
     {
       "shape": "profile",
@@ -234,8 +233,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.002709000010952353
+      }
     },
     {
       "shape": "box",
@@ -250,7 +248,7 @@
         -0.0792424456985582
       ],
       "material": "dark",
-      "bevel": 0.0003354000013560057
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -265,7 +263,7 @@
         0.07290305004267356
       ],
       "material": "red",
-      "bevel": 0.000293475001186505
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -280,7 +278,7 @@
         0.09509093483826984
       ],
       "material": "paper",
-      "bevel": 0.000293475001186505
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -294,9 +292,7 @@
     "family": "ritual",
     "reconstruction": "model",
     "methods": [
-      "máscara deitada com contorno facial, sobrancelhas, nariz e aberturas escuras",
-      "entalhes e bordas de perfis",
-      "arestas chanfradas"
+      "máscara deitada com contorno facial, sobrancelhas, nariz e aberturas escuras"
     ],
     "seed": 25325
   }

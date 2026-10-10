@@ -109,7 +109,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -191,7 +191,7 @@
         0.269
       ],
       "material": "green",
-      "bevel": 0.001755
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -233,7 +233,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -283,7 +283,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -365,7 +365,7 @@
         0.269
       ],
       "material": "green",
-      "bevel": 0.001755
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -407,7 +407,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -429,7 +429,7 @@
         0.263
       ],
       "material": "dark",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     }
   ],
   "mergeParts": true,

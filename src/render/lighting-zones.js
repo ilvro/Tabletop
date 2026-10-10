@@ -4,18 +4,22 @@ export const MAX_ZONES=16;
 const applied=new WeakSet();
 /** Shared uniforms describe simultaneous spatial regions, independent of the viewer. */
 export function createLightingZones() {
-  const uniforms={zoneCount:{value:0},zoneInverse:{value:Array.from({length:MAX_ZONES},()=>new THREE.Matrix4())},zoneHalfSize:{value:Array.from({length:MAX_ZONES},()=>new THREE.Vector3())},zoneFill:{value:Array.from({length:MAX_ZONES},()=>new THREE.Vector4())},zoneFog:{value:Array.from({length:MAX_ZONES},()=>new THREE.Vector4())},zoneBlend:{value:Array(MAX_ZONES).fill(.5)}};
+  // Flat typed arrays: every material carries these uniforms, and arrays of
+  // Matrix4/Vector objects are copied element by element on each upload.
+  const uniforms={zoneCount:{value:0},zoneInverse:{value:new Float32Array(MAX_ZONES*16)},zoneHalfSize:{value:new Float32Array(MAX_ZONES*3)},zoneFill:{value:new Float32Array(MAX_ZONES*4)},zoneFog:{value:new Float32Array(MAX_ZONES*4)},zoneBlend:{value:new Float32Array(MAX_ZONES).fill(.5)}};
   const functions=`uniform int zoneCount;uniform mat4 zoneInverse[16];uniform vec3 zoneHalfSize[16];uniform vec4 zoneFill[16],zoneFog[16];uniform float zoneBlend[16];
     float zoneWeight(vec3 p,int i){vec3 local=(zoneInverse[i]*vec4(p,1.0)).xyz;vec3 d=zoneHalfSize[i]-abs(local);float border=min(d.x,min(d.y,d.z));return zoneBlend[i]>0.0?smoothstep(0.0,zoneBlend[i],border):step(0.0,border);}`;
   let collection, ordered=[], previous=[];
   return {
     uniforms,functions,
+    /** True when any active zone carries local fog. */
+    hasFog(){for(let i=0;i<uniforms.zoneCount.value;i++)if(uniforms.zoneFog.value[i*4+3]>0)return true;return false;},
     update(document,objects) {
       const entities=document?.layout.entities;if(collection!==entities||!Object.isFrozen(entities)){collection=entities;ordered=Object.values(entities??{}).filter(e=>e.lightingZone?.enabled).sort((a,b)=>a.lightingZone.priority-b.lightingZone.priority||a.id.localeCompare(b.id));}const zones=ordered;let n=0;
       for(const record of zones){const object=objects.get(record.id);if(!object)continue;let visible=true;for(let o=object;o;o=o.parent)if(!o.visible)visible=false;if(!visible)continue;
         object.updateWorldMatrix(true,false);const configKey=Object.isFrozen(record.lightingZone)?record.lightingZone:JSON.stringify(record.lightingZone),last=previous[n];if(last?.record===record&&last.configKey===configKey&&last.object===object&&last.matrix.equals(object.matrixWorld)){if(++n===MAX_ZONES)break;continue;}previous[n]={record,configKey,object,matrix:object.matrixWorld.clone()};const z=record.lightingZone,m=object.matrixWorld.clone().multiply(new THREE.Matrix4().makeTranslation(...z.position));
-        uniforms.zoneInverse.value[n].copy(m).invert();uniforms.zoneHalfSize.value[n].set(...z.size).multiplyScalar(.5);uniforms.zoneBlend.value[n]=z.blend;
-        uniforms.zoneFill.value[n].set(...new THREE.Color(z.color).toArray(),z.intensity);uniforms.zoneFog.value[n].set(...new THREE.Color(z.fogColor).toArray(),z.fogDensity);if(++n===MAX_ZONES)break;
+        m.invert().toArray(uniforms.zoneInverse.value,n*16);uniforms.zoneHalfSize.value.set(z.size.map(v=>v*.5),n*3);uniforms.zoneBlend.value[n]=z.blend;
+        uniforms.zoneFill.value.set([...new THREE.Color(z.color).toArray(),z.intensity],n*4);uniforms.zoneFog.value.set([...new THREE.Color(z.fogColor).toArray(),z.fogDensity],n*4);if(++n===MAX_ZONES)break;
       }
       previous.length=n;uniforms.zoneCount.value=n;
     },

@@ -264,7 +264,7 @@
         0.3000000059604645,
         0
       ],
-      "count": 47,
+      "count": 36,
       "seed": 91,
       "material": "paper"
     }
@@ -281,8 +281,7 @@
     "reconstruction": "model",
     "methods": [
       "fardo em fatias prensadas com textura de palha, barbantes e fios soltos",
-      "arestas chanfradas",
-      "densidade e nervuras de folhagem"
+      "arestas chanfradas"
     ],
     "seed": 25294
   }

@@ -155,7 +155,7 @@
         0.0252
       ],
       "material": "dark",
-      "bevel": 0.001404
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -352,7 +352,7 @@
         0.0252
       ],
       "material": "dark",
-      "bevel": 0.001404
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -549,7 +549,7 @@
         0.0252
       ],
       "material": "dark",
-      "bevel": 0.001404
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -1382,7 +1382,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1518,7 +1518,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,

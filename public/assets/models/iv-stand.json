@@ -42,7 +42,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -86,7 +86,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -130,7 +130,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -174,7 +174,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -218,7 +218,7 @@
         ]
       ],
       "radius": 0.009,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -379,7 +379,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -418,7 +418,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -469,7 +469,7 @@
         0.02
       ],
       "material": "paper",
-      "bevel": 0.0005200000000000001
+      "bevel": 0
     },
     {
       "shape": "cylinder",
@@ -514,7 +514,7 @@
         ]
       ],
       "radius": 0.005,
-      "segments": 34,
+      "segments": 32,
       "sides": 8,
       "position": [
         0,
@@ -536,7 +536,7 @@
         0.025
       ],
       "material": "black",
-      "bevel": 0.00182
+      "bevel": 0
     }
   ],
   "mergeParts": true,

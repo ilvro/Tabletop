@@ -130,7 +130,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0016640000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -156,7 +156,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0016640000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -182,7 +182,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0016640000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -208,7 +208,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0016640000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -234,7 +234,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.001404
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -411,7 +411,7 @@
         ]
       ],
       "radius": 0.006,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -502,7 +502,7 @@
         ]
       ],
       "radius": 0.007,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -554,7 +554,7 @@
         ]
       ],
       "radius": 0.016,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,

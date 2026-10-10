@@ -126,7 +126,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -189,8 +189,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -212,7 +211,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -275,8 +274,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -298,7 +296,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -361,8 +359,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -384,7 +381,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -447,8 +444,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -470,7 +466,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -533,8 +529,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -556,7 +551,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -619,8 +614,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -642,7 +636,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -705,8 +699,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -728,7 +721,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -791,8 +784,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -814,7 +806,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -877,8 +869,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -900,7 +891,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -963,8 +954,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -986,7 +976,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1049,8 +1039,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -1072,7 +1061,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1135,8 +1124,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -1158,7 +1146,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1221,8 +1209,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     },
     {
       "shape": "rope",
@@ -1244,7 +1231,7 @@
         ]
       ],
       "radius": 0.008,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -1307,8 +1294,7 @@
         "textureColorMode": "replace",
         "textureSize": 0.3,
         "relief": 0.01
-      },
-      "edgeBevel": 0.00096
+      }
     }
   ],
   "mergeParts": true,
@@ -1324,8 +1310,7 @@
     "methods": [
       "vaso de barro com pires, terra e planta de hastes arqueadas com folhas largas nervuradas",
       "curvas de contorno refinadas",
-      "cordas e tubos curvos",
-      "entalhes e bordas de perfis"
+      "cordas e tubos curvos"
     ],
     "seed": 29461
   }

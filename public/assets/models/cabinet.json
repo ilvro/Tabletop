@@ -67,7 +67,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -82,7 +82,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -97,7 +97,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -112,7 +112,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -127,7 +127,7 @@
         0.2451540003412217
       ],
       "material": "paper",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "rope",
@@ -154,7 +154,7 @@
         ]
       ],
       "radius": 0.01,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -191,7 +191,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -206,7 +206,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -221,7 +221,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -236,7 +236,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -251,7 +251,7 @@
         0.2451540003412217
       ],
       "material": "paper",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "rope",
@@ -278,7 +278,7 @@
         ]
       ],
       "radius": 0.01,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -315,7 +315,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -330,7 +330,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -345,7 +345,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -360,7 +360,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -375,7 +375,7 @@
         0.2451540003412217
       ],
       "material": "paper",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "rope",
@@ -402,7 +402,7 @@
         ]
       ],
       "radius": 0.01,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -439,7 +439,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -454,7 +454,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -469,7 +469,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -484,7 +484,7 @@
         0.24460800034046173
       ],
       "material": "detail",
-      "bevel": 0.00117
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -499,7 +499,7 @@
         0.2451540003412217
       ],
       "material": "paper",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "rope",
@@ -526,7 +526,7 @@
         ]
       ],
       "radius": 0.01,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -546,7 +546,7 @@
         0.25116000034958125
       ],
       "material": "detail",
-      "segments": 24,
+      "segments": 8,
       "rotation": [
         1.5707963267948966,
         0,

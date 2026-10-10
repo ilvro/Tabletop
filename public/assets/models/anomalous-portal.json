@@ -84,7 +84,7 @@
         0
       ],
       "material": "violet",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -104,7 +104,7 @@
         0,
         0.4
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -124,7 +124,7 @@
         0,
         -0.5
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -139,7 +139,7 @@
         0.185
       ],
       "material": "violet",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -175,7 +175,7 @@
         0
       ],
       "material": "violet",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -211,7 +211,7 @@
         0
       ],
       "material": "violet",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -231,7 +231,7 @@
         0,
         0.4
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -251,7 +251,7 @@
         0,
         -0.5
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -266,7 +266,7 @@
         0.185
       ],
       "material": "violet",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -302,7 +302,7 @@
         0
       ],
       "material": "violet",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -343,7 +343,7 @@
         0,
         0.4
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -363,7 +363,7 @@
         0,
         -0.5
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -378,7 +378,7 @@
         0.185
       ],
       "material": "violet",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -429,7 +429,7 @@
         0
       ],
       "material": "violet",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -490,7 +490,7 @@
         0
       ],
       "material": "violet",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -510,7 +510,7 @@
         0,
         0.4
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -530,7 +530,7 @@
         0,
         -0.5
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -545,7 +545,7 @@
         0.185
       ],
       "material": "violet",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -581,7 +581,7 @@
         0
       ],
       "material": "violet",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -617,7 +617,7 @@
         0
       ],
       "material": "violet",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -637,7 +637,7 @@
         0,
         0.4
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -657,7 +657,7 @@
         0,
         -0.5
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -672,7 +672,7 @@
         0.185
       ],
       "material": "violet",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -708,7 +708,7 @@
         0
       ],
       "material": "violet",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -749,7 +749,7 @@
         0,
         0.4
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -769,7 +769,7 @@
         0,
         -0.5
       ],
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -784,7 +784,7 @@
         0.185
       ],
       "material": "violet",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -835,7 +835,7 @@
         0
       ],
       "material": "violet",
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -884,7 +884,7 @@
         0
       ],
       "material": "veil",
-      "bevel": 0.0010400000000000001
+      "bevel": 0
     },
     {
       "shape": "box",

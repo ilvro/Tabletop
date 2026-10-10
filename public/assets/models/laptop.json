@@ -821,7 +821,7 @@
         0.09839999880865215
       ],
       "material": "black",
-      "bevel": 0.00091
+      "bevel": 0
     }
   ],
   "mergeParts": true,

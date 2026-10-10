@@ -42,7 +42,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -161,7 +161,7 @@
         -0.010749999940395355
       ],
       "material": "metal",
-      "bevel": 0.0015600000000000002
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -176,7 +176,7 @@
         0.019349999892711637
       ],
       "material": "paper",
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -191,7 +191,7 @@
         0.019349999892711637
       ],
       "material": "paper",
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -206,7 +206,7 @@
         0.019349999892711637
       ],
       "material": "paper",
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -221,7 +221,7 @@
         0.019349999892711637
       ],
       "material": "paper",
-      "bevel": 0.0020800000000000003
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -247,7 +247,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -273,7 +273,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -299,7 +299,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "box",
@@ -325,7 +325,7 @@
         "textureColorMode": "replace",
         "textureBrightness": 1
       },
-      "bevel": 0.00182
+      "bevel": 0
     },
     {
       "shape": "profile",
@@ -384,8 +384,7 @@
         "textureColor": "#79553e",
         "textureColorMode": "replace",
         "textureBrightness": 1
-      },
-      "edgeBevel": 0.003
+      }
     },
     {
       "shape": "lathe",
@@ -585,8 +584,7 @@
     "reconstruction": "model",
     "methods": [
       "espelho com moldura em camadas, friso dourado, rosetas nos cantos e frontão entalhado",
-      "arestas chanfradas",
-      "entalhes e bordas de perfis"
+      "arestas chanfradas"
     ],
     "seed": 29640
   }

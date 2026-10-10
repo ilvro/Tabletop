@@ -80,7 +80,7 @@
         -0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 12,
       "profile": [
         [
           0,
@@ -119,7 +119,7 @@
         -0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -158,7 +158,7 @@
         0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 12,
       "profile": [
         [
           0,
@@ -197,7 +197,7 @@
         0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -236,7 +236,7 @@
         -0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 12,
       "profile": [
         [
           0,
@@ -275,7 +275,7 @@
         -0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -314,7 +314,7 @@
         0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 12,
       "profile": [
         [
           0,
@@ -353,7 +353,7 @@
         0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24,
+      "segments": 16,
       "profile": [
         [
           0,
@@ -406,7 +406,7 @@
         ]
       ],
       "radius": 0.021,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -426,7 +426,7 @@
         -0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -439,7 +439,7 @@
         -0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -452,7 +452,7 @@
         -0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -465,7 +465,7 @@
         -0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -478,7 +478,7 @@
         -0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "rope",
@@ -505,7 +505,7 @@
         ]
       ],
       "radius": 0.021,
-      "segments": 18,
+      "segments": 16,
       "sides": 8,
       "position": [
         0,
@@ -525,7 +525,7 @@
         0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -538,7 +538,7 @@
         0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -551,7 +551,7 @@
         0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -564,7 +564,7 @@
         0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "cylinder",
@@ -577,7 +577,7 @@
         0.8454999893903733
       ],
       "material": "metal",
-      "segments": 24
+      "segments": 8
     },
     {
       "shape": "lathe",
@@ -590,7 +590,7 @@
         -0.7409999907016754
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 16,
       "rotation": [
         0,
         0,
@@ -634,7 +634,7 @@
         0.7409999907016754
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 16,
       "rotation": [
         0,
         0,
@@ -678,7 +678,7 @@
         -0.7409999907016754
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 16,
       "rotation": [
         0,
         0,
@@ -722,7 +722,7 @@
         0.7409999907016754
       ],
       "material": "black",
-      "segments": 24,
+      "segments": 16,
       "rotation": [
         0,
         0,
