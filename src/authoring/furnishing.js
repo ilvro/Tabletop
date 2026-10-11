@@ -2,15 +2,13 @@ import { createEntity, createLight, clone, id } from '../domain/documents.js';
 import { quaternionFromYaw, rotateXZ, yawFromQuaternion } from '../domain/coords.js';
 import { worldFootprint, footprintsOverlap, pointInPolygon, polygonContainsPolygon, isLocked, footprintOnFloor } from '../domain/geometry.js';
 import { ValidationError, validateDocument } from '../domain/validation.js';
+import { ROOM_RECIPES, DENSITY_LEVEL } from '../domain/room-recipes.js';
+import { roomFrame, candidates as poses, stableRandom } from './room-layout.js';
+export { stableRandom };
 
-export const ROOM_TEMPLATES = [{ id: 'office', name: 'Escritório' }, { id: 'meeting', name: 'Sala de reunião' }, { id: 'storage', name: 'Depósito' }];
+export const ROOM_TEMPLATES = ROOM_RECIPES;
 export const snapshotItem = item => { const { id: _, kind, ...fields } = clone(item); return fields; };
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-export function stableRandom(seed, slot) {
-  let hash = seed >>> 0;
-  for (const character of slot) hash = Math.imul(hash ^ character.charCodeAt(0), 16777619) >>> 0;
-  return hash / 4294967296;
-}
 /** Preserve changed leaves, including name, material, asset, position and rotation independently. */
 function preserve(original, current, generated) {
   if (same(original, current)) return clone(generated);
@@ -43,27 +41,16 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
   const { floor, area, newArea } = scopeFor(document, floorId, previous);
   if (isLocked(document, floor)) throw new ValidationError('O piso ou sua pasta está bloqueado.');
   const parameters = { template, density, chairs, seed, lighting }, look = document.look ?? document.defaultLook;
-  const composition = { id: previous?.id ?? id(), name: `${ROOM_TEMPLATES.find(t => t.id === template).name} — ${floor.name}`, recipeId: 'room-furnishing', recipeVersion: 1, areaId: area.id, parameters, slots: {} };
+  const composition = { id: previous?.id ?? id(), name: `${ROOM_TEMPLATES.find(t => t.id === template).name} — ${floor.name}`, recipeId: 'room-furnishing', recipeVersion: 2, areaId: area.id, parameters, slots: {} };
   const proposal = { id: id(), expectedEditVersion, label: previous ? 'Regenerar mobiliário' : 'Mobiliar espaço', entities: [], groups: [], areas: newArea ? [area] : [], lights: [], updates: [], removals: [], compositions: [composition], report: { kept: [], suppressed: [], omissions: [], conflicts: [] } };
   const yaw = yawFromQuaternion(area.transform.rotation), [w, l] = [area.width, area.length];
   const toWorld = (x, z, height = 0) => rotateXZ([x, height, z], yaw).map((v, i) => v + area.transform.position[i]);
-  const candidates = [];
-  const add = (slot, assetId, x, z, rotation = 0) => candidates.push({ slot, assetId, x, z, rotation });
-  if (template === 'office') {
-    add('desk.main', 'builtin-desk', -Math.min(w / 5, 1.2), -.3);
-    add('desk.chair', 'builtin-chair', -Math.min(w / 5, 1.2), .75, 180);
-    if (density !== 'sparse') { add('cabinet.main', 'builtin-cabinet', w / 2 - .8, -l / 2 + .7); add('lamp.corner', 'builtin-lamp', -w / 2 + .5, -l / 2 + .5); }
-    if (density === 'dense') { add('crate.corner', 'builtin-crate', w / 2 - .8, l / 2 - .7); add('cabinet.extra', 'builtin-cabinet', w / 2 - .8, -l / 2 + 1.5); }
-  } else if (template === 'meeting') {
-    add('table.main', 'builtin-desk', 0, 0);
-    const positions = [[-.6, 1, 180], [.6, 1, 180], [-.6, -1, 0], [.6, -1, 0], [-1.5, 0, 90], [1.5, 0, -90], [0, 1.75, 180], [0, -1.75, 0]];
-    positions.slice(0, chairs).forEach(([x, z, angle], i) => add(`table.chair.${i + 1}`, 'builtin-chair', x, z, angle));
-    if (density !== 'sparse') add('cabinet.main', 'builtin-cabinet', w / 2 - .8, -l / 2 + .7);
-  } else {
-    const count = { sparse: 4, normal: 8, dense: 16 }[density];
-    const columns = Math.max(1, Math.floor((w - .8) / 1.15));
-    for (let i = 0; i < count; i++) add(`crate.${i + 1}`, 'builtin-crate', -w / 2 + .6 + (i % columns) * 1.15, -l / 2 + .6 + Math.floor(i / columns) * 1.15, (stableRandom(seed, `crate.${i + 1}`) - .5) * 12);
-    add('cabinet.main', 'builtin-cabinet', w / 2 - .7, l / 2 - .7, 180);
+  const recipe = ROOM_RECIPES.find(entry => entry.id === template), level = DENSITY_LEVEL[density];
+  const frame = roomFrame(document, floor, area), placed = new Map(), candidates = [];
+  for (const rule of recipe.items) {
+    if ((rule.level ?? 0) > level) continue;
+    const total = rule.count === 'chairs' ? chairs : Array.isArray(rule.count) ? rule.count[level] : rule.count ?? 1;
+    for (let index = 0; index < total; index++) candidates.push({ slot: rule.count === undefined ? rule.slot : `${rule.slot}.${index + 1}`, rule, index, total, assetId: `builtin-${rule.asset}` });
   }
   // Light budget is bounded and proportional to area. No shadows on generated points.
   if (lighting) {
@@ -71,7 +58,7 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
     for (let x = 0; x < nx; x++) for (let z = 0; z < nz; z++) candidates.push({ slot: `light.${x}.${z}`, light: true, x: w * ((x + .5) / nx - .5), z: l * ((z + .5) / nz - .5), intensity: Math.min(65, w * l * 1.6 / (nx * nz)) });
   }
   const priorIds = new Set(Object.values(previous?.slots ?? {}).map(slot => slot.id));
-  const occupied = Object.values(document.layout.entities).filter(e => e.kind === 'prop' && e.surfaceId === floor.id && !priorIds.has(e.id)).map(e => ({ id: e.id, corners: worldFootprint(e, .08) }));
+  const occupied = Object.values(document.layout.entities).filter(e => e.kind === 'prop' && e.surfaceId === floor.id && !priorIds.has(e.id)).map(e => ({ id: e.id, corners: worldFootprint(e, .08), tight: worldFootprint(e) }));
   const reserved = [];
   for (const door of Object.values(document.layout.entities).filter(e => e.kind === 'door')) {
     const wall = document.layout.entities[door.wallId]; if (wall.surfaceId !== floor.id && !wall.floorIds?.includes(floor.id)) continue;
@@ -82,50 +69,58 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
   const localFloor = p => { const v = rotateXZ([p[0] - floor.transform.position[0], 0, p[1] - floor.transform.position[2]], -yawFromQuaternion(floor.transform.rotation)); return [v[0], v[2]]; };
   const within = corners => footprintOnFloor(floor, corners) && polygonContainsPolygon(floorPolygon, corners.map(localFloor)) && corners.every(p => {
     const local = rotateXZ([p[0] - area.transform.position[0], 0, p[1] - area.transform.position[2]], -yaw);
-    return Math.abs(local[0]) <= w / 2 - .1 + 1e-8 && Math.abs(local[2]) <= l / 2 - .1 + 1e-8 && pointInPolygon(localFloor(p), floorPolygon);
+    return Math.abs(local[0]) <= w / 2 - .02 + 1e-8 && Math.abs(local[2]) <= l / 2 - .02 + 1e-8 && pointInPolygon(localFloor(p), floorPolygon);
   });
   // Reserve manual overrides first, independent of recipe ordering.
   for (const [slotKey, slot] of Object.entries(previous?.slots ?? {})) {
     const current = slot.kind === 'entity' ? document.layout.entities[slot.id] : look.lights[slot.id];
-    if (current && slot.kind === 'entity' && (isLocked(document, current) || !same(snapshotItem(current).transform, slot.baseline.transform))) occupied.push({ id: slot.id, corners: worldFootprint(current, .08) });
+    if (current && slot.kind === 'entity' && (isLocked(document, current) || !same(snapshotItem(current).transform, slot.baseline.transform))) occupied.push({ id: slot.id, corners: worldFootprint(current, .08), tight: worldFootprint(current) });
   }
-  const usedSlots = new Set();
+  const usedSlots = new Set(), missing = new Map();
   for (const candidate of candidates) {
     const { slot: key } = candidate; usedSlots.add(key);
     const prior = previous?.slots[key], kind = candidate.light ? 'light' : 'entity';
     const current = prior ? prior.kind === 'entity' ? document.layout.entities[prior.id] : look.lights[prior.id] : null;
     if (prior && !current && !restoreDeleted) { composition.slots[key] = clone(prior); proposal.report.suppressed.push(key); continue; }
     if (current && isLocked(document, current)) { composition.slots[key] = clone(prior); proposal.report.kept.push(key); continue; }
-    let generated;
+    let generated, fits = true, solid = false;
+    // A chair tucks under its table: a piece keeps no clearance from the one it belongs to.
+    const partner = candidate.rule?.of ? placed.get(candidate.rule.of)?.id : null;
+    const blocked = entity => { const corners = worldFootprint(entity, .08), tight = worldFootprint(entity); return !within(tight) || reserved.some(r => footprintsOverlap(corners, r)) || occupied.some(o => o.id !== entity.id && footprintsOverlap(o.id === partner ? tight : corners, o.id === partner ? o.tight : o.corners)); };
     if (candidate.light) {
       const height = Math.max(1.2, ...Object.values(document.layout.entities).filter(e => e.kind === 'wall' && e.surfaceId === floor.id).map(e => e.height - .3));
       generated = createLight({ id: prior?.id, name: `Luz — ${area.name}`, position: toWorld(candidate.x, candidate.z, height), intensity: candidate.intensity, distance: Math.max(w, l) * 1.3, surfaceId: floor.id, groupId: area.groupId, levelId: floor.levelId ?? null, layerId: floor.layerId ?? null });
     } else {
-      const asset = catalog.find(a => a.id === candidate.assetId);
+      const asset = catalog.find(a => a.id === candidate.assetId), { rule } = candidate;
       if (!asset) { proposal.report.omissions.push('Um móvel da receita está ausente no catálogo.'); if (prior) composition.slots[key] = clone(prior); continue; }
-      generated = createEntity('prop', { id: prior?.id, name: asset.name, assetRef: { id: asset.id, revision: asset.revision }, position: toWorld(candidate.x, candidate.z), rotation: quaternionFromYaw(yaw + candidate.rotation), footprint: asset.footprint, groupId: area.groupId, surfaceId: floor.id, levelId: floor.levelId ?? null, layerId: floor.layerId ?? null, ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}) });
+      candidate.asset = asset; fits = false;
+      // The first pose that is free wins; hanging and flat pieces take no floor space.
+      for (const pose of poses(rule, { frame, placed, seed, slot: key, asset, index: candidate.index, total: candidate.total })) {
+        const entity = createEntity('prop', { id: prior?.id, name: asset.name, assetRef: { id: asset.id, revision: asset.revision }, position: toWorld(pose.x, pose.z, pose.on ? pose.on.top : rule.lift ?? 0), rotation: quaternionFromYaw(yaw + pose.rotation), footprint: asset.footprint, groupId: area.groupId, surfaceId: pose.on?.id ?? floor.id, levelId: floor.levelId ?? null, layerId: floor.layerId ?? null, ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}) });
+        solid = !pose.on && !rule.flat && !rule.lift; generated ??= entity;
+        if (pose.on || (solid ? !blocked(entity) : within(worldFootprint(entity)))) { generated = entity; fits = true; break; }
+      }
+      if (!generated) {
+        missing.set(asset.name, (missing.get(asset.name) ?? 0) + 1);
+        if (current) { composition.slots[key] = clone(prior); proposal.report.kept.push(key); }
+        continue;
+      }
     }
     const baseline = snapshotItem(generated);
     const label = generated.name;
     let item = current ? { id: current.id, ...(kind === 'entity' ? { kind: 'prop' } : {}), ...preserve(prior.baseline, snapshotItem(current), baseline) } : generated;
     const manualPosition = current && (!same(current.transform, prior.baseline.transform) || current.surfaceId !== prior.baseline.surfaceId);
     if (kind === 'entity') {
-      const blocked = entity => { const corners = worldFootprint(entity, .08); return !within(corners) || reserved.some(r => footprintsOverlap(corners, r)) || occupied.some(o => o.id !== entity.id && footprintsOverlap(corners, o.corners)); };
-      if (!manualPosition && blocked(item)) {
-        const originalPosition = [...item.transform.position]; let fits = false;
-        // Bounded local search; never resize furniture to fit.
-        for (const [dx, dz] of [[.4, 0], [-.4, 0], [0, .4], [0, -.4], [.8, 0], [-.8, 0], [0, .8], [0, -.8], [.4, .4], [-.4, -.4]]) {
-          const offset = rotateXZ([dx, 0, dz], yaw); item.transform.position = originalPosition.map((v, i) => v + offset[i]);
-          if (!blocked(item)) { fits = true; break; }
-        }
-        if (!fits) {
-          proposal.report.omissions.push(`${label}: não cabe com as folgas e a passagem livres.`);
-          if (current) { composition.slots[key] = clone(prior); proposal.report.kept.push(key); occupied.push({ id: current.id, corners: worldFootprint(current, .08) }); }
-          continue;
-        }
-        baseline.transform.position = [...item.transform.position];
-      } else if (manualPosition && blocked(item)) proposal.report.conflicts.push(`${label}: posição manual preservada; revise limite ou sobreposição.`);
-      occupied.push({ id: item.id, corners: worldFootprint(item, .08) });
+      if (!manualPosition && !fits) {
+        missing.set(label, (missing.get(label) ?? 0) + 1);
+        if (current) { composition.slots[key] = clone(prior); proposal.report.kept.push(key); occupied.push({ id: current.id, corners: worldFootprint(current, .08), tight: worldFootprint(current) }); }
+        continue;
+      }
+      if (manualPosition && solid && blocked(item)) proposal.report.conflicts.push(`${label}: posição manual preservada; revise limite ou sobreposição.`);
+      if (solid) occupied.push({ id: item.id, corners: worldFootprint(item, .08), tight: worldFootprint(item) });
+      // Later pieces refer to this one where it really is, including manual moves.
+      const [x, z] = frame.toLocal(item.transform.position), asset = candidate.asset;
+      placed.set(key, { id: item.id, x, z, rotation: yawFromQuaternion(item.transform.rotation) - yaw, width: asset.footprint[0] * item.transform.scale[0], depth: asset.footprint[1] * item.transform.scale[2], top: item.transform.position[1] - area.transform.position[1] + (asset.supportHeight ?? 0) * item.transform.scale[1] });
     } else if (!pointInPolygon(localFloor([item.position[0], item.position[2]]), floorPolygon)) { proposal.report.omissions.push(`${label}: ponto fora do piso.`); continue; }
     composition.slots[key] = { id: item.id, kind, baseline };
     if (current) {
@@ -133,6 +128,7 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
       if (!same(snapshotItem(current), prior.baseline)) proposal.report.kept.push(key);
     } else proposal[kind === 'entity' ? 'entities' : 'lights'].push(item);
   }
+  for (const [name, count] of missing) proposal.report.omissions.push(`${name}${count > 1 ? ` (${count})` : ''}: não cabe com as folgas e a passagem livres.`);
   for (const [key, slot] of Object.entries(previous?.slots ?? {})) {
     if (usedSlots.has(key)) continue;
     const current = slot.kind === 'entity' ? document.layout.entities[slot.id] : look.lights[slot.id];

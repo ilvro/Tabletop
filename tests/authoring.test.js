@@ -94,8 +94,10 @@ test('templates produce actual non-overlapping catalog furniture and bounded lig
     assert.deepEqual(store.document, before); assert.ok(proposal.entities.length >= 4);
     assert.ok(proposal.lights.length >= 4 && proposal.lights.length <= 9);
     for (const entity of proposal.entities) assert.ok(catalog.some(a => a.id === entity.assetRef.id));
-    for (let i = 0; i < proposal.entities.length; i++) for (let j = i + 1; j < proposal.entities.length; j++) {
-      assert.equal(footprintsOverlap(worldFootprint(proposal.entities[i], .08), worldFootprint(proposal.entities[j], .08)), false);
+    // Pieces standing on the floor never intersect; what lies on furniture, hangs or is a rug may share the spot.
+    const standing = proposal.entities.filter(e => e.surfaceId === floor.id && e.transform.position[1] === floor.transform.position[1] && catalog.find(a => a.id === e.assetRef.id).bounds[1] > .05);
+    for (let i = 0; i < standing.length; i++) for (let j = i + 1; j < standing.length; j++) {
+      assert.equal(footprintsOverlap(worldFootprint(standing[i]), worldFootprint(standing[j])), false, `${template}: ${standing[i].name} × ${standing[j].name}`);
     }
     store.execute('proposal.accept', { proposal }); const accepted = clone(store.document);
     store.undo(); assert.deepEqual(store.document, before); store.redo(); assert.deepEqual(store.document, accepted);

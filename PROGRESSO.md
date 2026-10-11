@@ -1,5 +1,9 @@
 # Tabletop — Progresso do Projeto
 
+**Construção assistida, etapas 1 e 2 (11 de outubro):** mobília por regras (parede, canto, em volta, em cima de, de frente para) que lê paredes, portas e janelas do cômodo, e catálogo de 26 cômodos usando 113 modelos. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).
+
+**Plano de construção assistida (11 de outubro):** receitas por regras, catálogo de cômodos, estado do lugar, ambientação, prédio a partir do contorno e cena pronta. [Plano](docs/ASSISTED_BUILD_PLAN.md).
+
 **Interface, etapa 4 (11 de outubro):** painel esquerdo em Construir · Elementos · Ambiente, com um só nível de tarefas, busca e filtro na lista de elementos e Assets no cabeçalho. [Plano e andamento](docs/UI_REWORK_PLAN.md).
 
 **Interface, etapas 1 e 2 (11 de outubro):** conjunto de controles (deslizante com valor para faixas, medida com unidade, segmentos para poucas opções) e material escolhido por amostras, com o desenho da textura aberto logo abaixo e grupos Desenho / Cor visíveis. Campos, comandos e formato de documento inalterados. [Plano e andamento](docs/UI_REWORK_PLAN.md).

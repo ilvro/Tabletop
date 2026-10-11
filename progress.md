@@ -2,6 +2,18 @@
 
 Atualizado em 11 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Construção assistida — etapas 1 e 2 concluídas (11 de outubro)
+
+**Feito**: solucionador de regras (`src/authoring/room-layout.js`), 26 receitas como dados (`src/domain/room-recipes.js`), `furnishing.js` religado a eles mantendo proposta, preservação e luzes; painel com cômodos agrupados e "Ver outra arrumação"; scripts `review-rooms.js` e `capture-rooms.js`. Detalhes e diferenças em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).
+
+**Validação**: 255 unitários passam (4 novos em `tests/room-recipes.test.js`). E2E rodados: `assisted-rooms` (novo), `phase3`, `structural-evolution`, `editor-ui`, `terrain-paint`, todos passando; a bateria completa não foi repetida. Conferência visual de 12 cômodos no editor real: orientação dos modelos, objetos sobre móveis e itens de parede corretos.
+
+**Pendências reais**: sem miniaturas nem variações lado a lado; itens de parede sem vínculo com a parede; sem folga na frente de móveis; 14 cômodos não foram conferidos em 3D, só em planta. Próximas etapas: 3 (estado do lugar) e 4 (ambientar).
+
+## Construção assistida — plano entregue (11 de outubro)
+
+Plano em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md). Diagnóstico: três receitas de mobília com posições fixas e cinco modelos dos 244; nada conhece paredes, janelas, estado do lugar ou prédio inteiro. Oito etapas, começando por receitas por regras e catálogo de cômodos. Também nesta data: `npm run dev` passa a usar a próxima porta livre quando a 5173 está ocupada.
+
 ## Interface — etapa 4, painel esquerdo, concluída (11 de outubro)
 
 Motivo: depois das etapas 1 e 2, Construir e Cena continuavam confusas (três níveis de recolhimento, títulos de efeito, lista de elementos no fim da aba Cena).

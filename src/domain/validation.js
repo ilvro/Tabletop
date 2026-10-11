@@ -1,4 +1,5 @@
 import { isTrustedSnapshot } from '../state/immutable.js';
+import { ROOM_TEMPLATE_IDS } from './room-recipes.js';
 import { LIGHT_PROFILES, LIGHT_PIN_FIELDS, PROJECTIONS, RENDERING_DEFAULTS } from './dynamic-lighting.js';
 import {assertRockSculpt,isSculptableRock} from './rock-sculpt.js';
 import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES, TEXTURE_INTEGERS } from './materials.js';
@@ -290,10 +291,10 @@ function supportReference(value, document, path) {
 function composition(value, path, document) {
   keys(value, ['id', 'name', 'recipeId', 'recipeVersion', 'areaId', 'parameters', 'slots'], path);
   text(value.name, `${path}.name`); choice(value.recipeId, ['room-furnishing'], `${path}.recipeId`);
-  fail(value.recipeVersion === 1, 'Versão de receita incompatível.', path);
+  fail([1, 2].includes(value.recipeVersion), 'Versão de receita incompatível.', path);
   reference(value.areaId, document.layout.areas, `${path}.areaId`, false);
   keys(value.parameters, ['template', 'density', 'chairs', 'seed', 'lighting'], `${path}.parameters`);
-  choice(value.parameters.template, ['office', 'meeting', 'storage'], `${path}.parameters.template`);
+  choice(value.parameters.template, ROOM_TEMPLATE_IDS, `${path}.parameters.template`);
   choice(value.parameters.density, ['sparse', 'normal', 'dense'], `${path}.parameters.density`);
   number(value.parameters.chairs, `${path}.parameters.chairs`, 1, 8); number(value.parameters.seed, `${path}.parameters.seed`, 0, 4294967295);
   fail(Number.isInteger(value.parameters.chairs) && Number.isInteger(value.parameters.seed), 'Quantidade/seed devem ser inteiros.', path);

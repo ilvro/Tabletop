@@ -2,6 +2,7 @@ import { textureSelect, textureCustomization, distributionPanel } from './materi
 import { choiceField } from './controls.js';
 import { escapeHTML as esc } from './icons.js';
 import { ROOM_TEMPLATES } from '../authoring/furnishing.js';
+import { ROOM_GROUPS } from '../domain/room-recipes.js';
 import { isSupport } from '../domain/geometry.js';
 import { MATERIAL_PALETTES } from '../authoring/polish.js';
 
@@ -62,14 +63,15 @@ ${transferControls}<button data-action="terrain-layer-add" class="wide" ${layers
 }
 
 export function smartBuildPanel(document, options, floorId, existing) {
-  const floors = Object.values(document.layout.entities).filter(e => e.kind === 'floor');
-  return `<section><span class="eyebrow">SMART BUILD</span><h2>Um cômodo pronto para usar.</h2><p class="muted">Mobiliário real, passagem reservada e luzes distribuídas. Revise antes de aceitar.</p>
+  const floors = Object.values(document.layout.entities).filter(e => e.kind === 'floor'), recipe = ROOM_TEMPLATES.find(t => t.id === options.template);
+  return `<section><span class="eyebrow">SMART BUILD</span><p class="microcopy">Escolha o piso e o tipo de cômodo. A mobília encosta nas paredes, deixa portas e janelas livres e continua editável peça a peça.</p>
     <label class="field"><span>Piso / espaço</span><select data-field="smart-floor">${option('', 'Selecione um piso', floorId ?? '')}${floors.map(f => option(f.id, f.name, floorId)).join('')}</select></label>
-    <label class="field"><span>Receita</span><select data-field="smart-template">${ROOM_TEMPLATES.map(t => option(t.id, t.name, options.template)).join('')}</select></label>
-    ${choiceField('smart-density','Densidade',options.density,[['sparse','Poucos objetos','Poucos'],['normal','Normal'],['dense','Mais objetos','Mais']])}
-    <div class="field-grid">${number('smart-chairs', 'Cadeiras · reunião', options.chairs, 1, 8)}${number('smart-seed', 'Variação', options.seed, 0, 4294967295)}</div>
+    <label class="field"><span>Tipo de cômodo</span><select data-field="smart-template">${ROOM_GROUPS.map(group => `<optgroup label="${esc(group)}">${ROOM_TEMPLATES.filter(t => t.group === group).map(t => option(t.id, t.name, options.template)).join('')}</optgroup>`).join('')}</select></label>
+    ${choiceField('smart-density','Quantidade de objetos',options.density,[['sparse','Poucos objetos','Poucos'],['normal','Normal'],['dense','Mais objetos','Muitos']])}
+    <div class="field-grid">${recipe?.seats ? number('smart-chairs', 'Cadeiras', options.chairs, 1, 8) : ''}${number('smart-seed', 'Variação', options.seed, 0, 4294967295)}</div>
     ${check('smart-lighting', 'Distribuir iluminação', options.lighting)}${existing ? check('smart-restoreDeleted', 'Restaurar itens excluídos', options.restoreDeleted) : ''}
     <button class="wide accent-outline" data-action="smart-preview" ${floorId ? '' : 'disabled'}>${existing ? 'Revisar regeneração' : 'Prévia do mobiliário'}</button>
+    <button class="wide quiet" data-action="smart-variation" ${floorId ? '' : 'disabled'}>Ver outra arrumação</button>
     ${existing ? '<p class="microcopy">Posições, nomes, materiais e assets editados são preservados. Exclusões não reaparecem sem sua escolha.</p><button class="wide quiet" data-action="smart-detach">Desvincular receita</button>' : ''}</section>`;
 }
 

@@ -610,7 +610,7 @@ export async function startApplication() {
       taskList(panel, [
         { title: 'Construções', tasks: [
           [0,'room','Sala','Desenhar no chão ou criar por medidas'], [1,'manual','Peças avulsas','Piso, parede, porta, luzes, fogo e fumaça'],
-          [4,'structures','Pisos, paredes e acessos','Contornos, superfícies de apoio e escadas'], [8,'furnishing','Mobiliar cômodo','Preencher um piso com uma receita'] ] },
+          [4,'structures','Pisos, paredes e acessos','Contornos, superfícies de apoio e escadas'], [8,'furnishing','Mobiliar cômodo','26 tipos de cômodo, da cozinha à sala de ritual'] ] },
         { title: 'Paisagem', tasks: [[6,'terrain','Terreno e relevo','Criar terreno, elevar, nivelar e pintar'], [7,'landscape','Água e vegetação','Lagos, rios, gelo e plantas']] },
         { title: 'Personagens', tasks: [[2,'characters','Tokens','Colocar personagens na mesa']] },
         { title: 'Organização', tasks: [[5,'levels','Andares e camadas','Separar e isolar partes da cena'], [3,'grid','Grid e precisão','Mostrar, encaixar e medir']] },
@@ -1806,6 +1806,9 @@ export async function startApplication() {
       }
       case 'polish-frame': { const key = polishOptions.referenceId || selection; if (store.document.layout.entities[key]) viewport.frameSelection(key); break; }
       case 'save': return saveScene();
+      // Same room, next arrangement: only the seed changes, so it can be repeated later.
+      case 'smart-variation': smartOptions.seed = (smartOptions.seed + 1) % 4294967296; renderSidebar();
+      // falls through
       case 'smart-preview': {
         try { showAuthorshipProposal(proposeFurnishing(store.document, { ...smartOptions, floorId: smartFloorId, compositionId: currentComposition()?.id }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
