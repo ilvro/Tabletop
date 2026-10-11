@@ -65,27 +65,40 @@ ${transferControls}<button data-action="terrain-layer-add" class="wide" ${layers
     </details><details data-disclosure="terrain-advanced" ${advanced ? 'open' : ''}><summary>Acabamento, malha e alturas exatas</summary><label class="field"><span>Iluminação das faces</span><select data-field="terrain-shading">${option('smooth','Suave · encostas e solo',record.flatShading ? 'faceted' : 'smooth')}${option('faceted','Facetas marcadas · rocha',record.flatShading ? 'faceted' : 'smooth')}</select></label>${number('terrain-resolution','Divisões por eixo',record.segments,2,64)}<p class="microcopy">Suave/Facetas muda a iluminação, sem mudar alturas. Menos divisões dão faces maiores. Alterar a resolução reamostra alturas e pintura; reduzir pode apagar detalhes pequenos. Células atuais: ${(record.width/record.segments).toFixed(2)} × ${(record.length/record.segments).toFixed(2)} m.</p><span class="eyebrow">ALTURA DE UM VÉRTICE</span>${number('terrain-cell','Índice do vértice',cell,0,record.heights.length-1)}${number('terrain-height','Altura local · m',record.heights[cell] ?? 0,-1000,1000,.05)}<p class="microcopy">${record.segments + 1} × ${record.segments + 1} vértices, por linhas de Z e depois X. Altura local somada ao Y do terreno. A edição exata não aplica a proteção automática de pisos.</p></details>${materialTarget!=='base'?basePanel:''}</section>`;
 }
 
-/** A whole building from an outline: the person gives the shape, the assistant the plan. */
+/** A whole building from an outline: the person gives the shape and the rooms, the assistant the plan. */
 export function buildingPanel(document, options, roomFloorId) {
   const floors = Object.values(document.layout.entities).filter(e => e.kind === 'floor' && !e.vertices);
   const outline = document.layout.entities[options.floorId], [w, l] = outline ? [outline.width, outline.length] : [options.width, options.length];
+  const long = Math.max(w, l), short = Math.min(w, l), name = key => ROOM_TEMPLATES.find(t => t.id === key)?.name ?? key;
+  let plan = null, problem = ''; try { plan = planBuilding(options.type, long, short, options.seed, options.rooms ? { rooms: options.rooms, hub: options.hub } : null); } catch (error) { problem = error.message; }
+  // The list being edited: the person's, or what the type would put in this outline.
+  const wanted = options.rooms ?? plan?.rooms.filter(room => !room.hub).map(room => room.key) ?? [], hub = options.hub ?? plan?.programme.hub, fits = plan ? plan.rooms.filter(room => !room.hub).map(room => room.key) : [];
+  const left = [...fits], chips = wanted.map((key, i) => { const at = left.indexOf(key), placed = at >= 0; if (placed) left.splice(at, 1); return `<button type="button" data-action="building-room-remove" data-id="${i}" class="${placed ? 'active' : 'dropped'}" title="${placed ? 'Tirar da planta' : 'Não cabe neste contorno; tirar da lista'}">${esc(name(key))} ×</button>`; }).join('');
+  const groups = roomId => ROOM_GROUPS.map(group => `<optgroup label="${esc(group)}">${ROOM_TEMPLATES.filter(t => t.group === group).map(t => option(t.id, t.name, roomId)).join('')}</optgroup>`).join('');
+  const dropped = options.rooms ? wanted.length - fits.length : 0;
   return `<section><span class="eyebrow">PRÉDIO</span>
-    <label class="field"><span>Contorno</span><select data-field="building-floorId">${option('', 'Novo, por medidas', options.floorId ?? '')}${floors.map(f => option(f.id, `${f.name} · ${f.width.toFixed(1)} × ${f.length.toFixed(1)} m`, options.floorId)).join('')}</select></label>
-    ${outline ? '' : `<div class="field-grid">${number('building-width', 'Largura · m', options.width, 4, 60, .5)}${number('building-length', 'Comprimento · m', options.length, 3, 60, .5)}</div>`}
+    <label class="field"><span>Contorno</span><select data-field="building-floorId">${option('', options.center ? 'Desenhado na cena' : 'Novo, por medidas', options.floorId ?? '')}${floors.map(f => option(f.id, `${f.name} · ${f.width.toFixed(1)} × ${f.length.toFixed(1)} m`, options.floorId)).join('')}</select></label>
+    ${outline ? '' : `<button class="wide accent-outline" data-action="building-draw">Desenhar o contorno na cena</button><div class="field-grid">${number('building-width', 'Largura · m', Number(options.width.toFixed(2)), 4, 60, .5)}${number('building-length', 'Comprimento · m', Number(options.length.toFixed(2)), 3, 60, .5)}</div>`}
     ${choiceField('building-type', 'Tipo de prédio', options.type, BUILDING_TYPES.map(type => [type.id, type.name]))}
-    <p class="microcopy">${esc(buildingSummary(options.type, w, l, options.seed))}</p>
+    <div class="control-group"><span class="eyebrow">CÔMODOS</span>
+    <label class="field"><span>Cômodo de entrada</span><select data-field="building-hub">${groups(hub)}</select></label>
+    <div class="chips building-rooms" aria-label="Cômodos do prédio">${chips || '<span class="microcopy">Só o cômodo de entrada.</span>'}</div>
+    <label class="field"><span>Acrescentar à planta</span><select data-field="building-roomAdd"><option value="">Escolha um cômodo…</option>${groups('')}</select></label>
+    ${plan ? buildingSketch(plan, long, short, name) : ''}
+    <p class="microcopy">${esc(problem || (dropped > 0 ? `${dropped === 1 ? 'Um cômodo da lista não cabe' : `${dropped} cômodos da lista não cabem`} neste contorno (riscados); aumente o contorno ou tire outros.` : options.rooms ? `Cabem todos os cômodos da lista${plan.corridor ? ', com corredor' : ''}.` : `Sugestão do tipo para este tamanho${plan.corridor ? ', com corredor' : ''}. Tire ou acrescente cômodos à vontade.`))}${options.rooms ? ' <button type="button" class="quiet" data-action="building-rooms-reset">Voltar à lista do tipo</button>' : ''}</p></div>
     ${check('building-furnish', 'Mobiliar os cômodos', options.furnish)}${check('building-lighting', 'Iluminar', options.lighting)}${check('building-roof', 'Telhado', options.roof)}
     <button class="wide accent-outline" data-action="building-preview">Prévia do prédio</button>
     <button class="wide quiet" data-action="building-variation">Ver outra planta</button>
-    <p class="microcopy">Desenhe um piso retangular e escolha-o como contorno, ou dê as medidas. Se o contorno já tem paredes, portas ou móveis seus, eles ficam: a planta é escolhida para que cada móvel caia no cômodo certo, só as paredes que faltam são erguidas e a sua porta vira a entrada.</p>
+    <p class="microcopy">Com a prévia aberta, mudar medidas, tipo ou cômodos atualiza a prévia na cena. Se o contorno já tem paredes, portas ou móveis seus, eles ficam: a planta é escolhida para que cada móvel caia no cômodo certo, só as paredes que faltam são erguidas e a sua porta vira a entrada.</p>
     <div class="control-group"><span class="eyebrow">ACRESCENTAR CÔMODO</span>
     <p class="microcopy">${roomFloorId && document.layout.entities[roomFloorId] ? `Ao prédio de <strong>${esc(document.layout.entities[roomFloorId].name)}</strong>: encosta num lado livre, usa a parede que já existe e abre a porta.` : 'Selecione um cômodo do prédio que quer ampliar.'}</p>
-    <label class="field"><span>Cômodo novo</span><select data-field="building-addTemplate">${ROOM_GROUPS.map(group => `<optgroup label="${esc(group)}">${ROOM_TEMPLATES.filter(t => t.group === group).map(t => option(t.id, t.name, options.addTemplate)).join('')}</optgroup>`).join('')}</select></label>
+    <label class="field"><span>Cômodo novo</span><select data-field="building-addTemplate">${groups(options.addTemplate)}</select></label>
     <button class="wide accent-outline" data-action="building-add-room" ${roomFloorId ? '' : 'disabled'}>Prévia do cômodo novo</button></div></section>`;
 }
-function buildingSummary(type, width, length, seed) {
-  try { const plan = planBuilding(type, Math.max(width, length), Math.min(width, length), seed), names = plan.rooms.map(room => ROOM_TEMPLATES.find(t => t.id === room.key)?.name.toLowerCase() ?? room.key); return `Neste contorno cabem: ${names.join(', ')}${plan.corridor ? ', com corredor' : ''}.${plan.dropped ? ` Maior, caberiam mais ${plan.dropped}.` : ''}`; }
-  catch (error) { return error.message; }
+/** The plan as it will be divided, drawn to scale. */
+function buildingSketch(plan, long, short, name) {
+  const scale = 232 / long, cells = [...plan.rooms, ...(plan.corridor ? [plan.corridor] : [])];
+  return `<svg class="building-sketch" viewBox="0 0 236 ${(short * scale + 4).toFixed(1)}" role="img" aria-label="Planta do prédio">${cells.map(cell => { const x = (cell.x0 + long / 2) * scale + 2, y = (cell.z0 + short / 2) * scale + 2, w = (cell.x1 - cell.x0) * scale, h = (cell.z1 - cell.z0) * scale, label = cell.key === 'corridor' ? '' : name(cell.key); return `<rect class="${cell.hub ? 'hub' : cell.key === 'corridor' ? 'hall' : ''}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}"/>${label && w > 34 && h > 14 ? `<text x="${(x + w / 2).toFixed(1)}" y="${(y + h / 2 + 3).toFixed(1)}">${esc(label.length * 5 > w ? label.slice(0, Math.max(3, Math.floor(w / 5.5))) + '.' : label)}</text>` : ''}`; }).join('')}</svg>`;
 }
 
 /** The room assistant: what it understood, what it can complete, and the state to leave the place in. */

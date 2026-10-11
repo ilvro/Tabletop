@@ -25,6 +25,7 @@ export const BUILDING_TYPES = [
   { id: 'warehouse', name: 'Galpão', hub: 'storage', share: .5, rooms: [['workshop', 1.2], ['office', .8], ['bathroom', .5], ['surveillance', .8]] },
   { id: 'church', name: 'Igreja', hub: 'chapel', share: .62, rooms: [['office', .8], ['storage', .7], ['ritual', 1]] },
 ];
+const ROOM_WEIGHT = { bathroom: .55, cell: .6, garage: 1.5, ward: 1.4, kitchen: 1.1, bedroom: 1.1, meeting: 1.1, morgue: 1.1, workshop: 1.2, archive: .8, surveillance: .8, storage: .9 };
 const FLOORS = { tile: ['kitchen', 'bathroom', 'ward', 'clinic', 'morgue', 'lab', 'bar', 'shop'], concrete: ['garage', 'storage', 'workshop', 'cell', 'surveillance'], carpet: ['meeting', 'office', 'reception', 'archive', 'investigation', 'interrogation', 'library', 'classroom'], stone: ['chapel', 'ritual'] };
 const WINDOWLESS = ['cell', 'archive', 'storage', 'morgue', 'surveillance', 'ritual', 'interrogation'];
 const recipeName = key => key === 'corridor' ? 'Corredor' : ROOM_RECIPES.find(recipe => recipe.id === key)?.name ?? key;
@@ -36,15 +37,18 @@ const flooring = key => surfacePatch(Object.entries(FLOORS).find(([, rooms]) => 
  * end, a corridor runs from it and the other rooms open onto the corridor.
  * Returns rectangles `{ key, x0, x1, z0, z1 }` and the corridor, if any.
  */
-export function planBuilding(type, long, short, seed = 1) {
-  const programme = BUILDING_TYPES.find(entry => entry.id === type);
-  if (!programme) throw new ValidationError('Tipo de prédio inválido.');
+export function planBuilding(type, long, short, seed = 1, custom = null) {
+  const base = BUILDING_TYPES.find(entry => entry.id === type);
+  if (!base) throw new ValidationError('Tipo de prédio inválido.');
+  // The person's own list of rooms replaces the programme of the type; sizes come from what each room usually needs.
+  if (custom && (!Array.isArray(custom.rooms) || custom.rooms.length > 12 || ![custom.hub ?? base.hub, ...custom.rooms].every(key => ROOM_RECIPES.some(recipe => recipe.id === key)))) throw new ValidationError('Lista de cômodos inválida.');
+  const programme = custom ? { ...base, hub: custom.hub ?? base.hub, rooms: custom.rooms.map(key => [key, ROOM_WEIGHT[key] ?? 1]) } : base;
   if (long < 4 || short < 3) throw new ValidationError('O contorno precisa ter pelo menos 4 × 3 m.');
   const random = key => stableRandom(seed, `plan/${key}`) * 7919 % 1, flip = random('side') < .5 ? 1 : -1;
   const corridor = short >= 7.2 ? 'middle' : short >= 4.6 ? 'side' : null, width = corridor ? 1.3 : 0;
   // How many rooms fit beyond the hub, at about 12 m² each.
   let hub = Math.max(3.2, Math.min(long * .6, long * programme.share * (.9 + random('hub') * .25)));
-  let count = Math.max(0, Math.min(programme.rooms.length, Math.floor((long - hub) * (short - width) / 12)));
+  let count = Math.max(0, Math.min(programme.rooms.length, Math.floor((long - hub) * (short - width) / (custom ? 7 : 12))));
   if (!count || long - hub < 2.4) return { programme, corridor: null, rooms: [{ key: programme.hub, hub: true, x0: -long / 2, x1: long / 2, z0: -short / 2, z1: short / 2 }], dropped: programme.rooms.length };
   const x0 = -long / 2 + hub, rooms = [{ key: programme.hub, hub: true, x0: -long / 2, x1: x0, z0: -short / 2, z1: short / 2 }];
   const bands = corridor === 'middle' ? [{ z0: -short / 2, z1: -width / 2 }, { z0: width / 2, z1: short / 2 }]
@@ -156,7 +160,7 @@ const wallMaterial = outside => ({ ...surfacePatch('plaster'), color: outside ? 
  * goes, and the plan is chosen so that the furniture already there falls in
  * the rooms it belongs to, which are then completed around it.
  */
-export function proposeBuilding(document, { floorId = null, width = 14, length = 9, center = [0, 0, 0], type = 'house', seed = 1, height = 2.7, furnish = true, lighting = true, roof = true } = {}, expectedEditVersion = 0, catalog = []) {
+export function proposeBuilding(document, { floorId = null, width = 14, length = 9, center = [0, 0, 0], type = 'house', seed = 1, height = 2.7, furnish = true, lighting = true, roof = true, rooms = null, hub = null } = {}, expectedEditVersion = 0, catalog = []) {
   validateDocument(document);
   if (!Number.isInteger(seed) || seed < 0 || !(height >= 2.3 && height <= 6)) throw new ValidationError('Parâmetros do prédio inválidos.');
   const outline = floorId ? document.layout.entities[floorId] : null, entities = Object.values(document.layout.entities), look = document.look ?? document.defaultLook;
@@ -185,7 +189,7 @@ export function proposeBuilding(document, { floorId = null, width = 14, length =
     for (const door of ownDoors) if (inside({ x0: plan.rooms[0].x0 - .5, x1: plan.rooms[0].x1 + .5, z0: plan.rooms[0].z0 - .5, z1: plan.rooms[0].z1 + .5 }, door)) score += 6;
     return score;
   };
-  const busy = ownProps.length || ownDoors.length, variants = busy ? [0, 1, 2, 3, 4, 5].flatMap(k => [[false, false], [true, false], [false, true], [true, true]].map(([mx, mz]) => mirrored(planBuilding(type, long, short, seed * 7 + k), mx, mz))) : [planBuilding(type, long, short, seed)];
+  const custom = rooms ? { rooms, hub } : null, busy = ownProps.length || ownDoors.length, variants = busy ? [0, 1, 2, 3, 4, 5].flatMap(k => [[false, false], [true, false], [false, true], [true, true]].map(([mx, mz]) => mirrored(planBuilding(type, long, short, seed * 7 + k, custom), mx, mz))) : [planBuilding(type, long, short, seed, custom)];
   const plan = variants.map((candidate, i) => ({ candidate, score: fit(candidate) - i * 1e-4 })).sort((a, b) => b.score - a.score)[0].candidate, { programme } = plan;
   const cells = [...plan.rooms, ...(plan.corridor ? [plan.corridor] : [])], hubCell = plan.rooms[0], hall = plan.corridor;
   const group = { id: id(), name: programme.name, parentId: outline?.groupId ?? null, locked: false, audience: 'all' }, roofGroup = { id: id(), name: `Cobertura — ${programme.name}`, parentId: group.id, locked: false, audience: 'all' };

@@ -496,3 +496,12 @@ body { overflow: hidden; }
 .assistant-suggestion .field-grid { margin-top: 8px; }
 .assistant-suggestion button { min-height: 30px; }
 .assistant-building { margin-top: 6px; }
+/* Building: the list of rooms and the plan to scale. */
+.building-rooms { margin-bottom: 10px; }
+.building-rooms button { flex: 0 1 auto; }
+.building-rooms button.dropped { text-decoration: line-through; opacity: .6; }
+.building-sketch { display: block; width: 100%; margin: 4px 0 8px; }
+.building-sketch rect { fill: #2c353b; stroke: #8a959b; stroke-width: 1.2; }
+.building-sketch rect.hub { fill: #3a3327; stroke: var(--accent); }
+.building-sketch rect.hall { fill: #20262a; }
+.building-sketch text { fill: #d8dcda; font-size: 8px; text-anchor: middle; }

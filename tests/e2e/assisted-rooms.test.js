@@ -85,9 +85,9 @@ test('a building is raised from an outline drawn by the person and each room sta
     await action('floor-add');const outline=(await of('floor'))[0];await set('width',16);await set('length',9);
     await page.locator('[data-tab="build"]').click();await (await reveal(page.locator('[data-field="building-floorId"]'))).selectOption(outline.id);
     assert.equal(await page.locator('[data-field="building-width"]').count(),0,'measures come from the outline');
-    assert.match(await page.locator('[data-build-section="building"] .microcopy').first().textContent(),/cabem: sala de estar,.*cozinha/);
+    assert.equal(await page.locator('[data-field="building-hub"]').inputValue(),'living');assert.ok((await page.locator('[data-build-section="building"] .building-rooms button').allTextContents()).some(text=>text.startsWith('Cozinha')));
     await (await reveal(page.locator('.choice-field:has([data-field="building-type"]) [data-choice="police"]'))).click();
-    assert.match(await page.locator('[data-build-section="building"] .microcopy').first().textContent(),/recepção/);
+    assert.equal(await page.locator('[data-field="building-hub"]').inputValue(),'reception');
     await action('building-preview');assert.equal((await of('floor')).length,1,'a preview builds nothing');await action('accept-proposal');
     const floors=await of('floor');assert.ok(floors.length>=5);assert.ok(!floors.some(f=>f.id===outline.id),'the outline became the rooms');
     assert.ok(floors.some(f=>f.name==='Recepção'));assert.ok((await of('door')).length>=floors.length-1);assert.ok((await of('prop')).length>20);
@@ -126,6 +126,36 @@ test('what is already built is completed: a room is added to a room, and a start
     const garage=(await of('floor')).find(f=>f.name==='Garagem');assert.ok(garage);assert.equal((await of('floor')).length,rooms+1);
     assert.ok((await of('door')).some(d=>d.name==='Porta — Garagem'));
     await action('undo');await action('undo');assert.deepEqual((await of('floor')).map(f=>f.id),[outline.id]);assert.equal((await snapshot()).layout.entities[stove.id].surfaceId,outline.id);
+    assert.deepEqual(errors,[]);
+  } finally { await browser?.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true}); }
+});
+
+test('the outline is drawn in the scene, the rooms are chosen by the person and the preview follows the panel', {timeout:150_000}, async () => {
+  const dataDir=await mkdtemp(path.join(os.tmpdir(),'tabletop-draw-')),server=(await createApp({dataDir})).listen(0,'127.0.0.1');await once(server,'listening');let browser;
+  try {
+    browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+    const page=await browser.newPage({viewport:{width:1500,height:950}}),errors=[];page.setDefaultTimeout(30_000);page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
+    await page.goto(`http://127.0.0.1:${server.address().port}/?diagnostics`);await page.waitForFunction(()=>!!window.__tabletop);
+    const action=async name=>(await reveal(page.locator(`[data-action="${name}"]`).first())).click(),snapshot=()=>page.evaluate(()=>window.__tabletop.snapshot());
+    const of=async kind=>Object.values((await snapshot()).layout.entities).filter(e=>e.kind===kind),project=p=>page.evaluate(v=>window.__tabletop.project(v),p);
+    const section=page.locator('[data-build-section="building"]'),chips=()=>section.locator('.building-rooms button').allTextContents(),bar=page.locator('#proposal-bar');
+    await action('top');await page.waitForTimeout(500);
+    // Drag on the ground: that rectangle is the building, and the plan shows at once.
+    await action('building-draw');const a=await project([-8,0,-5]),b=await project([8,0,4]);
+    await page.mouse.move(a.x,a.y);await page.mouse.down();await page.mouse.move((a.x+b.x)/2,(a.y+b.y)/2,{steps:4});await page.mouse.move(b.x,b.y,{steps:4});await page.mouse.up();
+    await bar.locator('[data-action="accept-proposal"]').waitFor();assert.match(await bar.textContent(),/Construir casa/);assert.equal((await of('floor')).length,0);
+    const width=Number(await (await reveal(page.locator('[data-field="building-width"]'))).inputValue()),length=Number(await page.locator('[data-field="building-length"]').inputValue());
+    assert.ok(Math.abs(width-16)<1.2&&Math.abs(length-9)<1.2,`${width} × ${length}`);assert.equal(await section.locator('.building-sketch rect').count(),(await chips()).length+2);
+    // The list of rooms is the person's: out with a bedroom, in with a ritual room, a bar as the way in.
+    const before=await chips(),bedroom=before.findIndex(text=>text.startsWith('Quarto'));assert.ok(bedroom>=0);
+    await section.locator('.building-rooms button').nth(bedroom).click();assert.equal((await chips()).length,before.length-1);
+    await (await reveal(page.locator('[data-field="building-roomAdd"]'))).selectOption('ritual');await (await reveal(page.locator('[data-field="building-hub"]'))).selectOption('bar');
+    assert.ok((await chips()).some(text=>text.startsWith('Sala de ritual')));
+    // The preview stayed open through every change and is accepted as it stands.
+    await bar.locator('[data-action="accept-proposal"]').waitFor();await action('accept-proposal');
+    const names=(await of('floor')).map(f=>f.name);assert.ok(names.includes('Bar'));assert.ok(names.includes('Sala de ritual'));assert.equal(names.filter(n=>n.startsWith('Quarto')).length,before.filter(t=>t.startsWith('Quarto')).length-1);
+    // It stands where it was drawn.
+    const xs=(await of('floor')).flatMap(f=>[f.transform.position[0]]),zs=(await of('floor')).map(f=>f.transform.position[2]);assert.ok(Math.min(...xs)>-8.5&&Math.max(...xs)<8.5&&Math.min(...zs)>-5.5&&Math.max(...zs)<4.5);
     assert.deepEqual(errors,[]);
   } finally { await browser?.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true}); }
 });

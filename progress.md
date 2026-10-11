@@ -2,6 +2,18 @@
 
 Atualizado em 11 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Tutorial — plano entregue (11 de outubro)
+
+Plano em [docs/TUTORIAL_PLAN.md](docs/TUTORIAL_PLAN.md): lições como dados, alvos pelos identificadores da interface, avanço por condição sobre o estado da cena, um motor único e um teste genérico que executa todas as lições para que não envelheçam. Cinco etapas e oito lições previstas. Nada implementado ainda.
+
+## Construção assistida — programa da pessoa e contorno na cena, concluído (11 de outubro)
+
+**Feito**: lista de cômodos e cômodo de entrada editáveis (`planBuilding` com `custom`), planta em escala no painel, *Desenhar o contorno na cena* reaproveitando a ferramenta de desenhar sala, prévia que acompanha o painel. Detalhes e limites em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).
+
+**Validação**: 272 unitários passam (1 novo). E2E rodados e passando: `assisted-rooms` (5 casos, um deles com a verificação de texto atualizada para a lista de cômodos), `editor-ui`, `editor`, `panel-consistency`, `phase3`, `terrain-paint`; a bateria completa não foi repetida. Captura do painel com prévia aberta conferida.
+
+**Pendências reais**: contorno desenhado só alinhado aos eixos; prévia só ao soltar o arraste; tamanho e vizinhança de cada cômodo não são escolhidos pela pessoa.
+
 ## Construção assistida — completar o que já está construído, concluído (11 de outubro)
 
 Motivo: o usuário apontou que "Prédio" parecia presets e perguntou se dava para incluir em algo já construído; não dava.

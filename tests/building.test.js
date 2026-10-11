@@ -141,3 +141,18 @@ test('a missing room is added against a free side, sharing the wall and opening 
   assert.equal(of(lone, 'floor').length, 2); assert.match(bath.report.reasons[0], /usando a parede que já existe/);
   assert.equal(describeBuilding(lone.document, of(lone, 'floor')[0].id, catalog).rooms.length, 2);
 });
+
+test('the person decides which rooms the building has; the plan is found for that list', () => {
+  const custom = { hub: 'bar', rooms: ['kitchen', 'bathroom', 'bathroom', 'storage', 'office'] }, plan = planBuilding('house', 20, 10, 1, custom);
+  assert.equal(plan.rooms[0].key, 'bar'); assert.deepEqual(plan.rooms.slice(1).map(room => room.key).sort(), [...custom.rooms].sort());
+  assert.ok(Math.abs([...plan.rooms, plan.corridor].reduce((sum, c) => sum + (c.x1 - c.x0) * (c.z1 - c.z0), 0) - 200) < 1e-6);
+  // A list too long for the outline keeps the first rooms and says how many were left out.
+  const tight = planBuilding('house', 9, 5, 1, custom); assert.ok(tight.rooms.length - 1 < custom.rooms.length); assert.equal(tight.dropped, custom.rooms.length - (tight.rooms.length - 1));
+  assert.deepEqual(tight.rooms.slice(1).map(room => room.key).sort(), custom.rooms.slice(0, tight.rooms.length - 1).sort());
+  assert.throws(() => planBuilding('house', 20, 10, 1, { rooms: ['nope'] }), /inválida/);
+  // No extra rooms at all is a single room.
+  assert.equal(planBuilding('house', 12, 8, 1, { rooms: [] }).rooms.length, 1);
+  const { store } = build({ width: 20, length: 10, type: 'house', seed: 1, roof: false, ...custom });
+  const names = of(store, 'floor').map(f => f.name); assert.ok(names.includes('Bar')); assert.equal(names.filter(n => n.startsWith('Banheiro')).length, 2); assert.ok(!names.some(n => n.startsWith('Quarto')));
+  assert.ok(of(store, 'prop').some(e => e.assetRef.id === 'builtin-bar-stool'));
+});

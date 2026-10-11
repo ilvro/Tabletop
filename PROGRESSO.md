@@ -1,5 +1,9 @@
 # Tabletop — Progresso do Projeto
 
+**Construção assistida, programa e contorno (11 de outubro):** a pessoa escolhe a entrada e os cômodos do prédio, vê a planta em escala, desenha o contorno direto na cena e a prévia acompanha o painel. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).
+
+**Plano do tutorial (11 de outubro):** lições como dados, avanço por condição sobre o estado, motor único, e todas as lições executadas nos testes para não envelhecerem. [Plano](docs/TUTORIAL_PLAN.md). Nada implementado ainda.
+
 **Construção assistida, completar o que existe (11 de outubro):** o prédio agora aceita um contorno já começado (mantém paredes, portas e móveis, escolhe a planta que os respeita e completa em volta) e acrescenta um cômodo a um prédio existente compartilhando a parede. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).
 
 **Construção assistida, etapa 5 (11 de outubro):** prédio a partir de um contorno (sete tipos, planta pelo tamanho do contorno, paredes compartilhadas, portas, janelas, telhado, cada cômodo mobiliado e iluminado pelo assistente) e leitura do conjunto de cômodos como prédio. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).

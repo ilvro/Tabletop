@@ -41,7 +41,7 @@ import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
 import { proposeRoomState } from '../authoring/room-state.js';
 import { describeRoom } from '../authoring/room-insight.js';
-import { proposeBuilding, proposeAddRoom, describeBuilding } from '../authoring/building.js';
+import { proposeBuilding, proposeAddRoom, describeBuilding, planBuilding } from '../authoring/building.js';
 import { proposeRoomLighting, proposeRoomDetails, roomMood, suggestAtmosphere } from '../authoring/room-ambience.js';
 import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { resampleTerrain, resizeTerrain, protectTerrainFloors } from '../authoring/terrain.js';
@@ -145,7 +145,8 @@ export async function startApplication() {
   let activeSurfaceId, buildHeight = 0, smartFloorId = null, selectedIds = new Set();
   let smartOptions = { template: 'office', density: 'normal', chairs: 4, seed: 1, lighting: true, restoreDeleted: false };
   // The room type follows what is in the room until the person picks one for that floor.
-  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null, ambienceOptions = { mood: 'auto', amount: .6, seed: 1 }, buildingOptions = { floorId: '', width: 15, length: 9, type: 'house', seed: 1, furnish: true, lighting: true, roof: true, addTemplate: 'bathroom' };
+  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null, ambienceOptions = { mood: 'auto', amount: .6, seed: 1 }, buildingOptions = { floorId: '', width: 15, length: 9, type: 'house', seed: 1, furnish: true, lighting: true, roof: true, addTemplate: 'bathroom', rooms: null, hub: null, center: null };
+  let drawingBuilding = false;
   let anchorEditing = false, anchorHostId = '';
   const openBuildSections = new Set(['room']);
     let terrainMaterialTarget = 'layer';
@@ -326,7 +327,11 @@ export async function startApplication() {
     onWaterStroke: (objectId, points, options) => { try { showAuthorshipProposal(proposeWaterBrush(store.document,objectId,points,options,store.editVersion)); } catch(error) { notify(error.message,true); } },
     onRockStroke:(objectId,patch)=>execute('entity.update',{id:objectId,patch,snap:false},{label:'Esculpir superfície de rocha'}),
     onTerrainStroke: (objectId, patch) => execute('entity.update', { id: objectId, patch, snap: false }, { label: patch.paintLayers ? 'Pintar terreno' : 'Esculpir terreno' }),
-    onRoomDraw: (rectangle) => { roomOptions = { ...roomOptions, ...rectangle }; tab = 'build'; makeProposal(); renderSidebar(); },
+    onRoomDraw: (rectangle) => {
+      // The same gesture draws a room or the outline of a building.
+      if (drawingBuilding) { drawingBuilding = false; buildingOptions = { ...buildingOptions, floorId: '', width: rectangle.width, length: rectangle.length, center: rectangle.center }; tab = 'build'; openBuildSections.add('building'); previewBuilding(); renderSidebar(); return; }
+      roomOptions = { ...roomOptions, ...rectangle }; tab = 'build'; makeProposal(); renderSidebar();
+    },
     onPolygonDraw: (points) => {
       if (polygonHoleHost) {
         const floor = store.document.layout.entities[polygonHoleHost];
@@ -462,6 +467,22 @@ export async function startApplication() {
     if(tool==='terrain'&&isSculptableRock(store.document.layout.entities[selection])&&terrainBrush.mode==='rock'){terrainBrush.mode='push';viewport.setTerrainBrush(terrainBrush);renderToolContext();}
     viewport.setSelection(selection, [...selectedIds]); renderInspector(); renderSceneTreeIfVisible();
     if (store.document.layout.entities[selection]?.kind === 'terrain') document.getElementById('inspector-content').scrollTop = 0;
+  }
+  /** The rooms being edited: the person's list, or what the type puts in this outline. */
+  function buildingRooms() {
+    if (buildingOptions.rooms) return buildingOptions.rooms;
+    const outline = store.document.layout.entities[buildingOptions.floorId], [w, l] = outline ? [outline.width, outline.length] : [buildingOptions.width, buildingOptions.length];
+    try { return planBuilding(buildingOptions.type, Math.max(w, l), Math.min(w, l), buildingOptions.seed).rooms.filter(room => !room.hub).map(room => room.key); } catch { return []; }
+  }
+  function previewBuilding() {
+    try {
+      // Where it was drawn; otherwise beside what the scene already has.
+      const taken = Object.values(store.document.layout.entities).filter(e => e.transform && ['floor', 'terrain'].includes(e.kind)).map(e => e.transform.position[0] + Math.max(e.width, e.length) / 2);
+      const center = buildingOptions.center ?? [taken.length ? Math.max(...taken) + 3 + Math.max(buildingOptions.width, buildingOptions.length) / 2 : 0, 0, 0];
+      const { addTemplate, ...options } = buildingOptions;
+      const next = proposeBuilding(store.document, { ...options, floorId: buildingOptions.floorId || null, center }, store.editVersion, assets); next.buildingPreview = true;
+      showAuthorshipProposal(next);
+    } catch (error) { notify(error.message, true); }
   }
   function currentComposition() { return Object.values(store.document.layout.compositions).find(c => store.document.layout.areas[c.areaId]?.surfaceId === smartFloorId); }
   function showAuthorshipProposal(next) {
@@ -1486,7 +1507,14 @@ export async function startApplication() {
       else smartOptions[key] = value;
       clearProposal(); renderSidebar(); return;
     }
-    if (field.startsWith('building-')) { buildingOptions[field.slice(9)] = value; clearProposal(); renderSidebar(); return; }
+    if (field.startsWith('building-')) {
+      const key = field.slice(9), live = Boolean(proposal?.buildingPreview);
+      if (key === 'roomAdd') { if (value) buildingOptions.rooms = [...buildingRooms(), value]; }
+      else if (key === 'hub') { buildingOptions.rooms = buildingRooms(); buildingOptions.hub = value; }
+      else { buildingOptions[key] = value; if (key === 'type') { buildingOptions.rooms = null; buildingOptions.hub = null; } if (key === 'floorId') buildingOptions.center = null; }
+      // With the preview open, the scene follows the panel.
+      clearProposal(); if (live) previewBuilding(); renderSidebar(); return;
+    }
     if (field.startsWith('ambience-')) { const key = field.slice(9); ambienceOptions[key] = key === 'amount' ? Math.max(0, Math.min(1, value / 100)) : value; clearProposal(); renderSidebar(); return; }
     if (field.startsWith('state-')) { const key = field.slice(6); stateOptions[key] = key === 'intensity' ? Math.max(0, Math.min(1, value / 100)) : value; clearProposal(); renderSidebar(); return; }
     if (field.startsWith('polish-')) { polishOptions[field.slice(7)] = value; clearProposal(); if (field === 'polish-mode') renderInspector(); return; }
@@ -1842,16 +1870,12 @@ export async function startApplication() {
         try { showAuthorshipProposal(proposeAddRoom(store.document, { floorId: smartFloorId, template: metadata.id ?? buildingOptions.addTemplate, seed: buildingOptions.seed, furnish: buildingOptions.furnish, lighting: buildingOptions.lighting }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
+      case 'building-draw': drawingBuilding = true; clearProposal(); setTool('room'); notify('Arraste no chão para desenhar o contorno do prédio.'); break;
+      case 'building-room-remove': { const live = Boolean(proposal?.buildingPreview); buildingOptions.rooms = buildingRooms().filter((_, i) => i !== Number(metadata.id)); clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
+      case 'building-rooms-reset': { const live = Boolean(proposal?.buildingPreview); buildingOptions.rooms = null; buildingOptions.hub = null; clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
       case 'building-variation': buildingOptions.seed = (buildingOptions.seed + 1) % 4294967296; renderSidebar();
       // falls through
-      case 'building-preview': {
-        try {
-          // A new building stands beside what the scene already has.
-          const taken = Object.values(store.document.layout.entities).filter(e => e.transform && ['floor', 'terrain'].includes(e.kind)).map(e => e.transform.position[0] + Math.max(e.width, e.length) / 2);
-          const center = [taken.length ? Math.max(...taken) + 3 + Math.max(buildingOptions.width, buildingOptions.length) / 2 : 0, 0, 0];
-          showAuthorshipProposal(proposeBuilding(store.document, { ...buildingOptions, floorId: buildingOptions.floorId || null, center }, store.editVersion, assets));
-        } catch (error) { notify(error.message, true); } break;
-      }
+      case 'building-preview': previewBuilding(); break;
       case 'light-preview': {
         try { showAuthorshipProposal(proposeRoomLighting(store.document, { mood: ambienceOptions.mood, floorId: smartFloorId }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
