@@ -216,3 +216,21 @@ Motivo: depois da primeira entrega da etapa 5, o usuário observou que "Prédio"
 - A escolha da planta olha a posição dos móveis, não a orientação; um móvel pode ficar de costas para a porta nova.
 - Paredes internas da pessoa só são aproveitadas se estiverem a menos de 30 cm de uma linha da planta; a planta ainda não se desloca para alcançá-las.
 - A planta continua sendo "entrada numa ponta + corredor".
+
+### Etapa 5, terceira parte — programa da pessoa e contorno desenhado na cena (11 de outubro)
+
+Itens 3 e 4 combinados depois da observação sobre presets.
+
+- **Os cômodos são da pessoa.** O tipo de prédio passou a ser só uma sugestão de lista. No painel, o cômodo de entrada é escolhido entre os 26 e cada cômodo da lista pode ser tirado ou acrescentado; `planBuilding` recebe a lista (`rooms`, `hub`) e acha a planta. O que não cabe no contorno aparece riscado, com o aviso de quantos ficaram de fora, em vez de sumir.
+- **Planta em escala no painel**, atualizada a cada mudança de medida, tipo ou lista.
+- **Contorno desenhado na cena.** *Desenhar o contorno na cena* usa o mesmo gesto de desenhar sala: o retângulo arrastado no chão vira o prédio, naquele lugar, e a prévia abre na hora.
+- **A prévia acompanha o painel.** Com a prévia aberta, mudar medidas, tipo, entrada ou lista de cômodos refaz a prévia na cena, sem precisar pedir de novo.
+
+**Testes**: caso novo em `tests/building.test.js` (lista própria respeitada, lista longa demais mantém os primeiros e informa os que saíram, lista inválida recusada, prédio completo com bar de entrada e dois banheiros) e quinto caso de `tests/e2e/assisted-rooms.test.js` (arrastar no chão → prévia → tirar um quarto, pôr sala de ritual, bar como entrada → aceitar → prédio no lugar desenhado). Referência: `docs/references/assisted-build/predio-painel.jpg`.
+
+**Limites**
+
+- O contorno desenhado é sempre alinhado aos eixos da cena; para um prédio girado, desenha-se um piso, gira-se e usa-se como contorno.
+- A prévia só aparece ao soltar o arraste, não durante.
+- Não se escolhe o tamanho de cada cômodo nem quem fica ao lado de quem; isso continua a cargo da planta.
+- A lista da pessoa volta à sugestão do tipo quando o tipo é trocado.
