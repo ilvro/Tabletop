@@ -1,8 +1,10 @@
 import * as THREE from 'three';
+import { WEAR_STYLES, WEAR_PLACEMENTS, WEAR_EDGE_WIDTH } from '../domain/wear.js';
 
 const hooks = new WeakMap();
 const functions = `
   varying vec3 wearPosition;
+  varying vec4 wearEdgeDistance;
   uniform vec3 wearMin, wearExtent, wearCenter, wearColor;
   uniform vec4 wearPattern, wearFinish;
   uniform vec3 wearRegion;
@@ -20,14 +22,24 @@ const functions = `
     else if(wearPattern.w<1.5) pattern=smoothstep(.35,.68,wide*.7+fine*.3);
     else if(wearPattern.w<2.5) pattern=smoothstep(.42,.7,wide)*(.6+.4*fine);
     else if(wearPattern.w<3.5) pattern=smoothstep(.25,.7,wide)*(.8+.2*fine);
-    else pattern=1.0-smoothstep(.012,.055,abs(wearNoise(p*2.0+wide*.65)-.5));
+    else if(wearPattern.w<4.5) pattern=1.0-smoothstep(.012,.055,abs(wearNoise(p*2.0+wide*.65)-.5));
+    else pattern=smoothstep(.3,.7,wide*.6+fine*.4);
     vec3 uvw=(wearPosition-wearMin)/wearExtent;
     // A perfectly flat terrain/plane still has a usable centered region.
     uvw=mix(vec3(.5),uvw,step(vec3(.000101),wearExtent));
     float region=1.0;
     if(wearRegion.x>.5 && wearRegion.x<1.5 && wearExtent.y>.0001) region=1.0-smoothstep(.05,.55,uvw.y);
     else if(wearRegion.x<2.5 && wearRegion.x>1.5 && wearExtent.y>.0001) region=smoothstep(.45,.95,uvw.y);
-    else if(wearRegion.x>2.5) region=1.0-smoothstep(wearRegion.y*(1.0-wearRegion.z),wearRegion.y,distance(uvw,wearCenter));
+    else if(wearRegion.x>2.5 && wearRegion.x<3.5) region=1.0-smoothstep(wearRegion.y*(1.0-wearRegion.z),wearRegion.y,distance(uvw,wearCenter));
+    else if(wearRegion.x>3.5) {
+      // Distance to the nearest hard edge of the geometry (wear-edges.js). Values carry
+      // an offset of one; a mesh without the attribute reads zero and gets no wear.
+      vec4 e=abs(wearEdgeDistance); float nearest=min(min(e.x,e.y),min(e.z,e.w));
+      if(nearest<.5) return 0.0;
+      float band=1.0-smoothstep(wearRegion.y*.25,wearRegion.y,nearest-1.0+(fine-.5)*wearRegion.y*.9);
+      // Edges wear almost continuously; the pattern only breaks the band up.
+      return clamp(band*(.45+.55*pattern)*wearPattern.x*1.5,0.0,1.0);
+    }
     return clamp(pattern*region*wearPattern.x,0.0,1.0);
   }
 `;
@@ -66,12 +78,12 @@ export function applyMaterialWear(material, wear, coordinates, matrix) {
     Object.assign(shader.uniforms, {
       wearMatrix: { value: matrix }, wearMin: { value: coordinates.min }, wearExtent: { value: coordinates.extent },
       wearCenter: { value: new THREE.Vector3(...wear.center) }, wearColor: { value: new THREE.Color(wear.color) },
-      wearPattern: { value: new THREE.Vector4(wear.amount, wear.size, wear.seed, ['grime','rust','moss','scorch','cracks'].indexOf(wear.type)) },
+      wearPattern: { value: new THREE.Vector4(wear.amount, wear.size, wear.seed, WEAR_STYLES.findIndex(style => style.id === wear.type)) },
       wearFinish: { value: new THREE.Vector4(wear.roughness, wear.metalness, wear.type === 'cracks' ? -wear.relief : wear.relief, 0) },
-      wearRegion: { value: new THREE.Vector3(['all','base','top','region'].indexOf(wear.placement), wear.radius, wear.softness) },
+      wearRegion: { value: new THREE.Vector3(WEAR_PLACEMENTS.indexOf(wear.placement), wear.placement === 'edges' ? wear.edgeWidth ?? WEAR_EDGE_WIDTH : wear.radius, wear.softness) },
     });
-    shader.vertexShader = 'varying vec3 wearPosition; uniform mat4 wearMatrix;\n' + shader.vertexShader;
-    shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nwearPosition=(wearMatrix*vec4(transformed,1.0)).xyz;');
+    shader.vertexShader = 'varying vec3 wearPosition; varying vec4 wearEdgeDistance; attribute vec4 wearEdge; uniform mat4 wearMatrix;\n' + shader.vertexShader;
+    shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nwearPosition=(wearMatrix*vec4(transformed,1.0)).xyz; wearEdgeDistance=wearEdge;');
     shader.fragmentShader = functions + shader.fragmentShader;
     // After original texture/terrain/coverage composition, before lighting.
     shader.fragmentShader = shader.fragmentShader.replace('#include <color_fragment>', 'float materialWearWeight=wearWeight(); diffuseColor.rgb=mix(diffuseColor.rgb,wearColor,materialWearWeight);\n#include <color_fragment>');
@@ -86,6 +98,6 @@ export function applyMaterialWear(material, wear, coordinates, matrix) {
       normal=normalize(max(abs(wearDet),1e-12)*normal-wearGradient);
       #include <lights_physical_fragment>`);
   };
-  material.customProgramCacheKey = () => `${base.program}|tabletop-wear-v1`;
+  material.customProgramCacheKey = () => `${base.program}|tabletop-wear-v2`;
   material.needsUpdate = true;
 }

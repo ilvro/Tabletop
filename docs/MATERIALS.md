@@ -185,3 +185,11 @@ Os modelos da biblioteca usam essas famílias por padrão onde faz sentido: teci
 Amostras renderizadas: [surface-families.png](references/visual-plan/surface-families.png); `node scripts/review-surfaces.js [saída.png]` gera a prancha na GPU da máquina.
 
 Limites: os padrões são procedurais (256 px por repetição), sem fotografia; o desenho do tecido some a mais de alguns metros de distância, como numa trama real; documentos anteriores não são alterados, e os campos novos só são gravados quando a família correspondente é escolhida.
+
+## Desgaste nas bordas
+
+Em **Desgaste do material → Onde aplicar o desgaste**, a opção **Bordas e quinas** concentra o desgaste junto às arestas vivas da peça: cantos de móveis, quinas de paredes, bordas de chapas e de tábuas. **Largura da faixa nas bordas** vai de 0,2 a 50 cm (3 cm quando não informada); quantidade, tamanho do padrão, cor, rugosidade, metalicidade, relevo e seed valem como nos outros locais. Funciona com todos os tipos de desgaste, e há um tipo novo, **Uso · material exposto**, claro e levemente metálico, para tinta gasta pelo manuseio.
+
+A faixa segue a geometria: cada ponto da superfície sabe a distância até a aresta mais próxima da sua face. Vale para modelos da biblioteca, pisos, paredes e GLB importados. Amostras: [edge-wear.png](references/visual-plan/edge-wear.png); `node scripts/review-wear.js [saída.png]` gera a prancha.
+
+Limites: superfícies arredondadas não têm aresta viva e não recebem a faixa (os cantos boleados da geladeira, estofados, peças torneadas ao longo da curva); peças de rocha esculpível e terreno com camadas mantêm a própria geometria e não usam este local; ativar pela primeira vez num modelo detalhado leva algumas centenas de milissegundos (0,4 s no piano) e depois é reaproveitado por todas as cópias; sujeira acumulada em reentrâncias continua sendo aproximada por **Concentrar na base**.

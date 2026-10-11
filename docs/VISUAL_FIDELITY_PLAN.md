@@ -76,3 +76,11 @@ Medição na RX 580: tempo de quadro inalterado (Backrooms 10,7 ms, Casa 10,5 ms
 Validação: `tests/surface-families.test.js` (opções editáveis e validadas, cada opção altera a textura, repetição sem emenda, máscara de recoloração, atlas sob demanda) e os testes existentes de materiais, que percorrem todos os presets.
 
 Falta na etapa 3: desgaste que segue a geometria (bordas gastas, sujeira em reentrâncias). A geometria dos modelos tem arestas vivas por face, então a curvatura não pode ser medida na tela; exige marcar chanfros e cantos ao gerar os modelos.
+
+### 10 de outubro — etapa 3 (parte 2): desgaste nas bordas
+
+O desgaste ganhou o local **Bordas e quinas** e o tipo **Uso · material exposto**. A curvatura não pode ser medida na tela porque os modelos têm faces planas com arestas vivas; em vez disso, `src/render/wear-edges.js` deriva uma geometria em que cada vértice guarda a distância até quatro linhas de vinco que delimitam a sua face. A distância a uma linha é linear dentro de uma face plana, então o shader obtém por interpolação a distância exata até a aresta mais próxima, mesmo em caixas de dois triângulos por lado. A geometria derivada é calculada uma vez por modelo, só quando esse local é usado, e compartilhada pelas cópias; a largura da faixa (`wear.edgeWidth`) é opcional no documento. Uso e limites em [MATERIALS.md](MATERIALS.md#desgaste-nas-bordas); amostras em [edge-wear.png](references/visual-plan/edge-wear.png).
+
+Não foi feito: sujeira em reentrâncias medida pela geometria (exigiria oclusão por vértice calculada na geração dos modelos) e desgaste de fábrica nos modelos da biblioteca, porque o desgaste pertence ao objeto na cena, não à receita do modelo.
+
+Com isso a etapa 3 está concluída no que foi planejado, com essas duas ressalvas.

@@ -22,7 +22,11 @@ export function disposeObject(object, { includeSharedTextures = false } = {}) {
   const materials = new Set();
   const textures = new Set();
   object.traverse((child) => {
-    if (child.geometry) geometries.set(child.geometry,(geometries.get(child.geometry)??0)+1);
+    // A mesh drawing edge-wear geometry still owns a reference to its source; the derived
+    // buffers are shared by a cache and are simply uploaded again if someone else needs them.
+    const owned = child.userData?.wearSourceGeometry ?? child.geometry;
+    if (owned !== child.geometry) child.geometry.dispose();
+    if (owned) geometries.set(owned,(geometries.get(owned)??0)+1);
     const list = child.material ? (Array.isArray(child.material) ? child.material : [child.material]) : [];
     for (const material of list) {
       materials.add(material);

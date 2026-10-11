@@ -58,7 +58,7 @@ function material(value, path, partial = false) {
     bool(w.enabled, `${wp}.enabled`); choice(w.type, WEAR_STYLES.map(s => s.id), `${wp}.type`);
     color(w.color, `${wp}.color`); choice(w.placement, WEAR_PLACEMENTS, `${wp}.placement`);
     vector(w.center, 3, `${wp}.center`); w.center.forEach(v => number(v, `${wp}.center`, 0, 1));
-    for (const [key, range] of Object.entries(WEAR_RANGES)) number(w[key], `${wp}.${key}`, ...range);
+    for (const [key, range] of Object.entries(WEAR_RANGES)) if (key !== 'edgeWidth' || w[key] !== undefined) number(w[key], `${wp}.${key}`, ...range);
     fail(Number.isInteger(w.seed), 'Seed deve ser inteiro.', `${wp}.seed`);
   }
   if (value.coverage !== undefined && value.coverage !== null) {

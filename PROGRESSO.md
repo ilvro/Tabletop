@@ -1,5 +1,9 @@
 # Tabletop — Progresso do Projeto
 
+**Plano de reformulação da interface (10 de outubro):** diagnóstico por capturas e oito etapas, começando por controles adequados a cada valor e escolha de material por amostras. [Plano](docs/UI_REWORK_PLAN.md). Nada implementado ainda.
+
+**Desgaste nas bordas — entregue (10 de outubro):** o desgaste do material pode seguir as arestas vivas da peça, com largura configurável, e ganhou o tipo de uso com material exposto. [Uso](docs/MATERIALS.md#desgaste-nas-bordas).
+
 **Famílias de acabamento — entregues (10 de outubro):** seis texturas novas no seletor de material (tecido, couro, reboco, azulejo, carpete, pintura) e envelhecimento da madeira, cada uma com seu padrão configurável; recolorir preserva rejunte, lascas e substrato. A biblioteca usa tecido em estofados e pintura com lascas em máquinas e veículos. Tempo de quadro inalterado. [Uso](docs/MATERIALS.md#famílias-de-acabamento).
 
 **Fidelidade visual — etapas 1 e 2 concluídas (10 de outubro):** com AO, bloom ou névoa ligados a imagem mantém antialiasing 4× e resolução por qualidade (Equilibrada até 1,25×, Alta até 1,6×). Zonas de ambiente ganham luz refletida opcional: uma sonda por zona dá cor e direção ao ambiente (o forro pega a cor do piso, pilares esquentam perto das velas) mantendo o brilho configurado; cenas de exemplo regeneradas com 0,6, documentos existentes inalterados. Próxima etapa: materiais. [Plano e medições](docs/VISUAL_FIDELITY_PLAN.md).

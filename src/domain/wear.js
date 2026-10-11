@@ -5,9 +5,12 @@ export const WEAR_STYLES = [
   { id: 'moss', name: 'Musgo', color: '#43552b', roughness: .98, metalness: 0, relief: .015 },
   { id: 'scorch', name: 'Fuligem', color: '#242125', roughness: .96, metalness: 0, relief: .003 },
   { id: 'cracks', name: 'Rachaduras aparentes', color: '#332e2a', roughness: .9, metalness: 0, relief: .012 },
+  { id: 'bare', name: 'Uso · material exposto', color: '#b3ada0', roughness: .5, metalness: .3, relief: .004 },
 ];
-export const WEAR_RANGES = { amount: [0, 1], size: [.05, 50], seed: [0, 65535], roughness: [0, 1], metalness: [0, 1], relief: [0, .1], radius: [.01, 2], softness: [.01, 1] };
-export const WEAR_PLACEMENTS = ['all', 'base', 'top', 'region'];
+export const WEAR_RANGES = { amount: [0, 1], size: [.05, 50], seed: [0, 65535], roughness: [0, 1], metalness: [0, 1], relief: [0, .1], radius: [.01, 2], softness: [.01, 1], edgeWidth: [.002, .5] };
+/** `edges` follows the hard edges of the geometry; its band is `edgeWidth` metres wide (optional, 3 cm when absent). */
+export const WEAR_PLACEMENTS = ['all', 'base', 'top', 'region', 'edges'];
+export const WEAR_EDGE_WIDTH = .03;
 export function wearDefaults(type = 'grime', current = null) {
   const style = WEAR_STYLES.find(s => s.id === type);
   if (!style) throw new Error('Tipo de desgaste inválido.');
@@ -19,6 +22,6 @@ export function wearFieldPatch(current, field, value) {
   if (!current) throw new Error('Escolha um tipo de desgaste.');
   const next = structuredClone(current);
   if (field.startsWith('center-')) next.center[Number(field.slice(-1))] = value / 100;
-  else next[field] = ['amount', 'radius', 'softness'].includes(field) ? value / 100 : value;
+  else next[field] = ['amount', 'radius', 'softness', 'edgeWidth'].includes(field) ? value / 100 : value;
   return next;
 }

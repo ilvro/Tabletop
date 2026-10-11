@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { applyMaterialWear, wearCoordinates } from './material-wear.js';
+import { wearEdgeGeometry, supportsWearEdges } from './wear-edges.js';
 import { SURFACE_MATERIALS, surfacePreset, textureOptions, distributionOptions } from '../domain/materials.js';
 
 export { generateSurfaceAtlas, generateSurfaceTile } from './surface-pixels.js';
@@ -217,6 +218,11 @@ export function applySurfaceTextures(object, entity, library) {
   const coordinates = wear?.enabled && wear.amount > 0 ? wearCoordinates(object) : null;
   object.traverse(child => {
     if(!child.isMesh || child.userData.decorative) return;
+    // Wear along edges reads per-vertex edge distances; the mesh draws a derived
+    // geometry while that placement is on and returns to its own afterwards.
+    const edges=Boolean(coordinates)&&wear.placement==='edges', source=child.userData.wearSourceGeometry;
+    if(edges&&!source&&supportsWearEdges(child.geometry)) {child.userData.wearSourceGeometry=child.geometry;child.geometry=wearEdgeGeometry(child.geometry);}
+    else if(!edges&&source) {child.geometry=source;delete child.userData.wearSourceGeometry;}
     for(const material of Array.isArray(child.material)?child.material:[child.material]) {
       const slot=material?.name || child.userData.materialSlot || 'base';
       if(!material?.isMeshStandardMaterial) continue;
