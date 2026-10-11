@@ -41,13 +41,14 @@ import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
 import { proposeRoomState } from '../authoring/room-state.js';
 import { describeRoom } from '../authoring/room-insight.js';
+import { proposeBuilding, describeBuilding } from '../authoring/building.js';
 import { proposeRoomLighting, proposeRoomDetails, roomMood, suggestAtmosphere } from '../authoring/room-ambience.js';
 import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { resampleTerrain, resizeTerrain, protectTerrainFloors } from '../authoring/terrain.js';
 import { proposeAnchoring } from '../authoring/anchoring.js';
 import { proposePolish } from '../authoring/polish.js';
 import { proposeContourWalls } from '../authoring/structures.js';
-import { constructionPanel, smartBuildPanel, polishPanel, proposalReport, levelsPanel, terrainPanel, terrainInspector, anchoringPanel } from '../ui/authoring-panels.js';
+import { constructionPanel, smartBuildPanel, buildingPanel, polishPanel, proposalReport, levelsPanel, terrainPanel, terrainInspector, anchoringPanel } from '../ui/authoring-panels.js';
 import { createViewport } from '../render/renderer.js';
 import { repository, ApiError } from '../data/api.js';
 import { applicationURL, storageScope } from '../data/paths.js';
@@ -144,7 +145,7 @@ export async function startApplication() {
   let activeSurfaceId, buildHeight = 0, smartFloorId = null, selectedIds = new Set();
   let smartOptions = { template: 'office', density: 'normal', chairs: 4, seed: 1, lighting: true, restoreDeleted: false };
   // The room type follows what is in the room until the person picks one for that floor.
-  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null, ambienceOptions = { mood: 'auto', amount: .6, seed: 1 };
+  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null, ambienceOptions = { mood: 'auto', amount: .6, seed: 1 }, buildingOptions = { floorId: '', width: 15, length: 9, type: 'house', seed: 1, furnish: true, lighting: true, roof: true };
   let anchorEditing = false, anchorHostId = '';
   const openBuildSections = new Set(['room']);
     let terrainMaterialTarget = 'layer';
@@ -614,13 +615,15 @@ export async function startApplication() {
       panel.innerHTML += landscapePanel(store.document,vegetationOptions,assets,{numberField});
       const insight = smartFloorId ? describeRoom(store.document, smartFloorId, assets) : null;
       if (insight?.inferred[0] && !currentComposition() && smartTemplateChosenFor !== smartFloorId) smartOptions.template = insight.inferred[0].id;
-      if (insight) { insight.mood = roomMood(store.document, smartFloorId, assets); insight.atmosphere = suggestAtmosphere(store.document, smartFloorId, assets); }
+      if (buildingOptions.floorId && !store.document.layout.entities[buildingOptions.floorId]) buildingOptions.floorId = '';
+      panel.innerHTML += buildingPanel(store.document, buildingOptions);
+      if (insight) { insight.building = describeBuilding(store.document, smartFloorId, assets); insight.mood = roomMood(store.document, smartFloorId, assets); insight.atmosphere = suggestAtmosphere(store.document, smartFloorId, assets); }
       panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition(), insight, stateOptions, ambienceOptions);
       // Plain headings and one level of tasks: what is inside a task is visible as soon as it opens.
       taskList(panel, [
         { title: 'Construções', tasks: [
           [0,'room','Sala','Desenhar no chão ou criar por medidas'], [1,'manual','Peças avulsas','Piso, parede, porta, luzes, fogo e fumaça'],
-          [4,'structures','Pisos, paredes e acessos','Contornos, superfícies de apoio e escadas'], [8,'furnishing','Assistente de cômodo','Entende o que já existe, completa e muda o estado'] ] },
+          [4,'structures','Pisos, paredes e acessos','Contornos, superfícies de apoio e escadas'], [9,'furnishing','Assistente de cômodo','Entende o que já existe, completa e muda o estado'], [8,'building','Prédio','Divide um contorno em cômodos prontos'] ] },
         { title: 'Paisagem', tasks: [[6,'terrain','Terreno e relevo','Criar terreno, elevar, nivelar e pintar'], [7,'landscape','Água e vegetação','Lagos, rios, gelo e plantas']] },
         { title: 'Personagens', tasks: [[2,'characters','Tokens','Colocar personagens na mesa']] },
         { title: 'Organização', tasks: [[5,'levels','Andares e camadas','Separar e isolar partes da cena'], [3,'grid','Grid e precisão','Mostrar, encaixar e medir']] },
@@ -1483,6 +1486,7 @@ export async function startApplication() {
       else smartOptions[key] = value;
       clearProposal(); renderSidebar(); return;
     }
+    if (field.startsWith('building-')) { buildingOptions[field.slice(9)] = value; clearProposal(); renderSidebar(); return; }
     if (field.startsWith('ambience-')) { const key = field.slice(9); ambienceOptions[key] = key === 'amount' ? Math.max(0, Math.min(1, value / 100)) : value; clearProposal(); renderSidebar(); return; }
     if (field.startsWith('state-')) { const key = field.slice(6); stateOptions[key] = key === 'intensity' ? Math.max(0, Math.min(1, value / 100)) : value; clearProposal(); renderSidebar(); return; }
     if (field.startsWith('polish-')) { polishOptions[field.slice(7)] = value; clearProposal(); if (field === 'polish-mode') renderInspector(); return; }
@@ -1833,6 +1837,16 @@ export async function startApplication() {
       case 'state-preview': {
         try { showAuthorshipProposal(proposeRoomState(store.document, { ...stateOptions, floorId: smartFloorId }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
+      }
+      case 'building-variation': buildingOptions.seed = (buildingOptions.seed + 1) % 4294967296; renderSidebar();
+      // falls through
+      case 'building-preview': {
+        try {
+          // A new building stands beside what the scene already has.
+          const taken = Object.values(store.document.layout.entities).filter(e => e.transform && ['floor', 'terrain'].includes(e.kind)).map(e => e.transform.position[0] + Math.max(e.width, e.length) / 2);
+          const center = [taken.length ? Math.max(...taken) + 3 + Math.max(buildingOptions.width, buildingOptions.length) / 2 : 0, 0, 0];
+          showAuthorshipProposal(proposeBuilding(store.document, { ...buildingOptions, floorId: buildingOptions.floorId || null, center }, store.editVersion, assets));
+        } catch (error) { notify(error.message, true); } break;
       }
       case 'light-preview': {
         try { showAuthorshipProposal(proposeRoomLighting(store.document, { mood: ambienceOptions.mood, floorId: smartFloorId }, store.editVersion, assets)); }

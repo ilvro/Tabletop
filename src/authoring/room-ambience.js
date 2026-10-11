@@ -64,7 +64,7 @@ const blank = (label, expectedEditVersion, room) => ({ id: id(), expectedEditVer
  * hung only where those are not enough, and the bare light points a quick room
  * comes with give way to them.
  */
-export function proposeRoomLighting(document, { floorId, mood = 'auto' } = {}, expectedEditVersion = 0, catalog = []) {
+export function proposeRoomLighting(document, { floorId, mood = 'auto', sources = SOURCES_PER_ROOM, fixtures = Infinity } = {}, expectedEditVersion = 0, catalog = []) {
   const room = setup(document, floorId, catalog), { floor, area, frame, contents, toWorld, assetOf, named } = room;
   const chosen = mood === 'auto' ? roomMood(document, floor.id, catalog) : ROOM_MOODS.find(entry => entry.id === mood);
   if (!chosen) throw new ValidationError('Clima de luz inválido.');
@@ -99,16 +99,16 @@ export function proposeRoomLighting(document, { floorId, mood = 'auto' } = {}, e
   // A scene has few real lights to spend: each room lights its strongest sources and the rest stay as objects.
   wanted.sort((a, b) => b.light.intensity - a.light.intensity);
   wanted.forEach(({ entity, light }, i) => {
-    if (i < SOURCES_PER_ROOM) { proposal.updates.push({ kind: 'entity', id: entity.id, patch: { illumination: light, tags: [...untag(entity), LIT_TAG] } }); on++; if (light.intensity >= 40) strong++; }
+    if (i < sources) { proposal.updates.push({ kind: 'entity', id: entity.id, patch: { illumination: light, tags: [...untag(entity), LIT_TAG] } }); on++; if (light.intensity >= 40) strong++; }
     else if (entity.tags?.includes(LIT_TAG)) { proposal.updates.push({ kind: 'entity', id: entity.id, patch: { illumination: null, tags: untag(entity) } }); off++; }
   });
-  if (wanted.length > SOURCES_PER_ROOM) proposal.report.reasons.push(`${wanted.length - SOURCES_PER_ROOM} fontes menores ficam só como objeto, para não esgotar as luzes da cena.`);
+  if (wanted.length > sources) proposal.report.reasons.push(`${wanted.length - sources} fontes menores ficam só como objeto, para não esgotar as luzes da cena.`);
   let hung = 0;
   const hang = (model, x, z, light) => {
     const asset = named(model); if (!asset || !room.inside(toWorld(x, z))) return;
     proposal.entities.push(createEntity('prop', { name: asset.name, assetRef: { id: asset.id, revision: asset.revision }, position: toWorld(x, z, height - asset.bounds[1] - .04), rotation: quaternionFromYaw(frame.yaw), footprint: asset.footprint, groupId: area.groupId ?? floor.groupId ?? null, levelId: floor.levelId ?? null, layerId: floor.layerId ?? null, tags: [FIXTURE_TAG], illumination: light })); hung++;
   };
-  const spread = (count, place) => { const nx = Math.max(1, Math.round(Math.sqrt(count * area.width / area.length))), nz = Math.max(1, Math.ceil(count / nx)); for (let x = 0; x < nx; x++) for (let z = 0; z < nz; z++) place(area.width * ((x + .5) / nx - .5), area.length * ((z + .5) / nz - .5)); };
+  const spread = (wanted, place) => { const count = Math.min(wanted, fixtures), nx = Math.max(1, Math.round(Math.sqrt(count * area.width / area.length))), nz = Math.max(1, Math.ceil(count / nx)); for (let x = 0; x < nx; x++) for (let z = 0; z < nz; z++) place(area.width * ((x + .5) / nx - .5), area.length * ((z + .5) / nz - .5)); };
   const ceiling = (profile, strength, extra) => ({ ...illuminationDefaults(profile, {}), type: 'point', intensity: Math.round(illuminationDefaults(profile, {}).intensity * strength), position: [0, -.05, 0], priority: 20, ...extra });
   if (chosen.id === 'warm') { const need = Math.max(0, Math.ceil(areaSize / 14) - strong); if (need) spread(need, (x, z) => hang('house-ceiling-lamp', x, z, ceiling('lamp', .7))); }
   else if (chosen.id === 'cold') spread(Math.max(1, Math.ceil(areaSize / 20)), (x, z) => hang('backrooms-fluorescent', x, z, ceiling('fluorescent', .3)));

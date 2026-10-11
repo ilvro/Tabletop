@@ -5,6 +5,7 @@ import { ROOM_TEMPLATES } from '../authoring/furnishing.js';
 import { ROOM_GROUPS } from '../domain/room-recipes.js';
 import { ROOM_STATES } from '../domain/room-states.js';
 import { ROOM_MOODS } from '../authoring/room-ambience.js';
+import { BUILDING_TYPES, planBuilding } from '../authoring/building.js';
 import { isSupport } from '../domain/geometry.js';
 import { MATERIAL_PALETTES } from '../authoring/polish.js';
 
@@ -64,13 +65,32 @@ ${transferControls}<button data-action="terrain-layer-add" class="wide" ${layers
     </details><details data-disclosure="terrain-advanced" ${advanced ? 'open' : ''}><summary>Acabamento, malha e alturas exatas</summary><label class="field"><span>Iluminação das faces</span><select data-field="terrain-shading">${option('smooth','Suave · encostas e solo',record.flatShading ? 'faceted' : 'smooth')}${option('faceted','Facetas marcadas · rocha',record.flatShading ? 'faceted' : 'smooth')}</select></label>${number('terrain-resolution','Divisões por eixo',record.segments,2,64)}<p class="microcopy">Suave/Facetas muda a iluminação, sem mudar alturas. Menos divisões dão faces maiores. Alterar a resolução reamostra alturas e pintura; reduzir pode apagar detalhes pequenos. Células atuais: ${(record.width/record.segments).toFixed(2)} × ${(record.length/record.segments).toFixed(2)} m.</p><span class="eyebrow">ALTURA DE UM VÉRTICE</span>${number('terrain-cell','Índice do vértice',cell,0,record.heights.length-1)}${number('terrain-height','Altura local · m',record.heights[cell] ?? 0,-1000,1000,.05)}<p class="microcopy">${record.segments + 1} × ${record.segments + 1} vértices, por linhas de Z e depois X. Altura local somada ao Y do terreno. A edição exata não aplica a proteção automática de pisos.</p></details>${materialTarget!=='base'?basePanel:''}</section>`;
 }
 
+/** A whole building from an outline: the person gives the shape, the assistant the plan. */
+export function buildingPanel(document, options) {
+  const floors = Object.values(document.layout.entities).filter(e => e.kind === 'floor' && !e.vertices);
+  const outline = document.layout.entities[options.floorId], [w, l] = outline ? [outline.width, outline.length] : [options.width, options.length];
+  return `<section><span class="eyebrow">PRÉDIO</span>
+    <label class="field"><span>Contorno</span><select data-field="building-floorId">${option('', 'Novo, por medidas', options.floorId ?? '')}${floors.map(f => option(f.id, `${f.name} · ${f.width.toFixed(1)} × ${f.length.toFixed(1)} m`, options.floorId)).join('')}</select></label>
+    ${outline ? '' : `<div class="field-grid">${number('building-width', 'Largura · m', options.width, 4, 60, .5)}${number('building-length', 'Comprimento · m', options.length, 3, 60, .5)}</div>`}
+    ${choiceField('building-type', 'Tipo de prédio', options.type, BUILDING_TYPES.map(type => [type.id, type.name]))}
+    <p class="microcopy">${esc(buildingSummary(options.type, w, l, options.seed))}</p>
+    ${check('building-furnish', 'Mobiliar os cômodos', options.furnish)}${check('building-lighting', 'Iluminar', options.lighting)}${check('building-roof', 'Telhado', options.roof)}
+    <button class="wide accent-outline" data-action="building-preview">Prévia do prédio</button>
+    <button class="wide quiet" data-action="building-variation">Ver outra planta</button>
+    <p class="microcopy">Desenhe um piso retangular e escolha-o como contorno, ou dê as medidas. O contorno vira os pisos dos cômodos; cada cômodo continua editável pelo Assistente de cômodo.</p></section>`;
+}
+function buildingSummary(type, width, length, seed) {
+  try { const plan = planBuilding(type, Math.max(width, length), Math.min(width, length), seed), names = plan.rooms.map(room => ROOM_TEMPLATES.find(t => t.id === room.key)?.name.toLowerCase() ?? room.key); return `Neste contorno cabem: ${names.join(', ')}${plan.corridor ? ', com corredor' : ''}.${plan.dropped ? ` Maior, caberiam mais ${plan.dropped}.` : ''}`; }
+  catch (error) { return error.message; }
+}
+
 /** The room assistant: what it understood, what it can complete, and the state to leave the place in. */
 export function smartBuildPanel(document, options, floorId, existing, insight, stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, ambience = { mood: 'auto', amount: .6, seed: 1 }) {
   const floors = Object.values(document.layout.entities).filter(e => e.kind === 'floor'), recipe = ROOM_TEMPLATES.find(t => t.id === options.template);
   const guess = insight?.inferred ?? [], state = ROOM_STATES.find(entry => entry.id === stateOptions.state);
   const reading = !insight ? '' : `<div class="assistant-reading" aria-live="polite">${guess.length
     ? `<p>Pelo que já está aqui, isto parece <strong>${esc(guess[0].name.toLowerCase())}</strong>.</p>${guess.length > 1 ? `<div class="chips">${guess.map(entry => `<button type="button" data-action="smart-pick" data-id="${entry.id}" class="${entry.id === options.template ? 'active' : ''}">${esc(entry.name)}</button>`).join('')}</div>` : ''}`
-    : ''}${insight.notes.length ? `<ul class="assistant-notes">${insight.notes.map(note => `<li class="${note.kind}">${esc(note.text)}${note.id ? ` <button type="button" class="quiet" data-action="assist-select" data-id="${note.id}">Mostrar</button>` : ''}</li>`).join('')}</ul>` : ''}</div>`;
+    : ''}${insight.building?.type ? `<p class="assistant-building">Com os cômodos vizinhos, forma <strong>${esc(insight.building.type.name.toLowerCase())}</strong> de ${insight.building.rooms.length} cômodos${insight.building.missing.length ? `; ainda não tem ${esc(insight.building.missing.map(room => room.name.toLowerCase()).join(', '))}` : ''}.</p>` : ''}${insight.notes.length ? `<ul class="assistant-notes">${insight.notes.map(note => `<li class="${note.kind}">${esc(note.text)}${note.id ? ` <button type="button" class="quiet" data-action="assist-select" data-id="${note.id}">Mostrar</button>` : ''}</li>`).join('')}</ul>` : ''}</div>`;
   return `<section><span class="eyebrow">SMART BUILD</span>
     <label class="field"><span>Piso / espaço</span><select data-field="smart-floor">${option('', 'Selecione um piso', floorId ?? '')}${floors.map(f => option(f.id, f.name, floorId)).join('')}</select></label>
     ${reading}

@@ -72,3 +72,30 @@ test('the assistant reads what was placed by hand, completes around it and chang
     assert.deepEqual(errors,[]);
   } finally { await browser?.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true}); }
 });
+
+test('a building is raised from an outline drawn by the person and each room stays with the room assistant', {timeout:150_000}, async () => {
+  const dataDir=await mkdtemp(path.join(os.tmpdir(),'tabletop-building-')),server=(await createApp({dataDir})).listen(0,'127.0.0.1');await once(server,'listening');let browser;
+  try {
+    browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+    const page=await browser.newPage({viewport:{width:1500,height:950}}),errors=[];page.setDefaultTimeout(30_000);page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
+    await page.goto(`http://127.0.0.1:${server.address().port}/?diagnostics`);await page.waitForFunction(()=>!!window.__tabletop);
+    const action=async name=>(await reveal(page.locator(`[data-action="${name}"]`).first())).click(),snapshot=()=>page.evaluate(()=>window.__tabletop.snapshot());
+    const of=async kind=>Object.values((await snapshot()).layout.entities).filter(e=>e.kind===kind),set=async(field,value)=>{const node=await reveal(page.locator(`[data-field="${field}"]`));await node.fill(String(value));await node.press('Tab');};
+    // The person draws the outline: a plain floor, resized.
+    await action('floor-add');const outline=(await of('floor'))[0];await set('width',16);await set('length',9);
+    await page.locator('[data-tab="build"]').click();await (await reveal(page.locator('[data-field="building-floorId"]'))).selectOption(outline.id);
+    assert.equal(await page.locator('[data-field="building-width"]').count(),0,'measures come from the outline');
+    assert.match(await page.locator('[data-build-section="building"] .microcopy').first().textContent(),/cabem: sala de estar,.*cozinha/);
+    await (await reveal(page.locator('.choice-field:has([data-field="building-type"]) [data-choice="police"]'))).click();
+    assert.match(await page.locator('[data-build-section="building"] .microcopy').first().textContent(),/recepção/);
+    await action('building-preview');assert.equal((await of('floor')).length,1,'a preview builds nothing');await action('accept-proposal');
+    const floors=await of('floor');assert.ok(floors.length>=5);assert.ok(!floors.some(f=>f.id===outline.id),'the outline became the rooms');
+    assert.ok(floors.some(f=>f.name==='Recepção'));assert.ok((await of('door')).length>=floors.length-1);assert.ok((await of('prop')).length>20);
+    // Selecting a room of the building brings the room assistant to it, aware of the whole.
+    const cell=floors.find(f=>f.name.startsWith('Cela'));await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${cell.id}"]`))).click();await page.locator('[data-tab="build"]').click();
+    await reveal(page.locator('[data-field="smart-template"]'));assert.equal(await page.locator('[data-field="smart-floor"]').inputValue(),cell.id);
+    assert.match(await page.locator('.assistant-reading').textContent(),/forma delegacia de \d+ cômodos/);
+    await action('undo');assert.deepEqual((await of('floor')).map(f=>f.id),[outline.id]);
+    assert.deepEqual(errors,[]);
+  } finally { await browser?.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true}); }
+});

@@ -2,6 +2,14 @@
 
 Atualizado em 11 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Construção assistida — etapa 5, prédio a partir do contorno, concluída (11 de outubro)
+
+**Feito**: `src/authoring/building.js` (`planBuilding`, `proposeBuilding`, `describeBuilding`, sete programas de prédio); tarefa *Prédio* no painel Construir; leitura do prédio no Assistente de cômodo; limites de fontes e luminárias em `proposeRoomLighting`; `scripts/capture-building.js`. Detalhes e limites em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).
+
+**Validação**: 269 unitários passam (5 novos em `tests/building.test.js`). E2E rodados e passando: `assisted-rooms` (3 casos), `controls`, `editor-ui`, `editor`, `panel-consistency`, `phase3`, `structural-evolution`, `terrain-paint`; a bateria completa não foi repetida. Conferência visual de uma casa e uma delegacia de 16 × 9 m no editor real; os outros cinco tipos só passaram pelos testes.
+
+**Pendências reais**: só contorno retangular e um pavimento; contorno precisa estar vazio; uma única família de planta; telhado esticado; dependência de autoria → estado em `building.js`; cômodo que falta ainda não é criado com um clique. Próximas etapas: 6 (terreno e entorno) e 7 (cena pronta).
+
 ## Construção assistida — etapa 4, ambientar, concluída (11 de outubro)
 
 **Feito**: `src/authoring/room-ambience.js` com `roomMood`, `proposeRoomLighting`, `suggestAtmosphere` e `proposeRoomDetails`; `wallSocket` em `room-layout.js` e orientação de encaixe para objetos (`commands.js`, `validation.js`); grupos Luz do cômodo e Detalhes no painel do assistente. Detalhes e limites em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).

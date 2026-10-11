@@ -1,5 +1,7 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Construção assistida, etapa 5 (11 de outubro):** prédio a partir de um contorno (sete tipos, planta pelo tamanho do contorno, paredes compartilhadas, portas, janelas, telhado, cada cômodo mobiliado e iluminado pelo assistente) e leitura do conjunto de cômodos como prédio. [Plano e andamento](ASSISTED_BUILD_PLAN.md).
+
 **Construção assistida, etapa 4 (11 de outubro):** luz do cômodo pelos próprios objetos, com clima deduzido do tipo e do estado; sugestão de atmosfera da cena; detalhes lidos do cômodo (cortinas, tapete, paredes, cantos, tampos); itens de parede presos à parede. [Plano e andamento](ASSISTED_BUILD_PLAN.md).
 
 **Construção assistida, etapa 3 (11 de outubro):** o assistente lê o cômodo (deduz o tipo pelas peças, diz o que falta, aponta problemas), aproveita o que a pessoa já colocou e aplica estados (habitado, abandonado, cena de crime, ritual, arrumado) transformando o que existe. [Plano e andamento](ASSISTED_BUILD_PLAN.md).

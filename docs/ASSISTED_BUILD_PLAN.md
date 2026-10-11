@@ -160,3 +160,29 @@ Feita no mesmo espírito da etapa 3: cada passo lê o cômodo e age sobre o que 
 - Com muitos cômodos iluminados na mesma cena, o limite global de luzes ainda apaga as menos prioritárias; a qualidade Alta dobra o limite.
 - As intensidades foram calibradas a olho em seis cômodos de 7 × 6 m à noite; cômodos muito maiores ou menores podem pedir ajuste manual.
 - Os detalhes não são retirados pelos estados nem por Arrumado: são objetos comuns, com a etiqueta `detalhe`.
+
+### Etapa 5 — prédio a partir do contorno, entregue (11 de outubro)
+
+**O contorno é da pessoa; a planta é do assistente** (`src/authoring/building.js`)
+
+- O contorno é um piso retangular vazio que a pessoa desenhou (posição, rotação e andar são respeitados) ou medidas para um prédio novo, colocado ao lado do que a cena já tem.
+- `planBuilding` divide o contorno pelo programa do tipo de prédio: o cômodo de entrada ocupa uma ponta, um corredor parte dele (central se o prédio é largo, lateral se é estreito, nenhum se é muito estreito) e os demais cômodos abrem para o corredor. O prédio recebe tantos cômodos do programa quantos o contorno comporta, por ordem de importância, e o painel diz de antemão o que cabe.
+- Sete tipos: casa, delegacia, clínica, escritório, bar, galpão, igreja. São programas (que cômodos, com que peso), não plantas prontas: a mesma casa muda com o tamanho, a proporção e a variação.
+- `proposeBuilding` ergue um piso por cômodo com o revestimento do tipo de cômodo, paredes compartilhadas entre vizinhos, porta de entrada, porta de cada cômodo para o corredor, janelas nas paredes externas (menos em cela, arquivo, depósito, necrotério e afins), e telhado numa pasta própria.
+- Mobília, detalhes e luz de cada cômodo são feitos pelo assistente de cômodo, numa cópia da cena; a proposta é o que essa cópia ganhou. Cada cômodo fica com sua receita e segue editável e regenerável sozinho.
+- A luz respeita o limite da cena: duas fontes por cômodo, três no cômodo de entrada, uma luminária de teto por cômodo.
+
+**O assistente entende o conjunto** (`describeBuilding`): cômodos cujos pisos se tocam são lidos como um prédio; pelo tipo de cada um, deduz que prédio é e diz qual cômodo essencial falta ("forma casa de 3 cômodos; ainda não tem banheiro"). Vale para cômodos feitos à mão, não só para prédios gerados.
+
+**Interface**: tarefa *Prédio* em Construir, com contorno, tipo, o que mobiliar/iluminar/cobrir, prévia e "Ver outra planta"; a leitura do prédio aparece no Assistente de cômodo.
+
+**Testes**: `tests/building.test.js` (planta cobre o contorno sem sobreposição em 7 tipos × 4 tamanhos × 3 variações, casa completa com paredes compartilhadas, portas, janelas, telhado e mobília dentro de cada cômodo, contorno rotacionado respeitado, recusa de contorno ocupado ou não retangular, todos os tipos validando, leitura de prédio feito à mão) e o terceiro caso de `tests/e2e/assisted-rooms.test.js`. Referência: `docs/references/assisted-build/predios.jpg`; `scripts/capture-building.js` renderiza prédios no editor.
+
+**Limites desta entrega**
+
+- Só contorno retangular e um pavimento. Contorno em L, prédios de dois andares e escadas ficam para depois.
+- O contorno precisa estar vazio; o assistente ainda não divide em volta de cômodos que já existem dentro dele.
+- A planta é sempre "entrada numa ponta + corredor"; não há pátio, varanda nem cômodos de passagem.
+- O telhado é o modelo de telhado de casa esticado para o contorno; em prédios muito grandes ou muito estreitos fica desproporcional.
+- `building.js` usa o armazenamento de cena para compor as propostas dos cômodos, o que liga a camada de autoria à de estado.
+- A leitura do prédio sugere o que falta, mas ainda não cria o cômodo que falta com um clique.
