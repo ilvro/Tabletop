@@ -132,3 +132,31 @@ Orientação recebida antes desta etapa: não é para ser um conjunto de presets
 - Os móveis só giram no próprio eixo: não há peça tombada.
 - O reconhecimento compara modelos exatos; uma mesa de outro tipo não conta como "a mesa" da receita.
 - A leitura é por cômodo. O assistente ainda não entende o prédio (que cômodo falta numa casa), que é a etapa 5.
+
+### Etapa 4 — ambientar, entregue (11 de outubro)
+
+Feita no mesmo espírito da etapa 3: cada passo lê o cômodo e age sobre o que está lá.
+
+**Luz do cômodo** (`proposeRoomLighting` em `src/authoring/room-ambience.js`)
+
+- O **clima da luz** é deduzido (`roomMood`): ritual montado pede só chamas, cena de crime pede foco duro, lugar abandonado pede penumbra; sem estado, vale o tipo de cômodo (casa, capela, biblioteca e bar quentes; trabalho, saúde e indústria frios). A pessoa pode trocar por qualquer um dos cinco climas.
+- As fontes são os objetos do cômodo: abajures, velas, candelabros, lampiões, lareira, luminária cirúrgica e fluorescentes ganham o perfil de luz que corresponde ao que são; telas (TV, computador, monitores, fliperama) só brilham. Luminárias de teto são penduradas apenas onde isso não basta, em quantidade pela área.
+- Os pontos de luz soltos que a sala rápida e o mobiliar criam dão lugar às luminárias.
+- Cada cômodo acende no máximo quatro fontes, as mais fortes, e as luminárias de teto e o círculo ritual têm prioridade maior, porque a cena tem um limite de luzes reais (oito na qualidade equilibrada).
+- Refazer com outro clima troca as luminárias penduradas e reconsidera os objetos acesos pelo assistente (`luminária-assistida`, `luz-assistida`). Luz que a pessoa configurou não é alterada.
+
+**Atmosfera da cena** (`suggestAtmosphere`): o painel sugere o ambiente global que combina com o cômodo (interior acolhedor, fluorescente, noite, horror ritual), com Prévia e Aplicar; a sugestão some quando a cena já usa esse ambiente.
+
+**Detalhes** (`proposeRoomDetails`): cortinas em cada janela do cômodo que não tem, tapete sob o móvel em torno do qual o cômodo se organiza, peças nas paredes vazias conforme o tipo de cômodo, cantos preenchidos e objetos sobre tampos vazios. Os pares móvel → objeto são tirados das próprias receitas, não de uma lista à parte. Só acrescenta o que falta: rodar de novo não duplica.
+
+**Itens de parede vinculados**: quadros, espelhos, painéis e cortinas ficam presos à parede e a acompanham. Para isso o encaixe de parede passou a aceitar orientação em objetos (antes só em luz spot), o que permite pendurar na face oposta da parede; documentos antigos não mudam.
+
+**Testes**: `tests/room-ambience.test.js` (peça acompanha a parede e fica voltada para dentro em qualquer parede, clima por tipo e estado, luz pelos objetos com troca de clima e luz própria preservada, detalhes lidos do cômodo e idempotentes) e o caso de ponta a ponta do assistente, estendido com luz, detalhes e atmosfera. Referência: `docs/references/assisted-build/luz-por-comodo.jpg`.
+
+**Limites desta entrega**
+
+- As luminárias de teto ficam na altura das paredes, sem vínculo com um teto; se a altura das paredes mudar, é preciso refazer a luz.
+- Reconhece como "ponto de luz solto" o que tem nome começando por "Luz — " (como os criados pela sala rápida e pelo mobiliar); uma luz sua com esse nome também sairia. A prévia mostra o que sai.
+- Com muitos cômodos iluminados na mesma cena, o limite global de luzes ainda apaga as menos prioritárias; a qualidade Alta dobra o limite.
+- As intensidades foram calibradas a olho em seis cômodos de 7 × 6 m à noite; cômodos muito maiores ou menores podem pedir ajuste manual.
+- Os detalhes não são retirados pelos estados nem por Arrumado: são objetos comuns, com a etiqueta `detalhe`.

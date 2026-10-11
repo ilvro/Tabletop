@@ -2,6 +2,14 @@
 
 Atualizado em 11 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Construção assistida — etapa 4, ambientar, concluída (11 de outubro)
+
+**Feito**: `src/authoring/room-ambience.js` com `roomMood`, `proposeRoomLighting`, `suggestAtmosphere` e `proposeRoomDetails`; `wallSocket` em `room-layout.js` e orientação de encaixe para objetos (`commands.js`, `validation.js`); grupos Luz do cômodo e Detalhes no painel do assistente. Detalhes e limites em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).
+
+**Validação**: 264 unitários passam (4 novos em `tests/room-ambience.test.js`). E2E rodados e passando: `assisted-rooms`, `controls`, `dynamic-lighting`, `editor-ui`, `panel-consistency`, `phase3`, `structural-evolution`; a bateria completa não foi repetida. Calibragem visual em três rodadas no editor real: a primeira estourava o laboratório e deixava o ritual escuro; corrigido com intensidades menores, teto de quatro fontes por cômodo e prioridades.
+
+**Pendências reais**: luminárias sem vínculo com teto; heurística do nome "Luz — "; limite global de luzes em cenas com muitos cômodos; calibragem só em cômodos de 7 × 6 m. Próxima etapa: 5 (prédio a partir do contorno), onde o assistente passa a entender o conjunto de cômodos.
+
 ## Construção assistida — etapa 3 e leitura do cômodo concluídas (11 de outubro)
 
 Orientação do usuário: não quer presets prontos; quer um assistente que entenda o que está sendo feito, se adapte e ajude.

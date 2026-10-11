@@ -4,6 +4,7 @@ import { escapeHTML as esc } from './icons.js';
 import { ROOM_TEMPLATES } from '../authoring/furnishing.js';
 import { ROOM_GROUPS } from '../domain/room-recipes.js';
 import { ROOM_STATES } from '../domain/room-states.js';
+import { ROOM_MOODS } from '../authoring/room-ambience.js';
 import { isSupport } from '../domain/geometry.js';
 import { MATERIAL_PALETTES } from '../authoring/polish.js';
 
@@ -64,7 +65,7 @@ ${transferControls}<button data-action="terrain-layer-add" class="wide" ${layers
 }
 
 /** The room assistant: what it understood, what it can complete, and the state to leave the place in. */
-export function smartBuildPanel(document, options, floorId, existing, insight, stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }) {
+export function smartBuildPanel(document, options, floorId, existing, insight, stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, ambience = { mood: 'auto', amount: .6, seed: 1 }) {
   const floors = Object.values(document.layout.entities).filter(e => e.kind === 'floor'), recipe = ROOM_TEMPLATES.find(t => t.id === options.template);
   const guess = insight?.inferred ?? [], state = ROOM_STATES.find(entry => entry.id === stateOptions.state);
   const reading = !insight ? '' : `<div class="assistant-reading" aria-live="polite">${guess.length
@@ -88,7 +89,18 @@ export function smartBuildPanel(document, options, floorId, existing, insight, s
     ${stateOptions.state === 'tidy' ? '' : `<label class="field range-field"><span class="field-label">Intensidade</span><span class="value-box"><input type="number" data-field="state-intensity" value="${Math.round(stateOptions.intensity * 100)}" min="0" max="100" step="5"/><i>%</i></span><input type="range" data-range="state-intensity" value="${Math.round(stateOptions.intensity * 100)}" min="0" max="100" step="5" tabindex="-1" aria-hidden="true"/></label>`}
     <button class="wide accent-outline" data-action="state-preview" ${floorId ? '' : 'disabled'}>Prévia do estado</button>
     ${stateOptions.state === 'tidy' ? '' : `<button class="wide quiet" data-action="state-variation" ${floorId ? '' : 'disabled'}>Ver outra versão</button>`}
-    <p class="microcopy">Age sobre o que existe: seus móveis podem ser gastos, tirados do lugar ou afastados, nunca removidos. O que o estado acrescenta é trocado pelo próximo estado e sai com Arrumado.</p></div></section>`;
+    <p class="microcopy">Age sobre o que existe: seus móveis podem ser gastos, tirados do lugar ou afastados, nunca removidos. O que o estado acrescenta é trocado pelo próximo estado e sai com Arrumado.</p></div>
+    <div class="control-group"><span class="eyebrow">LUZ DO CÔMODO</span>
+    <label class="field"><span>Clima da luz</span><select data-field="ambience-mood">${ROOM_MOODS.map(mood => option(mood.id, mood.id === 'auto' && insight?.mood ? `Automática · ${insight.mood.name.toLowerCase()}` : mood.name, ambience.mood)).join('')}</select></label>
+    <p class="microcopy">${esc(ambience.mood === 'auto' && insight?.mood ? `${insight.mood.description} Escolhida porque ${insight.mood.reason}.` : ROOM_MOODS.find(mood => mood.id === ambience.mood).description)}</p>
+    <button class="wide accent-outline" data-action="light-preview" ${floorId ? '' : 'disabled'}>Prévia da iluminação</button>
+    <p class="microcopy">Acende os abajures, velas, telas e lareiras que estão no cômodo e só pendura luminárias no teto onde eles não bastam. Luzes que você configurou não são alteradas.</p>
+    ${insight?.atmosphere ? `<div class="assistant-suggestion"><p>Para a cena inteira, combina com <strong>${esc(insight.atmosphere.name.toLowerCase())}</strong>.</p><div class="field-grid"><button type="button" data-environment-preview="${insight.atmosphere.id}">Prévia</button><button type="button" data-environment="${insight.atmosphere.id}">Aplicar</button></div></div>` : ''}</div>
+    <div class="control-group"><span class="eyebrow">DETALHES</span>
+    <label class="field range-field"><span class="field-label">Quantidade</span><span class="value-box"><input type="number" data-field="ambience-amount" value="${Math.round(ambience.amount * 100)}" min="0" max="100" step="5"/><i>%</i></span><input type="range" data-range="ambience-amount" value="${Math.round(ambience.amount * 100)}" min="0" max="100" step="5" tabindex="-1" aria-hidden="true"/></label>
+    <button class="wide accent-outline" data-action="details-preview" ${floorId ? '' : 'disabled'}>Prévia dos detalhes</button>
+    <button class="wide quiet" data-action="details-variation" ${floorId ? '' : 'disabled'}>Ver outra versão</button>
+    <p class="microcopy">Cortinas nas janelas, tapete sob o móvel principal, peças nas paredes e cantos vazios e objetos sobre tampos livres. Só acrescenta o que ainda não existe.</p></div></section>`;
 }
 
 export function polishPanel(count, options, document) {

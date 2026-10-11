@@ -3,7 +3,7 @@ import { quaternionFromYaw, rotateXZ, yawFromQuaternion } from '../domain/coords
 import { worldFootprint, footprintsOverlap, pointInPolygon, polygonContainsPolygon, isLocked, footprintOnFloor } from '../domain/geometry.js';
 import { ValidationError, validateDocument } from '../domain/validation.js';
 import { ROOM_RECIPES, DENSITY_LEVEL } from '../domain/room-recipes.js';
-import { roomFrame, candidates as poses, stableRandom } from './room-layout.js';
+import { roomFrame, candidates as poses, stableRandom, wallSocket } from './room-layout.js';
 export { stableRandom };
 
 export const ROOM_TEMPLATES = ROOM_RECIPES;
@@ -115,7 +115,9 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
       }
       // The first pose that is free wins; hanging and flat pieces take no floor space.
       for (const pose of poses(rule, { frame, placed, seed, slot: key, asset, index: candidate.index, total: candidate.total })) {
-        const entity = createEntity('prop', { id: prior?.id, name: asset.name, assetRef: { id: asset.id, revision: asset.revision }, position: toWorld(pose.x, pose.z, pose.on ? pose.on.top : rule.lift ?? 0), rotation: quaternionFromYaw(yaw + pose.rotation), footprint: asset.footprint, groupId: area.groupId, surfaceId: pose.on?.id ?? floor.id, levelId: floor.levelId ?? null, layerId: floor.layerId ?? null, ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}) });
+        // What hangs on a wall is fixed to it and follows it when the wall moves.
+        const socket = rule.lift && pose.wall ? wallSocket(pose.wall, toWorld(pose.x, pose.z, rule.lift), rule.lift) : null;
+        const entity = createEntity('prop', { id: prior?.id, name: asset.name, assetRef: { id: asset.id, revision: asset.revision }, position: socket?.position ?? toWorld(pose.x, pose.z, pose.on ? pose.on.top : rule.lift ?? 0), rotation: socket?.rotation ?? quaternionFromYaw(yaw + pose.rotation), footprint: asset.footprint, groupId: area.groupId, surfaceId: socket ? null : pose.on?.id ?? floor.id, levelId: floor.levelId ?? null, layerId: floor.layerId ?? null, ...(socket ? { anchor: socket.anchor } : {}), ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}) });
         solid = !pose.on && !rule.flat && !rule.lift; generated ??= entity;
         if (pose.on || (solid ? !blocked(entity) : within(worldFootprint(entity)))) { generated = entity; fits = true; break; }
       }

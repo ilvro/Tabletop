@@ -48,7 +48,9 @@ test('rooms are furnished against walls, clear of doors and of each other, at ev
     const passage = worldFootprint({ footprint: [door.width, 1.6], transform: { position: [wall.transform.position[0] + door.offset, 0, wall.transform.position[2]], rotation: [0, 0, 0, 1], scale: [1, 1, 1] } });
     for (const entity of floorItems) assert.equal(footprintsOverlap(worldFootprint(entity), passage), false, `${label}: ${entity.name} na passagem`);
     // What sits on furniture is above its top and names it as support.
-    for (const entity of proposal.entities.filter(e => e.surfaceId !== floor.id)) {
+    // What hangs is fixed to a wall of the room, above the floor.
+    for (const entity of proposal.entities.filter(e => !e.surfaceId)) { assert.equal(store.document.layout.entities[entity.anchor.hostId].kind, 'wall', `${label}: ${entity.name}`); assert.ok(entity.transform.position[1] > .5, label); }
+    for (const entity of proposal.entities.filter(e => e.surfaceId && e.surfaceId !== floor.id)) {
       const host = proposal.entities.find(e => e.id === entity.surfaceId); assert.ok(host?.supportHeight > 0, `${label}: ${entity.name}`);
       assert.ok(Math.abs(entity.transform.position[1] - host.transform.position[1] - host.supportHeight) < 1e-6, `${label}: ${entity.name}`);
     }

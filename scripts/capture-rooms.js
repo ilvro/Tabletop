@@ -9,17 +9,23 @@ import { createSceneStore } from '../src/state/scene-store.js';
 import { proposeRoom } from '../src/authoring/quick-build.js';
 import { proposeFurnishing } from '../src/authoring/furnishing.js';
 import { proposeRoomState } from '../src/authoring/room-state.js';
+import { proposeRoomLighting, proposeRoomDetails } from '../src/authoring/room-ambience.js';
 
 // Renders furnished rooms in the real editor (built app, this machine's GPU).
-//   npm run build && node scripts/capture-rooms.js <out-dir> <recipe[:state],…> [density seed width length]
-const [out, list, density = 'dense', seed = 1, width = 7, length = 6] = process.argv.slice(2), recipes = list.split(',');
+//   npm run build && node scripts/capture-rooms.js <out-dir> <recipe[:state[:mood]],…> [density seed width length environment]
+const [out, list, density = 'dense', seed = 1, width = 7, length = 6, environment] = process.argv.slice(2), recipes = list.split(',');
 const catalog = JSON.parse(await readFile('public/assets/catalog.json')).assets, store = createSceneStore(createScene('Cômodos'));
 recipes.forEach((entry, i) => {
-  const [template, state] = entry.split(':');
+  const [template, state, mood] = entry.split(':');
   store.execute('proposal.accept', { proposal: proposeRoom({ width: Number(width), length: Number(length), name: template, center: [(i % 3) * (Number(width) + 1.5), 0, Math.floor(i / 3) * (Number(length) + 1.5)], lighting: false }, store.editVersion) });
   const floor = Object.values(store.document.layout.entities).filter(e => e.kind === 'floor').at(-1);
   store.execute('proposal.accept', { proposal: proposeFurnishing(store.document, { floorId: floor.id, template, density, seed: Number(seed) }, store.editVersion, catalog) });
   if (state) store.execute('proposal.accept', { proposal: proposeRoomState(store.document, { floorId: floor.id, state, intensity: .85, seed: Number(seed) }, store.editVersion, catalog) });
+  if (mood) { try { store.execute('proposal.accept', { proposal: proposeRoomDetails(store.document, { floorId: floor.id, amount: .8, seed: Number(seed) }, store.editVersion, catalog) }); } catch { /* nothing to add */ }
+    store.execute('proposal.accept', { proposal: proposeRoomLighting(store.document, { floorId: floor.id, mood }, store.editVersion, catalog) }); }
+});
+if (environment) store.execute('environment.apply', { presetId: environment });
+[].forEach(() => {
 });
 const dataDir = await mkdtemp(path.join(os.tmpdir(), 'tabletop-rooms-')), server = (await createApp({ dataDir })).listen(0, '127.0.0.1'); await once(server, 'listening'); let browser;
 try {

@@ -41,6 +41,7 @@ import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
 import { proposeRoomState } from '../authoring/room-state.js';
 import { describeRoom } from '../authoring/room-insight.js';
+import { proposeRoomLighting, proposeRoomDetails, roomMood, suggestAtmosphere } from '../authoring/room-ambience.js';
 import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { resampleTerrain, resizeTerrain, protectTerrainFloors } from '../authoring/terrain.js';
 import { proposeAnchoring } from '../authoring/anchoring.js';
@@ -143,7 +144,7 @@ export async function startApplication() {
   let activeSurfaceId, buildHeight = 0, smartFloorId = null, selectedIds = new Set();
   let smartOptions = { template: 'office', density: 'normal', chairs: 4, seed: 1, lighting: true, restoreDeleted: false };
   // The room type follows what is in the room until the person picks one for that floor.
-  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null;
+  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null, ambienceOptions = { mood: 'auto', amount: .6, seed: 1 };
   let anchorEditing = false, anchorHostId = '';
   const openBuildSections = new Set(['room']);
     let terrainMaterialTarget = 'layer';
@@ -613,7 +614,8 @@ export async function startApplication() {
       panel.innerHTML += landscapePanel(store.document,vegetationOptions,assets,{numberField});
       const insight = smartFloorId ? describeRoom(store.document, smartFloorId, assets) : null;
       if (insight?.inferred[0] && !currentComposition() && smartTemplateChosenFor !== smartFloorId) smartOptions.template = insight.inferred[0].id;
-      panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition(), insight, stateOptions);
+      if (insight) { insight.mood = roomMood(store.document, smartFloorId, assets); insight.atmosphere = suggestAtmosphere(store.document, smartFloorId, assets); }
+      panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition(), insight, stateOptions, ambienceOptions);
       // Plain headings and one level of tasks: what is inside a task is visible as soon as it opens.
       taskList(panel, [
         { title: 'Construções', tasks: [
@@ -1481,6 +1483,7 @@ export async function startApplication() {
       else smartOptions[key] = value;
       clearProposal(); renderSidebar(); return;
     }
+    if (field.startsWith('ambience-')) { const key = field.slice(9); ambienceOptions[key] = key === 'amount' ? Math.max(0, Math.min(1, value / 100)) : value; clearProposal(); renderSidebar(); return; }
     if (field.startsWith('state-')) { const key = field.slice(6); stateOptions[key] = key === 'intensity' ? Math.max(0, Math.min(1, value / 100)) : value; clearProposal(); renderSidebar(); return; }
     if (field.startsWith('polish-')) { polishOptions[field.slice(7)] = value; clearProposal(); if (field === 'polish-mode') renderInspector(); return; }
     if (field.startsWith('room-')) {
@@ -1829,6 +1832,16 @@ export async function startApplication() {
       // falls through
       case 'state-preview': {
         try { showAuthorshipProposal(proposeRoomState(store.document, { ...stateOptions, floorId: smartFloorId }, store.editVersion, assets)); }
+        catch (error) { notify(error.message, true); } break;
+      }
+      case 'light-preview': {
+        try { showAuthorshipProposal(proposeRoomLighting(store.document, { mood: ambienceOptions.mood, floorId: smartFloorId }, store.editVersion, assets)); }
+        catch (error) { notify(error.message, true); } break;
+      }
+      case 'details-variation': ambienceOptions.seed = (ambienceOptions.seed + 1) % 4294967296;
+      // falls through
+      case 'details-preview': {
+        try { showAuthorshipProposal(proposeRoomDetails(store.document, { amount: ambienceOptions.amount, seed: ambienceOptions.seed, floorId: smartFloorId }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
       case 'smart-detach': if (currentComposition()) execute('composition.detach', { id: currentComposition().id }); break;

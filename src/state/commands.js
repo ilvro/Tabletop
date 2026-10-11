@@ -75,7 +75,8 @@ function semanticPlacement(document, record, patch = {}, checkHost = true, initi
     const anchorHost = requireRecord(document.layout.entities, record.anchor.hostId, 'Host'); if (checkHost) editable(anchorHost, undefined, document);
     const offset = [...record.anchor.offset]; if (record.anchor.socket === 'ceiling') offset[1] -= anchorHost.thickness;
     const position = worldPoint(anchorHost, offset);
-    if (record.transform) { record.transform.position = position; record.transform.rotation = clone(anchorHost.transform.rotation); }
+    // A prop may hang on the far face of a wall: its socket then carries the half turn.
+    if (record.transform) { record.transform.position = position; record.transform.rotation = record.anchor.rotation ? multiplyQuaternions(anchorHost.transform.rotation, record.anchor.rotation) : clone(anchorHost.transform.rotation); }
     else {
       record.position = position;
       if (record.type === 'spot') {

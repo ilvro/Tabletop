@@ -144,7 +144,7 @@ function semanticReferences(value, document, path) {
     reference(value.anchor.hostId, document.layout.entities, `${path}.anchor.hostId`, false);
     choice(value.anchor.socket, ['wall', 'ceiling'], `${path}.anchor.socket`); vector(value.anchor.offset, 3, `${path}.anchor.offset`);
     if (value.anchor.rotation !== undefined) {
-      fail(value.type === 'spot', 'Orientação local do socket exige luz spot.', path);
+      fail(value.type === 'spot' || value.kind === 'prop', 'Orientação local do socket exige luz spot ou objeto.', path);
       quaternion(value.anchor.rotation, `${path}.anchor.rotation`);
     }
     const host = document.layout.entities[value.anchor.hostId];

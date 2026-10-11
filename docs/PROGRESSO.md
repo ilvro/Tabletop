@@ -1,5 +1,7 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Construção assistida, etapa 4 (11 de outubro):** luz do cômodo pelos próprios objetos, com clima deduzido do tipo e do estado; sugestão de atmosfera da cena; detalhes lidos do cômodo (cortinas, tapete, paredes, cantos, tampos); itens de parede presos à parede. [Plano e andamento](ASSISTED_BUILD_PLAN.md).
+
 **Construção assistida, etapa 3 (11 de outubro):** o assistente lê o cômodo (deduz o tipo pelas peças, diz o que falta, aponta problemas), aproveita o que a pessoa já colocou e aplica estados (habitado, abandonado, cena de crime, ritual, arrumado) transformando o que existe. [Plano e andamento](ASSISTED_BUILD_PLAN.md).
 
 **Construção assistida, etapas 1 e 2 (11 de outubro):** mobília por regras (parede, canto, em volta, em cima de, de frente para) que lê paredes, portas e janelas do cômodo, e catálogo de 26 cômodos usando 113 modelos. [Plano e andamento](ASSISTED_BUILD_PLAN.md).

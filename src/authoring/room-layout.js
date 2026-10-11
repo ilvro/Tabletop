@@ -1,5 +1,5 @@
-import { rotateXZ, yawFromQuaternion } from '../domain/coords.js';
-import { floorContour, worldPoint } from '../domain/geometry.js';
+import { rotateXZ, yawFromQuaternion, quaternionFromYaw, multiplyQuaternions } from '../domain/coords.js';
+import { floorContour, worldPoint, localPoint } from '../domain/geometry.js';
 
 /**
  * Reads a room the way a decorator would: where the walls, corners, doors and
@@ -46,6 +46,7 @@ export function roomFrame(document, floor, area) {
     for (const { wall, mid } of walls.filter(w => Math.abs(cross(w.dir, dir)) < .1)) {
       const along = dot(sub(mid, a), dir), depth = dot(sub(mid, a), normal);
       if (along < -wall.length / 2 || along > length + wall.length / 2 || Math.abs(depth) > .8) continue;
+      if (depth + wall.thickness / 2 + .01 >= edge.inset) edge.wall = wall;
       edge.inset = Math.max(edge.inset, depth + wall.thickness / 2 + .01);
       for (const { opening, point } of openings.filter(o => o.host.wall === wall)) {
         const t = dot(sub(point, a), dir), span = [t - opening.width / 2, t + opening.width / 2];
@@ -59,6 +60,16 @@ export function roomFrame(document, floor, area) {
     bounds: { minX: Math.min(...xs), maxX: Math.max(...xs), minZ: Math.min(...zs), maxZ: Math.max(...zs) }, width: area.width, length: area.length };
 }
 
+/**
+ * Hangs a piece on a wall face so it follows the wall: the socket, and the
+ * exact pose the document will derive from it. `position` is where the piece
+ * was meant to be; `lift` its height on the wall.
+ */
+export function wallSocket(wall, position, lift) {
+  const local = localPoint(wall, position), far = local[2] < 0, offset = [Math.max(0, Math.min(wall.length, local[0])), Math.max(0, Math.min(wall.height, lift)), local[2]];
+  const turn = quaternionFromYaw(180);
+  return { anchor: { hostId: wall.id, socket: 'wall', offset, ...(far ? { rotation: turn } : {}) }, position: worldPoint(wall, offset), rotation: far ? multiplyQuaternions(wall.transform.rotation, turn) : [...wall.transform.rotation] };
+}
 const overlaps = (spans, from, to) => spans.some(([a, b]) => from < b && to > a);
 /** Edges in the order a rule prefers them; the seed breaks ties and offers variations. */
 function rankEdges(frame, rule, placed, seed, slot) {
@@ -106,7 +117,7 @@ export function* candidates(rule, { frame, placed, seed, slot, asset, index = 0,
         if (overlaps(edge.doors, t - fw / 2 - .1, t + fw / 2 + .1)) continue;
         if (overlaps(edge.windows.filter(([, , sill]) => height > sill), t - fw / 2, t + fw / 2)) continue;
         const point = add(add(edge.a, edge.dir, t), edge.normal, edge.inset + fd / 2 + gap);
-        yield { x: point[0], z: point[1], rotation: facing(edge.normal) + (rule.turn ?? 0) };
+        yield { x: point[0], z: point[1], rotation: facing(edge.normal) + (rule.turn ?? 0), wall: edge.wall };
       }
     }
   } else if (rule.at === 'corner') {
