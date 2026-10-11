@@ -27,7 +27,7 @@ export function createMaterialSharing() {
     return entry.key;
   }
   // The mesh list survives between frames; a stale list only shares less.
-  let regrouped = 0, meshes = [], prints = new Float64Array(0), plan = [], listed = false, age = 0;
+  let regrouped = 0, appearanceChanged = false, meshes = [], prints = new Float64Array(0), plan = [], listed = false, age = 0;
   const print = material => material.id * 131 + material.version * 31 + material.color.getHex() + material.emissive.getHex() * 3 + material.emissiveIntensity * 7919 + material.roughness * 104729 + material.metalness * 1299709 + material.opacity * 15485863 + (material.transparent ? 1 : 0) + (material.depthWrite ? 2 : 0) + (material.depthTest ? 4 : 0) + (material.visible ? 8 : 0);
   function group() {
     owners.clear(); plan = [];
@@ -48,16 +48,21 @@ export function createMaterialSharing() {
     /** Call when meshes were added to or removed from the scene. */
     invalidate() { listed = false; },
     info() { return { meshes: meshes.length, shared: plan.length / 3, regrouped }; },
+    /** Whether the last `begin` found meshes or material values different from the frame before. */
+    changed() { return appearanceChanged; },
     begin(root) {
       let changed = false;
       if (!listed || ++age > 120) {
+        const previous = meshes;
         meshes = []; root.traverse(mesh => { if (mesh.isMesh && !mesh.isInstancedMesh && !mesh.isSkinnedMesh && mesh.material && !Array.isArray(mesh.material)) meshes.push(mesh); });
         if (prints.length < meshes.length) prints = new Float64Array(meshes.length);
-        listed = true; age = 0; changed = true;
+        // The periodic re-listing of an unchanged scene is not a change.
+        listed = true; age = 0; changed = previous.length !== meshes.length || meshes.some((mesh, i) => mesh !== previous[i]);
       }
       // One number per mesh detects any edit made since the last frame.
       for (let i = 0; i < meshes.length; i++) { const material = meshes[i].material, value = !material?.isMeshStandardMaterial || volatile(material) ? -1 : print(material); if (prints[i] !== value) { prints[i] = value; changed = true; } }
       if (changed) { group(); regrouped++; }
+      appearanceChanged = changed;
       for (let i = 0; i < plan.length; i += 3) { if (plan[i].material === plan[i + 1]) { plan[i].material = plan[i + 2]; swapped.push(plan[i], plan[i + 1]); } }
       return swapped.length / 2;
     },

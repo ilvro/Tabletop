@@ -33,6 +33,7 @@ import { createEffectsPipeline } from './effects.js';
 import { advanceVelocity, navigationDirection, interpolateCamera } from './camera-motion.js';
 import { createRuler } from './ruler.js';
 import { createMaterialSharing } from './material-sharing.js';
+import { createZoneProbes } from './zone-probes.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
@@ -144,7 +145,11 @@ export function createViewport(container, {
   const scene = new THREE.Scene();
   const diagnostics = createPerformanceDiagnostics();
   const gpuTimer = createGpuTimer(renderer.getContext(), diagnostics);
-  const effects = createEffectsPipeline(renderer, scene);
+  // A software rasteriser draws everything on the CPU: multisampled effects and cube
+  // captures that cost milliseconds on a GPU cost seconds there. `?hardware` lifts
+  // the restriction for tests that exercise those paths.
+  const softwareRenderer = (() => { const gl = renderer.getContext(), debug = gl.getExtension('WEBGL_debug_renderer_info'), name = String(debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)); return /swiftshader|llvmpipe|software/i.test(name) && !globalThis.location?.search?.includes('hardware'); })();
+  const effects = createEffectsPipeline(renderer, scene, { sharp: !softwareRenderer });
   const atmosphere = createAtmosphere(scene);
   const surfaces = createSurfaceLibrary(), localEffects = new Map();
   const lightManager=createLightManager(scene),zones=createLightingZones(),reflections=createReflectionEnvironment(renderer,scene),boundLights=new Map(),signatures=new Map();
@@ -163,6 +168,7 @@ export function createViewport(container, {
   scene.background = new THREE.Color('#25373a');
   const content = new THREE.Group();
   const materialSharing = createMaterialSharing(); let shareMaterials = true;
+  const zoneProbes = createZoneProbes(renderer, scene, zones, { slow: softwareRenderer }); let probesUrgent = false, probeTimer = null;
   const lighting = new THREE.Group();
   const preview = new THREE.Group();
   scene.add(content, lighting, preview);
@@ -307,6 +313,22 @@ export function createViewport(container, {
     diagnostics.measure('zones',()=>zones.update(sceneDocument,objects));
     lightingHelpers.update(records.get(selectedId),objects.get(selectedId),!presentation);
     diagnostics.measure('lightBudget',()=>lightManager.update(descriptors,camera,controls.target));if(lightManager.needsShadowUpdate())renderer.shadowMap.needsUpdate=true;
+    // Reflected light, one zone per frame, with the local lights lit for the current
+    // view. Choosing lights per zone would change how many cast shadows, and three.js
+    // recompiles every material program when that count changes. Instead a zone is
+    // captured again when a source that reaches it lights up for the first time. Only
+    // zones in view are captured: the first capture of a room draws everything around it.
+    const lit=new Set(lightManager.info().sources),reach=new THREE.Vector3();
+    const sources=region=>descriptors.filter(d=>lit.has(d.id)&&d.source.intensity>0&&reach.setFromMatrixPosition(d.wrapper.matrixWorld).distanceTo(region.probe)<(d.record.distance||30)+region.radius).map(d=>d.id);
+    const viewFrustum=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse)),zoneSphere=new THREE.Sphere();
+    const visible=region=>viewFrustum.intersectsSphere(zoneSphere.set(region.probe,region.radius*1.75));
+    let probes;
+    do probes=diagnostics.measure('zoneProbes',()=>zoneProbes.update(performance.now(),draw=>{materialSharing.begin(content);try{draw();}finally{materialSharing.end();}},{urgent:probesUrgent,enabled:lightManager.info().tier!=='economy',sources,visible})); while(probesUrgent&&probes.captured);
+    probesUrgent=false;
+    // Keep going while zones are being captured; while waiting for the scene to settle,
+    // come back once instead of drawing frames in a loop.
+    if(probes.captured)invalidate();
+    else if(probes.waiting&&!probeTimer)probeTimer=setTimeout(()=>{probeTimer=null;if(!destroyed)invalidate();},400);
     onLightingDiagnostics(lightManager.info());
     if(snowDirty) diagnostics.measure('snow', rebuildSnow);
     animatedWater=false;for(const object of waterObjects)animatedWater=updateWater(object,effectTime,paused)||animatedWater;
@@ -316,6 +338,9 @@ export function createViewport(container, {
     if (renderer.shadowMap.needsUpdate) diagnostics.count('shadowFrames');
     gpuTimer.begin();
     if (shareMaterials) diagnostics.measure('shareMaterials', () => materialSharing.begin(content));
+    // Replacement objects and textures arrive after the edit that asked for them; whatever
+    // changes what is drawn also changes what the rooms reflect.
+    if (shareMaterials && materialSharing.changed()) zoneProbes.invalidate();
     try { diagnostics.measure('render', () => effects.render(camera, seconds)); } finally { materialSharing.end();gpuTimer.end();releaseRetired(); }
     sample('render',started);
     if ((moving || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
@@ -555,7 +580,7 @@ export function createViewport(container, {
         const label = parent.children.find((child) => child.isSprite);
         if (label) label.position.y = 1.7;
         tagEntity(parent, entity.id);
-        assetsDirty=true;diagnostics.count('assetsInstalled');materialSharing.invalidate();
+        assetsDirty=true;diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();
         invalidate();
       }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } }));
       return;
@@ -573,7 +598,7 @@ export function createViewport(container, {
       tagEntity(parent, entity.id);
       onMaterialSlots(entity.id);
       parent.updateWorldMatrix(true,true);if(snowRegions!==null)snowRegions.push(new THREE.Box3().setFromObject(parent));
-      assetsDirty = true; diagnostics.count('assetsInstalled');materialSharing.invalidate();
+      assetsDirty = true; diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();
       invalidate();
     }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } }));
   }
@@ -620,6 +645,8 @@ export function createViewport(container, {
     if (!force && next === sceneDocument && isTrustedSnapshot(next)) { diagnostics.count('documentUpdatesSkipped'); return; }
     diagnostics.count('documentUpdates');materialSharing.invalidate();
     const old=sceneDocument;
+    // Tokens, cameras and session state do not change what a room reflects.
+    if(force||!old||!next||old.id!==next.id||old.layout.entities!==next.layout.entities||old.look!==next.look)zoneProbes.invalidate();
     if(!next||force||old?.id!==next.id)releaseRetired();
     if(force||old?.id!==next?.id)snowRegions=null;
     const reparent = force || !isTrustedSnapshot(next) || !old || old.id !== next?.id || old.layout.groups !== next?.layout.groups || ['entities','tokens'].some(name => { const a=name==='entities'?old.layout.entities:old.tokens??{},b=name==='entities'?next?.layout.entities??{}:next?.tokens??{}; return Object.keys(b).some(id=>a[id]?.groupId!==b[id]?.groupId); }) || Object.keys((next?.look??next?.defaultLook)?.lights??{}).some(id => (old.look??old.defaultLook).lights[id]?.groupId !== (next.look??next.defaultLook).lights[id]?.groupId);
@@ -1307,7 +1334,11 @@ export function createViewport(container, {
   function capturePixels(asynchronous) {
     if(destroyed||pointer||transform.dragging)return null;
     if(snowDirty)rebuildSnow();
-    thumbnailEffects??=createEffectsPipeline(renderer,scene,{offscreen:true});
+    camera.updateMatrixWorld();const thumbnailFrustum=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse)),thumbnailSphere=new THREE.Sphere();
+    // Covers are taken from viewports that never draw a frame of their own: bring the
+    // reflected light of every zone up to date first, with the lights currently lit.
+    let probes;do probes=zoneProbes.update(performance.now(),draw=>{materialSharing.begin(content);try{draw();}finally{materialSharing.end();}},{urgent:true,enabled:lightManager.info().tier!=='economy',visible:region=>thumbnailFrustum.intersectsSphere(thumbnailSphere.set(region.probe,region.radius*1.75))});while(probes.captured);
+    thumbnailEffects??=createEffectsPipeline(renderer,scene,{offscreen:true,sharp:!softwareRenderer});
     thumbnailTarget??=new THREE.WebGLRenderTarget(480,270,{depthBuffer:false});
     thumbnailEffects.resize(480,270);thumbnailEffects.setQuality(lightManager.info().tier);
     thumbnailEffects.setLighting(zones,lightManager.volumeLights(),lightManager.quality);
@@ -1332,6 +1363,12 @@ export function createViewport(container, {
       while (pendingAssets.size && !destroyed) await Promise.allSettled([...pendingAssets]);
       if (destroyed) throw new Error('Renderizador encerrado.');
       if(renderer.compileAsync)await warmShaders();
+    },
+    /** Longest capture, in ms, tolerated before reflected light turns itself off (software rendering). */
+    setReflectedLightLimit(ms) { zoneProbes.setLimit(ms); invalidate(); },
+    /** Captures the reflected light of every zone in view now, instead of after the scene settles. For tools that take a finished frame. */
+    async settleReflectedLight() {
+      probesUrgent=true;invalidate();await Promise.race([new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))),new Promise(resolve=>setTimeout(resolve,500))]);
     },
     captureThumbnail() {const bytes=capturePixels(false);return bytes?thumbnailCanvas(bytes).toDataURL('image/jpeg',.78):null;},
     async captureThumbnailAsync() {
@@ -1396,7 +1433,7 @@ export function createViewport(container, {
     resetPerformance() {diagnostics.reset();},
     /** Diagnostic switch: the frame must look the same either way. */
     setMaterialSharing(value) { shareMaterials = !!value; invalidate(); },
-    getInfo() { return {performance:{...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported}, materialSharing:materialSharing.info(), directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
+    getInfo() { return {performance:{...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported}, materialSharing:materialSharing.info(), zoneProbes:zoneProbes.info(), directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
       assetDiagnostics:[...objects].flatMap(([id,object])=>{const diagnostics=[];object.traverse(child=>{if(child.userData.diagnostic)diagnostics.push({id,message:child.userData.diagnostic});});return diagnostics;}),
       sculptedRocks:[...objects].flatMap(([id,object])=>{let vertices=0,triangles=0;object.traverse(m=>{if(m.geometry?.userData.sculptPrepared){vertices+=m.geometry.attributes.position.count;triangles+=m.geometry.index.count/3;}});return vertices?[{id,vertices,triangles,samples:records.get(id)?.rockSculpt?.stamps.length??0,bounds:new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3()).toArray()}]:[];}),
       rockGeometries: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.geometry?.userData.rock) list.push({id,...child.geometry.userData.rock,triangles:(child.geometry.index?.count??child.geometry.attributes.position.count)/3});for(const rock of child.geometry?.userData.rocks??[])list.push({id,...rock});});return list;}),
@@ -1405,7 +1442,7 @@ export function createViewport(container, {
       wearMaterials: [...objects].flatMap(([id,object])=>{const result=[];object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material])if(mat?.userData.wear)result.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.wear});});return result;}),
       environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },
     destroy() {
-      destroyed = true;gpuTimer.dispose();diagnostics.dispose();lightManager.dispose();reflections.dispose();cutawayCasters.dispose();lightingHelpers.dispose();
+      destroyed = true;clearTimeout(probeTimer);gpuTimer.dispose();diagnostics.dispose();lightManager.dispose();zoneProbes.dispose();reflections.dispose();cutawayCasters.dispose();lightingHelpers.dispose();
       ruler.destroy();
       previewGeneration++;
       for (const helper of extraSelections) disposeObject(helper); disposeObject(polygonLine); disposeObject(brushLine);

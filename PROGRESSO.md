@@ -1,6 +1,6 @@
 # Tabletop — Progresso do Projeto
 
-**Fidelidade visual — etapa 1 concluída (10 de outubro):** com AO, bloom ou névoa ligados a imagem deixa de perder antialiasing e resolução; o alvo dos efeitos usa multisampling 4× e resolução por qualidade (Equilibrada até 1,25×, Alta até 1,6×). Custo de 1–2 ms por quadro em tela comum. Próxima etapa: iluminação indireta por zona. [Plano e medições](docs/VISUAL_FIDELITY_PLAN.md).
+**Fidelidade visual — etapas 1 e 2 concluídas (10 de outubro):** com AO, bloom ou névoa ligados a imagem mantém antialiasing 4× e resolução por qualidade (Equilibrada até 1,25×, Alta até 1,6×). Zonas de ambiente ganham luz refletida opcional: uma sonda por zona dá cor e direção ao ambiente (o forro pega a cor do piso, pilares esquentam perto das velas) mantendo o brilho configurado; cenas de exemplo regeneradas com 0,6, documentos existentes inalterados. Próxima etapa: materiais. [Plano e medições](docs/VISUAL_FIDELITY_PLAN.md).
 
 **Desempenho de renderização — etapas 1 a 4 concluídas (10 de outubro):** medição na GPU da máquina, refinamento invisível retirado, geometria indexada, uniforms de zonas em arrays planos, materiais compartilhados durante o desenho (edição continua por instância) e oclusão ambiente sem redesenhar a cena. Tempo de quadro em movimento na RX 580: Backrooms 26,6 → 9,4 ms, Casa 21,0 → 10,2 ms, Igreja 37,1 → 17,4 ms; Igreja 5,3 mi → 1,4 mi vértices e 1 787 → 933 chamadas. Instanciamento e LOD ficam condicionados a medição. [Plano e medições](docs/RENDER_SCALE_PLAN.md) · [plano visual](docs/VISUAL_FIDELITY_PLAN.md).
 

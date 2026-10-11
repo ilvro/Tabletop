@@ -8659,7 +8659,8 @@
           "color": "#b37cbd",
           "intensity": 0.5,
           "fogColor": "#a85d9d",
-          "fogDensity": 0.024
+          "fogDensity": 0.024,
+          "indirect": 0.6
         }
       },
       "d4000000-0000-4000-8000-000000000024": {
@@ -8830,7 +8831,8 @@
           "color": "#bd6251",
           "intensity": 0.28,
           "fogColor": "#8c2035",
-          "fogDensity": 0.006
+          "fogDensity": 0.006,
+          "indirect": 0.6
         }
       },
       "d4000000-0000-4000-8000-000000000026": {
@@ -27490,7 +27492,8 @@
           "color": "#c62f42",
           "intensity": 0.34,
           "fogColor": "#881b2e",
-          "fogDensity": 0.018
+          "fogDensity": 0.018,
+          "indirect": 0.6
         }
       },
       "d4000000-0000-4000-8000-000000000321": {
@@ -28264,7 +28267,8 @@
           "color": "#966975",
           "intensity": 0.25,
           "fogColor": "#9daac2",
-          "fogDensity": 0
+          "fogDensity": 0,
+          "indirect": 0.6
         }
       },
       "d4000000-0000-4000-8000-000000000333": {
@@ -30098,7 +30102,8 @@
           "color": "#a72d49",
           "intensity": 0.45,
           "fogColor": "#c33869",
-          "fogDensity": 0.028
+          "fogDensity": 0.028,
+          "indirect": 0.6
         }
       },
       "d4000000-0000-4000-8000-000000000359": {
@@ -30226,7 +30231,8 @@
           "color": "#a72d49",
           "intensity": 0.45,
           "fogColor": "#c33869",
-          "fogDensity": 0.028
+          "fogDensity": 0.028,
+          "indirect": 0.6
         }
       },
       "d4000000-0000-4000-8000-000000000360": {

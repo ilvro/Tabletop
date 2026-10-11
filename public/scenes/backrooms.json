@@ -93,7 +93,8 @@
           "color": "#e1d59b",
           "intensity": 0.95,
           "fogColor": "#9daac2",
-          "fogDensity": 0
+          "fogDensity": 0,
+          "indirect": 0.6
         }
       },
       "f6000000-0000-4000-8000-000000000015": {
@@ -250,7 +251,8 @@
           "color": "#e1d59b",
           "intensity": 0.95,
           "fogColor": "#9daac2",
-          "fogDensity": 0
+          "fogDensity": 0,
+          "indirect": 0.6
         }
       },
       "f6000000-0000-4000-8000-000000000017": {
@@ -407,7 +409,8 @@
           "color": "#e1d59b",
           "intensity": 0.95,
           "fogColor": "#9daac2",
-          "fogDensity": 0
+          "fogDensity": 0,
+          "indirect": 0.6
         }
       },
       "f6000000-0000-4000-8000-000000000019": {
@@ -564,7 +567,8 @@
           "color": "#e1d59b",
           "intensity": 0.7,
           "fogColor": "#9daac2",
-          "fogDensity": 0
+          "fogDensity": 0,
+          "indirect": 0.6
         }
       },
       "f6000000-0000-4000-8000-000000000021": {
@@ -721,7 +725,8 @@
           "color": "#e1d59b",
           "intensity": 0.22,
           "fogColor": "#9daac2",
-          "fogDensity": 0
+          "fogDensity": 0,
+          "indirect": 0.6
         }
       },
       "f6000000-0000-4000-8000-000000000023": {
@@ -842,7 +847,8 @@
           "color": "#e1d59b",
           "intensity": 0.95,
           "fogColor": "#9daac2",
-          "fogDensity": 0
+          "fogDensity": 0,
+          "indirect": 0.6
         }
       },
       "f6000000-0000-4000-8000-000000000025": {
@@ -999,7 +1005,8 @@
           "color": "#cedace",
           "intensity": 0.95,
           "fogColor": "#9daac2",
-          "fogDensity": 0
+          "fogDensity": 0,
+          "indirect": 0.6
         }
       },
       "f6000000-0000-4000-8000-000000000027": {
@@ -1156,7 +1163,8 @@
           "color": "#e1d59b",
           "intensity": 0.95,
           "fogColor": "#9daac2",
-          "fogDensity": 0
+          "fogDensity": 0,
+          "indirect": 0.6
         }
       },
       "f6000000-0000-4000-8000-000000000029": {

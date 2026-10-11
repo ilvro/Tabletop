@@ -2,15 +2,17 @@
 
 Atualizado em 8 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
-## Fidelidade visual — etapa 1 concluída (10 de outubro)
+## Fidelidade visual — etapas 1 e 2 concluídas (10 de outubro)
 
 Plano e andamento em [docs/VISUAL_FIDELITY_PLAN.md](docs/VISUAL_FIDELITY_PLAN.md).
 
-Etapa 1, nitidez com efeitos ligados: o alvo dos efeitos tem multisampling 4× fora da qualidade Econômica e sua resolução segue a qualidade da janela (Econômica até 1×, Equilibrada/Personalizada até 1,25×, Alta até 1,6×); antes, ligar AO, bloom ou névoa desenhava sem antialiasing e a 1× em qualquer tela. Custo medido na RX 580: 1–2 ms por quadro em tela comum; em tela 2× na Igreja (névoa e bloom), 18 ms antes, 23 ms em Equilibrada e 32 ms em Alta. Capturas antes/depois conferidas na sala da Casa em 1× e 2×.
+Etapa 1, nitidez com efeitos ligados: o alvo dos efeitos tem multisampling 4× fora da qualidade Econômica e sua resolução segue a qualidade da janela (Econômica até 1×, Equilibrada/Personalizada até 1,25×, Alta até 1,6×); antes, ligar AO, bloom ou névoa desenhava sem antialiasing e a 1× em qualquer tela. Custo medido na RX 580: 1–2 ms por quadro em tela comum; em tela 2× na Igreja (névoa e bloom), 18 ms antes, 23 ms em Equilibrada e 32 ms em Alta. Validação: `tests/e2e/effects-sharpness.test.js`, 237 testes unitários, builds local/Pages e 21 roteiros E2E de efeitos aprovados.
 
-Validação: novo `tests/e2e/effects-sharpness.test.js`; 237 testes unitários, builds local/Pages e 21 roteiros E2E de efeitos (iluminação dinâmica, materiais/efeitos, ambientes, capas, desempenho, equivalência de materiais, iluminação, Casa) aprovados.
+Etapa 2, luz refletida por zona: campo opcional `lightingZone.indirect` (0–1, "Luz refletida pelo ambiente" no painel). Uma sonda por zona (`src/render/zone-probes.js`) captura o entorno e fornece cor e direção da luz ambiente, escaladas para o brilho configurado na zona; a captura não enxerga o próprio resultado e é refeita, só para zonas em vista e uma por quadro, quando a cena fica parada 350 ms após mudança no que é desenhado. Qualidade Econômica não usa o recurso; em navegador que desenha por software ele e o multisampling da etapa 1 ficam desligados, e em qualquer máquina uma captura acima de 1,5 s o desliga na janela. Zonas de documentos existentes não mudam; zonas novas nascem com 0,6; Backrooms, Casa, Igreja e os quatro estudos de iluminação foram regenerados. Custo na RX 580: 25–125 ms por zona capturada, 0,2–0,5 s uma vez por cena na primeira captura; tempo de quadro em regime inalterado; em WebGL por software cada captura custa de 0,2 s a vários segundos. Duas abordagens medidas e descartadas: usar a intensidade lida pela sonda (estourava a Igreja e escurecia a Casa) e selecionar luzes por zona na captura (recompila todos os programas de shader).
 
-Pendente: etapa 2 (iluminação indireta por zona), 3 (materiais PBR e desgaste localizado), 4 (modelos-herói em GLB), 5 (decalques, reflexos locais, miniaturas). A ampliação do AO de meia resolução ainda não respeita bordas.
+Validação da etapa 2: `tests/e2e/zone-probes.test.js`, teste de domínio do campo, 238 testes unitários, builds local/Pages e 29 roteiros E2E aprovados (sondas, nitidez, Backrooms, Casa, Igreja, iluminação dinâmica e autoria, materiais/efeitos, equivalência de materiais, desempenho, capas, editor). Os roteiros da Igreja e da Casa chegaram a estourar o limite de 360 s com a luz refletida ativa em WebGL por software; passaram depois de desligar o recurso e o multisampling nesse tipo de renderizador (Igreja 241 s, Casa 158–186 s). Comparações em `docs/references/visual-plan/`.
+
+Pendente: etapa 3 (materiais PBR e desgaste localizado), 4 (modelos-herói em GLB), 5 (decalques, reflexos locais, miniaturas). Limites da etapa 2: uma sonda por zona, sem oclusão dentro dela, posicionada no centro (um móvel ali domina o que ela enxerga); a captura usa as luzes acesas para a câmera atual; efeito discreto em cenas com pouca luz direta, como a Casa; capas e miniaturas capturam as sondas com as luzes acesas no momento, sem a seleção por zona. A ampliação do AO de meia resolução ainda não respeita bordas.
 
 ## Desempenho de renderização em escala — etapas 1 a 4 concluídas (10 de outubro)
 

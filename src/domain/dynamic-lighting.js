@@ -16,7 +16,8 @@ export const QUALITY = {
 };
 export const PROJECTIONS = ['none','stained','bars','leaves'];
 export const RENDERING_DEFAULTS = { reflections:false, reflectionIntensity:.35, ao:false, aoIntensity:.35, aoRadius:.6, volumetricLights:false, volumeStrength:.5, cutawayShadows:false };
-export const ZONE_DEFAULTS = { enabled:true, position:[0,2,0], size:[8,4,8], blend:.5, priority:10, color:'#adbfdb', intensity:.35, fogColor:'#9daac2', fogDensity:0 };
+// `indirect` is optional in documents: zones saved without it keep their flat fill.
+export const ZONE_DEFAULTS = { enabled:true, position:[0,2,0], size:[8,4,8], blend:.5, priority:10, color:'#adbfdb', intensity:.35, fogColor:'#9daac2', fogDensity:0, indirect:.6 };
 export const LIGHT_PIN_FIELDS = ['color','intensity','distance','position','rotation','emissionSlot','emissionIntensity','phase','flicker','shadowPolicy','mapSize','priority','projection','projectionSeed','projectionRotation','angle','penumbra'];
 export function illuminationDefaults(profile='candle', host={}, current=null) {
   const p=LIGHT_PROFILES.find(p=>p.id===profile);if(!p)throw new Error('Perfil de iluminação inválido.');

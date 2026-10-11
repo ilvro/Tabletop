@@ -39,3 +39,25 @@ Capturas antes/depois (`node scripts/capture-views.js <dir> [--dpr=2] cena:câme
 Validação: `tests/e2e/effects-sharpness.test.js` confere amostras e resolução por qualidade em tela 2×.
 
 Observação para a etapa 2: nas capturas, a sala da Casa aparece escura e chapada fora do alcance direto das luzes; é o caso que a iluminação indireta por zona deve resolver.
+
+### 10 de outubro — etapa 2: luz refletida por zona
+
+Cada zona de ambiente ganhou o campo opcional **Luz refletida pelo ambiente** (`lightingZone.indirect`, 0 a 1). Com ele acima de zero, uma sonda no interior da zona captura o que está em volta (seis vistas de 16 px) e resume em quatro coeficientes de harmônicos esféricos: a cor média da luz que chega ali e de que lado ela vem. As superfícies da zona passam a receber esse ambiente no lugar de parte do preenchimento uniforme: o forro pega a cor do piso, paredes próximas de uma fonte quente esquentam, faces viradas para o lado iluminado ficam mais claras que as opostas.
+
+Decisões:
+
+- **O brilho continua sendo o do autor.** Uma sonda única mede mal a intensidade (ao lado de uma vela lê muito mais que a sala; numa sala com pouca luz direta lê preto: na primeira versão a Igreja estourou e a Casa escureceu). A sonda fornece cor e direção, escaladas para o brilho configurado na zona, e a parte direcional é limitada a 45% da média para nenhuma face ficar sem ambiente.
+- **Sem realimentação.** A captura enxerga luz direta mais o preenchimento uniforme, nunca o próprio resultado.
+- **Quando recalcula.** Depois que a cena fica parada por 350 ms após uma mudança no que é desenhado (entidades, ambiente, modelos e texturas que chegam depois; tokens, câmeras e estado de sessão não contam), uma zona por quadro e só as zonas em vista: a primeira captura de um cômodo desenha tudo o que há em volta dele. Ferramentas que precisam do quadro pronto chamam `viewport.settleReflectedLight()`; capas e miniaturas capturam antes de fotografar.
+- **Luzes fora do orçamento da vista.** A captura usa as luzes acesas para a câmera atual. Escolher luzes por zona muda quantas projetam sombra, e o three.js recompila todos os programas quando essa contagem muda (até 350 ms na GPU e mais de um minuto em WebGL por software, medido e descartado). Em troca, a zona é capturada de novo quando uma fonte que a alcança acende pela primeira vez.
+- **Qualidade Econômica** não usa luz refletida: as zonas ficam no preenchimento uniforme.
+- **Sem GPU, fica desligada.** Quando o navegador desenha por software (SwiftShader, llvmpipe), cada captura leva segundos e travaria a edição a cada mudança: a luz refletida não é usada, e o alvo dos efeitos da etapa 1 volta ao modo sem multisampling. Em qualquer outra máquina, uma captura acima de 1,5 s desliga o recurso naquela janela até recarregar; `getInfo().zoneProbes.disabled` informa. Na RX 580 a captura mais lenta medida foi de 0,53 s. Os testes automatizados rodam em software e pedem os caminhos completos com `?hardware`.
+- **Documentos existentes** não têm o campo e mantêm o preenchimento uniforme. Zonas novas nascem com 0,6; Backrooms, Casa, Igreja e os estudos de iluminação foram regenerados com 0,6.
+
+Custo medido na RX 580: 25–125 ms por zona capturada, e 0,2–0,5 s uma única vez por cena, na primeira captura, porque ela desenha (e envia à GPU) o que a câmera ainda não tinha visto. Tempo de quadro em regime sem mudança mensurável (Igreja 18,6 ms; Backrooms 10,4 ms). Em WebGL por software cada captura custa de 0,2 s a vários segundos; os testes automatizados sentem isso.
+
+Antes e depois (esquerda sem, direita com 0,6): [Backrooms](references/visual-plan/reflected-light-backrooms.jpg), [nave da Igreja](references/visual-plan/reflected-light-igreja.jpg). Nas Backrooms o forro deixa o cinza-esverdeado e assume o amarelo do carpete; na Igreja os pilares e arcos recebem o tom das velas. Na Casa o efeito é discreto (paredes levemente aquecidas pelo piso de madeira): a cena tem pouca luz direta, e isso é assunto de iluminação da cena, não da sonda.
+
+Limites: uma sonda por zona, sem oclusão dentro dela (um canto atrás de um móvel recebe o mesmo ambiente do resto da sala); a sonda fica no centro da zona, a até 1,6 m do piso, e se houver um móvel ali ela enxerga mais o móvel que o piso (na sala de reunião das Backrooms, a mesa); zonas fora da vista só são capturadas quando a câmera chega; cintilação de velas não dispara recaptura; fora de zonas nada muda.
+
+Validação: `tests/e2e/zone-probes.test.js` (zonas em vista capturadas, forro aquece e mantém o brilho, cena parada não recaptura, edição do piso muda o forro, voltar ao original reproduz o quadro) e teste de domínio do campo.

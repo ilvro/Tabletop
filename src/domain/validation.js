@@ -184,7 +184,7 @@ function entity(value, path, document) {
   if(value.illumination!=null) illumination(value.illumination,`${path}.illumination`);
   if(value.lightingZone!=null) {
     const z=value.lightingZone,p=`${path}.lightingZone`;
-    keys(z,['enabled','position','size','blend','priority','color','intensity','fogColor','fogDensity'],p);
+    keys(z,['enabled','position','size','blend','priority','color','intensity','fogColor','fogDensity','indirect'],p);if(z.indirect!==undefined)number(z.indirect,p,0,1);
     bool(z.enabled,p);vector(z.position,3,p);z.position.forEach(v=>number(v,p,-1000,1000));vector(z.size,3,p);z.size.forEach(v=>number(v,p,.1,1000));
     number(z.blend,p,.01,50);number(z.priority,p,0,100);color(z.color,p);number(z.intensity,p,0,3);color(z.fogColor,p);number(z.fogDensity,p,0,1);
   }

@@ -95,3 +95,17 @@ test('sun/moon shadows fit the useful view, preserve direction and ignore sub-te
 test('four lighting studies are reproducible ordinary editable documents with local profiles and zones',async()=>{
   const {assets}=JSON.parse(await readFile('public/assets/catalog.json','utf8'));for(const item of LIGHTING_EXAMPLES){const expected=JSON.parse(await readFile(`tests/fixtures/scenes/${item.id}.json`,'utf8')),actual=createLightingExample(assets,item.style);assert.deepEqual(actual,expected);validateDocument(actual);assert.equal(Object.keys(actual.cameraPresets).length,3);assert.ok(Object.values(actual.layout.entities).some(e=>e.illumination));assert.ok(Object.values(actual.layout.entities).some(e=>e.lightingZone));assert.ok(Object.values(actual.layout.entities).every(e=>!e.locked));}
 });
+
+test('reflected light is optional per zone, bounded, and legacy zones keep their flat fill', async () => {
+  const {validateDocument}=await import('../src/domain/validation.js'),{ZONE_DEFAULTS}=await import('../src/domain/dynamic-lighting.js');
+  const scene=JSON.parse(await readFile('public/scenes/casa-de-bairro.json','utf8')),zoned=Object.values(scene.layout.entities).filter(e=>e.lightingZone);
+  assert.ok(zoned.length>0&&zoned.every(e=>e.lightingZone.indirect===ZONE_DEFAULTS.indirect));validateDocument(scene);
+  const legacy=structuredClone(scene);for(const e of Object.values(legacy.layout.entities))if(e.lightingZone)delete e.lightingZone.indirect;validateDocument(legacy);
+  for(const value of [-.1,1.1,'1'])assert.throws(()=>{const bad=structuredClone(scene);Object.values(bad.layout.entities).find(e=>e.lightingZone).lightingZone.indirect=value;validateDocument(bad);});
+  // Regions expose the capture point and the share of reflected light; a zone without the field asks for none.
+  const objects=new Map(Object.values(legacy.layout.entities).filter(e=>e.lightingZone).map(e=>{const o=new THREE.Object3D();o.position.set(3,0,-2);o.updateMatrixWorld(true);return [e.id,o];})),zones=createLightingZones();
+  zones.update(legacy,objects);assert.ok(zones.regions().length>0&&zones.regions().every(r=>r.indirect===0));
+  zones.update(scene,objects);const region=zones.regions()[0],zone=scene.layout.entities[region.id].lightingZone;
+  assert.equal(region.indirect,.6);assert.ok(Math.abs(region.probe.x-(3+zone.position[0]))<1e-6&&region.probe.y>zone.position[1]-zone.size[1]/2&&region.probe.y<=zone.position[1]+zone.size[1]/2);
+  assert.equal(zones.uniforms.zoneIndirect.value.length,16);assert.equal(zones.uniforms.zoneSH.value.length,192);
+});

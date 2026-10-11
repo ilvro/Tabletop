@@ -18,7 +18,8 @@ test('the effects target is multisampled and follows the quality tier on a dense
   const document = JSON.parse(await readFile('public/scenes/casa-de-bairro.json', 'utf8'));
   const page = await browser.newPage({ viewport: { width: 480, height: 300 }, deviceScaleFactor: 2, reducedMotion: 'reduce' }); page.setDefaultTimeout(300000);
   const errors = []; page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
-  await page.goto(`http://127.0.0.1:${server.address().port}`);
+  // The test browser renders in software, where the app keeps the cheap target; ask for the real one.
+  await page.goto(`http://127.0.0.1:${server.address().port}/?hardware`);
   await page.evaluate(async doc => {
     const { createViewport } = await import('/src/render/renderer.js'); const v = window.viewport = createViewport(document.getElementById('viewport'));
     v.setAssets(await (await fetch('/assets/catalog.json')).json()); v.setPresentation(true); v.setCutaway(false);

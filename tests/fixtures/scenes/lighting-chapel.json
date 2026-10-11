@@ -148,7 +148,8 @@
           "color": "#d5243b",
           "intensity": 0.22,
           "fogColor": "#7b263a",
-          "fogDensity": 0.035
+          "fogDensity": 0.035,
+          "indirect": 0.6
         }
       },
       "c3000000-0000-4000-8000-000000000005": {

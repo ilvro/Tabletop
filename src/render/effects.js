@@ -119,18 +119,19 @@ class HeightFogPass extends ShaderPass {
 }
 
 /** Lazy optional GPU pipeline. Each viewport owns and can suppress its effects. */
-export function createEffectsPipeline(renderer, scene, { offscreen = false } = {}) {
+export function createEffectsPipeline(renderer, scene, { offscreen = false, sharp: allowSharp = true } = {}) {
   const zones=createLightingZones();let activeZones=zones,sources=[],quality={steps:12},tier='balanced',fallbackDepth,sceneDepth=null;
   let composer, renderPass, volumePass, bloomPass, outputPass,aoPass;
   let currentLook = {}, enabled = true, width = 1, height = 1,hadLocalFog=false;
   // Effects draw into an offscreen target, which bypasses the canvas antialiasing
   // and used to be capped at one physical pixel per CSS pixel: switching AO or
   // bloom on softened the whole image. Outside the economy tier the target is
-  // multisampled. Fog and bloom run on every pixel of it, so resolution follows
+  // multisampled (and when the caller allows it: not on software rendering).
+  // Fog and bloom run on every pixel of it, so resolution follows
   // the tier: measured on the church at 1.6x, full resolution costs 32 ms a frame
   // against 23 ms at 1.25x and 18 ms at 1x.
   let sharpTarget=true,appliedRatio=0;
-  const sharp=()=>tier!=='economy',effectsRatio=()=>Math.min(renderer.getPixelRatio(),tier==='economy'?1:tier==='high'?Infinity:1.25);
+  const sharp=()=>allowSharp&&tier!=='economy',effectsRatio=()=>Math.min(renderer.getPixelRatio(),!sharp()?1:tier==='high'?Infinity:1.25);
   const aoSize=()=>[Math.max(1,width*effectsRatio()/2|0),Math.max(1,height*effectsRatio()/2|0)];
   function dispose() {
     if (!composer) return;
