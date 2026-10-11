@@ -1,4 +1,5 @@
 import { textureSelect, textureCustomization, distributionPanel } from './material-panels.js';
+import { choiceField } from './controls.js';
 import { escapeHTML as esc } from './icons.js';
 import { ROOM_TEMPLATES } from '../authoring/furnishing.js';
 import { isSupport } from '../domain/geometry.js';
@@ -65,7 +66,7 @@ export function smartBuildPanel(document, options, floorId, existing) {
   return `<section><span class="eyebrow">SMART BUILD</span><h2>Um cômodo pronto para usar.</h2><p class="muted">Mobiliário real, passagem reservada e luzes distribuídas. Revise antes de aceitar.</p>
     <label class="field"><span>Piso / espaço</span><select data-field="smart-floor">${option('', 'Selecione um piso', floorId ?? '')}${floors.map(f => option(f.id, f.name, floorId)).join('')}</select></label>
     <label class="field"><span>Receita</span><select data-field="smart-template">${ROOM_TEMPLATES.map(t => option(t.id, t.name, options.template)).join('')}</select></label>
-    <label class="field"><span>Densidade</span><select data-field="smart-density">${[['sparse', 'Poucos objetos'], ['normal', 'Normal'], ['dense', 'Mais objetos']].map(([v, l]) => option(v, l, options.density)).join('')}</select></label>
+    ${choiceField('smart-density','Densidade',options.density,[['sparse','Poucos objetos','Poucos'],['normal','Normal'],['dense','Mais objetos','Mais']])}
     <div class="field-grid">${number('smart-chairs', 'Cadeiras · reunião', options.chairs, 1, 8)}${number('smart-seed', 'Variação', options.seed, 0, 4294967295)}</div>
     ${check('smart-lighting', 'Distribuir iluminação', options.lighting)}${existing ? check('smart-restoreDeleted', 'Restaurar itens excluídos', options.restoreDeleted) : ''}
     <button class="wide accent-outline" data-action="smart-preview" ${floorId ? '' : 'disabled'}>${existing ? 'Revisar regeneração' : 'Prévia do mobiliário'}</button>

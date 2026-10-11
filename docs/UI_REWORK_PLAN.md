@@ -88,3 +88,34 @@ Tela inicial com três caminhos (abrir exemplo, sala nova, continuar), e um perc
 - Os testes de interface abrem recolhíveis para alcançar campos; a troca por abas exige atualizar esse auxiliar em um lugar.
 - Deslizantes disparam muitas edições: cada arraste deve virar um único passo de desfazer, como já acontece nos pincéis.
 - A busca de comandos precisa ser mantida junto com os rótulos; gerar o índice dos próprios painéis evita que fique desatualizada.
+
+## Andamento
+
+### Etapas 1 e 2 — entregues (11 de outubro)
+
+**Conjunto de controles** (`src/ui/controls.js`, usado por todos os painéis que recebem `numberField`):
+
+- **Faixa**: todo número com mínimo e máximo e até 400 passos ganhou deslizante com o valor editável ao lado. O valor acompanha o arraste e a edição é gravada ao soltar, de modo que um arraste é um único passo de desfazer. Seeds e faixas muito largas (força de luz 0–10000, alturas ±1000 m) ficam como medida.
+- **Medida**: rótulo à esquerda, campo compacto à direita, unidade como sufixo (`m`, `cm`, `%`, `°`, `s`). O rótulo antigo "Nome · unidade · observação" é repartido em nome, sufixo e uma linha de observação.
+- **Segmentos**: escolha entre poucas opções com um clique. Convertidos: tipo de luz, tipo de névoa, horário da cena, clima, horário de ativação, estado da água, efeito de fogo/fumaça, densidade da sala e as listas curtas do painel de iluminação dinâmica.
+- Cada controle mantém o campo nativo com o mesmo `data-field`; deslizante, segmentos e amostras só escrevem nele. Formato de documento, comandos e testes existentes não mudaram.
+
+**Material com amostras** (`src/ui/material-panels.js`, `src/ui/swatches.js`):
+
+- Grade de amostras no lugar da lista de texturas, no material de objetos, na base e nas camadas do terreno. As imagens saem do próprio gerador das texturas (96 px), são desenhadas em tempo ocioso e ficam guardadas no navegador.
+- O desenho da textura escolhida fica aberto logo abaixo: padrão, trama, assentamento, acabamento e formação são escolhidos por miniatura; os demais parâmetros são deslizantes.
+- Grupos visíveis **Desenho** e **Cor**; só **Ajustes finos** (contraste, saturação, densidade, seed) fica recolhido. O recolhível "Personalizar cor e padrão" deixou de existir.
+- Desgaste: tipo e local por botões com nome curto.
+
+**Diferenças em relação ao plano**
+
+- O deslizante não atualiza a cena durante o arraste, só o número; a cena muda ao soltar. Pré-visualização contínua exige agrupar edições no histórico e fica para uma etapa posterior.
+- A medida usa as setas nativas do campo; não há arraste sobre o rótulo.
+- Tipo e local do desgaste usam botões de texto, não imagens: o desgaste é calculado no shader e não tem gerador de amostra.
+- Tamanho do padrão continua acima do grupo Desenho, e não depois dele.
+- A faixa ocupa duas linhas (rótulo e valor; deslizante). A redução de altura vem das medidas em uma linha e do fim do recolhível duplo.
+- Ainda como lista: material da cobertura, distribuição da superfície, material alvo do terreno e as listas de tamanho variável. O painel de pincel do terreno tem campo numérico próprio e não foi convertido.
+
+**Validação**: `tests/controls.test.js` (rótulos, faixa × medida, escolha, ordem dos grupos) e `tests/e2e/controls.test.js` (amostra e miniatura alteram o material, arraste = uma edição e um desfazer, digitação move o deslizante). Captura em `docs/references/ui/depois-07-material-azulejo.jpg`, ao lado da `antes-07`.
+
+**Encontrado na validação e corrigido**: o deslizante vazava 2 px do painel em tela estreita (margem padrão do navegador), apontado pelo E2E de desgaste; e a regra que esconde o deslizante em grades compactas também escondia a "Dureza das bordas" do pincel, apontado pelo E2E de terreno.

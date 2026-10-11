@@ -2,64 +2,60 @@ import { SURFACE_MATERIALS, textureOptions, distributionOptions } from '../domai
 import {snowShapeOptions} from '../domain/snow.js';
 import { WEAR_STYLES } from '../domain/wear.js';
 import { escapeHTML as esc } from './icons.js';
+import { choiceField } from './controls.js';
+import { swatchMarkup } from './swatches.js';
+const TEXTURE_CHOICES_LIST = [['none','Sem textura adicional','Nenhuma'], ...SURFACE_MATERIALS.map(p => [p.id, p.name])];
 export function textureSelect(field,value='none') {
-  return `<label class="field"><span>Textura / material</span><select data-field="${field}"><option value="none" ${value==='none'?'selected':''}>Sem textura adicional</option>${SURFACE_MATERIALS.map(p=>`<option value="${p.id}" ${value===p.id?'selected':''}>${p.name}</option>`).join('')}</select></label>`;
+  return choiceField(field,'Textura / material',value,TEXTURE_CHOICES_LIST,{swatch:texture=>swatchMarkup({texture}),columns:4});
 }
+const TEXTURE_TITLES = { wood:'MADEIRA', metal:'METAL', rock:'ROCHA', fabric:'TECIDO', leather:'COURO', plaster:'PAREDE', tile:'AZULEJO', carpet:'CARPETE', paint:'PINTURA' };
 /** Shared by object materials and terrain layers, using the same persisted fields. */
 export function textureCustomization(prefix, settings, {numberField, colorField}) {
   if (!settings.texture || settings.texture === 'none') return '';
-  const m = textureOptions(settings);
-  const select = (key, label, options) => `<label class="field"><span>${label}</span><select data-field="${prefix}${key}">${options.map(([value,name])=>`<option value="${value}" ${m[key]===value?'selected':''}>${name}</option>`).join('')}</select></label>`;
+  const m = textureOptions(settings), texture = settings.texture;
+  const select = (key, label, options) => choiceField(prefix+key,label,m[key],options);
+  // Choices that change the drawing itself are picked by their look.
+  const pattern = (key, label, options) => choiceField(prefix+key,label,m[key],options,{swatch:value=>swatchMarkup({texture,[key]:value}),columns:4});
   const number = (key, label, min, max, step, factor=1) => numberField(prefix+key,label,Number((m[key]*factor).toFixed(5)),{min,max,step});
-  return `<details data-texture-options="${prefix}design"><summary>Personalizar cor e padrão</summary>${colorField(prefix+'textureColor','Cor da textura',m.textureColor)}
-    ${select('textureColorMode','Aplicação da cor',[['original','Paleta original'],['replace','Recolorir · preservar detalhes'],['tint','Multiplicar pela cor']])}
-    ${number('textureBrightness','Brilho · 0 escuro / 1 original / 2 claro',0,2,.05)}
-    ${settings.texture==='wood'?`<span class="eyebrow">DESENHO DA MADEIRA</span>
-      ${select('woodPattern','Padrão da madeira',[['planks','Tábuas'],['grain','Madeira contínua'],['parquet','Parquet em blocos']])}
-      ${m.woodPattern!=='grain'?number('woodBoards','Tábuas por repetição',1,32,1):''}
+  return `<div class="control-group"><span class="eyebrow">DESENHO${TEXTURE_TITLES[texture]?` · ${TEXTURE_TITLES[texture]}`:''}</span>
+    ${texture==='wood'?`${pattern('woodPattern','Padrão',[['planks','Tábuas'],['grain','Madeira contínua','Contínua'],['parquet','Parquet em blocos','Parquet']])}
       ${select('woodDirection','Orientação das tábuas / veios',[['horizontal','Horizontal'],['vertical','Vertical']])}
-      ${m.woodPattern!=='grain'?number('woodGap','Largura das juntas · % da tábua',0,15,.5,100):''}
+      ${m.woodPattern!=='grain'?number('woodBoards','Tábuas por repetição',1,32,1):''}
+      ${m.woodPattern!=='grain'?number('woodGap','Largura das juntas · % · da tábua',0,15,.5,100):''}
       ${number('woodGrain','Intensidade dos veios · 0–1',0,1,.05)}
-      ${number('woodAge','Envelhecimento · rachaduras e desbotado · 0–1',0,1,.05)}
-      <p class="microcopy">A quantidade vale para cada repetição do padrão, cujo tamanho está em metros acima. A orientação segue os eixos da superfície.</p>`:''}
-    ${settings.texture==='metal'?`<span class="eyebrow">DESENHO DO METAL</span>
-      ${select('metalPattern','Padrão do metal',[['brushed','Escovado'],['smooth','Liso'],['diamond','Chapa xadrez'],['corrugated','Ondulado'],['rusted','Enferrujado']])}
+      ${number('woodAge','Envelhecimento · rachaduras e desbotado · 0–1',0,1,.05)}`:''}
+    ${texture==='metal'?`${pattern('metalPattern','Padrão',[['brushed','Escovado'],['smooth','Liso'],['diamond','Chapa xadrez','Xadrez'],['corrugated','Ondulado'],['rusted','Enferrujado']])}
       ${number('metalWear','Desgaste / oxidação · %',0,100,5,100)}`:''}
-    ${settings.texture==='rock'?`<span class="eyebrow">DESENHO DA ROCHA</span>
-      ${select('rockPattern','Formação da rocha',[['organic','Orgânica · mineral e fissuras locais'],['fractured','Fraturada'],['strata','Estratificada'],['granite','Granito']])}
+    ${texture==='rock'?`${pattern('rockPattern','Formação',[['organic','Orgânica · mineral e fissuras locais'],['fractured','Fraturada'],['strata','Estratificada'],['granite','Granito']])}
       ${number('rockCracks','Intensidade das fissuras · 0–1',0,1,.05)}`:''}
-    ${settings.texture==='fabric'?`<span class="eyebrow">TRAMA DO TECIDO</span>
-      ${select('fabricWeave','Tipo de trama',[['plain','Tela · fios cruzados'],['twill','Sarja · diagonal'],['herringbone','Espinha de peixe'],['velvet','Veludo · sem trama aparente']])}
-      ${number('fabricThread','Relevo dos fios · 0–1',0,1,.05)}
-      <p class="microcopy">A quantidade de fios segue a densidade dos detalhes e o tamanho da repetição em metros.</p>`:''}
-    ${settings.texture==='leather'?`<span class="eyebrow">ACABAMENTO DO COURO</span>
-      ${select('leatherPattern','Superfície',[['pebbled','Granulado'],['smooth','Liso'],['tufted','Capitonê · losangos com botões']])}
+    ${texture==='fabric'?`${pattern('fabricWeave','Trama',[['plain','Tela · fios cruzados'],['twill','Sarja · diagonal'],['herringbone','Espinha de peixe','Espinha'],['velvet','Veludo · sem trama aparente']])}
+      ${number('fabricThread','Relevo dos fios · 0–1',0,1,.05)}`:''}
+    ${texture==='leather'?`${pattern('leatherPattern','Superfície',[['pebbled','Granulado'],['smooth','Liso'],['tufted','Capitonê · losangos com botões']])}
       ${number('leatherGrain','Grão · 0–1',0,1,.05)}
       ${number('leatherCreases','Vincos de uso · 0–1',0,1,.05)}`:''}
-    ${settings.texture==='plaster'?`<span class="eyebrow">ACABAMENTO DA PAREDE</span>
-      ${select('plasterFinish','Acabamento',[['smooth','Liso'],['stucco','Chapisco / texturizado'],['troweled','Desempenado · marcas de desempenadeira'],['peeling','Pintura descascando']])}
+    ${texture==='plaster'?`${pattern('plasterFinish','Acabamento',[['smooth','Liso'],['stucco','Chapisco / texturizado','Chapisco'],['troweled','Desempenado · marcas de desempenadeira'],['peeling','Pintura descascando','Descascando']])}
       ${number('plasterDamage','Manchas, fissuras e descascado · 0–1',0,1,.05)}`:''}
-    ${settings.texture==='tile'?`<span class="eyebrow">DESENHO DO AZULEJO</span>
-      ${select('tilePattern','Assentamento',[['grid','Alinhado'],['offset','Amarrado · meia peça'],['checker','Xadrez · duas cores'],['hex','Hexagonal']])}
+    ${texture==='tile'?`${pattern('tilePattern','Assentamento',[['grid','Alinhado'],['offset','Amarrado · meia peça'],['checker','Xadrez · duas cores'],['hex','Hexagonal']])}
       ${number('tileCount','Peças por repetição',1,16,1)}
-      ${number('tileGrout','Largura do rejunte · % da peça',0,20,.5,100)}
-      ${number('tileVariation','Variação entre peças · 0–1',0,1,.05)}
-      <p class="microcopy">Ao recolorir, o rejunte e as peças escuras do xadrez mantêm a própria cor.</p>`:''}
-    ${settings.texture==='carpet'?`<span class="eyebrow">DESENHO DO CARPETE</span>
-      ${select('carpetPattern','Padrão',[['pile','Pelo cortado'],['loop','Bouclé · laçadas'],['striped','Listrado'],['diamonds','Losangos']])}
+      ${number('tileGrout','Largura do rejunte · % · da peça',0,20,.5,100)}
+      ${number('tileVariation','Variação entre peças · 0–1',0,1,.05)}`:''}
+    ${texture==='carpet'?`${pattern('carpetPattern','Padrão',[['pile','Pelo cortado'],['loop','Bouclé · laçadas'],['striped','Listrado'],['diamonds','Losangos']])}
       ${number('carpetPile','Altura do pelo · 0–1',0,1,.05)}`:''}
-    ${settings.texture==='paint'?`<span class="eyebrow">PINTURA</span>
-      ${select('paintFinish','Acabamento',[['smooth','Liso'],['brushstrokes','Pinceladas'],['hammered','Martelado']])}
+    ${texture==='paint'?`${pattern('paintFinish','Acabamento',[['smooth','Liso'],['brushstrokes','Pinceladas'],['hammered','Martelado']])}
       ${number('paintChips','Lascas e desgaste · 0–1',0,1,.05)}
-      ${select('paintBase','O que aparece sob a tinta',[['metal','Metal nu'],['rust','Ferrugem'],['wood','Madeira'],['primer','Fundo claro']])}
-      <p class="microcopy">Ao recolorir, só a tinta muda; o material exposto pelas lascas mantém a própria cor.</p>`:''}
+      ${select('paintBase','O que aparece sob a tinta',[['metal','Metal nu','Metal'],['rust','Ferrugem'],['wood','Madeira'],['primer','Fundo claro','Fundo']])}`:''}
     ${number('textureRotation','Rotação do padrão · graus',0,360,15)}
-    <details data-texture-options="${prefix}"><summary>Contraste, saturação e variação</summary>
+    ${['wood','tile'].includes(texture)?'<p class="microcopy">A quantidade vale para cada repetição do padrão, cujo tamanho está em metros acima.</p>':''}</div>
+    <div class="control-group"><span class="eyebrow">COR</span>${colorField(prefix+'textureColor','Cor da textura',m.textureColor)}
+    ${select('textureColorMode','Aplicação da cor',[['original','Paleta original','Original'],['replace','Recolorir · preservar detalhes'],['tint','Multiplicar pela cor','Multiplicar']])}
+    ${number('textureBrightness','Brilho · 0 escuro / 1 original / 2 claro',0,2,.05)}
+    ${texture==='tile'?'<p class="microcopy">Ao recolorir, o rejunte e as peças escuras do xadrez mantêm a própria cor.</p>':''}${texture==='paint'?'<p class="microcopy">Ao recolorir, só a tinta muda; o material exposto pelas lascas mantém a própria cor.</p>':''}</div>
+    <details data-texture-options="${prefix}"><summary>Ajustes finos</summary>
       ${number('textureContrast','Contraste · 1 original',0,2,.05)}
       ${number('textureSaturation','Saturação · 0 cinza / 1 original',0,2,.05)}
       ${number('patternDensity','Densidade dos detalhes · 1 original',.25,4,.25)}
       ${number('textureSeed','Variação do desenho · seed',0,65535,1)}
-    </details></details>`;
+    </details>`;
 }
 export function distributionPanel(prefix, settings, {numberField}, paint=true) {
   const d=distributionOptions(settings);
@@ -80,14 +76,15 @@ export function coveragePanel(settings, fields, record) {
     ${c?`${fields.colorField('coverage-color','Cor da cobertura',c.color)}${fields.numberField('coverage-textureSize','Tamanho da textura da cobertura · m',c.textureSize,{min:.05,max:50,step:.1})}${fields.numberField('coverage-amount','Quantidade da cobertura · 0–1',c.amount,{min:0,max:1,step:.05})}${fields.numberField('coverage-relief','Relevo da cobertura · m',c.relief,{min:0,max:.2,step:.005})}${distributionPanel('coverage-',c,fields,false)}${c.texture==='snow'?`<label class="field"><span>Forma do acúmulo</span><select data-field="coverage-snowStyle"><option value="legacy" ${snow.snowStyle==='legacy'?'selected':''}>Camada simples · original</option><option value="organic" ${snow.snowStyle==='organic'?'selected':''}>Depósitos orgânicos · contínuos</option></select></label>${fields.numberField('coverage-physicalThickness','Espessura física da neve · m',c.physicalThickness??0,{min:0,max:1.5,step:.05})}${snow.snowStyle==='organic'?`${fields.numberField('coverage-snowDrift','Irregularidade dos montes · 0–1',snow.snowDrift,{min:0,max:1,step:.05})}${fields.numberField('coverage-snowDriftScale','Tamanho dos montes · m',snow.snowDriftScale,{min:.2,max:20,step:.2})}${fields.numberField('coverage-snowWindDirection','Direção do vento nos depósitos · graus',snow.snowWindDirection,{min:0,max:360,step:15})}<p class="microcopy">Depósitos conectados acompanham a escultura e a exposição. Vento e irregularidade mudam a forma salva da neve; flocos animados ficam em Cena → Atmosfera → Clima.</p>`:''}<label class="check"><input type="checkbox" data-field="coverage-exposedOnly" ${c.exposedOnly!==false?'checked':''}/><span>Acumular somente onde há céu aberto</span></label>${record?.kind==='terrain'?'<button data-action="snow-exposure" class="wide">Recalcular exposição do terreno</button>':''}<p class="microcopy">Zero mantém apenas a cobertura visual. Com espessura, terreno e faces superiores ganham volume. O terreno acompanha seus apoios. ${record?.kind==='terrain'?'Recalcule a exposição depois de mover telhados.':'O objeto verifica o céu automaticamente ao alterar a cena.'}</p>`:''}`:''}
     <p class="microcopy">Adiciona neve, grama ou outra superfície sobre o material original. A espessura física está disponível para neve; outras coberturas alteram apenas o acabamento. Em modelos, respeita o material selecionado acima.</p></details>`;
 }
+const WEAR_BRIEF = { grime:'Sujeira', rust:'Ferrugem', moss:'Musgo', scorch:'Fuligem', cracks:'Rachaduras', bare:'Material exposto' };
 export function wearPanel(settings, { numberField, colorField }) {
   const w = settings.wear;
   const number = (key, label, min, max, step, factor = 1) => numberField(`wear-${key}`, label, Number((w[key] * factor).toFixed(5)), { min, max, step });
   return `<details data-texture-options="material-wear"><summary>Desgaste do material</summary>
-    <label class="field"><span>Tipo de desgaste</span><select data-field="wear-type"><option value="none" ${!w?'selected':''}>Sem desgaste</option>${WEAR_STYLES.map(s => `<option value="${s.id}" ${w?.type===s.id?'selected':''}>${s.name}</option>`).join('')}</select></label>
+    ${choiceField('wear-type','Tipo de desgaste',w?.type??'none',[['none','Sem desgaste','Nenhum'],...WEAR_STYLES.map(s=>[s.id,s.name,WEAR_BRIEF[s.id]])])}
     ${w ? `<label class="check"><input type="checkbox" data-field="wear-enabled" ${w.enabled?'checked':''}><span>Desgaste ligado</span></label>
       ${number('amount','Intensidade do desgaste · %',0,100,5,100)}${number('size','Tamanho das manchas · m do modelo',.05,50,.1)}
-      <label class="field"><span>Onde aplicar o desgaste</span><select data-field="wear-placement">${[['all','Peça inteira'],['edges','Bordas e quinas'],['base','Concentrar na base'],['top','Concentrar no topo'],['region','Região da peça']].map(([v,l]) => `<option value="${v}" ${w.placement===v?'selected':''}>${l}</option>`).join('')}</select></label>
+      ${choiceField('wear-placement','Onde aplicar',w.placement,[['all','Peça inteira','Tudo'],['edges','Bordas e quinas','Bordas'],['base','Concentrar na base','Base'],['top','Concentrar no topo','Topo'],['region','Região da peça','Região']])}
       ${w.placement==='edges' ? numberField('wear-edgeWidth','Largura da faixa nas bordas · cm',Number(((w.edgeWidth??.03)*100).toFixed(5)),{min:.2,max:50,step:.5})+'<p class="microcopy">Segue as arestas vivas da peça: cantos de móveis, quinas de paredes, bordas de chapas.</p>' : ''}
       ${w.placement==='region' ? `<div class="axis-fields">${w.center.map((v,i) => numberField(`wear-center-${i}`,['Centro X · %','Centro Y · %','Centro Z · %'][i],Number((v*100).toFixed(5)),{min:0,max:100,step:5})).join('')}</div>${number('radius','Raio da região · % da peça',1,200,5,100)}${number('softness','Suavidade da borda · %',1,100,5,100)}` : ''}
       <details data-texture-options="wear-finish"><summary>Cor, acabamento e variação</summary>${colorField('wear-color','Cor do desgaste',w.color)}${number('roughness','Rugosidade do desgaste',0,1,.05)}${number('metalness','Metalicidade do desgaste',0,1,.05)}${number('relief','Relevo aparente do desgaste · m',0,.1,.002)}${number('seed','Variação do desgaste · seed',0,65535,1)}</details>` : ''}
@@ -96,11 +93,10 @@ export function wearPanel(settings, { numberField, colorField }) {
 export function materialPanel(record,slots,{numberField,colorField,transferControls=''}) {
   const m=record.material;
   const hasRelief=(m.texture && m.texture!=='none') || record.kind==='terrain' && record.paintLayers?.some(layer=>layer.visible && layer.texture && layer.texture!=='none');
-  let reliefControl=numberField('material-relief','Relevo aparente · microdetalhe em m',m.relief??.03,{min:0,max:.2,step:.005});
-  if(!hasRelief) reliefControl=reliefControl.replace('<input','<input disabled');
+  const reliefControl=numberField('material-relief','Relevo aparente · m',m.relief??.03,{min:0,max:.2,step:.005,disabled:!hasRelief});
   return `<section><span class="eyebrow">MATERIAL E TEXTURA</span>${transferControls}${textureSelect('material-texture',m.texture)}${record.kind==='prop'?`<label class="field"><span>Aplicar acabamento em</span><select data-field="material-textureSlot"><option value="base">Todos os materiais</option>${slots.filter(s=>s!=='base').map(s=>`<option value="${esc(s)}" ${m.textureSlot===s?'selected':''}>${esc(s)}</option>`).join('')}</select></label>`:''}${m.texture && m.texture!=='none'?numberField('material-textureSize','Tamanho do padrão · m',m.textureSize??2,{min:.05,max:50,step:.1}):''}${textureCustomization('material-',m,{numberField,colorField})}${reliefControl}<p class="microcopy">${hasRelief?'Simula fissuras e veios na iluminação da textura; é mais visível perto e com luz lateral. Zero desliga esse detalhe. Não eleva a malha nem altera silhueta/apoio.':'Escolha uma textura no material ou numa camada visível para ativar o relevo aparente; cores lisas não têm mapa de detalhe.'}${record.kind==='terrain'?' Para mudar alturas reais, use Elevar, Nivelar ou Esculpir rocha natural. Camadas opacas cobrem a textura base; edite o material da camada para mudar o desenho visível.':''}</p>${coveragePanel(m,{numberField,colorField},record)}${record.kind==='water' && record.water?.state==='water'?'':wearPanel(m,{numberField,colorField})}${colorField('material-color','Cor / matiz',m.color)}${numberField('material-roughness','Rugosidade',m.roughness,{min:0,max:1,step:.05})}${numberField('material-metalness','Metalicidade',m.metalness,{min:0,max:1,step:.05})}<p class="microcopy">Escolher uma textura aplica sua cor e acabamento iniciais. A cor da textura recolore o desenho; Cor / matiz multiplica o acabamento final. Selecionar outro material reinicia os ajustes da textura. Sem textura adicional restaura a aparência original de modelos importados.</p></section>`;
 }
 export function localEffectPanel(record,{numberField,colorField,checkField}) {
   const e=record.localEffect;
-  return `<section><span class="eyebrow">FOGO E FUMAÇA</span><label class="field"><span>Efeito neste objeto</span><select data-field="effect-type">${[['none','Sem efeito'],['fire','Fogo'],['smoke','Fumaça']].map(([v,l])=>`<option value="${v}" ${(e?.enabled?e.type:'none')===v?'selected':''}>${l}</option>`).join('')}</select></label>${e?.enabled?`${checkField('effect-enabled','Efeito ligado',e.enabled)}${checkField('effect-hideModel','Ocultar modelo e mostrar só o efeito',e.hideModel)}<div class="axis-fields">${e.size.map((v,i)=>numberField(`effect-size-${i}`,['Largura · m','Altura · m','Profundidade · m'][i],v,{min:.1,max:20})).join('')}</div><div class="axis-fields">${e.offset.map((v,i)=>numberField(`effect-offset-${i}`,['X local','Y local','Z local'][i],v)).join('')}</div>${numberField('effect-count','Partículas',e.count,{min:1,max:512,step:1})}${numberField('effect-speed','Velocidade',e.speed,{min:0,max:10,step:.1})}${numberField('effect-opacity','Opacidade',e.opacity,{min:0,max:1,step:.05})}${colorField('effect-color','Cor',e.color)}${numberField('effect-seed','Variação · seed',e.seed,{min:0,max:4294967295,step:1})}${e.type==='fire'?numberField('effect-lightIntensity','Intensidade da luz do fogo',e.lightIntensity,{min:0,max:500,step:1}):''}`:''}<p class="microcopy">O efeito acompanha este objeto. Pausa e qualidade ficam na aba Cena; não há colisão de fumaça com paredes ou tetos.</p></section>`;
+  return `<section><span class="eyebrow">FOGO E FUMAÇA</span>${choiceField('effect-type','Efeito neste objeto',e?.enabled?e.type:'none',[['none','Sem efeito'],['fire','Fogo'],['smoke','Fumaça']])}${e?.enabled?`${checkField('effect-enabled','Efeito ligado',e.enabled)}${checkField('effect-hideModel','Ocultar modelo e mostrar só o efeito',e.hideModel)}<div class="axis-fields">${e.size.map((v,i)=>numberField(`effect-size-${i}`,['Largura · m','Altura · m','Profundidade · m'][i],v,{min:.1,max:20})).join('')}</div><div class="axis-fields">${e.offset.map((v,i)=>numberField(`effect-offset-${i}`,['X local','Y local','Z local'][i],v)).join('')}</div>${numberField('effect-count','Partículas',e.count,{min:1,max:512,step:1})}${numberField('effect-speed','Velocidade',e.speed,{min:0,max:10,step:.1})}${numberField('effect-opacity','Opacidade',e.opacity,{min:0,max:1,step:.05})}${colorField('effect-color','Cor',e.color)}${numberField('effect-seed','Variação · seed',e.seed,{min:0,max:4294967295,step:1})}${e.type==='fire'?numberField('effect-lightIntensity','Intensidade da luz do fogo',e.lightIntensity,{min:0,max:500,step:1}):''}`:''}<p class="microcopy">O efeito acompanha este objeto. Pausa e qualidade ficam na aba Cena; não há colisão de fumaça com paredes ou tetos.</p></section>`;
 }

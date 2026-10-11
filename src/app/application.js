@@ -24,6 +24,8 @@ import { rockDefaults } from '../domain/rocks.js';
 import { measurementText } from '../domain/measurement.js';
 import { rockPanel } from '../ui/rock-panel.js';
 import { createMountainTerrain } from '../authoring/mountain.js';
+import { numberField, colorField, checkField, bindControls } from '../ui/controls.js';
+import { paintSwatches } from '../ui/swatches.js';
 import { materialPanel, localEffectPanel } from '../ui/material-panels.js';
 import { surfacePatch, layerSurfacePatch, textureFieldPatch, coverageDefaults, distributionOptions, LOCAL_EFFECT_DEFAULTS, smokeDefaults } from '../domain/materials.js';
 import { Euler, Quaternion, Vector3 } from 'three';
@@ -53,9 +55,6 @@ import { splitLabels } from '../domain/asset-library.js';
 import { assetLibraryPanel, assetCards, metadataEditor } from '../ui/asset-library-panel.js';
 
 const button = (action, label, glyph, className = '', extra = '') => `<button type="button" data-action="${action}" class="${className}" ${extra}>${glyph ? icon(glyph) : ''}<span>${label}</span></button>`;
-const numberField = (field, label, value, { min, max, step = .1 } = {}) => `<label class="field"><span>${label}</span><input type="number" data-field="${field}" value="${Number(value).toFixed(3).replace(/\.?0+$/, '') || '0'}" step="${step}" ${min === undefined ? '' : `min="${min}"`} ${max === undefined ? '' : `max="${max}"`} /></label>`;
-const colorField = (field, label, value) => `<label class="field color-field"><span>${label}</span><input type="color" data-field="${field}" value="${esc(value)}" /></label>`;
-const checkField = (field, label, checked) => `<label class="check"><input type="checkbox" data-field="${field}" ${checked ? 'checked' : ''}/><span>${label}</span></label>`;
 const contentJSON = (doc) => { const { revision, createdAt, updatedAt, ...body } = doc; return JSON.stringify(body); };
 const entryName = (doc, entry) => doc.actors?.[entry.actorId]?.name ?? entry.name;
 const lastSceneKey = `tabletop-last-scene${storageScope()==='/'?'':':'+storageScope()}`;
@@ -2190,6 +2189,8 @@ export async function startApplication() {
       draggedTreeId = null;
     }
   });
+  bindControls(root, input => { if (initialized) changeField(input); });
+  new MutationObserver(() => paintSwatches(root)).observe(root, { childList: true, subtree: true });
   root.addEventListener('change', (event) => {
     if (!initialized) return;
     if (event.target.dataset.assetFilter) { libraryFilters[event.target.dataset.assetFilter] = event.target.value; libraryLimit = 24; renderAssetCards(); }

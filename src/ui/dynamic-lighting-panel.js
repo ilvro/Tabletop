@@ -1,8 +1,9 @@
 import { Euler, Quaternion } from 'three';
 import { LIGHT_PROFILES, QUALITY, ZONE_DEFAULTS, RENDERING_DEFAULTS, PROJECTIONS } from '../domain/dynamic-lighting.js';
 import { escapeHTML as esc } from './icons.js';
+import { choiceField } from './controls.js';
 const names={none:'Sem projeção',stained:'Vitral colorido',bars:'Grades',leaves:'Folhagem'};
-const select=(field,label,value,options)=>`<label class="field"><span>${label}</span><select data-field="${field}">${options.map(([id,name])=>`<option value="${id}" ${value===id?'selected':''}>${esc(name)}</option>`).join('')}</select></label>`;
+const select=(field,label,value,options)=>options.length<=4&&field!=='light-preset-selected'?choiceField(field,label,value,options):`<label class="field"><span>${label}</span><select data-field="${field}">${options.map(([id,name])=>`<option value="${id}" ${value===id?'selected':''}>${esc(name)}</option>`).join('')}</select></label>`;
 export function illuminationPanel(record,slots,presets,selected,{numberField:n,colorField:c,checkField:b}){
   const w=record.illumination,angles=w&&new Euler().setFromQuaternion(new Quaternion(...w.rotation),'YXZ');
   const number=(key,label,min,max,step=.1)=>n('illumination-'+key,label,w[key],{min,max,step});

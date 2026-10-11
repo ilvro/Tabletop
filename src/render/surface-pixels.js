@@ -26,13 +26,13 @@ function fracture(u, v, frequency, seed) {
 }
 
 /** Original seamless procedural tiles: albedo + packed height/roughness/metalness, with no network dependency. */
-export function generateSurfaceTile(settings) {
+export function generateSurfaceTile(settings, size = SIZE) {
   const preset = surfacePreset(settings.texture), layer = SURFACE_MATERIALS.indexOf(preset), options = textureOptions(settings);
   if (!preset) throw new Error("Material de superfície inválido.");
-  const albedo = new Uint8Array(SIZE * SIZE * 4), details = new Uint8Array(albedo.length);
+  const albedo = new Uint8Array(size * size * 4), details = new Uint8Array(albedo.length);
   const seed=options.textureSeed, density=options.patternDensity, frequency=n=>Math.max(1,Math.round(n*density));
-  for (let y = 0; y < SIZE; y++) for (let x = 0; x < SIZE; x++) {
-    const u = x / SIZE, v = y / SIZE, n = noise(u,v,frequency(8),layer+1+seed), fine = noise(u,v,frequency(64),layer+11+seed), grain = hash(x,y,layer+23+seed);
+  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+    const u = x / size, v = y / size, n = noise(u,v,frequency(8),layer+1+seed), fine = noise(u,v,frequency(64),layer+11+seed), grain = hash(x,y,layer+23+seed);
     // `tintable`: how much of the user's colour a pixel takes when recolouring (grout, chips and substrate keep their own).
     let rgb, height = n * .65 + fine * .35, rough = .7 + .3 * fine, metal = 1, tintable = 1;
     switch (preset.id) {
@@ -222,11 +222,11 @@ export function generateSurfaceTile(settings) {
         height=.42+drift*.2+powder*.07+grain*.025; rough=.78+fine*.2; break;
       }
     }
-    const index = (y*SIZE+x)*4;
+    const index = (y*size+x)*4;
     for(let c=0;c<3;c++) albedo[index+c]=Math.max(0,Math.min(255,Math.round(rgb[c])));
     albedo[index+3]=Math.round(Math.max(0,Math.min(1,tintable))*255); details[index]=Math.max(0,Math.min(255,height*255)); details[index+1]=Math.max(0,Math.min(255,rough*255)); details[index+2]=Math.max(0,Math.min(255,metal*255)); details[index+3]=255;
   }
-  return { albedo, details, width: SIZE, height: SIZE };
+  return { albedo, details, width: size, height: size };
 }
 
 /** Only parameters that change pixels participate; color/orientation are shader uniforms. */

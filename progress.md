@@ -1,10 +1,32 @@
 # Tabletop — andamento
 
-Atualizado em 8 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 11 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+
+## Interface — etapas 1 e 2 concluídas (11 de outubro)
+
+**Feito**
+
+- `src/ui/controls.js`: `numberField` escolhe entre faixa (deslizante + valor, até 400 passos) e medida (rótulo à esquerda, campo com unidade como sufixo); `choiceField` mostra poucas opções como segmentos, botões ou amostras; `bindControls` liga deslizantes e botões ao campo nativo, que continua sendo o único com `data-field`. Um arraste grava ao soltar: um passo de desfazer.
+- `src/ui/swatches.js`: amostras das texturas procedurais a 96 px (`generateSurfaceTile(settings, size)`), desenhadas em tempo ocioso e guardadas no navegador.
+- `src/ui/material-panels.js`: grade de amostras para a textura (objeto, base e camadas do terreno); padrão/trama/assentamento/acabamento por miniatura; grupos Desenho e Cor visíveis, só Ajustes finos recolhido; tipo e local do desgaste por botões.
+- Segmentos em: tipo de luz, névoa, horário da cena, clima, ativação por horário, estado da água, fogo/fumaça, densidade da sala e listas curtas da iluminação dinâmica.
+
+**Validação**
+
+- Unitários: 251 passam (5 novos em `tests/controls.test.js`).
+- E2E completo após `npm run build` e `build:pages`: 70 de 72 na primeira rodada; as duas falhas (terreno e Pages) vinham de uma regra de CSS que escondia o deslizante "Dureza das bordas" do pincel. Corrigida; terreno, Pages, escultura de rocha e pincéis salvos repetidos e passando, junto com o novo `tests/e2e/controls.test.js`. A bateria inteira não foi repetida depois dessa correção de uma linha de CSS.
+- Captura depois: `docs/references/ui/depois-07-material-azulejo.jpg`.
+
+**Pendências reais desta etapa**
+
+- O deslizante atualiza o número durante o arraste e a cena só ao soltar; pré-visualização contínua pede agrupamento de edições no histórico.
+- Painel de pincel do terreno/rocha usa campo numérico próprio e não recebeu o conjunto novo.
+- Material da cobertura, distribuição da superfície e listas de tamanho variável continuam como lista.
+- Desgaste sem amostra em imagem (é calculado no shader).
 
 ## Reformulação da interface — plano entregue (10 de outubro)
 
-Plano em [docs/UI_REWORK_PLAN.md](docs/UI_REWORK_PLAN.md), a partir do relato de uso e de capturas da interface atual (`scripts/capture-ui.js`; três em `docs/references/ui/`). Diagnóstico: coluna longa de caixas de texto, controles de padrão das texturas a dois níveis de recolhimento, textura escolhida por nome sem amostra, painel esquerdo com três funções e lista de elementos no fim da rolagem, ferramentas sem nome, texto de 8–12 px, sem busca. Oito etapas, das quais as duas primeiras (conjunto de controles e material com amostras) atacam a queixa das texturas. Nada implementado ainda.
+Plano em [docs/UI_REWORK_PLAN.md](docs/UI_REWORK_PLAN.md), a partir do relato de uso e de capturas da interface atual (`scripts/capture-ui.js`; três em `docs/references/ui/`). Diagnóstico: coluna longa de caixas de texto, controles de padrão das texturas a dois níveis de recolhimento, textura escolhida por nome sem amostra, painel esquerdo com três funções e lista de elementos no fim da rolagem, ferramentas sem nome, texto de 8–12 px, sem busca. Oito etapas, das quais as duas primeiras (conjunto de controles e material com amostras) atacam a queixa das texturas.
 
 ## Fidelidade visual — etapas 1 a 3 concluídas (10 de outubro)
 

@@ -420,3 +420,33 @@ body { overflow: hidden; }
   .scene-thumbnail { flex-basis: 100px; width: 100px; height: 56px; }
   .scene-library-card .item-card-actions { margin-left: auto; }
 }
+/* Control kit: label beside its control; sliders for bounded values, segments and swatches for choices. */
+.field-label { flex: 1; min-width: 0; }
+.field-label small { display: block; margin-top: 1px; font-size: 11px; color: var(--muted); }
+.value-box { display: flex; align-items: center; flex: 0 0 84px; min-width: 0; background: #20262a; border: 1px solid #42494e; border-radius: 5px; }
+.value-box:focus-within { outline: 2px solid var(--accent); outline-offset: 1px; }
+.value-box input { min-height: 30px; padding: 4px 4px 4px 8px; border: 0; background: none; outline: 0; text-align: right; }
+.value-box i { padding-right: 8px; font-style: normal; font-size: 11px; color: var(--muted); }
+.measure-field { flex-direction: row; align-items: center; gap: 10px; }
+.range-field { display: grid; grid-template-columns: minmax(0, 1fr) 84px; align-items: center; gap: 2px 10px; }
+.range-field .value-box { flex: none; }
+.range-field input[data-range] { grid-column: 1 / -1; height: 20px; margin: 0; padding: 0; border: 0; background: none; accent-color: var(--accent); cursor: pointer; }
+.field:has(input:disabled) { opacity: .5; }
+:is(.axis-fields, .field-grid) .field { display: flex; flex-direction: column; align-items: stretch; gap: 6px; }
+:is(.axis-fields, .field-grid) .value-box { flex: none; }
+:is(.axis-fields, .field-grid) input[data-range] { display: none; }
+.choice-field { position: relative; }
+.choice-native { position: absolute; left: 0; bottom: 0; width: 1px; height: 1px; min-height: 0; padding: 0; border: 0; opacity: 0; pointer-events: none; }
+.segments { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 2px; padding: 2px; background: #20262a; border: 1px solid #42494e; border-radius: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+:is(.segments, .chips) button { min-height: 30px; padding: 4px 8px; border: 0; border-radius: 4px; background: none; color: #c0c6c5; font-size: 12px; }
+.chips button { flex: 1 1 auto; border: 1px solid #42494e; }
+:is(.segments, .chips, .swatches) button:hover { color: #ece8df; background: #2a3136; }
+:is(.segments, .chips, .swatches) button.active { background: #3a3327; color: #f0d5a4; box-shadow: inset 0 0 0 1px var(--accent); }
+.swatches { display: grid; grid-template-columns: repeat(var(--columns, 4), minmax(0, 1fr)); gap: 4px; }
+.swatches button { display: flex; flex-direction: column; align-items: stretch; gap: 4px; min-height: 0; padding: 4px 4px 5px; border: 0; border-radius: 6px; background: none; color: #c0c6c5; font-size: 11px; line-height: 1.25; text-align: center; overflow-wrap: anywhere; }
+.swatch-image { display: block; aspect-ratio: 1; border-radius: 4px; background: #2a3035 center / cover; box-shadow: inset 0 0 0 1px #0007; }
+.swatch-image.empty { background: repeating-linear-gradient(45deg, #262c30 0 6px, #30373c 6px 12px); }
+.control-group { margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--border); }
+.control-group > .eyebrow { display: block; margin-bottom: 10px; }
+:is(.axis-fields, .field-grid) .field-label small { display: inline; margin-left: 5px; }

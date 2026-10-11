@@ -1,6 +1,8 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
-**Plano de reformulação da interface (10 de outubro):** diagnóstico por capturas e oito etapas, começando por controles adequados a cada valor e escolha de material por amostras. [Plano](UI_REWORK_PLAN.md). Nada implementado ainda.
+**Interface, etapas 1 e 2 (11 de outubro):** conjunto de controles (deslizante com valor para faixas, medida com unidade, segmentos para poucas opções) e material escolhido por amostras, com o desenho da textura aberto logo abaixo e grupos Desenho / Cor visíveis. Campos, comandos e formato de documento inalterados. [Plano e andamento](UI_REWORK_PLAN.md).
+
+**Plano de reformulação da interface (10 de outubro):** diagnóstico por capturas e oito etapas, começando por controles adequados a cada valor e escolha de material por amostras. [Plano](UI_REWORK_PLAN.md).
 
 **Desgaste nas bordas — entregue (10 de outubro):** o desgaste do material pode seguir as arestas vivas da peça, com largura configurável, e ganhou o tipo de uso com material exposto. [Uso](MATERIALS.md#desgaste-nas-bordas).
 
