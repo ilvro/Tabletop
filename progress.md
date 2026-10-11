@@ -2,6 +2,16 @@
 
 Atualizado em 11 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Construção assistida — etapa 3 e leitura do cômodo concluídas (11 de outubro)
+
+Orientação do usuário: não quer presets prontos; quer um assistente que entenda o que está sendo feito, se adapte e ajude.
+
+**Feito**: `room-insight.js` (deduz o cômodo pelas peças, lista o que falta, avisa de passagem bloqueada, sobreposição e falta de luz); aproveitamento das peças da pessoa em `furnishing.js`; `room-state.js` com cinco estados que transformam o que existe; painel *Assistente de cômodo*. Detalhes e limites em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).
+
+**Validação**: 260 unitários passam (5 novos em `tests/room-state.test.js`). E2E rodados e passando: `assisted-rooms` (2 casos), `controls`, `editor-ui`, `editor`, `panel-consistency`, `phase3`, `structural-evolution`, `terrain-paint`; a bateria completa não foi repetida. Conferência visual de seis cômodos com estado no editor real.
+
+**Pendências reais**: Arrumado não devolve posições; estados não mexem em luz/atmosfera; sem peças tombadas; reconhecimento por modelo exato; leitura só por cômodo. Próxima etapa: 4 (ambientar: luz, atmosfera, itens de parede vinculados).
+
 ## Construção assistida — etapas 1 e 2 concluídas (11 de outubro)
 
 **Feito**: solucionador de regras (`src/authoring/room-layout.js`), 26 receitas como dados (`src/domain/room-recipes.js`), `furnishing.js` religado a eles mantendo proposta, preservação e luzes; painel com cômodos agrupados e "Ver outra arrumação"; scripts `review-rooms.js` e `capture-rooms.js`. Detalhes e diferenças em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).

@@ -3,6 +3,7 @@ import { choiceField } from './controls.js';
 import { escapeHTML as esc } from './icons.js';
 import { ROOM_TEMPLATES } from '../authoring/furnishing.js';
 import { ROOM_GROUPS } from '../domain/room-recipes.js';
+import { ROOM_STATES } from '../domain/room-states.js';
 import { isSupport } from '../domain/geometry.js';
 import { MATERIAL_PALETTES } from '../authoring/polish.js';
 
@@ -62,17 +63,32 @@ ${transferControls}<button data-action="terrain-layer-add" class="wide" ${layers
     </details><details data-disclosure="terrain-advanced" ${advanced ? 'open' : ''}><summary>Acabamento, malha e alturas exatas</summary><label class="field"><span>Iluminação das faces</span><select data-field="terrain-shading">${option('smooth','Suave · encostas e solo',record.flatShading ? 'faceted' : 'smooth')}${option('faceted','Facetas marcadas · rocha',record.flatShading ? 'faceted' : 'smooth')}</select></label>${number('terrain-resolution','Divisões por eixo',record.segments,2,64)}<p class="microcopy">Suave/Facetas muda a iluminação, sem mudar alturas. Menos divisões dão faces maiores. Alterar a resolução reamostra alturas e pintura; reduzir pode apagar detalhes pequenos. Células atuais: ${(record.width/record.segments).toFixed(2)} × ${(record.length/record.segments).toFixed(2)} m.</p><span class="eyebrow">ALTURA DE UM VÉRTICE</span>${number('terrain-cell','Índice do vértice',cell,0,record.heights.length-1)}${number('terrain-height','Altura local · m',record.heights[cell] ?? 0,-1000,1000,.05)}<p class="microcopy">${record.segments + 1} × ${record.segments + 1} vértices, por linhas de Z e depois X. Altura local somada ao Y do terreno. A edição exata não aplica a proteção automática de pisos.</p></details>${materialTarget!=='base'?basePanel:''}</section>`;
 }
 
-export function smartBuildPanel(document, options, floorId, existing) {
+/** The room assistant: what it understood, what it can complete, and the state to leave the place in. */
+export function smartBuildPanel(document, options, floorId, existing, insight, stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }) {
   const floors = Object.values(document.layout.entities).filter(e => e.kind === 'floor'), recipe = ROOM_TEMPLATES.find(t => t.id === options.template);
-  return `<section><span class="eyebrow">SMART BUILD</span><p class="microcopy">Escolha o piso e o tipo de cômodo. A mobília encosta nas paredes, deixa portas e janelas livres e continua editável peça a peça.</p>
+  const guess = insight?.inferred ?? [], state = ROOM_STATES.find(entry => entry.id === stateOptions.state);
+  const reading = !insight ? '' : `<div class="assistant-reading" aria-live="polite">${guess.length
+    ? `<p>Pelo que já está aqui, isto parece <strong>${esc(guess[0].name.toLowerCase())}</strong>.</p>${guess.length > 1 ? `<div class="chips">${guess.map(entry => `<button type="button" data-action="smart-pick" data-id="${entry.id}" class="${entry.id === options.template ? 'active' : ''}">${esc(entry.name)}</button>`).join('')}</div>` : ''}`
+    : ''}${insight.notes.length ? `<ul class="assistant-notes">${insight.notes.map(note => `<li class="${note.kind}">${esc(note.text)}${note.id ? ` <button type="button" class="quiet" data-action="assist-select" data-id="${note.id}">Mostrar</button>` : ''}</li>`).join('')}</ul>` : ''}</div>`;
+  return `<section><span class="eyebrow">SMART BUILD</span>
     <label class="field"><span>Piso / espaço</span><select data-field="smart-floor">${option('', 'Selecione um piso', floorId ?? '')}${floors.map(f => option(f.id, f.name, floorId)).join('')}</select></label>
+    ${reading}
+    <div class="control-group"><span class="eyebrow">MOBILIAR</span>
     <label class="field"><span>Tipo de cômodo</span><select data-field="smart-template">${ROOM_GROUPS.map(group => `<optgroup label="${esc(group)}">${ROOM_TEMPLATES.filter(t => t.group === group).map(t => option(t.id, t.name, options.template)).join('')}</optgroup>`).join('')}</select></label>
     ${choiceField('smart-density','Quantidade de objetos',options.density,[['sparse','Poucos objetos','Poucos'],['normal','Normal'],['dense','Mais objetos','Muitos']])}
     <div class="field-grid">${recipe?.seats ? number('smart-chairs', 'Cadeiras', options.chairs, 1, 8) : ''}${number('smart-seed', 'Variação', options.seed, 0, 4294967295)}</div>
     ${check('smart-lighting', 'Distribuir iluminação', options.lighting)}${existing ? check('smart-restoreDeleted', 'Restaurar itens excluídos', options.restoreDeleted) : ''}
-    <button class="wide accent-outline" data-action="smart-preview" ${floorId ? '' : 'disabled'}>${existing ? 'Revisar regeneração' : 'Prévia do mobiliário'}</button>
+    <button class="wide accent-outline" data-action="smart-preview" ${floorId ? '' : 'disabled'}>${existing ? 'Revisar regeneração' : insight?.count ? 'Completar o que falta' : 'Prévia do mobiliário'}</button>
     <button class="wide quiet" data-action="smart-variation" ${floorId ? '' : 'disabled'}>Ver outra arrumação</button>
-    ${existing ? '<p class="microcopy">Posições, nomes, materiais e assets editados são preservados. Exclusões não reaparecem sem sua escolha.</p><button class="wide quiet" data-action="smart-detach">Desvincular receita</button>' : ''}</section>`;
+    <p class="microcopy">O que você já colocou é aproveitado e não sai do lugar: as peças novas se arrumam em volta. Portas e janelas ficam livres.${existing ? ' Posições, nomes e materiais editados são preservados; exclusões não reaparecem sem sua escolha.' : ''}</p>
+    ${existing ? '<button class="wide quiet" data-action="smart-detach">Desvincular receita</button>' : ''}</div>
+    <div class="control-group"><span class="eyebrow">ESTADO DO LUGAR</span>
+    ${choiceField('state-state','Como o lugar foi deixado',stateOptions.state,ROOM_STATES.map(entry => [entry.id, entry.name]))}
+    <p class="microcopy">${esc(state.description)}</p>
+    ${stateOptions.state === 'tidy' ? '' : `<label class="field range-field"><span class="field-label">Intensidade</span><span class="value-box"><input type="number" data-field="state-intensity" value="${Math.round(stateOptions.intensity * 100)}" min="0" max="100" step="5"/><i>%</i></span><input type="range" data-range="state-intensity" value="${Math.round(stateOptions.intensity * 100)}" min="0" max="100" step="5" tabindex="-1" aria-hidden="true"/></label>`}
+    <button class="wide accent-outline" data-action="state-preview" ${floorId ? '' : 'disabled'}>Prévia do estado</button>
+    ${stateOptions.state === 'tidy' ? '' : `<button class="wide quiet" data-action="state-variation" ${floorId ? '' : 'disabled'}>Ver outra versão</button>`}
+    <p class="microcopy">Age sobre o que existe: seus móveis podem ser gastos, tirados do lugar ou afastados, nunca removidos. O que o estado acrescenta é trocado pelo próximo estado e sai com Arrumado.</p></div></section>`;
 }
 
 export function polishPanel(count, options, document) {

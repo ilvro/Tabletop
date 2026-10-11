@@ -39,6 +39,8 @@ import { primaryLight, createEnvironmentFromLook, applyEnvironment, environmentD
 import { createSceneStore } from '../state/scene-store.js';
 import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
+import { proposeRoomState } from '../authoring/room-state.js';
+import { describeRoom } from '../authoring/room-insight.js';
 import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { resampleTerrain, resizeTerrain, protectTerrainFloors } from '../authoring/terrain.js';
 import { proposeAnchoring } from '../authoring/anchoring.js';
@@ -140,6 +142,8 @@ export async function startApplication() {
   let roomOptions = { width: 6, length: 5, height: 2.6, center: [0, 0, 0], door: true, lighting: true };
   let activeSurfaceId, buildHeight = 0, smartFloorId = null, selectedIds = new Set();
   let smartOptions = { template: 'office', density: 'normal', chairs: 4, seed: 1, lighting: true, restoreDeleted: false };
+  // The room type follows what is in the room until the person picks one for that floor.
+  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null;
   let anchorEditing = false, anchorHostId = '';
   const openBuildSections = new Set(['room']);
     let terrainMaterialTarget = 'layer';
@@ -446,7 +450,9 @@ export async function startApplication() {
     selection = [...selectedIds].at(-1) ?? null;
     if (['floor', 'terrain'].includes(store.document.layout.entities[selection]?.kind) && !additive) {
       activeSurfaceId = selection;
-      if (store.document.layout.entities[selection].kind === 'floor' && smartFloorId !== selection) { smartFloorId = selection; const existing = currentComposition(); if (existing) smartOptions = { ...existing.parameters, restoreDeleted: false }; }
+      // The assistant follows the room being worked on: its floor, or the floor under the selected piece.
+      const selected = store.document.layout.entities[selection], roomFloor = selected.kind === 'floor' ? selection : store.document.layout.entities[store.document.layout.entities[selected.surfaceId]?.kind === 'prop' ? store.document.layout.entities[selected.surfaceId].surfaceId : selected.surfaceId]?.kind === 'floor' ? (store.document.layout.entities[selected.surfaceId].kind === 'prop' ? store.document.layout.entities[selected.surfaceId].surfaceId : selected.surfaceId) : null;
+      if (roomFloor && smartFloorId !== roomFloor) { smartFloorId = roomFloor; const existing = currentComposition(); if (existing) smartOptions = { ...existing.parameters, restoreDeleted: false }; }
       viewport.setSupportSurface(selection); if (locate()?.record.kind==='terrain') openBuildSections.add('terrain');
       if (tab === 'build') renderSidebar();
     }
@@ -605,12 +611,14 @@ export async function startApplication() {
       panel.innerHTML += levelsPanel(store.document, { levelId: activeLevelId, layerId: activeLayerId, isolated: isolatedLevel });
       panel.innerHTML += terrainPanel(terrainOptions);
       panel.innerHTML += landscapePanel(store.document,vegetationOptions,assets,{numberField});
-      panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition());
+      const insight = smartFloorId ? describeRoom(store.document, smartFloorId, assets) : null;
+      if (insight?.inferred[0] && !currentComposition() && smartTemplateChosenFor !== smartFloorId) smartOptions.template = insight.inferred[0].id;
+      panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition(), insight, stateOptions);
       // Plain headings and one level of tasks: what is inside a task is visible as soon as it opens.
       taskList(panel, [
         { title: 'Construções', tasks: [
           [0,'room','Sala','Desenhar no chão ou criar por medidas'], [1,'manual','Peças avulsas','Piso, parede, porta, luzes, fogo e fumaça'],
-          [4,'structures','Pisos, paredes e acessos','Contornos, superfícies de apoio e escadas'], [8,'furnishing','Mobiliar cômodo','26 tipos de cômodo, da cozinha à sala de ritual'] ] },
+          [4,'structures','Pisos, paredes e acessos','Contornos, superfícies de apoio e escadas'], [8,'furnishing','Assistente de cômodo','Entende o que já existe, completa e muda o estado'] ] },
         { title: 'Paisagem', tasks: [[6,'terrain','Terreno e relevo','Criar terreno, elevar, nivelar e pintar'], [7,'landscape','Água e vegetação','Lagos, rios, gelo e plantas']] },
         { title: 'Personagens', tasks: [[2,'characters','Tokens','Colocar personagens na mesa']] },
         { title: 'Organização', tasks: [[5,'levels','Andares e camadas','Separar e isolar partes da cena'], [3,'grid','Grid e precisão','Mostrar, encaixar e medir']] },
@@ -1468,10 +1476,12 @@ export async function startApplication() {
     if (field === 'active-surface') { activeSurfaceId = value || null; viewport.setSupportSurface(activeSurfaceId); return; }
     if (field.startsWith('smart-')) {
       const key = field.slice(6);
+      if (key === 'template') smartTemplateChosenFor = smartFloorId;
       if (key === 'floor') { smartFloorId = value || null; const existing = currentComposition(); if (existing) smartOptions = { ...existing.parameters, restoreDeleted: false }; }
       else smartOptions[key] = value;
       clearProposal(); renderSidebar(); return;
     }
+    if (field.startsWith('state-')) { const key = field.slice(6); stateOptions[key] = key === 'intensity' ? Math.max(0, Math.min(1, value / 100)) : value; clearProposal(); renderSidebar(); return; }
     if (field.startsWith('polish-')) { polishOptions[field.slice(7)] = value; clearProposal(); if (field === 'polish-mode') renderInspector(); return; }
     if (field.startsWith('room-')) {
       const key = field.slice(5); roomOptions[key] = value; if (proposal) makeProposal(); return;
@@ -1811,6 +1821,14 @@ export async function startApplication() {
       // falls through
       case 'smart-preview': {
         try { showAuthorshipProposal(proposeFurnishing(store.document, { ...smartOptions, floorId: smartFloorId, compositionId: currentComposition()?.id }, store.editVersion, assets)); }
+        catch (error) { notify(error.message, true); } break;
+      }
+      case 'smart-pick': smartOptions.template = metadata.id; smartTemplateChosenFor = smartFloorId; clearProposal(); renderSidebar(); break;
+      case 'assist-select': selectObject(metadata.id); break;
+      case 'state-variation': stateOptions.seed = (stateOptions.seed + 1) % 4294967296; renderSidebar();
+      // falls through
+      case 'state-preview': {
+        try { showAuthorshipProposal(proposeRoomState(store.document, { ...stateOptions, floorId: smartFloorId }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
       case 'smart-detach': if (currentComposition()) execute('composition.detach', { id: currentComposition().id }); break;

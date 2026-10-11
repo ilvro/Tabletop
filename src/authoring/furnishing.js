@@ -20,7 +20,7 @@ function preserve(original, current, generated) {
   }
   return result;
 }
-function scopeFor(document, floorId, existing) {
+export function scopeFor(document, floorId, existing) {
   const floor = document.layout.entities[floorId];
   if (floor?.kind !== 'floor') throw new ValidationError('Selecione um piso para mobiliar.');
   const area = existing ? document.layout.areas[existing.areaId] : Object.values(document.layout.areas).find(a => a.surfaceId === floorId);
@@ -30,6 +30,18 @@ function scopeFor(document, floorId, existing) {
   const world = rotateXZ(offset, yawFromQuaternion(floor.transform.rotation)).map((n, i) => n + floor.transform.position[i]);
   return { floor, newArea: true, area: { id: id(), name: floor.name, kind: 'rectangle', transform: { position: world, rotation: clone(floor.transform.rotation), scale: [1, 1, 1] }, width: floor.width, length: floor.length, surfaceId: floor.id, memberIds: [floor.id], groupId: floor.groupId } };
 }
+
+/** The floor a person needs to walk through each door of the room. */
+export function doorZones(document, floor) {
+  const zones = [];
+  for (const door of Object.values(document.layout.entities).filter(e => e.kind === 'door')) {
+    const wall = document.layout.entities[door.wallId]; if (wall.surfaceId !== floor.id && !wall.floorIds?.includes(floor.id)) continue;
+    const offset = rotateXZ([door.offset, 0, 0], yawFromQuaternion(wall.transform.rotation)).map((v, i) => v + wall.transform.position[i]);
+    zones.push(worldFootprint({ footprint: [door.width + .5, 2.4], transform: { position: offset, rotation: wall.transform.rotation, scale: [1, 1, 1] } }));
+  }
+  return zones;
+}
+export const AMBIENCE_TAG = 'ambientação';
 
 export function proposeFurnishing(document, { floorId, compositionId, template = 'office', density = 'normal', chairs = 4, seed = 1, lighting = true, restoreDeleted = false } = {}, expectedEditVersion = 0, catalog = []) {
   validateDocument(document);
@@ -42,7 +54,7 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
   if (isLocked(document, floor)) throw new ValidationError('O piso ou sua pasta está bloqueado.');
   const parameters = { template, density, chairs, seed, lighting }, look = document.look ?? document.defaultLook;
   const composition = { id: previous?.id ?? id(), name: `${ROOM_TEMPLATES.find(t => t.id === template).name} — ${floor.name}`, recipeId: 'room-furnishing', recipeVersion: 2, areaId: area.id, parameters, slots: {} };
-  const proposal = { id: id(), expectedEditVersion, label: previous ? 'Regenerar mobiliário' : 'Mobiliar espaço', entities: [], groups: [], areas: newArea ? [area] : [], lights: [], updates: [], removals: [], compositions: [composition], report: { kept: [], suppressed: [], omissions: [], conflicts: [] } };
+  const proposal = { id: id(), expectedEditVersion, label: previous ? 'Regenerar mobiliário' : 'Mobiliar espaço', entities: [], groups: [], areas: newArea ? [area] : [], lights: [], updates: [], removals: [], compositions: [composition], report: { kept: [], suppressed: [], omissions: [], conflicts: [], reasons: [] } };
   const yaw = yawFromQuaternion(area.transform.rotation), [w, l] = [area.width, area.length];
   const toWorld = (x, z, height = 0) => rotateXZ([x, height, z], yaw).map((v, i) => v + area.transform.position[i]);
   const recipe = ROOM_RECIPES.find(entry => entry.id === template), level = DENSITY_LEVEL[density];
@@ -59,12 +71,7 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
   }
   const priorIds = new Set(Object.values(previous?.slots ?? {}).map(slot => slot.id));
   const occupied = Object.values(document.layout.entities).filter(e => e.kind === 'prop' && e.surfaceId === floor.id && !priorIds.has(e.id)).map(e => ({ id: e.id, corners: worldFootprint(e, .08), tight: worldFootprint(e) }));
-  const reserved = [];
-  for (const door of Object.values(document.layout.entities).filter(e => e.kind === 'door')) {
-    const wall = document.layout.entities[door.wallId]; if (wall.surfaceId !== floor.id && !wall.floorIds?.includes(floor.id)) continue;
-    const offset = rotateXZ([door.offset, 0, 0], yawFromQuaternion(wall.transform.rotation)).map((v, i) => v + wall.transform.position[i]);
-    reserved.push(worldFootprint({ footprint: [door.width + .5, 2.4], transform: { position: offset, rotation: wall.transform.rotation, scale: [1, 1, 1] } }));
-  }
+  const reserved = doorZones(document, floor);
   const floorPolygon = floor.vertices ?? [[-floor.width / 2, -floor.length / 2], [floor.width / 2, -floor.length / 2], [floor.width / 2, floor.length / 2], [-floor.width / 2, floor.length / 2]];
   const localFloor = p => { const v = rotateXZ([p[0] - floor.transform.position[0], 0, p[1] - floor.transform.position[2]], -yawFromQuaternion(floor.transform.rotation)); return [v[0], v[2]]; };
   const within = corners => footprintOnFloor(floor, corners) && polygonContainsPolygon(floorPolygon, corners.map(localFloor)) && corners.every(p => {
@@ -77,6 +84,11 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
     if (current && slot.kind === 'entity' && (isLocked(document, current) || !same(snapshotItem(current).transform, slot.baseline.transform))) occupied.push({ id: slot.id, corners: worldFootprint(current, .08), tight: worldFootprint(current) });
   }
   const usedSlots = new Set(), missing = new Map();
+  // What the person already put in the room is part of the room: a recipe uses
+  // their desk instead of bringing another. Adopted pieces are never moved or owned.
+  const owned = new Set(Object.values(document.layout.compositions).flatMap(c => Object.values(c.slots).map(slot => slot.id)));
+  const roomProps = Object.values(document.layout.entities).filter(e => e.kind === 'prop' && e.surfaceId === floor.id);
+  const adoptable = [...roomProps, ...Object.values(document.layout.entities).filter(e => e.kind === 'prop' && roomProps.some(host => host.id === e.surfaceId))].filter(e => !owned.has(e.id) && !e.tags?.includes(AMBIENCE_TAG));
   for (const candidate of candidates) {
     const { slot: key } = candidate; usedSlots.add(key);
     const prior = previous?.slots[key], kind = candidate.light ? 'light' : 'entity';
@@ -94,6 +106,13 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
       const asset = catalog.find(a => a.id === candidate.assetId), { rule } = candidate;
       if (!asset) { proposal.report.omissions.push('Um móvel da receita está ausente no catálogo.'); if (prior) composition.slots[key] = clone(prior); continue; }
       candidate.asset = asset; fits = false;
+      const own = prior ? null : adoptable.find(e => e.assetRef?.id === asset.id);
+      if (own) {
+        adoptable.splice(adoptable.indexOf(own), 1);
+        const [x, z] = frame.toLocal(own.transform.position);
+        placed.set(key, { id: own.id, x, z, rotation: yawFromQuaternion(own.transform.rotation) - yaw, width: asset.footprint[0] * own.transform.scale[0], depth: asset.footprint[1] * own.transform.scale[2], top: own.transform.position[1] - area.transform.position[1] + (asset.supportHeight ?? 0) * own.transform.scale[1] });
+        proposal.report.reasons.push(`${own.name}: já estava no cômodo e foi aproveitado.`); continue;
+      }
       // The first pose that is free wins; hanging and flat pieces take no floor space.
       for (const pose of poses(rule, { frame, placed, seed, slot: key, asset, index: candidate.index, total: candidate.total })) {
         const entity = createEntity('prop', { id: prior?.id, name: asset.name, assetRef: { id: asset.id, revision: asset.revision }, position: toWorld(pose.x, pose.z, pose.on ? pose.on.top : rule.lift ?? 0), rotation: quaternionFromYaw(yaw + pose.rotation), footprint: asset.footprint, groupId: area.groupId, surfaceId: pose.on?.id ?? floor.id, levelId: floor.levelId ?? null, layerId: floor.layerId ?? null, ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}) });

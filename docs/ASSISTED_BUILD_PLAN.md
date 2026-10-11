@@ -15,6 +15,8 @@ O que falta: as receitas não conhecem paredes, cantos nem janelas; não existe 
 
 ## Princípios
 
+- **Assistente, não catálogo de prontos.** O ponto de partida é o que a pessoa já fez. O sistema lê a cena, deduz a intenção, aproveita as peças dela e propõe o próximo passo; receitas e estados são conhecimento que ele usa, não blocos que despeja.
+
 - **Descrever a intenção, revisar o resultado.** Tipo de lugar, tamanho, estado e clima; o sistema propõe, a pessoa aceita, troca ou ajusta.
 - **Nada vira caixa-preta.** Tudo o que é gerado é objeto comum, editável, e regenerar nunca desfaz edição manual.
 - **Mesma semente, mesmo resultado.** Variações são escolhidas, não sorteadas a cada clique.
@@ -94,3 +96,39 @@ Trabalho (escritório, reunião, investigação), casa (sala de estar, cozinha, 
 - Não há folga na frente de móveis (um guarda-roupa pode ficar perto de uma cama), só a passagem das portas.
 - Em cômodos pequenos parte da receita não cabe; a prévia lista o que ficou de fora. Um carro só cabe em garagem com 5,5 m ou mais de comprimento.
 - Luminárias de teto e luzes com perfil continuam como pontos de luz distribuídos (etapa 4).
+
+### Etapa 3 e leitura do cômodo — entregues (11 de outubro)
+
+Orientação recebida antes desta etapa: não é para ser um conjunto de presets; a ferramenta deve entender o que a pessoa está fazendo, adaptar-se e ajudar. Por isso a etapa 3 veio junto com a parte do assistente que lê a cena.
+
+**O assistente lê o cômodo** (`src/authoring/room-insight.js`)
+
+- Deduz que cômodo é a partir das peças presentes, pesando mais as que identificam um lugar (um fogão diz mais que uma cadeira). Uma peça colocada à mão já basta; a sugestão muda conforme a pessoa acrescenta objetos e para de mudar quando ela escolhe um tipo.
+- Diz o que costuma haver naquele cômodo e ainda falta, e aponta problemas: objeto na passagem de uma porta, objetos atravessados, cômodo sem luz.
+- Acompanha o trabalho: selecionar um piso, um móvel ou algo sobre um móvel leva o assistente para aquele cômodo.
+
+**Completar em vez de substituir** (`furnishing.js`)
+
+- As peças que a pessoa já colocou são aproveitadas: quem pôs uma mesa e pede sala de jantar recebe cadeiras em volta daquela mesa, não outra mesa. Peças aproveitadas não são movidas nem passam a pertencer à receita, então trocar ou regenerar a receita nunca as remove.
+
+**Estado do lugar como transformação** (`src/authoring/room-state.js`, `src/domain/room-states.js`)
+
+- Funciona em qualquer cômodo, gerado ou feito à mão, e age sobre o que existe, com intensidade e variação.
+- **Habitado**: objetos de uso sobre os tampos livres, cadeiras fora de esquadro.
+- **Abandonado**: sujeira em piso, paredes e móveis usando o desgaste de materiais, peças pequenas fora do lugar, entulho, papéis e mato nos cantos.
+- **Cena de crime**: sangue onde há piso livre, corpo, cones, maleta de evidências, câmera apontada para a cena, sinais de luta nas cadeiras.
+- **Ritual**: os móveis que estão no centro são levados à parede livre mais próxima, com o que estiver sobre eles; círculo, velas em anel, queimado no piso; uma mesa do próprio cômodo vira altar, e só um cômodo vazio recebe um altar.
+- **Arrumado**: tira a ambientação, limpa o desgaste aplicado pelos estados e endireita os móveis.
+- O que um estado acrescenta leva a etiqueta `ambientação` e é trocado pelo estado seguinte. O desgaste aplicado é marcado com `desgaste-ambientação`; desgaste posto pela pessoa nunca é sobrescrito nem limpo. Nada do que a pessoa fez é removido.
+
+**Interface**: a tarefa passou a se chamar *Assistente de cômodo*, com a leitura no topo ("isto parece cozinha", o que falta, avisos com botão *Mostrar*), o grupo Mobiliar (o botão vira *Completar o que falta* quando já há peças) e o grupo Estado do lugar.
+
+**Testes**: `tests/room-state.test.js` (reconhecimento dos 26 cômodos, aproveitamento de peças, quatro estados sobre quatro cômodos, troca de estado, Arrumado devolve exatamente os objetos da pessoa, desgaste próprio preservado, ritual afastando mesa e usando-a como altar) e o segundo caso de `tests/e2e/assisted-rooms.test.js` (fogão colocado à mão → "parece cozinha" → completar sem duplicar → ritual → arrumado). Referência: `docs/references/assisted-build/estados.jpg`.
+
+**Limites desta entrega**
+
+- Arrumado endireita, mas não devolve à posição anterior os móveis que um estado tirou do lugar; para isso há o desfazer.
+- Os estados não mexem nas luzes nem na atmosfera (etapa 4).
+- Os móveis só giram no próprio eixo: não há peça tombada.
+- O reconhecimento compara modelos exatos; uma mesa de outro tipo não conta como "a mesa" da receita.
+- A leitura é por cômodo. O assistente ainda não entende o prédio (que cômodo falta numa casa), que é a etapa 5.

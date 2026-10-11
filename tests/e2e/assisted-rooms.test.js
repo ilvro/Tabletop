@@ -33,3 +33,34 @@ test('a room is furnished by type from the panel, another arrangement is one cli
     assert.deepEqual(errors,[]);
   } finally { await browser?.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true}); }
 });
+
+test('the assistant reads what was placed by hand, completes around it and changes the state of the place', {timeout:150_000}, async () => {
+  const dataDir=await mkdtemp(path.join(os.tmpdir(),'tabletop-assist-')),server=(await createApp({dataDir})).listen(0,'127.0.0.1');await once(server,'listening');let browser;
+  try {
+    browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+    const page=await browser.newPage({viewport:{width:1500,height:950}}),errors=[];page.setDefaultTimeout(30_000);page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
+    await page.goto(`http://127.0.0.1:${server.address().port}/?diagnostics`);await page.waitForFunction(()=>!!window.__tabletop);
+    const action=async name=>(await reveal(page.locator(`[data-action="${name}"]`).first())).click(),snapshot=()=>page.evaluate(()=>window.__tabletop.snapshot());
+    const props=async()=>Object.values((await snapshot()).layout.entities).filter(e=>e.kind==='prop'),reading=()=>page.locator('.assistant-reading');
+    const place=async(search,asset,position)=>{await page.locator('[data-tab="assets"]').click();await page.getByLabel('Buscar assets',{exact:true}).fill(search);await page.locator(`[data-asset="${asset}"]`).click();const p=await page.evaluate(v=>window.__tabletop.project(v),position);await page.mouse.click(p.x,p.y);await page.waitForFunction(id=>Object.values(window.__tabletop.snapshot().layout.entities).some(e=>e.assetRef?.id===id),asset);await page.keyboard.press('Escape');};
+    await (await reveal(page.locator('#quick-form button[type=submit]'))).click();await action('accept-proposal');
+    await reveal(page.locator('[data-field="smart-template"]'));assert.match(await reading().textContent(),/Cômodo vazio/);
+    // One stove by hand is enough for the assistant to follow.
+    await place('fogão','builtin-stove',[-1.5,0,-1.5]);await page.locator('[data-tab="build"]').click();
+    const stove=(await props())[0];
+    await page.waitForFunction(()=>document.querySelector('[data-field="smart-template"]')?.value==='kitchen');
+    assert.match(await reading().textContent(),/parece cozinha/);assert.match(await reading().textContent(),/falta: .*pia/);
+    await action('smart-preview');await action('accept-proposal');
+    let now=await props();assert.equal(now.filter(e=>e.assetRef.id==='builtin-stove').length,1,'the stove placed by hand is used, not duplicated');
+    assert.deepEqual(now.find(e=>e.id===stove.id).transform,stove.transform);assert.ok(now.some(e=>e.assetRef.id==='builtin-sink'));
+    // A state works on that same room and leaves with "Arrumado".
+    const furnished=now.map(e=>e.id).sort();
+    await (await reveal(page.locator('.choice-field:has([data-field="state-state"]) [data-choice="ritual"]'))).click();await action('state-preview');await action('accept-proposal');
+    now=await props();assert.ok(now.some(e=>e.assetRef.id==='builtin-ritual-circle'));for(const key of furnished)assert.ok(now.some(e=>e.id===key));
+    assert.equal((await snapshot()).layout.entities[stove.surfaceId].material.wear.type,'scorch');
+    await (await reveal(page.locator('.choice-field:has([data-field="state-state"]) [data-choice="tidy"]'))).click();assert.equal(await page.locator('[data-field="state-intensity"]').count(),0);
+    await action('state-preview');await action('accept-proposal');
+    assert.deepEqual((await props()).map(e=>e.id).sort(),furnished);assert.equal((await snapshot()).layout.entities[stove.surfaceId].material.wear??null,null);
+    assert.deepEqual(errors,[]);
+  } finally { await browser?.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true}); }
+});
