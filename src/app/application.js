@@ -41,7 +41,7 @@ import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
 import { proposeRoomState } from '../authoring/room-state.js';
 import { describeRoom } from '../authoring/room-insight.js';
-import { proposeBuilding, describeBuilding } from '../authoring/building.js';
+import { proposeBuilding, proposeAddRoom, describeBuilding } from '../authoring/building.js';
 import { proposeRoomLighting, proposeRoomDetails, roomMood, suggestAtmosphere } from '../authoring/room-ambience.js';
 import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { resampleTerrain, resizeTerrain, protectTerrainFloors } from '../authoring/terrain.js';
@@ -145,7 +145,7 @@ export async function startApplication() {
   let activeSurfaceId, buildHeight = 0, smartFloorId = null, selectedIds = new Set();
   let smartOptions = { template: 'office', density: 'normal', chairs: 4, seed: 1, lighting: true, restoreDeleted: false };
   // The room type follows what is in the room until the person picks one for that floor.
-  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null, ambienceOptions = { mood: 'auto', amount: .6, seed: 1 }, buildingOptions = { floorId: '', width: 15, length: 9, type: 'house', seed: 1, furnish: true, lighting: true, roof: true };
+  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null, ambienceOptions = { mood: 'auto', amount: .6, seed: 1 }, buildingOptions = { floorId: '', width: 15, length: 9, type: 'house', seed: 1, furnish: true, lighting: true, roof: true, addTemplate: 'bathroom' };
   let anchorEditing = false, anchorHostId = '';
   const openBuildSections = new Set(['room']);
     let terrainMaterialTarget = 'layer';
@@ -616,7 +616,7 @@ export async function startApplication() {
       const insight = smartFloorId ? describeRoom(store.document, smartFloorId, assets) : null;
       if (insight?.inferred[0] && !currentComposition() && smartTemplateChosenFor !== smartFloorId) smartOptions.template = insight.inferred[0].id;
       if (buildingOptions.floorId && !store.document.layout.entities[buildingOptions.floorId]) buildingOptions.floorId = '';
-      panel.innerHTML += buildingPanel(store.document, buildingOptions);
+      panel.innerHTML += buildingPanel(store.document, buildingOptions, smartFloorId);
       if (insight) { insight.building = describeBuilding(store.document, smartFloorId, assets); insight.mood = roomMood(store.document, smartFloorId, assets); insight.atmosphere = suggestAtmosphere(store.document, smartFloorId, assets); }
       panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition(), insight, stateOptions, ambienceOptions);
       // Plain headings and one level of tasks: what is inside a task is visible as soon as it opens.
@@ -1836,6 +1836,10 @@ export async function startApplication() {
       // falls through
       case 'state-preview': {
         try { showAuthorshipProposal(proposeRoomState(store.document, { ...stateOptions, floorId: smartFloorId }, store.editVersion, assets)); }
+        catch (error) { notify(error.message, true); } break;
+      }
+      case 'building-add-room': {
+        try { showAuthorshipProposal(proposeAddRoom(store.document, { floorId: smartFloorId, template: metadata.id ?? buildingOptions.addTemplate, seed: buildingOptions.seed, furnish: buildingOptions.furnish, lighting: buildingOptions.lighting }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
       case 'building-variation': buildingOptions.seed = (buildingOptions.seed + 1) % 4294967296; renderSidebar();

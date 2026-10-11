@@ -186,3 +186,33 @@ Feita no mesmo espírito da etapa 3: cada passo lê o cômodo e age sobre o que 
 - O telhado é o modelo de telhado de casa esticado para o contorno; em prédios muito grandes ou muito estreitos fica desproporcional.
 - `building.js` usa o armazenamento de cena para compor as propostas dos cômodos, o que liga a camada de autoria à de estado.
 - A leitura do prédio sugere o que falta, mas ainda não cria o cômodo que falta com um clique.
+
+### Etapa 5, segunda parte — completar o que já está construído (11 de outubro)
+
+Motivo: depois da primeira entrega da etapa 5, o usuário observou que "Prédio" parecia um conjunto de presets: não havia como incluir o prédio em algo já construído nem ele se adaptava para completar. Estava certo; o contorno tinha de estar vazio. Esta parte corrige isso.
+
+**Contorno já começado** (`proposeBuilding`)
+
+- O contorno não precisa mais estar vazio. O que a pessoa tem nele faz parte do pedido e nada é removido nem movido.
+- **Paredes**: as que coincidem com a planta são mantidas, com portas e janelas, e passam a ser compartilhadas com os cômodos; só os trechos que faltam são erguidos (`raiseWalls`). Paredes fora da planta ficam onde estão. Nenhuma janela é aberta em parede da pessoa.
+- **Entrada**: uma porta externa que já existe é a entrada, e o cômodo de entrada vai para junto dela (a planta é espelhada se preciso).
+- **Móveis**: entre as plantas possíveis (variações e espelhamentos) é escolhida a que põe cada móvel no cômodo a que ele pertence e não passa parede por cima de nenhum. Cada móvel passa a pertencer ao cômodo onde está, e o assistente de cômodo completa em volta, sem duplicar.
+- Portas internas desviam de móveis que estejam no vão. A prévia diz quantas paredes foram mantidas, onde cada móvel ficou e o que precisa de conferência.
+
+**Acrescentar um cômodo** (`proposeAddRoom`)
+
+- Procura um lado livre nos cômodos do prédio, prefere o vizinho ao qual aquele cômodo costuma se ligar (banheiro junto a corredor ou quarto, cozinha junto a sala ou jantar) e a posição que mantém o prédio compacto.
+- Usa a parede que já existe como parede compartilhada, abre a porta por ela desviando dos móveis do vizinho, fecha a janela que passaria a dar para o cômodo novo, ergue as três paredes restantes e mobília o cômodo.
+- Vale para um cômodo sozinho, que assim começa a virar prédio. Na leitura do assistente, cada cômodo que falta tem um botão *Criar*.
+
+**Mecanismo**: uma proposta pode levar passos de preparação (`rehoming`) aplicados antes das remoções: mudar o apoio de um objeto antes de o piso sair, e tirar o que uma peça nova substitui antes de ela chegar.
+
+**Testes**: dois casos novos em `tests/building.test.js` (casca com porta, janela e três móveis completada sem mover nada, com cozinha, quarto e sala nos lugares dos móveis e as quatro paredes mantidas; cômodo acrescentado com uma parede compartilhada, porta e três paredes novas) e o quarto caso de `tests/e2e/assisted-rooms.test.js`. Referência: `docs/references/assisted-build/completar-o-que-existe.jpg`.
+
+**Limites que continuam**
+
+- Contorno retangular e um pavimento.
+- Cômodos (pisos separados) que já existam dentro do contorno não são reconhecidos como parte da planta; para ampliar um prédio feito de cômodos, o caminho é *Acrescentar cômodo*.
+- A escolha da planta olha a posição dos móveis, não a orientação; um móvel pode ficar de costas para a porta nova.
+- Paredes internas da pessoa só são aproveitadas se estiverem a menos de 30 cm de uma linha da planta; a planta ainda não se desloca para alcançá-las.
+- A planta continua sendo "entrada numa ponta + corredor".

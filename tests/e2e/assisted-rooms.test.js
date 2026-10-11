@@ -99,3 +99,33 @@ test('a building is raised from an outline drawn by the person and each room sta
     assert.deepEqual(errors,[]);
   } finally { await browser?.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true}); }
 });
+
+test('what is already built is completed: a room is added to a room, and a started shell becomes a house around its furniture', {timeout:150_000}, async () => {
+  const dataDir=await mkdtemp(path.join(os.tmpdir(),'tabletop-complete-')),server=(await createApp({dataDir})).listen(0,'127.0.0.1');await once(server,'listening');let browser;
+  try {
+    browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+    const page=await browser.newPage({viewport:{width:1500,height:950}}),errors=[];page.setDefaultTimeout(30_000);page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
+    await page.goto(`http://127.0.0.1:${server.address().port}/?diagnostics`);await page.waitForFunction(()=>!!window.__tabletop);
+    const action=async name=>(await reveal(page.locator(`[data-action="${name}"]`).first())).click(),snapshot=()=>page.evaluate(()=>window.__tabletop.snapshot());
+    const of=async kind=>Object.values((await snapshot()).layout.entities).filter(e=>e.kind===kind),set=async(field,value)=>{const node=await reveal(page.locator(`[data-field="${field}"]`));await node.fill(String(value));await node.press('Tab');};
+    const place=async(search,asset,position)=>{await page.locator('[data-tab="assets"]').click();await page.getByLabel('Buscar assets',{exact:true}).fill(search);await page.locator(`[data-asset="${asset}"]`).click();const p=await page.evaluate(v=>window.__tabletop.project(v),position);await page.mouse.click(p.x,p.y);await page.waitForFunction(id=>Object.values(window.__tabletop.snapshot().layout.entities).some(e=>e.assetRef?.id===id),asset);await page.keyboard.press('Escape');};
+    // A shell made by hand: a large room with its own door, and a stove where the kitchen should be.
+    await set('room-width',14);await set('room-length',8);await (await reveal(page.locator('#quick-form button[type=submit]'))).click();await action('accept-proposal');
+    const shell=(await of('wall')).map(w=>w.id),outline=(await of('floor'))[0],entry=(await of('door'))[0];
+    await action('top');await action('frame');await page.waitForTimeout(600);await place('fogão','builtin-stove',[5.5,0,-3]);const stove=(await of('prop'))[0];
+    await page.locator('[data-tab="build"]').click();await (await reveal(page.locator('[data-field="building-floorId"]'))).selectOption(outline.id);
+    await action('building-preview');await action('accept-proposal');
+    let entities=(await snapshot()).layout.entities;const kitchen=entities[entities[stove.id].surfaceId];
+    assert.match(kitchen.name,/Cozinha/,'the plan put the kitchen where the stove was');assert.deepEqual(entities[stove.id].transform,stove.transform);
+    for(const key of shell)assert.ok(entities[key],'the walls made by hand stand');assert.ok(entities[entry.id]);
+    assert.equal((await of('door')).filter(d=>d.name==='Entrada').length,0);assert.equal((await of('prop')).filter(e=>e.assetRef.id==='builtin-stove').length,1);
+    assert.ok((await of('floor')).length>=4);
+    // The assistant now knows the house and offers the room it lacks, or any other.
+    const rooms=(await of('floor')).length;await (await reveal(page.locator('[data-field="building-addTemplate"]'))).selectOption('garage');
+    await action('building-add-room');await action('accept-proposal');
+    const garage=(await of('floor')).find(f=>f.name==='Garagem');assert.ok(garage);assert.equal((await of('floor')).length,rooms+1);
+    assert.ok((await of('door')).some(d=>d.name==='Porta — Garagem'));
+    await action('undo');await action('undo');assert.deepEqual((await of('floor')).map(f=>f.id),[outline.id]);assert.equal((await snapshot()).layout.entities[stove.id].surfaceId,outline.id);
+    assert.deepEqual(errors,[]);
+  } finally { await browser?.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true}); }
+});

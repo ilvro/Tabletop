@@ -2,6 +2,16 @@
 
 Atualizado em 11 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Construção assistida — completar o que já está construído, concluído (11 de outubro)
+
+Motivo: o usuário apontou que "Prédio" parecia presets e perguntou se dava para incluir em algo já construído; não dava.
+
+**Feito**: `proposeBuilding` reescrito para trabalhar sobre o que existe no contorno (paredes mantidas e completadas, porta existente como entrada, planta escolhida pelos móveis, objetos passam ao cômodo onde estão); `proposeAddRoom`; passos de preparação `rehoming` em `proposal.accept`; botões *Criar* na leitura do prédio e grupo *Acrescentar cômodo* no painel. Detalhes e limites em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).
+
+**Validação**: 271 unitários passam (2 novos). E2E rodados e passando: `assisted-rooms` (4 casos), `assemblies`, `editor-ui`, `editor`, `panel-consistency`, `phase3`, `structural-evolution`, `terrain-paint`; a bateria completa não foi repetida. Conferência visual no editor real de uma casca com quatro móveis completada e com garagem acrescentada.
+
+**Pendências reais**: itens 3 e 4 combinados com o usuário (escolher o programa de cômodos; posicionar o contorno direto na cena) não iniciados; cômodos existentes dentro do contorno não entram na planta; orientação dos móveis não pesa na escolha.
+
 ## Construção assistida — etapa 5, prédio a partir do contorno, concluída (11 de outubro)
 
 **Feito**: `src/authoring/building.js` (`planBuilding`, `proposeBuilding`, `describeBuilding`, sete programas de prédio); tarefa *Prédio* no painel Construir; leitura do prédio no Assistente de cômodo; limites de fontes e luminárias em `proposeRoomLighting`; `scripts/capture-building.js`. Detalhes e limites em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).

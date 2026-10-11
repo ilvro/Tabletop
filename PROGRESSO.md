@@ -1,5 +1,7 @@
 # Tabletop — Progresso do Projeto
 
+**Construção assistida, completar o que existe (11 de outubro):** o prédio agora aceita um contorno já começado (mantém paredes, portas e móveis, escolhe a planta que os respeita e completa em volta) e acrescenta um cômodo a um prédio existente compartilhando a parede. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).
+
 **Construção assistida, etapa 5 (11 de outubro):** prédio a partir de um contorno (sete tipos, planta pelo tamanho do contorno, paredes compartilhadas, portas, janelas, telhado, cada cômodo mobiliado e iluminado pelo assistente) e leitura do conjunto de cômodos como prédio. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).
 
 **Construção assistida, etapa 4 (11 de outubro):** luz do cômodo pelos próprios objetos, com clima deduzido do tipo e do estado; sugestão de atmosfera da cena; detalhes lidos do cômodo (cortinas, tapete, paredes, cantos, tampos); itens de parede presos à parede. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).

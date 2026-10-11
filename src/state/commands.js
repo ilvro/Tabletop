@@ -586,6 +586,8 @@ export function applyCommand(document, command, diagnostics) {
       const proposal = payload.proposal;
       if (!proposal || !Number.isInteger(proposal.expectedEditVersion)) throw new ValidationError('Proposta inválida.');
       if (command.expectedEditVersion !== undefined && proposal.expectedEditVersion !== command.expectedEditVersion) throw new ValidationError('A cena mudou; gere a sugestão novamente.');
+      // What new pieces replace (a window where a door will be) leaves before they arrive.
+      for (const operation of (proposal.rehoming ?? []).filter(op => op.remove)) next = createDraft(applyCommand(next, { type: `${operation.kind}.remove`, payload: { id: operation.id } }));
       for (const group of collectionItems(proposal.groups)) put(next.layout.groups, group);
       for (const entity of collectionItems(proposal.entities)) put(next.layout.entities, entity);
       for (const area of collectionItems(proposal.areas)) put(next.layout.areas, area);
@@ -594,6 +596,11 @@ export function applyCommand(document, command, diagnostics) {
         const record = next.layout.entities[source.id] ?? look.lights[source.id];
         semanticPlacement(next, record, { levelId: record.levelId ?? undefined }, true, true);
         editable({ ...record, locked: false }, undefined, next); settleOnAccess(next, record);
+      }
+      // Moving things off a support before it is removed keeps them in the scene.
+      for (const operation of (proposal.rehoming ?? []).filter(op => !op.remove)) {
+        if (!['entity', 'light', 'token'].includes(operation.kind)) throw new ValidationError('Tipo de ajuste inválido.');
+        next = createDraft(applyCommand(next, { type: `${operation.kind}.update`, payload: { id: operation.id, patch: operation.patch, snap: false } }));
       }
       for (const operation of proposal.removals ?? []) {
         if (!['entity', 'light', 'token'].includes(operation.kind)) throw new ValidationError('Tipo de remoção inválido.');

@@ -6,7 +6,7 @@ import { createSceneStore } from '../src/state/scene-store.js';
 import { validateDocument } from '../src/domain/validation.js';
 import { quaternionFromYaw } from '../src/domain/coords.js';
 import { worldFootprint, footprintsOverlap, localPoint } from '../src/domain/geometry.js';
-import { proposeBuilding, planBuilding, describeBuilding, BUILDING_TYPES } from '../src/authoring/building.js';
+import { proposeBuilding, proposeAddRoom, planBuilding, describeBuilding, BUILDING_TYPES } from '../src/authoring/building.js';
 import { describeRoom } from '../src/authoring/room-insight.js';
 import { proposeRoom } from '../src/authoring/quick-build.js';
 import { proposeFurnishing } from '../src/authoring/furnishing.js';
@@ -54,7 +54,7 @@ test('a house is raised with shared walls, a door to every room, windows outside
   store.undo(); assert.equal(of(store, 'floor').length, 0);
 });
 
-test('the outline the person drew is used as is: position, rotation and level, and must be empty', () => {
+test('the outline the person drew is used as is: position, rotation and level', () => {
   const document = createScene(), store = createSceneStore(document);
   const outline = createEntity('floor', { name: 'Contorno', width: 8, length: 13, position: [20, 0, -6], rotation: quaternionFromYaw(30) }); store.execute('entity.add', { entity: outline });
   const proposal = proposeBuilding(store.document, { floorId: outline.id, type: 'police', seed: 4, furnish: false, lighting: false, roof: false }, store.editVersion, catalog);
@@ -62,9 +62,6 @@ test('the outline the person drew is used as is: position, rotation and level, a
   const original = worldFootprint(outline, .01);
   for (const floor of of(store, 'floor')) { assert.ok(footprintsOverlap(worldFootprint(floor), original)); for (const corner of worldFootprint(floor)) { const [x, , z] = localPoint(outline, [corner[0], 0, corner[1]]); assert.ok(Math.abs(x) <= 4.01 && Math.abs(z) <= 6.51, 'rooms stay inside the outline'); } }
   assert.ok(of(store, 'floor').some(f => f.name === 'Recepção')); assert.equal(of(store, 'prop').length, 0);
-  // Something on the floor means it is not an empty outline.
-  const used = createSceneStore(createScene()); used.execute('proposal.accept', { proposal: proposeRoom({ width: 8, length: 7 }, used.editVersion) });
-  assert.throws(() => proposeBuilding(used.document, { floorId: of(used, 'floor')[0].id, type: 'house' }, used.editVersion, catalog), /precisa estar vazio/);
   const shaped = createSceneStore(createScene()), l = createEntity('floor', { vertices: [[-4, -3], [4, -3], [4, 0], [0, 0], [0, 3], [-4, 3]] }); shaped.execute('entity.add', { entity: l });
   assert.throws(() => proposeBuilding(shaped.document, { floorId: l.id, type: 'house' }, shaped.editVersion, catalog), /retangular/);
 });
@@ -87,4 +84,60 @@ test('the assistant reads rooms built by hand as a building and says which room 
   assert.equal(reading.rooms.length, 3, 'only rooms that touch belong together'); assert.equal(reading.type.id, 'house');
   assert.deepEqual(reading.missing.map(room => room.id), ['bathroom']);
   assert.equal(describeBuilding(store.document, floors[3].id, catalog), null, 'a room alone is not a building');
+});
+
+const asset = name => catalog.find(a => a.id === `builtin-${name}`);
+const put = (store, floor, name, position, yaw = 0) => { const a = asset(name), entity = createEntity('prop', { name: a.name, assetRef: { id: a.id, revision: a.revision }, footprint: a.footprint, position, rotation: quaternionFromYaw(yaw), surfaceId: floor.id, ...(a.supportHeight ? { supportHeight: a.supportHeight } : {}) }); store.execute('entity.add', { entity }); return entity.id; };
+
+test('an outline the person already started is completed around what is there', () => {
+  // A shell: four walls with their own door and window, and a few pieces placed where the person wants them.
+  const store = createSceneStore(createScene()); store.execute('proposal.accept', { proposal: proposeRoom({ width: 15.6, length: 8.6, lighting: false }, store.editVersion) });
+  const floor = of(store, 'floor')[0], shell = of(store, 'wall').map(w => w.id), door = of(store, 'door')[0], east = of(store, 'wall').find(w => w.name === 'Parede leste');
+  store.execute('entity.add', { entity: createEntity('window', { wallId: east.id, offset: 4, width: 1.2, sill: .9, height: 1.1, surfaceId: floor.id }) });
+  // Their door is near the east end, so that is where one comes in; the default plan would enter from the west.
+  store.execute('entity.update', { id: door.id, patch: { offset: store.document.layout.entities[door.wallId].length - 2.5 } });
+  const stove = put(store, floor, 'stove', [-6.4, 0, -3.6]), bed = put(store, floor, 'single-bed', [-5.5, 0, 2.6]), sofa = put(store, floor, 'sofa', [5, 0, -3.4]);
+  const before = Object.fromEntries([stove, bed, sofa].map(key => [key, JSON.stringify(store.document.layout.entities[key].transform)]));
+  const proposal = proposeBuilding(store.document, { floorId: floor.id, type: 'house', seed: 1, roof: false }, store.editVersion, catalog);
+  store.execute('proposal.accept', { proposal }); validateDocument(store.document);
+  const after = store.document.layout.entities, roomOf = key => after[after[key].surfaceId];
+  // Nothing of the person is lost or moved; each piece now belongs to the room it stands in.
+  for (const key of [stove, bed, sofa]) { assert.ok(after[key], 'kept'); assert.equal(JSON.stringify(after[key].transform), before[key]); assert.equal(roomOf(key).kind, 'floor'); }
+  assert.equal(after[floor.id], undefined, 'the outline became the rooms');
+  // The plan was fitted to the furniture: the stove is in the kitchen, the bed in a bedroom, the sofa in the living room.
+  assert.match(roomOf(stove).name, /Cozinha/); assert.match(roomOf(bed).name, /Quarto/); assert.match(roomOf(sofa).name, /Sala de estar/);
+  // And those rooms were completed around them, without a second stove, bed or sofa in the same room.
+  for (const [key, id] of [[stove, 'builtin-stove'], [bed, 'builtin-single-bed'], [sofa, 'builtin-sofa']]) assert.equal(of(store, 'prop').filter(e => e.surfaceId === after[key].surfaceId && e.assetRef.id === id).length, 1);
+  assert.ok(of(store, 'prop').some(e => e.surfaceId === after[stove].surfaceId && e.assetRef.id === 'builtin-sink'), 'the kitchen got its sink');
+  // The shell stands: same four outside walls with their door and window, shared with the rooms, and no wall doubled on them.
+  for (const key of shell) { assert.ok(after[key], 'wall kept'); assert.ok(after[key].floorIds.length >= 1 && after[key].floorIds.every(f => after[f]?.kind === 'floor')); }
+  assert.ok(after[door.id]); assert.equal(of(store, 'window').filter(w => w.wallId === east.id).length, 1, 'no new window on a wall of the person');
+  assert.equal(of(store, 'wall').filter(w => w.thickness === .2).length, 0, 'no outside wall was built over the person\'s');
+  assert.equal(of(store, 'door').filter(d => d.name === 'Entrada').length, 0, 'the existing door is the way in');
+  assert.match(roomOf(sofa).name, /Sala/); const entry = after[after[door.id].wallId]; assert.ok(entry.floorIds.includes(after[sofa].surfaceId), 'the entrance room is where the door is');
+  assert.match(proposal.report.reasons.join(' '), /4 paredes suas foram mantidas/); assert.match(proposal.report.reasons.join(' '), /escolhida pelo que já estava/);
+  store.undo(); assert.ok(store.document.layout.entities[floor.id]); assert.equal(store.document.layout.entities[stove].surfaceId, floor.id);
+});
+
+test('a missing room is added against a free side, sharing the wall and opening a door through it', () => {
+  const { store } = build({ width: 12, length: 7, type: 'house', seed: 1, roof: false });
+  const floorsBefore = of(store, 'floor'), wallsBefore = of(store, 'wall').map(w => w.id), anchor = floorsBefore.find(f => f.name.startsWith('Sala'));
+  const reading = describeBuilding(store.document, anchor.id, catalog); assert.equal(reading.type.id, 'house');
+  const proposal = proposeAddRoom(store.document, { floorId: anchor.id, template: 'garage', seed: 1 }, store.editVersion, catalog);
+  store.execute('proposal.accept', { proposal }); validateDocument(store.document);
+  const garage = of(store, 'floor').find(f => f.name === 'Garagem'); assert.ok(garage);
+  for (const floor of floorsBefore) assert.equal(footprintsOverlap(worldFootprint(garage, -.05), worldFootprint(floor, -.05)), false, 'beside the building, not over it');
+  assert.ok(floorsBefore.some(floor => footprintsOverlap(worldFootprint(garage, .1), worldFootprint(floor, .1))), 'touching it');
+  // One wall of the building is now shared and carries the new door; three new walls close the room.
+  const shared = of(store, 'wall').filter(w => wallsBefore.includes(w.id) && w.floorIds.includes(garage.id)); assert.equal(shared.length, 1);
+  assert.ok(of(store, 'door').some(d => d.wallId === shared[0].id && d.name === 'Porta — Garagem'));
+  assert.equal(of(store, 'wall').filter(w => !wallsBefore.includes(w.id)).length, 3);
+  assert.ok(of(store, 'prop').some(e => e.surfaceId === garage.id && e.assetRef.id === 'builtin-workbench'));
+  assert.equal(describeBuilding(store.document, anchor.id, catalog).rooms.length, floorsBefore.length + 1);
+  // A room alone grows the same way, and a boxed-in one says so.
+  const lone = createSceneStore(createScene()); lone.execute('proposal.accept', { proposal: proposeRoom({ width: 6, length: 5 }, lone.editVersion) });
+  lone.execute('proposal.accept', { proposal: proposeFurnishing(lone.document, { floorId: of(lone, 'floor')[0].id, template: 'bedroom', seed: 1 }, lone.editVersion, catalog) });
+  const bath = proposeAddRoom(lone.document, { floorId: of(lone, 'floor')[0].id, template: 'bathroom', seed: 1 }, lone.editVersion, catalog); lone.execute('proposal.accept', { proposal: bath }); validateDocument(lone.document);
+  assert.equal(of(lone, 'floor').length, 2); assert.match(bath.report.reasons[0], /usando a parede que já existe/);
+  assert.equal(describeBuilding(lone.document, of(lone, 'floor')[0].id, catalog).rooms.length, 2);
 });

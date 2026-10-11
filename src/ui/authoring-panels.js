@@ -66,7 +66,7 @@ ${transferControls}<button data-action="terrain-layer-add" class="wide" ${layers
 }
 
 /** A whole building from an outline: the person gives the shape, the assistant the plan. */
-export function buildingPanel(document, options) {
+export function buildingPanel(document, options, roomFloorId) {
   const floors = Object.values(document.layout.entities).filter(e => e.kind === 'floor' && !e.vertices);
   const outline = document.layout.entities[options.floorId], [w, l] = outline ? [outline.width, outline.length] : [options.width, options.length];
   return `<section><span class="eyebrow">PRÉDIO</span>
@@ -77,7 +77,11 @@ export function buildingPanel(document, options) {
     ${check('building-furnish', 'Mobiliar os cômodos', options.furnish)}${check('building-lighting', 'Iluminar', options.lighting)}${check('building-roof', 'Telhado', options.roof)}
     <button class="wide accent-outline" data-action="building-preview">Prévia do prédio</button>
     <button class="wide quiet" data-action="building-variation">Ver outra planta</button>
-    <p class="microcopy">Desenhe um piso retangular e escolha-o como contorno, ou dê as medidas. O contorno vira os pisos dos cômodos; cada cômodo continua editável pelo Assistente de cômodo.</p></section>`;
+    <p class="microcopy">Desenhe um piso retangular e escolha-o como contorno, ou dê as medidas. Se o contorno já tem paredes, portas ou móveis seus, eles ficam: a planta é escolhida para que cada móvel caia no cômodo certo, só as paredes que faltam são erguidas e a sua porta vira a entrada.</p>
+    <div class="control-group"><span class="eyebrow">ACRESCENTAR CÔMODO</span>
+    <p class="microcopy">${roomFloorId && document.layout.entities[roomFloorId] ? `Ao prédio de <strong>${esc(document.layout.entities[roomFloorId].name)}</strong>: encosta num lado livre, usa a parede que já existe e abre a porta.` : 'Selecione um cômodo do prédio que quer ampliar.'}</p>
+    <label class="field"><span>Cômodo novo</span><select data-field="building-addTemplate">${ROOM_GROUPS.map(group => `<optgroup label="${esc(group)}">${ROOM_TEMPLATES.filter(t => t.group === group).map(t => option(t.id, t.name, options.addTemplate)).join('')}</optgroup>`).join('')}</select></label>
+    <button class="wide accent-outline" data-action="building-add-room" ${roomFloorId ? '' : 'disabled'}>Prévia do cômodo novo</button></div></section>`;
 }
 function buildingSummary(type, width, length, seed) {
   try { const plan = planBuilding(type, Math.max(width, length), Math.min(width, length), seed), names = plan.rooms.map(room => ROOM_TEMPLATES.find(t => t.id === room.key)?.name.toLowerCase() ?? room.key); return `Neste contorno cabem: ${names.join(', ')}${plan.corridor ? ', com corredor' : ''}.${plan.dropped ? ` Maior, caberiam mais ${plan.dropped}.` : ''}`; }
@@ -90,7 +94,7 @@ export function smartBuildPanel(document, options, floorId, existing, insight, s
   const guess = insight?.inferred ?? [], state = ROOM_STATES.find(entry => entry.id === stateOptions.state);
   const reading = !insight ? '' : `<div class="assistant-reading" aria-live="polite">${guess.length
     ? `<p>Pelo que já está aqui, isto parece <strong>${esc(guess[0].name.toLowerCase())}</strong>.</p>${guess.length > 1 ? `<div class="chips">${guess.map(entry => `<button type="button" data-action="smart-pick" data-id="${entry.id}" class="${entry.id === options.template ? 'active' : ''}">${esc(entry.name)}</button>`).join('')}</div>` : ''}`
-    : ''}${insight.building?.type ? `<p class="assistant-building">Com os cômodos vizinhos, forma <strong>${esc(insight.building.type.name.toLowerCase())}</strong> de ${insight.building.rooms.length} cômodos${insight.building.missing.length ? `; ainda não tem ${esc(insight.building.missing.map(room => room.name.toLowerCase()).join(', '))}` : ''}.</p>` : ''}${insight.notes.length ? `<ul class="assistant-notes">${insight.notes.map(note => `<li class="${note.kind}">${esc(note.text)}${note.id ? ` <button type="button" class="quiet" data-action="assist-select" data-id="${note.id}">Mostrar</button>` : ''}</li>`).join('')}</ul>` : ''}</div>`;
+    : ''}${insight.building?.type ? `<p class="assistant-building">Com os cômodos vizinhos, forma <strong>${esc(insight.building.type.name.toLowerCase())}</strong> de ${insight.building.rooms.length} cômodos${insight.building.missing.length ? `; ainda não tem ${esc(insight.building.missing.map(room => room.name.toLowerCase()).join(', '))}` : ''}.</p>${insight.building.missing.length ? `<div class="chips">${insight.building.missing.map(room => `<button type="button" data-action="building-add-room" data-id="${room.id}">Criar ${esc(room.name.toLowerCase())}</button>`).join('')}</div>` : ''}` : ''}${insight.notes.length ? `<ul class="assistant-notes">${insight.notes.map(note => `<li class="${note.kind}">${esc(note.text)}${note.id ? ` <button type="button" class="quiet" data-action="assist-select" data-id="${note.id}">Mostrar</button>` : ''}</li>`).join('')}</ul>` : ''}</div>`;
   return `<section><span class="eyebrow">SMART BUILD</span>
     <label class="field"><span>Piso / espaço</span><select data-field="smart-floor">${option('', 'Selecione um piso', floorId ?? '')}${floors.map(f => option(f.id, f.name, floorId)).join('')}</select></label>
     ${reading}
