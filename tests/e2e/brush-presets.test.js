@@ -36,7 +36,7 @@ for (const mode of ['server', 'pages']) test(`personal brush library, strokes, s
   const action = async (name, p = page) => (await reveal(p.locator(`[data-action="${name}"]`).first())).click();
   const select = async (id, p = page) => {
     if (await p.locator('[data-action="sidebar-toggle"]').getAttribute('aria-expanded') === 'false') await action('sidebar-toggle', p);
-    await p.locator('[data-tab="scene"]').click(); await (await reveal(p.locator(`[data-select="${id}"]`))).click();
+    await p.locator('[data-tab="elements"]').click(); await (await reveal(p.locator(`[data-select="${id}"]`))).click();
   };
   const node = async (name, p = page) => reveal(p.locator(`[data-field="${name}"]`).first());
   const field = async (name, value, p = page) => { const input = await node(name, p); await input.fill(String(value)); await input.press('Tab'); };

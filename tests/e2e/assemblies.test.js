@@ -21,7 +21,7 @@ test('assemblies: desk/lamp bind, click-to-select, joint move/rotate/scale, dupl
   const action=async name=>(await reveal(page.locator(`[data-action="${name}"]`).first())).click();
   const tab=name=>page.locator(`[data-tab="${name}"]`).click();
   async function field(name,value){const input=await reveal(page.locator(`[data-field="${name}"]`));await input.fill(String(value));await input.press('Tab');}
-  async function select(key,additive=false){await tab('scene');await page.locator(`[data-select="${key}"]`).click({modifiers:additive?['Shift']:[]});}
+  async function select(key,additive=false){await tab('elements');await (await reveal(page.locator(`[data-select="${key}"]`))).click({modifiers:additive?['Shift']:[]});}
   async function point(position){const p=await page.evaluate(p=>window.__tabletop.project(p),position);assert.ok(p.visible);return p;}
   async function click(position){const p=await point(position);await page.mouse.click(p.x,p.y);}
   await action('floor-add');await action('top');
@@ -30,7 +30,7 @@ test('assemblies: desk/lamp bind, click-to-select, joint move/rotate/scale, dupl
   await tab('assets');await page.locator('[data-asset="builtin-lamp"]').click();await click([0,.82,0]);
   doc=await snapshot();const lamp=Object.values(doc.layout.entities).find(e=>e.assetRef?.id==='builtin-lamp');assert.ok(lamp);
   await select(desk.id);await select(lamp.id,true);const beforeBind=await snapshot();
-  await page.locator(`[data-select="${lamp.id}"]`).click({button:'right'});await page.locator('#context-menu').getByRole('button',{name:'Ancorar objetos juntos',exact:true}).click();
+  await (await reveal(page.locator(`[data-select="${lamp.id}"]`))).click({button:'right'});await page.locator('#context-menu').getByRole('button',{name:'Ancorar objetos juntos',exact:true}).click();
   doc=await snapshot();const group=Object.values(doc.layout.groups).find(g=>g.anchored);assert.ok(group);assert.equal(doc.layout.entities[desk.id].groupId,group.id);assert.equal(doc.layout.entities[lamp.id].groupId,group.id);
   assert.deepEqual(doc.layout.entities[desk.id].transform,beforeBind.layout.entities[desk.id].transform);assert.deepEqual(doc.layout.entities[lamp.id].transform,beforeBind.layout.entities[lamp.id].transform);
   await select(desk.id);assert.ok(await page.locator('[data-field="assembly-position-0"]').isVisible());assert.equal(await page.locator('[data-field="object-name"]').count(),0);
@@ -48,7 +48,7 @@ test('assemblies: desk/lamp bind, click-to-select, joint move/rotate/scale, dupl
   await action('undo');assert.deepEqual(await snapshot(),beforeDrag);await action('redo');
   await action('object-duplicate');doc=await snapshot();const duplicated=Object.values(doc.layout.groups).find(g=>g.id!==group.id&&g.anchored);assert.ok(duplicated);assert.equal(Object.values(doc.layout.entities).filter(e=>e.groupId===duplicated.id).length,2);
   await action('object-copy');await action('object-delete');assert.equal((await snapshot()).layout.groups[duplicated.id],undefined);await page.locator('#viewport canvas').focus();await page.keyboard.press('Control+v');doc=await snapshot();assert.equal(Object.values(doc.layout.groups).filter(g=>g.anchored).length,2);
-  await select(desk.id);await tab('scene');const boundState=await snapshot();
+  await select(desk.id);await tab('elements');const boundState=await snapshot();
   await page.locator(`.tree-group[data-drop-group="${group.id}"] > [data-action="assembly-unbind"]`).click();
   doc=await snapshot();assert.equal(doc.layout.groups[group.id].anchored,false);assert.deepEqual(doc.layout.entities[desk.id].transform,boundState.layout.entities[desk.id].transform);assert.deepEqual(doc.layout.entities[lamp.id].transform,boundState.layout.entities[lamp.id].transform);
   await select(lamp.id);assert.equal(await page.locator('[data-field="assembly-name"]').count(),0);const tablePosition=doc.layout.entities[desk.id].transform.position;

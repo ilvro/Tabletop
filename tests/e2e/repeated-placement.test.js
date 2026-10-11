@@ -44,7 +44,7 @@ for (const mode of ['server', 'pages']) test(`repeated asset placement: support,
   };
   const key = async value => { await page.locator('#viewport canvas').focus(); await page.keyboard.press(value); };
   await choose('active-level', level.id); await choose('active-layer', layer.id);
-  await page.locator('[data-tab="scene"]').click(); await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();
+  await page.locator('[data-tab="elements"]').click(); await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();
   await action('top'); await action('frame'); await page.waitForFunction(() => !window.__tabletop.stats().cameraMoving);
   const original = await snapshot(), camera = await page.evaluate(() => window.__tabletop.camera());
   await pickAsset('builtin-crate', 'Caixa');
@@ -98,7 +98,7 @@ for (const mode of ['server', 'pages']) test(`repeated asset placement: support,
   await pickAsset('builtin-crate', 'Caixa'); await mkdir('test-results', { recursive: true });
   await page.screenshot({ path: `test-results/repeated-placement-${mode}.png` }); await key('Escape');
   // Repetition also keeps the canvas free when the inspector was open on a compact screen.
-  await page.locator('[data-tab="scene"]').click(); await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();
+  await page.locator('[data-tab="elements"]').click(); await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();
   await page.setViewportSize({ width: 430, height: 900 });
   await action('frame'); await page.waitForFunction(() => !window.__tabletop.stats().cameraMoving);
   await action('inspector-toggle'); await pickAsset('builtin-crate', 'Caixa');

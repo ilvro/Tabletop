@@ -47,7 +47,7 @@ test('autoria real, apresentação, assets e fidelidade após reabrir navegador/
   const action = async (name) => (await reveal(page.locator(`[data-action="${name}"]`).first())).click();
   async function point(position) { return page.evaluate((value) => window.__tabletop.project(value), position); }
   async function clickWorld(position) { const projected = await point(position); assert.ok(projected.visible); await page.mouse.click(projected.x, projected.y); }
-  async function select(id) { await page.locator('[data-tab="scene"]').click(); await page.locator(`[data-select="${id}"]`).click(); }
+  async function select(id) { await page.locator('[data-tab="elements"]').click(); await (await reveal(page.locator(`[data-select="${id}"]`))).click(); }
   async function waitCounts(entities, tokens) {
     await page.waitForFunction(([e, t]) => { const doc = window.__tabletop.snapshot(); return Object.keys(doc.layout.entities).length === e && Object.keys(doc.tokens).length === t; }, [entities, tokens]);
   }
@@ -133,7 +133,7 @@ test('autoria real, apresentação, assets e fidelidade após reabrir navegador/
   await clickWorld([.5, 0, 2]); await waitCounts(11, 2);
   const imageToken = Object.values((await snapshot()).tokens).find((item) => item.id !== token.id);
   const imageRef = (await snapshot()).actors[imageToken.actorId].assetRef; assert.ok(imageRef && !imageRef.id.startsWith('builtin'));
-  await page.locator('[data-tab="scene"]').click(); await page.locator('[data-environment="warm"]').click();
+  await page.locator('[data-tab="scene"]').click(); await (await reveal(page.locator('[data-environment="warm"]'))).click();
   const light = Object.values((await snapshot()).look.lights).find((l) => l.type === 'point');
   await select(light.id); await field('light-intensity', 65); await field('position-1', 2.4);
   await page.locator('[data-field="light-color"]').fill('#ffcd8d'); await page.locator('[data-field="light-color"]').dispatchEvent('change');
@@ -177,7 +177,7 @@ test('autoria real, apresentação, assets e fidelidade após reabrir navegador/
   assert.deepEqual(await snapshot(), saved);
   const assetResponse = await page.request.get(`${origin}/api/tabletop/assets/${imageRef.id}/file`);
   assert.equal(assetResponse.status(), 200); assert.equal(assetResponse.headers()['content-type'], 'image/png');
-  await page.locator('[data-tab="scene"]').click(); await action('duplicate-scene');
+  await page.locator('[data-tab="elements"]').click(); await action('duplicate-scene');
   await page.waitForFunction((previous) => window.__tabletop.snapshot().id !== previous, saved.id);
   const copy = await snapshot(); assert.notEqual(copy.id, saved.id); assert.equal(copy.revision, 1);
   assert.equal(Object.keys(copy.layout.entities).length, 11);

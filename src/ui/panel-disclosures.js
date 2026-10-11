@@ -21,10 +21,11 @@ export function restoreDisclosures(panel, state) {
   }
 }
 
-export function sectionDisclosure(section, key, title, open = false) {
+export function sectionDisclosure(section, key, title, open = false, description = '') {
   const details = document.createElement('details');
   details.className = 'panel-disclosure'; details.dataset.panelSection = key; details.open = open;
-  const summary = document.createElement('summary'); summary.textContent = title;
+  const summary = document.createElement('summary');
+  if (description) summary.innerHTML = `<strong>${esc(title)}</strong><small>${esc(description)}</small>`; else summary.textContent = title;
   section.classList.add('disclosure-content');
   section.replaceWith(details); details.append(summary, section);
   return details;
@@ -41,6 +42,23 @@ export function groupDisclosures(panel, groups) {
       const section = sections[index];
       const task = sectionDisclosure(section, taskKey, label, expanded);
       group.lastElementChild.append(task);
+    }
+  }
+}
+
+/**
+ * A flat list of tasks under plain headings: one click opens a task, and no
+ * task hides inside another. `tasks` are `[index, key, label, description, open]`.
+ */
+export function taskList(panel, groups, { attribute = 'panelSection' } = {}) {
+  const sections = [...panel.children];
+  for (const { title, tasks } of groups) {
+    const heading = document.createElement('h3'); heading.className = 'task-heading'; heading.textContent = title; panel.append(heading);
+    for (const [index, key, label, description, open = false] of tasks) {
+      const task = sectionDisclosure(sections[index], key, label, open, description);
+      task.classList.add('task');
+      if (attribute !== 'panelSection') { delete task.dataset.panelSection; task.dataset[attribute] = key; }
+      panel.append(task);
     }
   }
 }

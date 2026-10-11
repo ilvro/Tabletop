@@ -76,7 +76,7 @@ test('WASD, focus safety, lenses, interruptible shots and independent projector 
   assert.deepEqual(await snapshot(), original); assert.equal(await page.evaluate(() => window.__tabletop.editVersion()), version);
 
   // Right selection is deferred until release; dragging away and back is still a drag.
-  await action('frame'); await settle(); await page.keyboard.press('q'); await page.locator('[data-tab="scene"]').click();
+  await action('frame'); await settle(); await page.keyboard.press('q'); await page.locator('[data-tab="elements"]').click();
   const floor = Object.values(original.layout.entities).find(entity => entity.kind === 'floor');
   const floorEntry = page.locator(`[data-select="${floor.id}"]`);
   const floorPoint = await page.evaluate(position => window.__tabletop.project(position), floor.transform.position);

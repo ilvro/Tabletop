@@ -31,7 +31,7 @@ test('brush sculpts cliff faces/top and switches from ground; cancel/undo/save a
   const point=position=>page.evaluate(v=>window.__tabletop.project(v),position);
   const stroke=async(position,cancel=false)=>{const p=await point(position);await page.mouse.move(p.x,p.y);await page.mouse.down();await page.mouse.move(p.x+12,p.y+5,{steps:4});if(cancel)await page.keyboard.press('Escape');await page.mouse.up();};
   await action('open');await page.locator(`[data-open="${scene.id}"]`).click();await page.waitForFunction(id=>window.__tabletop.snapshot().id===id,scene.id);
-  await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${terrain.id}"]`).click();await action('perspective');await action('frame');await page.waitForFunction(()=>!window.__tabletop.stats().cameraMoving);
+  await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${terrain.id}"]`))).click();await action('perspective');await action('frame');await page.waitForFunction(()=>!window.__tabletop.stats().cameraMoving);
   await action('terrain-sculpt');await stroke(face);await page.waitForFunction(id=>!!window.__tabletop.snapshot().layout.entities[id].rockSculpt?.stamps.length,cliff.id);
   assert.deepEqual((await snapshot()).layout.entities[terrain.id].heights,terrain.heights,'hitting the cliff does not alter ground');assert.deepEqual((await snapshot()).layout.entities[cliff.id].rockShape,cliff.rockShape);
   await action('undo');assert.equal((await snapshot()).layout.entities[cliff.id].rockSculpt,undefined);await action('redo');
@@ -42,15 +42,15 @@ test('brush sculpts cliff faces/top and switches from ground; cancel/undo/save a
   await (await reveal(page.locator('[data-field="brush-mode"]'))).selectOption('lower');await stroke(peak);assert.ok((await snapshot()).layout.entities[cliff.id].rockSculpt.stamps.length>faceStamps);
   const custom=structuredClone((await snapshot()).layout.entities[cliff.id].rockSculpt);await action('rock-sculpt-clear');assert.equal((await snapshot()).layout.entities[cliff.id].rockSculpt.stamps.length,0);await action('undo');assert.deepEqual((await snapshot()).layout.entities[cliff.id].rockSculpt,custom);
   await action('object-duplicate');assert.equal(Object.values((await snapshot()).layout.entities).filter(e=>e.rockSculpt?.stamps.length).length,2);await action('undo');
-  await action('tool-select');await page.locator(`[data-select="${cliff.id}"]`).click();await page.locator('#viewport canvas').focus();await page.keyboard.press('f');await page.waitForFunction(()=>!window.__tabletop.stats().cameraMoving);
+  await action('tool-select');await (await reveal(page.locator(`[data-select="${cliff.id}"]`))).click();await page.locator('#viewport canvas').focus();await page.keyboard.press('f');await page.waitForFunction(()=>!window.__tabletop.stats().cameraMoving);
   await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/rock-sculpt-editor.png'});
   const [projector]=await Promise.all([page.waitForEvent('popup'),action('presentation-window')]);await projector.waitForFunction(id=>window.__tabletop?.stats().sculptedRocks.some(r=>r.id===id),cliff.id);const camera=await projector.evaluate(()=>window.__tabletop.camera());
   await page.bringToFront();await action('rock-sculpt');await stroke(face);await projector.waitForFunction(({id,count})=>window.__tabletop.stats().sculptedRocks.some(r=>r.id===id&&r.samples>count),{id:cliff.id,count:custom.stamps.length});assert.deepEqual(await projector.evaluate(()=>window.__tabletop.camera()),camera);await projector.close();
   await action('terrain-stop');await action('save');await page.waitForFunction(()=>!document.querySelector('#save-status').classList.contains('unsaved')&&!document.querySelector('[data-action="save"]').disabled);const saved=await snapshot();
   await page.reload();await page.waitForFunction(id=>window.__tabletop?.snapshot().id===id,scene.id);await page.waitForFunction(id=>window.__tabletop.stats().sculptedRocks.some(r=>r.id===id),cliff.id);assert.deepEqual((await snapshot()).layout,saved.layout);
   // T also activates on an anchored rock composition when no terrain exists.
-  await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${terrain.id}"]`).click();await action('object-delete');
-  await page.locator(`[data-select="${cliff.id}"]`).click();await action('object-duplicate');await page.locator(`[data-select="${cliff.id}"]`).click({modifiers:['Shift']});await action('assembly-bind');
+  await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${terrain.id}"]`))).click();await action('object-delete');
+  await (await reveal(page.locator(`[data-select="${cliff.id}"]`))).click();await action('object-duplicate');await (await reveal(page.locator(`[data-select="${cliff.id}"]`))).click({modifiers:['Shift']});await action('assembly-bind');
   const grouped=(await snapshot()).layout;assert.ok(Object.values(grouped.groups).some(g=>g.anchored));
   await page.locator('#viewport canvas').focus();await page.keyboard.press('t');assert.ok(await page.locator('[data-action="terrain-stop"]').isVisible());assert.deepEqual((await snapshot()).layout,grouped,'activating a grouped surface brush does not edit documents');await action('terrain-stop');
   assert.deepEqual(errors,[]);

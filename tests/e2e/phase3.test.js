@@ -26,7 +26,7 @@ test('fase 3: estruturas, regeneração preservada, seleção múltipla, polish 
   const action = async name => (await reveal(page.locator(`[data-action="${name}"]`).first())).click();
   const tab = name => page.locator(`[data-tab="${name}"]`).click();
   async function field(name, value) { const node = page.locator(`[data-field="${name}"]`); await reveal(node); await node.fill(String(value)); await node.press('Tab'); }
-  async function select(key, additive = false) { await tab('scene'); await page.locator(`[data-select="${key}"]`).click({ modifiers: additive ? ['Shift'] : [] }); }
+  async function select(key, additive = false) { await tab('elements'); await (await reveal(page.locator(`[data-select="${key}"]`))).click({ modifiers: additive ? ['Shift'] : [] }); }
   async function clickWorld(position) {
     const p = await page.evaluate(value => window.__tabletop.project(value), position); assert.ok(p.visible, `Point ${position} must be visible`);
     await page.mouse.click(p.x, p.y);

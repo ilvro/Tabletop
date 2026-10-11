@@ -77,7 +77,7 @@ for(const mode of ['server','pages']) test(`wear controls, slots, clipboard, his
   for(const e of [table,floor])scene.layout.entities[e.id]=e;
   await page.locator('#document-json-file').setInputFiles({name:'wear.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(scene))});await page.waitForFunction(id=>window.__tabletop.snapshot().id===id,scene.id);
   const action=async name=>(await reveal(page.locator(`[data-action="${name}"]`).first())).click();
-  const select=async id=>{if(await page.locator('[data-action="sidebar-toggle"]').getAttribute('aria-expanded')==='false')await action('sidebar-toggle');await page.locator('[data-tab="scene"]').click();await(await reveal(page.locator(`[data-select="${id}"]`))).click();};
+  const select=async id=>{if(await page.locator('[data-action="sidebar-toggle"]').getAttribute('aria-expanded')==='false')await action('sidebar-toggle');await page.locator('[data-tab="elements"]').click();await(await reveal(page.locator(`[data-select="${id}"]`))).click();};
   const option=async(field,value)=>{await(await reveal(page.locator(`[data-field="${field}"]`))).selectOption(value);};
   const number=async(field,value)=>{const input=await reveal(page.locator(`[data-field="${field}"]`));await input.fill(String(value));await input.press('Tab');};
   const material=async id=>page.evaluate(id=>window.__tabletop.snapshot().layout.entities[id].material,id);

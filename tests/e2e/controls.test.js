@@ -4,6 +4,7 @@ import {mkdtemp,rm,readFile} from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import {once} from 'node:events';
+import {reveal} from './controls.js';
 import {chromium} from 'playwright';
 import {createApp} from '../../server/app.js';
 
@@ -19,7 +20,16 @@ test('swatches, segments and sliders edit the same fields, one undo step each', 
     await page.locator('[data-action="open"]').first().click();await page.locator(`[data-open="${scene.id}"]`).click();await page.waitForFunction(id=>window.__tabletop.snapshot().id===id,scene.id);
     const floor=Object.values(scene.layout.entities).find(e=>e.kind==='floor');
     const material=()=>page.evaluate(id=>window.__tabletop.snapshot().layout.entities[id].material,floor.id);
-    await page.locator('[data-tab=scene]').click();await page.locator(`[data-select="${floor.id}"]`).first().click();
+    // Elements: search by name, show one type, collapse a folder; none of it edits the scene.
+    await page.locator('[data-tab=elements]').click();const revision=JSON.stringify((await page.evaluate(()=>window.__tabletop.snapshot())).layout);
+    const sofa=Object.values(scene.layout.entities).find(e=>e.assetRef?.id==='builtin-sofa');
+    await page.locator('#tree-search').fill('sofá de');assert.deepEqual(await page.locator('#scene-tree [data-select]').evaluateAll(n=>n.map(e=>e.dataset.select)),[sofa.id]);
+    await page.locator('#tree-search').fill('');await page.locator('[data-tree-kind=lights]').click();
+    assert.equal(await page.locator('#scene-tree [data-select]').count(),Object.keys(scene.look?.lights??scene.defaultLook?.lights??{}).length);
+    await page.locator('[data-tree-kind=lights]').click();assert.ok(await page.locator('#scene-tree [data-select]').count()>100);
+    const folder=page.locator('[data-group-collapse]').first();await folder.click();assert.equal(await folder.getAttribute('aria-expanded'),'false');await folder.click();
+    assert.equal(JSON.stringify((await page.evaluate(()=>window.__tabletop.snapshot())).layout),revision);
+    await (await reveal(page.locator(`[data-select="${floor.id}"]`).first())).click();
     const panel=page.locator('#inspector-content'),open=node=>node.evaluate(e=>{for(let p=e.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;});
     const grid=panel.locator('.choice-field:has([data-field="material-texture"])');await open(grid);
 

@@ -1,5 +1,6 @@
 import { ENVIRONMENTS, primaryLight } from '../domain/environments.js';
 import { choiceField } from './controls.js';
+import { icon } from './icons.js';
 import { SKY_DEFAULTS, WEATHER_DEFAULTS, DAYLIGHT_DEFAULTS, NIGHT_WINDOWS_DEFAULTS, BINDING_DEFAULTS, colorToHSV } from '../domain/lighting.js';
 import { Euler, Quaternion } from 'three';
 import { escapeHTML as esc } from './icons.js';
@@ -9,8 +10,8 @@ export function environmentPanel(doc, saved, selected, open, { numberField: n, c
   const sky = { ...SKY_DEFAULTS, ...look.sky }, weather = { ...WEATHER_DEFAULTS, ...look.weather }, windows = { ...NIGHT_WINDOWS_DEFAULTS, ...look.nightWindows };
   const hsv = colorToHSV(light?.color ?? '#ffe8c5'), angles = new Euler().setFromQuaternion(new Quaternion(...(light?.rotation ?? [0, 0, 0, 1])), 'YXZ');
   const details = (key, title, content) => `<details data-atmosphere-section="${key}" ${open.has(key) ? 'open' : ''}><summary>${title}</summary>${content}</details>`;
-  return `<section><span class="eyebrow">AMBIENTES E HORÁRIOS</span><h2>Prepare a atmosfera.</h2><p class="muted">Escolha um ponto de partida e ajuste sol, lua, céu e clima aqui.</p>
-    <div class="environment-options">${ENVIRONMENTS.map(p => `<div class="environment-option"><button data-environment="${p.id}" title="${esc(p.description)}" class="environment-card ${doc.sourceEnvironment?.id === p.id ? 'active' : ''}"><span class="environment-swatch ${p.id}"></span><span><strong>${esc(p.name)}</strong><small>${esc(p.description)}</small></span></button><button data-environment-preview="${p.id}" class="environment-preview" aria-label="Prévia de ${esc(p.name)}" title="Experimentar sem alterar a cena">Prévia</button></div>`).join('')}</div>
+  return `<section><span class="eyebrow">AMBIENTES E HORÁRIOS</span>
+    <div class="environment-options">${ENVIRONMENTS.map(p => `<div class="environment-option"><button data-environment="${p.id}" title="${esc(p.description)}" class="environment-card ${doc.sourceEnvironment?.id === p.id ? 'active' : ''}"><span class="environment-swatch ${p.id}"></span><span><strong>${esc(p.name)}</strong><small>${esc(p.description)}</small></span></button><button data-environment-preview="${p.id}" class="environment-preview" aria-label="Prévia de ${esc(p.name)}" title="Experimentar sem alterar a cena">${icon('eye', 14)}</button></div>`).join('')}</div>
     ${details('library', 'Meus ambientes', `<label class="field"><span>Ambiente salvo</span><select data-field="environment-library"><option value="">Escolha um ambiente</option>${saved.map(p => `<option value="${p.id}" ${selected === p.id ? 'selected' : ''}>${esc(p.name)}</option>`).join('')}</select></label><div class="field-grid"><button data-action="environment-custom-apply" ${selected ? '' : 'disabled'}>Aplicar</button><button data-action="environment-custom-preview" ${selected ? '' : 'disabled'}>Prévia</button></div><button data-action="environment-save" class="wide">Salvar atmosfera como novo ambiente</button><div class="field-grid"><button data-action="environment-overwrite" ${selected ? '' : 'disabled'}>Atualizar selecionado</button><button data-action="environment-delete" class="danger" ${selected ? '' : 'disabled'}>Excluir selecionado</button></div><p class="microcopy">Salva aparência e clima no computador. Geometria, objetos, vínculos e câmeras continuam na cena.</p>`)}
   </section>
   <section><span class="eyebrow">SOL / LUA E COR DA LUZ</span>

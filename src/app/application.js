@@ -16,7 +16,7 @@ import { EXAMPLE_SCENES, loadExampleScene } from '../data/example-scenes.js';
 import {isSculptableRock,ROCK_SCULPT_MODES} from '../domain/rock-sculpt.js';
 import { proposeWaterBrush, proposeWaterBed } from '../authoring/water.js';
 import { floatingWindow } from '../ui/floating-window.js';
-import { groupDisclosures, sectionDisclosure, rememberDisclosures, restoreDisclosures, animateDisclosures } from '../ui/panel-disclosures.js';
+import { taskList, sectionDisclosure, rememberDisclosures, restoreDisclosures, animateDisclosures } from '../ui/panel-disclosures.js';
 import { landscapePanel, waterPanel } from '../ui/landscape-panels.js';
 import { proposeVegetation } from '../authoring/vegetation.js';
 import { isVegetationAsset } from '../domain/landscape.js';
@@ -72,10 +72,10 @@ export async function startApplication() {
       <header class="app-header">
         <a class="brand" href="${esc(applicationURL(''))}" aria-label="Tabletop"><span class="brand-mark">T</span><span>TABLETOP<small>CRIAR. PREPARAR. APRESENTAR.</small></span></a>
         <div class="document-heading"><span id="doc-type-eyebrow" class="eyebrow">SUA MESA / CENA</span><input id="scene-name" aria-label="Nome da cena" maxlength="256" disabled /></div>
-        <div class="panel-toggles"><button data-action="sidebar-toggle" aria-expanded="true" aria-controls="side-content">Ferramentas</button><button data-action="inspector-toggle" aria-expanded="true" aria-controls="inspector-content">Propriedades</button></div><div class="header-actions"><span id="save-status" role="status" class="save-status"></span>${button('new', 'Nova', 'plus', 'quiet')}${button('open', 'Abrir', 'folder', 'quiet')}${button('present', 'Apresentar', 'display', 'quiet')}${button('save', 'Salvar', 'save', 'primary', 'id="save-scene"')}</div>
+        <div class="panel-toggles"><button data-action="sidebar-toggle" aria-expanded="true" aria-controls="side-content">Ferramentas</button><button data-action="inspector-toggle" aria-expanded="true" aria-controls="inspector-content">Propriedades</button></div><div class="header-actions"><span id="save-status" role="status" class="save-status"></span>${button('new', 'Nova', 'plus', 'quiet')}${button('open', 'Abrir', 'folder', 'quiet')}<button type="button" data-tab="assets" class="quiet" aria-controls="assets-dialog" aria-expanded="false" title="Biblioteca de modelos, texturas e retratos">${icon('frame')}<span>Assets</span></button>${button('present', 'Apresentar', 'display', 'quiet')}${button('save', 'Salvar', 'save', 'primary', 'id="save-scene"')}</div>
       </header>
       <aside class="sidebar">
-        <nav class="tabs" aria-label="Painéis"><button data-tab="build" class="active">Construir</button><button data-tab="assets" aria-controls="assets-dialog" aria-expanded="false">Assets ↗</button><button data-tab="scene">Cena</button></nav>
+        <nav class="tabs" aria-label="Painéis"><button data-tab="build" class="active">Construir</button><button data-tab="elements">Elementos</button><button data-tab="scene">Ambiente</button></nav>
         <div id="side-content" class="side-content"></div>
         <footer class="sidebar-footer"><span class="local-dot"></span> ${repository.storage==='browser'?'Dados salvos neste navegador.':'Sua mesa, no seu computador.'}</footer>
       </aside>
@@ -126,7 +126,7 @@ export async function startApplication() {
   let dialogTab = 'scenes';
   let savedEnvironments = [], selectedEnvironmentId = '', environmentPreview = null, skyReturnCamera = null;
   const openAtmosphereSections = new Set();
-  const sceneDisclosures = new Map(), inspectorDisclosures = new Map();
+  const sceneDisclosures = new Map(), inspectorDisclosures = new Map(), treeFilter = { search: '', kind: 'all' }, collapsedTreeGroups = new Set();
   let libraryFilters = { search: '', category: '', era: '', context: '', tags: [], favorites: false };
   let libraryLimit = 24, editingAsset = null;
   let proposal = null, placing = null, saving = false, isPresentation = false, cutaway = true;
@@ -142,8 +142,7 @@ export async function startApplication() {
   let smartOptions = { template: 'office', density: 'normal', chairs: 4, seed: 1, lighting: true, restoreDeleted: false };
   let anchorEditing = false, anchorHostId = '';
   const openBuildSections = new Set(['room']);
-  const openBuildGroups = new Set(['structures']);
-  let terrainMaterialTarget = 'layer';
+    let terrainMaterialTarget = 'layer';
   const compactLayout = window.matchMedia('(max-width:900px)');
   let desktopPanels = { sidebar: false, inspector: false };
   if(compactLayout.matches) root.querySelector('.app-shell').classList.add('sidebar-collapsed','inspector-collapsed');
@@ -448,7 +447,7 @@ export async function startApplication() {
     if (['floor', 'terrain'].includes(store.document.layout.entities[selection]?.kind) && !additive) {
       activeSurfaceId = selection;
       if (store.document.layout.entities[selection].kind === 'floor' && smartFloorId !== selection) { smartFloorId = selection; const existing = currentComposition(); if (existing) smartOptions = { ...existing.parameters, restoreDeleted: false }; }
-      viewport.setSupportSurface(selection); if (locate()?.record.kind==='terrain') openBuildGroups.add('landscape');
+      viewport.setSupportSurface(selection); if (locate()?.record.kind==='terrain') openBuildSections.add('terrain');
       if (tab === 'build') renderSidebar();
     }
     if(selection && revealInspector && window.innerWidth<=900) {root.querySelector('.app-shell').classList.remove('inspector-collapsed');root.querySelector('.app-shell').classList.add('sidebar-collapsed');syncPanelToggles();}
@@ -594,51 +593,48 @@ export async function startApplication() {
   }
   function renderSidebar() { const live=document.getElementById('side-content'),desired=live.cloneNode(true);desired.scrollTop=live.scrollTop;performanceDiagnostics.measure('sidebar',()=>{buildSidebar(desired);reconcileElement(live,desired);}); }
   function buildSidebar(panel) {
-    root.querySelectorAll('[data-tab]').forEach((node) => { const active = node.dataset.tab === tab; node.classList.toggle('active', active); if (node.dataset.tab !== 'assets') node.setAttribute('aria-pressed', String(active)); });
+    root.querySelectorAll('.tabs [data-tab]').forEach((node) => { const active = node.dataset.tab === tab; node.classList.toggle('active', active); if (node.dataset.tab !== 'assets') node.setAttribute('aria-pressed', String(active)); });
     if (document.getElementById('assets-dialog').open) renderAssets();
     const scroll = panel.scrollTop;
     const focused = panel.contains(document.activeElement) ? document.activeElement.dataset.field : null;
-    if (panel.dataset.currentTab === 'scene') rememberDisclosures(panel, sceneDisclosures);
+    if (['scene','elements'].includes(panel.dataset.currentTab)) rememberDisclosures(panel, sceneDisclosures);
     panel.dataset.currentTab = tab;
     if (tab === 'build') {
-      panel.innerHTML = `<section class="quick-section"><span class="eyebrow">QUICK BUILD</span><h2>Um espaço para a história.</h2><p class="muted">Desenhe no chão ou comece pelas medidas. Tudo continua editável.</p>${button('room-draw', 'Desenhar sala', 'room', 'wide accent-outline')}<form id="quick-form"><div class="field-grid">${numberField('room-width', 'Largura interna · m', roomOptions.width, { min: 1.4 })}${numberField('room-length', 'Comprimento · m', roomOptions.length, { min: 1 })}</div>${numberField('room-height', 'Altura das paredes · m', roomOptions.height, { min: 2.2 })}<span class="section-caption">SUGESTÕES OPCIONAIS</span>${checkField('room-door', 'Incluir uma porta', roomOptions.door)}${checkField('room-lighting', 'Adicionar iluminação', roomOptions.lighting)}<button class="primary wide" type="submit">${icon('eye')} Ver prévia</button></form></section><section><span class="eyebrow">CONSTRUIR MANUALMENTE</span><div class="construction-grid">${button('floor-add', 'Piso', 'floor')}${button('wall-add', 'Parede', 'wall')}${button('door-add', 'Porta', 'door')}${button('light-place', 'Luz pontual', 'light')}${button('spot-place', 'Luz spot', 'light')}${button('fire-place', 'Fogueira', 'light')}${button('smoke-place', 'Fumaça', 'light')}</div></section><section><span class="eyebrow">PERSONAGENS</span><label class="field"><span>Nome do token</span><input id="token-name" value="Investigador" maxlength="256" /></label><div class="token-controls"><input id="token-color" aria-label="Cor do token" type="color" value="#e4b76f" />${button('token-place', 'Colocar token', 'token', 'wide')}</div><p class="microcopy">Para usar um retrato, importe uma imagem na biblioteca.</p></section><section><span class="eyebrow">GRID E PRECISÃO</span>${checkField('grid-visible', 'Mostrar grid', store.document.layout.grid.visible)}${checkField('grid-snap', 'Encaixar no grid', store.document.layout.grid.snap)}${numberField('grid-size', 'Célula · m', store.document.layout.grid.cellSize, { min: .1 })}</section>`;
+      panel.innerHTML = `<section class="quick-section"><span class="eyebrow">QUICK BUILD</span>${button('room-draw', 'Desenhar sala', 'room', 'wide accent-outline')}<form id="quick-form"><div class="field-grid">${numberField('room-width', 'Largura interna · m', roomOptions.width, { min: 1.4 })}${numberField('room-length', 'Comprimento · m', roomOptions.length, { min: 1 })}</div>${numberField('room-height', 'Altura das paredes · m', roomOptions.height, { min: 2.2 })}<span class="section-caption">SUGESTÕES OPCIONAIS</span>${checkField('room-door', 'Incluir uma porta', roomOptions.door)}${checkField('room-lighting', 'Adicionar iluminação', roomOptions.lighting)}<button class="primary wide" type="submit">${icon('eye')} Ver prévia</button></form></section><section><span class="eyebrow">CONSTRUIR MANUALMENTE</span><div class="construction-grid">${button('floor-add', 'Piso', 'floor')}${button('wall-add', 'Parede', 'wall')}${button('door-add', 'Porta', 'door')}${button('light-place', 'Luz pontual', 'light')}${button('spot-place', 'Luz spot', 'light')}${button('fire-place', 'Fogueira', 'light')}${button('smoke-place', 'Fumaça', 'light')}</div></section><section><span class="eyebrow">PERSONAGENS</span><label class="field"><span>Nome do token</span><input id="token-name" value="Investigador" maxlength="256" /></label><div class="token-controls"><input id="token-color" aria-label="Cor do token" type="color" value="#e4b76f" />${button('token-place', 'Colocar token', 'token', 'wide')}</div><p class="microcopy">Para usar um retrato, importe uma imagem na biblioteca.</p></section><section><span class="eyebrow">GRID E PRECISÃO</span>${checkField('grid-visible', 'Mostrar grid', store.document.layout.grid.visible)}${checkField('grid-snap', 'Encaixar no grid', store.document.layout.grid.snap)}${numberField('grid-size', 'Célula · m', store.document.layout.grid.cellSize, { min: .1 })}</section>`;
       panel.innerHTML += constructionPanel(store.document, { surfaceId: activeSurfaceId, height: buildHeight, polygon: tool === 'polygon' });
       panel.innerHTML += levelsPanel(store.document, { levelId: activeLevelId, layerId: activeLayerId, isolated: isolatedLevel });
       panel.innerHTML += terrainPanel(terrainOptions);
       panel.innerHTML += landscapePanel(store.document,vegetationOptions,assets,{numberField});
       panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition());
-      const tasks = [['room','Sala'],['manual','Peças avulsas'],['characters','Personagens'],['grid','Grid e precisão'],['structures','Pisos, paredes e acessos'],['levels','Andares e camadas'],['terrain','Terreno e relevo'],['landscape','Água e vegetação'],['furnishing','Mobiliar cômodo']];
-      const taskSections = [...panel.children].map((section, i) => ({ section, key: tasks[i][0], label: tasks[i][1] }));
-      const groups = [['landscape', 'Paisagem', 'Terreno, água e vegetação', ['terrain','landscape']], ['structures', 'Construções', 'Salas, superfícies e mobiliário', ['room','structures','manual','furnishing']], ['characters', 'Personagens', 'Tokens e retratos', ['characters']], ['organization', 'Organização', 'Andares, camadas e precisão', ['levels','grid']]];
-      const containers = new Map();
-      for (const [key,label,description] of groups) {
-        const group = document.createElement('details'); group.className = 'build-group'; group.dataset.buildGroup = key; group.open = openBuildGroups.has(key);
-        group.innerHTML = `<summary><strong>${label}</strong><small>${description}</small></summary><div class=build-group-content></div>`; panel.append(group); containers.set(key, group.lastElementChild);
-      }
-      taskSections.forEach(({ section, key, label }) => {
-        const details = document.createElement('details'); details.className = 'build-task'; details.dataset.buildSection = key; details.open = openBuildSections.has(key);
-        const summary = document.createElement('summary'); summary.textContent = label; details.append(summary, section); containers.get(groups.find(group => group[3].includes(key))[0]).append(details);
-      });
-      panel.insertAdjacentHTML('afterbegin', '<div class=workflow-intro><span class=eyebrow>CONSTRUIR SEU MAPA</span><p>Escolha uma tarefa. Selecione na cena para editar nas Propriedades.</p></div>');
-
+      // Plain headings and one level of tasks: what is inside a task is visible as soon as it opens.
+      taskList(panel, [
+        { title: 'Construções', tasks: [
+          [0,'room','Sala','Desenhar no chão ou criar por medidas'], [1,'manual','Peças avulsas','Piso, parede, porta, luzes, fogo e fumaça'],
+          [4,'structures','Pisos, paredes e acessos','Contornos, superfícies de apoio e escadas'], [8,'furnishing','Mobiliar cômodo','Preencher um piso com uma receita'] ] },
+        { title: 'Paisagem', tasks: [[6,'terrain','Terreno e relevo','Criar terreno, elevar, nivelar e pintar'], [7,'landscape','Água e vegetação','Lagos, rios, gelo e plantas']] },
+        { title: 'Personagens', tasks: [[2,'characters','Tokens','Colocar personagens na mesa']] },
+        { title: 'Organização', tasks: [[5,'levels','Andares e camadas','Separar e isolar partes da cena'], [3,'grid','Grid e precisão','Mostrar, encaixar e medir']] },
+      ], { attribute: 'buildSection' });
+      for (const task of panel.querySelectorAll('[data-build-section]')) task.open = openBuildSections.has(task.dataset.buildSection);
+    } else if (tab === 'elements') {
+      const kinds = [['build','Estrutura'],['props','Objetos'],['lights','Luzes'],['tokens','Tokens']];
+      panel.innerHTML = `<section class="elements-panel"><div class="tree-header"><input id="tree-search" type="search" placeholder="Buscar na cena" aria-label="Buscar elementos da cena" value="${esc(treeFilter.search)}" autocomplete="off" />${button('group-add', 'Pasta', 'plus', 'quiet', 'title="Nova pasta"')}</div><div class="chips tree-kinds" role="group" aria-label="Mostrar só um tipo">${kinds.map(([kind,label]) => `<button type="button" data-tree-kind="${kind}" aria-pressed="${treeFilter.kind===kind}" class="${treeFilter.kind===kind?'active':''}">${label}</button>`).join('')}</div><div id="scene-tree"></div></section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section>`;
+      sectionDisclosure(panel.lastElementChild, 'document', 'Documento', false, 'Salvar uma cópia da cena').classList.add('task');
+      restoreDisclosures(panel, sceneDisclosures);
+      renderSceneTreeIfVisible(panel.querySelector('#scene-tree'));
     } else {
       const currentLook = store.document.look ?? store.document.defaultLook;
-      panel.innerHTML = `${environmentPanel(store.document, savedEnvironments, selectedEnvironmentId, openAtmosphereSections, { numberField, colorField, checkField })}${atmospherePanel(currentLook, effectsEnabled, { numberField, colorField, checkField }, openAtmosphereSections,lightingQuality,lightingBudget)}${cameraPanel()}<section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-cut="${camera.id}" title="Cortar para este enquadramento" aria-label="Cortar para ${esc(camera.name)}">${icon('camera', 14)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">DOCUMENTO</span>${button('duplicate-scene', store.document.documentType === 'map' ? 'Salvar como novo mapa' : 'Salvar como nova cena', 'copy', 'wide')}<p class="microcopy">Duplica também suas alterações locais, preservando os assets.</p></section><section><div class="tree-header"><span class="eyebrow">ELEMENTOS DA CENA</span>${button('group-add', 'Nova pasta', 'plus', 'quiet')}</div><div id="scene-tree"></div></section>`;
-      groupDisclosures(panel, [
-        { key: 'atmosphere', title: 'Atmosfera', description: 'Ambientes, iluminação, céu e efeitos', open: true, tasks: [
-          [0,'presets','Ambientes e horários',true], [1,'sun','Sol / lua e cor da luz'], [2,'sky','Céu e nuvens'],
-          [3,'weather','Clima e partículas'], [4,'night','Objetos que acendem à noite'], [5,'effects','Névoa, bloom e qualidade'],
+      panel.innerHTML = `${environmentPanel(store.document, savedEnvironments, selectedEnvironmentId, openAtmosphereSections, { numberField, colorField, checkField })}${atmospherePanel(currentLook, effectsEnabled, { numberField, colorField, checkField }, openAtmosphereSections,lightingQuality,lightingBudget)}${cameraPanel()}<section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-cut="${camera.id}" title="Cortar para este enquadramento" aria-label="Cortar para ${esc(camera.name)}">${icon('camera', 14)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section>`;
+      taskList(panel, [
+        { title: 'Atmosfera', tasks: [
+          [0,'presets','Ambientes e horários','Pontos de partida prontos e salvos',true], [1,'sun','Sol / lua e cor da luz','Direção, força e cor da luz principal'], [2,'sky','Céu e nuvens','Cor do céu, nuvens e estrelas'],
+          [3,'weather','Clima e partículas','Chuva, neve, poeira, brasas'], [4,'night','Objetos que acendem à noite','Janelas e luminárias por horário'], [5,'effects','Névoa, bloom e qualidade','Profundidade, brilho e desempenho'],
         ] },
-        { key: 'cameras', title: 'Câmera e apresentação', description: 'Navegação, enquadramentos e projetor', tasks: [
-          [6,'navigation','Câmera cinematográfica',true], [7,'shots','Enquadramentos e publicação',true],
-        ] },
-        { key: 'elements', title: 'Elementos e documento', description: 'Objetos, pastas e cópias da cena', open: true, tasks: [
-          [9,'objects','Elementos da cena',true], [8,'document','Documento'],
+        { title: 'Câmera e apresentação', tasks: [
+          [6,'navigation','Câmera cinematográfica','Velocidade, lente e transições'], [7,'shots','Enquadramentos e projetor','Câmeras salvas e segunda tela',true],
         ] },
       ]);
       restoreDisclosures(panel, sceneDisclosures);
-      panel.insertAdjacentHTML('afterbegin', '<div class="workflow-intro"><span class="eyebrow">PREPARAR SUA CENA</span><p>Abra um grupo para ajustar a atmosfera, preparar a apresentação ou organizar os objetos.</p></div>');
-      renderSceneTreeIfVisible(panel.querySelector('#scene-tree'));
     }
     if (focused) panel.querySelector(`[data-field="${focused}"]`)?.focus({ preventScroll: true });
     panel.scrollTop = scroll;
@@ -684,13 +680,17 @@ export async function startApplication() {
     const entities = Object.values(doc.layout?.entities || {});
     const tokens = Object.values(doc.tokens || {});
     const lights = Object.values(doc.look?.lights || doc.defaultLook?.lights || {});
+    // The floor name says it already when the scene has a single floor.
+    const manyLevels = Object.keys(doc.layout?.levels || {}).length > 1;
+    const search = treeFilter.search.trim().toLocaleLowerCase('pt-BR'), filtering = Boolean(search) || treeFilter.kind !== 'all';
+    const kindOf = entry => entry.actorId ? 'tokens' : lights.includes(entry) ? 'lights' : entry.kind === 'prop' ? 'props' : 'build';
 
     const renderEntry = (entry) => {
       const typeGlyph = entry.kind === 'floor' ? 'floor' : entry.kind === 'wall' ? 'wall' : entry.kind === 'door' ? 'door' : entry.actorId ? 'token' : entry.type ? 'light' : 'room';
       const name = entryName(doc, entry);
       return `<div draggable="true" data-drag-id="${entry.id}" data-select="${entry.id}" class="tree-entry ${selectedIds.has(assemblyFor(doc,entry.id)?.id ?? entry.id) ? 'selected' : ''}">
         ${icon(typeGlyph, 14)}
-        <span class="tree-label" title="${esc([name, doc.layout.levels?.[entry.levelId]?.name, doc.layout.layers?.[entry.layerId]?.name].filter(Boolean).join(' · '))}">${esc(name)}</span>${entry.levelId && doc.layout.levels?.[entry.levelId] ? `<small title="Andar">${esc(doc.layout.levels[entry.levelId].name)}</small>` : ''}
+        <span class="tree-label" title="${esc([name, doc.layout.levels?.[entry.levelId]?.name, doc.layout.layers?.[entry.layerId]?.name].filter(Boolean).join(' · '))}">${esc(name)}${filtering && entry.groupId && doc.layout.groups?.[entry.groupId] ? `<small>${esc(doc.layout.groups[entry.groupId].name)}</small>` : ''}</span>${manyLevels && entry.levelId && doc.layout.levels?.[entry.levelId] ? `<small title="Andar">${esc(doc.layout.levels[entry.levelId].name)}</small>` : ''}
         ${entry.audience === 'gm' ? '<small>GM</small>' : ''}
         <div class="tree-entry-actions">
           <button type="button" class="tree-action-btn" data-tree-rename="${entry.id}" title="Renomear">${icon('edit', 12)}</button>
@@ -700,13 +700,19 @@ export async function startApplication() {
     };
 
     let html = '';
+    if (filtering) {
+      const found = [...entities, ...tokens, ...lights].filter(entry => (treeFilter.kind === 'all' || kindOf(entry) === treeFilter.kind) && (!search || entryName(doc, entry).toLocaleLowerCase('pt-BR').includes(search)));
+      tree.innerHTML = found.length ? `<div class="tree-section-title">${found.length} ${found.length === 1 ? 'elemento' : 'elementos'}</div><div class="tree-group-items">${found.map(renderEntry).join('')}</div>` : '<p class="microcopy">Nenhum elemento encontrado.</p>';
+      return;
+    }
 
     if (groups.length > 0) {
       const renderGroup = group => {
         const groupEntities = [...entities, ...tokens, ...lights].filter(e => e.groupId === group.id);
-        return `<div class="tree-group" data-drop-group="${group.id}">
+        const collapsed = collapsedTreeGroups.has(group.id) && !groupEntities.some(e => selectedIds.has(e.id));
+        return `<div class="tree-group ${collapsed ? 'collapsed' : ''}" data-drop-group="${group.id}">
           <div class="tree-group-header" data-group-id="${group.id}">
-            ${icon('folder', 14)}
+            <button type="button" class="tree-collapse" data-group-collapse="${group.id}" aria-expanded="${!collapsed}" title="${collapsed ? 'Abrir pasta' : 'Recolher pasta'}">${icon('chevron', 12)}</button>${icon('folder', 14)}
             ${group.anchored ? `<button class="group-title" data-action="assembly-select" data-id="${group.id}" title="Selecionar composição">${esc(group.name)} · ancorada</button>` : `<span class="group-title" title="${esc(group.name)}">${esc(group.name)}</span>`}
             <div class="group-actions">
               <button type="button" data-group-visible="${group.id}" title="${group.visible === false ? 'Mostrar pasta' : 'Ocultar pasta'}">${icon('eye', 12)}</button>
@@ -715,7 +721,7 @@ export async function startApplication() {
               <button type="button" data-group-delete="${group.id}" title="Excluir pasta">${icon('trash', 12)}</button>
             </div>
           </div>
-          ${group.anchored ? `<button class="assembly-release wide quiet" data-action="assembly-unbind" data-id="${group.id}">Desancorar objetos</button>` : ''}<div class="tree-group-items" data-drop-group="${group.id}">
+          ${group.anchored ? `<button class="assembly-release wide quiet" data-action="assembly-unbind" data-id="${group.id}">Desancorar objetos</button>` : ''}<div class="tree-group-items" data-drop-group="${group.id}" ${collapsed ? 'hidden' : ''}>
             ${groups.filter(child => child.parentId===group.id).map(renderGroup).join('')}${groupEntities.length > 0 ? groupEntities.map(renderEntry).join('') : groups.some(child => child.parentId===group.id) ? '' : '<div class="tree-group-empty">Pasta vazia (arraste aqui)</div>'}
           </div>
         </div>`;
@@ -1697,7 +1703,7 @@ export async function startApplication() {
       case 'assembly-select': selectObject(metadata.id); break;
       case 'assembly-bind': {
         const groupId=id(), names=[...selectedIds].map(key => locate(key)?.record).filter(Boolean).map(record => entryName(store.document,record));
-        if(execute('group.bind',{ id:groupId,ids:[...selectedIds],name:names.slice(0,2).join(' + ').slice(0,256) || 'Composição ancorada' },{ label:'Ancorar objetos juntos' })) { selectObject(groupId); tab='scene'; renderSidebar(); notify('Objetos ancorados como uma unidade. Desancore pelo botão na pasta.'); } break;
+        if(execute('group.bind',{ id:groupId,ids:[...selectedIds],name:names.slice(0,2).join(' + ').slice(0,256) || 'Composição ancorada' },{ label:'Ancorar objetos juntos' })) { selectObject(groupId); tab='elements'; renderSidebar(); notify('Objetos ancorados como uma unidade. Desancore pelo botão na pasta.'); } break;
       }
       case 'assembly-unbind': {
         const key=metadata.id ?? selection;
@@ -1827,7 +1833,7 @@ export async function startApplication() {
         const name = window.prompt('Nome da nova pasta:', 'Nova pasta');
         if (name !== null && name.trim()) {
           execute('group.add', { group: { name: name.trim() } });
-          tab = 'scene';
+          tab = 'elements';
           renderSidebar();
         }
         break;
@@ -2052,6 +2058,8 @@ export async function startApplication() {
       }); return;
     }
     if (node.dataset.action) { Promise.resolve(act(node.dataset.action, node.dataset)).catch((error) => notify(error.message, true)); return; }
+    if (node.dataset.treeKind) { treeFilter.kind = treeFilter.kind === node.dataset.treeKind ? 'all' : node.dataset.treeKind; renderSidebar(); return; }
+    if (node.dataset.groupCollapse) { const key = node.dataset.groupCollapse; if (collapsedTreeGroups.has(key)) collapsedTreeGroups.delete(key); else collapsedTreeGroups.add(key); renderSceneTreeIfVisible(); return; }
     if (node.dataset.tab) {
       if (node.dataset.tab === 'assets') { renderAssets(); assetsWindow.open(); document.getElementById('asset-search').focus({preventScroll:true}); }
       else { assetsWindow.close(); tab = node.dataset.tab; renderSidebar(); }
@@ -2113,7 +2121,6 @@ export async function startApplication() {
     if (atmosphereKey && event.target.isConnected) { if (event.target.open) openAtmosphereSections.add(atmosphereKey); else openAtmosphereSections.delete(atmosphereKey); }
     const key = event.target.dataset?.buildSection;
     if(event.target.isConnected && event.target.dataset.disclosure==='terrain-base-material') terrainMaterialTarget=event.target.open?'base':'layer';
-    const groupKey = event.target.dataset.buildGroup; if(groupKey && event.target.isConnected) { if(event.target.open) openBuildGroups.add(groupKey); else openBuildGroups.delete(groupKey); }
     if (key && event.target.isConnected) { if (event.target.open) openBuildSections.add(key); else openBuildSections.delete(key); }
   }, true);
   root.addEventListener('contextmenu', (event) => {
@@ -2202,6 +2209,7 @@ export async function startApplication() {
     else if (event.target.id === 'scene-name') execute('scene.rename', { name: event.target.value });
   });
   root.addEventListener('input', (event) => {
+    if (event.target.id === 'tree-search') { treeFilter.search = event.target.value; renderSceneTreeIfVisible(); return; }
     if (event.target.dataset.field === 'preset-name') changeField(event.target);
     if (event.target.id === 'asset-search') { libraryFilters.search = event.target.value; libraryLimit = 24; renderAssetCards(); }
   });

@@ -21,7 +21,8 @@ try {
   await page.goto(base+"/?diagnostics");await page.waitForFunction(()=>!!window.__tabletop);await shot('01-inicio');
   await page.locator('[data-action="open"]').first().click();await shot('02-abrir');
   await page.locator(`[data-open="${scene.id}"]`).click();await page.waitForFunction(id=>window.__tabletop.snapshot().id===id,scene.id);await page.waitForTimeout(4000);await shot('03-construir');
-  await page.locator('[data-tab=scene]').click();await shot('04-cena');
+  await page.locator('[data-tab=elements]').click();await shot('04-elementos');await page.locator('#tree-search').fill('sof');await shot('04b-elementos-busca');await page.locator('#tree-search').fill('');
+  await page.locator('[data-tab=scene]').click();await shot('04c-ambiente');await page.locator('[data-tab=elements]').click();
   const sofa=Object.values(scene.layout.entities).find(e=>e.assetRef?.id==='builtin-sofa'),floor=Object.values(scene.layout.entities).find(e=>e.kind==='floor');
   await page.locator(`[data-select="${sofa.id}"]`).first().click().catch(async()=>{await page.evaluate(id=>window.__tabletop.select?.(id),sofa.id);});await shot('05-objeto');
   await page.locator(`[data-select="${floor.id}"]`).first().click().catch(()=>{});await shot('06-piso');

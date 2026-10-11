@@ -29,7 +29,7 @@ test('cliff kit can be edited, reset, duplicated, saved and projected with indep
   const snapshot=()=>page.evaluate(()=>window.__tabletop.snapshot());
   const field=async(name,value)=>{const n=await reveal(page.locator(`[data-field="${name}"]`).first());await n.fill(String(value));await n.press('Tab');};
   await action('open');await page.locator(`[data-open="${scene.id}"]`).click();await page.waitForFunction(id=>window.__tabletop.snapshot().id===id,scene.id);
-  await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${cliff.id}"]`).click();
+  await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${cliff.id}"]`))).click();
   await page.waitForFunction(id=>window.__tabletop.stats().rockGeometries.some(g=>g.id===id&&g.form==='cliff'),cliff.id);
   await field('rock-overhang',.9);await field('rock-terraces',9);await field('rock-erosion',.85);await field('rock-seed',707);
   assert.deepEqual((await snapshot()).layout.entities[cliff.id].material,cliff.material);
@@ -37,11 +37,11 @@ test('cliff kit can be edited, reset, duplicated, saved and projected with indep
   await action('undo');assert.equal((await snapshot()).layout.entities[cliff.id].rockShape.seed,137);await action('redo');
   await action('rock-reset');assert.deepEqual((await snapshot()).layout.entities[cliff.id].rockShape,rockDefaults('builtin-mountain-cliff-face'));await action('undo');
   await action('object-duplicate');assert.equal(Object.values((await snapshot()).layout.entities).filter(e=>e.rockShape?.seed===707).length,2);await action('undo');
-  await page.locator(`[data-select="${floor.id}"]`).click();await action('perspective');await action('frame');await page.waitForFunction(()=>!window.__tabletop.stats().cameraMoving);
+  await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();await action('perspective');await action('frame');await page.waitForFunction(()=>!window.__tabletop.stats().cameraMoving);
   await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/mountain-kit.png'});
   const [projector]=await Promise.all([page.waitForEvent('popup'),action('presentation-window')]);projector.on('pageerror',e=>errors.push(e.message));
   await projector.waitForFunction(id=>window.__tabletop?.stats().rockGeometries.some(g=>g.id===id&&g.terraces===9&&g.overhang===.9),cliff.id);
-  const camera=await projector.evaluate(()=>window.__tabletop.camera());await page.bringToFront();await page.locator(`[data-select="${cliff.id}"]`).click();await field('rock-terraces',5);
+  const camera=await projector.evaluate(()=>window.__tabletop.camera());await page.bringToFront();await (await reveal(page.locator(`[data-select="${cliff.id}"]`))).click();await field('rock-terraces',5);
   await projector.waitForFunction(id=>window.__tabletop.stats().rockGeometries.some(g=>g.id===id&&g.terraces===5),cliff.id);assert.deepEqual(await projector.evaluate(()=>window.__tabletop.camera()),camera);await projector.close();
   await action('save');await page.waitForFunction(()=>!document.querySelector('#save-status').classList.contains('unsaved')&&!document.querySelector('[data-action="save"]').disabled);const saved=await snapshot();
   await page.reload();await page.waitForFunction(id=>window.__tabletop?.snapshot().id===id,scene.id);assert.deepEqual((await snapshot()).layout,saved.layout);assert.deepEqual(errors,[]);

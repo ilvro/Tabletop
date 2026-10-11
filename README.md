@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Abrir http://127.0.0.1:5173. Para produção local: `npm run build` e `npm start`, em http://127.0.0.1:3001.
+Abrir http://127.0.0.1:5173 (se a porta estiver ocupada por outro programa, o comando usa a próxima livre e mostra o endereço). Para produção local: `npm run build` e `npm start`, em http://127.0.0.1:3001.
 
 Ver [execução, testes e limitações](docs/VERTICAL_SLICE.md), [construção/Smart Build/polish da Fase 3](docs/PHASE_3.md) e [roadmap](docs/ROADMAP.md). A biblioteca tem 191 assets originais, com categorias, épocas, cenários, tags editáveis e favoritos. Veja [catálogo e classificação](docs/ASSET_LIBRARY.md).
 

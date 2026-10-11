@@ -1,5 +1,7 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Interface, etapa 4 (11 de outubro):** painel esquerdo em Construir · Elementos · Ambiente, com um só nível de tarefas, busca e filtro na lista de elementos e Assets no cabeçalho. [Plano e andamento](UI_REWORK_PLAN.md).
+
 **Interface, etapas 1 e 2 (11 de outubro):** conjunto de controles (deslizante com valor para faixas, medida com unidade, segmentos para poucas opções) e material escolhido por amostras, com o desenho da textura aberto logo abaixo e grupos Desenho / Cor visíveis. Campos, comandos e formato de documento inalterados. [Plano e andamento](UI_REWORK_PLAN.md).
 
 **Plano de reformulação da interface (10 de outubro):** diagnóstico por capturas e oito etapas, começando por controles adequados a cada valor e escolha de material por amostras. [Plano](UI_REWORK_PLAN.md).

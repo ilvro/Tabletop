@@ -20,7 +20,7 @@ test('structural authoring: sculpt/cancel, holes, shared walls, levels, anchors,
   const action = async name => (await reveal(page.locator(`[data-action="${name}"]`).first())).click();
   const tab = name => page.locator(`[data-tab="${name}"]`).click();
   async function field(name, value) { const input = page.locator(`[data-field="${name}"]`); await reveal(input); await input.fill(String(value)); await input.press('Tab'); }
-  async function select(key, additive = false) { await tab('scene'); await page.locator(`[data-select="${key}"]`).click({ modifiers: additive ? ['Shift'] : [] }); await tab('build'); }
+  async function select(key, additive = false) { await tab('elements'); await (await reveal(page.locator(`[data-select="${key}"]`))).click({ modifiers: additive ? ['Shift'] : [] }); await tab('build'); }
   async function point(position) { const p = await page.evaluate(value => window.__tabletop.project(value), position); assert.ok(p.visible, `Visible world point ${position}`); return p; }
   async function click(position) { const p = await point(position); await page.mouse.click(p.x,p.y); }
   async function stroke(start, end, cancel = false) {
@@ -77,7 +77,7 @@ test('structural authoring: sculpt/cancel, holes, shared walls, levels, anchors,
   await tab('build'); await action('light-place'); await click([2,0,-1]);
   const pointLight = Object.values((await snapshot()).look.lights).find(e => e.type === 'point'); assert.ok(pointLight);
   await select(lamp.id); await select(pointLight.id, true); await select(wall.id, true);
-  await tab('scene'); await page.locator(`[data-select="${wall.id}"]`).click({ button: 'right' });
+  await tab('elements'); await (await reveal(page.locator(`[data-select="${wall.id}"]`))).click({ button: 'right' });
   assert.equal(await page.locator('.tree-entry.selected').count(), 3);
   await page.getByRole('button', { name: 'Fixar em parede / teto…', exact: true }).click();
   assert.equal(await page.locator('[data-field="anchor-host"]').inputValue(), wall.id);

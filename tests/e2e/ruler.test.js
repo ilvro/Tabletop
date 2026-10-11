@@ -47,7 +47,7 @@ for (const mode of ['server', 'pages']) test(`ruler: metrics, tokens, surfaces, 
     const a = await point(from), b = await point(to); await page.mouse.move(a.x, a.y); await page.mouse.down(); await page.mouse.move(b.x, b.y, { steps: 8 }); await page.mouse.up();
   };
   const near = (actual, expected, tolerance = .06) => assert.ok(Math.abs(actual - expected) < tolerance, `${actual} ≈ ${expected}`);
-  await page.locator('[data-tab="scene"]').click(); await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();
+  await page.locator('[data-tab="elements"]').click(); await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();
   await action('top'); await action('frame'); await page.waitForFunction(() => !window.__tabletop.stats().cameraMoving);
   const original = await snapshot(), version = await page.evaluate(() => window.__tabletop.editVersion()), camera = await page.evaluate(() => window.__tabletop.camera());
   const [projector] = await Promise.all([page.waitForEvent('popup'), action('presentation-window')]);

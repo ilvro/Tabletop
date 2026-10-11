@@ -30,7 +30,7 @@ test('terrain authoring exposes area/physical rock relief, protects construction
   const option=async(name,value)=>(await reveal(page.locator(`[data-field="${name}"]`).first())).selectOption(value);
   const snapshot=()=>page.evaluate(()=>window.__tabletop.snapshot());
   await action('open');await page.locator(`[data-open="${scene.id}"]`).click();await page.waitForFunction(id=>window.__tabletop.snapshot().id===id,scene.id);
-  await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${terrain.id}"]`).click();
+  await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${terrain.id}"]`))).click();
   await reveal(page.locator('[data-field="width"]'));
   assert.equal(await page.locator('[data-field="width"]').evaluate(node=>node.closest('details')?.dataset.disclosure),'terrain-area','area has its own disclosure, separate from mesh settings');
   await action('terrain-protect-floors');assert.deepEqual((await snapshot()).layout.entities[terrain.id],terrain);await action('cancel-proposal');
@@ -68,7 +68,7 @@ test('terrain authoring exposes area/physical rock relief, protects construction
   const mountain=Object.values((await snapshot()).layout.entities).find(e=>e.kind==='terrain'&&e.id!==terrain.id);assert.deepEqual(mountain.transform.position,[1,0,2]);
   assert.deepEqual(protectTerrainFloors(mountain,{[floor.id]:floor}),mountain.heights);assert.equal(mountain.paintLayers[0].texture,'rock');assert.equal(mountain.paintLayers[1].texture,'snow');
   await action('undo');assert.deepEqual(await snapshot(),beforePreset);
-  await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${terrain.id}"]`).click();await action('perspective');await action('frame');
+  await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${terrain.id}"]`))).click();await action('perspective');await action('frame');
   await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/terrain-authoring.png'});
   const savedLayout=(await snapshot()).layout;await action('save');await page.waitForFunction(()=>!document.querySelector('#save-status').classList.contains('unsaved')&&!document.querySelector('[data-action="save"]').disabled);
   await page.reload();await page.waitForFunction(id=>window.__tabletop?.snapshot().id===id,scene.id);assert.deepEqual((await snapshot()).layout,savedLayout);assert.deepEqual(errors,[]);

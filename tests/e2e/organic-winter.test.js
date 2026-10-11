@@ -66,7 +66,7 @@ for(const mode of ['server','pages'])test(`organic formations and snow edit/pers
   await page.waitForFunction(()=>Object.values(window.__tabletop.snapshot().layout.entities).some(e=>e.assetRef?.id==='builtin-organic-cliff'));
   const id=await page.evaluate(()=>Object.values(window.__tabletop.snapshot().layout.entities).find(e=>e.assetRef?.id==='builtin-organic-cliff').id);
   await page.waitForFunction(id=>window.__tabletop.stats().snowCoats.some(c=>c.id===id&&c.topFaces>0),id);
-  await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${id}"]`).click();
+  await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${id}"]`))).click();
   const field=async(name,value)=>{const n=await reveal(page.locator(`[data-field="${name}"]`).first());await n.fill(String(value));await n.press('Tab');};
   await field('rock-seed',917);await field('coverage-snowWindDirection',150);const snapshot=()=>page.evaluate(()=>window.__tabletop.snapshot());assert.equal((await snapshot()).layout.entities[id].material.coverage.snowWindDirection,150);await action('undo');assert.equal((await snapshot()).layout.entities[id].material.coverage.snowWindDirection,30);await action('redo');
   await (await reveal(page.locator('[data-field="rock-form"]'))).selectOption('organic');await page.waitForFunction(id=>window.__tabletop.stats().rockGeometries.some(g=>g.id===id&&g.form==='organic'),id);await action('undo');

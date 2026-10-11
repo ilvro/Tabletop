@@ -2,6 +2,29 @@
 
 Atualizado em 11 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Interface — etapa 4, painel esquerdo, concluída (11 de outubro)
+
+Motivo: depois das etapas 1 e 2, Construir e Cena continuavam confusas (três níveis de recolhimento, títulos de efeito, lista de elementos no fim da aba Cena).
+
+**Feito**
+
+- Abas **Construir · Elementos · Ambiente**; *Assets* virou botão no cabeçalho.
+- `taskList` (`src/ui/panel-disclosures.js`): títulos simples e um só nível de tarefas, cada uma com nome e uma linha de descrição. Usado em Construir e Ambiente.
+- Elementos: busca por nome, filtro por tipo, pastas recolhíveis (abrem sozinhas ao selecionar algo dentro), nomes em duas linhas, andar só quando há mais de um. Documento no fim da aba.
+- Ambientes prontos como cartões com a prévia em ícone dentro do cartão.
+- Captura: `docs/references/ui/depois-painel-esquerdo.jpg`; `scripts/capture-ui.js` cobre as abas novas.
+
+**Validação**
+
+- Unitários: 251 passam.
+- E2E: os testes que selecionavam pela lista abrem Elementos; `reveal` (`tests/e2e/controls.js`) abre também a aba lateral onde o controle mora. A bateria completa foi interrompida pelo fim da sessão com 67 aprovados e 2 falhas; as duas (ambientes e Pages) e os arquivos que não tinham rodado (evolução estrutural, autoria e pintura de terreno, sondas de zona) foram repetidos e passam. Não houve uma rodada única completa e limpa depois das últimas correções de teste.
+- O teste de Pages tinha duas corridas próprias, expostas agora e corrigidas no teste: esperava a dica "Clique no piso", que já estava na tela pelo token anterior, e conferia a miniatura antes de carregar. Depois da correção: 4 execuções seguidas aprovadas.
+
+**Pendências reais**
+
+- Pastas começam abertas (o plano previa recolhidas); ver justificativa no plano.
+- Etapas 3 (propriedades em abas), 5 (busca de comandos e ferramentas com nome), 6, 7 e 8 não iniciadas.
+
 ## Interface — etapas 1 e 2 concluídas (11 de outubro)
 
 **Feito**

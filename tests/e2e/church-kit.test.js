@@ -81,7 +81,7 @@ for (const mode of ['server', 'pages']) test(`church assets are searchable, plac
   console.log(`${mode}: models loaded`);
   assert.deepEqual(await page.evaluate(() => window.__tabletop.stats().assetDiagnostics), []);
   const action = async name => (await reveal(page.locator(`[data-action="${name}"]`).first())).click();
-  const select = async id => { await page.locator('[data-tab="scene"]').click(); await (await reveal(page.locator(`[data-select="${id}"]`))).click(); };
+  const select = async id => { await page.locator('[data-tab="elements"]').click(); await (await reveal(page.locator(`[data-select="${id}"]`))).click(); };
   await select(floor.id); await action('top'); await action('frame');
   await page.locator('[data-tab="assets"]').click(); await page.getByLabel('Buscar assets', { exact: true }).fill('igreja antiga');
   assert.equal(await page.locator('[data-asset]').count(), 24);

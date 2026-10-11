@@ -90,8 +90,8 @@ test('rascunhos de duas abas sobrevivem a conflito/reload e copiar preserva ediÃ
 
   // Tab A has real unsaved room changes; tab B saves a concurrent name change.
   const floor = Object.values(original.layout.entities).find((entity) => entity.kind === 'floor');
-  await a.locator('[data-tab="scene"]').click();
-  await a.locator(`[data-select="${floor.id}"]`).click();
+  await a.locator('[data-tab="elements"]').click();
+  await (await reveal(a.locator(`[data-select="${floor.id}"]`))).click();
   await a.locator('[data-field="width"]').fill('7.5');
   await a.locator('[data-field="width"]').press('Tab');
   await renameScene(a, 'Sala A em recuperaÃ§Ã£o');
@@ -125,7 +125,7 @@ test('rascunhos de duas abas sobrevivem a conflito/reload e copiar preserva ediÃ
   await a.locator('#recovery-dialog').waitFor({ state: 'hidden' });
   assert.deepEqual(await snapshot(a), local);
   assert.deepEqual(await readScene(original.id), authoritative, 'Restoring a draft must not write the old revision over the current authority.');
-  await a.locator('[data-tab="scene"]').click();
+  await a.locator('[data-tab="elements"]').click();
   await action(a, 'duplicate-scene');
   await a.waitForFunction((id) => window.__tabletop.snapshot().id !== id && !document.getElementById('save-scene').disabled, original.id);
   const independent = await snapshot(a);

@@ -34,7 +34,7 @@ test('alpine kit, vegetation preview, water/ice and physical snow are editable, 
   const field=async(name,value)=>{const node=await reveal(page.locator(`[data-field="${name}"]`).first());await node.fill(String(value));await node.press('Tab');};
   const option=async(name,value)=>(await reveal(page.locator(`[data-field="${name}"]`).first())).selectOption(value);
   const snapshot=()=>page.evaluate(()=>window.__tabletop.snapshot());const stats=()=>page.evaluate(()=>window.__tabletop.stats());
-  const select=async id=>{await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${id}"]`).click();};
+  const select=async id=>{await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${id}"]`))).click();};
   await action('open');await page.locator(`[data-open="${scene.id}"]`).click();await page.waitForFunction(id=>window.__tabletop.snapshot().id===id,scene.id);
   await page.waitForFunction(id=>window.__tabletop.stats().surfaceMaterials.some(m=>m.id===id&&m.texture==='wood'),roof.id);
   await page.waitForFunction(id=>window.__tabletop.stats().snowCoats.some(c=>c.id===id),exposed.id);assert.ok(!(await stats()).snowCoats.some(c=>c.id===covered.id));

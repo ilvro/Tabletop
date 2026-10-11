@@ -46,7 +46,7 @@ for(const mode of ['server','pages'])test(`mountain example loads a private scen
   await page.waitForFunction(count=>window.__tabletop.stats().rockGeometries.length>=count,Object.values(draft.layout.entities).filter(e=>e.rockShape).length);
   const rendered=await page.evaluate(()=>window.__tabletop.stats());assert.deepEqual(rendered.assetDiagnostics,[]);
   assert.equal(rendered.atmosphere.weather,'snow');assert.equal(rendered.atmosphere.particles,2700);
-  await page.locator('[data-tab="scene"]').click();const rock=Object.values(draft.layout.entities).find(e=>e.rockShape);
+  await page.locator('[data-tab="elements"]').click();const rock=Object.values(draft.layout.entities).find(e=>e.rockShape);
   await (await reveal(page.locator(`[data-select="${rock.id}"]`))).click();await page.waitForFunction(id=>window.__tabletop.stats().rockGeometries.some(g=>g.id===id),rock.id);
   const field=await reveal(page.locator('[data-field="rock-seed"]'));await field.fill('909');await field.press('Tab');assert.equal((await snapshot()).layout.entities[rock.id].rockShape.seed,909);
   await action('undo');assert.deepEqual((await snapshot()).layout,draft.layout);await action('redo');

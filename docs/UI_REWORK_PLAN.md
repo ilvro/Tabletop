@@ -119,3 +119,16 @@ Tela inicial com três caminhos (abrir exemplo, sala nova, continuar), e um perc
 **Validação**: `tests/controls.test.js` (rótulos, faixa × medida, escolha, ordem dos grupos) e `tests/e2e/controls.test.js` (amostra e miniatura alteram o material, arraste = uma edição e um desfazer, digitação move o deslizante). Captura em `docs/references/ui/depois-07-material-azulejo.jpg`, ao lado da `antes-07`.
 
 **Encontrado na validação e corrigido**: o deslizante vazava 2 px do painel em tela estreita (margem padrão do navegador), apontado pelo E2E de desgaste; e a regra que esconde o deslizante em grades compactas também escondia a "Dureza das bordas" do pincel, apontado pelo E2E de terreno.
+
+### Etapa 4 — painel esquerdo entregue (11 de outubro)
+
+Pedido após as etapas 1 e 2: "Construir e Cena ainda parecem um pouco confusas". Antes, as duas abas tinham três níveis (grupo recolhível → tarefa recolhível → formulário), títulos de efeito ("Um espaço para a história.", "Prepare a atmosfera.") e a lista de elementos no fim da aba Cena.
+
+- **Abas Construir · Elementos · Ambiente.** *Assets* saiu das abas e virou botão no cabeçalho, ao lado de Abrir, porque abre uma janela.
+- **Um só nível de tarefas** (`taskList` em `src/ui/panel-disclosures.js`): títulos simples (Construções, Paisagem, Personagens, Organização; Atmosfera, Câmera e apresentação) e, abaixo, cada tarefa com nome e uma linha dizendo o que tem dentro. Abrir uma tarefa mostra o formulário direto. Os títulos de efeito e os rótulos repetidos dentro das tarefas saíram.
+- **Elementos**: busca por nome, filtro por tipo (Estrutura, Objetos, Luzes, Tokens; clicar de novo mostra tudo), pastas recolhíveis com seta, nomes em até duas linhas, nome da pasta junto ao resultado da busca, e a etiqueta do andar só aparece quando a cena tem mais de um andar. Documento (salvar cópia) fica no fim da aba.
+- **Ambiente**: os ambientes prontos viraram cartões com a prévia como ícone de olho dentro do cartão, no lugar do botão "Prévia" solto embaixo de cada um.
+
+**Diferença em relação ao plano**: as pastas começam abertas, não recolhidas. Muitas cenas de exemplo guardam tudo numa pasta, e recolher por padrão esconderia o que se seleciona na cena. Uma pasta recolhida abre sozinha quando um objeto dela é selecionado.
+
+**Testes**: os E2E que selecionavam pela lista passaram a abrir a aba Elementos; as verificações de estrutura do painel usam os novos títulos. `tests/e2e/controls.test.js` cobre busca, filtro e recolhimento sem alterar o documento. `scripts/capture-ui.js` captura também Elementos, a busca e Ambiente.

@@ -42,10 +42,10 @@ test('mountain starter is available in UI; natural rock and snow render, remain 
   await action('accept-proposal');
   assert.equal((await page.evaluate(()=>Object.values(window.__tabletop.snapshot().layout.entities).filter(e=>e.kind==='terrain'))).length,2);
   await action('undo');assert.equal((await page.evaluate(()=>Object.values(window.__tabletop.snapshot().layout.entities).filter(e=>e.kind==='terrain'))).length,1);
-  await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${terrain.id}"]`).click();await page.locator('#viewport canvas').focus();await page.keyboard.press('f');
+  await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${terrain.id}"]`))).click();await page.locator('#viewport canvas').focus();await page.keyboard.press('f');
   await page.waitForFunction(()=>window.__tabletop.stats().surfaceMaterials.filter(m=>m.coverage?.texture==='snow').length>=5);
   const field=async(name,value)=>{const node=await reveal(page.locator(`[data-field="${name}"]`).first());await node.fill(String(value));await node.press('Tab');};
-  await page.locator(`[data-select="${cliff.id}"]`).click();
+  await (await reveal(page.locator(`[data-select="${cliff.id}"]`))).click();
   await field('rock-seed',123);await field('rock-irregularity',.85);await field('rock-detail',4);
   const edited=await page.evaluate(id=>window.__tabletop.snapshot().layout.entities[id],cliff.id);assert.equal(edited.rockShape.seed,123);assert.deepEqual(edited.material,cliff.material);assert.deepEqual(edited.transform,cliff.transform);
   await action('undo');assert.equal(await page.evaluate(id=>window.__tabletop.snapshot().layout.entities[id].rockShape.detail,cliff.id),7);await action('redo');
@@ -59,7 +59,7 @@ test('mountain starter is available in UI; natural rock and snow render, remain 
   await page.waitForFunction(()=>Object.values(window.__tabletop.snapshot().layout.entities).filter(e=>e.assetRef?.id==='builtin-mountain-boulder').length===2);
   const placed=await page.evaluate(()=>Object.values(window.__tabletop.snapshot().layout.entities).find(e=>e.assetRef?.id==='builtin-mountain-boulder'&&e.material.rockPattern==='fractured'));
   assert.equal(placed.material.texture,'rock');assert.equal(placed.rockShape.seed,17);
-  await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${terrain.id}"]`).click();await page.locator('#viewport canvas').focus();await page.keyboard.press('f');
+  await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${terrain.id}"]`))).click();await page.locator('#viewport canvas').focus();await page.keyboard.press('f');
   await page.waitForFunction(()=>window.__tabletop.stats().triangles>3000);
   await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/mountain-rock-geometry.png'});
   const snapshot=await page.evaluate(()=>window.__tabletop.snapshot());assert.deepEqual(snapshot.layout.entities[terrain.id].heights,terrain.heights);

@@ -31,7 +31,7 @@ test('textured materials, terrain layers and local fire/smoke render through UI,
   for(const entity of [floor,prop,terrain])scene.layout.entities[entity.id]=entity;
   assert.equal((await fetch(`${origin()}/api/tabletop/scenes`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({document:scene})})).status,201);
   await open();await action('open');await page.locator(`[data-open="${scene.id}"]`).click();await page.waitForFunction(id=>window.__tabletop.snapshot().id===id,scene.id);
-  await page.locator('[data-tab="scene"]').click();await page.locator(`[data-select="${floor.id}"]`).click();
+  await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();
   await select('material-texture','wood');await field('material-textureSize',1.5);await field('material-relief',.05);
   await page.waitForFunction(id=>window.__tabletop.stats().surfaceMaterials.some(m=>m.id===id && m.texture==='wood' && m.size===1.5),floor.id);
   await action('undo');assert.equal((await snapshot()).layout.entities[floor.id].material.relief,.035);await action('redo');
@@ -40,7 +40,7 @@ test('textured materials, terrain layers and local fire/smoke render through UI,
   const custom=(await snapshot()).layout.entities[floor.id].material;assert.equal(custom.textureColorMode,'replace');assert.equal(custom.woodGap,.06);assert.equal(custom.woodBoards,9);
   await action('undo');assert.equal((await snapshot()).layout.entities[floor.id].material.textureRotation,0);await action('redo');
   await page.waitForFunction(id=>window.__tabletop.stats().surfaceMaterials.some(m=>m.id===id&&m.options.woodBoards===9&&m.options.textureBrightness===.6),floor.id);
-  await page.locator(`[data-select="${prop.id}"]`).click();await page.waitForFunction(()=>document.querySelector('[data-field="material-textureSlot"]').options.length>1);
+  await (await reveal(page.locator(`[data-select="${prop.id}"]`))).click();await page.waitForFunction(()=>document.querySelector('[data-field="material-textureSlot"]').options.length>1);
   await select('material-textureSlot','wood');await select('material-texture','wood');
   const materials=(await stats()).surfaceMaterials.filter(m=>m.id===prop.id);assert.ok(materials.length);assert.ok(materials.every(m=>m.slot==='wood'));
   await select('material-texture','metal');await select('material-metalPattern','diamond');await field('material-metalWear',40);
@@ -49,7 +49,7 @@ test('textured materials, terrain layers and local fire/smoke render through UI,
   await select('coverage-texture','snow');await field('coverage-slopeAngle',35);await field('coverage-amount',.7);
   assert.equal((await snapshot()).layout.entities[prop.id].material.coverage.amount,.7);
   await action('undo');assert.equal((await snapshot()).layout.entities[prop.id].material.coverage.amount,1);await action('redo');
-  await page.locator(`[data-select="${terrain.id}"]`).click();await select('terrain-layer-texture','grass');await field('terrain-layer-textureSize',.75);
+  await (await reveal(page.locator(`[data-select="${terrain.id}"]`))).click();await select('terrain-layer-texture','grass');await field('terrain-layer-textureSize',.75);
   assert.equal((await snapshot()).layout.entities[terrain.id].paintLayers[0].texture,'grass');
   const mask=(await snapshot()).layout.entities[terrain.id].paintLayers[0].weights;
   await field('terrain-layer-textureColor','#447788');await field('terrain-layer-textureBrightness',.75);await field('terrain-layer-textureRotation',90);await field('terrain-layer-patternDensity',2);assert.equal(await page.locator('[data-texture-options="terrain-layer-"]').evaluate(node=>node.open),true);await field('terrain-layer-textureSeed',12);
@@ -61,7 +61,7 @@ test('textured materials, terrain layers and local fire/smoke render through UI,
   assert.equal((await snapshot()).layout.entities[terrain.id].paintLayers[1].distribution.minHeight,.5);
   await select('terrain-distribution-mode','paint');assert.ok((await snapshot()).layout.entities[terrain.id].paintLayers[1].weights.every(w=>w===0));await action('undo');
 
-  await page.locator(`[data-select="${floor.id}"]`).click();
+  await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();
   await page.locator('[data-tab="build"]').click();await action('fire-place');
   let point=await page.evaluate(()=>window.__tabletop.project([0,0,0]));await page.mouse.click(point.x,point.y);
   await page.waitForSelector('[data-field="effect-type"]');const fire=Object.values((await snapshot()).layout.entities).find(e=>e.localEffect?.type==='fire');assert.ok(fire);
@@ -78,7 +78,7 @@ test('textured materials, terrain layers and local fire/smoke render through UI,
   const [projector]=await Promise.all([page.waitForEvent('popup'),action('presentation-window')]);projector.on('pageerror',e=>errors.push(e.message));await projector.waitForFunction(()=>window.__tabletop?.stats().localEffects.length===2);
   await projector.waitForFunction(id=>window.__tabletop.stats().surfaceMaterials.some(m=>m.id===id&&m.coverage?.texture==='snow'),prop.id);
   const camera=await projector.evaluate(()=>window.__tabletop.camera());
-  await page.bringToFront();await page.locator(`[data-select="${floor.id}"]`).click();await select('material-texture','stone');await projector.waitForFunction(id=>window.__tabletop.stats().surfaceMaterials.some(m=>m.id===id&&m.texture==='stone'),floor.id);assert.deepEqual(await projector.evaluate(()=>window.__tabletop.camera()),camera);
+  await page.bringToFront();await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();await select('material-texture','stone');await projector.waitForFunction(id=>window.__tabletop.stats().surfaceMaterials.some(m=>m.id===id&&m.texture==='stone'),floor.id);assert.deepEqual(await projector.evaluate(()=>window.__tabletop.camera()),camera);
   // GPU counters update when the master's renderer draws, independently of the projector.
   const masterFrame=()=>page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   await masterFrame();

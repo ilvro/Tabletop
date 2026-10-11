@@ -450,3 +450,36 @@ body { overflow: hidden; }
 .control-group { margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--border); }
 .control-group > .eyebrow { display: block; margin-bottom: 10px; }
 :is(.axis-fields, .field-grid) .field-label small { display: inline; margin-left: 5px; }
+/* Left panel: plain headings over one level of tasks. */
+.task-heading { margin: 22px 0 6px; font-size: 11px; font-weight: 650; letter-spacing: 1.4px; text-transform: uppercase; color: var(--accent); }
+.task-heading:first-child { margin-top: 4px; }
+.panel-disclosure.task { border-top: 1px solid #353e44; }
+.panel-disclosure.task:last-child, .panel-disclosure.task:has(+ .task-heading) { border-bottom: 1px solid #353e44; }
+:is(#side-content, #inspector-content) .task > summary { padding: 11px 26px 11px 2px; }
+.task > summary strong { display: block; font-size: 13px; font-weight: 600; color: #ece8df; }
+.task > summary small { display: block; margin-top: 2px; font-size: 11px; font-weight: 400; color: var(--muted); line-height: 1.4; }
+.task[open] > summary strong { color: #f0d5a4; }
+.task > .disclosure-content > .eyebrow:first-child, .task > section > .eyebrow:first-child { display: none; }
+.task > .disclosure-content { padding: 4px 0 16px; }
+/* Elements: search and type filter over the tree. */
+.elements-panel .tree-header { display: flex; gap: 6px; align-items: center; margin-bottom: 8px; }
+.elements-panel #tree-search { margin: 0; flex: 1; min-height: 34px; }
+.elements-panel .tree-header button { flex: none; min-height: 34px; }
+.tree-kinds { margin-bottom: 10px; }
+.tree-kinds button { flex: 0 1 auto; min-height: 28px; padding: 3px 9px; font-size: 11px; }
+.tree-entry { font-size: 12px; min-height: 30px; }
+.tree-entry span.tree-label { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.3; }
+.tree-entry span.tree-label small { display: block; font-size: 10px; color: var(--muted); }
+.tree-collapse { min-height: 0; width: 20px; height: 20px; padding: 0; border: 0; background: none; color: var(--muted); display: grid; place-items: center; flex: none; }
+.tree-collapse svg { transition: transform .12s; }
+.tree-group:not(.collapsed) .tree-collapse svg { transform: rotate(90deg); }
+/* Environment presets: name card with the preview as an icon inside it. */
+.environment-option { position: relative; display: block; }
+.environment-option .environment-card { width: 100%; padding: 8px 36px 8px 8px; min-height: 42px; }
+.environment-preview { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); min-height: 0; width: 28px; height: 28px; padding: 0; display: grid; place-items: center; font-size: 0; border-color: transparent; background: none; color: var(--muted); }
+.environment-preview:hover { color: var(--accent); background: #2a3136; }
+.tree-kinds { flex-wrap: nowrap; }
+.tree-kinds button { flex: 1 1 0; min-width: 0; padding: 3px 4px; }
+.tree-kinds button[aria-pressed='true'] { background: #3a3327; color: #f0d5a4; box-shadow: inset 0 0 0 1px var(--accent); }
+.tree-group-header .group-title { white-space: normal; overflow-wrap: anywhere; line-height: 1.3; }
+.elements-panel + .task { margin-top: 18px; }

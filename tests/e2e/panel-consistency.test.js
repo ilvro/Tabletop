@@ -20,7 +20,7 @@ test('scene and object disclosures retain state; libraries fade in/out and can r
   const field = async (key, value) => { const node = await reveal(page.locator(`[data-field="${key}"]`)); await node.fill(String(value)); await node.press('Tab'); };
   const snapshot = () => page.evaluate(() => window.__tabletop.snapshot());
   await action('floor-add'); await page.locator('[data-tab=scene]').click();
-  assert.deepEqual(await page.locator('.panel-group > summary strong').allTextContents(), ['Atmosfera', 'Câmera e apresentação', 'Elementos e documento']);
+  assert.deepEqual(await page.locator('#side-content .task-heading').allTextContents(), ['Atmosfera', 'Câmera e apresentação']);
   const original = await snapshot(), camera = await page.evaluate(() => window.__tabletop.camera());
   const sun = page.locator('[data-panel-section=sun]'), sky = page.locator('[data-panel-section=sky]');
   await sun.locator(':scope > summary').focus(); await page.keyboard.press('Enter');
@@ -30,8 +30,9 @@ test('scene and object disclosures retain state; libraries fade in/out and can r
   assert.equal(await sun.locator(':scope > section').evaluate(node => node.getAnimations().length), 0, 'editing does not restart the opening fade');
   await page.locator('[data-tab=build]').click(); await page.locator('[data-tab=scene]').click();
   assert.equal(await sun.evaluate(node => node.open), true);
+  await page.locator('[data-tab=elements]').click();
   const floor = Object.values((await snapshot()).layout.entities).find(entity => entity.kind === 'floor');
-  await page.locator(`[data-select="${floor.id}"]`).click();
+  await (await reveal(page.locator(`[data-select="${floor.id}"]`))).click();
   const support = page.locator('#inspector-content > details').filter({ has: page.locator('summary', { hasText: 'Superfície de apoio' }) });
   await support.locator(':scope > summary').click(); await field('width', 7);
   assert.equal(await support.evaluate(node => node.open), true);
@@ -78,8 +79,8 @@ test('scene and object disclosures retain state; libraries fade in/out and can r
   await page.setViewportSize({ width: 390, height: 844 });
   await page.waitForFunction(() => document.querySelector('.app-shell').classList.contains('sidebar-collapsed'));
   await page.locator('[data-action=sidebar-toggle]').click();
-  for (const key of ['atmosphere', 'elements']) await page.locator(`[data-panel-section=${key}] > summary`).click();
-  const mobileGroups = await page.locator('.panel-group').evaluateAll(nodes => nodes.map(node => {
+  await page.locator('[data-tab=scene]').click(); await page.locator('[data-panel-section=sky] > summary').click();
+  const mobileGroups = await page.locator('#side-content .task').evaluateAll(nodes => nodes.map(node => {
     const rect = node.getBoundingClientRect(); return { left: rect.left, right: rect.right };
   }));
   assert.ok(mobileGroups.every(rect => rect.left >= 0 && rect.right <= 390));

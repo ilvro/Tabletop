@@ -34,7 +34,7 @@ for(const mode of ['server','pages'])test(`backrooms gallery, roof, light histor
   assert.deepEqual(await page.evaluate(()=>window.__tabletop.stats().assetDiagnostics),[]);
   console.log(`${mode}: Backrooms e referências carregadas`);
   await action('cutaway');await mkdir('test-results',{recursive:true});await page.locator('#viewport').screenshot({path:`test-results/backrooms-exterior-${mode}.png`});
-  await page.locator('[data-tab="scene"]').click();
+  await page.locator('[data-tab="elements"]').click();
   const source=Object.values(draft.layout.entities).find(e=>e.illumination),roof=Object.values(draft.layout.groups).find(g=>g.name.startsWith('10 ·'));
   await (await reveal(page.locator(`[data-select="${source.id}"]`))).click();
   const resources=await page.evaluate(()=>window.__tabletop.stats().resourceIds),intensity=await reveal(page.locator('[data-field="illumination-intensity"]'));
@@ -52,7 +52,7 @@ for(const mode of ['server','pages'])test(`backrooms gallery, roof, light histor
   await (await reveal(page.locator(`[data-camera="${presets[3].id}"]`))).click();
   await projector.waitForFunction(p=>window.__tabletop.camera().position.every((v,i)=>Math.abs(v-p[i])<1e-6),presets[3].position);camera=await projector.evaluate(()=>window.__tabletop.camera());
   await mkdir('test-results',{recursive:true});await page.locator('#viewport').screenshot({path:`test-results/backrooms-editor-${mode}.png`});
-  await page.locator(`[data-group-visible="${roof.id}"]`).click();assert.equal((await snapshot()).layout.groups[roof.id].visible,false);
+  await (await reveal(page.locator(`[data-group-visible="${roof.id}"]`))).click();assert.equal((await snapshot()).layout.groups[roof.id].visible,false);
   await action('undo');assert.equal((await snapshot()).layout.groups[roof.id].visible,true);await action('redo');assert.deepEqual(await projector.evaluate(()=>window.__tabletop.camera()),camera);
   await (await reveal(page.locator(`[data-camera="${presets[4].id}"]`))).click();
   await page.locator('#viewport').screenshot({path:`test-results/backrooms-plan-${mode}.png`});

@@ -37,7 +37,7 @@ for (const mode of ['server', 'pages']) test(`material eyedropper, scoped paste,
   await page.waitForFunction(id => window.__tabletop.snapshot().id === id, scene.id);
   const snapshot = () => page.evaluate(() => window.__tabletop.snapshot());
   const action = async name => (await reveal(page.locator(`[data-action="${name}"]`).first())).click();
-  const select = async id => { await page.locator('[data-tab="scene"]').click(); await (await reveal(page.locator(`[data-select="${id}"]`))).click(); };
+  const select = async id => { await page.locator('[data-tab="elements"]').click(); await (await reveal(page.locator(`[data-select="${id}"]`))).click(); };
   await action('top'); await action('frame'); await select(target.id);
   assert.equal(await page.locator('[data-action="material-paste"]').isDisabled(), true);
   const beforeSample = await snapshot(), editVersion = await page.evaluate(() => window.__tabletop.editVersion());
