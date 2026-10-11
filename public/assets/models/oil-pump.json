@@ -778,7 +778,17 @@
         0.16,
         -0.36
       ],
-      "material": "red"
+      "material": "red",
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1080,7 +1090,8 @@
       "cordas e tubos curvos",
       "perfis torneados e bordas de chapa",
       "curvas de contorno refinadas",
-      "ferragens curvas com vazios reais"
+      "ferragens curvas com vazios reais",
+      "pintura com lascas"
     ],
     "seed": 8012
   }

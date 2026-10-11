@@ -730,7 +730,17 @@
         0.63,
         0.155
       ],
-      "material": "red"
+      "material": "red",
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "cylinder",
@@ -748,7 +758,17 @@
         0,
         0,
         0.3
-      ]
+      ],
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "cylinder",
@@ -766,7 +786,17 @@
         0,
         0,
         1.8707963267948966
-      ]
+      ],
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "cylinder",
@@ -784,7 +814,17 @@
         1.5707963267948966,
         0,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "rope",
@@ -951,7 +991,8 @@
       "perfis torneados e bordas de chapa",
       "cordas e tubos curvos",
       "curvas de contorno refinadas",
-      "ferragens curvas com vazios reais"
+      "ferragens curvas com vazios reais",
+      "pintura com lascas"
     ],
     "seed": 34874
   }

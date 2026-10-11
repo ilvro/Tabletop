@@ -755,7 +755,16 @@
       ],
       "material": "red",
       "bevel": 0.0171,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -834,7 +843,16 @@
         0,
         0
       ],
-      "bevel": 0
+      "bevel": 0,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     }
   ],
   "mergeParts": true,
@@ -853,7 +871,8 @@
       "arestas chanfradas",
       "curvas de contorno refinadas",
       "cordas e tubos curvos",
-      "estofamento com bordas macias"
+      "estofamento com bordas macias",
+      "tecido com trama"
     ],
     "seed": 1092
   }

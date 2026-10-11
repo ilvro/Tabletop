@@ -632,7 +632,16 @@
         -2.1444525004461408
       ],
       "material": "red",
-      "bevel": 0.008
+      "bevel": 0.008,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -1161,7 +1170,16 @@
         -2.1444525004461408
       ],
       "material": "red",
-      "bevel": 0.008
+      "bevel": 0.008,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1332,7 +1350,16 @@
       ],
       "material": "red",
       "bevel": 0.060781000368624924,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1363,7 +1390,16 @@
         -0.9884250002056362
       ],
       "material": "red",
-      "bevel": 0
+      "bevel": 0,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1378,7 +1414,16 @@
         -0.9884250002056362
       ],
       "material": "red",
-      "bevel": 0
+      "bevel": 0,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1393,7 +1438,16 @@
         -0.9884250002056362
       ],
       "material": "red",
-      "bevel": 0
+      "bevel": 0,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1408,7 +1462,16 @@
         -0.9884250002056362
       ],
       "material": "red",
-      "bevel": 0
+      "bevel": 0,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     }
   ],
   "mergeParts": true,
@@ -1426,7 +1489,8 @@
       "arestas chanfradas",
       "perfis torneados e bordas de chapa",
       "curvas de contorno refinadas",
-      "estofamento com bordas macias"
+      "estofamento com bordas macias",
+      "tecido com trama"
     ],
     "seed": 38131
   }

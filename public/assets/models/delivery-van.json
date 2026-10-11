@@ -53,7 +53,17 @@
         0
       ],
       "material": "cloth",
-      "bevel": 0.055
+      "bevel": 0.055,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "profile",
@@ -631,7 +641,17 @@
         -2.1444525004461408
       ],
       "material": "red",
-      "bevel": 0.008
+      "bevel": 0.008,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -1160,7 +1180,17 @@
         -2.1444525004461408
       ],
       "material": "red",
-      "bevel": 0.008
+      "bevel": 0.008,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1317,7 +1347,8 @@
       "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
       "arestas chanfradas",
       "perfis torneados e bordas de chapa",
-      "curvas de contorno refinadas"
+      "curvas de contorno refinadas",
+      "pintura com lascas"
     ],
     "seed": 23315
   }

@@ -317,7 +317,17 @@
         0,
         0
       ],
-      "material": "red"
+      "material": "red",
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -447,7 +457,17 @@
         0,
         0
       ],
-      "material": "red"
+      "material": "red",
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     }
   ],
   "mergeParts": true,
@@ -463,7 +483,8 @@
     "methods": [
       "frascos de vidro com líquido luminoso, tampas rosqueadas, etiquetas e espécimes conservados",
       "curvas de contorno refinadas",
-      "cordas e tubos curvos"
+      "cordas e tubos curvos",
+      "pintura com lascas"
     ],
     "seed": 63796
   }

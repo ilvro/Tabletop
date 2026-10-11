@@ -1095,7 +1095,16 @@
       ],
       "material": "white",
       "bevel": 0.0342,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#d8d3bd",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1111,7 +1120,16 @@
       ],
       "material": "white",
       "bevel": 0.0228,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#d8d3bd",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1127,7 +1145,16 @@
       ],
       "material": "cloth",
       "bevel": 0.0171,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1143,7 +1170,16 @@
       ],
       "material": "cloth",
       "bevel": 0.014,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     }
   ],
   "mergeParts": true,
@@ -1160,7 +1196,8 @@
       "berço com postes torneados, grades de varetas, cabeceiras recortadas, colchão e manta dobrada",
       "arestas chanfradas",
       "curvas de contorno refinadas",
-      "estofamento com bordas macias"
+      "estofamento com bordas macias",
+      "tecido com trama"
     ],
     "seed": 12305
   }

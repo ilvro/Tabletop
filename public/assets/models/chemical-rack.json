@@ -216,7 +216,17 @@
         0.035
       ],
       "material": "red",
-      "segments": 8
+      "segments": 8,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -342,7 +352,17 @@
         0.035
       ],
       "material": "red",
-      "segments": 8
+      "segments": 8,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -468,7 +488,17 @@
         0.035
       ],
       "material": "red",
-      "segments": 8
+      "segments": 8,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -715,7 +745,8 @@
       "estante com tubos de ensaio de vidro, níveis de reagente diferentes e furos vazios",
       "arestas chanfradas",
       "ferragens curvas com vazios reais",
-      "curvas de contorno refinadas"
+      "curvas de contorno refinadas",
+      "pintura com lascas"
     ],
     "seed": 5001
   }

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { SURFACE_MATERIALS, surfacePreset, textureOptions } from '../domain/materials.js';
+import { SURFACE_MATERIALS, TEXTURE_PATTERN_FIELDS, surfacePreset, textureOptions } from '../domain/materials.js';
 
 export const TILE_SIZE = 256;
 const SIZE = TILE_SIZE;
@@ -7,10 +7,11 @@ const fract = x => x - Math.floor(x);
 const hash = (x, y, seed = 1) => fract(Math.sin(x * 127.1 + y * 311.7 + seed * 71.3) * 43758.5453);
 const smooth = x => x * x * (3 - 2 * x);
 function noise(u, v, frequency, seed) {
-  const x = u * frequency, y = v * frequency, ix = Math.floor(x), iy = Math.floor(y), fx = smooth(fract(x)), fy = smooth(fract(y));
-  const wrap=v=>(v%frequency+frequency)%frequency;
-  const at = (dx, dy) => hash(wrap(ix+dx),wrap(iy+dy),seed);
-  return THREE.MathUtils.lerp(THREE.MathUtils.lerp(at(0,0), at(1,0), fx), THREE.MathUtils.lerp(at(0,1), at(1,1), fx), fy);
+  // Called several times per texel of every tile: no closures or helper calls in here.
+  const x = u * frequency, y = v * frequency, ix = Math.floor(x), iy = Math.floor(y), fx = smooth(x - ix), fy = smooth(y - iy);
+  const x0 = ((ix % frequency) + frequency) % frequency, x1 = (x0 + 1) % frequency, y0 = ((iy % frequency) + frequency) % frequency, y1 = (y0 + 1) % frequency;
+  const top = (1 - fx) * hash(x0, y0, seed) + fx * hash(x1, y0, seed), bottom = (1 - fx) * hash(x0, y1, seed) + fx * hash(x1, y1, seed);
+  return (1 - fy) * top + fy * bottom;
 }
 function fracture(u, v, frequency, seed) {
   const x=u*frequency, y=v*frequency, ix=Math.floor(x), iy=Math.floor(y);
@@ -32,7 +33,8 @@ export function generateSurfaceTile(settings) {
   const seed=options.textureSeed, density=options.patternDensity, frequency=n=>Math.max(1,Math.round(n*density));
   for (let y = 0; y < SIZE; y++) for (let x = 0; x < SIZE; x++) {
     const u = x / SIZE, v = y / SIZE, n = noise(u,v,frequency(8),layer+1+seed), fine = noise(u,v,frequency(64),layer+11+seed), grain = hash(x,y,layer+23+seed);
-    let rgb, height = n * .65 + fine * .35, rough = .7 + .3 * fine, metal = 1;
+    // `tintable`: how much of the user's colour a pixel takes when recolouring (grout, chips and substrate keep their own).
+    let rgb, height = n * .65 + fine * .35, rough = .7 + .3 * fine, metal = 1, tintable = 1;
     switch (preset.id) {
       case 'bark': {
         const ridge=Math.sin(u*Math.PI*2*frequency(20)+n*3);
@@ -58,7 +60,14 @@ export function generateSurfaceTile(settings) {
         const fibers = Math.sin(b * Math.PI * 2 * frequency(64) + Math.sin(a * Math.PI * 2) * 1.5 + n * 2);
         const knot = Math.sin(Math.hypot((a-.5)*2, (b-.5)*5) * 55 + n * 5) * Math.exp(-Math.hypot((a-.5)*8, (b-.5)*25));
         const value = joint ? .3 : .78 + .12 * options.woodGrain * fibers + .1 * n + .04 * fine + .14 * options.woodGrain * knot + hash(board,0,1+seed)*.1;
-        rgb = [164*value,108*value,60*value]; height = joint ? .05 : .6 + fibers * .036 * options.woodGrain + fine * .025; rough = .65 + fine*.25; break;
+        rgb = [164*value,108*value,60*value]; height = joint ? .05 : .6 + fibers * .036 * options.woodGrain + fine * .025; rough = .65 + fine*.25;
+        if (options.woodAge > 0 && !joint) {
+          // Weathering: checks along the grain, grey sun-bleached patches and a drier surface.
+          const check = Math.max(0, 1 - Math.abs(noise(a * .35, b, frequency(48), 301 + seed) - .5) / .02) * THREE.MathUtils.smoothstep(noise(a, b, frequency(5), 307 + seed), .45, .7);
+          const bleach = THREE.MathUtils.smoothstep(noise(u, v, frequency(4), 311 + seed), .3, .8) * options.woodAge, gray = (rgb[0] + rgb[1] + rgb[2]) / 3 * 1.05;
+          rgb = rgb.map((c, i) => THREE.MathUtils.lerp(c, gray * [1.06, 1, .9][i], bleach * .7) * (1 - check * options.woodAge * .55)); height -= check * options.woodAge * .3; rough = Math.min(1, rough + options.woodAge * .25);
+        }
+        break;
       }
       case 'stone': {
         const row = Math.floor(v*frequency(4)), a = fract(u*frequency(3) + (row%2)*.5), b = fract(v*frequency(4));
@@ -127,6 +136,85 @@ export function generateSurfaceTile(settings) {
         rgb=[143*value+grain*10,146*value+grain*9,148*value+grain*8];
         height=.26+structure+fine*(options.rockPattern==='organic'?.04:.15)-crack*.25; rough=.75+fine*.23; break;
       }
+      case 'fabric': {
+        // Warp and weft cross over each other; the weave decides which thread is on top.
+        const threads = frequency(48), cx = Math.floor(u * threads), cy = Math.floor(v * threads), a = fract(u * threads), b = fract(v * threads);
+        let over = (cx + cy) % 2 === 0;
+        if (options.fabricWeave === 'twill') over = (cx + cy) % 4 < 2;
+        if (options.fabricWeave === 'herringbone') over = ((Math.floor(cx / 8) % 2 ? cx : threads - cx) + cy) % 4 < 2;
+        if (options.fabricWeave === 'velvet') {
+          const nap = noise(u, v, frequency(6), 401 + seed), value = .7 + nap * .22 + grain * .1 * options.fabricThread;
+          rgb = [150 * value, 138 * value, 120 * value]; height = .5 + grain * .25 * options.fabricThread + nap * .1; rough = .9 + fine * .1; break;
+        }
+        const thread = Math.sin(Math.PI * (over ? a : b)), across = Math.sin(Math.PI * (over ? b : a)), lift = thread * (.55 + .45 * across);
+        const value = .8 + (lift - .5) * .3 * options.fabricThread + (over ? .03 : -.03) * options.fabricThread + fine * .05 + hash(over ? cx : cy, over ? 0 : 1, 409 + seed) * .06;
+        rgb = [156 * value, 146 * value, 126 * value]; height = .5 + (lift - .5) * .7 * options.fabricThread + fine * .04; rough = .85 + fine * .15; break;
+      }
+      case 'leather': {
+        // Short use creases: contour lines of one field, kept only where a second field allows.
+        const crease = Math.max(0, 1 - Math.abs(noise(u, v, frequency(9), 421 + seed) - .5) / .012) * THREE.MathUtils.smoothstep(noise(u, v, frequency(5), 423 + seed), .5, .75) * options.leatherCreases;
+        let cell = fracture(u + fine * .01, v + fine * .01, frequency(28), 431 + seed) * options.leatherGrain, bulge = 0, button = 0;
+        if (options.leatherPattern === 'smooth') cell *= .15;
+        if (options.leatherPattern === 'tufted') {
+          // Diamond tufting: pillows between buttons set on a diagonal lattice.
+          const x = u * frequency(4), y = v * frequency(4), p = Math.sin(Math.PI * (x + y)), q = Math.sin(Math.PI * (x - y));
+          bulge = Math.abs(p) * Math.abs(q); button = Math.max(0, 1 - Math.hypot(p, q) * 5); cell *= .5;
+        }
+        const value = .72 + n * .14 + fine * .06 - cell * .22 - crease * .3 + bulge * .16 - button * .35;
+        rgb = [128 * value, 78 * value, 52 * value]; height = .45 - cell * .22 - crease * .35 + bulge * .5 - button * .3 + fine * .03; rough = .45 + cell * .3 + fine * .15 - bulge * .08; break;
+      }
+      case 'plaster': {
+        const crack = fracture(u + n * .03, v + n * .03, frequency(4), 441 + seed) * THREE.MathUtils.smoothstep(noise(u, v, frequency(3), 443 + seed), .55 - options.plasterDamage * .4, .9) * options.plasterDamage;
+        const stain = THREE.MathUtils.smoothstep(noise(u, v, frequency(3), 449 + seed) + (1 - v) * .0, .5, .95) * options.plasterDamage;
+        let value = .9 + n * .05 + fine * .03 - stain * .16 - crack * .4; height = .5 + fine * .05 - crack * .35; rough = .8 + fine * .2;
+        if (options.plasterFinish === 'stucco') { const bump = noise(u, v, frequency(24), 457 + seed) * .6 + noise(u, v, frequency(72), 459 + seed) * .4; height = .35 + bump * .4 + fine * .2 - crack * .3; value += (bump - .5) * .12; }
+        if (options.plasterFinish === 'troweled') { const sweep = Math.sin(Math.PI * 2 * (v * frequency(5) + noise(u, v, frequency(3), 461 + seed) * 1.6)); height = .5 + sweep * .12 + fine * .04 - crack * .3; value += sweep * .035; }
+        rgb = [214 * value, 207 * value, 192 * value];
+        if (options.plasterFinish === 'peeling') {
+          // Paint lifts in patches and shows the render underneath, which keeps its own colour.
+          const patch = THREE.MathUtils.smoothstep(noise(u, v, frequency(5), 463 + seed) * .7 + noise(u, v, frequency(22), 467 + seed) * .3, .78 - options.plasterDamage * .5, .8 - options.plasterDamage * .5);
+          const under = .62 + fine * .12 + grain * .08; rgb = rgb.map((c, i) => THREE.MathUtils.lerp(c, [176, 168, 150][i] * under, patch)); height -= patch * .25; rough = Math.min(1, rough + patch * .1); tintable = 1 - patch;
+        }
+        break;
+      }
+      case 'tile': {
+        const count = options.tileCount; let edge, id;
+        if (options.tilePattern === 'hex') {
+          // Nearest centre on a staggered lattice; rows are spaced so that the cells are near regular.
+          const rows = Math.max(2, Math.round(count / .866 / 2) * 2), x = u * count, y = v * rows, spacing = count / rows; let best = Infinity, second = Infinity;
+          for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) {
+            const row = Math.floor(y) + j, col = Math.floor(x) + i, dx = Math.abs(x - (col + .5 + (((row % 2) + 2) % 2) * .5)), dy = Math.abs(y - (row + .5)) * spacing, distance = Math.max(dx, dx * .5 + dy * .866);
+            if (distance < best) { second = best; best = distance; id = [((col % count) + count) % count, ((row % rows) + rows) % rows]; } else if (distance < second) second = distance;
+          }
+          edge = (second - best) * .5;
+        } else {
+          const rows = options.tilePattern === 'offset' && count % 2 ? count + 1 : count, row = Math.floor(v * rows), shift = options.tilePattern === 'offset' ? (row % 2) * .5 : 0;
+          const a = fract(u * count + shift), b = fract(v * rows); edge = Math.min(a, 1 - a, b, 1 - b); id = [Math.floor(u * count + shift) % count, row];
+        }
+        const joint = edge < options.tileGrout / 2, pillow = Math.min(1, (edge - options.tileGrout / 2) / .06);
+        const dark = options.tilePattern === 'checker' && (id[0] + id[1]) % 2, value = (dark ? .42 : .92) + (hash(id[0], id[1], 471 + seed) - .5) * .3 * options.tileVariation + fine * .02;
+        rgb = joint ? [142 + fine * 20, 139 + fine * 20, 130 + fine * 20] : [228 * value, 226 * value, 216 * value];
+        height = joint ? .25 + fine * .08 : .55 + pillow * .25 + fine * .01; rough = joint ? .95 : .22 + fine * .1 + (hash(id[0], id[1], 479 + seed) - .5) * .1 * options.tileVariation; tintable = joint || dark ? 0 : 1; break;
+      }
+      case 'carpet': {
+        const pile = options.carpetPile; let tone = 1, lift = grain * .5 + fine * .3;
+        if (options.carpetPattern === 'loop') { const loops = frequency(36), bump = Math.abs(Math.sin(Math.PI * u * loops) * Math.sin(Math.PI * (v * loops + (Math.floor(u * loops) % 2) * .5))); lift = bump * .7 + grain * .15; }
+        if (options.carpetPattern === 'striped') tone = Math.floor(u * frequency(8)) % 2 ? .72 : 1;
+        if (options.carpetPattern === 'diamonds') { const d = Math.abs(fract(u * frequency(4)) - .5) + Math.abs(fract(v * frequency(4)) - .5); tone = d < .16 ? .6 : d < .22 ? 1.12 : Math.abs(d - .42) < .03 ? .7 : 1; }
+        const value = (.66 + lift * .3 * pile + n * .1) * tone;
+        rgb = [160 * value, 136 * value, 112 * value]; height = .3 + lift * .6 * pile + n * .1; rough = .95 + fine * .05; break;
+      }
+      case 'paint': {
+        // Chips follow broad wear with a ragged edge; the exposed substrate keeps its own colour and finish.
+        const wear = noise(u, v, frequency(5), 487 + seed) * .62 + noise(u, v, frequency(21), 491 + seed) * .28 + fine * .1, limit = 1 - options.paintChips * .75;
+        const chip = THREE.MathUtils.smoothstep(wear, limit - .015, limit + .015), rim = Math.max(0, 1 - Math.abs(wear - limit) / .03) * (1 - chip);
+        let value = .9 + n * .03 + fine * .02; height = .55 + fine * .02; rough = .45 + fine * .12;
+        if (options.paintFinish === 'brushstrokes') { const stroke = Math.sin(Math.PI * 2 * (v * frequency(70) + noise(u, v, frequency(4), 499 + seed) * 2)); height += stroke * .1; value += stroke * .02; rough += .1; }
+        if (options.paintFinish === 'hammered') { const dimple = noise(u, v, frequency(18), 503 + seed) * .65 + noise(u, v, frequency(44), 505 + seed) * .35; height += (dimple - .5) * .35; value += (dimple - .5) * .08; rough -= .12; }
+        const base = { metal: [128 + fine * 22, 130 + fine * 22, 132 + fine * 22], rust: [128 + fine * 34, 58 + fine * 22, 26 + fine * 14], wood: [150 + fine * 24, 104 + fine * 18, 62 + fine * 12], primer: [186 + fine * 14, 184 + fine * 14, 178 + fine * 14] }[options.paintBase];
+        rgb = [226 * value, 222 * value, 212 * value].map((c, i) => THREE.MathUtils.lerp(c * (1 - rim * .12), base[i], chip));
+        height = height + rim * .08 - chip * .22; rough = THREE.MathUtils.lerp(rough, options.paintBase === 'metal' ? .38 : .9, chip); metal = options.paintBase === 'metal' ? chip : 0; tintable = 1 - chip; break;
+      }
       case 'snow': {
         const drift=noise(u,v,frequency(3),83+seed), powder=noise(u,v,frequency(32),15+seed);
         const value=.87+drift*.08+powder*.035+grain*.015;
@@ -136,7 +224,7 @@ export function generateSurfaceTile(settings) {
     }
     const index = (y*SIZE+x)*4;
     for(let c=0;c<3;c++) albedo[index+c]=Math.max(0,Math.min(255,Math.round(rgb[c])));
-    albedo[index+3]=255; details[index]=Math.max(0,Math.min(255,height*255)); details[index+1]=Math.max(0,Math.min(255,rough*255)); details[index+2]=Math.max(0,Math.min(255,metal*255)); details[index+3]=255;
+    albedo[index+3]=Math.round(Math.max(0,Math.min(1,tintable))*255); details[index]=Math.max(0,Math.min(255,height*255)); details[index+1]=Math.max(0,Math.min(255,rough*255)); details[index+2]=Math.max(0,Math.min(255,metal*255)); details[index+3]=255;
   }
   return { albedo, details, width: SIZE, height: SIZE };
 }
@@ -144,9 +232,7 @@ export function generateSurfaceTile(settings) {
 /** Only parameters that change pixels participate; color/orientation are shader uniforms. */
 export function surfaceStyleKey(settings) {
   const o=textureOptions(settings), key=[settings.texture,o.textureSeed,o.patternDensity];
-  if(settings.texture==='wood') key.push(o.woodPattern,o.woodBoards,o.woodGap,o.woodGrain);
-  if(settings.texture==='metal') key.push(o.metalPattern,o.metalWear);
-  if(settings.texture==='rock') key.push(o.rockPattern,o.rockCracks);
+  for(const field of TEXTURE_PATTERN_FIELDS[settings.texture]??[]) key.push(o[field]);
   return JSON.stringify(key);
 }
 const tiles=new Map();
@@ -171,16 +257,31 @@ export function packSurfaceTiles(settings, columns=1) {
   return {albedo,details,width,height,columns,rows};
 }
 export function generateSurfaceAtlas() { return packSurfaceTiles(SURFACE_MATERIALS.map(p=>({texture:p.id}))); }
+/** The default atlas, one tile per preset, filled as presets are first used: generating
+ * all of them up front blocks the page for a couple of seconds. */
+export function createLazySurfaceAtlas() {
+  const rows=SURFACE_MATERIALS.length,albedo=new Uint8Array(SIZE*SIZE*rows*4),details=new Uint8Array(albedo.length),filled=new Set();
+  return {albedo,details,width:SIZE,height:SIZE*rows,columns:1,rows,filled,
+    /** Returns true when a tile had to be generated, so textures need uploading again. */
+    ensure(index) {
+      if(filled.has(index)||index<0)return false;
+      const tile=cachedTile({texture:SURFACE_MATERIALS[index].id}),offset=index*SIZE*SIZE*4;
+      albedo.set(tile.albedo,offset);details.set(tile.details,offset);filled.add(index);return true;
+    }};
+}
 
 export function surfaceReferenceLuma(settings) {
   const tile=cachedTile(settings);
   if(tile.luma===undefined) {
     let sum=0;
     const linear=c=>(c/255<=.04045 ? c/255/12.92 : Math.pow((c/255+.055)/1.055,2.4));
+    // Only the pixels that take the user's colour define its reference brightness.
+    let weight=0;
     for(let i=0;i<tile.albedo.length;i+=4) {
-      sum+=.2126*linear(tile.albedo[i])+.7152*linear(tile.albedo[i+1])+.0722*linear(tile.albedo[i+2]);
+      const share=tile.albedo[i+3]/255; weight+=share;
+      sum+=share*(.2126*linear(tile.albedo[i])+.7152*linear(tile.albedo[i+1])+.0722*linear(tile.albedo[i+2]));
     }
-    tile.luma=Math.max(.001,sum/(SIZE*SIZE));
+    tile.luma=Math.max(.001,sum/Math.max(1,weight));
   }
   return tile.luma;
 }

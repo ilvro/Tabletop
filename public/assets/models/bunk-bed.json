@@ -47,7 +47,16 @@
       ],
       "material": "cloth",
       "bevel": 0.055099999999999996,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -63,7 +72,16 @@
       ],
       "material": "white",
       "bevel": 0.028499999999999998,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#d8d3bd",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -78,7 +96,16 @@
         0.5504200000077486
       ],
       "material": "cloth",
-      "bevel": 0.003
+      "bevel": 0.003,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -109,7 +136,16 @@
       ],
       "material": "cloth",
       "bevel": 0.055099999999999996,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -125,7 +161,16 @@
       ],
       "material": "white",
       "bevel": 0.028499999999999998,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#d8d3bd",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -140,7 +185,16 @@
         0.5504200000077486
       ],
       "material": "cloth",
-      "bevel": 0.003
+      "bevel": 0.003,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -744,7 +798,8 @@
       "estofamento com bordas macias",
       "perfis torneados e bordas de chapa",
       "cordas e tubos curvos",
-      "curvas de contorno refinadas"
+      "curvas de contorno refinadas",
+      "tecido com trama"
     ],
     "seed": 17485
   }

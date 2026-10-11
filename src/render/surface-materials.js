@@ -3,7 +3,7 @@ import { applyMaterialWear, wearCoordinates } from './material-wear.js';
 import { SURFACE_MATERIALS, surfacePreset, textureOptions, distributionOptions } from '../domain/materials.js';
 
 export { generateSurfaceAtlas, generateSurfaceTile } from './surface-pixels.js';
-import { generateSurfaceAtlas, packSurfaceTiles, surfaceStyleKey, surfaceReferenceLuma } from './surface-pixels.js';
+import { createLazySurfaceAtlas, packSurfaceTiles, surfaceStyleKey, surfaceReferenceLuma } from './surface-pixels.js';
 
 let pixels;
 /** Custom atlases are reference counted by material, never retained after their last mesh. */
@@ -19,13 +19,22 @@ export function createSurfaceLibrary() {
     return {albedo:texture(data.albedo,THREE.SRGBColorSpace),details:texture(data.details,THREE.NoColorSpace),columns:data.columns,rows:data.rows};
   };
   const dispose = resource => {resource.albedo.dispose();resource.details.dispose();};
-  const get = () => { if(!atlas) { pixels ??= generateSurfaceAtlas(); atlas=upload(pixels); } return atlas; };
+  // Tiles of the shared default atlas appear as presets are first used; each library
+  // uploads again when a tile it has not sent yet is needed.
+  const sent=new Set();
+  const get = (indices=SURFACE_MATERIALS.map((_,i)=>i)) => {
+    pixels ??= createLazySurfaceAtlas();
+    for(const index of indices)pixels.ensure(index);
+    if(!atlas) { atlas=upload(pixels); for(const index of pixels.filled)sent.add(index); }
+    else if(indices.some(index=>index>=0&&!sent.has(index))) { for(const index of pixels.filled)sent.add(index); atlas.albedo.needsUpdate=atlas.details.needsUpdate=true; }
+    return atlas;
+  };
   return {
     get,
     acquire(settings, material) {
       const unique=[...new Map(settings.map(s=>[surfaceStyleKey(s),s])).entries()].sort(([a],[b])=>a.localeCompare(b));
       const original=unique.every(([,s])=>surfaceStyleKey(s)===surfaceStyleKey({texture:s.texture}));
-      if(original) return {...get(),index:s=>SURFACE_MATERIALS.findIndex(p=>p.id===s?.texture)};
+      if(original) return {...get(unique.map(([,s])=>SURFACE_MATERIALS.findIndex(p=>p.id===s.texture))),index:s=>SURFACE_MATERIALS.findIndex(p=>p.id===s?.texture)};
       const key=JSON.stringify(unique.map(([k])=>k));
       let entry=variants.get(key);
       if(!entry) {entry={...upload(packSurfaceTiles(unique.map(([,s])=>s),Math.ceil(Math.sqrt(unique.length)))),refs:0};variants.set(key,entry);}
@@ -35,7 +44,7 @@ export function createSurfaceLibrary() {
       return {...entry,index:s=>unique.findIndex(([k])=>k===surfaceStyleKey(s))};
     },
     get variantCount() {return variants.size;},
-    dispose() {if(atlas) {dispose(atlas);atlas=null;} for(const entry of variants.values())dispose(entry);variants.clear();},
+    dispose() {if(atlas) {dispose(atlas);atlas=null;sent.clear();} for(const entry of variants.values())dispose(entry);variants.clear();},
   };
 }
 const sampleFunctions = `
@@ -85,10 +94,13 @@ const sampleFunctions = `
     vec3 p = surfacePosition / size;
     return tileSample(atlas,p.zy,index,rotation)*w.x + tileSample(atlas,p.xz,index,rotation)*w.y + tileSample(atlas,p.xy,index,rotation)*w.z;
   }
-  vec3 customizeSurface(vec3 c, vec3 tint, vec4 adjustments, float mode, float reference) {
+  // Alpha is the share of the user's colour a texel accepts: grout, chipped paint and
+  // exposed substrate keep their own colour when the surface is recoloured.
+  vec3 customizeSurface(vec4 texel, vec3 tint, vec4 adjustments, float mode, float reference) {
+    vec3 c=texel.rgb;
     float gray=dot(c,vec3(.2126,.7152,.0722));
-    if(mode>1.5) c=tint*clamp(gray/reference,0.05,2.0);
-    else if(mode>.5) c*=tint;
+    if(mode>1.5) c=mix(c,tint*clamp(gray/reference,0.05,2.0),texel.a);
+    else if(mode>.5) c=mix(c,c*tint,texel.a);
     if(adjustments.z!=1.0) c=mix(vec3(dot(c,vec3(.2126,.7152,.0722))),c,adjustments.z);
     if(adjustments.y!=1.0) c=(c-vec3(.18))*adjustments.y+vec3(.18);
     return max(vec3(0.0),c*adjustments.x);
@@ -139,7 +151,7 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
     const customize=customization(shader,'baseSurface',settings);
     const baseSample=channel=>`surfaceSample(${channel},surfaceIndex,surfaceSize,baseSurfaceRotation)`;
     let compose = `vec3 surfaceColor = vec3(1.0); float surfaceHeight = .5, surfaceRoughness = 1.0, surfaceMetalness = 1.0;
-      if(surfaceIndex >= 0.0) { surfaceColor = ${customize(baseSample('surfaceAlbedo')+'.rgb')}; vec4 d = ${baseSample('surfaceDetails')}; surfaceHeight=d.r; surfaceRoughness=d.g; surfaceMetalness=d.b; }`;
+      if(surfaceIndex >= 0.0) { surfaceColor = ${customize(baseSample('surfaceAlbedo'))}; vec4 d = ${baseSample('surfaceDetails')}; surfaceHeight=d.r; surfaceRoughness=d.g; surfaceMetalness=d.b; }`;
     // A world-space mineral field prevents repeated tiles from repeating their broad colour.
     const organic=(s,color,height,prefix)=>{if(s.texture!=='rock'||s.rockPattern!=='organic')return '';shader.uniforms[`${prefix}Mineral`]={value:new THREE.Vector2(precision((s.textureSize??3)*1.8),precision((s.textureSeed??0)*.017))};shader.fragmentShader=`uniform vec2 ${prefix}Mineral;\n`+shader.fragmentShader;return `{float mineral=surfaceNoise(surfacePosition/${prefix}Mineral.x+vec3(${prefix}Mineral.y)); ${color}*=.72+mineral*.55; ${height}+=(mineral-.5)*.12;}`;};
     compose+=organic(settings,'surfaceColor','surfaceHeight','base');
@@ -159,10 +171,10 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
         if(p) {
           const custom=customization(shader,`paint${i}`,layer);
           const sample=channel=>`surfaceSample(${channel},layerIndex${i},layerSize${i},paint${i}Rotation)`;
-          compose += `c *= ${custom(sample('surfaceAlbedo')+'.rgb')}; vec4 d=${sample('surfaceDetails')}; h=d.r; r=d.g; m=d.b;`;
+          compose += `c *= ${custom(sample('surfaceAlbedo'))}; vec4 d=${sample('surfaceDetails')}; h=d.r; r=d.g; m=d.b;`;
           compose+=organic(layer,'c','h',`layer${i}`);
         }
-        if(!p && preset) compose += `c *= ${customize(baseSample('surfaceAlbedo')+'.rgb')}; vec4 d=${baseSample('surfaceDetails')}; h=d.r; r=d.g; m=d.b;`;
+        if(!p && preset) compose += `c *= ${customize(baseSample('surfaceAlbedo'))}; vec4 d=${baseSample('surfaceDetails')}; h=d.r; r=d.g; m=d.b;`;
         compose += 'surfaceColor=mix(surfaceColor,c,w); surfaceHeight=mix(surfaceHeight,h,w); surfaceRoughness=mix(surfaceRoughness,r,w); surfaceMetalness=mix(surfaceMetalness,m,w); }';
       });
     }
@@ -193,7 +205,7 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
       normal=normalize(max(abs(det),1e-12)*normal-gradient);`);
   };
   const structure={base:!!preset,organic:settings.texture==='rock'&&settings.rockPattern==='organic',terrain:!!texturedTerrain,layers:texturedTerrain?active.map(l=>({textured:!!surfacePreset(l.texture),automatic:!!l.distribution&&l.distribution.mode!=='paint',organic:l.texture==='rock'&&l.rockPattern==='organic'})):[],coverage:!!coverPreset,physical:!!terrain&&coverage?.physicalThickness>0};
-  const programKey=`surface-v3:${previousKey}:${JSON.stringify(structure)}`;
+  const programKey=`surface-v4:${previousKey}:${JSON.stringify(structure)}`;
   material.customProgramCacheKey = () => programKey;
   material.needsUpdate=true;
 }

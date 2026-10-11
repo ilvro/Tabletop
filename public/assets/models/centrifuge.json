@@ -312,7 +312,17 @@
         0.19105000101879238
       ],
       "material": "red",
-      "segments": 8
+      "segments": 8,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -389,7 +399,8 @@
       "centrífuga com tampa abaulada e aro, painel com visor, seletores, luz de operação e ventilação",
       "arestas chanfradas",
       "curvas de contorno refinadas",
-      "ferragens curvas com vazios reais"
+      "ferragens curvas com vazios reais",
+      "pintura com lascas"
     ],
     "seed": 50133
   }

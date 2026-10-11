@@ -335,7 +335,17 @@
         0.19
       ],
       "material": "red",
-      "segments": 8
+      "segments": 8,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "rope",
@@ -380,7 +390,8 @@
     "methods": [
       "câmera com suporte articulado, proteção solar, objetiva embutida, LED e cabo até a placa de parede",
       "arestas chanfradas",
-      "cordas e tubos curvos"
+      "cordas e tubos curvos",
+      "pintura com lascas"
     ],
     "seed": 105
   }

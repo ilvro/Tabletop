@@ -328,7 +328,17 @@
       ],
       "material": "cloth",
       "start": 0.95,
-      "arc": 4.383185307179586
+      "arc": 4.383185307179586,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -700,7 +710,8 @@
       "orelhão com concha de fibra aberta, forro interno, aparelho com monofone e teclado, prateleira e poste",
       "arestas chanfradas",
       "perfis torneados e bordas de chapa",
-      "cordas e tubos curvos"
+      "cordas e tubos curvos",
+      "pintura com lascas"
     ],
     "seed": 49198
   }

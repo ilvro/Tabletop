@@ -61,3 +61,18 @@ Antes e depois (esquerda sem, direita com 0,6): [Backrooms](references/visual-pl
 Limites: uma sonda por zona, sem oclusão dentro dela (um canto atrás de um móvel recebe o mesmo ambiente do resto da sala); a sonda fica no centro da zona, a até 1,6 m do piso, e se houver um móvel ali ela enxerga mais o móvel que o piso (na sala de reunião das Backrooms, a mesa); zonas fora da vista só são capturadas quando a câmera chega; cintilação de velas não dispara recaptura; fora de zonas nada muda.
 
 Validação: `tests/e2e/zone-probes.test.js` (zonas em vista capturadas, forro aquece e mantém o brilho, cena parada não recaptura, edição do piso muda o forro, voltar ao original reproduz o quadro) e teste de domínio do campo.
+
+### 10 de outubro — etapa 3 (parte 1): famílias de acabamento
+
+Seis famílias novas de textura procedural (tecido, couro, reboco, azulejo, carpete, pintura) e envelhecimento da madeira, todas com padrão configurável no painel de material e validadas no documento: 18 opções novas entre listas e intervalos. Uso e tabela de controles em [MATERIALS.md](MATERIALS.md#famílias-de-acabamento); amostras em [surface-families.png](references/visual-plan/surface-families.png).
+
+- **Máscara de recoloração.** O canal alfa do atlas diz quanto da cor escolhida cada ponto aceita, para que rejunte, lascas e substrato mantenham a própria cor ao recolorir.
+- **Biblioteca.** Acabamento decidido por slot, para não aumentar lotes: tecido onde o slot tem almofada (16 modelos), pintura com lascas em slots coloridos de máquinas, veículos e equipamentos (31), couro em slots de couro.
+- **Atlas padrão preenchido sob demanda.** Gerar as dezenove texturas de uma vez bloqueava a página por cerca de 2,3 s; agora cada preset é gerado na primeira vez em que é usado.
+- **Documentos.** Escolher uma textura grava as opções gerais, as de madeira/metal/rocha como antes e as da família escolhida; cenas existentes e geradores produzem os mesmos arquivos.
+
+Medição na RX 580: tempo de quadro inalterado (Backrooms 10,7 ms, Casa 10,5 ms, Igreja 19,7 ms, Montanha 4,4 ms).
+
+Validação: `tests/surface-families.test.js` (opções editáveis e validadas, cada opção altera a textura, repetição sem emenda, máscara de recoloração, atlas sob demanda) e os testes existentes de materiais, que percorrem todos os presets.
+
+Falta na etapa 3: desgaste que segue a geometria (bordas gastas, sujeira em reentrâncias). A geometria dos modelos tem arestas vivas por face, então a curvatura não pode ser medida na tela; exige marcar chanfros e cantos ao gerar os modelos.

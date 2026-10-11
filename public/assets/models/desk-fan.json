@@ -811,7 +811,17 @@
         0.4285346982278032,
         0.33090493112429487
       ],
-      "segments": 16
+      "segments": 16,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "ellipsoid",
@@ -831,7 +841,17 @@
         -0.12889773944974692,
         1.8424515224104276
       ],
-      "segments": 16
+      "segments": 16,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "ellipsoid",
@@ -851,7 +871,17 @@
         -0.4285346982278032,
         -2.8106877224654987
       ],
-      "segments": 16
+      "segments": 16,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "ellipsoid",
@@ -871,7 +901,17 @@
         0.12889773944974678,
         -1.2991411311793661
       ],
-      "segments": 16
+      "segments": 16,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "cylinder",
@@ -907,7 +947,8 @@
       "arestas chanfradas",
       "curvas de contorno refinadas",
       "ferragens curvas com vazios reais",
-      "cordas e tubos curvos"
+      "cordas e tubos curvos",
+      "pintura com lascas"
     ],
     "seed": 13224
   }

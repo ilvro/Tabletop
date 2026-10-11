@@ -63,7 +63,7 @@
         0.505
       ],
       "geometryEdition": 2,
-      "contentHash": "4e5bc95908e9f82313fc320c281d11e641cc7924e9edcf4db6f5990f8bd550fd"
+      "contentHash": "0a5de1cd46de3efa4a8a1f0bc67037dbb262f57ef05c192e08b401bd32a79e90"
     },
     {
       "id": "builtin-cabinet",
@@ -328,7 +328,7 @@
       "url": "/assets/models/single-bed.json",
       "previewUrl": "/assets/previews/single-bed.svg",
       "geometryEdition": 2,
-      "contentHash": "9e636ff7e1420304a41cdddb296dd61f66889e67ecc06636c707ae9ae8d2a376"
+      "contentHash": "d03904aad80d5da16c8cc5c7253c94f99d6188a9aa7412cf9264fc00baf47ecb"
     },
     {
       "id": "builtin-bunk-bed",
@@ -361,7 +361,7 @@
       "url": "/assets/models/bunk-bed.json",
       "previewUrl": "/assets/previews/bunk-bed.svg",
       "geometryEdition": 2,
-      "contentHash": "a12c1f753e0e6527c9e5988deaeb48c57779ec4589d4dea904693a12bb24538b"
+      "contentHash": "9f1df2ed4674de4abd3c2b39bd61f48c45107962058b36ec6cf12a1d9d98fe06"
     },
     {
       "id": "builtin-sofa",
@@ -393,7 +393,7 @@
       "url": "/assets/models/sofa.json",
       "previewUrl": "/assets/previews/sofa.svg",
       "geometryEdition": 2,
-      "contentHash": "4234ce7972fb55f34fc05799e6f2e52eda59f680afdaf3d29e976468b2fd6bc1"
+      "contentHash": "a430485000145c3796dece10e1caaeadd44519222e369c08715da392aac508cd"
     },
     {
       "id": "builtin-wardrobe",
@@ -727,7 +727,7 @@
       "url": "/assets/models/security-camera.json",
       "previewUrl": "/assets/previews/security-camera.svg",
       "geometryEdition": 2,
-      "contentHash": "f6a143a1f6d5bf1f1eaed55dc39639ad092f36af3cdc49c70013e4686d24ca66"
+      "contentHash": "91224dc4fd984b4be9de14c060a82eb211d25962652fb3bbfbb4be6a71a8b711"
     },
     {
       "id": "builtin-server-rack",
@@ -795,7 +795,7 @@
       "url": "/assets/models/generator.json",
       "previewUrl": "/assets/previews/generator.svg",
       "geometryEdition": 2,
-      "contentHash": "d2c7990a4d9ebda2f46dfb1f4557c54ac36784822fad148e5ce6ecd07e87e32e"
+      "contentHash": "49e4886706a2b648fc43dfa678fb4a2777f473b410cd3c16a60758fcc9430b9d"
     },
     {
       "id": "builtin-barrel",
@@ -864,7 +864,7 @@
       "url": "/assets/models/workbench.json",
       "previewUrl": "/assets/previews/workbench.svg",
       "geometryEdition": 2,
-      "contentHash": "558701034afa12cdcf2d9f5b809d08f98e2a45714165fb8d1e466123d62451d7"
+      "contentHash": "ddd24bcc6544a3830b5acdb8baf257eec554e4b688c94c1b04b7c4c15c2a1073"
     },
     {
       "id": "builtin-locker",
@@ -897,7 +897,7 @@
       "url": "/assets/models/locker.json",
       "previewUrl": "/assets/previews/locker.svg",
       "geometryEdition": 2,
-      "contentHash": "044f81e399339c8165af75bc5833942b9ad568cf73f6085f888ae7441b2dc7fe"
+      "contentHash": "de6223a35f5af7bb1107a27a709df0ec9876cc00cb657601556b4b6c2f92016f"
     },
     {
       "id": "builtin-gurney",
@@ -932,7 +932,7 @@
       "url": "/assets/models/gurney.json",
       "previewUrl": "/assets/previews/gurney.svg",
       "geometryEdition": 2,
-      "contentHash": "d65750337abf0dad2b864deebb45f90982115ce4c9f65993d4e2485ac581b714"
+      "contentHash": "758d9761a7b683b4d57dde9f64bd4959ee3071b04b4280bf1739fc6aca0bde56"
     },
     {
       "id": "builtin-wheelchair",
@@ -964,7 +964,7 @@
       "url": "/assets/models/wheelchair.json",
       "previewUrl": "/assets/previews/wheelchair.svg",
       "geometryEdition": 2,
-      "contentHash": "7c8b80bcb9e902b32917dafffd7a031a8f30a0470dcec441f06ef25bf1ee7be1"
+      "contentHash": "e856bd04f1c35799343959053f95d92457e6c5fe13d56bc1c7a56a64b9678c0a"
     },
     {
       "id": "builtin-microscope",
@@ -1129,7 +1129,7 @@
       "url": "/assets/models/confessional.json",
       "previewUrl": "/assets/previews/confessional.svg",
       "geometryEdition": 2,
-      "contentHash": "c4d3cf4b6eb385db299a46229373c2d58c42a2796825b596238698c2a2d4c107"
+      "contentHash": "38e18b70e91be8e3e060ae0c37843273bff0a120957254e012925b1e2008cde1"
     },
     {
       "id": "builtin-lectern",
@@ -1842,7 +1842,7 @@
       "url": "/assets/models/dumpster.json",
       "previewUrl": "/assets/previews/dumpster.svg",
       "geometryEdition": 2,
-      "contentHash": "dfcb15cf97810215f600b73d9ae158a66b71469983cfae23a402460e346ef375"
+      "contentHash": "1755e882168cf2bf39d5bfca3286a29c580c4897904d94cd5833b0117e85829a"
     },
     {
       "id": "builtin-barrier",
@@ -2046,7 +2046,7 @@
       "url": "/assets/models/suitcase.json",
       "previewUrl": "/assets/previews/suitcase.svg",
       "geometryEdition": 2,
-      "contentHash": "5807e67176715b9db5b8c6e32f8aff38d714d8a50024b311687f7ca5e8eb5500"
+      "contentHash": "939f07be386a32ea15e210973bc40ebc52a1827aeedd3d264eb2ba1394c36393"
     },
     {
       "id": "builtin-armchair",
@@ -2079,7 +2079,7 @@
       "url": "/assets/models/armchair.json",
       "previewUrl": "/assets/previews/armchair.svg",
       "geometryEdition": 2,
-      "contentHash": "91c2a069725d8b5a9b93014e7035f9005a5d266d82fe60de86d7fc6beb6b36b5"
+      "contentHash": "340d4877e16ccf3ffc3431109ab57fa18e247cf6f572f7af86342e08b686c3ca"
     },
     {
       "id": "builtin-coffee-table",
@@ -2380,7 +2380,7 @@
       "url": "/assets/models/desk-fan.json",
       "previewUrl": "/assets/previews/desk-fan.svg",
       "geometryEdition": 2,
-      "contentHash": "3039e91eef47c43a0f5747fa48b7743d6975c098eada0f52b9543802a647d5dc"
+      "contentHash": "e4d550477624ef5083bfbf97556f3334d8ee13806c7f8e6cf6aff02be48e7ee1"
     },
     {
       "id": "builtin-reception-counter",
@@ -2483,7 +2483,7 @@
       "url": "/assets/models/display-case.json",
       "previewUrl": "/assets/previews/display-case.svg",
       "geometryEdition": 2,
-      "contentHash": "edb55cad1eb01749574b9e32c3b0e57c08a4f291daf4c0d46b3be650ba5dce8f"
+      "contentHash": "40761fbbadbae08bfb7ef161b200f42a0df8ba1d9e42c322af2348270b09530e"
     },
     {
       "id": "builtin-vending-machine",
@@ -2517,7 +2517,7 @@
       "url": "/assets/models/vending-machine.json",
       "previewUrl": "/assets/previews/vending-machine.svg",
       "geometryEdition": 2,
-      "contentHash": "e806a4c4b61e68d80dacefbb964feb0954d13c6726f3d6c179fcf4cd354168d1"
+      "contentHash": "019d8701a56296e9da9fd29adaf7a3c3140f785a0cbdbe1ebc9a7cedc38259ba"
     },
     {
       "id": "builtin-supermarket-shelf",
@@ -2581,7 +2581,7 @@
       "url": "/assets/models/restaurant-booth.json",
       "previewUrl": "/assets/previews/restaurant-booth.svg",
       "geometryEdition": 2,
-      "contentHash": "bbf66dcd2ce15eb84f4c7d2033ecc69cc322e801add45d12c51bf7316e705f54"
+      "contentHash": "b7fc1585f1f6e1abbfa7e7ed63ec12027904080e50598ab2bb282acfc6857c90"
     },
     {
       "id": "builtin-bar-stool",
@@ -3057,7 +3057,7 @@
       "url": "/assets/models/weapon-case.json",
       "previewUrl": "/assets/previews/weapon-case.svg",
       "geometryEdition": 2,
-      "contentHash": "de5816b162c6c3e424194d7d67846af9191fbe1061605ded617af7e88d5c337f"
+      "contentHash": "5995bef34127a1573578565251cff14c0d380091048bc1308e4dea25bd836beb"
     },
     {
       "id": "builtin-centrifuge",
@@ -3090,7 +3090,7 @@
       "url": "/assets/models/centrifuge.json",
       "previewUrl": "/assets/previews/centrifuge.svg",
       "geometryEdition": 2,
-      "contentHash": "6ba8fb3038ba7aff14c43454ad42c4ab5551fb1a4bb0727bfa51ba41f0df2658"
+      "contentHash": "ec987ffa182bfd6f03695da7f19f89d9f0d90015bfd4b605b5869fef9de55610"
     },
     {
       "id": "builtin-specimen-jars",
@@ -3124,7 +3124,7 @@
       "url": "/assets/models/specimen-jars.json",
       "previewUrl": "/assets/previews/specimen-jars.svg",
       "geometryEdition": 2,
-      "contentHash": "3eaeeae2a3efd67dc176dc80481e35762347f82ebfad1c8bbd55fe05f5b0a899"
+      "contentHash": "9818016647289575d31941ee1c5665da69733f67a0b531b4391a58fee1ac86d9"
     },
     {
       "id": "builtin-chemical-rack",
@@ -3157,7 +3157,7 @@
       "url": "/assets/models/chemical-rack.json",
       "previewUrl": "/assets/previews/chemical-rack.svg",
       "geometryEdition": 2,
-      "contentHash": "6b218bd226442d8621332b17882a25405ff32259cdfd921a6ba30e38a6c90b8e"
+      "contentHash": "f65b43e210c51c6af406ee6e66548e9832a563468235928441629dab67fc64b9"
     },
     {
       "id": "builtin-oxygen-tank",
@@ -3191,7 +3191,7 @@
       "url": "/assets/models/oxygen-tank.json",
       "previewUrl": "/assets/previews/oxygen-tank.svg",
       "geometryEdition": 2,
-      "contentHash": "265c74cfd613e2b9d0f349bfb5da80746b74443c0c11c16eb264a779aec26a65"
+      "contentHash": "8611d4ad1ae189dc23cca37848fcf53e6d905b93f58e3e2d10b84f0cda6819f4"
     },
     {
       "id": "builtin-autopsy-table",
@@ -3393,7 +3393,7 @@
       "url": "/assets/models/pallet-jack.json",
       "previewUrl": "/assets/previews/pallet-jack.svg",
       "geometryEdition": 2,
-      "contentHash": "fe14671f40c93cac45f434416ac9e7587c5929a0d93e3c64d6d60f55093c45b8"
+      "contentHash": "ef0ab1b83b3e283c34e60b9c158938905bfb2e2efb00138b8da5070d29cab691"
     },
     {
       "id": "builtin-tool-chest",
@@ -3428,7 +3428,7 @@
       "url": "/assets/models/tool-chest.json",
       "previewUrl": "/assets/previews/tool-chest.svg",
       "geometryEdition": 2,
-      "contentHash": "af34b2e647c93776e6828630d199017e16102f0d5ca3e1e562519f130705d00a"
+      "contentHash": "6810c7b294de845d4ae6645b857323011922fe5465e83414e186937288e6ab42"
     },
     {
       "id": "builtin-pipe-valve",
@@ -3462,7 +3462,7 @@
       "url": "/assets/models/pipe-valve.json",
       "previewUrl": "/assets/previews/pipe-valve.svg",
       "geometryEdition": 2,
-      "contentHash": "514a117e3c1d47b07cba066d533bf255299cf6e1b5b7434a1696eee0a16823b2"
+      "contentHash": "33afc22d4e28a9e508b6167696724b9c2410c4d5724cf62f8c228729b1bcd3e9"
     },
     {
       "id": "builtin-power-panel",
@@ -3496,7 +3496,7 @@
       "url": "/assets/models/power-panel.json",
       "previewUrl": "/assets/previews/power-panel.svg",
       "geometryEdition": 2,
-      "contentHash": "2e603e888feea18e219e69b6cd4698a71e9d89cb0eba730c9bed3d9383124d9e"
+      "contentHash": "580c6d2366664e9b72fcfba4ab4e4af9f8ef55d69772cc33ee9469f190aa35f8"
     },
     {
       "id": "builtin-water-tank",
@@ -3529,7 +3529,7 @@
       "url": "/assets/models/water-tank.json",
       "previewUrl": "/assets/previews/water-tank.svg",
       "geometryEdition": 2,
-      "contentHash": "0d53ba7abe5619de9274529a99d15838e6a40a30d85e5889ebc48808405aa2f9"
+      "contentHash": "64a13531ed11a6acbb5f9b3d75f50245fe87185773237e72fe5595a8ea3f43cf"
     },
     {
       "id": "builtin-fuel-pump",
@@ -3563,7 +3563,7 @@
       "url": "/assets/models/fuel-pump.json",
       "previewUrl": "/assets/previews/fuel-pump.svg",
       "geometryEdition": 2,
-      "contentHash": "75e044a202195f72c3550ed5d4b15e1667d6336a2bbf0b67f3804f042158527b"
+      "contentHash": "02d145e8cc735dd0102e3377b686fb67e797a3d4357195ac25b5139af9855381"
     },
     {
       "id": "builtin-oil-pump",
@@ -3597,7 +3597,7 @@
       "url": "/assets/models/oil-pump.json",
       "previewUrl": "/assets/previews/oil-pump.svg",
       "geometryEdition": 2,
-      "contentHash": "f260b0528c292b341742a081d5fc1d867e8d196d22a32b5deca8f269fdb22846"
+      "contentHash": "a45e581cce9b7333b76be79e3330b9328e5d7768d9a3f516c5221d21c0067115"
     },
     {
       "id": "builtin-dead-tree",
@@ -4106,7 +4106,7 @@
       "url": "/assets/models/sedan.json",
       "previewUrl": "/assets/previews/sedan.svg",
       "geometryEdition": 2,
-      "contentHash": "33d6c21f678ca90f2361c8b00d2f8bb16b8fa09709cf4c618457e7df9b515ca1"
+      "contentHash": "3144cc0a27d74c167d36876671b4c06a313da84bd86d1671b2ddeecd516546dd"
     },
     {
       "id": "builtin-delivery-van",
@@ -4140,7 +4140,7 @@
       "url": "/assets/models/delivery-van.json",
       "previewUrl": "/assets/previews/delivery-van.svg",
       "geometryEdition": 2,
-      "contentHash": "2698f076a7bd2660a7d0ebd19c50a10961bb4c14a228d89d5522c9ad37bc6a0f"
+      "contentHash": "0445ddea54c307698cb192a71228a95272cd9fd73fb02b29d06f57dd09ee4ef3"
     },
     {
       "id": "builtin-ambulance",
@@ -4174,7 +4174,7 @@
       "url": "/assets/models/ambulance.json",
       "previewUrl": "/assets/previews/ambulance.svg",
       "geometryEdition": 2,
-      "contentHash": "3386cd0f0b7f36e48a4522d773fd20a87966a1136fc5ca36e8767ad2c63ca6f7"
+      "contentHash": "618f43ea8589ae5e2d957721afe022ab5bdd89acc60eb7d40c9e250161fcab50"
     },
     {
       "id": "builtin-police-car",
@@ -4208,7 +4208,7 @@
       "url": "/assets/models/police-car.json",
       "previewUrl": "/assets/previews/police-car.svg",
       "geometryEdition": 2,
-      "contentHash": "0bb52a833f87d630820cf229af9c0a8256ec2ded91af80e2aa4dac6b85c0ed49"
+      "contentHash": "e6f1520f8dbd935a06063b315f7a59fac79128595e81663ade2a1c96a1b56151"
     },
     {
       "id": "builtin-motorcycle",
@@ -4241,7 +4241,7 @@
       "url": "/assets/models/motorcycle.json",
       "previewUrl": "/assets/previews/motorcycle.svg",
       "geometryEdition": 2,
-      "contentHash": "63b4b3854a7429bffb5904329a801cfc85794438635a51cb2f1bdb66d9bd8c20"
+      "contentHash": "f72c83741edd78620e8c5601041c4c38889729dc65dcd038c65c67869a55f85d"
     },
     {
       "id": "builtin-rowboat",
@@ -4309,7 +4309,7 @@
       "url": "/assets/models/rocking-chair.json",
       "previewUrl": "/assets/previews/rocking-chair.svg",
       "geometryEdition": 2,
-      "contentHash": "95e7e689194855624f47f66e82f4327346ceac63b75d4e5f32875377bef51c53"
+      "contentHash": "ae49488d036a98b9b8be03ad75443ee9f134244cae3cc46cc3f2babe2a2bcc9d"
     },
     {
       "id": "builtin-fireplace",
@@ -4446,7 +4446,7 @@
       "url": "/assets/models/crib.json",
       "previewUrl": "/assets/previews/crib.svg",
       "geometryEdition": 2,
-      "contentHash": "7c7ebdb814012042001783d70d9faa0c89ef345254005b18d9482573ea68bdac"
+      "contentHash": "56d106c260c28826508276218903c498e4add0c2efda9eafa986b04b8101d75e"
     },
     {
       "id": "builtin-rocking-horse",
@@ -4480,7 +4480,7 @@
       "url": "/assets/models/rocking-horse.json",
       "previewUrl": "/assets/previews/rocking-horse.svg",
       "geometryEdition": 2,
-      "contentHash": "449a44a3ec929a51b6936bc1d0518d098e71a4b5e241f8cc3be6e555c1887ecd"
+      "contentHash": "9ee43250cbc4160665583b5a21bdf6beca154ec46bd302257b350e85e984f2b7"
     },
     {
       "id": "builtin-gramophone",
@@ -4514,7 +4514,7 @@
       "url": "/assets/models/gramophone.json",
       "previewUrl": "/assets/previews/gramophone.svg",
       "geometryEdition": 2,
-      "contentHash": "104d236f1f40f72dbb7eb508a152c04712bb48e2b7ac2e11c8fa9bba5e6a5a70"
+      "contentHash": "d231b7131cd4395b43a52a0d1943621545a325b749ddcf04b536cc8632d7d3ee"
     },
     {
       "id": "builtin-spirit-board",
@@ -4616,7 +4616,7 @@
       "url": "/assets/models/restraint-chair.json",
       "previewUrl": "/assets/previews/restraint-chair.svg",
       "geometryEdition": 2,
-      "contentHash": "635c727d06d03eff401495dfe212f0287ad8d344dbb9c302c66e269796c8d823"
+      "contentHash": "6cf199f5fa3a90ff159919e46281e47225cbd98816b049111f542351045f293d"
     },
     {
       "id": "builtin-privacy-screen",
@@ -5059,7 +5059,7 @@
       "url": "/assets/models/phone-booth.json",
       "previewUrl": "/assets/previews/phone-booth.svg",
       "geometryEdition": 2,
-      "contentHash": "33a3fdc54b1f3010a8181f286e740346a2aa4d3847eb8c61d1e1fb9b479b5a5f"
+      "contentHash": "41d4b761ebcedb6ac030128a3ddfc687a868313696fcb219db3f915a5e232325"
     },
     {
       "id": "builtin-bus-stop",
@@ -5093,7 +5093,7 @@
       "url": "/assets/models/bus-stop.json",
       "previewUrl": "/assets/previews/bus-stop.svg",
       "geometryEdition": 2,
-      "contentHash": "3720c4a4489dea0a084da9f6a3426144a0afb246e056ab4cba4872eccf187ca7"
+      "contentHash": "71461bd74fe851462692a54aa81cb9d3a775ebd43f2d989a0c18ccd7786e2ab2"
     },
     {
       "id": "builtin-fire-hydrant",
@@ -5127,7 +5127,7 @@
       "url": "/assets/models/fire-hydrant.json",
       "previewUrl": "/assets/previews/fire-hydrant.svg",
       "geometryEdition": 2,
-      "contentHash": "79f84e80db0fbccfd72152f157e4bdbd031d8a409658d5dc6af71f0bd7316c91"
+      "contentHash": "80b1265a4380872d1b027ea9feb9d03e258031209ce3470b6e6ff6a6b1bde2aa"
     },
     {
       "id": "builtin-trash-can",
@@ -5160,7 +5160,7 @@
       "url": "/assets/models/trash-can.json",
       "previewUrl": "/assets/previews/trash-can.svg",
       "geometryEdition": 2,
-      "contentHash": "aae35be575d56c4ea4c79c62eee7d509bf6cc8876c374cd14a3d163acd911433"
+      "contentHash": "0952e7cc812115930d067fe631b777a55c7208341791bb00c490cb442354110c"
     },
     {
       "id": "builtin-shopping-cart",
@@ -5194,7 +5194,7 @@
       "url": "/assets/models/shopping-cart.json",
       "previewUrl": "/assets/previews/shopping-cart.svg",
       "geometryEdition": 2,
-      "contentHash": "1a6010a92ee488f91c6a886f78709c92359af5b0fd0ebb823e0e30c85b0b966e"
+      "contentHash": "ae750900e4d2facd1bab9794f09a7077464d53018736e18945f36d75715f5b11"
     },
     {
       "id": "builtin-arcade-cabinet",
@@ -5433,7 +5433,7 @@
       "url": "/assets/models/bicycle.json",
       "previewUrl": "/assets/previews/bicycle.svg",
       "geometryEdition": 2,
-      "contentHash": "b3e1037402271358be319fbf56b95abfad52feb219b052d3f465371b50bddde1"
+      "contentHash": "ae8122d4ec739be546ec3d7cdc35d366e829fe4c8e181db71edb782d5c828c86"
     },
     {
       "id": "builtin-mountain-boulder",
@@ -7290,7 +7290,7 @@
       "url": "/assets/models/church-pointed-chair.json",
       "previewUrl": "/assets/previews/church-pointed-chair.svg",
       "geometryEdition": 2,
-      "contentHash": "8d09a1f37f5a154cc2808b38f6f424fa6b550b2fbcf39de176a2487452969122"
+      "contentHash": "599c89e77dfc99dcfe1e718db23e06a2ca28d308e64d0d443613331bbbb84fc7"
     },
     {
       "id": "builtin-church-ritual-banner",

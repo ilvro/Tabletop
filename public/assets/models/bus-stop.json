@@ -286,7 +286,17 @@
         -0.5
       ],
       "material": "cloth",
-      "bevel": 0.0026000000000000003
+      "bevel": 0.0026000000000000003,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -800,7 +810,8 @@
       "abrigo de ônibus com cobertura arqueada, fechamento de vidro, banco, painel publicitário e placa com horários",
       "arestas chanfradas",
       "perfis torneados e bordas de chapa",
-      "curvas de contorno refinadas"
+      "curvas de contorno refinadas",
+      "pintura com lascas"
     ],
     "seed": 58616
   }

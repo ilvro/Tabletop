@@ -658,7 +658,16 @@
         -1.891210000371784
       ],
       "material": "red",
-      "bevel": 0.008
+      "bevel": 0.008,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -1217,7 +1226,16 @@
         -1.891210000371784
       ],
       "material": "red",
-      "bevel": 0.008
+      "bevel": 0.008,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1388,7 +1406,16 @@
       ],
       "material": "red",
       "bevel": 0.04521999982956052,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1422,7 +1449,8 @@
       "arestas chanfradas",
       "perfis torneados e bordas de chapa",
       "curvas de contorno refinadas",
-      "estofamento com bordas macias"
+      "estofamento com bordas macias",
+      "tecido com trama"
     ],
     "seed": 46638
   }

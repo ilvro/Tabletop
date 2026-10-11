@@ -49,7 +49,17 @@
         0
       ],
       "material": "cloth",
-      "bevel": 0.055
+      "bevel": 0.055,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "profile",
@@ -98,7 +108,17 @@
         0,
         1.5707963267948966,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -627,7 +647,17 @@
         0.9475000001862646
       ],
       "material": "cloth",
-      "bevel": 0.014
+      "bevel": 0.014,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -657,7 +687,17 @@
         -1.891210000371784
       ],
       "material": "red",
-      "bevel": 0.008
+      "bevel": 0.008,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -1186,7 +1226,17 @@
         0.9475000001862646
       ],
       "material": "cloth",
-      "bevel": 0.014
+      "bevel": 0.014,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1216,7 +1266,17 @@
         -1.891210000371784
       ],
       "material": "red",
-      "bevel": 0.008
+      "bevel": 0.008,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1373,7 +1433,8 @@
       "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
       "arestas chanfradas",
       "perfis torneados e bordas de chapa",
-      "curvas de contorno refinadas"
+      "curvas de contorno refinadas",
+      "pintura com lascas"
     ],
     "seed": 20182
   }

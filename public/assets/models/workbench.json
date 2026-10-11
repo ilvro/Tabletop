@@ -872,7 +872,17 @@
       ],
       "material": "red",
       "bevel": 0.015,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "rope",
@@ -1024,7 +1034,8 @@
       "arestas chanfradas",
       "cordas e tubos curvos",
       "curvas de contorno refinadas",
-      "ferragens curvas com vazios reais"
+      "ferragens curvas com vazios reais",
+      "pintura com lascas"
     ],
     "seed": 40214
   }

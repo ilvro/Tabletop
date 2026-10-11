@@ -32,7 +32,17 @@
       ],
       "material": "green",
       "bevel": 0.025,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#405b43",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -48,7 +58,17 @@
       ],
       "material": "green",
       "bevel": 0.025,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#405b43",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -79,7 +99,17 @@
       ],
       "material": "green",
       "bevel": 0.00392,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#405b43",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -95,7 +125,17 @@
       ],
       "material": "green",
       "bevel": 0.00392,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#405b43",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -111,7 +151,17 @@
       ],
       "material": "green",
       "bevel": 0.00392,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#405b43",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -127,7 +177,17 @@
       ],
       "material": "green",
       "bevel": 0.00392,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#405b43",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -482,7 +542,8 @@
       "estojo rígido com tampa nervurada, cantoneiras, quatro fechos, alça e dobradiças",
       "arestas chanfradas",
       "cordas e tubos curvos",
-      "curvas de contorno refinadas"
+      "curvas de contorno refinadas",
+      "pintura com lascas"
     ],
     "seed": 25048
   }

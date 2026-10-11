@@ -390,7 +390,17 @@
         0,
         0.2
       ],
-      "bevel": 0
+      "bevel": 0,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -448,7 +458,8 @@
       "arestas chanfradas",
       "ferragens curvas com vazios reais",
       "cordas e tubos curvos",
-      "curvas de contorno refinadas"
+      "curvas de contorno refinadas",
+      "pintura com lascas"
     ],
     "seed": 24966
   }

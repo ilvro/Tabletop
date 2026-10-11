@@ -12,6 +12,12 @@ const textileSlots=/cloth|fabric|velvet|leather|curtain/;
 function finish(material,kind) {
   if(kind==='wood')return {texture:'wood',textureSize:1.8,relief:.004,woodPattern:'grain',woodGrain:.4,woodGap:0,textureColor:material.color,textureColorMode:'replace',textureBrightness:1};
   if(kind==='stone')return {texture:'rock',textureSize:1.4,relief:.006,rockPattern:'granite',rockCracks:.08,textureColor:material.color,textureColorMode:'replace'};
+  // Woven upholstery, hide and factory paint: uniform colours in the source palette
+  // become surfaces with their own relief and roughness. All are ordinary texture
+  // settings, replaced as soon as the user picks another for the slot.
+  if(kind==='fabric')return {texture:'fabric',textureSize:.25,relief:.004,fabricWeave:'plain',fabricThread:.6,textureColor:material.color,textureColorMode:'replace'};
+  if(kind==='leather')return {texture:'leather',textureSize:.6,relief:.008,leatherPattern:'pebbled',leatherGrain:.6,leatherCreases:.3,textureColor:material.color,textureColorMode:'replace'};
+  if(kind==='paint')return {texture:'paint',textureSize:1.2,relief:.003,paintFinish:'smooth',paintChips:.1,paintBase:'metal',textureColor:material.color,textureColorMode:'replace'};
   return null;
 }
 
@@ -124,6 +130,16 @@ export function reconstructAsset(asset,source,bounds) {
     else if(p.shape==='arch') {p.segments=Math.min(32,(p.segments??8)+4);methods.add('arcos com curva refinada');}
     else if(p.shape==='stave') {p.angularSegments=Math.min(8,(p.angularSegments??3)+1);methods.add('aduelas curvas');}
     parts.push(p);
+  }
+  // Finishes decided per slot, so that a slot stays one batch: upholstery wherever the
+  // slot has a cushion, hide for leather, chipped paint on coloured machine casings.
+  const cushioned=new Set(parts.filter(p=>p.cushion).map(p=>p.material)),painted=/^(red|green|cloth|yellow|orange|blue)$/;
+  for(const [slot,m] of Object.entries(recipe.materials)) {
+    if(m.emissiveIntensity||m.opacity<1||!parts.some(p=>p.material===slot)||parts.some(p=>p.material===slot&&p.surface))continue;
+    const kind=cushioned.has(slot)?'fabric':/leather/.test(slot)?'leather':['fabrication','vehicle','instrument'].includes(group)&&painted.test(slot)?'paint':null;
+    if(!kind)continue;
+    const surface=finish(m,kind);for(const p of parts)if(p.material===slot)p.surface=surface;
+    methods.add({fabric:'tecido com trama',leather:'couro granulado',paint:'pintura com lascas'}[kind]);
   }
   if(parts.length>200)throw new Error(`${id}: excedeu orçamento de peças (${parts.length})`);
   recipe.parts=parts;recipe.mergeParts=true;recipe.fitBounds=bounds;

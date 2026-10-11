@@ -76,7 +76,17 @@
         0,
         0
       ],
-      "material": "red"
+      "material": "red",
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -211,7 +221,17 @@
         1.5707963267948966,
         0,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -260,7 +280,17 @@
         1.5707963267948966,
         0,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "cylinder",
@@ -327,7 +357,17 @@
         0,
         0,
         1.5707963267948966
-      ]
+      ],
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "cylinder",
@@ -574,7 +614,17 @@
         0,
         0,
         -1.5707963267948966
-      ]
+      ],
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "cylinder",
@@ -789,7 +839,8 @@
       "hidrante com corpo torneado, três bocais com tampões presos por correntes, porca de manobra e flange aparafusado",
       "perfis torneados e bordas de chapa",
       "curvas de contorno refinadas",
-      "ferragens curvas com vazios reais"
+      "ferragens curvas com vazios reais",
+      "pintura com lascas"
     ],
     "seed": 20698
   }

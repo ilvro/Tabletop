@@ -714,7 +714,16 @@
       ],
       "material": "red",
       "bevel": 0.019000000000000003,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -871,7 +880,8 @@
       "vitrine com caixa de vidro em caixilhos, base almofadada e peças expostas com etiquetas",
       "arestas chanfradas",
       "curvas de contorno refinadas",
-      "estofamento com bordas macias"
+      "estofamento com bordas macias",
+      "tecido com trama"
     ],
     "seed": 51876
   }

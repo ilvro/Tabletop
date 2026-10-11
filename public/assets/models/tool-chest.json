@@ -540,7 +540,17 @@
       ],
       "material": "red",
       "bevel": 0.012,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -587,7 +597,17 @@
       ],
       "material": "red",
       "bevel": 0.004,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -618,7 +638,17 @@
       ],
       "material": "red",
       "bevel": 0.004,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -649,7 +679,17 @@
       ],
       "material": "red",
       "bevel": 0.004,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -680,7 +720,17 @@
       ],
       "material": "red",
       "bevel": 0.004,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -711,7 +761,17 @@
       ],
       "material": "red",
       "bevel": 0.004,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -742,7 +802,17 @@
       ],
       "material": "red",
       "bevel": 0.004,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -890,7 +960,8 @@
       "carrinho de ferramentas com seis gavetas de puxador contínuo, cantoneiras, alça lateral e rodízios",
       "curvas de contorno refinadas",
       "arestas chanfradas",
-      "cordas e tubos curvos"
+      "cordas e tubos curvos",
+      "pintura com lascas"
     ],
     "seed": 44565
   }

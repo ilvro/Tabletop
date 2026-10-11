@@ -54,7 +54,7 @@ Selecionar outra textura reinicia os ajustes de cor/desenho/brilho para os valor
 
 **Sem textura adicional** remove a substituição e volta a usar os mapas originais de um GLB, conservando seus ajustes de cor/rugosidade/metalicidade. Documentos e assets compartilhados não são modificados por outra instância.
 
-As treze texturas são procedurais originais, geradas localmente, com cor, altura e rugosidade. O filtro usa derivadas antes de repetir o padrão e uma margem conforme o nível de detalhe, evitando linhas de repetição e mistura com cores de outras texturas no atlas. Não dependem de internet ou downloads. São um primeiro acervo de superfícies; modelos detalhados e materiais fotográficos específicos continuam úteis para aproximar as referências.
+As dezenove texturas (as treze anteriores mais as [famílias de acabamento](#famílias-de-acabamento)) são procedurais originais, geradas localmente, com cor, altura e rugosidade. O filtro usa derivadas antes de repetir o padrão e uma margem conforme o nível de detalhe, evitando linhas de repetição e mistura com cores de outras texturas no atlas. Não dependem de internet ou downloads. São um primeiro acervo de superfícies; modelos detalhados e materiais fotográficos específicos continuam úteis para aproximar as referências.
 
 ## Pintar materiais no terreno
 
@@ -162,3 +162,26 @@ Cobertura de neve oferece **Forma do acúmulo → Depósitos orgânicos · cont�
 Implementado em 6 de outubro: **Material → Desgaste do material** aplica sujeira, ferrugem, musgo, fuligem ou rachaduras aparentes diretamente sobre a textura existente, inclusive em modelos importados. Oferece intensidade, escala, seed, acabamento e distribuição pela peça inteira, base, topo ou região ajustável em coordenadas locais. Respeita o slot selecionado, acompanha transformações e participa de clipboard, histórico, salvamento e projetor. Não exige novos assets de desgaste. Guia e limites: [MATERIAL_WEAR.md](MATERIAL_WEAR.md).
 
 A região procedural permite posicionar uma área de desgaste, mas não equivale a pintura livre ou símbolos enviados pelo usuário. Esses fluxos e múltiplas camadas independentes continuam futuros. As partes quebradas do [kit da igreja](CHURCH_KIT.md) são geometria; rachaduras do painel são acabamento e microrelevo. Camadas pintadas de terreno conservam seus campos; o desgaste é do material base.
+
+## Famílias de acabamento
+
+Em 10 de outubro de 2026 o seletor **Textura / material** ganhou seis famílias, aplicáveis a pisos, paredes, objetos, slots de modelos e camadas de terreno como as demais. Cada uma tem os controles gerais (tamanho em metros, relevo, cor e modo de aplicação, brilho, contraste, saturação, rotação, densidade dos detalhes, seed) e os próprios, em **Personalizar cor e padrão**:
+
+| Família | Controles próprios |
+| --- | --- |
+| **Tecido** | Tipo de trama (tela, sarja, espinha de peixe, veludo) · relevo dos fios |
+| **Couro** | Superfície (granulado, liso, capitonê com botões) · grão · vincos de uso |
+| **Reboco / parede pintada** | Acabamento (liso, chapisco, desempenado, pintura descascando) · manchas, fissuras e descascado |
+| **Azulejo / ladrilho** | Assentamento (alinhado, amarrado, xadrez, hexagonal) · peças por repetição · largura do rejunte · variação entre peças |
+| **Carpete / tapete** | Padrão (pelo cortado, bouclé, listrado, losangos) · altura do pelo |
+| **Pintura sobre metal ou madeira** | Acabamento (liso, pinceladas, martelado) · lascas e desgaste · o que aparece sob a tinta (metal nu, ferrugem, madeira, fundo claro) |
+
+A **Madeira** ganhou **Envelhecimento**: rachaduras ao longo dos veios, áreas desbotadas e superfície mais seca.
+
+Ao **recolorir**, só a parte que é do material muda de cor. Rejunte, peças escuras do xadrez, lascas de tinta e o reboco exposto pelo descascado mantêm a própria cor; o metal nu sob a tinta é a única parte metálica da superfície. Tecnicamente, cada textura carrega uma máscara que diz quanto da cor do usuário cada ponto aceita; nas texturas anteriores a máscara é total e nada muda.
+
+Os modelos da biblioteca usam essas famílias por padrão onde faz sentido: tecido em estofados (16 modelos), pintura com lascas leves em carcaças coloridas de máquinas, veículos e equipamentos (31 modelos) e couro na mala de viagem. São configurações comuns de textura: escolher outra textura para o slot do modelo substitui a de fábrica, e todos os controles ficam disponíveis.
+
+Amostras renderizadas: [surface-families.png](references/visual-plan/surface-families.png); `node scripts/review-surfaces.js [saída.png]` gera a prancha na GPU da máquina.
+
+Limites: os padrões são procedurais (256 px por repetição), sem fotografia; o desenho do tecido some a mais de alguns metros de distância, como numa trama real; documentos anteriores não são alterados, e os campos novos só são gravados quando a família correspondente é escolhida.

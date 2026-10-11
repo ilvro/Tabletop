@@ -76,7 +76,17 @@
         0,
         0
       ],
-      "material": "green"
+      "material": "green",
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#405b43",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -624,7 +634,8 @@
       "perfis torneados e bordas de chapa",
       "arestas chanfradas",
       "curvas de contorno refinadas",
-      "cordas e tubos curvos"
+      "cordas e tubos curvos",
+      "pintura com lascas"
     ],
     "seed": 28302
   }

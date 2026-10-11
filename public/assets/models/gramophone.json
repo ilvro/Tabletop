@@ -353,7 +353,17 @@
         -0.01
       ],
       "material": "red",
-      "segments": 16
+      "segments": 16,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "cylinder",
@@ -643,7 +653,8 @@
       "curvas de contorno refinadas",
       "ferragens curvas com vazios reais",
       "cordas e tubos curvos",
-      "perfis torneados e bordas de chapa"
+      "perfis torneados e bordas de chapa",
+      "pintura com lascas"
     ],
     "seed": 13055
   }

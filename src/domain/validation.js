@@ -1,7 +1,7 @@
 import { isTrustedSnapshot } from '../state/immutable.js';
 import { LIGHT_PROFILES, LIGHT_PIN_FIELDS, PROJECTIONS, RENDERING_DEFAULTS } from './dynamic-lighting.js';
 import {assertRockSculpt,isSculptableRock} from './rock-sculpt.js';
-import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES } from './materials.js';
+import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES, TEXTURE_INTEGERS } from './materials.js';
 import { WATER_RANGES, isVegetationAsset } from './landscape.js';
 import { ROCK_FORMS, ROCK_RANGES, CLIFF_RANGES, rockDefaults } from './rocks.js';
 import {SNOW_SHAPE_DEFAULTS,SNOW_SHAPE_RANGES} from './snow.js';
@@ -96,7 +96,7 @@ function surfaceFields(value,path) {
   if(value.textureColor !== undefined) color(value.textureColor,`${path}.textureColor`);
   for (const [key, [min, max]] of Object.entries(TEXTURE_RANGES)) if (value[key] !== undefined) {
     number(value[key],`${path}.${key}`,min,max);
-    if (['woodBoards','textureSeed'].includes(key)) fail(Number.isInteger(value[key]),'Deve ser inteiro.',`${path}.${key}`);
+    if (['woodBoards','textureSeed',...TEXTURE_INTEGERS].includes(key)) fail(Number.isInteger(value[key]),'Deve ser inteiro.',`${path}.${key}`);
   }
   for (const [key, choices] of Object.entries(TEXTURE_CHOICES)) if (value[key] !== undefined) choice(value[key],choices,`${path}.${key}`);
 }

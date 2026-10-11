@@ -358,7 +358,16 @@
       ],
       "material": "red",
       "bevel": 0.0247,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#753c36",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -656,7 +665,8 @@
       "assento montado, travessas, torneados e encosto vazado",
       "arestas chanfradas",
       "estofamento com bordas macias",
-      "curvas de contorno refinadas"
+      "curvas de contorno refinadas",
+      "tecido com trama"
     ],
     "seed": 34890
   }

@@ -20,6 +20,7 @@ export function textureCustomization(prefix, settings, {numberField, colorField}
       ${select('woodDirection','Orientação das tábuas / veios',[['horizontal','Horizontal'],['vertical','Vertical']])}
       ${m.woodPattern!=='grain'?number('woodGap','Largura das juntas · % da tábua',0,15,.5,100):''}
       ${number('woodGrain','Intensidade dos veios · 0–1',0,1,.05)}
+      ${number('woodAge','Envelhecimento · rachaduras e desbotado · 0–1',0,1,.05)}
       <p class="microcopy">A quantidade vale para cada repetição do padrão, cujo tamanho está em metros acima. A orientação segue os eixos da superfície.</p>`:''}
     ${settings.texture==='metal'?`<span class="eyebrow">DESENHO DO METAL</span>
       ${select('metalPattern','Padrão do metal',[['brushed','Escovado'],['smooth','Liso'],['diamond','Chapa xadrez'],['corrugated','Ondulado'],['rusted','Enferrujado']])}
@@ -27,6 +28,31 @@ export function textureCustomization(prefix, settings, {numberField, colorField}
     ${settings.texture==='rock'?`<span class="eyebrow">DESENHO DA ROCHA</span>
       ${select('rockPattern','Formação da rocha',[['organic','Orgânica · mineral e fissuras locais'],['fractured','Fraturada'],['strata','Estratificada'],['granite','Granito']])}
       ${number('rockCracks','Intensidade das fissuras · 0–1',0,1,.05)}`:''}
+    ${settings.texture==='fabric'?`<span class="eyebrow">TRAMA DO TECIDO</span>
+      ${select('fabricWeave','Tipo de trama',[['plain','Tela · fios cruzados'],['twill','Sarja · diagonal'],['herringbone','Espinha de peixe'],['velvet','Veludo · sem trama aparente']])}
+      ${number('fabricThread','Relevo dos fios · 0–1',0,1,.05)}
+      <p class="microcopy">A quantidade de fios segue a densidade dos detalhes e o tamanho da repetição em metros.</p>`:''}
+    ${settings.texture==='leather'?`<span class="eyebrow">ACABAMENTO DO COURO</span>
+      ${select('leatherPattern','Superfície',[['pebbled','Granulado'],['smooth','Liso'],['tufted','Capitonê · losangos com botões']])}
+      ${number('leatherGrain','Grão · 0–1',0,1,.05)}
+      ${number('leatherCreases','Vincos de uso · 0–1',0,1,.05)}`:''}
+    ${settings.texture==='plaster'?`<span class="eyebrow">ACABAMENTO DA PAREDE</span>
+      ${select('plasterFinish','Acabamento',[['smooth','Liso'],['stucco','Chapisco / texturizado'],['troweled','Desempenado · marcas de desempenadeira'],['peeling','Pintura descascando']])}
+      ${number('plasterDamage','Manchas, fissuras e descascado · 0–1',0,1,.05)}`:''}
+    ${settings.texture==='tile'?`<span class="eyebrow">DESENHO DO AZULEJO</span>
+      ${select('tilePattern','Assentamento',[['grid','Alinhado'],['offset','Amarrado · meia peça'],['checker','Xadrez · duas cores'],['hex','Hexagonal']])}
+      ${number('tileCount','Peças por repetição',1,16,1)}
+      ${number('tileGrout','Largura do rejunte · % da peça',0,20,.5,100)}
+      ${number('tileVariation','Variação entre peças · 0–1',0,1,.05)}
+      <p class="microcopy">Ao recolorir, o rejunte e as peças escuras do xadrez mantêm a própria cor.</p>`:''}
+    ${settings.texture==='carpet'?`<span class="eyebrow">DESENHO DO CARPETE</span>
+      ${select('carpetPattern','Padrão',[['pile','Pelo cortado'],['loop','Bouclé · laçadas'],['striped','Listrado'],['diamonds','Losangos']])}
+      ${number('carpetPile','Altura do pelo · 0–1',0,1,.05)}`:''}
+    ${settings.texture==='paint'?`<span class="eyebrow">PINTURA</span>
+      ${select('paintFinish','Acabamento',[['smooth','Liso'],['brushstrokes','Pinceladas'],['hammered','Martelado']])}
+      ${number('paintChips','Lascas e desgaste · 0–1',0,1,.05)}
+      ${select('paintBase','O que aparece sob a tinta',[['metal','Metal nu'],['rust','Ferrugem'],['wood','Madeira'],['primer','Fundo claro']])}
+      <p class="microcopy">Ao recolorir, só a tinta muda; o material exposto pelas lascas mantém a própria cor.</p>`:''}
     ${number('textureRotation','Rotação do padrão · graus',0,360,15)}
     <details data-texture-options="${prefix}"><summary>Contraste, saturação e variação</summary>
       ${number('textureContrast','Contraste · 1 original',0,2,.05)}

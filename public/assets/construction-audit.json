@@ -22,7 +22,8 @@
       "methods": [
         "assento montado, travessas, torneados e encosto vazado",
         "arestas chanfradas",
-        "estofamento com bordas macias"
+        "estofamento com bordas macias",
+        "tecido com trama"
       ],
       "parts": 18,
       "triangles": 2856,
@@ -127,7 +128,8 @@
         "estofamento com bordas macias",
         "perfis torneados e bordas de chapa",
         "cordas e tubos curvos",
-        "curvas de contorno refinadas"
+        "curvas de contorno refinadas",
+        "tecido com trama"
       ],
       "parts": 24,
       "triangles": 3216,
@@ -143,7 +145,8 @@
         "estofamento com bordas macias",
         "perfis torneados e bordas de chapa",
         "cordas e tubos curvos",
-        "curvas de contorno refinadas"
+        "curvas de contorno refinadas",
+        "tecido com trama"
       ],
       "parts": 33,
       "triangles": 4700,
@@ -158,7 +161,8 @@
         "arestas chanfradas",
         "estofamento com bordas macias",
         "cordas e tubos curvos",
-        "ferragens curvas com vazios reais"
+        "ferragens curvas com vazios reais",
+        "tecido com trama"
       ],
       "parts": 18,
       "triangles": 8076,
@@ -299,7 +303,8 @@
       "methods": [
         "câmera com suporte articulado, proteção solar, objetiva embutida, LED e cabo até a placa de parede",
         "arestas chanfradas",
-        "cordas e tubos curvos"
+        "cordas e tubos curvos",
+        "pintura com lascas"
       ],
       "parts": 13,
       "triangles": 2244,
@@ -330,7 +335,8 @@
         "curvas de contorno refinadas",
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
-        "ferragens curvas com vazios reais"
+        "ferragens curvas com vazios reais",
+        "pintura com lascas"
       ],
       "parts": 40,
       "triangles": 7444,
@@ -358,7 +364,8 @@
         "arestas chanfradas",
         "cordas e tubos curvos",
         "curvas de contorno refinadas",
-        "ferragens curvas com vazios reais"
+        "ferragens curvas com vazios reais",
+        "pintura com lascas"
       ],
       "parts": 49,
       "triangles": 5904,
@@ -372,7 +379,8 @@
         "armários com portas de venezianas, vincos estampados, trincos com cadeado, dobradiças e plaquetas numeradas",
         "arestas chanfradas",
         "ferragens curvas com vazios reais",
-        "curvas de contorno refinadas"
+        "curvas de contorno refinadas",
+        "pintura com lascas"
       ],
       "parts": 67,
       "triangles": 5556,
@@ -388,7 +396,8 @@
         "estofamento com bordas macias",
         "perfis torneados e bordas de chapa",
         "cordas e tubos curvos",
-        "curvas de contorno refinadas"
+        "curvas de contorno refinadas",
+        "tecido com trama"
       ],
       "parts": 27,
       "triangles": 3812,
@@ -404,7 +413,8 @@
         "perfis torneados e bordas de chapa",
         "cordas e tubos curvos",
         "curvas de contorno refinadas",
-        "arestas chanfradas"
+        "arestas chanfradas",
+        "pintura com lascas"
       ],
       "parts": 68,
       "triangles": 7304,
@@ -474,7 +484,8 @@
         "arestas chanfradas",
         "curvas de contorno refinadas",
         "ferragens curvas com vazios reais",
-        "estofamento com bordas macias"
+        "estofamento com bordas macias",
+        "tecido com trama"
       ],
       "parts": 60,
       "triangles": 8988,
@@ -748,7 +759,8 @@
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas",
-        "cordas e tubos curvos"
+        "cordas e tubos curvos",
+        "pintura com lascas"
       ],
       "parts": 41,
       "triangles": 6560,
@@ -830,7 +842,8 @@
         "arestas chanfradas",
         "ferragens curvas com vazios reais",
         "cordas e tubos curvos",
-        "curvas de contorno refinadas"
+        "curvas de contorno refinadas",
+        "pintura com lascas"
       ],
       "parts": 23,
       "triangles": 5892,
@@ -845,7 +858,8 @@
         "arestas chanfradas",
         "estofamento com bordas macias",
         "cordas e tubos curvos",
-        "ferragens curvas com vazios reais"
+        "ferragens curvas com vazios reais",
+        "tecido com trama"
       ],
       "parts": 12,
       "triangles": 5212,
@@ -968,7 +982,8 @@
         "arestas chanfradas",
         "curvas de contorno refinadas",
         "ferragens curvas com vazios reais",
-        "cordas e tubos curvos"
+        "cordas e tubos curvos",
+        "pintura com lascas"
       ],
       "parts": 35,
       "triangles": 8964,
@@ -1009,7 +1024,8 @@
         "vitrine com caixa de vidro em caixilhos, base almofadada e peças expostas com etiquetas",
         "arestas chanfradas",
         "curvas de contorno refinadas",
-        "estofamento com bordas macias"
+        "estofamento com bordas macias",
+        "tecido com trama"
       ],
       "parts": 41,
       "triangles": 2488,
@@ -1022,7 +1038,8 @@
       "methods": [
         "máquina de bebidas com vitrine, prateleiras de latas, teclado, moedeiro, gaveta de retirada e letreiro",
         "arestas chanfradas",
-        "perfis torneados e bordas de chapa"
+        "perfis torneados e bordas de chapa",
+        "pintura com lascas"
       ],
       "parts": 70,
       "triangles": 6468,
@@ -1050,7 +1067,8 @@
         "arestas chanfradas",
         "estofamento com bordas macias",
         "cordas e tubos curvos",
-        "ferragens curvas com vazios reais"
+        "ferragens curvas com vazios reais",
+        "tecido com trama"
       ],
       "parts": 15,
       "triangles": 6644,
@@ -1248,7 +1266,8 @@
         "estojo rígido com tampa nervurada, cantoneiras, quatro fechos, alça e dobradiças",
         "arestas chanfradas",
         "cordas e tubos curvos",
-        "curvas de contorno refinadas"
+        "curvas de contorno refinadas",
+        "pintura com lascas"
       ],
       "parts": 27,
       "triangles": 5348,
@@ -1262,7 +1281,8 @@
         "centrífuga com tampa abaulada e aro, painel com visor, seletores, luz de operação e ventilação",
         "arestas chanfradas",
         "curvas de contorno refinadas",
-        "ferragens curvas com vazios reais"
+        "ferragens curvas com vazios reais",
+        "pintura com lascas"
       ],
       "parts": 17,
       "triangles": 2068,
@@ -1275,7 +1295,8 @@
       "methods": [
         "frascos de vidro com líquido luminoso, tampas rosqueadas, etiquetas e espécimes conservados",
         "curvas de contorno refinadas",
-        "cordas e tubos curvos"
+        "cordas e tubos curvos",
+        "pintura com lascas"
       ],
       "parts": 18,
       "triangles": 2340,
@@ -1289,7 +1310,8 @@
         "estante com tubos de ensaio de vidro, níveis de reagente diferentes e furos vazios",
         "arestas chanfradas",
         "ferragens curvas com vazios reais",
-        "curvas de contorno refinadas"
+        "curvas de contorno refinadas",
+        "pintura com lascas"
       ],
       "parts": 33,
       "triangles": 7664,
@@ -1304,7 +1326,8 @@
         "perfis torneados e bordas de chapa",
         "arestas chanfradas",
         "curvas de contorno refinadas",
-        "cordas e tubos curvos"
+        "cordas e tubos curvos",
+        "pintura com lascas"
       ],
       "parts": 24,
       "triangles": 2592,
@@ -1391,7 +1414,8 @@
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas",
-        "ferragens curvas com vazios reais"
+        "ferragens curvas com vazios reais",
+        "pintura com lascas"
       ],
       "parts": 23,
       "triangles": 3872,
@@ -1405,7 +1429,8 @@
         "carrinho de ferramentas com seis gavetas de puxador contínuo, cantoneiras, alça lateral e rodízios",
         "curvas de contorno refinadas",
         "arestas chanfradas",
-        "cordas e tubos curvos"
+        "cordas e tubos curvos",
+        "pintura com lascas"
       ],
       "parts": 37,
       "triangles": 5732,
@@ -1420,7 +1445,8 @@
         "perfis torneados e bordas de chapa",
         "cordas e tubos curvos",
         "curvas de contorno refinadas",
-        "ferragens curvas com vazios reais"
+        "ferragens curvas com vazios reais",
+        "pintura com lascas"
       ],
       "parts": 44,
       "triangles": 4656,
@@ -1435,7 +1461,8 @@
         "arestas chanfradas",
         "curvas de contorno refinadas",
         "perfis torneados e bordas de chapa",
-        "cordas e tubos curvos"
+        "cordas e tubos curvos",
+        "pintura com lascas"
       ],
       "parts": 49,
       "triangles": 6088,
@@ -1449,7 +1476,8 @@
         "reservatório cônico com cintas, tampa abaulada, registro de saída e tubo de extravasão",
         "ferragens curvas com vazios reais",
         "perfis torneados e bordas de chapa",
-        "cordas e tubos curvos"
+        "cordas e tubos curvos",
+        "pintura com lascas"
       ],
       "parts": 20,
       "triangles": 3620,
@@ -1464,7 +1492,8 @@
         "arestas chanfradas",
         "curvas de contorno refinadas",
         "cordas e tubos curvos",
-        "perfis torneados e bordas de chapa"
+        "perfis torneados e bordas de chapa",
+        "pintura com lascas"
       ],
       "parts": 30,
       "triangles": 3416,
@@ -1480,7 +1509,8 @@
         "cordas e tubos curvos",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas",
-        "ferragens curvas com vazios reais"
+        "ferragens curvas com vazios reais",
+        "pintura com lascas"
       ],
       "parts": 40,
       "triangles": 4236,
@@ -1669,7 +1699,8 @@
         "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
-        "curvas de contorno refinadas"
+        "curvas de contorno refinadas",
+        "pintura com lascas"
       ],
       "parts": 57,
       "triangles": 5148,
@@ -1683,7 +1714,8 @@
         "carroceria perfilada, vidros separados, pneus torneados, rodas e ferragens",
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
-        "curvas de contorno refinadas"
+        "curvas de contorno refinadas",
+        "pintura com lascas"
       ],
       "parts": 53,
       "triangles": 5356,
@@ -1698,7 +1730,8 @@
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas",
-        "estofamento com bordas macias"
+        "estofamento com bordas macias",
+        "tecido com trama"
       ],
       "parts": 60,
       "triangles": 6624,
@@ -1713,7 +1746,8 @@
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas",
-        "estofamento com bordas macias"
+        "estofamento com bordas macias",
+        "tecido com trama"
       ],
       "parts": 60,
       "triangles": 6368,
@@ -1728,7 +1762,8 @@
         "ferragens curvas com vazios reais",
         "perfis torneados e bordas de chapa",
         "cordas e tubos curvos",
-        "arestas chanfradas"
+        "arestas chanfradas",
+        "pintura com lascas"
       ],
       "parts": 46,
       "triangles": 5712,
@@ -1755,7 +1790,8 @@
         "cadeira de balanço com esquis curvos, pernas torneadas, braços, ripas e travessa de encosto recortada",
         "arestas chanfradas",
         "curvas de contorno refinadas",
-        "estofamento com bordas macias"
+        "estofamento com bordas macias",
+        "tecido com trama"
       ],
       "parts": 26,
       "triangles": 7260,
@@ -1809,7 +1845,8 @@
         "berço com postes torneados, grades de varetas, cabeceiras recortadas, colchão e manta dobrada",
         "arestas chanfradas",
         "curvas de contorno refinadas",
-        "estofamento com bordas macias"
+        "estofamento com bordas macias",
+        "tecido com trama"
       ],
       "parts": 37,
       "triangles": 6132,
@@ -1825,7 +1862,8 @@
         "arestas chanfradas",
         "curvas de contorno refinadas",
         "cordas e tubos curvos",
-        "estofamento com bordas macias"
+        "estofamento com bordas macias",
+        "tecido com trama"
       ],
       "parts": 22,
       "triangles": 4732,
@@ -1841,7 +1879,8 @@
         "curvas de contorno refinadas",
         "ferragens curvas com vazios reais",
         "cordas e tubos curvos",
-        "perfis torneados e bordas de chapa"
+        "perfis torneados e bordas de chapa",
+        "pintura com lascas"
       ],
       "parts": 25,
       "triangles": 4388,
@@ -1883,7 +1922,8 @@
         "cadeira de contenção em pranchas com travessas aparafusadas, correias de pulso, tornozelo e peito e apoio de cabeça",
         "arestas chanfradas",
         "estofamento com bordas macias",
-        "cordas e tubos curvos"
+        "cordas e tubos curvos",
+        "tecido com trama"
       ],
       "parts": 37,
       "triangles": 4416,
@@ -2059,7 +2099,8 @@
         "orelhão com concha de fibra aberta, forro interno, aparelho com monofone e teclado, prateleira e poste",
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
-        "cordas e tubos curvos"
+        "cordas e tubos curvos",
+        "pintura com lascas"
       ],
       "parts": 30,
       "triangles": 3476,
@@ -2073,7 +2114,8 @@
         "abrigo de ônibus com cobertura arqueada, fechamento de vidro, banco, painel publicitário e placa com horários",
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
-        "curvas de contorno refinadas"
+        "curvas de contorno refinadas",
+        "pintura com lascas"
       ],
       "parts": 40,
       "triangles": 2856,
@@ -2087,7 +2129,8 @@
         "hidrante com corpo torneado, três bocais com tampões presos por correntes, porca de manobra e flange aparafusado",
         "perfis torneados e bordas de chapa",
         "curvas de contorno refinadas",
-        "ferragens curvas com vazios reais"
+        "ferragens curvas com vazios reais",
+        "pintura com lascas"
       ],
       "parts": 35,
       "triangles": 5576,
@@ -2102,7 +2145,8 @@
         "arestas chanfradas",
         "perfis torneados e bordas de chapa",
         "ferragens curvas com vazios reais",
-        "curvas de contorno refinadas"
+        "curvas de contorno refinadas",
+        "pintura com lascas"
       ],
       "parts": 30,
       "triangles": 3636,
@@ -2116,7 +2160,8 @@
         "carrinho de supermercado em arame com cesto afunilado, chassi tubular, grade inferior, alça e rodízios",
         "cordas e tubos curvos",
         "curvas de contorno refinadas",
-        "arestas chanfradas"
+        "arestas chanfradas",
+        "pintura com lascas"
       ],
       "parts": 83,
       "triangles": 4600,
@@ -2219,7 +2264,8 @@
         "curvas de contorno refinadas",
         "arcos com curva refinada",
         "cordas e tubos curvos",
-        "arestas chanfradas"
+        "arestas chanfradas",
+        "pintura com lascas"
       ],
       "parts": 57,
       "triangles": 7100,
@@ -2856,7 +2902,8 @@
         "assento montado, travessas, torneados e encosto vazado",
         "arestas chanfradas",
         "estofamento com bordas macias",
-        "curvas de contorno refinadas"
+        "curvas de contorno refinadas",
+        "tecido com trama"
       ],
       "parts": 16,
       "triangles": 2224,

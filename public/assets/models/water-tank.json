@@ -60,7 +60,17 @@
         0,
         0
       ],
-      "material": "cloth"
+      "material": "cloth",
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "ring",
@@ -78,7 +88,17 @@
         1.5707963267948966,
         0,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "ring",
@@ -96,7 +116,17 @@
         1.5707963267948966,
         0,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "ring",
@@ -114,7 +144,17 @@
         1.5707963267948966,
         0,
         0
-      ]
+      ],
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#64776e",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -469,7 +509,17 @@
         0,
         0.5
       ],
-      "bevel": 0
+      "bevel": 0,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "lathe",
@@ -554,7 +604,8 @@
       "reservatório cônico com cintas, tampa abaulada, registro de saída e tubo de extravasão",
       "ferragens curvas com vazios reais",
       "perfis torneados e bordas de chapa",
-      "cordas e tubos curvos"
+      "cordas e tubos curvos",
+      "pintura com lascas"
     ],
     "seed": 873
   }

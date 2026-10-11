@@ -353,7 +353,16 @@
       ],
       "material": "fabric",
       "bevel": 0.0247,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#677765",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -473,7 +482,16 @@
       ],
       "material": "fabric",
       "bevel": 0.020900000000000002,
-      "cushion": true
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#677765",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -671,7 +689,8 @@
     "methods": [
       "assento montado, travessas, torneados e encosto vazado",
       "arestas chanfradas",
-      "estofamento com bordas macias"
+      "estofamento com bordas macias",
+      "tecido com trama"
     ],
     "seed": 10652
   }

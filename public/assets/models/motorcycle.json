@@ -775,7 +775,17 @@
         0.14880000019073486
       ],
       "material": "red",
-      "segments": 24
+      "segments": 24,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -1131,7 +1141,8 @@
       "ferragens curvas com vazios reais",
       "perfis torneados e bordas de chapa",
       "cordas e tubos curvos",
-      "arestas chanfradas"
+      "arestas chanfradas",
+      "pintura com lascas"
     ],
     "seed": 15642
   }

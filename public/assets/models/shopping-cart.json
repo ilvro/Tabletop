@@ -2084,7 +2084,17 @@
         0,
         0,
         -1.5707963267948966
-      ]
+      ],
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -2104,7 +2114,17 @@
         0,
         0
       ],
-      "bevel": 0
+      "bevel": 0,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     },
     {
       "shape": "box",
@@ -2120,7 +2140,17 @@
       ],
       "material": "red",
       "bevel": 0.01,
-      "round": true
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#873c3c",
+        "textureColorMode": "replace"
+      }
     }
   ],
   "mergeParts": true,
@@ -2137,7 +2167,8 @@
       "carrinho de supermercado em arame com cesto afunilado, chassi tubular, grade inferior, alça e rodízios",
       "cordas e tubos curvos",
       "curvas de contorno refinadas",
-      "arestas chanfradas"
+      "arestas chanfradas",
+      "pintura com lascas"
     ],
     "seed": 55356
   }
