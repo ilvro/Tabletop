@@ -1,6 +1,12 @@
 # Tabletop — andamento
 
-Atualizado em 11 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 12 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+
+## Construção assistida — correções após o uso (12 de outubro)
+
+**Feito**: corrigido o desenho de sala/contorno, que só funcionava sobre o piso ativo (`supportPoint` no plano de trabalho em `renderer.js`); arrastar e soltar para trocar cômodos na planta; *Ampliar o contorno* abre a prévia.
+
+**Validação**: 274 unitários passam. E2E rodados e passando: `assisted-rooms` (5 casos; o do contorno desenhado agora cobre chão livre com outro piso ativo, arraste na planta e prévia ao ampliar), `assemblies`, `editor`, `phase3`. A bateria completa não foi repetida.
 
 ## Construção assistida — ajustes após uso, concluídos (11 de outubro)
 

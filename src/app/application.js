@@ -478,6 +478,17 @@ export async function startApplication() {
     const outline = store.document.layout.entities[buildingOptions.floorId], [w, l] = outline ? [outline.width, outline.length] : [buildingOptions.width, buildingOptions.length];
     try { return planBuilding(buildingOptions.type, Math.max(w, l), Math.min(w, l), buildingOptions.seed, buildingOptions.rooms ? { rooms: buildingOptions.rooms, hub: buildingOptions.hub, bands: buildingOptions.bands } : null); } catch { return null; }
   }
+  /** Swaps two rooms of the plan, the entrance room included; sizes follow the rooms. */
+  function swapBuildingRooms(from, to) {
+    const plan = buildingPlan(), a = plan?.rooms[from], b = plan?.rooms[to]; buildingOptions.pick = null;
+    if (!a || !b || a === b) { renderSidebar(); return; }
+    const bands = plan.arrangement.map(list => [...list]), live = Boolean(proposal?.buildingPreview);
+    const slot = room => { let seen = 0; for (const other of plan.rooms) { if (other === room) break; if (!other.hub && other.band === room.band) seen++; } return [room.band, seen]; };
+    let hub = plan.programme.hub;
+    if (a.hub || b.hub) { const other = a.hub ? b : a, [band, at] = slot(other); bands[band][at] = hub; hub = other.key; }
+    else { const [ba, ia] = slot(a), [bb, ib] = slot(b); [bands[ba][ia], bands[bb][ib]] = [bands[bb][ib], bands[ba][ia]]; }
+    buildingOptions = { ...buildingOptions, hub, bands, rooms: bands.flat(), pick: null }; clearProposal(); if (live) previewBuilding(); renderSidebar();
+  }
   function previewBuilding() {
     try {
       // Where it was drawn; otherwise beside what the scene already has.
@@ -1884,17 +1895,13 @@ export async function startApplication() {
       case 'building-room-remove': { const live = Boolean(proposal?.buildingPreview); buildingOptions.bands = null; buildingOptions.pick = null; buildingOptions.rooms = buildingRooms().filter((_, i) => i !== Number(metadata.id)); clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
       case 'building-rooms-reset': { const live = Boolean(proposal?.buildingPreview); buildingOptions.rooms = null; buildingOptions.hub = null; buildingOptions.bands = null; buildingOptions.pick = null; clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
       case 'building-cell': {
-        // Two clicks on the plan swap two rooms; the entrance room can be swapped too.
-        const index = Number(metadata.id), plan = buildingPlan(); if (!plan?.rooms[index]) break;
+        // Two clicks on the plan swap two rooms, for keyboard and touch; dragging does the same.
+        const index = Number(metadata.id);
         if (buildingOptions.pick == null || buildingOptions.pick === index) { buildingOptions.pick = buildingOptions.pick === index ? null : index; renderSidebar(); break; }
-        const a = plan.rooms[buildingOptions.pick], b = plan.rooms[index], bands = plan.arrangement.map(list => [...list]), live = Boolean(proposal?.buildingPreview);
-        const slot = room => { let seen = 0; for (const other of plan.rooms) { if (other === room) break; if (!other.hub && other.band === room.band) seen++; } return [room.band, seen]; };
-        let hub = plan.programme.hub;
-        if (a.hub || b.hub) { const other = a.hub ? b : a, [band, at] = slot(other); bands[band][at] = hub; hub = other.key; }
-        else { const [ba, ia] = slot(a), [bb, ib] = slot(b); [bands[ba][ia], bands[bb][ib]] = [bands[bb][ib], bands[ba][ia]]; }
-        buildingOptions = { ...buildingOptions, hub, bands, rooms: bands.flat(), pick: null }; clearProposal(); if (live) previewBuilding(); renderSidebar(); break;
+        swapBuildingRooms(buildingOptions.pick, index); break;
       }
-      case 'building-expand': { const live = Boolean(proposal?.buildingPreview), needed = Number(metadata.id); if (buildingOptions.width >= buildingOptions.length) buildingOptions.width = needed; else buildingOptions.length = needed; clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
+      // Growing the outline is shown in the scene at once, to be accepted or cancelled like any preview.
+      case 'building-expand': { const needed = Number(metadata.id); if (buildingOptions.width >= buildingOptions.length) buildingOptions.width = needed; else buildingOptions.length = needed; clearProposal(); previewBuilding(); renderSidebar(); break; }
       case 'building-variation': buildingOptions.seed = (buildingOptions.seed + 1) % 4294967296; buildingOptions.bands = null; buildingOptions.pick = null; renderSidebar();
       // falls through
       case 'building-preview': previewBuilding(); break;
@@ -2297,6 +2304,13 @@ export async function startApplication() {
     }
   });
   bindControls(root, input => { if (initialized) changeField(input); });
+  // Rooms of the building plan are rearranged by dragging one onto another.
+  const planCell = target => target.closest?.('.building-sketch [data-action="building-cell"]');
+  let draggedRoom = null;
+  root.addEventListener('dragstart', event => { const cell = planCell(event.target); if (!cell) return; draggedRoom = Number(cell.dataset.id); event.dataTransfer.effectAllowed = 'move'; event.dataTransfer.setData('text/plain', cell.title); cell.classList.add('picked'); });
+  root.addEventListener('dragover', event => { const cell = planCell(event.target); if (draggedRoom == null || !cell) return; event.preventDefault(); event.dataTransfer.dropEffect = 'move'; for (const other of root.querySelectorAll('.building-sketch .drop')) if (other !== cell) other.classList.remove('drop'); if (Number(cell.dataset.id) !== draggedRoom) cell.classList.add('drop'); });
+  root.addEventListener('drop', event => { const cell = planCell(event.target); if (draggedRoom == null || !cell) return; event.preventDefault(); const from = draggedRoom; draggedRoom = null; swapBuildingRooms(from, Number(cell.dataset.id)); });
+  root.addEventListener('dragend', () => { if (draggedRoom == null) return; draggedRoom = null; root.querySelectorAll('.building-sketch .drop, .building-sketch .picked').forEach(node => node.classList.remove('drop', 'picked')); });
   new MutationObserver(() => paintSwatches(root)).observe(root, { childList: true, subtree: true });
   root.addEventListener('change', (event) => {
     if (!initialized) return;

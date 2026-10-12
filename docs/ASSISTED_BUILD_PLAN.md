@@ -255,3 +255,9 @@ Cinco observações do usuário ao testar o prédio.
 - Os lugares para o cômodo novo são os que o assistente considera viáveis (até oito); não se desenha um lugar à mão.
 - Na época antiga alguns cômodos ficam ralos porque a biblioteca não tem equivalentes (laboratório, monitoramento, mercado, enfermaria).
 - O botão de telhados reconhece telhado pelo modelo; um telhado feito de pisos ou paredes não é ocultado.
+
+### Correções após o uso (12 de outubro)
+
+- **Desenhar em qualquer lugar.** Erro: com um piso ativo (o último construído ou selecionado), *Desenhar o contorno na cena* e *Desenhar sala* só aceitavam o arraste sobre aquele piso. A ferramenta procurava o ponto no piso ativo em vez de no plano de trabalho. Corrigido em `renderer.js`; o teste de ponta a ponta agora desenha em chão livre com outro piso ativo.
+- **Arrastar para rearranjar.** Na planta do painel, arrastar um cômodo sobre outro troca os dois; os dois cliques continuam valendo para teclado e toque.
+- **Ampliar com prévia.** *Ampliar o contorno* abre a prévia do prédio maior na cena, para aceitar ou cancelar.

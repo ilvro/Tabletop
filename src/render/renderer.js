@@ -992,7 +992,8 @@ export function createViewport(container, {
       try { stampTerrain(hit.point.toArray()); } catch (error) { pointer = null; report(error); return; }
       controls.enabled = false; canvas.setPointerCapture(event.pointerId);
     } else if (tool === 'room') {
-      const support = supportPoint(event);
+      // A new room or building starts on the work plane, wherever the pointer is, not only over the active floor.
+      const support = supportPoint(event, workplaneHeight);
       if (!support) { pointer = null; return; }
       pointer.roomStart = support.position;
       controls.enabled = false;

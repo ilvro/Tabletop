@@ -142,12 +142,16 @@ test('the outline is drawn in the scene, the rooms are chosen by the person and 
     const of=async kind=>Object.values((await snapshot()).layout.entities).filter(e=>e.kind===kind),project=p=>page.evaluate(v=>window.__tabletop.project(v),p);
     const section=page.locator('[data-build-section="building"]'),chips=()=>section.locator('.building-rooms button').allTextContents(),bar=page.locator('#proposal-bar');
     await action('top');await page.waitForTimeout(500);
+    // A room already stands elsewhere and its floor is the active surface: the outline can still be drawn on open ground.
+    await (await reveal(page.locator('#quick-form button[type=submit]'))).click();await action('accept-proposal');const first0=(await of('floor'))[0];
+    await page.evaluate(()=>{});await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${first0.id}"]`))).click();await page.locator('[data-tab="build"]').click();
     // Drag on the ground: that rectangle is the building, and the plan shows at once.
-    await action('building-draw');const a=await project([-8,0,-5]),b=await project([8,0,4]);
+    const canvas=await page.locator('#viewport canvas').boundingBox();await page.mouse.move(canvas.x+canvas.width/2,canvas.y+canvas.height/2);for(let i=0;i<6;i++){await page.mouse.wheel(0,400);await page.waitForTimeout(80);}await page.waitForTimeout(500);
+    await action('building-draw');const a=await project([-7,0,-11.5]),b=await project([7,0,-3.5]);assert.ok(a.visible&&b.visible,'both corners are on screen '+JSON.stringify([a,b,canvas]));
     await page.mouse.move(a.x,a.y);await page.mouse.down();await page.mouse.move((a.x+b.x)/2,(a.y+b.y)/2,{steps:4});await page.mouse.move(b.x,b.y,{steps:4});await page.mouse.up();
-    await bar.locator('[data-action="accept-proposal"]').waitFor();assert.match(await bar.textContent(),/Construir casa/);assert.equal((await of('floor')).length,0);
+    await bar.locator('[data-action="accept-proposal"]').waitFor();assert.match(await bar.textContent(),/Construir casa/);assert.equal((await of('floor')).length,1);
     const width=Number(await (await reveal(page.locator('[data-field="building-width"]'))).inputValue()),length=Number(await page.locator('[data-field="building-length"]').inputValue());
-    assert.ok(Math.abs(width-16)<1.2&&Math.abs(length-9)<1.2,`${width} × ${length}`);assert.equal(await section.locator('.building-sketch:not(.spots) > *').count(),(await chips()).length+2);
+    assert.ok(Math.abs(width-14)<1.2&&Math.abs(length-8)<1.2,`${width} × ${length}`);assert.equal(await section.locator('.building-sketch:not(.spots) > *').count(),(await chips()).length+2);
     // The list of rooms is the person's: out with a bedroom, in with a ritual room, a bar as the way in.
     const before=await chips(),bedroom=before.findIndex(text=>text.startsWith('Quarto'));assert.ok(bedroom>=0);
     await section.locator('.building-rooms button').nth(bedroom).click();assert.equal((await chips()).length,before.length-1);
@@ -155,12 +159,14 @@ test('the outline is drawn in the scene, the rooms are chosen by the person and 
     assert.ok((await chips()).some(text=>text.startsWith('Sala de ritual')));
     // Two clicks on the plan swap two rooms, sizes following the rooms.
     const cell=i=>section.locator('.building-sketch:not(.spots) > button').nth(i),first=await cell(1).getAttribute('title'),second=await cell(2).getAttribute('title');
-    await cell(1).click();assert.match(await section.textContent(),/troca de lugar com/);await cell(2).click();
+    await cell(1).dragTo(cell(2));
     assert.equal(await cell(1).getAttribute('title'),second);assert.equal(await cell(2).getAttribute('title'),first);
+    // Two clicks do the same, for keyboard and touch.
+    await cell(1).click();assert.match(await section.textContent(),/troca de lugar com/);await cell(2).click();assert.equal(await cell(1).getAttribute('title'),first);
     // A room too many is offered a bigger outline instead of being dropped silently.
     for(const extra of ['garage','ward','lab'])await (await reveal(page.locator('[data-field="building-roomAdd"]'))).selectOption(extra);
     assert.ok(await section.locator('.building-rooms button.dropped').count()>=1);const grow=section.locator('[data-action="building-expand"]');assert.match(await grow.textContent(),/Ampliar o contorno/);
-    await grow.click();assert.equal(await section.locator('.building-rooms button.dropped').count(),0);assert.ok(Number(await page.locator('[data-field="building-width"]').inputValue())>width);
+    await grow.click();await bar.locator('[data-action="accept-proposal"]').waitFor();assert.equal(await section.locator('.building-rooms button.dropped').count(),0);assert.ok(Number(await page.locator('[data-field="building-width"]').inputValue())>width);
     for(let i=0;i<3;i++)await section.locator('.building-rooms button').last().click();await page.locator('[data-field="building-width"]').fill(String(width));await page.locator('[data-field="building-width"]').press('Tab');
     // The preview stayed open through every change and is accepted as it stands.
     await bar.locator('[data-action="accept-proposal"]').waitFor();await action('accept-proposal');
@@ -169,7 +175,7 @@ test('the outline is drawn in the scene, the rooms are chosen by the person and 
     const roofs=page.locator('[data-action="roofs"]'),hidden=()=>page.evaluate(()=>window.__tabletop.stats().hiddenRoofs??null);
     assert.equal(await roofs.getAttribute('aria-pressed'),'false');await roofs.click();assert.equal(await roofs.getAttribute('aria-pressed'),'true');await action('perspective');assert.equal(await roofs.getAttribute('aria-pressed'),'true');
     // It stands where it was drawn.
-    const xs=(await of('floor')).flatMap(f=>[f.transform.position[0]]),zs=(await of('floor')).map(f=>f.transform.position[2]);assert.ok(Math.min(...xs)>-8.5&&Math.max(...xs)<8.5&&Math.min(...zs)>-5.5&&Math.max(...zs)<4.5);
+    const xs=(await of('floor')).flatMap(f=>[f.transform.position[0]]),zs=(await of('floor')).map(f=>f.transform.position[2]);const mine=(await of('floor')).filter(f=>f.id!==first0.id).map(f=>f.transform.position);assert.ok(mine.every(([x,,z])=>x>-7.5&&x<7.5&&z>-12&&z<-3),'on the open ground where it was drawn, away from the first room');
     assert.deepEqual(errors,[]);
   } finally { await browser?.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true}); }
 });

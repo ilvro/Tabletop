@@ -510,3 +510,5 @@ body { overflow: hidden; }
 .building-sketch > button.picked { background: #5a4a2c; border: 2px solid var(--accent); color: #fff; }
 .building-sketch > button.spot { background: none; border: 1.5px dashed var(--accent); color: var(--accent); font-size: 12px; font-weight: 700; }
 .building-sketch > button.spot:hover { background: #3a332755; }
+.building-sketch > button[draggable='true'] { cursor: grab; }
+.building-sketch > button.drop { outline: 2px dashed var(--accent); outline-offset: -3px; background: #4a3f2a; }
