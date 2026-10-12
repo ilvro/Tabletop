@@ -6,7 +6,7 @@ import { createSceneStore } from '../src/state/scene-store.js';
 import { validateDocument } from '../src/domain/validation.js';
 import { quaternionFromYaw } from '../src/domain/coords.js';
 import { worldFootprint, footprintsOverlap, localPoint } from '../src/domain/geometry.js';
-import { proposeBuilding, proposeAddRoom, planBuilding, describeBuilding, BUILDING_TYPES } from '../src/authoring/building.js';
+import { proposeBuilding, proposeAddRoom, proposeRemoveRoom, proposeRedivide, planBuilding, describeBuilding, BUILDING_TYPES } from '../src/authoring/building.js';
 import { describeRoom } from '../src/authoring/room-insight.js';
 import { proposeRoom } from '../src/authoring/quick-build.js';
 import { proposeFurnishing } from '../src/authoring/furnishing.js';
@@ -20,7 +20,7 @@ test('an outline is divided into the rooms of the building, covering it exactly,
     const plan = planBuilding(type.id, long, short, seed), cells = [...plan.rooms, ...(plan.corridor ? [plan.corridor] : [])], label = `${type.id} ${long}×${short}/${seed}`;
     assert.equal(plan.rooms[0].key, type.hub, label);
     assert.ok(Math.abs(cells.reduce((sum, c) => sum + (c.x1 - c.x0) * (c.z1 - c.z0), 0) - long * short) < 1e-6, `${label}: cobre o contorno`);
-    for (const cell of plan.rooms) assert.ok(cell.x1 - cell.x0 >= 2.2 && cell.z1 - cell.z0 >= 2.2, `${label}: ${cell.key} ${(cell.x1 - cell.x0).toFixed(1)}×${(cell.z1 - cell.z0).toFixed(1)}`);
+    for (const cell of plan.rooms) assert.ok(cell.x1 - cell.x0 >= 1.7 - 1e-9 && cell.z1 - cell.z0 >= 1.7 - 1e-9, `${label}: ${cell.key} ${(cell.x1 - cell.x0).toFixed(1)}×${(cell.z1 - cell.z0).toFixed(1)}`);
     for (let i = 0; i < cells.length; i++) for (let j = i + 1; j < cells.length; j++) assert.ok(Math.min(cells[i].x1, cells[j].x1) - Math.max(cells[i].x0, cells[j].x0) < 1e-6 || Math.min(cells[i].z1, cells[j].z1) - Math.max(cells[i].z0, cells[j].z0) < 1e-6, `${label}: cômodos sobrepostos`);
   }
   assert.ok(planBuilding('house', 22, 12, 1).rooms.length > planBuilding('house', 9, 5, 1).rooms.length, 'a bigger outline holds more of the programme');
@@ -155,4 +155,53 @@ test('the person decides which rooms the building has; the plan is found for tha
   const { store } = build({ width: 20, length: 10, type: 'house', seed: 1, roof: false, ...custom });
   const names = of(store, 'floor').map(f => f.name); assert.ok(names.includes('Bar')); assert.equal(names.filter(n => n.startsWith('Banheiro')).length, 2); assert.ok(!names.some(n => n.startsWith('Quarto')));
   assert.ok(of(store, 'prop').some(e => e.assetRef.id === 'builtin-bar-stool'));
+});
+
+test('a room is taken out of a building without opening its neighbours', () => {
+  const { store } = build({ width: 15, length: 9, type: 'house', seed: 2, roof: false }), floors = of(store, 'floor'), bath = floors.find(f => f.name.startsWith('Banheiro'));
+  const walls = of(store, 'wall'), shared = walls.filter(w => w.floorIds.includes(bath.id) && w.floorIds.length > 1), own = walls.filter(w => w.floorIds.includes(bath.id) && w.floorIds.length === 1);
+  const door = of(store, 'door').find(d => d.surfaceId === bath.id), inside = of(store, 'prop').filter(e => e.surfaceId === bath.id).length; assert.ok(shared.length >= 1 && door && inside >= 2);
+  const proposal = proposeRemoveRoom(store.document, { floorId: bath.id }, store.editVersion); store.execute('proposal.accept', { proposal }); validateDocument(store.document);
+  const after = store.document.layout.entities;
+  assert.equal(after[bath.id], undefined); assert.equal(after[door.id], undefined, 'the door that led to it is closed');
+  for (const wall of shared) { assert.ok(after[wall.id], 'shared wall stays'); assert.ok(!after[wall.id].floorIds.includes(bath.id)); assert.equal(after[after[wall.id].surfaceId].kind, 'floor'); }
+  for (const wall of own) assert.equal(after[wall.id], undefined, 'its own walls go');
+  assert.equal(of(store, 'floor').length, floors.length - 1); assert.equal(of(store, 'prop').filter(e => e.surfaceId === bath.id).length, 0);
+  // The neighbours keep everything they had.
+  for (const floor of floors.filter(f => f.id !== bath.id)) assert.ok(after[floor.id]);
+  store.undo(); assert.ok(store.document.layout.entities[bath.id] && store.document.layout.entities[door.id]);
+});
+
+test('a room is fitted inside a building that exists: same outline, interior divided again around what is there', () => {
+  const { store } = build({ width: 16, length: 9, type: 'house', seed: 2, rooms: ['kitchen', 'bedroom'], hub: 'living', roof: false });
+  const floors = of(store, 'floor'), anchor = floors.find(f => f.name.startsWith('Sala')), outer = of(store, 'wall').filter(w => w.thickness === .2).map(w => w.id), entrance = of(store, 'door').find(d => d.name === 'Entrada');
+  assert.ok(!floors.some(f => f.name.startsWith('Banheiro')));
+  // Something the person placed by hand, and a window of theirs on an outside wall.
+  const kitchen = floors.find(f => f.name.startsWith('Cozinha')), mine = put(store, kitchen, 'piano', [kitchen.transform.position[0], 0, kitchen.transform.position[2]]), where = JSON.stringify(store.document.layout.entities[mine].transform);
+  const stove = of(store, 'prop').find(e => e.assetRef.id === 'builtin-stove'), windows = of(store, 'window').map(w => w.id), box = f => worldFootprint(f);
+  const span = list => { const pts = list.flatMap(box); return [Math.min(...pts.map(p => p[0])), Math.max(...pts.map(p => p[0])), Math.min(...pts.map(p => p[1])), Math.max(...pts.map(p => p[1]))].map(v => +v.toFixed(3)); };
+  const before = span(floors), proposal = proposeRedivide(store.document, { floorId: anchor.id, add: 'bathroom', seed: 1 }, store.editVersion, catalog);
+  assert.equal(proposal.fits, true); assert.match(proposal.report.reasons[0], /contorno do prédio fica como está/);
+  store.execute('proposal.accept', { proposal }); validateDocument(store.document);
+  const after = store.document.layout.entities, now = of(store, 'floor'), names = now.map(f => f.name);
+  assert.deepEqual(span(now), before, 'the building covers exactly the same ground');
+  for (const name of ['Sala de estar', 'Cozinha', 'Quarto', 'Banheiro']) assert.ok(names.some(n => n.startsWith(name)), name);
+  // The shell is untouched: outside walls, the entrance and every window of theirs.
+  for (const key of outer) assert.ok(after[key], 'outside wall kept'); assert.ok(after[entrance.id]); for (const key of windows) assert.ok(after[key], 'window kept');
+  assert.equal(of(store, 'wall').filter(w => w.thickness === .2).length, 4);
+  // What the person placed did not move and is in a room of the new plan; the kitchen is still where its stove is.
+  assert.equal(JSON.stringify(after[mine].transform), where); assert.equal(after[after[mine].surfaceId].kind, 'floor');
+  assert.ok(after[stove.id], 'the stove stays'); assert.match(after[after[stove.id].surfaceId].name, /Cozinha/);
+  // Every room can be entered and the new one is furnished.
+  const bath = now.find(f => f.name.startsWith('Banheiro'));
+  for (const room of now.filter(f => f.name !== 'Corredor' && !f.name.startsWith('Sala de estar'))) assert.ok(of(store, 'door').some(d => after[d.wallId].floorIds.includes(room.id)), `${room.name} tem porta`);
+  assert.ok(of(store, 'prop').some(e => e.surfaceId === bath.id && e.assetRef.id === 'builtin-toilet'));
+  // No piece is left standing across a wall or in the corridor.
+  for (const piece of of(store, 'prop').filter(e => now.some(f => f.id === e.surfaceId) && catalog.find(a => a.id === e.assetRef.id).bounds[1] > .1)) { const room = after[piece.surfaceId], [x, , z] = localPoint(room, piece.transform.position); assert.ok(Math.abs(x) <= room.width / 2 + .01 && Math.abs(z) <= room.length / 2 + .01, `${piece.name} em ${room.name}`); }
+  store.undo(); assert.deepEqual(of(store, 'floor').map(f => f.id).sort(), floors.map(f => f.id).sort());
+  // A building that is not a rectangle, or has no room to spare, says so.
+  const grown = build({ width: 12, length: 7, type: 'house', seed: 1, roof: false }).store; grown.execute('proposal.accept', { proposal: proposeAddRoom(grown.document, { floorId: of(grown, 'floor')[0].id, template: 'garage' }, grown.editVersion, catalog) });
+  assert.throws(() => proposeRedivide(grown.document, { floorId: of(grown, 'floor')[0].id, add: 'bathroom' }, grown.editVersion, catalog), /não formam um retângulo/);
+  const tiny = build({ width: 7, length: 4, type: 'house', seed: 1, rooms: ['bedroom'], hub: 'living', roof: false }).store;
+  assert.equal(proposeRedivide(tiny.document, { floorId: of(tiny, 'floor')[0].id, add: 'garage' }, tiny.editVersion, catalog).fits, false);
 });

@@ -48,7 +48,8 @@ export function planBuilding(type, long, short, seed = 1, custom = null) {
   const random = key => stableRandom(seed, `plan/${key}`) * 7919 % 1, flip = random('side') < .5 ? 1 : -1;
   const corridor = short >= 7.2 ? 'middle' : short >= 4.6 ? 'side' : null, width = corridor ? 1.3 : 0;
   // How many rooms fit beyond the hub, at about 12 m² each.
-  let hub = Math.max(3.2, Math.min(long * .6, long * programme.share * (.9 + random('hub') * .25)));
+  // A building that exists keeps its entrance room the size it is.
+  let hub = custom?.hubLength ?? Math.max(3.2, Math.min(long * .6, long * programme.share * (.9 + random('hub') * .25)));
   let count = Math.max(0, Math.min(programme.rooms.length, Math.floor((long - hub) * (short - width) / (custom ? 7 : 12))));
   if (!count || long - hub < 2.4) return { programme, corridor: null, rooms: [{ key: programme.hub, hub: true, x0: -long / 2, x1: long / 2, z0: -short / 2, z1: short / 2 }], dropped: programme.rooms.length };
   const x0 = -long / 2 + hub, rooms = [{ key: programme.hub, hub: true, x0: -long / 2, x1: x0, z0: -short / 2, z1: short / 2 }];
@@ -56,11 +57,13 @@ export function planBuilding(type, long, short, seed = 1, custom = null) {
     : corridor === 'side' ? [flip > 0 ? { z0: -short / 2, z1: short / 2 - width } : { z0: -short / 2 + width, z1: short / 2 }] : [{ z0: -short / 2, z1: short / 2 }];
   // Rooms go to the band with less in it, so both sides of the corridor fill evenly.
   let lists; const fill = () => { lists = bands.map(() => []); programme.rooms.slice(0, count).forEach(([key, weight], i) => lists.reduce((a, b) => (a.reduce((s, r) => s + r.weight, 0) <= b.reduce((s, r) => s + r.weight, 0) ? a : b)).push({ key, weight: weight * (.9 + random(`w/${i}`) * .2) })); };
+  // Small rooms (bathroom, cell, archive) may be narrow; the others need room for furniture.
+  const wideEnough = weights => weights.every(weight => (long - hub) * weight / weights.reduce((sum, w) => sum + w, 0) >= (weight < .9 ? 1.7 : 2.3));
   fill();
   // The person's own arrangement, band by band, when it suits this outline.
-  const arranged = custom?.bands?.length === bands.length && custom.bands.flat().length && custom.bands.every(list => !list.length || (long - hub) * Math.min(...list.map(key => ROOM_WEIGHT[key] ?? 1)) / list.reduce((sum, key) => sum + (ROOM_WEIGHT[key] ?? 1), 0) >= 2.3);
+  const arranged = custom?.bands?.length === bands.length && custom.bands.flat().length && custom.bands.every(list => wideEnough(list.map(key => ROOM_WEIGHT[key] ?? 1)));
   if (arranged) { lists = custom.bands.map(list => list.map(key => ({ key, weight: ROOM_WEIGHT[key] ?? 1 }))); count = custom.bands.flat().length; }
-  else while (count > 1 && lists.some(list => list.length && (long - hub) * Math.min(...list.map(r => r.weight)) / list.reduce((s, r) => s + r.weight, 0) < 2.3)) { count--; fill(); }
+  else while (count > 1 && lists.some(list => !wideEnough(list.map(r => r.weight)))) { count--; fill(); }
   bands.forEach((band, b) => {
     const list = arranged || flip > 0 ? lists[b] : [...lists[b]].reverse(), total = list.reduce((sum, room) => sum + room.weight, 0); let x = x0;
     for (const room of list) { const span = (long - hub) * room.weight / total; rooms.push({ key: room.key, x0: x, x1: x + span, z0: band.z0, z1: band.z1, band: b }); x += span; }
@@ -171,7 +174,7 @@ export function outlineThatFits(type, long, short, seed, custom) {
  * goes, and the plan is chosen so that the furniture already there falls in
  * the rooms it belongs to, which are then completed around it.
  */
-export function proposeBuilding(document, { floorId = null, width = 14, length = 9, center = [0, 0, 0], type = 'house', seed = 1, height = 2.7, furnish = true, lighting = true, roof = true, rooms = null, hub = null, bands = null, era = 'modern' } = {}, expectedEditVersion = 0, catalog = []) {
+export function proposeBuilding(document, { floorId = null, width = 14, length = 9, center = [0, 0, 0], type = 'house', seed = 1, height = 2.7, furnish = true, lighting = true, roof = true, rooms = null, hub = null, bands = null, era = 'modern', members = null } = {}, expectedEditVersion = 0, catalog = []) {
   validateDocument(document);
   if (!Number.isInteger(seed) || seed < 0 || !(height >= 2.3 && height <= 6)) throw new ValidationError('Parâmetros do prédio inválidos.');
   const outline = floorId ? document.layout.entities[floorId] : null, entities = Object.values(document.layout.entities), look = document.look ?? document.defaultLook;
@@ -181,10 +184,12 @@ export function proposeBuilding(document, { floorId = null, width = 14, length =
     if (isLocked(document, outline)) throw new ValidationError('O piso do contorno está bloqueado.');
     [width, length, center] = [outline.width, outline.length, outline.transform.position];
   }
-  const baseYaw = outline ? yawFromQuaternion(outline.transform.rotation) : 0, long = Math.max(width, length), short = Math.min(width, length), frame = frameAt(center, baseYaw + (length > width ? 90 : 0)), { toWorld, toLocal, yaw } = frame;
-  const placing = { levelId: outline?.levelId ?? null, layerId: outline?.layerId ?? null };
+  // An existing building is redivided within the rectangle its rooms cover.
+  if (members) [width, length, center] = [members.width, members.length, members.center];
+  const baseYaw = outline ? yawFromQuaternion(outline.transform.rotation) : members?.yaw ?? 0, long = Math.max(width, length), short = Math.min(width, length), frame = frameAt(center, baseYaw + (length > width ? 90 : 0)), { toWorld, toLocal, yaw } = frame;
+  const placing = { levelId: (outline ?? members)?.levelId ?? null, layerId: (outline ?? members)?.layerId ?? null }, sources = new Set(outline ? [outline.id] : members?.ids ?? []);
   // What the person already has on the outline.
-  const onOutline = record => outline && record.surfaceId === outline.id, ownWalls = outline ? standingWalls(document, frame, wall => wall.surfaceId === outline.id || wall.floorIds?.includes(outline.id)) : [];
+  const onOutline = record => sources.has(record.surfaceId), ownWalls = sources.size ? standingWalls(document, frame, wall => sources.has(wall.surfaceId) || wall.floorIds?.some(key => sources.has(key))) : [];
   const ownProps = entities.filter(e => e.kind === 'prop' && onOutline(e)), ownDoors = ownWalls.flatMap(w => w.openings.filter(o => o[2] === 'door').map(([offset]) => [w.a[0] + (w.b[0] - w.a[0]) * offset / w.span, w.a[1] + (w.b[1] - w.a[1]) * offset / w.span])).filter(([x, z]) => Math.abs(Math.abs(x) - long / 2) < .4 || Math.abs(Math.abs(z) - short / 2) < .4);
   const strayWalls = entities.filter(e => e.kind === 'wall' && onOutline(e) && !ownWalls.some(w => w.entity === e));
   const recipeAssets = key => new Set(ROOM_RECIPES.find(r => r.id === key)?.items.map(item => `builtin-${item.asset}`) ?? []), inside = (cell, [x, z], margin = 0) => x >= cell.x0 + margin && x <= cell.x1 - margin && z >= cell.z0 + margin && z <= cell.z1 - margin;
@@ -200,10 +205,29 @@ export function proposeBuilding(document, { floorId = null, width = 14, length =
     for (const door of ownDoors) if (inside({ x0: plan.rooms[0].x0 - .5, x1: plan.rooms[0].x1 + .5, z0: plan.rooms[0].z0 - .5, z1: plan.rooms[0].z1 + .5 }, door)) score += 6;
     return score;
   };
-  const custom = rooms ? { rooms, hub, bands } : null, busy = ownProps.length || ownDoors.length, variants = busy ? [0, 1, 2, 3, 4, 5].flatMap(k => [[false, false], [true, false], [false, true], [true, true]].map(([mx, mz]) => mirrored(planBuilding(type, long, short, seed * 7 + k, custom), mx, mz))) : [planBuilding(type, long, short, seed, custom)];
+  const custom = rooms ? { rooms, hub, bands } : null, busy = ownProps.length || ownDoors.length;
+  // Redividing: every room stays on its side of the corridor and in its order; the new one goes to the end of the emptier side.
+  const kept = members?.rooms?.map(room => { const corners = worldFootprint(document.layout.entities[room.id]).map(([x, z]) => toLocal([x, 0, z])), xs = corners.map(p => p[0]), zs = corners.map(p => p[1]); return { ...room, x: (Math.min(...xs) + Math.max(...xs)) / 2, z: (Math.min(...zs) + Math.max(...zs)) / 2, span: Math.max(...xs) - Math.min(...xs) }; });
+  const rearranged = kept && [[false, false], [true, false], [false, true], [true, true]].map(([mx, mz]) => {
+    const at = room => [mx ? -room.x : room.x, mz ? -room.z : room.z], entry = kept.find(room => room.hub), others = kept.filter(room => !room.hub && room.kind).sort((a, b) => at(a)[0] - at(b)[0]);
+    if (entry && at(entry)[0] > 0) return null;
+    const list = [...others.map(room => room.kind), ...(members.add ? [members.add] : [])], base = { rooms: list, hub, hubLength: entry?.span };
+    const sides = planBuilding(type, long, short, seed, base).arrangement.length, lists = Array.from({ length: sides }, () => []);
+    for (const room of others) lists[sides === 2 && at(room)[1] > 0 ? 1 : 0].push(room.kind);
+    if (!members.add) return mirrored(planBuilding(type, long, short, seed, { ...base, rooms: lists.flat(), bands: lists }), mx, mz);
+    // The new room goes to the end of a side that can take it without moving the others, the emptier side first.
+    const load = list => list.reduce((sum, key) => sum + (ROOM_WEIGHT[key] ?? 1), 0);
+    for (const side of lists.map((_, i) => i).sort((a, b) => load(lists[a]) - load(lists[b]))) {
+      const tried = lists.map((list, i) => i === side ? [...list, members.add] : [...list]), plan = planBuilding(type, long, short, seed, { ...base, rooms: tried.flat(), bands: tried });
+      if (!plan.dropped && JSON.stringify(plan.arrangement) === JSON.stringify(tried)) return mirrored(plan, mx, mz);
+    }
+    // No side takes it as things stand: the rooms are dealt out again, which may move them.
+    return { ...mirrored(planBuilding(type, long, short, seed, base), mx, mz), moved: true };
+  }).filter(Boolean);
+  const variants = rearranged?.length ? rearranged : busy ? [0, 1, 2, 3, 4, 5].flatMap(k => [[false, false], [true, false], [false, true], [true, true]].map(([mx, mz]) => mirrored(planBuilding(type, long, short, seed * 7 + k, custom), mx, mz))) : [planBuilding(type, long, short, seed, custom)];
   const plan = variants.map((candidate, i) => ({ candidate, score: fit(candidate) - i * 1e-4 })).sort((a, b) => b.score - a.score)[0].candidate, { programme } = plan;
   const cells = [...plan.rooms, ...(plan.corridor ? [plan.corridor] : [])], hubCell = plan.rooms[0], hall = plan.corridor;
-  const group = { id: id(), name: programme.name, parentId: outline?.groupId ?? null, locked: false, audience: 'all' }, roofGroup = { id: id(), name: `Cobertura — ${programme.name}`, parentId: group.id, locked: false, audience: 'all' };
+  const group = members ? { id: members.groupId ?? null } : { id: id(), name: programme.name, parentId: outline?.groupId ?? null, locked: false, audience: 'all' }, roofGroup = { id: id(), name: `Cobertura — ${programme.name}`, parentId: group.id, locked: false, audience: 'all' };
   const built = [], [X0, X1, Z0, Z1] = [-long / 2, long / 2, -short / 2, short / 2];
   for (const cell of cells) {
     const same = cells.filter(c => c.key === cell.key);
@@ -223,6 +247,8 @@ export function proposeBuilding(document, { floorId = null, width = 14, length =
   const connect = (a, b, name, size) => {
     const edge = meeting(a, b); if (!edge) return false;
     const [at, vertical] = edge, from = Math.max(vertical ? a.z0 : a.x0, vertical ? b.z0 : b.x0), to = Math.min(vertical ? a.z1 : a.x1, vertical ? b.z1 : b.x1), mid = (from + to) / 2;
+    const standing = lineAt(records, vertical ? [at, mid] : [mid, at], vertical);
+    if (standing?.adopted && standing.openings.some(([offset, , kind]) => { const p = vertical ? standing.a[1] + (standing.b[1] - standing.a[1]) * offset / standing.span : standing.a[0] + (standing.b[0] - standing.a[0]) * offset / standing.span; return kind === 'door' && p > from && p < to; })) return true;
     // Beside the middle if the person's furniture stands in the doorway.
     for (const t of [mid, mid - (to - from) * .25, mid + (to - from) * .25]) { const point = vertical ? [at, t] : [t, at]; if (ownProps.some(p => Math.hypot(...toLocal(p.transform.position).map((v, i) => v - point[i])) < .9)) continue; if (cut('door', lineAt(records, point, vertical), point, Math.min(size, to - from - .6), { name, height: 2.1, surfaceId: b.floor.id })) return true; }
     const point = vertical ? [at, mid] : [mid, at]; return cut('door', lineAt(records, point, vertical), point, Math.min(size, to - from - .6), { name, height: 2.1, surfaceId: b.floor.id });
@@ -237,22 +263,28 @@ export function proposeBuilding(document, { floorId = null, width = 14, length =
   }
   const proposal = compose(document, expectedEditVersion, `Construir ${programme.name.toLowerCase()}`, context => {
     const { store, update, remove, report } = context;
-    store.execute('proposal.accept', { proposal: { id: id(), expectedEditVersion: store.editVersion, label: 'Pisos', entities: cells.map(cell => cell.floor), groups: [group], areas: [], lights: [] } });
-    if (outline) {
+    store.execute('proposal.accept', { proposal: { id: id(), expectedEditVersion: store.editVersion, label: 'Pisos', entities: cells.map(cell => cell.floor), groups: members ? [] : [group], areas: [], lights: [] } });
+    if (sources.size) {
       // Everything the person had on the outline moves to the room it stands in.
       const cellAt = position => { const at = toLocal(position); return cells.find(c => inside(c, at)) ?? cells.reduce((best, c) => Math.hypot((c.x0 + c.x1) / 2 - at[0], (c.z0 + c.z1) / 2 - at[1]) < Math.hypot((best.x0 + best.x1) / 2 - at[0], (best.z0 + best.z1) / 2 - at[1]) ? c : best); };
+      const { clear } = context, alive = key => Boolean(store.document.layout.entities[key]);
+      if (members) {
+        // Inner walls that the new plan does not use come down, with their doors; furniture the assistant
+        // itself brought and that a new wall would cross goes too. What the person placed always stays.
+        for (const wall of [...strayWalls, ...ownWalls.filter(w => !adopted.has(w.entity.id)).map(w => w.entity)]) if (alive(wall.id)) clear(wall.id);
+        for (const prop of ownProps.filter(p => members.owned.has(p.id))) { const at = toLocal(prop.transform.position), cell = cells.find(c => inside(c, at)), was = members.rooms.find(room => room.id === prop.surfaceId)?.kind; if (alive(prop.id) && (!cell || cell.key !== was || !inside(cell, at, Math.min(Math.max(...prop.footprint) / 2, .45) - .05))) clear(prop.id); }
+      }
       for (const [entityId, touching] of adopted) update('entity', entityId, { surfaceId: [...touching][0].floor.id, floorIds: [...touching].map(c => c.floor.id) });
-      for (const wall of strayWalls) { update('entity', wall.id, { surfaceId: cellAt(wall.transform.position).floor.id, floorIds: [cellAt(wall.transform.position).floor.id] }); report.kept.push(wall.id); }
-      for (const wall of ownWalls.filter(w => !adopted.has(w.entity.id))) { update('entity', wall.entity.id, { surfaceId: cellAt(wall.entity.transform.position).floor.id, floorIds: [cellAt(wall.entity.transform.position).floor.id] }); report.kept.push(wall.entity.id); }
-      for (const entity of entities.filter(e => onOutline(e) && e.kind !== 'wall')) update('entity', entity.id, { surfaceId: cellAt(entity.transform?.position ?? center).floor.id });
+      for (const wall of [...strayWalls, ...ownWalls.filter(w => !adopted.has(w.entity.id)).map(w => w.entity)].filter(w => alive(w.id))) { update('entity', wall.id, { surfaceId: cellAt(wall.transform.position).floor.id, floorIds: [cellAt(wall.transform.position).floor.id] }); report.kept.push(wall.id); }
+      for (const entity of entities.filter(e => onOutline(e) && e.kind !== 'wall' && alive(e.id))) update('entity', entity.id, { surfaceId: cellAt(entity.transform?.position ?? center).floor.id });
       for (const light of Object.values(look.lights).filter(onOutline)) update('light', light.id, { surfaceId: cellAt(light.position).floor.id });
       for (const token of Object.values(document.tokens ?? {}).filter(onOutline)) update('token', token.id, { surfaceId: cellAt(token.transform.position).floor.id });
-      remove(outline.id);
+      for (const key of sources) remove(key);
     }
     store.execute('proposal.accept', { proposal: { id: id(), expectedEditVersion: store.editVersion, label: 'Estrutura', entities: built.filter(e => e.kind !== 'floor'), groups: [], areas: [], lights: [] } });
     plan.rooms.forEach((cell, i) => dress(context, cell, catalog, { furnish, lighting, seed: seed + i, sources: cell.hub ? 3 : 2, era }));
     if (hall) dress(context, hall, catalog, { furnish: false, lighting, seed, era });
-    const model = roof && catalog.find(a => a.id === 'builtin-house-roof');
+    const model = roof && !members && catalog.find(a => a.id === 'builtin-house-roof');
     if (model) store.execute('proposal.accept', { proposal: { id: id(), expectedEditVersion: store.editVersion, label: 'Cobertura', groups: [roofGroup], areas: [], lights: [], entities: [createEntity('prop', { name: 'Telhado', assetRef: { id: model.id, revision: model.revision }, footprint: model.footprint, position: toWorld(0, 0, height), rotation: quaternionFromYaw(yaw + 90), scale: [(short + .9) / model.bounds[0], Math.max(.6, Math.min(1.2, short / 9)), (long + .9) / model.bounds[2]], groupId: roofGroup.id, ...placing })] } });
   });
   const names = plan.rooms.map(cell => cell.floor.name.toLowerCase()), say = text => proposal.report.reasons.push(text);
@@ -261,6 +293,7 @@ export function proposeBuilding(document, { floorId = null, width = 14, length =
   if (ownProps.length) { const homes = new Map(); for (const prop of ownProps) { const at = toLocal(prop.transform.position), cell = cells.find(c => inside(c, at)); if (cell) homes.set(cell.floor.name, (homes.get(cell.floor.name) ?? 0) + 1); } say(`A planta foi escolhida pelo que já estava no contorno: ${[...homes].map(([room, count]) => `${count} em ${room.toLowerCase()}`).join(', ')}.`); }
   for (const prop of ownProps) { const at = toLocal(prop.transform.position), cell = cells.find(c => inside(c, at)); if (cell && !inside(cell, at, Math.min(Math.max(...prop.footprint) / 2, .45) - .05)) proposal.report.conflicts.push(`${prop.name}: fica junto a uma parede nova; confira na prévia.`); }
   if (strayWalls.length || ownWalls.some(w => !adopted.has(w.entity.id))) say('Paredes suas que não coincidem com a planta ficaram onde estavam.');
+  proposal.dropped = plan.dropped; proposal.moved = Boolean(plan.moved);
   if (plan.dropped) say(`O contorno não comporta ${plan.dropped === 1 ? 'um cômodo' : `${plan.dropped} cômodos`} do programa; aumente o contorno para incluí-${plan.dropped === 1 ? 'lo' : 'los'}.`);
   return proposal;
 }
@@ -349,6 +382,9 @@ export function proposeAddRoom(document, { floorId, template, seed = 1, height =
   return proposal;
 }
 
+/** What a room is: the recipe it was furnished with, or else what its contents suggest. */
+export const roomKind = (document, floorId, catalog = []) => Object.values(document.layout.compositions ?? {}).find(c => document.layout.areas[c.areaId]?.surfaceId === floorId)?.parameters.template ?? describeRoom(document, floorId, catalog)?.inferred[0]?.id ?? null;
+
 /**
  * What the assistant understands of the building a room belongs to: the rooms
  * that touch one another, the kind of building they add up to, and which rooms
@@ -360,10 +396,70 @@ export function describeBuilding(document, floorId, catalog = []) {
   const outline = floor => worldFootprint(floor, .25), linked = new Set([floorId]);
   for (let grown = true; grown;) { grown = false; for (const floor of floors) if (!linked.has(floor.id) && [...linked].some(key => footprintsOverlap(outline(floor), outline(document.layout.entities[key])))) { linked.add(floor.id); grown = true; } }
   if (linked.size < 2) return null;
-  const rooms = [...linked].map(key => ({ id: key, name: document.layout.entities[key].name, kind: describeRoom(document, key, catalog)?.inferred[0]?.id ?? null })), kinds = rooms.map(room => room.kind).filter(Boolean);
+  const rooms = [...linked].map(key => ({ id: key, name: document.layout.entities[key].name, kind: roomKind(document, key, catalog) })), kinds = rooms.map(room => room.kind).filter(Boolean);
   if (!kinds.length) return { rooms, type: null, missing: [] };
   // The building whose programme the known rooms cover best.
   const scored = BUILDING_TYPES.map(type => { const wanted = [type.hub, ...type.rooms.map(([key]) => key)], hits = kinds.filter(kind => wanted.includes(kind)).length; return { type, score: hits / kinds.length + (kinds.includes(type.hub) ? .35 : 0), missing: [...new Set([type.hub, ...type.rooms.slice(0, 3).map(([key]) => key)])].filter(key => !kinds.includes(key)) }; }).sort((a, b) => b.score - a.score)[0];
   if (scored.score < .5) return { rooms, type: null, missing: [] };
   return { rooms, type: { id: scored.type.id, name: scored.type.name }, missing: scored.missing.map(key => ({ id: key, name: recipeName(key) })), empty: rooms.filter(room => !room.kind).length };
+}
+
+/**
+ * Takes a room out of a building without opening its neighbours: walls shared
+ * with other rooms stay and become theirs, the door that led to the room is
+ * closed, and the room's own walls, floor and contents go.
+ */
+export function proposeRemoveRoom(document, { floorId } = {}, expectedEditVersion = 0) {
+  validateDocument(document);
+  const floor = document.layout.entities[floorId], entities = Object.values(document.layout.entities);
+  if (floor?.kind !== 'floor') throw new ValidationError('Escolha o cômodo a remover.');
+  if (isLocked(document, floor)) throw new ValidationError('O piso ou sua pasta está bloqueado.');
+  const rehoming = [], kept = [];
+  for (const wall of entities.filter(e => e.kind === 'wall' && (e.surfaceId === floorId || e.floorIds?.includes(floorId)))) {
+    const others = (wall.floorIds ?? []).filter(key => key !== floorId && document.layout.entities[key]);
+    if (!others.length) continue;                       // the room's own wall leaves with it
+    for (const door of entities.filter(e => e.kind === 'door' && e.wallId === wall.id && e.surfaceId === floorId)) rehoming.push({ kind: 'entity', id: door.id, remove: true });
+    for (const opening of entities.filter(e => e.kind === 'window' && e.wallId === wall.id && e.surfaceId === floorId)) rehoming.push({ kind: 'entity', id: opening.id, patch: { surfaceId: others[0] } });
+    rehoming.push({ kind: 'entity', id: wall.id, patch: { surfaceId: others[0], floorIds: others } }); kept.push(wall.id);
+  }
+  const report = { kept, suppressed: [], omissions: [], conflicts: [], reasons: [`${floor.name} sai com o que há nele.${kept.length ? ` ${kept.length === 1 ? 'A parede dividida com o vizinho fica' : `As ${kept.length} paredes divididas com os vizinhos ficam`}, sem a porta que levava a ele.` : ''}`] };
+  return { id: id(), expectedEditVersion, label: `Remover ${floor.name.toLowerCase()}`, entities: [], groups: [], areas: [], lights: [], updates: [], rehoming, removals: [{ kind: 'entity', id: floorId }], report };
+}
+
+/**
+ * Fits another room inside a building that already exists. The outline stays;
+ * the interior is divided again for the rooms it had plus the new one, each
+ * kept where its furniture is. Outside walls, their doors and windows and
+ * everything the person placed stay; inner walls move to the new plan and the
+ * rooms are completed by the room assistant.
+ */
+export function proposeRedivide(document, { floorId, add = null, seed = 1, furnish = true, lighting = true } = {}, expectedEditVersion = 0, catalog = []) {
+  validateDocument(document);
+  const anchor = document.layout.entities[floorId];
+  if (anchor?.kind !== 'floor') throw new ValidationError('Selecione um cômodo do prédio.');
+  if (add && !ROOM_RECIPES.some(recipe => recipe.id === add)) throw new ValidationError('Tipo de cômodo inválido.');
+  const building = describeBuilding(document, floorId, catalog), ids = building ? building.rooms.map(room => room.id) : [floorId], yaw = yawFromQuaternion(anchor.transform.rotation), frame = frameAt(anchor.transform.position, yaw);
+  const floors = ids.map(key => document.layout.entities[key]);
+  if (floors.some(floor => floor.vertices || isLocked(document, floor))) throw new ValidationError('Este prédio tem pisos em polígono ou bloqueados; rearranjar por dentro só funciona com cômodos retangulares e livres.');
+  const corners = floors.flatMap(floor => worldFootprint(floor).map(([x, z]) => frame.toLocal([x, 0, z]))), xs = corners.map(p => p[0]), zs = corners.map(p => p[1]);
+  const [x0, x1, z0, z1] = [Math.min(...xs), Math.max(...xs), Math.min(...zs), Math.max(...zs)], covered = floors.reduce((sum, floor) => sum + floor.width * floor.length, 0);
+  if (Math.abs(covered - (x1 - x0) * (z1 - z0)) > (x1 - x0) * (z1 - z0) * .03) throw new ValidationError('Os cômodos deste prédio não formam um retângulo, então não há como rearranjar por dentro. Use ampliar para fora.');
+  // The rooms it has, by what each is; the room one enters is the one by an outside door.
+  const kinds = (building?.rooms ?? [{ id: floorId, name: anchor.name, kind: roomKind(document, floorId, catalog) }]).filter(room => !/corredor/i.test(room.name));
+  const entities = Object.values(document.layout.entities), outer = entities.filter(e => e.kind === 'wall' && (e.floorIds ?? [e.surfaceId]).filter(key => ids.includes(key)).length === 1 && ids.includes((e.floorIds ?? [e.surfaceId])[0]));
+  const entered = entities.filter(e => e.kind === 'door').map(door => outer.find(wall => wall.id === door.wallId)).filter(Boolean).map(wall => (wall.floorIds ?? [wall.surfaceId])[0]);
+  const type = building?.type?.id ?? 'house', typeHub = BUILDING_TYPES.find(entry => entry.id === type).hub;
+  const hubRoom = kinds.find(room => entered.includes(room.id) && room.kind) ?? kinds.find(room => room.kind === typeHub) ?? kinds.find(room => room.kind) ?? null;
+  const rooms = [...kinds.filter(room => room !== hubRoom && room.kind).map(room => room.kind), ...(add ? [add] : [])], unknown = kinds.filter(room => !room.kind).length;
+  const owned = new Set(Object.values(document.layout.compositions ?? {}).flatMap(c => Object.values(c.slots).map(slot => slot.id)));
+  const centre = rotateXZ([(x0 + x1) / 2, 0, (z0 + z1) / 2], yaw).map((v, i) => v + anchor.transform.position[i]);
+  const proposal = proposeBuilding(document, { type, rooms, hub: hubRoom?.kind ?? typeHub, seed, furnish, lighting, roof: false, era: roomEra(document, floorId),
+    members: { ids, width: x1 - x0, length: z1 - z0, center: centre, yaw, groupId: anchor.groupId ?? null, levelId: anchor.levelId ?? null, layerId: anchor.layerId ?? null, owned, add, rooms: kinds.map(room => ({ id: room.id, kind: room.kind, hub: room === hubRoom })) } }, expectedEditVersion, catalog);
+  const wanted = add ? ROOM_RECIPES.find(recipe => recipe.id === add).name : null, fits = !proposal.dropped;
+  proposal.label = wanted ? `Encaixar ${wanted.toLowerCase()} no prédio` : 'Rearranjar o prédio por dentro';
+  proposal.report.reasons.unshift(wanted && !fits ? `Não há espaço para ${wanted.toLowerCase()} dentro deste prédio com os cômodos que ele já tem. Tire um cômodo ou amplie para fora.` : `O contorno do prédio fica como está; o interior é dividido de novo${wanted ? ` para caber ${wanted.toLowerCase()}` : ''}.`);
+  if (proposal.moved && fits) proposal.report.conflicts.push('Para caber, alguns cômodos mudaram de lugar; a mobília que o assistente tinha posto neles foi refeita.');
+  if (unknown) proposal.report.conflicts.push(`${unknown === 1 ? 'Um cômodo vazio ou não reconhecido deu' : `${unknown} cômodos vazios ou não reconhecidos deram`} lugar à nova divisão.`);
+  proposal.fits = fits;
+  return proposal;
 }

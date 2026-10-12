@@ -41,7 +41,7 @@ import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
 import { proposeRoomState } from '../authoring/room-state.js';
 import { describeRoom } from '../authoring/room-insight.js';
-import { proposeBuilding, proposeAddRoom, describeBuilding, planBuilding, addRoomSpots } from '../authoring/building.js';
+import { proposeBuilding, proposeAddRoom, proposeRemoveRoom, proposeRedivide, describeBuilding, planBuilding, addRoomSpots } from '../authoring/building.js';
 import { proposeRoomLighting, proposeRoomDetails, roomMood, suggestAtmosphere } from '../authoring/room-ambience.js';
 import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { resampleTerrain, resizeTerrain, protectTerrainFloors } from '../authoring/terrain.js';
@@ -145,7 +145,7 @@ export async function startApplication() {
   let activeSurfaceId, buildHeight = 0, smartFloorId = null, selectedIds = new Set();
   let smartOptions = { template: 'office', density: 'normal', chairs: 4, seed: 1, lighting: true, restoreDeleted: false };
   // The room type follows what is in the room until the person picks one for that floor.
-  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null, ambienceOptions = { mood: 'auto', amount: .6, seed: 1 }, buildingOptions = { floorId: '', width: 15, length: 9, type: 'house', seed: 1, furnish: true, lighting: true, roof: true, addTemplate: 'bathroom', rooms: null, hub: null, center: null, bands: null, pick: null, era: 'modern' };
+  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null, ambienceOptions = { mood: 'auto', amount: .6, seed: 1 }, buildingOptions = { floorId: '', width: 15, length: 9, type: 'house', seed: 1, furnish: true, lighting: true, roof: true, addTemplate: 'bathroom', rooms: null, hub: null, center: null, bands: null, pick: null, era: 'modern', mode: null };
   let drawingBuilding = false, topView = false, roofsChoice = null;
   let anchorEditing = false, anchorHostId = '';
   const openBuildSections = new Set(['room']);
@@ -656,15 +656,17 @@ export async function startApplication() {
       const insight = smartFloorId ? describeRoom(store.document, smartFloorId, assets) : null;
       if (insight?.inferred[0] && !currentComposition() && smartTemplateChosenFor !== smartFloorId) smartOptions.template = insight.inferred[0].id;
       if (buildingOptions.floorId && !store.document.layout.entities[buildingOptions.floorId]) buildingOptions.floorId = '';
-      let spots = null; if (smartFloorId && openBuildSections.has('building')) { try { spots = addRoomSpots(store.document, { floorId: smartFloorId, template: buildingOptions.addTemplate, seed: buildingOptions.seed }, assets); } catch { spots = null; } }
-      panel.innerHTML += buildingPanel(store.document, buildingOptions, smartFloorId, spots);
+      // One job at a time: extending when a room of a building is selected, a new building otherwise, unless the person chose.
+      const inBuilding = Boolean(smartFloorId && describeBuilding(store.document, smartFloorId, assets)), buildingMode = buildingOptions.mode ?? (inBuilding ? 'extend' : 'new');
+      let spots = null; if (smartFloorId && buildingMode === 'extend' && openBuildSections.has('building')) { try { spots = addRoomSpots(store.document, { floorId: smartFloorId, template: buildingOptions.addTemplate, seed: buildingOptions.seed }, assets); } catch { spots = null; } }
+      panel.innerHTML += buildingPanel(store.document, buildingOptions, smartFloorId, spots, buildingMode);
       if (insight) { insight.building = describeBuilding(store.document, smartFloorId, assets); if (insight.building) { try { insight.building.plan = addRoomSpots(store.document, { floorId: smartFloorId, template: 'bathroom' }, assets).rooms; } catch { /* no plan to draw */ } } insight.mood = roomMood(store.document, smartFloorId, assets); insight.atmosphere = suggestAtmosphere(store.document, smartFloorId, assets); }
       panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition(), insight, stateOptions, ambienceOptions);
       // Plain headings and one level of tasks: what is inside a task is visible as soon as it opens.
       taskList(panel, [
         { title: 'Construções', tasks: [
           [0,'room','Sala','Desenhar no chão ou criar por medidas'], [1,'manual','Peças avulsas','Piso, parede, porta, luzes, fogo e fumaça'],
-          [4,'structures','Pisos, paredes e acessos','Contornos, superfícies de apoio e escadas'], [9,'furnishing','Assistente de cômodo','Entende o que já existe, completa e muda o estado'], [8,'building','Prédio','Divide um contorno em cômodos prontos'] ] },
+          [4,'structures','Pisos, paredes e acessos','Contornos, superfícies de apoio e escadas'], [9,'furnishing','Assistente de cômodo','Entende o que já existe, completa e muda o estado'], [8,'building','Prédio','Novo a partir de um contorno, ou ampliar o que existe'] ] },
         { title: 'Paisagem', tasks: [[6,'terrain','Terreno e relevo','Criar terreno, elevar, nivelar e pintar'], [7,'landscape','Água e vegetação','Lagos, rios, gelo e plantas']] },
         { title: 'Personagens', tasks: [[2,'characters','Tokens','Colocar personagens na mesa']] },
         { title: 'Organização', tasks: [[5,'levels','Andares e camadas','Separar e isolar partes da cena'], [3,'grid','Grid e precisão','Mostrar, encaixar e medir']] },
@@ -1529,7 +1531,8 @@ export async function startApplication() {
     }
     if (field.startsWith('building-')) {
       const key = field.slice(9), live = Boolean(proposal?.buildingPreview);
-      buildingOptions.pick = null; if (!['addTemplate', 'furnish', 'lighting', 'roof', 'era'].includes(key)) buildingOptions.bands = null;
+      buildingOptions.pick = null; if (key === 'mode') { buildingOptions.mode = value; clearProposal(); renderSidebar(); return; }
+      if (!['addTemplate', 'furnish', 'lighting', 'roof', 'era'].includes(key)) buildingOptions.bands = null;
       if (key === 'roomAdd') { if (value) buildingOptions.rooms = [...buildingRooms(), value]; }
       else if (key === 'hub') { buildingOptions.rooms = buildingRooms(); buildingOptions.hub = value; }
       else { buildingOptions[key] = value; if (key === 'type') { buildingOptions.rooms = null; buildingOptions.hub = null; } if (key === 'floorId') buildingOptions.center = null; }
@@ -1887,6 +1890,17 @@ export async function startApplication() {
         try { showAuthorshipProposal(proposeRoomState(store.document, { ...stateOptions, floorId: smartFloorId }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
+      case 'building-fit': {
+        // The usual way to add a room: inside the building. Outwards only when the inside has no room for it.
+        const template = metadata.rearrange ? null : metadata.id || buildingOptions.addTemplate, options = { floorId: smartFloorId, seed: buildingOptions.seed, furnish: buildingOptions.furnish, lighting: buildingOptions.lighting };
+        try {
+          const inside = proposeRedivide(store.document, { ...options, add: template }, store.editVersion, assets);
+          if (inside.fits) { showAuthorshipProposal(inside); break; }
+          notify('Não há espaço por dentro para este cômodo; a prévia mostra a ampliação para fora.');
+        } catch (error) { if (!template) { notify(error.message, true); break; } notify(`${error.message} A prévia mostra a ampliação para fora.`); }
+        try { showAuthorshipProposal(proposeAddRoom(store.document, { ...options, template }, store.editVersion, assets)); } catch (error) { notify(error.message, true); }
+        break;
+      }
       case 'building-add-room': {
         try { showAuthorshipProposal(proposeAddRoom(store.document, { floorId: smartFloorId, template: metadata.id ?? buildingOptions.addTemplate, spot: Number(metadata.spot ?? 0), seed: buildingOptions.seed, furnish: buildingOptions.furnish, lighting: buildingOptions.lighting }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
@@ -1894,12 +1908,15 @@ export async function startApplication() {
       case 'building-draw': drawingBuilding = true; clearProposal(); setTool('room'); notify('Arraste no chão para desenhar o contorno do prédio.'); break;
       case 'building-room-remove': { const live = Boolean(proposal?.buildingPreview); buildingOptions.bands = null; buildingOptions.pick = null; buildingOptions.rooms = buildingRooms().filter((_, i) => i !== Number(metadata.id)); clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
       case 'building-rooms-reset': { const live = Boolean(proposal?.buildingPreview); buildingOptions.rooms = null; buildingOptions.hub = null; buildingOptions.bands = null; buildingOptions.pick = null; clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
-      case 'building-cell': {
-        // Two clicks on the plan swap two rooms, for keyboard and touch; dragging does the same.
-        const index = Number(metadata.id);
-        if (buildingOptions.pick == null || buildingOptions.pick === index) { buildingOptions.pick = buildingOptions.pick === index ? null : index; renderSidebar(); break; }
-        swapBuildingRooms(buildingOptions.pick, index); break;
+      // A click selects a room of the plan (Delete then takes it out); dragging swaps two.
+      case 'building-cell': { const index = Number(metadata.id); buildingOptions.pick = buildingOptions.pick === index ? null : index; renderSidebar(); root.querySelector(`.building-sketch [data-action="building-cell"][data-id="${index}"]`)?.focus({ preventScroll: true }); break; }
+      case 'building-cell-delete': {
+        const plan = buildingPlan(), room = plan?.rooms[buildingOptions.pick]; if (!room) break;
+        if (room.hub) { notify('O cômodo de entrada não sai da planta; troque-o de lugar ou escolha outro como entrada.', true); break; }
+        const live = Boolean(proposal?.buildingPreview), bands = plan.arrangement.map(list => [...list]); let at = 0; for (const other of plan.rooms) { if (other === room) break; if (!other.hub && other.band === room.band) at++; }
+        bands[room.band].splice(at, 1); buildingOptions = { ...buildingOptions, bands, rooms: bands.flat(), hub: plan.programme.hub, pick: null }; clearProposal(); if (live) previewBuilding(); renderSidebar(); break;
       }
+      case 'building-room-drop': { const live = Boolean(proposal?.buildingPreview), list = [...buildingRooms()], at = list.lastIndexOf(metadata.id); if (at >= 0) list.splice(at, 1); buildingOptions = { ...buildingOptions, rooms: list, bands: null, pick: null }; clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
       // Growing the outline is shown in the scene at once, to be accepted or cancelled like any preview.
       case 'building-expand': { const needed = Number(metadata.id); if (buildingOptions.width >= buildingOptions.length) buildingOptions.width = needed; else buildingOptions.length = needed; clearProposal(); previewBuilding(); renderSidebar(); break; }
       case 'building-variation': buildingOptions.seed = (buildingOptions.seed + 1) % 4294967296; buildingOptions.bands = null; buildingOptions.pick = null; renderSidebar();
@@ -1981,7 +1998,8 @@ export async function startApplication() {
       }
       case 'spot-place': placing = { type: 'light', lightType: 'spot' }; setTool('place'); break;
       case 'light-place': placing = { type: 'light' }; setTool('place'); break;
-      case 'object-delete': { const found = locate(); if (found && confirm(found.type === 'group' ? 'Excluir a composição e todos os seus objetos? Esta ação pode ser desfeita.' : found.record.kind === 'floor' ? 'Excluir o piso e todos os elementos apoiados nele? Esta ação pode ser desfeita.' : found.record.kind === 'wall' ? 'Excluir esta parede e suas portas? Esta ação pode ser desfeita.' : 'Excluir este elemento? Esta ação pode ser desfeita.')) execute(found.type === 'group' ? 'group.delete' : `${found.type}.remove`, { id: selection }); break; }
+      case 'object-delete': { const found = locate();
+        if (found?.record.kind === 'floor' && describeBuilding(store.document, selection, assets)) { if (confirm(`Remover ${found.record.name} do prédio? As paredes divididas com os vizinhos ficam. Esta ação pode ser desfeita.`)) execute('proposal.accept', { proposal: proposeRemoveRoom(store.document, { floorId: selection }, store.editVersion) }); break; } if (found && confirm(found.type === 'group' ? 'Excluir a composição e todos os seus objetos? Esta ação pode ser desfeita.' : found.record.kind === 'floor' ? 'Excluir o piso e todos os elementos apoiados nele? Esta ação pode ser desfeita.' : found.record.kind === 'wall' ? 'Excluir esta parede e suas portas? Esta ação pode ser desfeita.' : 'Excluir este elemento? Esta ação pode ser desfeita.')) execute(found.type === 'group' ? 'group.delete' : `${found.type}.remove`, { id: selection }); break; }
       case 'material-copy': return sampleMaterial();
       case 'ruler-clear': viewport.clearMeasurement(); break;
       case 'material-paste': return pasteSelectedMaterial();
@@ -2371,7 +2389,7 @@ export async function startApplication() {
     const keys = { q: 'select', g: 'move', r: 'rotate', v: 'scale', m: 'measure' };
     if (keys[event.key.toLowerCase()]) { if (keys[event.key.toLowerCase()] === 'measure') act('tool-measure'); else setTool(keys[event.key.toLowerCase()]); }
     if (event.key.toLowerCase() === 'f') act('frame');
-    if (event.key === 'Delete' || event.key === 'Backspace') act('object-delete');
+    if (event.key === 'Delete' || event.key === 'Backspace') { if (buildingOptions.pick != null && document.activeElement?.closest?.('.building-sketch')) { event.preventDefault(); act('building-cell-delete'); } else act('object-delete'); }
   });
 
   const dialogElem = document.getElementById('documents-dialog');

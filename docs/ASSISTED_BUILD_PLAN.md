@@ -261,3 +261,31 @@ Cinco observações do usuário ao testar o prédio.
 - **Desenhar em qualquer lugar.** Erro: com um piso ativo (o último construído ou selecionado), *Desenhar o contorno na cena* e *Desenhar sala* só aceitavam o arraste sobre aquele piso. A ferramenta procurava o ponto no piso ativo em vez de no plano de trabalho. Corrigido em `renderer.js`; o teste de ponta a ponta agora desenha em chão livre com outro piso ativo.
 - **Arrastar para rearranjar.** Na planta do painel, arrastar um cômodo sobre outro troca os dois; os dois cliques continuam valendo para teclado e toque.
 - **Ampliar com prévia.** *Ampliar o contorno* abre a prévia do prédio maior na cena, para aceitar ou cancelar.
+
+### Qualidade de uso do painel Prédio (12 de outubro)
+
+Observações do usuário: com o arraste, o "clicar em um para trocar com outro" ficou confuso; Delete deveria remover o cômodo selecionado; e havia duas plantas no painel sem ficar claro o que cada uma era.
+
+- **Um trabalho por vez.** O painel tem dois modos, *Novo prédio* e *Ampliar um prédio*, e mostra uma planta só: a do prédio que está sendo planejado, ou a do prédio que já existe com os lugares livres. O modo acompanha a seleção (um cômodo de um prédio selecionado abre *Ampliar*) e pode ser trocado à mão. Cada planta tem título.
+- **Arrastar troca, clicar seleciona, Delete remove.** A troca por dois cliques saiu. O cômodo selecionado na planta sai com Delete ou pelo botão que aparece abaixo dela; o cômodo de entrada não sai, só troca. A lista de cômodos em botões foi substituída pela própria planta; o que não cabe é listado à parte, com × e a oferta de ampliar.
+- **Remover um cômodo de um prédio** (`proposeRemoveRoom`): excluir o piso de um cômodo que faz parte de um prédio mantém as paredes divididas com os vizinhos, fecha a porta que levava a ele e tira as paredes próprias, o piso e o conteúdo. Antes, excluir o piso levava também a parede compartilhada e deixava o vizinho aberto.
+
+**Testes**: caso novo em `tests/building.test.js` para a remoção; casos de ponta a ponta atualizados (uma planta por vez, seleção + Delete na planta, arraste, remoção da garagem mantendo a parede). Referência: `docs/references/assisted-build/predio-dois-modos.jpg`.
+
+### Encaixar por dentro de um prédio existente (12 de outubro)
+
+Observação do usuário: ampliar para fora é o caso excepcional; o normal ao acrescentar um cômodo é o interior se adaptar para acomodá-lo. Isso só existia para o prédio ainda no planejamento; para o prédio já construído não existia e o painel só oferecia ampliar.
+
+- **`proposeRedivide`**: o contorno do prédio fica como está e o interior é dividido de novo para os cômodos que ele tinha mais o novo. Paredes externas, a entrada, as janelas e tudo o que a pessoa colocou ficam. Cada cômodo continua do seu lado do corredor e na sua ordem; o cômodo de entrada mantém o tamanho; o novo entra no fim do lado que consegue recebê-lo. Só se nenhum lado comporta os cômodos são redistribuídos, e a prévia avisa.
+- Paredes internas que a nova divisão não usa saem, com as portas; uma porta que já liga dois cômodos é mantida. A mobília que o assistente tinha posto e que uma parede nova atravessaria, ou que ficaria num cômodo de outro tipo, é refeita; a que a pessoa colocou não se move.
+- **É o caminho principal.** No modo *Mudar um prédio*, o botão de destaque é *Encaixar por dentro*; *Criar banheiro* na leitura do assistente também encaixa por dentro. Se não há espaço, ou o prédio não é um retângulo, a prévia passa a ser a ampliação para fora, com aviso. Há ainda *Só rearranjar por dentro*.
+- O tipo de cada cômodo vem da receita com que foi mobiliado, quando há (`roomKind`); antes era sempre deduzido das peças, e uma cozinha com mesa podia ser lida como sala de jantar.
+- Largura mínima por cômodo: 1,7 m para os pequenos (banheiro, cela, arquivo) e 2,3 m para os demais; antes 2,3 m para todos, o que fazia cômodos pequenos "não caberem".
+
+**Testes**: caso novo em `tests/building.test.js` (mesmo chão coberto, casca intacta, peça da pessoa sem se mover, fogão ainda na cozinha, todo cômodo com porta, nada atravessando parede, recusa de prédio não retangular e aviso quando não cabe); o quarto caso de ponta a ponta encaixa um arquivo por dentro antes de ampliar.
+
+**Limites**
+
+- Só para prédios cujos cômodos formam um retângulo; depois de ampliar para fora, não dá mais para rearranjar por dentro.
+- Cômodos vazios ou não reconhecidos dão lugar à nova divisão.
+- O cômodo novo entra sempre no fim de um lado; não se escolhe ao lado de qual cômodo ele fica (dá para trocar no planejamento, não no prédio pronto).

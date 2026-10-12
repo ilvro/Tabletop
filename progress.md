@@ -2,6 +2,24 @@
 
 Atualizado em 12 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Encaixar cômodo por dentro de um prédio existente (12 de outubro)
+
+Motivo: o usuário esperava que acrescentar um cômodo adaptasse o interior; isso não existia para prédio construído, só ampliar para fora.
+
+**Feito**: `proposeRedivide` (mesmo contorno, interior dividido de novo, cômodos mantidos no lugar e na ordem), como ação principal do modo *Mudar um prédio* e do botão *Criar …* do assistente, com queda automática para ampliar quando não cabe; `roomKind` pela receita; largura mínima por tipo de cômodo.
+
+**Validação**: 276 unitários passam (1 novo). E2E `assisted-rooms` (5 casos, o quarto estendido) e `phase3` passam; os demais não foram repetidos. Conferência numérica das posições antes e depois; a conferência visual pegou dois defeitos corrigidos nesta mesma mudança (cômodos trocando de lado e mobília de um tipo ficando em cômodo de outro).
+
+**Pendências reais**: só prédios retangulares; não se escolhe a posição do cômodo novo no prédio pronto; arrastar cômodo para posição livre e redimensionar continuam em aberto.
+
+## Painel Prédio — qualidade de uso (12 de outubro)
+
+**Feito**: dois modos com uma planta cada (*Novo prédio* / *Ampliar um prédio*), seguindo a seleção; arrastar troca, clicar seleciona, Delete remove da planta; `proposeRemoveRoom` para tirar um cômodo de um prédio sem abrir os vizinhos, usado quando se exclui o piso de um cômodo.
+
+**Validação**: 275 unitários passam (1 novo). E2E `assisted-rooms` (5 casos, atualizados) passa; os demais arquivos não foram repetidos depois desta mudança. Captura dos dois modos conferida.
+
+**Pendências reais**: itens de qualidade de uso ainda em aberto: arrastar um cômodo para uma posição livre da planta, redimensionar cômodos, e prévia durante o arraste do contorno.
+
 ## Construção assistida — correções após o uso (12 de outubro)
 
 **Feito**: corrigido o desenho de sala/contorno, que só funcionava sobre o piso ativo (`supportPoint` no plano de trabalho em `renderer.js`); arrastar e soltar para trocar cômodos na planta; *Ampliar o contorno* abre a prévia.
