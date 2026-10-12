@@ -1,5 +1,6 @@
 import { isTrustedSnapshot } from '../state/immutable.js';
 import { ROOM_TEMPLATE_IDS } from './room-recipes.js';
+import { ROOM_ERA_IDS } from './room-eras.js';
 import { LIGHT_PROFILES, LIGHT_PIN_FIELDS, PROJECTIONS, RENDERING_DEFAULTS } from './dynamic-lighting.js';
 import {assertRockSculpt,isSculptableRock} from './rock-sculpt.js';
 import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES, TEXTURE_INTEGERS } from './materials.js';
@@ -293,7 +294,8 @@ function composition(value, path, document) {
   text(value.name, `${path}.name`); choice(value.recipeId, ['room-furnishing'], `${path}.recipeId`);
   fail([1, 2].includes(value.recipeVersion), 'Versão de receita incompatível.', path);
   reference(value.areaId, document.layout.areas, `${path}.areaId`, false);
-  keys(value.parameters, ['template', 'density', 'chairs', 'seed', 'lighting'], `${path}.parameters`);
+  keys(value.parameters, ['template', 'density', 'chairs', 'seed', 'lighting', ...(value.parameters?.era !== undefined ? ['era'] : [])], `${path}.parameters`);
+  if (value.parameters.era !== undefined) choice(value.parameters.era, ROOM_ERA_IDS, `${path}.parameters.era`);
   choice(value.parameters.template, ROOM_TEMPLATE_IDS, `${path}.parameters.template`);
   choice(value.parameters.density, ['sparse', 'normal', 'dense'], `${path}.parameters.density`);
   number(value.parameters.chairs, `${path}.parameters.chairs`, 1, 8); number(value.parameters.seed, `${path}.parameters.seed`, 0, 4294967295);

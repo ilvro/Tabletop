@@ -1,5 +1,7 @@
 # Tabletop — Progresso do Projeto
 
+**Construção assistida, ajustes após uso (11 de outubro):** telhados ocultáveis (automático na vista superior), planta clicável para trocar cômodos e selecionar pisos, escolha do lugar do cômodo novo, sugestão de ampliar o contorno, e épocas (Atual / Antiga) que filtram e trocam modelos. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).
+
 **Construção assistida, programa e contorno (11 de outubro):** a pessoa escolhe a entrada e os cômodos do prédio, vê a planta em escala, desenha o contorno direto na cena e a prévia acompanha o painel. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).
 
 **Plano do tutorial (11 de outubro):** lições como dados, avanço por condição sobre o estado, motor único, e todas as lições executadas nos testes para não envelhecerem. [Plano](docs/TUTORIAL_PLAN.md). Nada implementado ainda.

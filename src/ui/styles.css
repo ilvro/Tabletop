@@ -500,8 +500,13 @@ body { overflow: hidden; }
 .building-rooms { margin-bottom: 10px; }
 .building-rooms button { flex: 0 1 auto; }
 .building-rooms button.dropped { text-decoration: line-through; opacity: .6; }
-.building-sketch { display: block; width: 100%; margin: 4px 0 8px; }
-.building-sketch rect { fill: #2c353b; stroke: #8a959b; stroke-width: 1.2; }
-.building-sketch rect.hub { fill: #3a3327; stroke: var(--accent); }
-.building-sketch rect.hall { fill: #20262a; }
-.building-sketch text { fill: #d8dcda; font-size: 8px; text-anchor: middle; }
+.building-sketch { position: relative; width: 100%; margin: 4px 0 8px; }
+.building-sketch > * { position: absolute; box-sizing: border-box; border: 1px solid #8a959b; }
+.building-sketch > i.hall { background: #20262a; }
+.building-sketch > button { min-height: 0; padding: 0 2px; border-radius: 0; background: #2c353b; color: #d8dcda; font-size: 9px; line-height: 1.1; overflow: hidden; display: grid; place-items: center; }
+.building-sketch > button span { overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.building-sketch > button:hover { background: #38434a; }
+.building-sketch > button.hub { background: #3a3327; border-color: var(--accent); }
+.building-sketch > button.picked { background: #5a4a2c; border: 2px solid var(--accent); color: #fff; }
+.building-sketch > button.spot { background: none; border: 1.5px dashed var(--accent); color: var(--accent); font-size: 12px; font-weight: 700; }
+.building-sketch > button.spot:hover { background: #3a332755; }

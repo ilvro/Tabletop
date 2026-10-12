@@ -6,7 +6,8 @@ import { wearDefaults } from '../domain/wear.js';
 import { ROOM_STATES } from '../domain/room-states.js';
 import { roomFrame, candidates, stableRandom } from './room-layout.js';
 import { scopeFor, doorZones, AMBIENCE_TAG } from './furnishing.js';
-import { roomContents } from './room-insight.js';
+import { roomContents, roomEra } from './room-insight.js';
+import { eraAsset } from '../domain/room-eras.js';
 
 /** Marks surfaces whose wear came from a state, so tidying never erases wear the person applied. */
 export const WEAR_TAG = 'desgaste-ambientação';
@@ -27,7 +28,7 @@ export function proposeRoomState(document, { floorId, state = 'abandoned', inten
   if (isLocked(document, floor)) throw new ValidationError('O piso ou sua pasta está bloqueado.');
   const frame = roomFrame(document, floor, area), yaw = frame.yaw, contents = roomContents(document, floor.id);
   const toWorld = (x, z, height = 0) => rotateXZ([x, height, z], yaw).map((v, i) => v + area.transform.position[i]);
-  const assetOf = entity => catalog.find(a => a.id === entity.assetRef?.id), named = name => catalog.find(a => a.id === `builtin-${name}`);
+  const era = roomEra(document, floor.id), assetOf = entity => catalog.find(a => a.id === entity.assetRef?.id), named = name => { const model = eraAsset(era, name, catalog); return model && catalog.find(a => a.id === `builtin-${model}`); };
   const proposal = { id: id(), expectedEditVersion, label: `Estado do cômodo: ${definition.name}`, entities: [], groups: [], areas: newArea ? [area] : [], lights: [], updates: [], removals: [], report: { kept: [], suppressed: [], omissions: [], conflicts: [], reasons: [] } };
   const random = key => stableRandom(seed, `${state}/${key}`) * 7919 % 1, amount = (base, extra) => Math.round(base + extra * intensity);
 

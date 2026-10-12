@@ -3,6 +3,7 @@ import { quaternionFromYaw, rotateXZ, yawFromQuaternion } from '../domain/coords
 import { worldFootprint, footprintsOverlap, pointInPolygon, polygonContainsPolygon, isLocked, footprintOnFloor } from '../domain/geometry.js';
 import { ValidationError, validateDocument } from '../domain/validation.js';
 import { ROOM_RECIPES, DENSITY_LEVEL } from '../domain/room-recipes.js';
+import { ROOM_ERA_IDS, eraAsset } from '../domain/room-eras.js';
 import { roomFrame, candidates as poses, stableRandom, wallSocket } from './room-layout.js';
 export { stableRandom };
 
@@ -43,26 +44,31 @@ export function doorZones(document, floor) {
 }
 export const AMBIENCE_TAG = 'ambientação';
 
-export function proposeFurnishing(document, { floorId, compositionId, template = 'office', density = 'normal', chairs = 4, seed = 1, lighting = true, restoreDeleted = false } = {}, expectedEditVersion = 0, catalog = []) {
+export function proposeFurnishing(document, { floorId, compositionId, template = 'office', density = 'normal', chairs = 4, seed = 1, lighting = true, restoreDeleted = false, era } = {}, expectedEditVersion = 0, catalog = []) {
   validateDocument(document);
   if (document.schemaVersion !== 2) throw new ValidationError('Migre o documento antes de usar Smart Build.');
   const previous = compositionId ? document.layout.compositions[compositionId] : null;
   if (compositionId && !previous) throw new ValidationError('Composição ausente.');
   if (previous) floorId = document.layout.areas[previous.areaId].surfaceId;
   if (!ROOM_TEMPLATES.some(t => t.id === template) || !['sparse', 'normal', 'dense'].includes(density) || !Number.isInteger(chairs) || chairs < 1 || chairs > 8 || !Number.isInteger(seed) || seed < 0 || seed > 4294967295 || typeof lighting !== 'boolean' || typeof restoreDeleted !== 'boolean') throw new ValidationError('Parâmetros de Smart Build inválidos.');
+  era ??= previous?.parameters.era ?? 'modern';
+  if (!ROOM_ERA_IDS.includes(era)) throw new ValidationError('Época inválida.');
   const { floor, area, newArea } = scopeFor(document, floorId, previous);
   if (isLocked(document, floor)) throw new ValidationError('O piso ou sua pasta está bloqueado.');
-  const parameters = { template, density, chairs, seed, lighting }, look = document.look ?? document.defaultLook;
+  const parameters = { template, density, chairs, seed, lighting, ...(era !== 'modern' ? { era } : {}) }, look = document.look ?? document.defaultLook;
   const composition = { id: previous?.id ?? id(), name: `${ROOM_TEMPLATES.find(t => t.id === template).name} — ${floor.name}`, recipeId: 'room-furnishing', recipeVersion: 2, areaId: area.id, parameters, slots: {} };
   const proposal = { id: id(), expectedEditVersion, label: previous ? 'Regenerar mobiliário' : 'Mobiliar espaço', entities: [], groups: [], areas: newArea ? [area] : [], lights: [], updates: [], removals: [], compositions: [composition], report: { kept: [], suppressed: [], omissions: [], conflicts: [], reasons: [] } };
   const yaw = yawFromQuaternion(area.transform.rotation), [w, l] = [area.width, area.length];
   const toWorld = (x, z, height = 0) => rotateXZ([x, height, z], yaw).map((v, i) => v + area.transform.position[i]);
   const recipe = ROOM_RECIPES.find(entry => entry.id === template), level = DENSITY_LEVEL[density];
-  const frame = roomFrame(document, floor, area), placed = new Map(), candidates = [];
+  const frame = roomFrame(document, floor, area), placed = new Map(), candidates = [], absent = new Set();
   for (const rule of recipe.items) {
     if ((rule.level ?? 0) > level) continue;
     const total = rule.count === 'chairs' ? chairs : Array.isArray(rule.count) ? rule.count[level] : rule.count ?? 1;
-    for (let index = 0; index < total; index++) candidates.push({ slot: rule.count === undefined ? rule.slot : `${rule.slot}.${index + 1}`, rule, index, total, assetId: `builtin-${rule.asset}` });
+    // The era decides the model, or that the period had no such thing; what depended on it goes too.
+    const model = eraAsset(era, rule.asset, catalog);
+    if (!model || absent.has(rule.of) || absent.has(rule.of?.replace(/\.\d+$/, ''))) { absent.add(rule.slot); continue; }
+    for (let index = 0; index < total; index++) candidates.push({ slot: rule.count === undefined ? rule.slot : `${rule.slot}.${index + 1}`, rule, index, total, assetId: `builtin-${model}` });
   }
   // Light budget is bounded and proportional to area. No shadows on generated points.
   if (lighting) {
@@ -110,7 +116,7 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
       if (own) {
         adoptable.splice(adoptable.indexOf(own), 1);
         const [x, z] = frame.toLocal(own.transform.position);
-        placed.set(key, { id: own.id, x, z, rotation: yawFromQuaternion(own.transform.rotation) - yaw, width: asset.footprint[0] * own.transform.scale[0], depth: asset.footprint[1] * own.transform.scale[2], top: own.transform.position[1] - area.transform.position[1] + (asset.supportHeight ?? 0) * own.transform.scale[1] });
+        placed.set(key, { id: own.id, x, z, rotation: yawFromQuaternion(own.transform.rotation) - yaw, width: asset.footprint[0] * own.transform.scale[0], depth: asset.footprint[1] * own.transform.scale[2], top: own.transform.position[1] - area.transform.position[1] + (asset.supportHeight ?? 0) * own.transform.scale[1], support: asset.supportHeight > 0 });
         proposal.report.reasons.push(`${own.name}: já estava no cômodo e foi aproveitado.`); continue;
       }
       // The first pose that is free wins; hanging and flat pieces take no floor space.
@@ -141,7 +147,7 @@ export function proposeFurnishing(document, { floorId, compositionId, template =
       if (solid) occupied.push({ id: item.id, corners: worldFootprint(item, .08), tight: worldFootprint(item) });
       // Later pieces refer to this one where it really is, including manual moves.
       const [x, z] = frame.toLocal(item.transform.position), asset = candidate.asset;
-      placed.set(key, { id: item.id, x, z, rotation: yawFromQuaternion(item.transform.rotation) - yaw, width: asset.footprint[0] * item.transform.scale[0], depth: asset.footprint[1] * item.transform.scale[2], top: item.transform.position[1] - area.transform.position[1] + (asset.supportHeight ?? 0) * item.transform.scale[1] });
+      placed.set(key, { id: item.id, x, z, rotation: yawFromQuaternion(item.transform.rotation) - yaw, width: asset.footprint[0] * item.transform.scale[0], depth: asset.footprint[1] * item.transform.scale[2], top: item.transform.position[1] - area.transform.position[1] + (asset.supportHeight ?? 0) * item.transform.scale[1], support: asset.supportHeight > 0 });
     } else if (!pointInPolygon(localFloor([item.position[0], item.position[2]]), floorPolygon)) { proposal.report.omissions.push(`${label}: ponto fora do piso.`); continue; }
     composition.slots[key] = { id: item.id, kind, baseline };
     if (current) {

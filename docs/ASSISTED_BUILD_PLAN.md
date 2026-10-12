@@ -234,3 +234,24 @@ Itens 3 e 4 combinados depois da observação sobre presets.
 - A prévia só aparece ao soltar o arraste, não durante.
 - Não se escolhe o tamanho de cada cômodo nem quem fica ao lado de quem; isso continua a cargo da planta.
 - A lista da pessoa volta à sugestão do tipo quando o tipo é trocado.
+
+### Ajustes pedidos após o uso (11 de outubro)
+
+Cinco observações do usuário ao testar o prédio.
+
+- **Telhados na vista superior.** Botão *Telhados* na faixa de câmera; na vista superior o telhado é levantado sozinho, a menos que a pessoa escolha o contrário. Vale para telhados, forros e abóbadas, só na janela de edição: o projetor sempre mostra.
+- **A planta é clicável.** No painel do prédio, dois cliques na planta trocam dois cômodos de lugar (inclusive o de entrada), com os tamanhos acompanhando os cômodos (`arrangement`/`bands` em `planBuilding`). No Assistente de cômodo, a planta do prédio já construído aparece com cada cômodo como botão: clicar seleciona aquele piso. Cada cômodo é, de fato, um piso próprio.
+- **Escolher onde o cômodo novo fica.** *Acrescentar cômodo* desenha o prédio e os lugares possíveis em tracejado, numerados do melhor em diante (`addRoomSpots`); clicar num deles abre a prévia ali.
+- **Cômodo que não cabe sugere ampliar.** Quando a lista não cabe, o painel calcula o tamanho que comporta todos (`outlineThatFits`) e oferece *Ampliar o contorno* com um clique; se o contorno é um piso da pessoa, informa o tamanho necessário e lembra de *Acrescentar cômodo*.
+- **Épocas.** `src/domain/room-eras.js`: a época não traz arranjos próprios, ela filtra e troca modelos pelo que a biblioteca tem para o período, usando a época registrada em cada modelo do catálogo. **Antiga** tira o que depende de eletricidade ou plástico e troca o que tem equivalente (geladeira → baú, pia → barril, sofá → banco, armário de aço → guarda-roupa, luminária → candelabro). A época segue para tudo: mobília, regeneração, estados (cena de crime sem cones nem câmera), luz (só chamas, com lustre de velas onde falta) e prédio (paredes externas e pisos de pedra ou madeira). Modelos novos de época antiga passam a ser usados sem mexer no código.
+
+**Sobre medieval e futurista**: a biblioteca tem 57 modelos de época antiga (Antiguidade e Colonial/século XIX) e nenhum futurista. A época *Antiga* cobre cenários medievais com o que existe, mas não há armas, armaduras, tronos, forjas ou mobília propriamente medieval, e não há nada de ficção científica. Isso é trabalho de biblioteca (modelar os objetos), não de regras; quando os modelos existirem, uma época nova é uma entrada em `room-eras.js`.
+
+**Testes**: `tests/room-eras.test.js` (os 26 cômodos na época antiga sem modelos modernos, nada flutuando onde um móvel foi tirado, regeneração, luz, estado e prédio seguindo a época); casos de ponta a ponta estendidos com troca de cômodos na planta, ampliar o contorno, escolha do segundo lugar para a garagem e o botão de telhados. Referência: `docs/references/assisted-build/epoca-antiga.jpg`.
+
+**Limites**
+
+- Trocar cômodos de lugar funciona dentro do esquema "entrada + corredor"; não se arrasta um cômodo para uma posição livre.
+- Os lugares para o cômodo novo são os que o assistente considera viáveis (até oito); não se desenha um lugar à mão.
+- Na época antiga alguns cômodos ficam ralos porque a biblioteca não tem equivalentes (laboratório, monitoramento, mercado, enfermaria).
+- O botão de telhados reconhece telhado pelo modelo; um telhado feito de pisos ou paredes não é ocultado.

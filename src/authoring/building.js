@@ -7,7 +7,7 @@ import { ROOM_RECIPES } from '../domain/room-recipes.js';
 import { createSceneStore } from '../state/scene-store.js';
 import { proposeFurnishing } from './furnishing.js';
 import { proposeRoomLighting, proposeRoomDetails } from './room-ambience.js';
-import { describeRoom } from './room-insight.js';
+import { describeRoom, roomEra } from './room-insight.js';
 import { stableRandom } from './room-layout.js';
 
 /**
@@ -29,7 +29,8 @@ const ROOM_WEIGHT = { bathroom: .55, cell: .6, garage: 1.5, ward: 1.4, kitchen: 
 const FLOORS = { tile: ['kitchen', 'bathroom', 'ward', 'clinic', 'morgue', 'lab', 'bar', 'shop'], concrete: ['garage', 'storage', 'workshop', 'cell', 'surveillance'], carpet: ['meeting', 'office', 'reception', 'archive', 'investigation', 'interrogation', 'library', 'classroom'], stone: ['chapel', 'ritual'] };
 const WINDOWLESS = ['cell', 'archive', 'storage', 'morgue', 'surveillance', 'ritual', 'interrogation'];
 const recipeName = key => key === 'corridor' ? 'Corredor' : ROOM_RECIPES.find(recipe => recipe.id === key)?.name ?? key;
-const flooring = key => surfacePatch(Object.entries(FLOORS).find(([, rooms]) => rooms.includes(key))?.[0] ?? 'wood');
+const OLD_FLOOR = { tile: 'stone', concrete: 'stone', carpet: 'wood' };
+const flooring = (key, era = 'modern') => { const kind = Object.entries(FLOORS).find(([, rooms]) => rooms.includes(key))?.[0] ?? 'wood'; return surfacePatch(era === 'old' ? OLD_FLOOR[kind] ?? kind : kind); };
 
 /**
  * Divides an outline into the rooms of a kind of building. Works in the
@@ -56,13 +57,17 @@ export function planBuilding(type, long, short, seed = 1, custom = null) {
   // Rooms go to the band with less in it, so both sides of the corridor fill evenly.
   let lists; const fill = () => { lists = bands.map(() => []); programme.rooms.slice(0, count).forEach(([key, weight], i) => lists.reduce((a, b) => (a.reduce((s, r) => s + r.weight, 0) <= b.reduce((s, r) => s + r.weight, 0) ? a : b)).push({ key, weight: weight * (.9 + random(`w/${i}`) * .2) })); };
   fill();
-  while (count > 1 && lists.some(list => list.length && (long - hub) * Math.min(...list.map(r => r.weight)) / list.reduce((s, r) => s + r.weight, 0) < 2.3)) { count--; fill(); }
+  // The person's own arrangement, band by band, when it suits this outline.
+  const arranged = custom?.bands?.length === bands.length && custom.bands.flat().length && custom.bands.every(list => !list.length || (long - hub) * Math.min(...list.map(key => ROOM_WEIGHT[key] ?? 1)) / list.reduce((sum, key) => sum + (ROOM_WEIGHT[key] ?? 1), 0) >= 2.3);
+  if (arranged) { lists = custom.bands.map(list => list.map(key => ({ key, weight: ROOM_WEIGHT[key] ?? 1 }))); count = custom.bands.flat().length; }
+  else while (count > 1 && lists.some(list => list.length && (long - hub) * Math.min(...list.map(r => r.weight)) / list.reduce((s, r) => s + r.weight, 0) < 2.3)) { count--; fill(); }
   bands.forEach((band, b) => {
-    const list = flip > 0 ? lists[b] : [...lists[b]].reverse(), total = list.reduce((sum, room) => sum + room.weight, 0); let x = x0;
+    const list = arranged || flip > 0 ? lists[b] : [...lists[b]].reverse(), total = list.reduce((sum, room) => sum + room.weight, 0); let x = x0;
     for (const room of list) { const span = (long - hub) * room.weight / total; rooms.push({ key: room.key, x0: x, x1: x + span, z0: band.z0, z1: band.z1, band: b }); x += span; }
   });
   const hall = corridor === 'middle' ? { key: 'corridor', x0, x1: long / 2, z0: -width / 2, z1: width / 2 } : corridor === 'side' ? { key: 'corridor', x0, x1: long / 2, z0: flip > 0 ? short / 2 - width : -short / 2, z1: flip > 0 ? short / 2 : -short / 2 + width } : null;
-  return { programme, corridor: hall, rooms, dropped: programme.rooms.length - count };
+  // `arrangement` is what the person rearranges: the rooms of each band in order.
+  return { programme, corridor: hall, rooms, dropped: programme.rooms.length - count, arrangement: bands.map((_, b) => rooms.filter(room => room.band === b).map(room => room.key)) };
 }
 
 const near = (a, b) => Math.abs(a - b) < 1e-6;
@@ -139,15 +144,21 @@ function compose(document, expectedEditVersion, label, prepare) {
   for (const light of Object.values(before)) if (!lights[light.id]) removals.push({ kind: 'light', id: light.id });
   return { id: id(), expectedEditVersion, label, entities: fresh(after.layout.entities, document.layout.entities), groups: fresh(after.layout.groups, document.layout.groups), areas: fresh(after.layout.areas, document.layout.areas), lights: fresh(lights, before), compositions: fresh(after.layout.compositions, document.layout.compositions), rehoming, updates, removals, report };
 }
-const dress = ({ store, attempt, report }, cell, catalog, { furnish, lighting, seed, sources = 2 }) => {
+const dress = ({ store, attempt, report }, cell, catalog, { furnish, lighting, seed, sources = 2, era = 'modern' }) => {
   if (furnish && cell.key !== 'corridor') {
-    if (!attempt(() => proposeFurnishing(store.document, { floorId: cell.floor.id, template: cell.key, density: 'normal', seed, lighting: !lighting }, store.editVersion, catalog))) report.omissions.push(`${cell.floor.name}: não coube mobília.`);
+    if (!attempt(() => proposeFurnishing(store.document, { floorId: cell.floor.id, template: cell.key, density: 'normal', seed, lighting: !lighting, era }, store.editVersion, catalog))) report.omissions.push(`${cell.floor.name}: não coube mobília.`);
     else attempt(() => proposeRoomDetails(store.document, { floorId: cell.floor.id, amount: .5, seed }, store.editVersion, catalog));
   }
   // A building shares the scene's few real lights: two sources a room, the hub one more.
-  if (lighting) attempt(() => proposeRoomLighting(store.document, { floorId: cell.floor.id, mood: 'auto', sources, fixtures: 1 }, store.editVersion, catalog));
+  if (lighting) attempt(() => proposeRoomLighting(store.document, { floorId: cell.floor.id, mood: 'auto', sources, fixtures: 1, era }, store.editVersion, catalog));
 };
-const wallMaterial = outside => ({ ...surfacePatch('plaster'), color: outside ? '#d8cfbd' : '#e4ddd0' });
+const wallMaterial = (outside, era = 'modern') => era === 'old' && outside ? surfacePatch('stone') : { ...surfacePatch('plaster'), color: outside ? '#d8cfbd' : era === 'old' ? '#d9ceb6' : '#e4ddd0' };
+
+/** How long the outline must be for every room of the list to fit, or null if no reasonable length does. */
+export function outlineThatFits(type, long, short, seed, custom) {
+  for (let length = Math.ceil(long * 2) / 2; length <= 60; length += .5) { try { if (!planBuilding(type, length, short, seed, custom && { ...custom, bands: null }).dropped) return length; } catch { /* too small still */ } }
+  return null;
+}
 
 /**
  * Raises a building on an outline: one floor per room, shared walls, a door
@@ -160,7 +171,7 @@ const wallMaterial = outside => ({ ...surfacePatch('plaster'), color: outside ? 
  * goes, and the plan is chosen so that the furniture already there falls in
  * the rooms it belongs to, which are then completed around it.
  */
-export function proposeBuilding(document, { floorId = null, width = 14, length = 9, center = [0, 0, 0], type = 'house', seed = 1, height = 2.7, furnish = true, lighting = true, roof = true, rooms = null, hub = null } = {}, expectedEditVersion = 0, catalog = []) {
+export function proposeBuilding(document, { floorId = null, width = 14, length = 9, center = [0, 0, 0], type = 'house', seed = 1, height = 2.7, furnish = true, lighting = true, roof = true, rooms = null, hub = null, bands = null, era = 'modern' } = {}, expectedEditVersion = 0, catalog = []) {
   validateDocument(document);
   if (!Number.isInteger(seed) || seed < 0 || !(height >= 2.3 && height <= 6)) throw new ValidationError('Parâmetros do prédio inválidos.');
   const outline = floorId ? document.layout.entities[floorId] : null, entities = Object.values(document.layout.entities), look = document.look ?? document.defaultLook;
@@ -189,19 +200,19 @@ export function proposeBuilding(document, { floorId = null, width = 14, length =
     for (const door of ownDoors) if (inside({ x0: plan.rooms[0].x0 - .5, x1: plan.rooms[0].x1 + .5, z0: plan.rooms[0].z0 - .5, z1: plan.rooms[0].z1 + .5 }, door)) score += 6;
     return score;
   };
-  const custom = rooms ? { rooms, hub } : null, busy = ownProps.length || ownDoors.length, variants = busy ? [0, 1, 2, 3, 4, 5].flatMap(k => [[false, false], [true, false], [false, true], [true, true]].map(([mx, mz]) => mirrored(planBuilding(type, long, short, seed * 7 + k, custom), mx, mz))) : [planBuilding(type, long, short, seed, custom)];
+  const custom = rooms ? { rooms, hub, bands } : null, busy = ownProps.length || ownDoors.length, variants = busy ? [0, 1, 2, 3, 4, 5].flatMap(k => [[false, false], [true, false], [false, true], [true, true]].map(([mx, mz]) => mirrored(planBuilding(type, long, short, seed * 7 + k, custom), mx, mz))) : [planBuilding(type, long, short, seed, custom)];
   const plan = variants.map((candidate, i) => ({ candidate, score: fit(candidate) - i * 1e-4 })).sort((a, b) => b.score - a.score)[0].candidate, { programme } = plan;
   const cells = [...plan.rooms, ...(plan.corridor ? [plan.corridor] : [])], hubCell = plan.rooms[0], hall = plan.corridor;
   const group = { id: id(), name: programme.name, parentId: outline?.groupId ?? null, locked: false, audience: 'all' }, roofGroup = { id: id(), name: `Cobertura — ${programme.name}`, parentId: group.id, locked: false, audience: 'all' };
   const built = [], [X0, X1, Z0, Z1] = [-long / 2, long / 2, -short / 2, short / 2];
   for (const cell of cells) {
     const same = cells.filter(c => c.key === cell.key);
-    cell.floor = createEntity('floor', { name: `${recipeName(cell.key)}${same.length > 1 ? ` ${same.indexOf(cell) + 1}` : ''}`, width: cell.x1 - cell.x0, length: cell.z1 - cell.z0, position: toWorld((cell.x0 + cell.x1) / 2, (cell.z0 + cell.z1) / 2), rotation: quaternionFromYaw(yaw), groupId: group.id, ...placing, material: outline && busy ? clone(outline.material) : flooring(cell.key) });
+    cell.floor = createEntity('floor', { name: `${recipeName(cell.key)}${same.length > 1 ? ` ${same.indexOf(cell) + 1}` : ''}`, width: cell.x1 - cell.x0, length: cell.z1 - cell.z0, position: toWorld((cell.x0 + cell.x1) / 2, (cell.z0 + cell.z1) / 2), rotation: quaternionFromYaw(yaw), groupId: group.id, ...placing, material: outline && busy ? clone(outline.material) : flooring(cell.key, era) });
     built.push(cell.floor);
   }
   const outside = (line, from, to) => near(Math.abs(line.at), (line.vertical ? long : short) / 2);
   const { records, adopted } = raiseWalls(cells, ownWalls, (a, b, touching, exterior) => {
-    const entity = createEntity('wall', { name: exterior ? 'Parede externa' : 'Parede interna', length: Math.hypot(b[0] - a[0], b[1] - a[1]), height, thickness: exterior ? .2 : .14, position: toWorld(a[0], a[1]), rotation: quaternionFromYaw(yaw + Math.atan2(-(b[1] - a[1]), b[0] - a[0]) * 180 / Math.PI), surfaceId: touching[0].floor.id, floorIds: touching.map(c => c.floor.id), groupId: group.id, ...placing, material: wallMaterial(exterior) });
+    const entity = createEntity('wall', { name: exterior ? 'Parede externa' : 'Parede interna', length: Math.hypot(b[0] - a[0], b[1] - a[1]), height, thickness: exterior ? .2 : .14, position: toWorld(a[0], a[1]), rotation: quaternionFromYaw(yaw + Math.atan2(-(b[1] - a[1]), b[0] - a[0]) * 180 / Math.PI), surfaceId: touching[0].floor.id, floorIds: touching.map(c => c.floor.id), groupId: group.id, ...placing, material: wallMaterial(exterior, era) });
     built.push(entity); return entity;
   }, outside);
   const cut = (kind, record, point, size, options) => opening(built, kind, record, point, size, { groupId: group.id, ...placing, ...options });
@@ -239,8 +250,8 @@ export function proposeBuilding(document, { floorId = null, width = 14, length =
       remove(outline.id);
     }
     store.execute('proposal.accept', { proposal: { id: id(), expectedEditVersion: store.editVersion, label: 'Estrutura', entities: built.filter(e => e.kind !== 'floor'), groups: [], areas: [], lights: [] } });
-    plan.rooms.forEach((cell, i) => dress(context, cell, catalog, { furnish, lighting, seed: seed + i, sources: cell.hub ? 3 : 2 }));
-    if (hall) dress(context, hall, catalog, { furnish: false, lighting, seed });
+    plan.rooms.forEach((cell, i) => dress(context, cell, catalog, { furnish, lighting, seed: seed + i, sources: cell.hub ? 3 : 2, era }));
+    if (hall) dress(context, hall, catalog, { furnish: false, lighting, seed, era });
     const model = roof && catalog.find(a => a.id === 'builtin-house-roof');
     if (model) store.execute('proposal.accept', { proposal: { id: id(), expectedEditVersion: store.editVersion, label: 'Cobertura', groups: [roofGroup], areas: [], lights: [], entities: [createEntity('prop', { name: 'Telhado', assetRef: { id: model.id, revision: model.revision }, footprint: model.footprint, position: toWorld(0, 0, height), rotation: quaternionFromYaw(yaw + 90), scale: [(short + .9) / model.bounds[0], Math.max(.6, Math.min(1.2, short / 9)), (long + .9) / model.bounds[2]], groupId: roofGroup.id, ...placing })] } });
   });
@@ -264,8 +275,7 @@ const AFFINITY = { bathroom: { corridor: 3, bedroom: 2, living: 1 }, kitchen: { 
  * and the spot that keeps the building compact, shares the wall that is
  * there, opens a door through it and furnishes the new room.
  */
-export function proposeAddRoom(document, { floorId, template, seed = 1, height = null, furnish = true, lighting = true } = {}, expectedEditVersion = 0, catalog = []) {
-  validateDocument(document);
+function findSpots(document, { floorId, template, seed = 1 }, catalog) {
   const anchor = document.layout.entities[floorId], recipe = ROOM_RECIPES.find(entry => entry.id === template);
   if (anchor?.kind !== 'floor' || !recipe) throw new ValidationError('Escolha um cômodo do prédio e o tipo de cômodo a acrescentar.');
   const entities = Object.values(document.layout.entities), level = anchor.levelId ?? null, frame = frameAt(anchor.transform.position, yawFromQuaternion(anchor.transform.rotation)), { toWorld, toLocal, yaw } = frame;
@@ -289,8 +299,22 @@ export function proposeAddRoom(document, { floorId, template, seed = 1, height =
       options.push({ cell, host, vertical, at, start, shared, cuts, score: (AFFINITY[template]?.[kindOf(host)] ?? (kindOf(host) === 'corridor' ? 2 : 0)) * 2 - grown / 8 - cuts.length * 5 + stableRandom(seed, `add/${members.indexOf(host)}/${vertical}/${sign}/${start.toFixed(2)}`) * .5 });
     }
   }
-  if (!options.length) throw new ValidationError('Não há um lado livre neste prédio para encostar o cômodo. Libere espaço junto a uma parede externa.');
-  const best = options.sort((a, b) => b.score - a.score)[0], cell = { ...best.cell, key: template }, placing = { levelId: anchor.levelId ?? null, layerId: anchor.layerId ?? null, groupId: best.host.floor.groupId ?? null };
+  // One spot per side of the building is enough to choose from: the best of each.
+  const ranked = options.sort((p, q) => q.score - p.score), spots = [];
+  for (const option of ranked) if (!spots.some(spot => Math.min(spot.cell.x1, option.cell.x1) - Math.max(spot.cell.x0, option.cell.x0) > .4 && Math.min(spot.cell.z1, option.cell.z1) - Math.max(spot.cell.z0, option.cell.z0) > .4)) spots.push(option);
+  return { anchor, recipe, entities, frame, members, standing, spots: spots.slice(0, 8), kindOf };
+}
+/** Where a room could be added to the building of `floorId`, best first, with the building as it stands. */
+export function addRoomSpots(document, options, catalog = []) {
+  const { members, spots, frame } = findSpots(document, options, catalog);
+  return { rooms: members.map(r => ({ id: r.floor.id, name: r.floor.name, x0: r.x0, x1: r.x1, z0: r.z0, z1: r.z1 })), spots: spots.map(spot => ({ ...spot.cell, beside: spot.host.floor.name })), yaw: frame.yaw };
+}
+
+export function proposeAddRoom(document, { floorId, template, seed = 1, height = null, furnish = true, lighting = true, spot = 0, era = null } = {}, expectedEditVersion = 0, catalog = []) {
+  validateDocument(document);
+  const { anchor, recipe, entities, frame, standing, spots } = findSpots(document, { floorId, template, seed }, catalog), { toWorld, toLocal, yaw } = frame;
+  if (!spots.length) throw new ValidationError('Não há um lado livre neste prédio para encostar o cômodo. Libere espaço junto a uma parede externa.');
+  const best = spots[Math.max(0, Math.min(spots.length - 1, spot))], cell = { ...best.cell, key: template }, placing = { levelId: anchor.levelId ?? null, layerId: anchor.layerId ?? null, groupId: best.host.floor.groupId ?? null };
   const wallHeight = height ?? Math.max(2.4, ...standing.map(w => w.entity.height));
   cell.floor = createEntity('floor', { name: recipe.name, width: cell.x1 - cell.x0, length: cell.z1 - cell.z0, position: toWorld((cell.x0 + cell.x1) / 2, (cell.z0 + cell.z1) / 2), rotation: quaternionFromYaw(yaw), ...placing, material: flooring(template) });
   const built = [], sharedLine = (line, from, to) => !(line.vertical === best.vertical && near(line.at, best.at));
@@ -316,7 +340,7 @@ export function proposeAddRoom(document, { floorId, template, seed = 1, height =
     store.execute('proposal.accept', { proposal: { id: id(), expectedEditVersion: store.editVersion, label: 'Piso', entities: [cell.floor], groups: [], areas: [], lights: [] } });
     for (const [entityId] of adopted) { const wall = document.layout.entities[entityId]; update('entity', entityId, { floorIds: [...new Set([...(wall.floorIds ?? [wall.surfaceId]).filter(Boolean), cell.floor.id])] }); }
     store.execute('proposal.accept', { proposal: { id: id(), expectedEditVersion: store.editVersion, label: 'Paredes', entities: built, groups: [], areas: [], lights: [] } });
-    dress(context, cell, catalog, { furnish, lighting, seed });
+    dress(context, cell, catalog, { furnish, lighting, seed, era: era ?? roomEra(document, best.host.floor.id) });
   });
   const neighbour = best.host.floor.name.toLowerCase();
   proposal.report.reasons.push(`${recipe.name} de ${(cell.x1 - cell.x0).toFixed(1)} × ${(cell.z1 - cell.z0).toFixed(1)} m encostado em ${neighbour}${adopted.size ? ', usando a parede que já existe' : ''}, com porta entre os dois.`);

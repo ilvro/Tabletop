@@ -7,7 +7,8 @@ import { ENVIRONMENTS } from '../domain/environments.js';
 import { ROOM_RECIPES } from '../domain/room-recipes.js';
 import { roomFrame, candidates, stableRandom, wallSocket } from './room-layout.js';
 import { scopeFor, doorZones, AMBIENCE_TAG } from './furnishing.js';
-import { roomContents, describeRoom } from './room-insight.js';
+import { roomContents, describeRoom, roomEra } from './room-insight.js';
+import { eraAsset } from '../domain/room-eras.js';
 import { WEAR_TAG } from './room-state.js';
 
 /** Fixtures the assistant hung, and objects of the person it switched on; both are redone on the next pass. */
@@ -37,6 +38,7 @@ export function roomMood(document, floorId, catalog = []) {
   if (dressing.includes('ritual-circle')) return pick('candles', 'há um ritual montado');
   if (dressing.includes('blood-pool') || dressing.includes('body-bag')) return pick('harsh', 'é uma cena de crime');
   if (floor.tags?.includes(WEAR_TAG) && floor.material?.wear?.type === 'grime') return pick('dim', 'o lugar está abandonado');
+  if (roomEra(document, floorId) === 'old') return pick('candles', 'o lugar é de uma época sem eletricidade');
   const kind = describeRoom(document, floorId, catalog)?.inferred[0], recipe = ROOM_RECIPES.find(entry => entry.id === kind?.id);
   if (!recipe) return pick('warm', 'ainda não há um tipo de cômodo definido');
   return WARM_ROOMS.includes(recipe.group) || WARM_IDS.includes(recipe.id) ? pick('warm', `é ${recipe.name.toLowerCase()}`) : pick('cold', `é ${recipe.name.toLowerCase()}`);
@@ -54,7 +56,8 @@ function setup(document, floorId, catalog) {
   const frame = roomFrame(document, floor, area), contents = roomContents(document, floor.id);
   const toWorld = (x, z, height = 0) => rotateXZ([x, height, z], frame.yaw).map((v, i) => v + area.transform.position[i]);
   const inside = position => pointInPolygon(frame.toLocal(position), frame.contour);
-  return { floor, area, newArea, frame, contents, toWorld, inside, assetOf: entity => catalog.find(a => a.id === entity.assetRef?.id), named: name => catalog.find(a => a.id === `builtin-${name}`) };
+  const era = roomEra(document, floorId);
+  return { floor, area, newArea, frame, contents, toWorld, inside, era, assetOf: entity => catalog.find(a => a.id === entity.assetRef?.id), named: name => { const model = eraAsset(era, name, catalog); return model && catalog.find(a => a.id === `builtin-${model}`); } };
 }
 const blank = (label, expectedEditVersion, room) => ({ id: id(), expectedEditVersion, label, entities: [], groups: [], areas: room.newArea ? [room.area] : [], lights: [], updates: [], removals: [], report: { kept: [], suppressed: [], omissions: [], conflicts: [], reasons: [] } });
 
@@ -64,9 +67,11 @@ const blank = (label, expectedEditVersion, room) => ({ id: id(), expectedEditVer
  * hung only where those are not enough, and the bare light points a quick room
  * comes with give way to them.
  */
-export function proposeRoomLighting(document, { floorId, mood = 'auto', sources = SOURCES_PER_ROOM, fixtures = Infinity } = {}, expectedEditVersion = 0, catalog = []) {
+export function proposeRoomLighting(document, { floorId, mood = 'auto', sources = SOURCES_PER_ROOM, fixtures = Infinity, era = null } = {}, expectedEditVersion = 0, catalog = []) {
   const room = setup(document, floorId, catalog), { floor, area, frame, contents, toWorld, assetOf, named } = room;
-  const chosen = mood === 'auto' ? roomMood(document, floor.id, catalog) : ROOM_MOODS.find(entry => entry.id === mood);
+  if (era) room.era = era;   // a corridor has no recipe to say which era its building is
+  let chosen = mood === 'auto' ? roomMood(document, floor.id, catalog) : ROOM_MOODS.find(entry => entry.id === mood);
+  if (mood === 'auto' && room.era === 'old' && ['warm', 'cold'].includes(chosen.id)) chosen = { ...ROOM_MOODS.find(entry => entry.id === 'candles'), reason: 'o lugar é de uma época sem eletricidade' };
   if (!chosen) throw new ValidationError('Clima de luz inválido.');
   const proposal = blank(`Iluminar: ${chosen.name.toLowerCase()}`, expectedEditVersion, room), look = document.look ?? document.defaultLook, entities = Object.values(document.layout.entities);
   // Previous pass: fixtures leave, objects it switched on are reconsidered.
@@ -105,7 +110,7 @@ export function proposeRoomLighting(document, { floorId, mood = 'auto', sources 
   if (wanted.length > sources) proposal.report.reasons.push(`${wanted.length - sources} fontes menores ficam só como objeto, para não esgotar as luzes da cena.`);
   let hung = 0;
   const hang = (model, x, z, light) => {
-    const asset = named(model); if (!asset || !room.inside(toWorld(x, z))) return;
+    const asset = catalog.find(a => a.id === `builtin-${model}`); if (!asset || !room.inside(toWorld(x, z))) return;
     proposal.entities.push(createEntity('prop', { name: asset.name, assetRef: { id: asset.id, revision: asset.revision }, position: toWorld(x, z, height - asset.bounds[1] - .04), rotation: quaternionFromYaw(frame.yaw), footprint: asset.footprint, groupId: area.groupId ?? floor.groupId ?? null, levelId: floor.levelId ?? null, layerId: floor.layerId ?? null, tags: [FIXTURE_TAG], illumination: light })); hung++;
   };
   const spread = (wanted, place) => { const count = Math.min(wanted, fixtures), nx = Math.max(1, Math.round(Math.sqrt(count * area.width / area.length))), nz = Math.max(1, Math.ceil(count / nx)); for (let x = 0; x < nx; x++) for (let z = 0; z < nz; z++) place(area.width * ((x + .5) / nx - .5), area.length * ((z + .5) / nz - .5)); };
@@ -113,6 +118,8 @@ export function proposeRoomLighting(document, { floorId, mood = 'auto', sources 
   if (chosen.id === 'warm') { const need = Math.max(0, Math.ceil(areaSize / 14) - strong); if (need) spread(need, (x, z) => hang('house-ceiling-lamp', x, z, ceiling('lamp', .7))); }
   else if (chosen.id === 'cold') spread(Math.max(1, Math.ceil(areaSize / 20)), (x, z) => hang('backrooms-fluorescent', x, z, ceiling('fluorescent', .3)));
   else if (chosen.id === 'dim' && !on) hang('house-ceiling-lamp', 0, 0, ceiling('lamp', .35, { flicker: { ...illuminationDefaults('fluorescent', {}).flicker, enabled: true, amplitude: .35 } }));
+  // Where flames are the only light and none is strong enough, a chandelier of candles hangs from the ceiling.
+  else if (chosen.id === 'candles' && room.era === 'old' && !strong) hang('chandelier', 0, 0, ceiling('candle', 3.2, { flicker: { ...illuminationDefaults('candle', {}).flicker, enabled: true } }));
   else if (chosen.id === 'harsh') {
     // Over the scene if there is one, else over the middle of the room.
     const scene = objects.find(e => ['blood-pool', 'body-bag', 'autopsy-table'].includes(short(e))), [x, z] = scene ? frame.toLocal(scene.transform.position) : [0, 0];

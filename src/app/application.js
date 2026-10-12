@@ -41,7 +41,7 @@ import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
 import { proposeRoomState } from '../authoring/room-state.js';
 import { describeRoom } from '../authoring/room-insight.js';
-import { proposeBuilding, proposeAddRoom, describeBuilding, planBuilding } from '../authoring/building.js';
+import { proposeBuilding, proposeAddRoom, describeBuilding, planBuilding, addRoomSpots } from '../authoring/building.js';
 import { proposeRoomLighting, proposeRoomDetails, roomMood, suggestAtmosphere } from '../authoring/room-ambience.js';
 import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { resampleTerrain, resizeTerrain, protectTerrainFloors } from '../authoring/terrain.js';
@@ -88,7 +88,7 @@ export async function startApplication() {
         <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (G)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (R)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (V)" aria-label="Escala"')}<i></i>${button('tool-measure', '', 'ruler', 'icon-button', 'title="Régua (M)" aria-label="Régua" aria-pressed="false"')}${button('material-eyedropper', '', 'eyedropper', 'icon-button', 'title="Conta-gotas (I)" aria-label="Conta-gotas" aria-pressed="false"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
         <div id="welcome" class="welcome-card"><span class="eyebrow">UMA CENA COMEÇA COM UM ESPAÇO</span><h1>Sua próxima história<br/>começa aqui.</h1><p>Desenhe uma sala, escolha a luz e traga seus personagens para a mesa.</p>${button('room-draw', 'Desenhar minha primeira sala', 'room', 'primary')}<small>Ou use as medidas no painel Construir.</small></div>
         <div id="tool-context" class="tool-context" hidden></div><div id="proposal-bar" class="proposal-bar" hidden></div>
-        <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet', 'title="Capturar WASD e suas combinações em tela cheia; Esc sai" aria-pressed="false"')}</div><span id="gesture-hint" class="gesture-hint">WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom</span></div>
+        <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}${button('roofs', 'Telhados', 'room', 'quiet active', 'aria-pressed="true" title="Mostrar ou ocultar telhados e forros enquanto edita"')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet', 'title="Capturar WASD e suas combinações em tela cheia; Esc sai" aria-pressed="false"')}</div><span id="gesture-hint" class="gesture-hint">WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom</span></div>
         <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
       </main>
       <aside class="inspector"><div class="panel-heading"><span class="eyebrow">PROPRIEDADES</span>${icon('scale', 16)}</div><div id="inspector-content"></div></aside>
@@ -145,8 +145,8 @@ export async function startApplication() {
   let activeSurfaceId, buildHeight = 0, smartFloorId = null, selectedIds = new Set();
   let smartOptions = { template: 'office', density: 'normal', chairs: 4, seed: 1, lighting: true, restoreDeleted: false };
   // The room type follows what is in the room until the person picks one for that floor.
-  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null, ambienceOptions = { mood: 'auto', amount: .6, seed: 1 }, buildingOptions = { floorId: '', width: 15, length: 9, type: 'house', seed: 1, furnish: true, lighting: true, roof: true, addTemplate: 'bathroom', rooms: null, hub: null, center: null };
-  let drawingBuilding = false;
+  let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null, ambienceOptions = { mood: 'auto', amount: .6, seed: 1 }, buildingOptions = { floorId: '', width: 15, length: 9, type: 'house', seed: 1, furnish: true, lighting: true, roof: true, addTemplate: 'bathroom', rooms: null, hub: null, center: null, bands: null, pick: null, era: 'modern' };
+  let drawingBuilding = false, topView = false, roofsChoice = null;
   let anchorEditing = false, anchorHostId = '';
   const openBuildSections = new Set(['room']);
     let terrainMaterialTarget = 'layer';
@@ -474,15 +474,23 @@ export async function startApplication() {
     const outline = store.document.layout.entities[buildingOptions.floorId], [w, l] = outline ? [outline.width, outline.length] : [buildingOptions.width, buildingOptions.length];
     try { return planBuilding(buildingOptions.type, Math.max(w, l), Math.min(w, l), buildingOptions.seed).rooms.filter(room => !room.hub).map(room => room.key); } catch { return []; }
   }
+  function buildingPlan() {
+    const outline = store.document.layout.entities[buildingOptions.floorId], [w, l] = outline ? [outline.width, outline.length] : [buildingOptions.width, buildingOptions.length];
+    try { return planBuilding(buildingOptions.type, Math.max(w, l), Math.min(w, l), buildingOptions.seed, buildingOptions.rooms ? { rooms: buildingOptions.rooms, hub: buildingOptions.hub, bands: buildingOptions.bands } : null); } catch { return null; }
+  }
   function previewBuilding() {
     try {
       // Where it was drawn; otherwise beside what the scene already has.
       const taken = Object.values(store.document.layout.entities).filter(e => e.transform && ['floor', 'terrain'].includes(e.kind)).map(e => e.transform.position[0] + Math.max(e.width, e.length) / 2);
       const center = buildingOptions.center ?? [taken.length ? Math.max(...taken) + 3 + Math.max(buildingOptions.width, buildingOptions.length) / 2 : 0, 0, 0];
-      const { addTemplate, ...options } = buildingOptions;
+      const { addTemplate, pick, ...options } = buildingOptions;
       const next = proposeBuilding(store.document, { ...options, floorId: buildingOptions.floorId || null, center }, store.editVersion, assets); next.buildingPreview = true;
       showAuthorshipProposal(next);
     } catch (error) { notify(error.message, true); }
+  }
+  function syncRoofs() {
+    const shown = roofsChoice ?? !topView, node = root.querySelector('[data-action="roofs"]');
+    viewport.setRoofsHidden(!shown); node.classList.toggle('active', shown); node.setAttribute('aria-pressed', String(shown));
   }
   function currentComposition() { return Object.values(store.document.layout.compositions).find(c => store.document.layout.areas[c.areaId]?.surfaceId === smartFloorId); }
   function showAuthorshipProposal(next) {
@@ -637,8 +645,9 @@ export async function startApplication() {
       const insight = smartFloorId ? describeRoom(store.document, smartFloorId, assets) : null;
       if (insight?.inferred[0] && !currentComposition() && smartTemplateChosenFor !== smartFloorId) smartOptions.template = insight.inferred[0].id;
       if (buildingOptions.floorId && !store.document.layout.entities[buildingOptions.floorId]) buildingOptions.floorId = '';
-      panel.innerHTML += buildingPanel(store.document, buildingOptions, smartFloorId);
-      if (insight) { insight.building = describeBuilding(store.document, smartFloorId, assets); insight.mood = roomMood(store.document, smartFloorId, assets); insight.atmosphere = suggestAtmosphere(store.document, smartFloorId, assets); }
+      let spots = null; if (smartFloorId && openBuildSections.has('building')) { try { spots = addRoomSpots(store.document, { floorId: smartFloorId, template: buildingOptions.addTemplate, seed: buildingOptions.seed }, assets); } catch { spots = null; } }
+      panel.innerHTML += buildingPanel(store.document, buildingOptions, smartFloorId, spots);
+      if (insight) { insight.building = describeBuilding(store.document, smartFloorId, assets); if (insight.building) { try { insight.building.plan = addRoomSpots(store.document, { floorId: smartFloorId, template: 'bathroom' }, assets).rooms; } catch { /* no plan to draw */ } } insight.mood = roomMood(store.document, smartFloorId, assets); insight.atmosphere = suggestAtmosphere(store.document, smartFloorId, assets); }
       panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition(), insight, stateOptions, ambienceOptions);
       // Plain headings and one level of tasks: what is inside a task is visible as soon as it opens.
       taskList(panel, [
@@ -1509,6 +1518,7 @@ export async function startApplication() {
     }
     if (field.startsWith('building-')) {
       const key = field.slice(9), live = Boolean(proposal?.buildingPreview);
+      buildingOptions.pick = null; if (!['addTemplate', 'furnish', 'lighting', 'roof', 'era'].includes(key)) buildingOptions.bands = null;
       if (key === 'roomAdd') { if (value) buildingOptions.rooms = [...buildingRooms(), value]; }
       else if (key === 'hub') { buildingOptions.rooms = buildingRooms(); buildingOptions.hub = value; }
       else { buildingOptions[key] = value; if (key === 'type') { buildingOptions.rooms = null; buildingOptions.hub = null; } if (key === 'floorId') buildingOptions.center = null; }
@@ -1867,13 +1877,25 @@ export async function startApplication() {
         catch (error) { notify(error.message, true); } break;
       }
       case 'building-add-room': {
-        try { showAuthorshipProposal(proposeAddRoom(store.document, { floorId: smartFloorId, template: metadata.id ?? buildingOptions.addTemplate, seed: buildingOptions.seed, furnish: buildingOptions.furnish, lighting: buildingOptions.lighting }, store.editVersion, assets)); }
+        try { showAuthorshipProposal(proposeAddRoom(store.document, { floorId: smartFloorId, template: metadata.id ?? buildingOptions.addTemplate, spot: Number(metadata.spot ?? 0), seed: buildingOptions.seed, furnish: buildingOptions.furnish, lighting: buildingOptions.lighting }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
       case 'building-draw': drawingBuilding = true; clearProposal(); setTool('room'); notify('Arraste no chão para desenhar o contorno do prédio.'); break;
-      case 'building-room-remove': { const live = Boolean(proposal?.buildingPreview); buildingOptions.rooms = buildingRooms().filter((_, i) => i !== Number(metadata.id)); clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
-      case 'building-rooms-reset': { const live = Boolean(proposal?.buildingPreview); buildingOptions.rooms = null; buildingOptions.hub = null; clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
-      case 'building-variation': buildingOptions.seed = (buildingOptions.seed + 1) % 4294967296; renderSidebar();
+      case 'building-room-remove': { const live = Boolean(proposal?.buildingPreview); buildingOptions.bands = null; buildingOptions.pick = null; buildingOptions.rooms = buildingRooms().filter((_, i) => i !== Number(metadata.id)); clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
+      case 'building-rooms-reset': { const live = Boolean(proposal?.buildingPreview); buildingOptions.rooms = null; buildingOptions.hub = null; buildingOptions.bands = null; buildingOptions.pick = null; clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
+      case 'building-cell': {
+        // Two clicks on the plan swap two rooms; the entrance room can be swapped too.
+        const index = Number(metadata.id), plan = buildingPlan(); if (!plan?.rooms[index]) break;
+        if (buildingOptions.pick == null || buildingOptions.pick === index) { buildingOptions.pick = buildingOptions.pick === index ? null : index; renderSidebar(); break; }
+        const a = plan.rooms[buildingOptions.pick], b = plan.rooms[index], bands = plan.arrangement.map(list => [...list]), live = Boolean(proposal?.buildingPreview);
+        const slot = room => { let seen = 0; for (const other of plan.rooms) { if (other === room) break; if (!other.hub && other.band === room.band) seen++; } return [room.band, seen]; };
+        let hub = plan.programme.hub;
+        if (a.hub || b.hub) { const other = a.hub ? b : a, [band, at] = slot(other); bands[band][at] = hub; hub = other.key; }
+        else { const [ba, ia] = slot(a), [bb, ib] = slot(b); [bands[ba][ia], bands[bb][ib]] = [bands[bb][ib], bands[ba][ia]]; }
+        buildingOptions = { ...buildingOptions, hub, bands, rooms: bands.flat(), pick: null }; clearProposal(); if (live) previewBuilding(); renderSidebar(); break;
+      }
+      case 'building-expand': { const live = Boolean(proposal?.buildingPreview), needed = Number(metadata.id); if (buildingOptions.width >= buildingOptions.length) buildingOptions.width = needed; else buildingOptions.length = needed; clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
+      case 'building-variation': buildingOptions.seed = (buildingOptions.seed + 1) % 4294967296; buildingOptions.bands = null; buildingOptions.pick = null; renderSidebar();
       // falls through
       case 'building-preview': previewBuilding(); break;
       case 'light-preview': {
@@ -1967,8 +1989,10 @@ export async function startApplication() {
       }
       case 'undo': store.undo(); break;
       case 'redo': store.redo(); break;
-      case 'perspective': viewport.setTopView(false); break;
-      case 'top': viewport.setTopView(true); break;
+      // From above a roof hides the whole building, so the top view lifts it unless the person chose otherwise.
+      case 'perspective': viewport.setTopView(false); topView = false; syncRoofs(); break;
+      case 'top': viewport.setTopView(true); topView = true; syncRoofs(); break;
+      case 'roofs': roofsChoice = !(roofsChoice ?? !topView); syncRoofs(); break;
       case 'frame': if (selection) viewport.frameSelection(selection); else viewport.frameScene(); break;
       case 'cutaway': cutaway = !cutaway; viewport.setCutaway(cutaway); root.querySelector('[data-action="cutaway"]').classList.toggle('active', cutaway); broadcast(); break;
       case 'camera-save': { const camera = { ...viewport.getCamera(), id: id(), name: `Enquadramento ${Object.keys(store.document.cameraPresets).length + 1}` }; execute('camera.save', { camera }); notify('Enquadramento salvo na cena.'); break; }

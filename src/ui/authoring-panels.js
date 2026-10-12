@@ -4,8 +4,9 @@ import { escapeHTML as esc } from './icons.js';
 import { ROOM_TEMPLATES } from '../authoring/furnishing.js';
 import { ROOM_GROUPS } from '../domain/room-recipes.js';
 import { ROOM_STATES } from '../domain/room-states.js';
+import { ROOM_ERAS } from '../domain/room-eras.js';
 import { ROOM_MOODS } from '../authoring/room-ambience.js';
-import { BUILDING_TYPES, planBuilding } from '../authoring/building.js';
+import { BUILDING_TYPES, planBuilding, outlineThatFits } from '../authoring/building.js';
 import { isSupport } from '../domain/geometry.js';
 import { MATERIAL_PALETTES } from '../authoring/polish.js';
 
@@ -66,11 +67,11 @@ ${transferControls}<button data-action="terrain-layer-add" class="wide" ${layers
 }
 
 /** A whole building from an outline: the person gives the shape and the rooms, the assistant the plan. */
-export function buildingPanel(document, options, roomFloorId) {
+export function buildingPanel(document, options, roomFloorId, spots = null) {
   const floors = Object.values(document.layout.entities).filter(e => e.kind === 'floor' && !e.vertices);
   const outline = document.layout.entities[options.floorId], [w, l] = outline ? [outline.width, outline.length] : [options.width, options.length];
   const long = Math.max(w, l), short = Math.min(w, l), name = key => ROOM_TEMPLATES.find(t => t.id === key)?.name ?? key;
-  let plan = null, problem = ''; try { plan = planBuilding(options.type, long, short, options.seed, options.rooms ? { rooms: options.rooms, hub: options.hub } : null); } catch (error) { problem = error.message; }
+  let plan = null, problem = ''; try { plan = planBuilding(options.type, long, short, options.seed, options.rooms ? { rooms: options.rooms, hub: options.hub, bands: options.bands } : null); } catch (error) { problem = error.message; }
   // The list being edited: the person's, or what the type would put in this outline.
   const wanted = options.rooms ?? plan?.rooms.filter(room => !room.hub).map(room => room.key) ?? [], hub = options.hub ?? plan?.programme.hub, fits = plan ? plan.rooms.filter(room => !room.hub).map(room => room.key) : [];
   const left = [...fits], chips = wanted.map((key, i) => { const at = left.indexOf(key), placed = at >= 0; if (placed) left.splice(at, 1); return `<button type="button" data-action="building-room-remove" data-id="${i}" class="${placed ? 'active' : 'dropped'}" title="${placed ? 'Tirar da planta' : 'Não cabe neste contorno; tirar da lista'}">${esc(name(key))} ×</button>`; }).join('');
@@ -80,12 +81,16 @@ export function buildingPanel(document, options, roomFloorId) {
     <label class="field"><span>Contorno</span><select data-field="building-floorId">${option('', options.center ? 'Desenhado na cena' : 'Novo, por medidas', options.floorId ?? '')}${floors.map(f => option(f.id, `${f.name} · ${f.width.toFixed(1)} × ${f.length.toFixed(1)} m`, options.floorId)).join('')}</select></label>
     ${outline ? '' : `<button class="wide accent-outline" data-action="building-draw">Desenhar o contorno na cena</button><div class="field-grid">${number('building-width', 'Largura · m', Number(options.width.toFixed(2)), 4, 60, .5)}${number('building-length', 'Comprimento · m', Number(options.length.toFixed(2)), 3, 60, .5)}</div>`}
     ${choiceField('building-type', 'Tipo de prédio', options.type, BUILDING_TYPES.map(type => [type.id, type.name]))}
+    ${choiceField('building-era', 'Época', options.era ?? 'modern', ROOM_ERAS.map(era => [era.id, era.name]))}
+    <p class="microcopy">${esc(ROOM_ERAS.find(era => era.id === (options.era ?? 'modern')).description)}</p>
     <div class="control-group"><span class="eyebrow">CÔMODOS</span>
     <label class="field"><span>Cômodo de entrada</span><select data-field="building-hub">${groups(hub)}</select></label>
     <div class="chips building-rooms" aria-label="Cômodos do prédio">${chips || '<span class="microcopy">Só o cômodo de entrada.</span>'}</div>
     <label class="field"><span>Acrescentar à planta</span><select data-field="building-roomAdd"><option value="">Escolha um cômodo…</option>${groups('')}</select></label>
-    ${plan ? buildingSketch(plan, long, short, name) : ''}
-    <p class="microcopy">${esc(problem || (dropped > 0 ? `${dropped === 1 ? 'Um cômodo da lista não cabe' : `${dropped} cômodos da lista não cabem`} neste contorno (riscados); aumente o contorno ou tire outros.` : options.rooms ? `Cabem todos os cômodos da lista${plan.corridor ? ', com corredor' : ''}.` : `Sugestão do tipo para este tamanho${plan.corridor ? ', com corredor' : ''}. Tire ou acrescente cômodos à vontade.`))}${options.rooms ? ' <button type="button" class="quiet" data-action="building-rooms-reset">Voltar à lista do tipo</button>' : ''}</p></div>
+    ${plan ? buildingSketch(plan, long, short, name, options.pick) : ''}
+    ${plan && plan.rooms.length > 2 ? `<p class="microcopy">${options.pick == null ? 'Clique em dois cômodos da planta para trocá-los de lugar.' : `Agora clique no cômodo que troca de lugar com <strong>${esc(name(plan.rooms[options.pick]?.key))}</strong>.`}</p>` : ''}
+    <p class="microcopy">${esc(problem || (dropped > 0 ? `${dropped === 1 ? 'Um cômodo da lista não cabe' : `${dropped} cômodos da lista não cabem`} neste contorno (riscados).` : options.rooms ? `Cabem todos os cômodos da lista${plan.corridor ? ', com corredor' : ''}.` : `Sugestão do tipo para este tamanho${plan.corridor ? ', com corredor' : ''}. Tire ou acrescente cômodos à vontade.`))}${options.rooms ? ' <button type="button" class="quiet" data-action="building-rooms-reset">Voltar à lista do tipo</button>' : ''}</p>
+    ${dropped > 0 ? (() => { const needed = outlineThatFits(options.type, long, short, options.seed, { rooms: options.rooms, hub: options.hub }); return !needed ? '' : outline ? `<p class="assistant-suggestion">Com ${needed.toFixed(1)} m no lado maior caberiam todos. Aumente o piso do contorno, ou construa assim e use <strong>Acrescentar cômodo</strong> depois.</p>` : `<div class="assistant-suggestion"><p>Com <strong>${needed.toFixed(1)} m</strong> no lado maior cabem todos.</p><button type="button" class="wide" data-action="building-expand" data-id="${needed}">Ampliar o contorno para ${needed.toFixed(1)} × ${short.toFixed(1)} m</button></div>`; })() : ''}</div>
     ${check('building-furnish', 'Mobiliar os cômodos', options.furnish)}${check('building-lighting', 'Iluminar', options.lighting)}${check('building-roof', 'Telhado', options.roof)}
     <button class="wide accent-outline" data-action="building-preview">Prévia do prédio</button>
     <button class="wide quiet" data-action="building-variation">Ver outra planta</button>
@@ -93,12 +98,19 @@ export function buildingPanel(document, options, roomFloorId) {
     <div class="control-group"><span class="eyebrow">ACRESCENTAR CÔMODO</span>
     <p class="microcopy">${roomFloorId && document.layout.entities[roomFloorId] ? `Ao prédio de <strong>${esc(document.layout.entities[roomFloorId].name)}</strong>: encosta num lado livre, usa a parede que já existe e abre a porta.` : 'Selecione um cômodo do prédio que quer ampliar.'}</p>
     <label class="field"><span>Cômodo novo</span><select data-field="building-addTemplate">${groups(options.addTemplate)}</select></label>
-    <button class="wide accent-outline" data-action="building-add-room" ${roomFloorId ? '' : 'disabled'}>Prévia do cômodo novo</button></div></section>`;
+    ${spots?.spots.length ? `${spotSketch(spots)}<p class="microcopy">Os tracejados são os lugares possíveis, do melhor (1) em diante. Clique em um para ver a prévia ali.</p>` : roomFloorId ? '<p class="microcopy">Não há lado livre para este cômodo neste prédio.</p>' : ''}
+    <button class="wide accent-outline" data-action="building-add-room" ${roomFloorId && spots?.spots.length ? '' : 'disabled'}>Prévia no melhor lugar</button></div></section>`;
 }
-/** The plan as it will be divided, drawn to scale. */
-function buildingSketch(plan, long, short, name) {
-  const scale = 232 / long, cells = [...plan.rooms, ...(plan.corridor ? [plan.corridor] : [])];
-  return `<svg class="building-sketch" viewBox="0 0 236 ${(short * scale + 4).toFixed(1)}" role="img" aria-label="Planta do prédio">${cells.map(cell => { const x = (cell.x0 + long / 2) * scale + 2, y = (cell.z0 + short / 2) * scale + 2, w = (cell.x1 - cell.x0) * scale, h = (cell.z1 - cell.z0) * scale, label = cell.key === 'corridor' ? '' : name(cell.key); return `<rect class="${cell.hub ? 'hub' : cell.key === 'corridor' ? 'hall' : ''}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}"/>${label && w > 34 && h > 14 ? `<text x="${(x + w / 2).toFixed(1)}" y="${(y + h / 2 + 3).toFixed(1)}">${esc(label.length * 5 > w ? label.slice(0, Math.max(3, Math.floor(w / 5.5))) + '.' : label)}</text>` : ''}`; }).join('')}</svg>`;
+/** The plan as it will be divided, to scale; rooms are buttons so two of them can be swapped. */
+function buildingSketch(plan, long, short, name, pick) {
+  const cells = [...plan.rooms, ...(plan.corridor ? [plan.corridor] : [])], pct = (value, total) => `${(value / total * 100).toFixed(2)}%`;
+  return `<div class="building-sketch" style="aspect-ratio:${long} / ${short}" role="group" aria-label="Planta do prédio">${cells.map((cell, i) => { const box = `left:${pct(cell.x0 + long / 2, long)};top:${pct(cell.z0 + short / 2, short)};width:${pct(cell.x1 - cell.x0, long)};height:${pct(cell.z1 - cell.z0, short)}`; return cell.key === 'corridor' ? `<i class="hall" style="${box}"></i>` : `<button type="button" data-action="building-cell" data-id="${i}" class="${cell.hub ? 'hub' : ''} ${pick === i ? 'picked' : ''}" style="${box}" title="${esc(name(cell.key))}${cell.hub ? ' · entrada' : ''}"><span>${esc(name(cell.key))}</span></button>`; }).join('')}</div>`;
+}
+/** The building as it stands, with the places a new room could go. */
+function spotSketch({ rooms, spots }) {
+  const all = [...rooms, ...spots], x0 = Math.min(...all.map(r => r.x0)), x1 = Math.max(...all.map(r => r.x1)), z0 = Math.min(...all.map(r => r.z0)), z1 = Math.max(...all.map(r => r.z1)), w = x1 - x0, h = z1 - z0, pct = (value, total) => `${(value / total * 100).toFixed(2)}%`;
+  const box = r => `left:${pct(r.x0 - x0, w)};top:${pct(r.z0 - z0, h)};width:${pct(r.x1 - r.x0, w)};height:${pct(r.z1 - r.z0, h)}`;
+  return `<div class="building-sketch spots" style="aspect-ratio:${w} / ${h}" role="group" aria-label="Lugares para o cômodo novo">${rooms.map(room => `<button type="button" data-action="assist-select" data-id="${room.id}" style="${box(room)}" title="${esc(room.name)}"><span>${esc(room.name)}</span></button>`).join('')}${spots.map((spot, i) => `<button type="button" class="spot" data-action="building-add-room" data-spot="${i}" style="${box(spot)}" title="Junto a ${esc(spot.beside)}"><span>${i + 1}</span></button>`).join('')}</div>`;
 }
 
 /** The room assistant: what it understood, what it can complete, and the state to leave the place in. */
@@ -107,12 +119,13 @@ export function smartBuildPanel(document, options, floorId, existing, insight, s
   const guess = insight?.inferred ?? [], state = ROOM_STATES.find(entry => entry.id === stateOptions.state);
   const reading = !insight ? '' : `<div class="assistant-reading" aria-live="polite">${guess.length
     ? `<p>Pelo que já está aqui, isto parece <strong>${esc(guess[0].name.toLowerCase())}</strong>.</p>${guess.length > 1 ? `<div class="chips">${guess.map(entry => `<button type="button" data-action="smart-pick" data-id="${entry.id}" class="${entry.id === options.template ? 'active' : ''}">${esc(entry.name)}</button>`).join('')}</div>` : ''}`
-    : ''}${insight.building?.type ? `<p class="assistant-building">Com os cômodos vizinhos, forma <strong>${esc(insight.building.type.name.toLowerCase())}</strong> de ${insight.building.rooms.length} cômodos${insight.building.missing.length ? `; ainda não tem ${esc(insight.building.missing.map(room => room.name.toLowerCase()).join(', '))}` : ''}.</p>${insight.building.missing.length ? `<div class="chips">${insight.building.missing.map(room => `<button type="button" data-action="building-add-room" data-id="${room.id}">Criar ${esc(room.name.toLowerCase())}</button>`).join('')}</div>` : ''}` : ''}${insight.notes.length ? `<ul class="assistant-notes">${insight.notes.map(note => `<li class="${note.kind}">${esc(note.text)}${note.id ? ` <button type="button" class="quiet" data-action="assist-select" data-id="${note.id}">Mostrar</button>` : ''}</li>`).join('')}</ul>` : ''}</div>`;
+    : ''}${insight.building?.type ? `<p class="assistant-building">Com os cômodos vizinhos, forma <strong>${esc(insight.building.type.name.toLowerCase())}</strong> de ${insight.building.rooms.length} cômodos${insight.building.missing.length ? `; ainda não tem ${esc(insight.building.missing.map(room => room.name.toLowerCase()).join(', '))}` : ''}.</p>${insight.building.plan ? spotSketch({ rooms: insight.building.plan, spots: [] }).replace('class="building-sketch spots"', 'class="building-sketch built"').replace(`data-id="${insight.floor.id}"`, `data-id="${insight.floor.id}" class="picked"`) : ''}${insight.building.missing.length ? `<div class="chips">${insight.building.missing.map(room => `<button type="button" data-action="building-add-room" data-id="${room.id}">Criar ${esc(room.name.toLowerCase())}</button>`).join('')}</div>` : ''}` : ''}${insight.notes.length ? `<ul class="assistant-notes">${insight.notes.map(note => `<li class="${note.kind}">${esc(note.text)}${note.id ? ` <button type="button" class="quiet" data-action="assist-select" data-id="${note.id}">Mostrar</button>` : ''}</li>`).join('')}</ul>` : ''}</div>`;
   return `<section><span class="eyebrow">SMART BUILD</span>
     <label class="field"><span>Piso / espaço</span><select data-field="smart-floor">${option('', 'Selecione um piso', floorId ?? '')}${floors.map(f => option(f.id, f.name, floorId)).join('')}</select></label>
     ${reading}
     <div class="control-group"><span class="eyebrow">MOBILIAR</span>
     <label class="field"><span>Tipo de cômodo</span><select data-field="smart-template">${ROOM_GROUPS.map(group => `<optgroup label="${esc(group)}">${ROOM_TEMPLATES.filter(t => t.group === group).map(t => option(t.id, t.name, options.template)).join('')}</optgroup>`).join('')}</select></label>
+    ${choiceField('smart-era','Época',options.era ?? existing?.parameters.era ?? 'modern',ROOM_ERAS.map(era => [era.id, era.name]))}
     ${choiceField('smart-density','Quantidade de objetos',options.density,[['sparse','Poucos objetos','Poucos'],['normal','Normal'],['dense','Mais objetos','Muitos']])}
     <div class="field-grid">${recipe?.seats ? number('smart-chairs', 'Cadeiras', options.chairs, 1, 8) : ''}${number('smart-seed', 'Variação', options.seed, 0, 4294967295)}</div>
     ${check('smart-lighting', 'Distribuir iluminação', options.lighting)}${existing ? check('smart-restoreDeleted', 'Restaurar itens excluídos', options.restoreDeleted) : ''}

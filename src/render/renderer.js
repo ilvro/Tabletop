@@ -198,7 +198,8 @@ export function createViewport(container, {
   brushLine.visible = false; brushLine.renderOrder = 8; scene.add(brushLine);
   let tool = 'select';
   let presentation = false;
-  let cutaway = true;
+  let cutaway = true, roofsHidden = false;
+  const ROOF = /roof|ceiling|vault-ribs|timber-truss|gable/;
   let destroyed = false;
   let generation = 0;
   let renderRequest = null;
@@ -878,6 +879,8 @@ export function createViewport(container, {
     if(!record||!inDocument)return false;
     if(record.kind==='assembly') return record.visible!==false && isVisible(inDocument,record) && assemblyMembers(inDocument,record.id).some(member => visibleRecord(member,ignoreIsolation,inDocument));
     if (!isVisible(inDocument, record)) return false;
+    // Roofs and ceilings can be lifted off while editing; the projector always shows them.
+    if (roofsHidden && !presentation && ROOF.test(record.assetRef?.id ?? '')) return false;
     if (!ignoreIsolation && !presentation && isolatedLevel && record.levelId && record.levelId !== isolatedLevel && record.fromLevelId !== isolatedLevel && record.toLevelId !== isolatedLevel) return false;
     const host = record.wallId ?? record.anchor?.hostId ?? record.surfaceId;
     return !host || !inDocument.layout.entities[host] || visibleRecord(inDocument.layout.entities[host], ignoreIsolation || isAccess(record) && (record.fromLevelId === isolatedLevel || record.toLevelId === isolatedLevel),inDocument);
@@ -1415,6 +1418,7 @@ export function createViewport(container, {
     getCamera, setCamera, setTopView, frameSelection, frameScene, framePreview, stopCameraMotion,
     setNavigationSpeed(value) { if (Number.isFinite(value)) navigationSpeed = Math.max(.2, Math.min(40, value)); },
     setFov(value) { if (!Number.isFinite(value)) return; const next = Math.max(20, Math.min(90, value)); stopCameraMotion(); if (camera.isPerspectiveCamera) { camera.fov = next; camera.updateProjectionMatrix(); onCameraChange(getCamera()); invalidate(); } else lastPerspective = { ...lastPerspective, fov: next }; },
+    setRoofsHidden(hidden) { if (hidden === roofsHidden) return; roofsHidden = hidden; for (const [key, object] of objects) if (ROOF.test(records.get(key)?.assetRef?.id ?? '')) object.visible = visibleRecord(records.get(key)); invalidate(true); },
     setCutaway(enabled) { if(enabled===cutaway)return;cutaway = enabled; invalidate(true); },
     setExposure(exposure) { renderer.toneMappingExposure = Math.max(0.2, Math.min(4, exposure)); invalidate(); },
     project(position) {

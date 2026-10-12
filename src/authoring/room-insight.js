@@ -1,5 +1,6 @@
 import { worldFootprint, footprintsOverlap } from '../domain/geometry.js';
 import { ROOM_RECIPES } from '../domain/room-recipes.js';
+import { eraEquivalents } from '../domain/room-eras.js';
 import { AMBIENCE_TAG, doorZones } from './furnishing.js';
 
 /**
@@ -12,6 +13,9 @@ const short = id => id.replace('builtin-', '');
 const rarity = new Map();
 for (const recipe of ROOM_RECIPES) for (const asset of new Set(recipe.items.map(item => item.asset))) rarity.set(asset, (rarity.get(asset) ?? 0) + 1);
 const weight = asset => Math.log(1 + ROOM_RECIPES.length / (rarity.get(asset) ?? ROOM_RECIPES.length));
+
+/** The era a room was furnished for, as recorded by its recipe. */
+export const roomEra = (document, floorId) => Object.values(document.layout.compositions ?? {}).find(c => document.layout.areas[c.areaId]?.surfaceId === floorId)?.parameters.era ?? 'modern';
 
 export function roomContents(document, floorId) {
   const entities = Object.values(document.layout.entities), floor = document.layout.entities[floorId];
@@ -26,11 +30,12 @@ export function describeRoom(document, floorId, catalog = []) {
   if (floor?.kind !== 'floor') return null;
   const furniture = [...standing, ...resting].filter(e => !e.tags?.includes(AMBIENCE_TAG)), present = new Set(furniture.map(e => short(e.assetRef?.id ?? '')));
   const ranked = ROOM_RECIPES.map(recipe => {
-    const assets = [...new Set(recipe.items.map(item => item.asset))], matched = assets.filter(asset => present.has(asset));
+    const assets = [...new Set(recipe.items.map(item => item.asset))], has = asset => eraEquivalents(asset).some(model => present.has(model)), matched = assets.filter(has);
     const essentials = [...new Set(recipe.items.filter(item => (item.level ?? 0) === 0).map(item => item.asset))];
     // Share of the room's identity already there, tempered by how much of what is there belongs to it.
-    const score = matched.reduce((sum, asset) => sum + weight(asset), 0) / assets.reduce((sum, asset) => sum + weight(asset), 0) * (.5 + .5 * matched.length / Math.max(1, present.size));
-    return { id: recipe.id, name: recipe.name, score, matched: matched.length, missing: essentials.filter(asset => !present.has(asset)) };
+    // A stand-in from another era counts, but less than the piece itself.
+    const score = matched.reduce((sum, asset) => sum + weight(asset) * (present.has(asset) ? 1 : .5), 0) / assets.reduce((sum, asset) => sum + weight(asset), 0) * (.5 + .5 * matched.length / Math.max(1, present.size));
+    return { id: recipe.id, name: recipe.name, score, matched: matched.length, missing: essentials.filter(asset => !has(asset)) };
   }).filter(entry => entry.matched > 0).sort((a, b) => b.score - a.score);
   const inferred = ranked.filter((entry, i) => i < 3 && entry.score >= ranked[0].score * .55);
   const name = asset => catalog.find(a => a.id === `builtin-${asset}`)?.name ?? asset, notes = [];

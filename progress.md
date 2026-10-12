@@ -2,6 +2,14 @@
 
 Atualizado em 11 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Construção assistida — ajustes após uso, concluídos (11 de outubro)
+
+**Feito**: botão *Telhados* com ocultação automática na vista superior (`setRoofsHidden` no renderer); planta clicável para trocar cômodos e, no prédio construído, selecionar o piso; lugares numerados para o cômodo novo (`addRoomSpots`); *Ampliar o contorno* quando a lista não cabe (`outlineThatFits`); épocas em `src/domain/room-eras.js` aplicadas a mobília, estados, luz e prédio. Detalhes e limites em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).
+
+**Validação**: 274 unitários passam (2 novos em `tests/room-eras.test.js`). E2E rodados e passando: `assisted-rooms` (5 casos, estendidos), `camera`, `editor-ui`, `editor`, `house-scene`, `panel-consistency`, `phase3`, `terrain-paint`; a bateria completa não foi repetida. Conferência visual de casa e bar na época antiga à noite.
+
+**Pendências reais**: a biblioteca não tem modelos futuristas nem mobília propriamente medieval (trabalho de modelagem); troca de cômodos só dentro do esquema entrada + corredor; lugares do cômodo novo limitados aos que o assistente propõe.
+
 ## Tutorial — plano entregue (11 de outubro)
 
 Plano em [docs/TUTORIAL_PLAN.md](docs/TUTORIAL_PLAN.md): lições como dados, alvos pelos identificadores da interface, avanço por condição sobre o estado da cena, um motor único e um teste genérico que executa todas as lições para que não envelheçam. Cinco etapas e oito lições previstas. Nada implementado ainda.

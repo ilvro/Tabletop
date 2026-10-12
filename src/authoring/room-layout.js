@@ -103,6 +103,7 @@ export function* candidates(rule, { frame, placed, seed, slot, asset, index = 0,
   const [fw, fd] = sideways ? [asset.footprint[1], asset.footprint[0]] : asset.footprint, height = asset.bounds?.[1] ?? 1, gap = rule.gap ?? .04;
   const host = rule.of ? placed.get(rule.of) : null;
   if (rule.of && !host && !['wall', 'corner'].includes(rule.at)) return;
+  if (rule.at === 'on' && host.support === false) return;   // nothing to stand on
   if (rule.at === 'wall') {
     for (const edge of rankEdges(frame, rule, placed, seed, slot)) {
       const margin = .12, from = fw / 2 + margin, to = edge.length - fw / 2 - margin;
