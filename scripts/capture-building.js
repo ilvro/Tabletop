@@ -8,14 +8,17 @@ import { createScene, createEntity } from '../src/domain/documents.js';
 import { proposeRoom } from '../src/authoring/quick-build.js';
 import { createSceneStore } from '../src/state/scene-store.js';
 import { proposeBuilding, proposeAddRoom, proposeRedivide } from '../src/authoring/building.js';
+import { proposeSurroundings } from '../src/authoring/surroundings.js';
 
 // Renders generated buildings in the real editor (built app, this machine's GPU).
 //   npm run build && node scripts/capture-building.js <out-dir> <type,type,…> [width length seed roof environment]
 const [out, list, width = 15, length = 9, seed = 1, roof = 'no', environment] = process.argv.slice(2);
 const catalog = JSON.parse(await readFile('public/assets/catalog.json')).assets, store = createSceneStore(createScene('Prédios'));
 // `old:house` furnishes for an older era; `started:house` first builds a shell by hand (walls, a door, a few pieces) and completes it; `house+garage` adds a room afterwards.
-list.split(',').forEach((entry, i) => {
-  const [spec, ...extra] = entry.replaceAll('~', '+~').split('+'), started = spec.startsWith('started:'), era = spec.includes('old:') ? 'old' : 'modern', type = spec.replace('started:', '').replace('old:', ''), center = [0, 0, i * (Number(length) + 8)];
+// `house@` lays the surroundings the building asks for; `house@woods` a chosen setting.
+list.split(',').forEach((full, i) => {
+  const [entry, setting] = full.split('@');
+  const [spec, ...extra] = entry.replaceAll('~', '+~').split('+'), started = spec.startsWith('started:'), era = spec.includes('old:') ? 'old' : 'modern', type = spec.replace('started:', '').replace('old:', ''), center = [i * (Number(width) + (full.includes('@') ? 22 : 0)) * (full.includes('@') ? 1 : 0), 0, full.includes('@') ? 0 : i * (Number(length) + 8)];
   let floorId = null;
   if (started) {
     store.execute('proposal.accept', { proposal: proposeRoom({ width: Number(width), length: Number(length), center, lighting: false, name: 'Casca' }, store.editVersion) });
@@ -26,6 +29,7 @@ list.split(',').forEach((entry, i) => {
   // `house~bathroom` fits a room inside the finished building instead of adding it outside.
   for (const template of extra.filter(t => t.startsWith('~'))) store.execute('proposal.accept', { proposal: proposeRedivide(store.document, { floorId: Object.values(store.document.layout.entities).filter(e => e.kind === 'floor').at(-1).id, add: template.slice(1), seed: Number(seed) }, store.editVersion, catalog) });
   for (const template of extra.filter(t => !t.startsWith('~'))) store.execute('proposal.accept', { proposal: proposeAddRoom(store.document, { floorId: Object.values(store.document.layout.entities).filter(e => e.kind === 'floor').at(-1).id, template, seed: Number(seed) }, store.editVersion, catalog) });
+  if (setting !== undefined) store.execute('proposal.accept', { proposal: proposeSurroundings(store.document, { floorId: Object.values(store.document.layout.entities).filter(e => e.kind === 'floor').at(-1).id, setting: setting || 'auto', seed: Number(seed) }, store.editVersion, catalog) });
 });
 if (environment) store.execute('environment.apply', { presetId: environment });
 const dataDir = await mkdtemp(path.join(os.tmpdir(), 'tabletop-building-')), server = (await createApp({ dataDir })).listen(0, '127.0.0.1'); await once(server, 'listening'); let browser;

@@ -293,3 +293,41 @@ Observação do usuário: ampliar para fora é o caso excepcional; o normal ao a
 ### Objetos de teto somem com os telhados (12 de outubro)
 
 Com *Telhados* desligado (ou na vista superior), o que pende do teto também é ocultado: luminárias penduradas pelo assistente, objetos em encaixe de teto, plafons, lustres e fluorescentes, e objetos soltos acima de 1,9 m. Só o objeto some; a luz que ele emite é uma fonte separada e continua acesa, então a cena fica iluminada como os jogadores a verão. Vale só para a janela de edição. Conferido visualmente numa casa à noite; não há teste automático para isso.
+
+### Etapa 6 — terreno e entorno, entregue (13 de outubro)
+
+`src/authoring/surroundings.js`, tarefa *Entorno do prédio* em Construir → Paisagem.
+
+**O que é lido do prédio**
+
+- **A frente**: o lado da porta de entrada. O terreno é orientado por ela, com o quintal da frente um pouco maior; o portão fica diante da porta e o caminho leva até ela. Prédio girado no mapa é acompanhado.
+- **A garagem**: se há um cômodo de garagem voltado para a frente, há entrada de veículos, segundo portão e um carro nela.
+- **O tipo de prédio e a época** decidem o entorno quando ele está em *Automático* (`inferSetting`): casa, delegacia, clínica, escritório e bar ficam em lote urbano; galpão em pátio industrial; igreja em cemitério; casa de época antiga em entorno rural. Delegacia tem viatura na rua, clínica tem ambulância, galpão tem furgão.
+
+**O que é montado**
+
+- Terreno (piso com grama ou concreto, logo abaixo dos pisos do prédio para não haver cintilação), caminho de entrada, entrada de veículos, calçada e rua, ou estrada de terra no rural e na época antiga.
+- Fechamento: muro de tijolo (urbano), de concreto (pátio) ou de pedra (época antiga), em trechos com vão nos portões; cerca de madeira (rural) ou grade de ferro (cemitério) em peças; nada na mata.
+- Rua: postes que iluminam de verdade (com prioridade baixa no limite de luzes), hidrante, lixeira e veículo estacionado.
+- Quintal: cada coisa onde costuma ficar (fundo e laterais, frente, junto à cerca, ou em qualquer lugar), em quantidade pela área livre e pelo controle *Vegetação e objetos*. No cemitério, lápides em fileiras preenchidas dos cantos para dentro, dos dois lados, com cruzes, cova aberta e mausoléu.
+- Cinco entornos: urbano, rural, mata, cemitério, pátio industrial. A época antiga tira postes, carros e o que mais não existia.
+
+**O que é respeitado**
+
+- Objetos que a pessoa já tem do lado de fora ficam onde estão e são contornados. Nada é posto dentro do prédio, no caminho, na entrada de veículos nem sobre outra peça.
+- Tudo o que o assistente põe leva a etiqueta `entorno` e vai para uma pasta própria. Refazer, com outro tipo ou outra variação, troca só isso; o que a pessoa colocou sobre o terreno antigo passa para o novo sem sair do lugar.
+- O terreno, o caminho e a rua não são cômodos: a leitura do prédio, *Encaixar por dentro* e *Ampliar para fora* os ignoram, e o assistente de cômodo continua no prédio depois de aceitar o entorno.
+
+**Correção que veio junto**: ao aceitar qualquer proposta, o aplicativo tomava o primeiro piso criado como "cômodo atual"; com o entorno isso faria o assistente pular para o terreno.
+
+**Testes**: `tests/surroundings.test.js` (entorno por tipo e época; casa urbana com prédio dentro do lote, caminho alinhado à porta, nenhum muro atravessando o caminho, nada dentro do prédio nem sobreposto, prédio ainda lido como o mesmo; objetos da pessoa mantidos e segunda passada trocando só o do assistente; os 7 tipos de prédio × 6 entornos validando, viatura na delegacia, garagem com entrada de veículos em prédio girado) e o sexto caso de `tests/e2e/assisted-rooms.test.js`. Referência: `docs/references/assisted-build/entorno.jpg`.
+
+**Limites desta entrega**
+
+- O terreno é um piso plano, não um terreno esculpível; relevo, água e pintura de solo continuam nas ferramentas de Paisagem, à parte.
+- Um prédio por vez: dois prédios próximos recebem cada um seu lote, que podem se sobrepor. Não há quarteirão nem rua compartilhada.
+- A rua é só o trecho em frente ao lote.
+- O lote é sempre um retângulo em volta do prédio, com recuo igual nos lados e no fundo.
+- Depois de ampliar o prédio para fora, é preciso refazer o entorno; ele não se ajusta sozinho.
+- Cercas são uma peça a cada dois metros: um lote grande soma dezenas de objetos.
+- Sem portão modelado: o portão é um vão.

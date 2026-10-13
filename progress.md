@@ -1,6 +1,19 @@
 # Tabletop — andamento
 
-Atualizado em 12 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 13 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+
+## Construção assistida — etapa 6, terreno e entorno, concluída (13 de outubro)
+
+**Feito**: `src/authoring/surroundings.js` (`proposeSurroundings`, `inferSetting`, cinco entornos), tarefa *Entorno do prédio* em Construir → Paisagem com prévia que acompanha o painel; pisos do entorno ignorados pela leitura do prédio; correção do "cômodo atual" ao aceitar propostas; `scripts/capture-building.js` aceita `tipo@entorno`. Detalhes e limites em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).
+
+**Validação**: 280 unitários passam (4 novos em `tests/surroundings.test.js`). E2E: `assisted-rooms` (6 casos), `editor-ui` e `terrain-paint` passam; os demais não foram repetidos. Conferência visual de casa urbana, igreja com cemitério e casa antiga rural. Medido na placa de vídeo real: 60 quadros por segundo com casa e entorno, 0,8 s para aceitar o entorno.
+
+**Encontrado na validação**
+
+- O caso de ponta a ponta do entorno estourava o tempo com renderização por software: uma casa iluminada mais o quintal cai para cerca de 1 quadro por segundo nesse modo. O teste passou a erguer a casa sem luz e sem telhado (45 s, estável em duas execuções). Na placa de vídeo o problema não existe, mas vale como aviso para máquinas sem aceleração.
+- A contagem de "objetos que você tinha do lado de fora" incluía telhado, luminárias de teto e peças de parede; corrigido.
+
+**Pendências reais**: terreno plano (não esculpível); um prédio por vez, sem quarteirão; rua só em frente ao lote; lote sempre retangular; entorno não se ajusta sozinho quando o prédio é ampliado; portão é só um vão. Próxima: etapa 7 (cena pronta).
 
 ## Objetos de teto ocultos com os telhados (12 de outubro)
 

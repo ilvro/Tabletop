@@ -24,7 +24,7 @@ test('terrain editing: contextual tasks, shortcut, square plateau, snow/grass ma
     const a=await page.evaluate(p => window.__tabletop.project(p),start), b=await page.evaluate(p => window.__tabletop.project(p),end);
     assert.ok(a.visible && b.visible); await page.mouse.move(a.x,a.y); await page.mouse.down(); await page.mouse.move(b.x,b.y,{ steps:8 }); if(cancel) await page.keyboard.press('Escape'); await page.mouse.up();
   }
-  const labels=await page.locator('[data-build-section] > summary strong').allTextContents(); assert.equal(labels.length,10); assert.deepEqual(await page.locator('#side-content .task-heading').allTextContents(),['Construções','Paisagem','Personagens','Organização']);
+  const labels=await page.locator('[data-build-section] > summary strong').allTextContents(); assert.equal(labels.length,11); assert.deepEqual(await page.locator('#side-content .task-heading').allTextContents(),['Construções','Paisagem','Personagens','Organização']);
   assert.equal(await page.locator('.build-shortcuts').count(),0);
   await reveal(page.locator('[data-build-section="terrain"] [data-action=terrain-add]'));
   await field('terrain-new-width',12); await field('terrain-new-length',12); await field('terrain-new-segments',16); await action('terrain-add'); await action('top');

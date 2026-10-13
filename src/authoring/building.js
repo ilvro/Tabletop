@@ -314,7 +314,7 @@ function findSpots(document, { floorId, template, seed = 1 }, catalog) {
   const entities = Object.values(document.layout.entities), level = anchor.levelId ?? null, frame = frameAt(anchor.transform.position, yawFromQuaternion(anchor.transform.rotation)), { toWorld, toLocal, yaw } = frame;
   const building = describeBuilding(document, floorId, catalog), memberIds = new Set(building ? building.rooms.map(room => room.id) : [floorId]);
   const rect = floor => { const points = worldFootprint(floor).map(([x, z]) => toLocal([x, 0, z])), xs = points.map(p => p[0]), zs = points.map(p => p[1]); return { floor, x0: Math.min(...xs), x1: Math.max(...xs), z0: Math.min(...zs), z1: Math.max(...zs), square: !floor.vertices && Math.abs(((yawFromQuaternion(floor.transform.rotation) - yaw) % 90 + 90) % 90) < .5 }; };
-  const all = entities.filter(e => e.kind === 'floor' && (e.levelId ?? null) === level).map(rect), members = all.filter(r => memberIds.has(r.floor.id) && r.square);
+  const all = entities.filter(e => e.kind === 'floor' && !e.tags?.includes('entorno') && (e.levelId ?? null) === level).map(rect), members = all.filter(r => memberIds.has(r.floor.id) && r.square);
   const kindOf = r => building?.rooms.find(room => room.id === r.floor.id)?.kind ?? (/corredor/i.test(r.floor.name) ? 'corridor' : null);
   const standing = standingWalls(document, frame, wall => memberIds.has(wall.surfaceId) || wall.floorIds?.some(key => memberIds.has(key)));
   const obstacles = entities.filter(e => e.kind === 'prop' && e.surfaceId && !memberIds.has(e.surfaceId) && document.layout.entities[e.surfaceId]?.kind !== 'prop').map(e => worldFootprint(e).map(([x, z]) => toLocal([x, 0, z])));
@@ -391,7 +391,8 @@ export const roomKind = (document, floorId, catalog = []) => Object.values(docum
  * such a building usually has that this one lacks.
  */
 export function describeBuilding(document, floorId, catalog = []) {
-  const floors = Object.values(document.layout.entities).filter(e => e.kind === 'floor' && (e.levelId ?? null) === (document.layout.entities[floorId]?.levelId ?? null));
+  // The ground, paths and street the assistant lays around a building are not rooms of it.
+  const floors = Object.values(document.layout.entities).filter(e => e.kind === 'floor' && !e.tags?.includes('entorno') && (e.levelId ?? null) === (document.layout.entities[floorId]?.levelId ?? null));
   if (!floors.some(floor => floor.id === floorId)) return null;
   const outline = floor => worldFootprint(floor, .25), linked = new Set([floorId]);
   for (let grown = true; grown;) { grown = false; for (const floor of floors) if (!linked.has(floor.id) && [...linked].some(key => footprintsOverlap(outline(floor), outline(document.layout.entities[key])))) { linked.add(floor.id); grown = true; } }

@@ -1,5 +1,7 @@
 # Tabletop — Progresso do Projeto
 
+**Construção assistida, etapa 6 (13 de outubro):** entorno do prédio lido da porta de entrada, da garagem, do tipo e da época: terreno, muro ou cerca com portão, caminho, entrada de veículos, rua com postes e veículo, quintal, cemitério para igreja. Refazer troca só o que o assistente pôs. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).
+
 **Construção assistida, ajustes após uso (11 de outubro):** telhados ocultáveis (automático na vista superior), planta clicável para trocar cômodos e selecionar pisos, escolha do lugar do cômodo novo, sugestão de ampliar o contorno, e épocas (Atual / Antiga) que filtram e trocam modelos. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).
 
 **Construção assistida, programa e contorno (11 de outubro):** a pessoa escolhe a entrada e os cômodos do prédio, vê a planta em escala, desenha o contorno direto na cena e a prévia acompanha o painel. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).

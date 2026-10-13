@@ -191,3 +191,33 @@ test('the outline is drawn in the scene, the rooms are chosen by the person and 
     assert.deepEqual(errors,[]);
   } finally { await browser?.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true}); }
 });
+
+test('the surroundings are read from the building: gate before the door, path, street, yard, and a second pass replaces them', {timeout:400_000}, async () => {
+  const dataDir=await mkdtemp(path.join(os.tmpdir(),'tabletop-around-')),server=(await createApp({dataDir})).listen(0,'127.0.0.1');await once(server,'listening');let browser;
+  try {
+    browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+    const page=await browser.newPage({viewport:{width:1500,height:950}}),errors=[];page.setDefaultTimeout(30_000);page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
+    await page.goto(`http://127.0.0.1:${server.address().port}/?diagnostics`);await page.waitForFunction(()=>!!window.__tabletop);
+    const action=async name=>(await reveal(page.locator(`[data-action="${name}"]`).first())).click(),snapshot=()=>page.evaluate(()=>window.__tabletop.snapshot());
+    const all=async()=>Object.values((await snapshot()).layout.entities),around=async()=>(await all()).filter(e=>e.tags?.includes('entorno')),section=page.locator('[data-build-section="surroundings"]');
+    // Software rendering crawls with a lit house plus a yard; this test is about the yard, so the house goes unlit and roofless.
+    await page.locator('[data-build-section="building"]').waitFor({state:'attached'});for(const field of ['building-lighting','building-roof'])await (await reveal(page.locator(`[data-field="${field}"]`))).uncheck();await action('building-preview');await action('accept-proposal');const rooms=(await all()).filter(e=>e.kind==='floor').length;
+    // The panel says what this building asks for before anything is made.
+    await reveal(page.locator('[data-field="around-setting"]'));assert.match(await section.textContent(),/Sugestão: urbano, porque o prédio é casa/);
+    assert.match(await page.locator('[data-field="around-setting"] option').first().textContent(),/Automático · urbano/);
+    await action('around-preview');assert.equal((await around()).length,0,'a preview lays nothing');assert.match(await page.locator('#proposal-bar').textContent(),/Entorno: urbano/);await action('accept-proposal');
+    const first=await around(),names=first.filter(e=>e.kind==='floor').map(f=>f.name);
+    for(const name of ['Terreno','Caminho de entrada','Calçada','Rua'])assert.ok(names.includes(name),name);
+    assert.ok(first.filter(e=>e.kind==='wall').length>=5);assert.ok(first.some(e=>e.assetRef?.id==='builtin-streetlamp'&&e.illumination?.enabled));assert.ok(first.some(e=>e.assetRef?.id==='builtin-tree'));
+    // The building is still the building: the assistant goes on reading its rooms, not the lot.
+    assert.equal((await all()).filter(e=>e.kind==='floor'&&!e.tags.includes('entorno')).length,rooms);
+    await page.locator('[data-tab="elements"]').click();await (await reveal(page.locator(`[data-select="${first.find(e=>e.name==='Terreno').id}"]`))).click();await page.locator('[data-tab="build"]').click();
+    assert.notEqual(await (await reveal(page.locator('[data-field="smart-floor"]'))).inputValue(),first.find(e=>e.name==='Terreno').id,'the lot is not taken for a room');
+    // Another setting replaces the whole pass and nothing else.
+    await (await reveal(page.locator('[data-field="around-setting"]'))).selectOption('woods');await action('around-preview');await action('accept-proposal');
+    const second=await around();assert.ok(!second.some(e=>first.some(f=>f.id===e.id)),'the first pass is gone');assert.equal(second.filter(e=>e.kind==='wall').length,0);
+    assert.ok(second.filter(e=>e.assetRef?.id==='builtin-pine').length>=4);assert.ok(second.some(e=>e.name==='Trilha'));assert.equal((await all()).filter(e=>e.kind==='floor'&&!e.tags.includes('entorno')).length,rooms);
+    await page.locator('#undo').click();assert.deepEqual((await around()).map(e=>e.id).sort(),first.map(e=>e.id).sort());
+    assert.deepEqual(errors,[]);
+  } finally { await browser?.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true}); }
+});

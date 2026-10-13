@@ -7,6 +7,7 @@ import { ROOM_STATES } from '../domain/room-states.js';
 import { ROOM_ERAS } from '../domain/room-eras.js';
 import { ROOM_MOODS } from '../authoring/room-ambience.js';
 import { BUILDING_TYPES, planBuilding, outlineThatFits } from '../authoring/building.js';
+import { SETTINGS } from '../authoring/surroundings.js';
 import { isSupport } from '../domain/geometry.js';
 import { MATERIAL_PALETTES } from '../authoring/polish.js';
 
@@ -120,6 +121,21 @@ function spotSketch({ rooms, spots }) {
   const all = [...rooms, ...spots], x0 = Math.min(...all.map(r => r.x0)), x1 = Math.max(...all.map(r => r.x1)), z0 = Math.min(...all.map(r => r.z0)), z1 = Math.max(...all.map(r => r.z1)), w = x1 - x0, h = z1 - z0, pct = (value, total) => `${(value / total * 100).toFixed(2)}%`;
   const box = r => `left:${pct(r.x0 - x0, w)};top:${pct(r.z0 - z0, h)};width:${pct(r.x1 - r.x0, w)};height:${pct(r.z1 - r.z0, h)}`;
   return `<div class="building-sketch spots" style="aspect-ratio:${w} / ${h}" role="group" aria-label="Lugares para o cômodo novo">${rooms.map(room => `<button type="button" data-action="assist-select" data-id="${room.id}" style="${box(room)}" title="${esc(room.name)}"><span>${esc(room.name)}</span></button>`).join('')}${spots.map((spot, i) => `<button type="button" class="spot" data-action="building-add-room" data-spot="${i}" style="${box(spot)}" title="Junto a ${esc(spot.beside)}"><span>${i + 1}</span></button>`).join('')}</div>`;
+}
+
+/** Surroundings of the building being worked on: what it reads from the building, and what the person may change. */
+export function surroundingsPanel(document, options, roomFloorId, reading) {
+  const room = document.layout.entities[roomFloorId];
+  return `<section><span class="eyebrow">ENTORNO</span>
+    ${room ? `<p class="microcopy">Em volta do prédio de <strong>${esc(room.name)}</strong>.${reading ? ` Sugestão: <strong>${esc(reading.name.toLowerCase())}</strong>${reading.reason ? `, ${esc(reading.reason)}` : ''}.` : ''}</p>` : '<p class="microcopy">Selecione na cena um cômodo do prédio que terá o entorno.</p>'}
+    <label class="field"><span>Tipo de entorno</span><select data-field="around-setting">${SETTINGS.map(entry => option(entry.id, entry.id === 'auto' && reading ? `Automático · ${reading.name.toLowerCase()}` : entry.name, options.setting)).join('')}</select></label>
+    <p class="microcopy">${esc((options.setting === 'auto' && reading ? SETTINGS.find(entry => entry.id === reading.id) : SETTINGS.find(entry => entry.id === options.setting)).description)}</p>
+    <div class="field-grid">${number('around-margin', 'Recuo · m', options.margin, 2, 30, 1)}${number('around-seed', 'Variação', options.seed, 0, 4294967295)}</div>
+    <label class="field range-field"><span class="field-label">Vegetação e objetos</span><span class="value-box"><input type="number" data-field="around-greenery" value="${Math.round(options.greenery * 100)}" min="0" max="100" step="5"/><i>%</i></span><input type="range" data-range="around-greenery" value="${Math.round(options.greenery * 100)}" min="0" max="100" step="5" tabindex="-1" aria-hidden="true"/></label>
+    ${check('around-enclosure', 'Muro ou cerca', options.enclosure)}${check('around-street', 'Rua ou estrada na frente', options.street)}
+    <button class="wide accent-outline" data-action="around-preview" ${room ? '' : 'disabled'}>Prévia do entorno</button>
+    <button class="wide quiet" data-action="around-variation" ${room ? '' : 'disabled'}>Ver outra versão</button>
+    <p class="microcopy">A frente é o lado da porta de entrada: o portão fica diante dela e o caminho leva até ela. Garagem na frente ganha entrada de veículos. O que você já tem do lado de fora fica onde está, e refazer o entorno troca só o que o assistente pôs.</p></section>`;
 }
 
 /** The room assistant: what it understood, what it can complete, and the state to leave the place in. */

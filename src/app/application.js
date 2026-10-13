@@ -43,12 +43,14 @@ import { proposeRoomState } from '../authoring/room-state.js';
 import { describeRoom } from '../authoring/room-insight.js';
 import { proposeBuilding, proposeAddRoom, proposeRemoveRoom, proposeRedivide, describeBuilding, planBuilding, addRoomSpots } from '../authoring/building.js';
 import { proposeRoomLighting, proposeRoomDetails, roomMood, suggestAtmosphere } from '../authoring/room-ambience.js';
+import { proposeSurroundings, inferSetting, SETTINGS, SURROUNDINGS_TAG } from '../authoring/surroundings.js';
+import { roomEra } from '../authoring/room-insight.js';
 import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { resampleTerrain, resizeTerrain, protectTerrainFloors } from '../authoring/terrain.js';
 import { proposeAnchoring } from '../authoring/anchoring.js';
 import { proposePolish } from '../authoring/polish.js';
 import { proposeContourWalls } from '../authoring/structures.js';
-import { constructionPanel, smartBuildPanel, buildingPanel, polishPanel, proposalReport, levelsPanel, terrainPanel, terrainInspector, anchoringPanel } from '../ui/authoring-panels.js';
+import { constructionPanel, smartBuildPanel, buildingPanel, surroundingsPanel, polishPanel, proposalReport, levelsPanel, terrainPanel, terrainInspector, anchoringPanel } from '../ui/authoring-panels.js';
 import { createViewport } from '../render/renderer.js';
 import { repository, ApiError } from '../data/api.js';
 import { applicationURL, storageScope } from '../data/paths.js';
@@ -146,6 +148,7 @@ export async function startApplication() {
   let smartOptions = { template: 'office', density: 'normal', chairs: 4, seed: 1, lighting: true, restoreDeleted: false };
   // The room type follows what is in the room until the person picks one for that floor.
   let stateOptions = { state: 'abandoned', intensity: .6, seed: 1 }, smartTemplateChosenFor = null, ambienceOptions = { mood: 'auto', amount: .6, seed: 1 }, buildingOptions = { floorId: '', width: 15, length: 9, type: 'house', seed: 1, furnish: true, lighting: true, roof: true, addTemplate: 'bathroom', rooms: null, hub: null, center: null, bands: null, pick: null, era: 'modern', mode: null };
+  let aroundOptions = { setting: 'auto', margin: 6, enclosure: true, street: true, greenery: .6, seed: 1 };
   let drawingBuilding = false, topView = false, roofsChoice = null;
   let anchorEditing = false, anchorHostId = '';
   const openBuildSections = new Set(['room']);
@@ -459,7 +462,8 @@ export async function startApplication() {
       activeSurfaceId = selection;
       // The assistant follows the room being worked on: its floor, or the floor under the selected piece.
       const selected = store.document.layout.entities[selection], roomFloor = selected.kind === 'floor' ? selection : store.document.layout.entities[store.document.layout.entities[selected.surfaceId]?.kind === 'prop' ? store.document.layout.entities[selected.surfaceId].surfaceId : selected.surfaceId]?.kind === 'floor' ? (store.document.layout.entities[selected.surfaceId].kind === 'prop' ? store.document.layout.entities[selected.surfaceId].surfaceId : selected.surfaceId) : null;
-      if (roomFloor && smartFloorId !== roomFloor) { smartFloorId = roomFloor; const existing = currentComposition(); if (existing) smartOptions = { ...existing.parameters, restoreDeleted: false }; }
+      // The ground the assistant laid is not a room to work on.
+      if (roomFloor && smartFloorId !== roomFloor && !store.document.layout.entities[roomFloor].tags?.includes(SURROUNDINGS_TAG)) { smartFloorId = roomFloor; const existing = currentComposition(); if (existing) smartOptions = { ...existing.parameters, restoreDeleted: false }; }
       viewport.setSupportSurface(selection); if (locate()?.record.kind==='terrain') openBuildSections.add('terrain');
       if (tab === 'build') renderSidebar();
     }
@@ -488,6 +492,10 @@ export async function startApplication() {
     if (a.hub || b.hub) { const other = a.hub ? b : a, [band, at] = slot(other); bands[band][at] = hub; hub = other.key; }
     else { const [ba, ia] = slot(a), [bb, ib] = slot(b); [bands[ba][ia], bands[bb][ib]] = [bands[bb][ib], bands[ba][ia]]; }
     buildingOptions = { ...buildingOptions, hub, bands, rooms: bands.flat(), pick: null }; clearProposal(); if (live) previewBuilding(); renderSidebar();
+  }
+  function previewSurroundings() {
+    try { const next = proposeSurroundings(store.document, { ...aroundOptions, floorId: smartFloorId }, store.editVersion, assets); next.aroundPreview = true; showAuthorshipProposal(next); }
+    catch (error) { notify(error.message, true); }
   }
   function previewBuilding() {
     try {
@@ -662,12 +670,15 @@ export async function startApplication() {
       panel.innerHTML += buildingPanel(store.document, buildingOptions, smartFloorId, spots, buildingMode);
       if (insight) { insight.building = describeBuilding(store.document, smartFloorId, assets); if (insight.building) { try { insight.building.plan = addRoomSpots(store.document, { floorId: smartFloorId, template: 'bathroom' }, assets).rooms; } catch { /* no plan to draw */ } } insight.mood = roomMood(store.document, smartFloorId, assets); insight.atmosphere = suggestAtmosphere(store.document, smartFloorId, assets); }
       panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition(), insight, stateOptions, ambienceOptions);
+      // What the building asks for around it, read the same way the proposal will.
+      let around = null; if (smartFloorId) { const type = insight?.building?.type, era = roomEra(store.document, smartFloorId), id = inferSetting(type?.id, era); around = { id, name: SETTINGS.find(entry => entry.id === id).name, reason: id === 'rural' && era === 'old' ? 'porque o prédio é de uma época antiga' : type ? `porque o prédio é ${type.name.toLowerCase()}` : '' }; }
+      panel.innerHTML += surroundingsPanel(store.document, aroundOptions, smartFloorId, around);
       // Plain headings and one level of tasks: what is inside a task is visible as soon as it opens.
       taskList(panel, [
         { title: 'Construções', tasks: [
           [0,'room','Sala','Desenhar no chão ou criar por medidas'], [1,'manual','Peças avulsas','Piso, parede, porta, luzes, fogo e fumaça'],
           [4,'structures','Pisos, paredes e acessos','Contornos, superfícies de apoio e escadas'], [9,'furnishing','Assistente de cômodo','Entende o que já existe, completa e muda o estado'], [8,'building','Prédio','Novo a partir de um contorno, ou ampliar o que existe'] ] },
-        { title: 'Paisagem', tasks: [[6,'terrain','Terreno e relevo','Criar terreno, elevar, nivelar e pintar'], [7,'landscape','Água e vegetação','Lagos, rios, gelo e plantas']] },
+        { title: 'Paisagem', tasks: [[6,'terrain','Terreno e relevo','Criar terreno, elevar, nivelar e pintar'], [7,'landscape','Água e vegetação','Lagos, rios, gelo e plantas'], [10,'surroundings','Entorno do prédio','Terreno, muro, caminho, rua e quintal']] },
         { title: 'Personagens', tasks: [[2,'characters','Tokens','Colocar personagens na mesa']] },
         { title: 'Organização', tasks: [[5,'levels','Andares e camadas','Separar e isolar partes da cena'], [3,'grid','Grid e precisão','Mostrar, encaixar e medir']] },
       ], { attribute: 'buildSection' });
@@ -922,7 +933,7 @@ export async function startApplication() {
     if (activeSurfaceId && !doc.layout.entities[activeSurfaceId]) activeSurfaceId = undefined;
     if (activeSurfaceId === undefined) activeSurfaceId = floors.length === 1 ? floors[0].id : null;
     if (!doc.layout.entities[smartFloorId]) {
-      smartFloorId = floors[0]?.id ?? null;
+      smartFloorId = (floors.find(floor => !floor.tags?.includes(SURROUNDINGS_TAG)) ?? floors[0])?.id ?? null;
       const existing = currentComposition(); if (existing) smartOptions = { ...existing.parameters, restoreDeleted: false };
     }
     if (environmentPreview && event.type !== 'saved') { environmentPreview = null; document.getElementById('proposal-bar').hidden = true; }
@@ -1529,6 +1540,7 @@ export async function startApplication() {
       else smartOptions[key] = value;
       clearProposal(); renderSidebar(); return;
     }
+    if (field.startsWith('around-')) { const key = field.slice(7), live = Boolean(proposal?.aroundPreview); aroundOptions[key] = key === 'greenery' ? Math.max(0, Math.min(1, value / 100)) : value; clearProposal(); if (live) previewSurroundings(); renderSidebar(); return; }
     if (field.startsWith('building-')) {
       const key = field.slice(9), live = Boolean(proposal?.buildingPreview);
       buildingOptions.pick = null; if (key === 'mode') { buildingOptions.mode = value; clearProposal(); renderSidebar(); return; }
@@ -1890,6 +1902,9 @@ export async function startApplication() {
         try { showAuthorshipProposal(proposeRoomState(store.document, { ...stateOptions, floorId: smartFloorId }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
+      case 'around-variation': aroundOptions.seed = (aroundOptions.seed + 1) % 4294967296; renderSidebar();
+      // falls through
+      case 'around-preview': previewSurroundings(); break;
       case 'building-fit': {
         // The usual way to add a room: inside the building. Outwards only when the inside has no room for it.
         const template = metadata.rearrange ? null : metadata.id || buildingOptions.addTemplate, options = { floorId: smartFloorId, seed: buildingOptions.seed, furnish: buildingOptions.furnish, lighting: buildingOptions.lighting };
@@ -1969,7 +1984,9 @@ export async function startApplication() {
       case 'accept-proposal': {
         const proposed = proposal; if (!proposed) return;
         if (execute('proposal.accept', { proposal: proposed })) {
-          clearProposal(); const floor = proposed.entities?.find(entity => entity.kind === 'floor');
+          // The assistant stays with the building: the ground and paths laid around it are not rooms.
+          clearProposal(); const floor = proposed.entities?.find(entity => entity.kind === 'floor' && !entity.tags?.includes(SURROUNDINGS_TAG));
+          if (proposed.aroundPreview) viewport.frameScene();
           if (floor) { viewport.frameScene(); activeSurfaceId = floor.id; smartFloorId = floor.id; selectObject(floor.id); }
           else if(proposed.entities?.some(entity=>entity.kind==='terrain')) {const terrain=proposed.entities.find(entity=>entity.kind==='terrain');selectObject(terrain.id);viewport.frameSelection(terrain.id);}
           else { viewport.setSelection(selection, [...selectedIds]); renderInspector(); }
