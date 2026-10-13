@@ -2,6 +2,28 @@
 
 Atualizado em 13 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Biblioteca e época futurista — concluídas (13 de outubro)
+
+**Feito**
+
+- 30 modelos em `scripts/library-future.js`, registrados em `generate-library.js` com a época `Futurista`; contratos e slots novos em `scripts/library-source/`.
+- Época Futurista em `src/domain/room-eras.js`; cinco receitas (ponte de comando, alojamento, enfermaria da base, sala do reator, compartimento de carga); prédio Base; luz fria com painéis de teto do kit; paredes pintadas, piso de placas, portas de metal, sem cortinas nem telhado de telhas; entorno com barreira de energia, postes, veículo flutuante, torreta, antena e painéis solares.
+- Documentado em [docs/ASSET_LIBRARY.md](docs/ASSET_LIBRARY.md) e [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).
+
+**Validação**
+
+- Unitários: 284 passam (2 novos; o teste da biblioteca passou a 301 modelos). Nenhum arquivo dos modelos anteriores mudou.
+- E2E rodados e passando: `asset-library`, `assisted-rooms` (6 casos), `pages`. Os demais não foram repetidos.
+- Conferência visual das duas folhas de modelos e de uma base, por dentro e com entorno, no editor real.
+
+**Encontrado na validação**
+
+- O contêiner tinha faces coincidentes que cintilavam; corrigido, o que exigiu recriar o contrato dele e reordenar `contracts.json`.
+- As receitas futuristas entravam nas épocas Antiga e Medieval com peças futuristas; a época do modelo passou a ser filtrada também nesse sentido.
+- A primeira base saiu com portas de madeira, cortinas e telhado de telhas; corrigido (portas de metal, sem cortinas, sem telhado).
+
+**Pendências reais**: a base não tem cobertura própria; sem escotilhas, portas de correr ou peças de casco para nave; capela e sala de ritual ficam só com o que é atemporal nessa época.
+
 ## Biblioteca e época medieval — concluídas (13 de outubro)
 
 **Feito**
