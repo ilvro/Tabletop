@@ -1,0 +1,244 @@
+{
+  "name": "Banqueta de três pés",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "oak": {
+      "color": "#6d4c31",
+      "roughness": 0.7
+    },
+    "board": {
+      "color": "#4a3323",
+      "roughness": 0.7
+    }
+  },
+  "parts": [
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.16,
+          0
+        ],
+        [
+          0.18,
+          0.015
+        ],
+        [
+          0.18,
+          0.045
+        ],
+        [
+          0.16,
+          0.06
+        ],
+        [
+          0,
+          0.06
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        0,
+        0.4297860423848033,
+        0.010099820792675018
+      ],
+      "material": "oak",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.028,
+      "radiusBottom": 0.022,
+      "height": 0.46,
+      "position": [
+        0.11671848073141959,
+        0.2297860423848033,
+        0.07386341742703402
+      ],
+      "material": "board",
+      "segments": 12,
+      "rotation": [
+        7.90682746585162e-18,
+        -0.4999999999999999,
+        0.19999999999999996
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "profile": [
+        [
+          0,
+          -0.23
+        ],
+        [
+          0.018639999999999997,
+          -0.23
+        ],
+        [
+          0.022,
+          -0.22664
+        ],
+        [
+          0.028,
+          0.22664
+        ],
+        [
+          0.024640000000000002,
+          0.23
+        ],
+        [
+          0,
+          0.23
+        ]
+      ]
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.028,
+      "radiusBottom": 0.022,
+      "height": 0.46,
+      "position": [
+        -0.1135801348877286,
+        0.2297860423848033,
+        0.0792991918800294
+      ],
+      "material": "board",
+      "segments": 12,
+      "rotation": [
+        -3.141592653589793,
+        -0.5471975511965977,
+        -2.941592653589793
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "profile": [
+        [
+          0,
+          -0.23
+        ],
+        [
+          0.018639999999999997,
+          -0.23
+        ],
+        [
+          0.022,
+          -0.22664
+        ],
+        [
+          0.028,
+          0.22664
+        ],
+        [
+          0.024640000000000002,
+          0.23
+        ],
+        [
+          0,
+          0.23
+        ]
+      ]
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.028,
+      "radiusBottom": 0.022,
+      "height": 0.46,
+      "position": [
+        -0.0031383458436910214,
+        0.2297860423848033,
+        -0.12286314692903835
+      ],
+      "material": "board",
+      "segments": 12,
+      "rotation": [
+        -3.1415926535897927,
+        1.5471975511965947,
+        -2.941592653589794
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "profile": [
+        [
+          0,
+          -0.23
+        ],
+        [
+          0.018639999999999997,
+          -0.23
+        ],
+        [
+          0.022,
+          -0.22664
+        ],
+        [
+          0.028,
+          0.22664
+        ],
+        [
+          0.024640000000000002,
+          0.23
+        ],
+        [
+          0,
+          0.23
+        ]
+      ]
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.36000001430511475,
+    0.48978602872364635,
+    0.380199670791626
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "perfis torneados e bordas de chapa"
+    ],
+    "seed": 6912
+  }
+}

@@ -1,0 +1,486 @@
+{
+  "name": "Armadura em cabide",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "cloth": {
+      "color": "#70222a",
+      "roughness": 0.95
+    },
+    "black": {
+      "color": "#17181a",
+      "roughness": 0.9
+    },
+    "brass": {
+      "color": "#b08d3c",
+      "roughness": 0.4,
+      "metalness": 0.5
+    },
+    "board": {
+      "color": "#4a3323",
+      "roughness": 0.7
+    },
+    "iron": {
+      "color": "#35373a",
+      "roughness": 0.46,
+      "metalness": 0.5
+    },
+    "steel": {
+      "color": "#9aa1a4",
+      "roughness": 0.34,
+      "metalness": 0.5
+    },
+    "leather": {
+      "color": "#5c3d28",
+      "roughness": 0.7
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.62,
+        0.05,
+        0.08
+      ],
+      "position": [
+        0,
+        0.025000000372529037,
+        0
+      ],
+      "material": "board",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.006500000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.62,
+        0.05,
+        0.08
+      ],
+      "position": [
+        0,
+        0.025000000372529037,
+        0
+      ],
+      "material": "board",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.006500000000000001
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.03,
+      "radiusBottom": 0.03,
+      "height": 1.5,
+      "position": [
+        0,
+        0.780000000372529,
+        0
+      ],
+      "material": "board",
+      "segments": 12,
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "profile": [
+        [
+          0,
+          -0.75
+        ],
+        [
+          0.0264,
+          -0.75
+        ],
+        [
+          0.03,
+          -0.7464
+        ],
+        [
+          0.03,
+          0.7464
+        ],
+        [
+          0.0264,
+          0.75
+        ],
+        [
+          0,
+          0.75
+        ]
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.56,
+        0.05,
+        0.05
+      ],
+      "position": [
+        0,
+        1.400000000372529,
+        0
+      ],
+      "material": "board",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.006500000000000001
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.46,
+        0.56,
+        0.3
+      ],
+      "position": [
+        0,
+        1.160000000372529,
+        0
+      ],
+      "material": "steel",
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.4,
+        0.2,
+        0.27
+      ],
+      "position": [
+        0,
+        0.880000000372529,
+        0
+      ],
+      "material": "steel",
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.2,
+        0.16,
+        0.22
+      ],
+      "position": [
+        -0.3,
+        1.400000000372529,
+        0
+      ],
+      "material": "steel",
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.12,
+        0.34,
+        0.13
+      ],
+      "position": [
+        -0.34,
+        1.170000000372529,
+        0
+      ],
+      "material": "steel",
+      "rotation": [
+        0,
+        0,
+        -0.15
+      ],
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.16,
+        0.42,
+        0.17
+      ],
+      "position": [
+        -0.12,
+        0.580000000372529,
+        0
+      ],
+      "material": "leather",
+      "segments": 24,
+      "surface": {
+        "texture": "leather",
+        "textureSize": 0.6,
+        "relief": 0.008,
+        "leatherPattern": "pebbled",
+        "leatherGrain": 0.6,
+        "leatherCreases": 0.3,
+        "textureColor": "#5c3d28",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.2,
+        0.16,
+        0.22
+      ],
+      "position": [
+        0.3,
+        1.400000000372529,
+        0
+      ],
+      "material": "steel",
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.12,
+        0.34,
+        0.13
+      ],
+      "position": [
+        0.34,
+        1.170000000372529,
+        0
+      ],
+      "material": "steel",
+      "rotation": [
+        0,
+        0,
+        0.15
+      ],
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.16,
+        0.42,
+        0.17
+      ],
+      "position": [
+        0.12,
+        0.580000000372529,
+        0
+      ],
+      "material": "leather",
+      "segments": 24,
+      "surface": {
+        "texture": "leather",
+        "textureSize": 0.6,
+        "relief": 0.008,
+        "leatherPattern": "pebbled",
+        "leatherGrain": 0.6,
+        "leatherCreases": 0.3,
+        "textureColor": "#5c3d28",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.5,
+        0.012
+      ],
+      "position": [
+        0,
+        1.160000000372529,
+        0.152
+      ],
+      "material": "brass",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.36,
+        0.012,
+        0.012
+      ],
+      "position": [
+        0,
+        0.980000000372529,
+        0.145
+      ],
+      "material": "iron",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.36,
+        0.012,
+        0.012
+      ],
+      "position": [
+        0,
+        1.1000000003725292,
+        0.145
+      ],
+      "material": "iron",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.36,
+        0.012,
+        0.012
+      ],
+      "position": [
+        0,
+        1.220000000372529,
+        0.145
+      ],
+      "material": "iron",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.36,
+        0.012,
+        0.012
+      ],
+      "position": [
+        0,
+        1.3400000003725292,
+        0.145
+      ],
+      "material": "iron",
+      "bevel": 0
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.11,
+          0
+        ],
+        [
+          0.125,
+          0.08
+        ],
+        [
+          0.12,
+          0.2
+        ],
+        [
+          0.07,
+          0.28
+        ],
+        [
+          0,
+          0.3
+        ]
+      ],
+      "segments": 20,
+      "position": [
+        0,
+        1.5200000003725291,
+        0
+      ],
+      "material": "steel"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.014,
+        0.02
+      ],
+      "position": [
+        0,
+        1.660000000372529,
+        0.115
+      ],
+      "material": "black",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.014,
+        0.1,
+        0.2
+      ],
+      "position": [
+        0,
+        1.8200000003725292,
+        -0.02
+      ],
+      "material": "cloth",
+      "bevel": 0.0042
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.8090643882751465,
+    1.8700000047683716,
+    0.6200000047683716
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "perfis torneados e bordas de chapa",
+      "couro granulado"
+    ],
+    "seed": 50301
+  }
+}

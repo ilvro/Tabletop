@@ -41,7 +41,7 @@ import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
 import { proposeRoomState } from '../authoring/room-state.js';
 import { describeRoom } from '../authoring/room-insight.js';
-import { proposeBuilding, proposeAddRoom, proposeRemoveRoom, proposeRedivide, describeBuilding, planBuilding, addRoomSpots } from '../authoring/building.js';
+import { proposeBuilding, proposeAddRoom, proposeRemoveRoom, proposeRedivide, describeBuilding, planBuilding, addRoomSpots, BUILDING_TYPES } from '../authoring/building.js';
 import { proposeRoomLighting, proposeRoomDetails, roomMood, suggestAtmosphere } from '../authoring/room-ambience.js';
 import { proposeSurroundings, inferSetting, SETTINGS, SURROUNDINGS_TAG } from '../authoring/surroundings.js';
 import { roomEra } from '../authoring/room-insight.js';
@@ -671,7 +671,7 @@ export async function startApplication() {
       if (insight) { insight.building = describeBuilding(store.document, smartFloorId, assets); if (insight.building) { try { insight.building.plan = addRoomSpots(store.document, { floorId: smartFloorId, template: 'bathroom' }, assets).rooms; } catch { /* no plan to draw */ } } insight.mood = roomMood(store.document, smartFloorId, assets); insight.atmosphere = suggestAtmosphere(store.document, smartFloorId, assets); }
       panel.innerHTML += smartBuildPanel(store.document, smartOptions, smartFloorId, currentComposition(), insight, stateOptions, ambienceOptions);
       // What the building asks for around it, read the same way the proposal will.
-      let around = null; if (smartFloorId) { const type = insight?.building?.type, era = roomEra(store.document, smartFloorId), id = inferSetting(type?.id, era); around = { id, name: SETTINGS.find(entry => entry.id === id).name, reason: id === 'rural' && era === 'old' ? 'porque o prédio é de uma época antiga' : type ? `porque o prédio é ${type.name.toLowerCase()}` : '' }; }
+      let around = null; if (smartFloorId) { const type = insight?.building?.type, era = roomEra(store.document, smartFloorId), id = inferSetting(type?.id, era); around = { id, name: SETTINGS.find(entry => entry.id === id).name, reason: id === 'rural' && era !== 'modern' && !['tavern', 'keep'].includes(type?.id) ? 'porque o prédio é de uma época antiga' : type ? `porque o prédio é ${type.name.toLowerCase()}` : '' }; }
       panel.innerHTML += surroundingsPanel(store.document, aroundOptions, smartFloorId, around);
       // Plain headings and one level of tasks: what is inside a task is visible as soon as it opens.
       taskList(panel, [
@@ -1547,7 +1547,7 @@ export async function startApplication() {
       if (!['addTemplate', 'furnish', 'lighting', 'roof', 'era'].includes(key)) buildingOptions.bands = null;
       if (key === 'roomAdd') { if (value) buildingOptions.rooms = [...buildingRooms(), value]; }
       else if (key === 'hub') { buildingOptions.rooms = buildingRooms(); buildingOptions.hub = value; }
-      else { buildingOptions[key] = value; if (key === 'type') { buildingOptions.rooms = null; buildingOptions.hub = null; } if (key === 'floorId') buildingOptions.center = null; }
+      else { buildingOptions[key] = value; if (key === 'type') { buildingOptions.rooms = null; buildingOptions.hub = null; const own = BUILDING_TYPES.find(entry => entry.id === value)?.era; if (own) buildingOptions.era = own; /* a tavern or a keep comes with its period; it can be changed back */ } if (key === 'floorId') buildingOptions.center = null; }
       // With the preview open, the scene follows the panel.
       clearProposal(); if (live) previewBuilding(); renderSidebar(); return;
     }

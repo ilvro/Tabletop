@@ -2,6 +2,27 @@
 
 Atualizado em 13 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Biblioteca e época medieval — concluídas (13 de outubro)
+
+**Feito**
+
+- 27 modelos em `scripts/library-medieval.js`, registrados em `generate-library.js` com a época `Medieval`; contratos e slots novos em `scripts/library-source/`. O gerador passou a criar o contrato de um modelo na primeira vez que o vê.
+- Época Medieval em `src/domain/room-eras.js` (`beforeElectricity` substitui as comparações com a época antiga em luz, prédio e entorno); quatro receitas (taverna, sala do trono, ferraria, arsenal); dois tipos de prédio (taverna, fortaleza) que trazem a própria época; fontes de chama do kit na luz; paliçada, placa, barraca ou pelourinho e boneco de treino no entorno.
+- Documentado em [docs/ASSET_LIBRARY.md](docs/ASSET_LIBRARY.md) e [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).
+
+**Validação**
+
+- Unitários: 282 passam (2 novos; o teste da biblioteca passou de 244 para 271 modelos). Os 244 modelos anteriores não mudaram: nenhum arquivo deles foi alterado pela regeneração.
+- E2E rodados e passando: `asset-library`, `assisted-rooms` (6 casos), `church-kit`, `pages`. Os demais não foram repetidos.
+- Conferência visual das duas folhas de modelos e de uma taverna com entorno e uma fortaleza no editor real.
+
+**Encontrado na validação**
+
+- A forja passava do limite de oito lotes por modelo (nove materiais); reduzida para sete.
+- O caso de ponta a ponta "completar o que existe" falhou uma vez por tempo com renderização por software, pelo mesmo motivo do caso do entorno; passou a erguer a casa sem luz e sem telhado e ficou estável em duas execuções (cerca de 50 s).
+
+**Pendências reais**: sem modelos futuristas; sem muralha, torre, portão ou telhado de palha; sem pessoas nem animais; laboratório, monitoramento, mercado e enfermaria ficam ralos na época medieval.
+
 ## Construção assistida — etapa 6, terreno e entorno, concluída (13 de outubro)
 
 **Feito**: `src/authoring/surroundings.js` (`proposeSurroundings`, `inferSetting`, cinco entornos), tarefa *Entorno do prédio* em Construir → Paisagem com prévia que acompanha o painel; pisos do entorno ignorados pela leitura do prédio; correção do "cômodo atual" ao aceitar propostas; `scripts/capture-building.js` aceita `tipo@entorno`. Detalhes e limites em [docs/ASSISTED_BUILD_PLAN.md](docs/ASSISTED_BUILD_PLAN.md).

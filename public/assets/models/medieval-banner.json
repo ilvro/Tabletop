@@ -1,0 +1,368 @@
+{
+  "name": "Estandarte de parede",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "cloth": {
+      "color": "#70222a",
+      "roughness": 0.95
+    },
+    "brass": {
+      "color": "#b08d3c",
+      "roughness": 0.4,
+      "metalness": 0.5
+    },
+    "board": {
+      "color": "#4a3323",
+      "roughness": 0.7
+    },
+    "linen": {
+      "color": "#cdc2a3",
+      "roughness": 0.97
+    },
+    "straw": {
+      "color": "#b89b56",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 1.1,
+      "position": [
+        0,
+        1.5967767077684403,
+        0.005436372011899948
+      ],
+      "material": "board",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.03,
+          0.01
+        ],
+        [
+          0.035,
+          0.04
+        ],
+        [
+          0,
+          0.07
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        -0.55,
+        1.5967767077684403,
+        0.005436372011899948
+      ],
+      "material": "brass",
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ]
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.03,
+          0.01
+        ],
+        [
+          0.035,
+          0.04
+        ],
+        [
+          0,
+          0.07
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0.55,
+        1.5967767077684403,
+        0.005436372011899948
+      ],
+      "material": "brass",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.92,
+        1.3,
+        0.012
+      ],
+      "position": [
+        0,
+        0.9367767077684404,
+        0.005436372011899948
+      ],
+      "material": "cloth",
+      "bevel": 0.0036
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.3,
+        0.012
+      ],
+      "position": [
+        -0.3,
+        0.17677670776844023,
+        0.005436372011899948
+      ],
+      "material": "cloth",
+      "rotation": [
+        0,
+        0,
+        0.7853981633974483
+      ],
+      "bevel": 0.0036
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.3,
+        0.012
+      ],
+      "position": [
+        0,
+        0.17677670776844023,
+        0.005436372011899948
+      ],
+      "material": "cloth",
+      "rotation": [
+        0,
+        0,
+        0.7853981633974483
+      ],
+      "bevel": 0.0036
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.3,
+        0.012
+      ],
+      "position": [
+        0.3,
+        0.17677670776844023,
+        0.005436372011899948
+      ],
+      "material": "cloth",
+      "rotation": [
+        0,
+        0,
+        0.7853981633974483
+      ],
+      "bevel": 0.0036
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.92,
+        0.05,
+        0.016
+      ],
+      "position": [
+        0,
+        1.5367767077684402,
+        0.005436372011899948
+      ],
+      "material": "linen",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.08,
+        1.3,
+        0.016
+      ],
+      "position": [
+        0,
+        0.9367767077684404,
+        0.005436372011899948
+      ],
+      "material": "linen",
+      "bevel": 0
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.17,
+          0
+        ],
+        [
+          0.17,
+          0.008
+        ],
+        [
+          0,
+          0.008
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        0,
+        1.0167767077684402,
+        0.013436372011899948
+      ],
+      "material": "brass",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.24,
+        0.01
+      ],
+      "position": [
+        0,
+        1.0167767077684402,
+        0.023436372011899947
+      ],
+      "material": "cloth",
+      "bevel": 0.003
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.24,
+        0.06,
+        0.01
+      ],
+      "position": [
+        0,
+        1.0167767077684402,
+        0.023436372011899947
+      ],
+      "material": "cloth",
+      "bevel": 0.003
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.5,
+          1.78,
+          0
+        ],
+        [
+          -0.52,
+          1.9,
+          -0.02
+        ],
+        [
+          0,
+          1.98,
+          -0.04
+        ]
+      ],
+      "radius": 0.006,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0,
+        -0.18322329223155975,
+        0.005436372011899948
+      ],
+      "material": "straw"
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.5,
+          1.78,
+          0
+        ],
+        [
+          0.52,
+          1.9,
+          -0.02
+        ],
+        [
+          0,
+          1.98,
+          -0.04
+        ]
+      ],
+      "radius": 0.006,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0,
+        -0.18322329223155975,
+        0.005436372011899948
+      ],
+      "material": "straw"
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.2400000095367432,
+    1.8025784420458204,
+    0.08087274432182312
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "curvas de contorno refinadas",
+      "arestas chanfradas",
+      "cordas e tubos curvos"
+    ],
+    "seed": 43863
+  }
+}

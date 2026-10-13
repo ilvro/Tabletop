@@ -1,0 +1,166 @@
+{
+  "name": "Sacos de grão empilhados",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "linen": {
+      "color": "#cdc2a3",
+      "roughness": 0.97
+    },
+    "straw": {
+      "color": "#b89b56",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.62,
+        0.34,
+        0.44
+      ],
+      "position": [
+        -0.23190776705741883,
+        0.17000000178813932,
+        0.048248183429241184
+      ],
+      "material": "linen",
+      "rotation": [
+        0,
+        0.3,
+        0
+      ],
+      "segments": 32
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.6,
+        0.32,
+        0.42
+      ],
+      "position": [
+        0.2480922329425812,
+        0.1600000017881393,
+        -0.05175181657075882
+      ],
+      "material": "linen",
+      "rotation": [
+        0,
+        -0.4,
+        0
+      ],
+      "segments": 32
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.58,
+        0.3,
+        0.4
+      ],
+      "position": [
+        0.008092232942581178,
+        0.4300000017881393,
+        0.00824818342924118
+      ],
+      "material": "linen",
+      "rotation": [
+        0,
+        0.9,
+        0.08
+      ],
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.12,
+        0.09,
+        0.1
+      ],
+      "position": [
+        -0.4719077670574188,
+        0.2600000017881393,
+        0.20824818342924117
+      ],
+      "material": "linen",
+      "segments": 16
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.12,
+        0.09,
+        0.1
+      ],
+      "position": [
+        0.2480922329425812,
+        0.2400000017881393,
+        0.10824818342924118
+      ],
+      "material": "linen",
+      "segments": 16
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.12,
+        0.09,
+        0.1
+      ],
+      "position": [
+        0.24809223294258115,
+        0.5000000017881392,
+        0.1682481834292412
+      ],
+      "material": "linen",
+      "segments": 16
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.02,
+          0.36,
+          0.16
+        ],
+        [
+          0.04,
+          0.42,
+          0.2
+        ],
+        [
+          0.1,
+          0.37,
+          0.17
+        ]
+      ],
+      "radius": 0.008,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        -0.03190776705741882,
+        1.7881393032936899e-9,
+        0.02824818342924118
+      ],
+      "material": "straw"
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.0701104998588562,
+    0.581168532371521,
+    0.5549635291099548
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "cordas e tubos curvos"
+    ],
+    "seed": 19058
+  }
+}

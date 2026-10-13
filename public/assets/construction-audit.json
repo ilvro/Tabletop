@@ -3251,6 +3251,359 @@
       "parts": 25,
       "triangles": 372,
       "batches": 3
+    },
+    {
+      "id": "builtin-medieval-throne",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "estofamento com bordas macias",
+        "painéis com montantes e rebaixo",
+        "tecido com trama"
+      ],
+      "parts": 39,
+      "triangles": 5896,
+      "batches": 4
+    },
+    {
+      "id": "builtin-medieval-trestle-table",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 15,
+      "triangles": 660,
+      "batches": 2
+    },
+    {
+      "id": "builtin-medieval-bench",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "tábuas independentes"
+      ],
+      "parts": 8,
+      "triangles": 352,
+      "batches": 2
+    },
+    {
+      "id": "builtin-medieval-stool",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 4,
+      "triangles": 600,
+      "batches": 2
+    },
+    {
+      "id": "builtin-medieval-chest",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 17,
+      "triangles": 4200,
+      "batches": 3
+    },
+    {
+      "id": "builtin-medieval-bed",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "painéis com montantes e rebaixo",
+        "tábuas independentes",
+        "estofamento com bordas macias",
+        "tecido com trama"
+      ],
+      "parts": 44,
+      "triangles": 7668,
+      "batches": 5
+    },
+    {
+      "id": "builtin-medieval-cupboard",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "tábuas independentes",
+        "painéis com montantes e rebaixo",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 60,
+      "triangles": 4512,
+      "batches": 3
+    },
+    {
+      "id": "builtin-medieval-barrel-rack",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas",
+        "arestas chanfradas"
+      ],
+      "parts": 30,
+      "triangles": 4800,
+      "batches": 4
+    },
+    {
+      "id": "builtin-medieval-sacks",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos"
+      ],
+      "parts": 7,
+      "triangles": 4624,
+      "batches": 2
+    },
+    {
+      "id": "builtin-medieval-tankards",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 16,
+      "triangles": 5084,
+      "batches": 5
+    },
+    {
+      "id": "builtin-medieval-wooden-tub",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos"
+      ],
+      "parts": 8,
+      "triangles": 2876,
+      "batches": 5
+    },
+    {
+      "id": "builtin-medieval-wall-torch",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 7,
+      "triangles": 1292,
+      "batches": 4
+    },
+    {
+      "id": "builtin-medieval-brazier",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 9,
+      "triangles": 2412,
+      "batches": 3
+    },
+    {
+      "id": "builtin-medieval-candle-stand",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 23,
+      "triangles": 3584,
+      "batches": 4
+    },
+    {
+      "id": "builtin-medieval-hearth",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 19,
+      "triangles": 3624,
+      "batches": 7
+    },
+    {
+      "id": "builtin-medieval-cauldron",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 35,
+      "triangles": 7036,
+      "batches": 6
+    },
+    {
+      "id": "builtin-medieval-weapon-rack",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "tábuas independentes",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais",
+        "couro granulado"
+      ],
+      "parts": 28,
+      "triangles": 3552,
+      "batches": 6
+    },
+    {
+      "id": "builtin-medieval-armor-stand",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "couro granulado"
+      ],
+      "parts": 20,
+      "triangles": 6328,
+      "batches": 7
+    },
+    {
+      "id": "builtin-medieval-shield",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 15,
+      "triangles": 1568,
+      "batches": 4
+    },
+    {
+      "id": "builtin-medieval-banner",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "curvas de contorno refinadas",
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 14,
+      "triangles": 1184,
+      "batches": 5
+    },
+    {
+      "id": "builtin-medieval-anvil",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "ferragens curvas com vazios reais",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 10,
+      "triangles": 2272,
+      "batches": 3
+    },
+    {
+      "id": "builtin-medieval-forge",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos",
+        "couro granulado"
+      ],
+      "parts": 25,
+      "triangles": 5832,
+      "batches": 7
+    },
+    {
+      "id": "builtin-medieval-market-stall",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "tábuas independentes",
+        "painéis com montantes e rebaixo"
+      ],
+      "parts": 46,
+      "triangles": 4588,
+      "batches": 6
+    },
+    {
+      "id": "builtin-medieval-stocks",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "tábuas independentes",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 30,
+      "triangles": 5060,
+      "batches": 4
+    },
+    {
+      "id": "builtin-medieval-training-dummy",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas",
+        "couro granulado"
+      ],
+      "parts": 12,
+      "triangles": 4260,
+      "batches": 4
+    },
+    {
+      "id": "builtin-medieval-palisade",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "arestas chanfradas"
+      ],
+      "parts": 26,
+      "triangles": 3352,
+      "batches": 3
+    },
+    {
+      "id": "builtin-medieval-signpost",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "painéis com montantes e rebaixo"
+      ],
+      "parts": 31,
+      "triangles": 3924,
+      "batches": 6
     }
   ]
 }

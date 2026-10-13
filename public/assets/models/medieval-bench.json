@@ -1,0 +1,266 @@
+{
+  "name": "Banco comprido de tábua",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "oak": {
+      "color": "#6d4c31",
+      "roughness": 0.7
+    },
+    "board": {
+      "color": "#4a3323",
+      "roughness": 0.7
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.9,
+        0.06,
+        0.11133333333333334
+      ],
+      "position": [
+        0,
+        0.4500000035762786,
+        -0.11333333333333334
+      ],
+      "material": "oak",
+      "bevel": 0.006,
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.9,
+        0.06,
+        0.11133333333333334
+      ],
+      "position": [
+        0,
+        0.4500000035762786,
+        0
+      ],
+      "material": "oak",
+      "bevel": 0.006,
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.9,
+        0.06,
+        0.11133333333333334
+      ],
+      "position": [
+        0,
+        0.4500000035762786,
+        0.11333333333333337
+      ],
+      "material": "oak",
+      "bevel": 0.006,
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.43,
+        0.3
+      ],
+      "position": [
+        -0.72,
+        0.2150000035762786,
+        0
+      ],
+      "material": "board",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0078
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.28,
+        0.04
+      ],
+      "position": [
+        -0.6,
+        0.28000000357627863,
+        0
+      ],
+      "material": "board",
+      "rotation": [
+        0,
+        0,
+        -0.7
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.43,
+        0.3
+      ],
+      "position": [
+        0.72,
+        0.2150000035762786,
+        0
+      ],
+      "material": "board",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.0078
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.28,
+        0.04
+      ],
+      "position": [
+        0.6,
+        0.28000000357627863,
+        0
+      ],
+      "material": "board",
+      "rotation": [
+        0,
+        0,
+        0.7
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.4,
+        0.07,
+        0.05
+      ],
+      "position": [
+        0,
+        0.1800000035762786,
+        0
+      ],
+      "material": "board",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.006500000000000001
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.899999976158142,
+    0.47999998927116405,
+    0.3400000035762787
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "tábuas independentes"
+    ],
+    "seed": 46245
+  }
+}

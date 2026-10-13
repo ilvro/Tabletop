@@ -4,7 +4,7 @@ import { isLocked, worldFootprint, footprintsOverlap } from '../domain/geometry.
 import { ValidationError, validateDocument } from '../domain/validation.js';
 import { surfacePatch } from '../domain/materials.js';
 import { illuminationDefaults } from '../domain/dynamic-lighting.js';
-import { eraAsset } from '../domain/room-eras.js';
+import { eraAsset, beforeElectricity } from '../domain/room-eras.js';
 import { describeBuilding, roomKind } from './building.js';
 import { roomEra } from './room-insight.js';
 import { stableRandom } from './room-layout.js';
@@ -19,7 +19,7 @@ export const SETTINGS = [
   { id: 'graveyard', name: 'Cemitério', description: 'Grade de ferro, lápides em fileiras, cruzes e árvores secas.' },
   { id: 'yard', name: 'Pátio industrial', description: 'Chão de concreto, muro, tambores, paletes e caçamba.' },
 ];
-const BY_BUILDING = { house: 'urban', police: 'urban', clinic: 'urban', office: 'urban', bar: 'urban', warehouse: 'yard', church: 'graveyard' };
+const BY_BUILDING = { tavern: 'rural', keep: 'rural', house: 'urban', police: 'urban', clinic: 'urban', office: 'urban', bar: 'urban', warehouse: 'yard', church: 'graveyard' };
 const PARKED = { police: 'police-car', clinic: 'ambulance', warehouse: 'delivery-van' };
 // What stands in the yard of each setting: [model, how many per 100 m² of free ground at full greenery, where].
 const YARD = {
@@ -36,7 +36,7 @@ const near = (a, b) => Math.abs(a - b) < 1e-6;
 /** The setting a building asks for: a church has its graveyard, a warehouse its yard, an old house the countryside. */
 export function inferSetting(buildingType, era = 'modern') {
   const setting = BY_BUILDING[buildingType] ?? 'urban';
-  return era === 'old' && setting === 'urban' ? 'rural' : setting;
+  return beforeElectricity(era) && setting === 'urban' ? 'rural' : setting;
 }
 
 /**
@@ -53,7 +53,7 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
   if (!(margin >= 2 && margin <= 30) || !(greenery >= 0 && greenery <= 1) || !Number.isInteger(seed) || seed < 0 || !SETTINGS.some(entry => entry.id === setting)) throw new ValidationError('Parâmetros do entorno inválidos.');
   const entities = Object.values(document.layout.entities), look = document.look ?? document.defaultLook;
   const building = describeBuilding(document, floorId, catalog), memberIds = new Set(building ? building.rooms.map(room => room.id) : [floorId]), members = [...memberIds].map(key => document.layout.entities[key]);
-  const era = roomEra(document, floorId) === 'old' || members.some(floor => roomEra(document, floor.id) === 'old') ? 'old' : 'modern';
+  const eras = [floorId, ...members.map(floor => floor.id)].map(key => roomEra(document, key)), era = eras.includes('medieval') ? 'medieval' : eras.includes('old') ? 'old' : 'modern', old = beforeElectricity(era);
   const chosen = setting === 'auto' ? inferSetting(building?.type?.id, era) : setting, definition = SETTINGS.find(entry => entry.id === chosen);
   const model = name => { const real = eraAsset(era, name, catalog); return real ? catalog.find(a => a.id === `builtin-${real}`) : null; };
   // The way in: an outside door of the building, and the side of the building it is on.
@@ -75,29 +75,29 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
   const road = street && !open, reach = { x0: lot.x0 - 1, x1: lot.x1 + 1, z0: lot.z0 - 1, z1: lot.z1 + (road ? 9 : 1) }, inReach = position => { const [x, z] = toLocal(position); return x >= lot.x0 - 14 && x <= lot.x1 + 14 && z >= lot.z0 - 14 && z <= lot.z1 + 22; };   // wide enough for a previous pass of any setting
 
   // The previous pass leaves; what the person put on the old ground moves to the new one.
-  const old = entities.filter(e => e.tags?.includes(SURROUNDINGS_TAG) && e.transform && inReach(e.transform.position) && !isLocked(document, e)), oldFloors = new Set(old.filter(e => e.kind === 'floor').map(e => e.id));
+  const previous = entities.filter(e => e.tags?.includes(SURROUNDINGS_TAG) && e.transform && inReach(e.transform.position) && !isLocked(document, e)), oldFloors = new Set(previous.filter(e => e.kind === 'floor').map(e => e.id));
   const rests = record => oldFloors.has(record.surfaceId) || oldFloors.has(document.layout.entities[record.surfaceId]?.surfaceId), mine = entities.filter(e => !e.tags?.includes(SURROUNDINGS_TAG) && oldFloors.has(e.surfaceId));
   const strip = (name, x0, x1, z0, z1, texture, lift, color) => { const floor = createEntity('floor', { name, width: x1 - x0, length: z1 - z0, thickness: .05, position: toWorld((x0 + x1) / 2, (z0 + z1) / 2, lift), rotation: quaternionFromYaw(yaw), groupId: group.id, ...placing, tags: [SURROUNDINGS_TAG], material: { ...surfacePatch(texture), ...(color ? { color } : {}) } }); floor.transform.position[1] = base + lift; proposal.entities.push(floor); return floor; };
   const ground = strip(open ? 'Clareira' : 'Terreno', lot.x0, lot.x1, lot.z0, lot.z1, GROUND[chosen], -.04, chosen === 'woods' ? '#8f9a78' : chosen === 'graveyard' ? '#9aa08c' : undefined);
   for (const record of mine) proposal.rehoming.push({ kind: 'entity', id: record.id, patch: { surfaceId: ground.id } });
   for (const light of Object.values(look.lights).filter(l => oldFloors.has(l.surfaceId))) proposal.rehoming.push({ kind: 'light', id: light.id, patch: { surfaceId: ground.id } });
   for (const token of Object.values(document.tokens ?? {}).filter(t => oldFloors.has(t.surfaceId))) proposal.rehoming.push({ kind: 'token', id: token.id, patch: { surfaceId: ground.id } });
-  for (const record of old) if (record.kind === 'floor' || !rests(record) && !oldFloors.has(document.layout.entities[record.wallId]?.surfaceId)) proposal.removals.push({ kind: 'entity', id: record.id });
+  for (const record of previous) if (record.kind === 'floor' || !rests(record) && !oldFloors.has(document.layout.entities[record.wallId]?.surfaceId)) proposal.removals.push({ kind: 'entity', id: record.id });
 
   // Ways across the yard: the path to the door and, if the building has a garage on the front, the driveway.
   const keepClear = [], lane = (x0, x1, z0, z1) => keepClear.push([[x0, z0], [x1, z0], [x1, z1], [x0, z1]].map(([x, z]) => { const w = toWorld(x, z); return [w[0], w[2]]; }));
-  const pathTexture = chosen === 'yard' ? null : era === 'old' || chosen === 'rural' || open ? 'sand' : 'stone';
+  const pathTexture = chosen === 'yard' ? null : old || chosen === 'rural' || open ? 'sand' : 'stone';
   if (entrance || !open) { if (pathTexture) strip(open ? 'Trilha' : 'Caminho de entrada', doorX - .7, doorX + .7, bd / 2, lot.z1, pathTexture, -.025); lane(doorX - 1, doorX + 1, bd / 2 - .2, lot.z1 + .5); }
   const gates = entrance || !open ? [[doorX - .9, doorX + .9]] : [];
   const garage = members.find(floor => roomKind(document, floor.id, catalog) === 'garage'), garageBox = garage && (() => { const points = worldFootprint(garage).map(([x, z]) => toLocal([x, 0, z])); return { x0: Math.min(...points.map(p => p[0])), x1: Math.max(...points.map(p => p[0])), z1: Math.max(...points.map(p => p[1])) }; })();
   let driveway = null;
   if (garageBox && near(Math.round(garageBox.z1 * 100), Math.round(bd / 2 * 100)) && !open) {
     const mid = (garageBox.x0 + garageBox.x1) / 2, half = Math.min(1.6, (garageBox.x1 - garageBox.x0) / 2 - .2);
-    if (Math.abs(mid - doorX) > half + 1.2) { driveway = [mid - half, mid + half]; if (chosen !== 'yard') strip('Entrada de veículos', driveway[0], driveway[1], bd / 2, lot.z1, era === 'old' ? 'sand' : 'concrete', -.03); lane(driveway[0] - .2, driveway[1] + .2, bd / 2 - .2, lot.z1 + .5); gates.push(driveway); }
+    if (Math.abs(mid - doorX) > half + 1.2) { driveway = [mid - half, mid + half]; if (chosen !== 'yard') strip('Entrada de veículos', driveway[0], driveway[1], bd / 2, lot.z1, old ? 'sand' : 'concrete', -.03); lane(driveway[0] - .2, driveway[1] + .2, bd / 2 - .2, lot.z1 + .5); gates.push(driveway); }
   }
   // The street side: pavement and road, or a dirt road in the country and in older times.
   if (road) {
-    const dirt = chosen === 'rural' || era === 'old';
+    const dirt = chosen === 'rural' || old;
     if (!dirt) strip('Calçada', reach.x0 - 1, reach.x1 + 1, lot.z1, lot.z1 + 2, 'concrete', -.03, '#b9b6ad');
     strip(dirt ? 'Estrada de terra' : 'Rua', reach.x0 - 1, reach.x1 + 1, lot.z1 + (dirt ? 0 : 2), lot.z1 + (dirt ? 5 : 8), dirt ? 'sand' : 'concrete', -.05, dirt ? '#a08c6c' : '#4a4b4d');
   }
@@ -124,7 +124,7 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
     let cursor = lot.x1; for (const [from, to] of [...gates].sort((a, b) => b[0] - a[0])) { if (cursor - to > .4) runs.push([[cursor, lot.z1], [to, lot.z1]]); cursor = from; } if (cursor - lot.x0 > .4) runs.push([[cursor, lot.z1], [lot.x0, lot.z1]]);
     for (const [[ax, az], [bx, bz]] of runs) {
       const span = Math.hypot(bx - ax, bz - az), turn = Math.atan2(-(bz - az), bx - ax) * 180 / Math.PI;
-      if (walled) { const wall = createEntity('wall', { name: 'Muro', length: span, height: chosen === 'yard' ? 2.2 : 1.7, thickness: .16, position: toWorld(ax, az), rotation: quaternionFromYaw(yaw + turn), surfaceId: ground.id, groupId: group.id, ...placing, tags: [SURROUNDINGS_TAG], material: surfacePatch(era === 'old' ? 'stone' : chosen === 'yard' ? 'concrete' : 'brick') }); wall.transform.position[1] = ground.transform.position[1]; proposal.entities.push(wall); continue; }
+      if (walled) { const wall = createEntity('wall', { name: 'Muro', length: span, height: chosen === 'yard' ? 2.2 : 1.7, thickness: .16, position: toWorld(ax, az), rotation: quaternionFromYaw(yaw + turn), surfaceId: ground.id, groupId: group.id, ...placing, tags: [SURROUNDINGS_TAG], material: surfacePatch(old ? 'stone' : chosen === 'yard' ? 'concrete' : 'brick') }); wall.transform.position[1] = ground.transform.position[1]; proposal.entities.push(wall); continue; }
       const piece = model(fenceModel); if (!piece) continue;
       const count = Math.max(1, Math.round(span / piece.footprint[0])), step = span / count;
       for (let i = 0; i < count; i++) put(fenceModel, ax + (bx - ax) * (i + .5) * step / span, az + (bz - az) * (i + .5) * step / span, turn, { padding: -.4 });
@@ -132,12 +132,12 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
   }
   // The street: lamps that light, something parked that says what the building is.
   if (road) {
-    const kerb = chosen === 'rural' || era === 'old' ? lot.z1 + .6 : lot.z1 + 1.2;
+    const kerb = chosen === 'rural' || old ? lot.z1 + .6 : lot.z1 + 1.2;
     for (const x of [lot.x0 + 2, lot.x1 - 2]) { const lamp = put('streetlamp', x, kerb, 180); if (lamp) lamp.illumination = { ...illuminationDefaults('lamp', lamp), position: [0, 3.2, 0], intensity: 60, distance: 14, priority: 4 }; }
     if (chosen === 'urban') { put('fire-hydrant', doorX + 3, kerb, 0); put('trash-can', doorX - 2.4, kerb, 0); }
     const car = PARKED[building?.type?.id] ?? (chosen === 'urban' ? 'sedan' : null);
     if (car && chosen !== 'rural') put(car, lot.x0 + 5 + random('car') * Math.max(0, lot.x1 - lot.x0 - 10), lot.z1 + 5.2, 90, { padding: .3 });
-    if (driveway && era !== 'old') put('sedan', (driveway[0] + driveway[1]) / 2, bd / 2 + (lot.z1 - bd / 2) * .45, 0, { padding: -.1 });
+    if (driveway && !old) put('sedan', (driveway[0] + driveway[1]) / 2, bd / 2 + (lot.z1 - bd / 2) * .45, 0, { padding: -.1 });
   }
   // Graves stand in rows beside and behind the church.
   const free = (lot.x1 - lot.x0) * (lot.z1 - lot.z0) - bw * bd;
@@ -150,6 +150,7 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
     if (greenery > .5) put('mausoleum', lot.x1 - 2.6, lot.z0 + 2.6, 180) ; if (greenery > .3) put('open-grave', lot.x0 + 2.4, bd / 2 + frontYard * .5, 0);
   }
   if (LANDMARK[chosen]) for (let attempt = 0; attempt < 12; attempt++) if (put(LANDMARK[chosen], lot.x0 + 2 + random(`lm/x/${attempt}`) * (lot.x1 - lot.x0 - 4), chosen === 'woods' ? bd / 2 + 2 + random(`lm/z/${attempt}`) * (frontYard - 3) : lot.z0 + 1.5 + random(`lm/z/${attempt}`) * (margin - 2.5), 0, { padding: .6 })) break;
+  if (era === 'medieval' && !open) { for (const side of [2.4, -2.4, 3.6, -3.6]) if (put('medieval-signpost', doorX + side, lot.z1 - 1.3, 180, { padding: .1 })) break; for (let attempt = 0; attempt < 10; attempt++) if (put(building?.type?.id === 'keep' ? 'medieval-stocks' : 'medieval-market-stall', lot.x0 + 2 + random(`md/${attempt}`) * (lot.x1 - lot.x0 - 4), bd / 2 + 1.6 + random(`mz/${attempt}`) * (frontYard - 3.4), 180, { padding: .4 })) break; for (let attempt = 0; attempt < 10; attempt++) if (put('medieval-training-dummy', lot.x0 + 1.5 + random(`dd/${attempt}`) * (lot.x1 - lot.x0 - 3), lot.z0 + 1.5 + random(`dz/${attempt}`) * (margin - 2.5), 0, { padding: .5 })) break; }
   // What grows and what is left in the yard, each kind where it belongs.
   const spot = (where, key) => {
     const u = random(`${key}/u`), v = random(`${key}/v`), pick = random(`${key}/s`), across = lot.x0 + .9 + u * (lot.x1 - lot.x0 - 1.8), beside = () => [pick < .5 ? lot.x0 + .9 + u * (margin - 1.6) : lot.x1 - .9 - u * (margin - 1.6), lot.z0 + .9 + v * (lot.z1 - lot.z0 - 1.8)];
@@ -164,12 +165,12 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
     for (let i = 0; i < count; i++) for (let attempt = 0; attempt < 24; attempt++) { const [x, z] = spot(where, `${name}/${i}/${attempt}`); if (put(name, x, z, random(`${name}/${i}/${attempt}/r`) * 360, { padding: /tree|pine/.test(name) ? .5 : .2 })) break; }
   }
 
-  const why = setting !== 'auto' ? '' : chosen === 'rural' && era === 'old' ? ', porque o prédio é de uma época antiga' : building?.type ? `, porque o prédio é ${building.type.name.toLowerCase()}` : '';
+  const why = setting !== 'auto' ? '' : chosen === 'rural' && old && !['tavern', 'keep'].includes(building?.type?.id) ? ', porque o prédio é de uma época antiga' : building?.type ? `, porque o prédio é ${building.type.name.toLowerCase()}` : '';
   proposal.report.reasons.push(`Entorno ${definition.name.toLowerCase()}${why}: terreno de ${(lot.x1 - lot.x0).toFixed(0)} × ${(lot.z1 - lot.z0).toFixed(0)} m.`);
   if (entrance) proposal.report.reasons.push(`A frente é o lado da porta ${entrance.name.toLowerCase()}; ${open ? 'a trilha sai dela' : 'o portão fica diante dela e o caminho leva até ela'}.`); else proposal.report.conflicts.push('O prédio não tem porta externa; a frente foi escolhida por conta própria.');
   if (driveway) proposal.report.reasons.push('A garagem dá para a frente, então há entrada de veículos e um segundo portão.');
   if (counts.size) proposal.report.reasons.push([...counts].map(([name, count]) => `${count} × ${name.toLowerCase()}`).join(', ') + '.');
   if (outsiders.length || mine.length) proposal.report.reasons.push(`${outsiders.length + mine.length === 1 ? 'O objeto que você tinha do lado de fora ficou' : `Os ${new Set([...outsiders, ...mine]).size} objetos que você tinha do lado de fora ficaram`} onde estava${outsiders.length + mine.length === 1 ? '' : 'm'}; o entorno contorna.`);
-  if (old.length) proposal.report.reasons.push('O entorno anterior foi substituído.');
+  if (previous.length) proposal.report.reasons.push('O entorno anterior foi substituído.');
   return proposal;
 }

@@ -1,0 +1,923 @@
+{
+  "name": "Caldeirão em tripé",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "stone": {
+      "color": "#817d74",
+      "roughness": 0.95
+    },
+    "flame": {
+      "color": "#f3c477",
+      "emissive": "#ff9a3c",
+      "emissiveIntensity": 1.1
+    },
+    "board": {
+      "color": "#4a3323",
+      "roughness": 0.7
+    },
+    "iron": {
+      "color": "#35373a",
+      "roughness": 0.46,
+      "metalness": 0.5
+    },
+    "water": {
+      "color": "#3f5f6b",
+      "roughness": 0.12
+    },
+    "ember": {
+      "color": "#d8642a",
+      "emissive": "#ff5a1c",
+      "emissiveIntensity": 0.9
+    }
+  },
+  "parts": [
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.4563429321829939,
+          0,
+          0.24930128007418556
+        ],
+        [
+          0.018253717287319754,
+          1.5,
+          0.009972051202967423
+        ]
+      ],
+      "radius": 0.022,
+      "segments": 2,
+      "sides": 8,
+      "position": [
+        -0.006113037467002869,
+        0.006945248693227768,
+        0.11076663434505463
+      ],
+      "material": "board",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.4440727078317208,
+          0,
+          0.2705539320708592
+        ],
+        [
+          -0.017762908313268832,
+          1.5,
+          0.010822157282834368
+        ]
+      ],
+      "radius": 0.022,
+      "segments": 2,
+      "sides": 8,
+      "position": [
+        -0.006113037467002869,
+        0.006945248693227768,
+        0.11076663434505463
+      ],
+      "material": "board",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.012270224351273167,
+          0,
+          -0.5198552121450447
+        ],
+        [
+          -0.0004908089740509266,
+          1.5,
+          -0.02079420848580179
+        ]
+      ],
+      "radius": 0.022,
+      "segments": 2,
+      "sides": 8,
+      "position": [
+        -0.006113037467002869,
+        0.006945248693227768,
+        0.11076663434505463
+      ],
+      "material": "board",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        1.4069452486932277,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        -1.5707963057214724,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        1.3669452486932276,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        1.3269452486932276,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        -1.5707963057214724,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        1.2869452486932278,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        1.2469452486932278,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        -1.5707963057214724,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        1.2069452486932277,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        1.1669452486932277,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        -1.5707963057214724,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        1.1269452486932279,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        1.0869452486932278,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        -1.5707963057214724,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        1.0469452486932278,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        1.0069452486932278,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        -1.5707963057214724,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        0.9669452486932277,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        0.9269452486932277,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        -1.5707963057214724,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        0.8869452486932278,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        0.8469452486932277,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        -1.5707963057214724,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.028,
+      "tube": 0.00672,
+      "segments": 14,
+      "sides": 6,
+      "position": [
+        -0.006113037467002869,
+        0.8069452486932278,
+        0.11076663434505463
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0.02
+        ],
+        [
+          0.12,
+          0
+        ],
+        [
+          0.24,
+          0.08
+        ],
+        [
+          0.28,
+          0.2
+        ],
+        [
+          0.25,
+          0.34
+        ],
+        [
+          0.27,
+          0.37
+        ],
+        [
+          0.23,
+          0.37
+        ],
+        [
+          0.21,
+          0.33
+        ],
+        [
+          0.24,
+          0.2
+        ],
+        [
+          0.2,
+          0.1
+        ],
+        [
+          0,
+          0.06
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        -0.006113037467002869,
+        0.4069452486932278,
+        0.11076663434505463
+      ],
+      "material": "iron"
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.25,
+          0.74,
+          0
+        ],
+        [
+          0,
+          0.92,
+          0
+        ],
+        [
+          0.25,
+          0.74,
+          0
+        ]
+      ],
+      "radius": 0.009,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        -0.006113037467002869,
+        0.006945248693227768,
+        0.11076663434505463
+      ],
+      "material": "iron"
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.22,
+      "radiusBottom": 0.22,
+      "height": 0.01,
+      "position": [
+        -0.006113037467002869,
+        0.7069452486932277,
+        0.11076663434505463
+      ],
+      "material": "water",
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.14,
+        0.09,
+        0.12
+      ],
+      "position": [
+        0.2938869625329971,
+        0.051945248693227766,
+        0.11076663434505463
+      ],
+      "material": "stone",
+      "segments": 16
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.14,
+        0.09,
+        0.12
+      ],
+      "position": [
+        0.14388696253299715,
+        0.051945248693227766,
+        0.3705742554803862
+      ],
+      "material": "stone",
+      "segments": 16
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.14,
+        0.09,
+        0.12
+      ],
+      "position": [
+        -0.1561130374670028,
+        0.051945248693227766,
+        0.37057425548038625
+      ],
+      "material": "stone",
+      "segments": 16
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.14,
+        0.09,
+        0.12
+      ],
+      "position": [
+        -0.30611303746700286,
+        0.051945248693227766,
+        0.11076663434505467
+      ],
+      "material": "stone",
+      "segments": 16
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.14,
+        0.09,
+        0.12
+      ],
+      "position": [
+        -0.156113037467003,
+        0.051945248693227766,
+        -0.14904098679027689
+      ],
+      "material": "stone",
+      "segments": 16
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.14,
+        0.09,
+        0.12
+      ],
+      "position": [
+        0.14388696253299715,
+        0.051945248693227766,
+        -0.14904098679027694
+      ],
+      "material": "stone",
+      "segments": 16
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.04,
+      "radiusBottom": 0.045,
+      "height": 0.44,
+      "position": [
+        -0.006113037467002869,
+        0.051945248693227766,
+        0.010766634345054621
+      ],
+      "material": "board",
+      "segments": 16,
+      "rotation": [
+        0,
+        -0.35,
+        1.5707963267948966
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "profile": [
+        [
+          0,
+          -0.22
+        ],
+        [
+          0.039599999999999996,
+          -0.22
+        ],
+        [
+          0.045,
+          -0.2146
+        ],
+        [
+          0.04,
+          0.2146
+        ],
+        [
+          0.0346,
+          0.22
+        ],
+        [
+          0,
+          0.22
+        ]
+      ]
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.04,
+      "radiusBottom": 0.045,
+      "height": 0.44,
+      "position": [
+        -0.006113037467002869,
+        0.051945248693227766,
+        0.11076663434505463
+      ],
+      "material": "board",
+      "segments": 16,
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "profile": [
+        [
+          0,
+          -0.22
+        ],
+        [
+          0.039599999999999996,
+          -0.22
+        ],
+        [
+          0.045,
+          -0.2146
+        ],
+        [
+          0.04,
+          0.2146
+        ],
+        [
+          0.0346,
+          0.22
+        ],
+        [
+          0,
+          0.22
+        ]
+      ]
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.04,
+      "radiusBottom": 0.045,
+      "height": 0.44,
+      "position": [
+        -0.006113037467002869,
+        0.051945248693227766,
+        0.21076663434505463
+      ],
+      "material": "board",
+      "segments": 16,
+      "rotation": [
+        0,
+        0.35,
+        1.5707963267948966
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "profile": [
+        [
+          0,
+          -0.22
+        ],
+        [
+          0.039599999999999996,
+          -0.22
+        ],
+        [
+          0.045,
+          -0.2146
+        ],
+        [
+          0.04,
+          0.2146
+        ],
+        [
+          0.0346,
+          0.22
+        ],
+        [
+          0,
+          0.22
+        ]
+      ]
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.3,
+        0.06,
+        0.3
+      ],
+      "position": [
+        -0.006113037467002869,
+        0.10694524869322777,
+        0.11076663434505463
+      ],
+      "material": "ember",
+      "segments": 24
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.05399999999999999,
+          0.027200000000000002
+        ],
+        [
+          0.072,
+          0.0816
+        ],
+        [
+          0.05039999999999999,
+          0.1632
+        ],
+        [
+          0.018,
+          0.23936000000000002
+        ],
+        [
+          0,
+          0.272
+        ]
+      ],
+      "segments": 10,
+      "position": [
+        -0.006113037467002869,
+        0.14694524869322778,
+        0.11076663434505463
+      ],
+      "material": "flame"
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.036000000000000004,
+          0.0176
+        ],
+        [
+          0.048,
+          0.05280000000000001
+        ],
+        [
+          0.0336,
+          0.10560000000000001
+        ],
+        [
+          0.012,
+          0.15488000000000002
+        ],
+        [
+          0,
+          0.17600000000000002
+        ]
+      ],
+      "segments": 10,
+      "position": [
+        -0.07811303746700286,
+        0.14694524869322778,
+        0.14276663434505463
+      ],
+      "material": "flame"
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.033,
+          0.016000000000000004
+        ],
+        [
+          0.044000000000000004,
+          0.04800000000000001
+        ],
+        [
+          0.0308,
+          0.09600000000000002
+        ],
+        [
+          0.011000000000000001,
+          0.14080000000000004
+        ],
+        [
+          0,
+          0.16000000000000003
+        ]
+      ],
+      "segments": 10,
+      "position": [
+        0.05788696253299713,
+        0.14694524869322778,
+        0.08676663434505463
+      ],
+      "material": "flame"
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.9426953792572021,
+    1.5138905048370361,
+    0.8599270582199097
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "cordas e tubos curvos",
+      "ferragens curvas com vazios reais",
+      "curvas de contorno refinadas",
+      "perfis torneados e bordas de chapa"
+    ],
+    "seed": 46413
+  }
+}

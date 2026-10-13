@@ -1,0 +1,270 @@
+{
+  "name": "Tina de banho",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "oak": {
+      "color": "#6d4c31",
+      "roughness": 0.7
+    },
+    "board": {
+      "color": "#4a3323",
+      "roughness": 0.7
+    },
+    "iron": {
+      "color": "#35373a",
+      "roughness": 0.46,
+      "metalness": 0.5
+    },
+    "linen": {
+      "color": "#cdc2a3",
+      "roughness": 0.97
+    },
+    "water": {
+      "color": "#3f5f6b",
+      "roughness": 0.12
+    }
+  },
+  "parts": [
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.5,
+          0
+        ],
+        [
+          0.56,
+          0.05
+        ],
+        [
+          0.6,
+          0.58
+        ],
+        [
+          0.56,
+          0.58
+        ],
+        [
+          0.52,
+          0.08
+        ],
+        [
+          0,
+          0.08
+        ]
+      ],
+      "segments": 28,
+      "position": [
+        -0.12060001492500305,
+        1.4901161415892261e-9,
+        0
+      ],
+      "material": "oak",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.5696000000000001,
+      "tube": 0.012,
+      "segments": 28,
+      "sides": 8,
+      "position": [
+        -0.12060001492500305,
+        0.12000000149011614,
+        0
+      ],
+      "material": "iron",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.5968,
+      "tube": 0.012,
+      "segments": 28,
+      "sides": 8,
+      "position": [
+        -0.12060001492500305,
+        0.46000000149011616,
+        0
+      ],
+      "material": "iron",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.53,
+      "radiusBottom": 0.53,
+      "height": 0.01,
+      "position": [
+        -0.12060001492500305,
+        0.44000000149011614,
+        0
+      ],
+      "material": "water",
+      "segments": 32
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.04,
+        0.16
+      ],
+      "position": [
+        0.37939998507499695,
+        0.6000000014901161,
+        0
+      ],
+      "material": "board",
+      "bevel": 0.01,
+      "round": true,
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.24,
+        0.05,
+        0.14
+      ],
+      "position": [
+        0.37939998507499695,
+        0.6400000014901162,
+        0
+      ],
+      "material": "linen",
+      "segments": 24
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.1,
+      "radiusBottom": 0.1,
+      "height": 0.2,
+      "position": [
+        0.629399985074997,
+        0.10000000149011615,
+        0.2
+      ],
+      "material": "oak",
+      "segments": 24,
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "profile": [
+        [
+          0,
+          -0.1
+        ],
+        [
+          0.08800000000000001,
+          -0.1
+        ],
+        [
+          0.1,
+          -0.08800000000000001
+        ],
+        [
+          0.1,
+          0.08800000000000001
+        ],
+        [
+          0.08800000000000001,
+          0.1
+        ],
+        [
+          0,
+          0.1
+        ]
+      ]
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.67,
+          0.2,
+          0.2
+        ],
+        [
+          0.75,
+          0.32,
+          0.2
+        ],
+        [
+          0.83,
+          0.2,
+          0.2
+        ]
+      ],
+      "radius": 0.007,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        -0.12060001492500305,
+        1.4901161415892261e-9,
+        0
+      ],
+      "material": "iron"
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.4588000178337097,
+    0.6650000214576721,
+    1.2175999879837036
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "ferragens curvas com vazios reais",
+      "curvas de contorno refinadas",
+      "arestas chanfradas",
+      "perfis torneados e bordas de chapa",
+      "cordas e tubos curvos"
+    ],
+    "seed": 13941
+  }
+}

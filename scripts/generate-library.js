@@ -14,6 +14,7 @@ import { addChurchSceneComplements } from './library-church-scene.js';
 import {addChurchReconstruction} from './library-church-reconstruction.js';
 import {addResidentialLibrary} from './library-residential.js';
 import {addBackroomsLibrary} from './library-backrooms.js';
+import {addMedievalLibrary} from './library-medieval.js';
 import {rasterThumbnail} from './recipe-thumbnail.js';
 import {reconstructAsset} from './library-construction.js';
 import {createHash} from 'node:crypto';
@@ -45,7 +46,7 @@ function add(id, name, category, era, contexts, tags, parts, description, suppor
   assets.push(asset);
   return asset;
 }
-const modern = 'Contemporânea', retro = 'Décadas de 1970–1990', historic = 'Início do século XX', colonial = 'Colonial / século XIX', ancient = 'Antiguidade', timeless = 'Atemporal';
+const medieval = 'Medieval', modern = 'Contemporânea', retro = 'Décadas de 1970–1990', historic = 'Início do século XX', colonial = 'Colonial / século XIX', ancient = 'Antiguidade', timeless = 'Atemporal';
 
 add('dining-table', 'Mesa de jantar rústica', 'Mobiliário / Mesas', colonial, ['Casa', 'Fazenda'], ['mesa', 'madeira', 'refeição', 'rural'], table(2.2, 1, .78), 'Mesa comprida para casas antigas e refeições na fazenda.', .78);
 add('bench', 'Banco de madeira', 'Mobiliário / Assentos', colonial, ['Fazenda', 'Igreja', 'Vila'], ['banco', 'madeira', 'rural'], table(1.6, .42, .45), 'Banco baixo de madeira maciça.', .45);
@@ -123,6 +124,7 @@ for(const id of addChurchReconstruction({add,historic,assets}))churchIds.add(id)
 for (const id of churchIds) { alpineIds.add(id); detailIds.add(id); }
 for (const id of addResidentialLibrary({add,modern})) { alpineIds.add(id); detailIds.add(id); }
 for (const id of addBackroomsLibrary({add,modern})) { alpineIds.add(id); detailIds.add(id); }
+for (const id of addMedievalLibrary({add,medieval})) { alpineIds.add(id); detailIds.add(id); }
 
 function preview(object) {
   object.updateMatrixWorld(true);
@@ -162,7 +164,7 @@ for (const [i, asset] of originals.entries()) {
   asset.footprint = asset.footprint.map((extent, axis) => Math.max(extent, Math.ceil([size.x, size.z][axis] * 100 - .0001) / 100));
   disposeObject(object);
 }
-const records=[],audit=[];
+const records=[],audit=[],fresh=[];
 for (const asset of [...originals,...assets]) {
   let recipe = { name: asset.name, unit: 'meter', pivot: 'base-center', materials: asset.materials ?? materials, parts: structuredClone(asset.parts), ...(alpineIds.has(asset.id)?{mergeParts:true}:{}) };
   const object = recipeInstance(recipe);
@@ -187,11 +189,14 @@ for (const asset of [...originals,...assets]) {
   await writeFile(`public/assets/previews/${asset.id.slice(8)}.svg`, preview(normalized));
   disposeObject(normalized);
   const { parts, materials: assetMaterials, ...record } = asset;
-  const existing=catalog.assets.find(a=>a.id===asset.id);
+  // A model seen for the first time gets its contract from what was just built; from then on the contract rules.
+  let existing=catalog.assets.find(a=>a.id===asset.id);
+  if(!existing){existing={id:asset.id,footprint:[extent.x,extent.z].map(n=>Math.ceil(n*100-.0001)/100),bounds:[extent.x,extent.y,extent.z].map(n=>Math.round(n*1000)/1000),...(asset.supportHeight?{supportHeight:asset.supportHeight}:{})};catalog.assets.push(existing);fresh.push(asset.id);}
   Object.assign(record, { footprint: existing.footprint, bounds: [extent.x, extent.y, extent.z].map(n => Math.round(n * 1000) / 1000), url: `/assets/models/${asset.id.slice(8)}.json`, previewUrl: `/assets/previews/${asset.id.slice(8)}.svg` });
   record.geometryEdition=2;record.contentHash=createHash('sha256').update(JSON.stringify(recipe)).digest('hex');
   records.push(record);
 }
+if(fresh.length){await writeFile('scripts/library-source/contracts.json',`${JSON.stringify(catalog,null,2)}\n`);console.log(`Contratos novos: ${fresh.join(', ')}`);}
 await writeFile('public/assets/catalog.json', `${JSON.stringify({ assets: records }, null, 2)}\n`);
 await writeFile('public/assets/construction-audit.json',`${JSON.stringify({edition:2,assets:audit},null,2)}\n`);
 console.log(`Biblioteca reconstruída: ${records.length} modelos; ${audit.reduce((s,a)=>s+a.triangles,0)} triângulos no acervo inteiro.`);

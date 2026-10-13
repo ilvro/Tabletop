@@ -1,0 +1,279 @@
+{
+  "name": "Bigorna sobre toco",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "oak": {
+      "color": "#6d4c31",
+      "roughness": 0.7
+    },
+    "iron": {
+      "color": "#35373a",
+      "roughness": 0.46,
+      "metalness": 0.5
+    },
+    "steel": {
+      "color": "#9aa1a4",
+      "roughness": 0.34,
+      "metalness": 0.5
+    }
+  },
+  "parts": [
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.3,
+          0
+        ],
+        [
+          0.31,
+          0.04
+        ],
+        [
+          0.28,
+          0.46
+        ],
+        [
+          0,
+          0.46
+        ]
+      ],
+      "segments": 20,
+      "position": [
+        -0.08043229579925537,
+        4.1311506038255175e-7,
+        0
+      ],
+      "material": "oak",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.3,
+      "tube": 0.012,
+      "segments": 24,
+      "sides": 8,
+      "position": [
+        -0.08043229579925537,
+        0.10000041311506039,
+        0
+      ],
+      "material": "iron",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.3,
+      "tube": 0.012,
+      "segments": 24,
+      "sides": 8,
+      "position": [
+        -0.08043229579925537,
+        0.36000041311506037,
+        0
+      ],
+      "material": "iron",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.06,
+        0.2
+      ],
+      "position": [
+        -0.08043229579925537,
+        0.4900004131150604,
+        0
+      ],
+      "material": "iron",
+      "bevel": 0.01,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.1,
+        0.12
+      ],
+      "position": [
+        -0.08043229579925537,
+        0.5700004131150603,
+        0
+      ],
+      "material": "iron",
+      "bevel": 0.009
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.44,
+        0.1,
+        0.16
+      ],
+      "position": [
+        -0.08043229579925537,
+        0.6700004131150604,
+        0
+      ],
+      "material": "iron",
+      "bevel": 0.012,
+      "round": true
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.075,
+          0
+        ],
+        [
+          0.05,
+          0.14
+        ],
+        [
+          0,
+          0.26
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0.13956770420074463,
+        0.6700004131150604,
+        0
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.016,
+      "radiusBottom": 0.016,
+      "height": 0.34,
+      "position": [
+        -0.14043229579925537,
+        0.7450004131150604,
+        0.02
+      ],
+      "material": "oak",
+      "segments": 12,
+      "rotation": [
+        0,
+        0.5,
+        1.5707963267948966
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.05,
+        0.11
+      ],
+      "position": [
+        0.019567704200744634,
+        0.7450004131150604,
+        -0.07
+      ],
+      "material": "steel",
+      "rotation": [
+        0,
+        0.5,
+        0
+      ],
+      "bevel": 0.008,
+      "round": true
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.3,
+          0,
+          0.3
+        ],
+        [
+          -0.3,
+          0.3,
+          0.3
+        ],
+        [
+          -0.2,
+          0.5,
+          0.28
+        ]
+      ],
+      "radius": 0.01,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        -0.08043229579925537,
+        4.1311506038255175e-7,
+        0
+      ],
+      "material": "iron"
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.7991353869438171,
+    0.7700003981590271,
+    0.6240000128746033
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "ferragens curvas com vazios reais",
+      "arestas chanfradas",
+      "curvas de contorno refinadas",
+      "cordas e tubos curvos"
+    ],
+    "seed": 54081
+  }
+}

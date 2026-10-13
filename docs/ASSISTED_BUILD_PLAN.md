@@ -331,3 +331,24 @@ Com *Telhados* desligado (ou na vista superior), o que pende do teto também é 
 - Depois de ampliar o prédio para fora, é preciso refazer o entorno; ele não se ajusta sozinho.
 - Cercas são uma peça a cada dois metros: um lote grande soma dezenas de objetos.
 - Sem portão modelado: o portão é um vão.
+
+### Biblioteca e época medieval (13 de outubro)
+
+Pendência registrada nas épocas: não havia modelos medievais. Agora há 27 (ver `docs/ASSET_LIBRARY.md`), e o assistente os usa.
+
+- **Época Medieval** (`room-eras.js`), ao lado de Atual e Antiga. Não traz arranjos próprios: troca os modelos de cada cômodo pelos do kit (cadeira → banqueta, mesa e balcão → mesa de cavaletes, sofá → banco, cama → cama de palha, armários → armário de despensa, luminária → castiçal, fogão e lareira → lareira de pedra, geladeira → barris, banheira → tina, painel elétrico → tocha de parede) e tira o que é posterior. Vale para os 30 cômodos, para os estados, a luz, o prédio e o entorno.
+- **Quatro cômodos próprios**, num grupo Medieval: taverna, sala do trono, ferraria e arsenal. São receitas como as outras e podem ser usadas em qualquer época.
+- **Dois prédios**: taverna (salão, cozinha, depósito, quartos) e fortaleza (sala do trono, arsenal, quarto, cela, ferraria, depósito, capela). Escolher um deles põe a época em Medieval; dá para trocar.
+- **Luz**: tocha de parede, braseiro, castiçal, lareira, forja e caldeirão acendem como chama; onde não há chama forte, um lustre de velas.
+- **Prédio**: paredes de pedra por dentro e por fora; pisos de pedra ou madeira.
+- **Entorno**: paliçada no lugar da cerca, estrada de terra, placa junto ao portão, barraca de feira (taverna) ou pelourinho (fortaleza) na frente, boneco de treino no fundo. Taverna e fortaleza pedem entorno rural.
+
+**Testes**: caso novo em `tests/room-eras.test.js` (os 30 cômodos na época medieval sem modelo posterior; quarto, cozinha, escritório e sala feitos de peças do kit; taverna reconhecida, com luz só de chamas; taverna e fortaleza erguidas em pedra) e em `tests/surroundings.test.js` (paliçada, placa, barraca, sem poste nem carro). Referência: `docs/references/assisted-build/medieval.jpg`.
+
+**Limites**
+
+- Continua sem modelos futuristas.
+- O kit é de interior e pátio: não há muralha, torre, portão, ponte levadiça nem telhado de palha; a fortaleza usa as mesmas paredes retas e o telhado de casa.
+- Não há pessoas nem animais.
+- Cômodos sem equivalente medieval (laboratório, monitoramento, mercado, enfermaria) ficam ralos nessa época.
+- A sala do trono fica vazia no meio de propósito; em contornos grandes pode parecer pouco mobiliada.

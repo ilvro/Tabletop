@@ -1160,5 +1160,175 @@
   "frame",
   "tile",
   "tube"
+ ],
+ "builtin-medieval-anvil": [
+  "oak",
+  "iron",
+  "steel"
+ ],
+ "builtin-medieval-armor-stand": [
+  "board",
+  "steel",
+  "leather",
+  "brass",
+  "iron",
+  "black",
+  "cloth"
+ ],
+ "builtin-medieval-banner": [
+  "board",
+  "brass",
+  "cloth",
+  "linen",
+  "straw"
+ ],
+ "builtin-medieval-barrel-rack": [
+  "oak",
+  "iron",
+  "brass",
+  "board"
+ ],
+ "builtin-medieval-bed": [
+  "oak",
+  "board",
+  "straw",
+  "cloth",
+  "linen"
+ ],
+ "builtin-medieval-bench": [
+  "oak",
+  "board"
+ ],
+ "builtin-medieval-brazier": [
+  "iron",
+  "ember",
+  "flame"
+ ],
+ "builtin-medieval-candle-stand": [
+  "iron",
+  "wax",
+  "black",
+  "flame"
+ ],
+ "builtin-medieval-cauldron": [
+  "board",
+  "iron",
+  "water",
+  "stone",
+  "ember",
+  "flame"
+ ],
+ "builtin-medieval-chest": [
+  "oak",
+  "board",
+  "iron"
+ ],
+ "builtin-medieval-cupboard": [
+  "oak",
+  "board",
+  "iron"
+ ],
+ "builtin-medieval-forge": [
+  "stone",
+  "black",
+  "ember",
+  "flame",
+  "iron",
+  "leather",
+  "board"
+ ],
+ "builtin-medieval-hearth": [
+  "stone",
+  "oak",
+  "black",
+  "board",
+  "ember",
+  "flame",
+  "iron"
+ ],
+ "builtin-medieval-market-stall": [
+  "board",
+  "oak",
+  "cloth",
+  "linen",
+  "ember",
+  "stone"
+ ],
+ "builtin-medieval-palisade": [
+  "oak",
+  "board",
+  "iron"
+ ],
+ "builtin-medieval-sacks": [
+  "linen",
+  "straw"
+ ],
+ "builtin-medieval-shield": [
+  "steel",
+  "brass",
+  "cloth",
+  "iron"
+ ],
+ "builtin-medieval-signpost": [
+  "stone",
+  "oak",
+  "board",
+  "iron",
+  "brass",
+  "linen"
+ ],
+ "builtin-medieval-stocks": [
+  "board",
+  "oak",
+  "black",
+  "iron"
+ ],
+ "builtin-medieval-stool": [
+  "oak",
+  "board"
+ ],
+ "builtin-medieval-tankards": [
+  "board",
+  "steel",
+  "oak",
+  "iron",
+  "straw"
+ ],
+ "builtin-medieval-throne": [
+  "board",
+  "oak",
+  "cloth",
+  "brass"
+ ],
+ "builtin-medieval-training-dummy": [
+  "board",
+  "oak",
+  "straw",
+  "leather"
+ ],
+ "builtin-medieval-trestle-table": [
+  "oak",
+  "board"
+ ],
+ "builtin-medieval-wall-torch": [
+  "iron",
+  "board",
+  "black",
+  "flame"
+ ],
+ "builtin-medieval-weapon-rack": [
+  "oak",
+  "board",
+  "steel",
+  "brass",
+  "leather",
+  "iron"
+ ],
+ "builtin-medieval-wooden-tub": [
+  "oak",
+  "iron",
+  "water",
+  "board",
+  "linen"
  ]
 }

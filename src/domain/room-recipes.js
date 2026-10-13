@@ -24,7 +24,7 @@ const corner = (slot, asset, rule = {}) => ({ slot, asset, at: 'corner', ...rule
 const on = (slot, asset, of, rule = {}) => ({ slot, asset, at: 'on', of, ...rule });
 const item = (slot, asset, at, rule = {}) => ({ slot, asset, at, ...rule });
 
-export const ROOM_GROUPS = ['Trabalho', 'Casa', 'Delegacia', 'Saúde e ciência', 'Comércio e lazer', 'Indústria', 'Religioso e paranormal'];
+export const ROOM_GROUPS = ['Trabalho', 'Casa', 'Delegacia', 'Saúde e ciência', 'Comércio e lazer', 'Indústria', 'Religioso e paranormal', 'Medieval'];
 export const ROOM_RECIPES = [
   { id: 'office', name: 'Escritório', group: 'Trabalho', items: [
     item('desk.main', 'desk', 'center', { dx: -.25, dz: -.1, rotation: 0 }), item('desk.chair', 'chair', 'front', { of: 'desk.main', gap: .05 }),
@@ -158,6 +158,29 @@ export const ROOM_RECIPES = [
     on('altar.book', 'ritual-book', 'altar.main', { u: -.5 }), on('altar.skull', 'skull-display', 'altar.main', { u: .6, turn: 0 }), corner('candelabra', 'ritual-candelabra', { count: [1, 2, 4] }),
     wall('effigy.main', 'effigy', { level: 1 }), item('blood.main', 'blood-pool', 'free', { flat: true, level: 1 }), on('altar.crystal', 'crystal', 'altar.main', { u: 0, v: -.6, level: 1 }),
     corner('obelisk.corner', 'obelisk', { level: 2 }), item('cage.main', 'cage', 'free', { level: 2 }), on('altar.mask', 'ritual-mask', 'altar.main', { u: .1, v: .6, level: 2 }),
+  ] },
+  { id: 'tavern', name: 'Taverna', group: 'Medieval', items: [
+    item('table.main', 'medieval-trestle-table', 'center', { dz: .15 }), item('bench.front', 'medieval-bench', 'front', { of: 'table.main', gap: .12, face: 'same' }), item('bench.back', 'medieval-bench', 'behind', { of: 'table.main', gap: .12, face: 'same' }),
+    on('table.tankards', 'medieval-tankards', 'table.main', { u: -.4 }), wall('hearth.main', 'medieval-hearth', { prefer: 'far' }), wall('barrels.main', 'medieval-barrel-rack', { prefer: 'long' }),
+    wall('counter.main', 'medieval-trestle-table', { prefer: 'same', of: 'barrels.main', gap: 1.0, level: 1 }), on('counter.tankards', 'medieval-tankards', 'counter.main', { u: .5, level: 1 }), item('stool', 'medieval-stool', 'free', { count: [1, 3, 5] }),
+    wall('cupboard.main', 'medieval-cupboard', { level: 1 }), wall('shield.main', 'medieval-shield', { prefer: 'long', lift: 1.2, level: 1 }), wall('torch', 'medieval-wall-torch', { lift: 1.5, count: [1, 2, 3] }),
+    item('table.second', 'medieval-trestle-table', 'free', { rotation: 0, level: 2 }), on('second.tankards', 'medieval-tankards', 'table.second', { level: 2 }), corner('sacks.corner', 'medieval-sacks', { level: 2 }), item('cauldron.main', 'medieval-cauldron', 'front', { of: 'hearth.main', gap: .5, face: 'same', level: 2 }),
+  ] },
+  { id: 'throne', name: 'Sala do trono', group: 'Medieval', items: [
+    wall('throne.main', 'medieval-throne', { prefer: 'far' }), item('carpet.main', 'rug', 'front', { of: 'throne.main', gap: .5, face: 'same', flat: true }), item('stand.left', 'medieval-candle-stand', 'beside', { of: 'throne.main', gap: .5, side: 1 }),
+    item('stand.right', 'medieval-candle-stand', 'beside', { of: 'throne.main', gap: .5, side: -1 }), wall('banner', 'medieval-banner', { prefer: 'same', of: 'throne.main', lift: .45, count: [1, 2, 2] }),
+    wall('bench', 'medieval-bench', { prefer: 'long', count: [1, 2, 4] }), corner('brazier', 'medieval-brazier', { count: [1, 2, 2] }), wall('armor', 'medieval-armor-stand', { count: [0, 2, 2] }),
+    wall('shield.main', 'medieval-shield', { prefer: 'long', lift: 1.3, level: 1 }), wall('chest.main', 'medieval-chest', { level: 1 }), wall('torch', 'medieval-wall-torch', { lift: 1.5, count: [0, 2, 4] }), wall('rack.main', 'medieval-weapon-rack', { level: 2 }),
+  ] },
+  { id: 'forge', name: 'Ferraria', group: 'Medieval', items: [
+    wall('forge.main', 'medieval-forge', { prefer: 'far' }), item('anvil.main', 'medieval-anvil', 'front', { of: 'forge.main', gap: .7, face: 'same' }), wall('bench.main', 'medieval-trestle-table', { prefer: 'long' }),
+    corner('barrel.corner', 'wooden-expedition-barrel'), wall('rack.main', 'medieval-weapon-rack', { level: 1 }), corner('sacks.corner', 'medieval-sacks', { level: 1 }), item('stool.main', 'medieval-stool', 'front', { of: 'bench.main', gap: .1, level: 1 }),
+    wall('chest.main', 'medieval-chest', { level: 1 }), wall('torch', 'medieval-wall-torch', { lift: 1.5, count: [1, 1, 2] }), wall('armor.main', 'medieval-armor-stand', { level: 2 }), item('logs.main', 'log-pile', 'free', { level: 2 }),
+  ] },
+  { id: 'armory', name: 'Arsenal', group: 'Medieval', items: [
+    wall('rack', 'medieval-weapon-rack', { prefer: 'long', count: [1, 2, 4] }), wall('armor', 'medieval-armor-stand', { count: [1, 2, 3] }), wall('chest', 'medieval-chest', { count: [1, 2, 3] }),
+    item('table.main', 'medieval-trestle-table', 'center', { level: 1 }), item('table.stool', 'medieval-stool', 'front', { of: 'table.main', gap: .1, level: 1 }), wall('shield', 'medieval-shield', { lift: 1.3, count: [1, 2, 3] }),
+    wall('torch', 'medieval-wall-torch', { lift: 1.5, count: [1, 2, 2] }), corner('barrel.corner', 'wooden-expedition-barrel', { level: 1 }), item('dummy.main', 'medieval-training-dummy', 'free', { level: 2 }),
   ] },
 ];
 export const ROOM_TEMPLATE_IDS = ROOM_RECIPES.map(recipe => recipe.id);

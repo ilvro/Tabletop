@@ -1,0 +1,279 @@
+{
+  "name": "Tocha de parede",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "black": {
+      "color": "#17181a",
+      "roughness": 0.9
+    },
+    "flame": {
+      "color": "#f3c477",
+      "emissive": "#ff9a3c",
+      "emissiveIntensity": 1.1
+    },
+    "board": {
+      "color": "#4a3323",
+      "roughness": 0.7
+    },
+    "iron": {
+      "color": "#35373a",
+      "roughness": 0.46,
+      "metalness": 0.5
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.22,
+        0.02
+      ],
+      "position": [
+        0.003111792728304863,
+        0.11239135622978211,
+        -0.1799999965727329
+      ],
+      "material": "iron",
+      "bevel": 0.008,
+      "round": true
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0,
+          0.2,
+          -0.1
+        ],
+        [
+          0,
+          0.16,
+          0
+        ],
+        [
+          0,
+          0.1,
+          0.06
+        ]
+      ],
+      "radius": 0.012,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.003111792728304863,
+        -0.047608643770217896,
+        -0.06999999657273293
+      ],
+      "material": "iron"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.04,
+      "tube": 0.008,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.003111792728304863,
+        0.09239135622978212,
+        -0.029999996572732925
+      ],
+      "material": "iron",
+      "rotation": [
+        1.0707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.03,
+      "radiusBottom": 0.022,
+      "height": 0.46,
+      "position": [
+        0.003111792728304863,
+        0.2123913562297821,
+        0.010000003427267076
+      ],
+      "material": "board",
+      "segments": 12,
+      "rotation": [
+        0.5,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "profile": [
+        [
+          0,
+          -0.23
+        ],
+        [
+          0.0184,
+          -0.23
+        ],
+        [
+          0.022,
+          -0.22640000000000002
+        ],
+        [
+          0.03,
+          0.22640000000000002
+        ],
+        [
+          0.0264,
+          0.23
+        ],
+        [
+          0,
+          0.23
+        ]
+      ]
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.05,
+      "radiusBottom": 0.045,
+      "height": 0.12,
+      "position": [
+        0.003111792728304863,
+        0.3923913562297821,
+        0.10800000342726707
+      ],
+      "material": "black",
+      "segments": 16,
+      "rotation": [
+        0.5,
+        0,
+        0
+      ],
+      "profile": [
+        [
+          0,
+          -0.06
+        ],
+        [
+          0.039,
+          -0.06
+        ],
+        [
+          0.045,
+          -0.054
+        ],
+        [
+          0.05,
+          0.054
+        ],
+        [
+          0.044000000000000004,
+          0.06
+        ],
+        [
+          0,
+          0.06
+        ]
+      ]
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.045,
+          0.020000000000000004
+        ],
+        [
+          0.06,
+          0.06
+        ],
+        [
+          0.041999999999999996,
+          0.12
+        ],
+        [
+          0.015,
+          0.17600000000000002
+        ],
+        [
+          0,
+          0.2
+        ]
+      ],
+      "segments": 10,
+      "position": [
+        0.003111792728304863,
+        0.4223913562297821,
+        0.13000000342726709
+      ],
+      "material": "flame"
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.026250000000000002,
+          0.012
+        ],
+        [
+          0.035,
+          0.036
+        ],
+        [
+          0.0245,
+          0.072
+        ],
+        [
+          0.00875,
+          0.1056
+        ],
+        [
+          0,
+          0.12
+        ]
+      ],
+      "segments": 10,
+      "position": [
+        -0.026888207271695136,
+        0.4223913562297821,
+        0.12000000342726708
+      ],
+      "material": "flame"
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.12035036459565163,
+    0.6223913415754642,
+    0.3799999952316284
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "cordas e tubos curvos",
+      "ferragens curvas com vazios reais",
+      "perfis torneados e bordas de chapa"
+    ],
+    "seed": 39140
+  }
+}

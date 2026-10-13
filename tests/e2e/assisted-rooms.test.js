@@ -114,6 +114,8 @@ test('what is already built is completed: a room is added to a room, and a start
     const shell=(await of('wall')).map(w=>w.id),outline=(await of('floor'))[0],entry=(await of('door'))[0];
     await action('top');await action('frame');await page.waitForTimeout(600);await place('fogão','builtin-stove',[5.5,0,-3]);const stove=(await of('prop'))[0];
     await page.locator('[data-tab="build"]').click();await (await reveal(page.locator('[data-field="building-floorId"]'))).selectOption(outline.id);
+    // The structure is what is tested; an unlit, roofless house keeps software rendering usable.
+    for(const field of ['building-lighting','building-roof'])await (await reveal(page.locator(`[data-field="${field}"]`))).uncheck();
     await action('building-preview');await action('accept-proposal');
     let entities=(await snapshot()).layout.entities;const kitchen=entities[entities[stove.id].surfaceId];
     assert.match(kitchen.name,/Cozinha/,'the plan put the kitchen where the stove was');assert.deepEqual(entities[stove.id].transform,stove.transform);

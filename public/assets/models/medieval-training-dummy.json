@@ -1,0 +1,401 @@
+{
+  "name": "Boneco de treino",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "oak": {
+      "color": "#6d4c31",
+      "roughness": 0.7
+    },
+    "board": {
+      "color": "#4a3323",
+      "roughness": 0.7
+    },
+    "straw": {
+      "color": "#b89b56",
+      "roughness": 1
+    },
+    "leather": {
+      "color": "#5c3d28",
+      "roughness": 0.7
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.9,
+        0.07,
+        0.1
+      ],
+      "position": [
+        0.04837238788604736,
+        0.03500000014901161,
+        0
+      ],
+      "material": "board",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.9,
+        0.07,
+        0.1
+      ],
+      "position": [
+        0.04837238788604736,
+        0.03500000014901161,
+        0
+      ],
+      "material": "board",
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.05,
+      "radiusBottom": 0.05,
+      "height": 1.75,
+      "position": [
+        0.04837238788604736,
+        0.9200000001490116,
+        0
+      ],
+      "material": "oak",
+      "segments": 16,
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "profile": [
+        [
+          0,
+          -0.875
+        ],
+        [
+          0.044000000000000004,
+          -0.875
+        ],
+        [
+          0.05,
+          -0.869
+        ],
+        [
+          0.05,
+          0.869
+        ],
+        [
+          0.044000000000000004,
+          0.875
+        ],
+        [
+          0,
+          0.875
+        ]
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.1,
+        0.07,
+        0.07
+      ],
+      "position": [
+        0.04837238788604736,
+        1.4000000001490116,
+        0
+      ],
+      "material": "oak",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      },
+      "bevel": 0.009
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.46,
+        0.62,
+        0.34
+      ],
+      "position": [
+        0.04837238788604736,
+        1.2000000001490116,
+        0
+      ],
+      "material": "straw",
+      "segments": 32
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.26,
+        0.28,
+        0.26
+      ],
+      "position": [
+        0.04837238788604736,
+        1.7200000001490117,
+        0
+      ],
+      "material": "straw",
+      "segments": 24
+    },
+    {
+      "shape": "ring",
+      "radius": 0.2,
+      "tube": 0.012,
+      "segments": 24,
+      "sides": 8,
+      "position": [
+        0.04837238788604736,
+        0.9800000001490116,
+        0
+      ],
+      "material": "leather",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "leather",
+        "textureSize": 0.6,
+        "relief": 0.008,
+        "leatherPattern": "pebbled",
+        "leatherGrain": 0.6,
+        "leatherCreases": 0.3,
+        "textureColor": "#5c3d28",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.2,
+      "tube": 0.012,
+      "segments": 24,
+      "sides": 8,
+      "position": [
+        0.04837238788604736,
+        1.2000000001490116,
+        0
+      ],
+      "material": "leather",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "leather",
+        "textureSize": 0.6,
+        "relief": 0.008,
+        "leatherPattern": "pebbled",
+        "leatherGrain": 0.6,
+        "leatherCreases": 0.3,
+        "textureColor": "#5c3d28",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.2,
+      "tube": 0.012,
+      "segments": 24,
+      "sides": 8,
+      "position": [
+        0.04837238788604736,
+        1.4200000001490116,
+        0
+      ],
+      "material": "leather",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "leather",
+        "textureSize": 0.6,
+        "relief": 0.008,
+        "leatherPattern": "pebbled",
+        "leatherGrain": 0.6,
+        "leatherCreases": 0.3,
+        "textureColor": "#5c3d28",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.1,
+      "tube": 0.01,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        0.04837238788604736,
+        1.6000000001490118,
+        0
+      ],
+      "material": "leather",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "leather",
+        "textureSize": 0.6,
+        "relief": 0.008,
+        "leatherPattern": "pebbled",
+        "leatherGrain": 0.6,
+        "leatherCreases": 0.3,
+        "textureColor": "#5c3d28",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.2,
+          0.01
+        ],
+        [
+          0.2,
+          0.03
+        ],
+        [
+          0.05,
+          0.05
+        ],
+        [
+          0,
+          0.07
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        -0.45162761211395264,
+        1.3200000001490118,
+        0.06
+      ],
+      "material": "board",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.014,
+      "radiusBottom": 0.018,
+      "height": 0.7,
+      "position": [
+        0.5683723878860474,
+        1.5000000001490117,
+        0.06
+      ],
+      "material": "board",
+      "segments": 12,
+      "rotation": [
+        0.5,
+        0,
+        -0.2
+      ],
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.3032552003860474,
+    1.8600000143051147,
+    0.8999999761581421
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "perfis torneados e bordas de chapa",
+      "ferragens curvas com vazios reais",
+      "curvas de contorno refinadas",
+      "couro granulado"
+    ],
+    "seed": 26400
+  }
+}

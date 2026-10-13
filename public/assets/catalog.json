@@ -8199,6 +8199,933 @@
       "previewUrl": "/assets/previews/backrooms-fluorescent.svg",
       "geometryEdition": 2,
       "contentHash": "274e62ed54b0c1b5180a7ec850ceb0ea9d5f39b90da0efdc9232d8497721604f"
+    },
+    {
+      "id": "builtin-medieval-throne",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Trono de carvalho entalhado",
+      "category": "Medieval / Mobiliário",
+      "era": "Medieval",
+      "contexts": [
+        "Castelo",
+        "Salão"
+      ],
+      "tags": [
+        "medieval",
+        "trono",
+        "assento",
+        "nobreza"
+      ],
+      "description": "Assento alto de espaldar entalhado, com almofada e brasão de latão. Para o salão de um senhor.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.95,
+        0.8
+      ],
+      "bounds": [
+        0.95,
+        2.57,
+        0.8
+      ],
+      "url": "/assets/models/medieval-throne.json",
+      "previewUrl": "/assets/previews/medieval-throne.svg",
+      "geometryEdition": 2,
+      "contentHash": "72151e79900c50c03600de8a9ab01de369cfb5116bf77ff0c2a8f2158843c7c2"
+    },
+    {
+      "id": "builtin-medieval-trestle-table",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Mesa de cavaletes",
+      "category": "Medieval / Mobiliário",
+      "era": "Medieval",
+      "contexts": [
+        "Taverna",
+        "Salão",
+        "Casa"
+      ],
+      "tags": [
+        "medieval",
+        "mesa",
+        "refeição",
+        "banquete"
+      ],
+      "description": "Tampo de tábuas sobre dois cavaletes travados. Mesa comum de taverna e salão.",
+      "supportHeight": 0.8124778093397618,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.4,
+        0.91
+      ],
+      "bounds": [
+        2.4,
+        0.812,
+        0.903
+      ],
+      "url": "/assets/models/medieval-trestle-table.json",
+      "previewUrl": "/assets/previews/medieval-trestle-table.svg",
+      "geometryEdition": 2,
+      "contentHash": "f82039f6687d6f93a3ec8ab08c993b04bcb3fc17dc6efd16e022821a3ef4fd62"
+    },
+    {
+      "id": "builtin-medieval-bench",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Banco comprido de tábua",
+      "category": "Medieval / Mobiliário",
+      "era": "Medieval",
+      "contexts": [
+        "Taverna",
+        "Salão",
+        "Casa"
+      ],
+      "tags": [
+        "medieval",
+        "banco",
+        "assento"
+      ],
+      "description": "Banco de tábua grossa com pés de prancha e travessa.",
+      "supportHeight": 0.4800000035762786,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.9,
+        0.34
+      ],
+      "bounds": [
+        1.9,
+        0.48,
+        0.34
+      ],
+      "url": "/assets/models/medieval-bench.json",
+      "previewUrl": "/assets/previews/medieval-bench.svg",
+      "geometryEdition": 2,
+      "contentHash": "543538899a0e85383bb9737a04f0a05eb2ab952c8fd896ec413e800dd72f74b6"
+    },
+    {
+      "id": "builtin-medieval-stool",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Banqueta de três pés",
+      "category": "Medieval / Mobiliário",
+      "era": "Medieval",
+      "contexts": [
+        "Taverna",
+        "Casa",
+        "Oficina"
+      ],
+      "tags": [
+        "medieval",
+        "banqueta",
+        "assento"
+      ],
+      "description": "Assento redondo torneado sobre três pés abertos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.36,
+        0.39
+      ],
+      "bounds": [
+        0.36,
+        0.49,
+        0.38
+      ],
+      "url": "/assets/models/medieval-stool.json",
+      "previewUrl": "/assets/previews/medieval-stool.svg",
+      "geometryEdition": 2,
+      "contentHash": "dd174978c9313a02417cb71722256527a8e4ea1c80fb528737647d304da9bb48"
+    },
+    {
+      "id": "builtin-medieval-chest",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Baú com ferragens",
+      "category": "Medieval / Armazenamento",
+      "era": "Medieval",
+      "contexts": [
+        "Casa",
+        "Castelo",
+        "Depósito"
+      ],
+      "tags": [
+        "medieval",
+        "baú",
+        "tesouro",
+        "guardar"
+      ],
+      "description": "Arca de tampa abaulada, cintas de ferro, fechadura e argolas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.02,
+        0.58
+      ],
+      "bounds": [
+        1.016,
+        0.73,
+        0.572
+      ],
+      "url": "/assets/models/medieval-chest.json",
+      "previewUrl": "/assets/previews/medieval-chest.svg",
+      "geometryEdition": 2,
+      "contentHash": "ec007dfbcf8da9562c8113877a8a05b7196699779a25bb4feba6babb0dfc0795"
+    },
+    {
+      "id": "builtin-medieval-bed",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cama de palha com dossel baixo",
+      "category": "Medieval / Mobiliário",
+      "era": "Medieval",
+      "contexts": [
+        "Casa",
+        "Castelo",
+        "Taverna"
+      ],
+      "tags": [
+        "medieval",
+        "cama",
+        "repouso"
+      ],
+      "description": "Estrado de tábuas, colchão de palha, manta de lã e travesseiro de linho, com cabeceira almofadada.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.34,
+        2.1
+      ],
+      "bounds": [
+        1.34,
+        1.25,
+        2.1
+      ],
+      "url": "/assets/models/medieval-bed.json",
+      "previewUrl": "/assets/previews/medieval-bed.svg",
+      "geometryEdition": 2,
+      "contentHash": "9ca4747873ec968de27d5ce060c21a47d2a0e08b58ab29cd697f8920691c640b"
+    },
+    {
+      "id": "builtin-medieval-cupboard",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Armário de despensa",
+      "category": "Medieval / Armazenamento",
+      "era": "Medieval",
+      "contexts": [
+        "Casa",
+        "Taverna",
+        "Castelo"
+      ],
+      "tags": [
+        "medieval",
+        "armário",
+        "despensa",
+        "guardar"
+      ],
+      "description": "Armário de quatro portas almofadadas, dobradiças de ferro e puxadores de argola.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.28,
+        0.56
+      ],
+      "bounds": [
+        1.28,
+        1.805,
+        0.56
+      ],
+      "url": "/assets/models/medieval-cupboard.json",
+      "previewUrl": "/assets/previews/medieval-cupboard.svg",
+      "geometryEdition": 2,
+      "contentHash": "e0ae30a6c99219fbd11b814883aa134999fe33e94fd55cc7e5b7cd289ef39d42"
+    },
+    {
+      "id": "builtin-medieval-barrel-rack",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Barris de vinho em cavalete",
+      "category": "Medieval / Armazenamento",
+      "era": "Medieval",
+      "contexts": [
+        "Taverna",
+        "Adega",
+        "Depósito"
+      ],
+      "tags": [
+        "medieval",
+        "barril",
+        "vinho",
+        "bebida",
+        "adega"
+      ],
+      "description": "Dois barris deitados em cavalete, com aros de ferro e torneiras de latão.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.9,
+        0.93
+      ],
+      "bounds": [
+        1.9,
+        0.913,
+        0.93
+      ],
+      "url": "/assets/models/medieval-barrel-rack.json",
+      "previewUrl": "/assets/previews/medieval-barrel-rack.svg",
+      "geometryEdition": 2,
+      "contentHash": "670252080898d09a352c0f692f6085b8638ddf83af2c78a751648fe12dbbebd7"
+    },
+    {
+      "id": "builtin-medieval-sacks",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Sacos de grão empilhados",
+      "category": "Medieval / Armazenamento",
+      "era": "Medieval",
+      "contexts": [
+        "Depósito",
+        "Mercado",
+        "Moinho"
+      ],
+      "tags": [
+        "medieval",
+        "saco",
+        "grão",
+        "mantimento"
+      ],
+      "description": "Três sacos de linho cheios, amarrados na boca.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.08,
+        0.56
+      ],
+      "bounds": [
+        1.07,
+        0.581,
+        0.555
+      ],
+      "url": "/assets/models/medieval-sacks.json",
+      "previewUrl": "/assets/previews/medieval-sacks.svg",
+      "geometryEdition": 2,
+      "contentHash": "bba48e1a08ab287a7ec94c7db52aee6d630a8da0c3063a1a44115c70ccc8e98d"
+    },
+    {
+      "id": "builtin-medieval-tankards",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Jarro e canecas",
+      "category": "Medieval / Utensílios",
+      "era": "Medieval",
+      "contexts": [
+        "Taverna",
+        "Salão",
+        "Casa"
+      ],
+      "tags": [
+        "medieval",
+        "caneca",
+        "jarro",
+        "bebida",
+        "mesa"
+      ],
+      "description": "Bandeja com jarro de estanho, três canecas de aduelas e um pão.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.52,
+        0.34
+      ],
+      "bounds": [
+        0.513,
+        0.27,
+        0.34
+      ],
+      "url": "/assets/models/medieval-tankards.json",
+      "previewUrl": "/assets/previews/medieval-tankards.svg",
+      "geometryEdition": 2,
+      "contentHash": "e33e037fb5428b79a1d64a10a3f1d94f343912fa2834d2233685d91123df211b"
+    },
+    {
+      "id": "builtin-medieval-wooden-tub",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Tina de banho",
+      "category": "Medieval / Mobiliário",
+      "era": "Medieval",
+      "contexts": [
+        "Casa",
+        "Taverna",
+        "Castelo"
+      ],
+      "tags": [
+        "medieval",
+        "tina",
+        "banho",
+        "água"
+      ],
+      "description": "Tina de aduelas com aros de ferro, água, pano na borda e balde.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.46,
+        1.22
+      ],
+      "bounds": [
+        1.459,
+        0.665,
+        1.218
+      ],
+      "url": "/assets/models/medieval-wooden-tub.json",
+      "previewUrl": "/assets/previews/medieval-wooden-tub.svg",
+      "geometryEdition": 2,
+      "contentHash": "07645972eae38a59f75e17a0ce48ebb2f4d7ef701925040afac9089d3bbf0c37"
+    },
+    {
+      "id": "builtin-medieval-wall-torch",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Tocha de parede",
+      "category": "Medieval / Fogo e luz",
+      "era": "Medieval",
+      "contexts": [
+        "Castelo",
+        "Masmorra",
+        "Taverna"
+      ],
+      "tags": [
+        "medieval",
+        "tocha",
+        "luz",
+        "fogo",
+        "parede"
+      ],
+      "description": "Tocha de pano e breu em suporte de ferro. Fixe à parede; emite luz quando vinculada.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.13,
+        0.38
+      ],
+      "bounds": [
+        0.12,
+        0.622,
+        0.38
+      ],
+      "url": "/assets/models/medieval-wall-torch.json",
+      "previewUrl": "/assets/previews/medieval-wall-torch.svg",
+      "geometryEdition": 2,
+      "contentHash": "ace79e09377a209df65b129af00b4dc9807a616dc6c5629cd743ab9a7a41a09d"
+    },
+    {
+      "id": "builtin-medieval-brazier",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Braseiro de ferro",
+      "category": "Medieval / Fogo e luz",
+      "era": "Medieval",
+      "contexts": [
+        "Castelo",
+        "Masmorra",
+        "Pátio"
+      ],
+      "tags": [
+        "medieval",
+        "braseiro",
+        "fogo",
+        "luz",
+        "calor"
+      ],
+      "description": "Cuba de ferro sobre tripé, com brasas e chama.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.6,
+        0.6
+      ],
+      "bounds": [
+        0.6,
+        1.21,
+        0.6
+      ],
+      "url": "/assets/models/medieval-brazier.json",
+      "previewUrl": "/assets/previews/medieval-brazier.svg",
+      "geometryEdition": 2,
+      "contentHash": "4101891ce85b3ef3bfa80893ad28cd6672a383939d5c1352f29cd021236b717c"
+    },
+    {
+      "id": "builtin-medieval-candle-stand",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Castiçal de pé",
+      "category": "Medieval / Fogo e luz",
+      "era": "Medieval",
+      "contexts": [
+        "Castelo",
+        "Capela",
+        "Salão"
+      ],
+      "tags": [
+        "medieval",
+        "castiçal",
+        "vela",
+        "luz"
+      ],
+      "description": "Haste de ferro torneada com quatro velas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.39,
+        0.38
+      ],
+      "bounds": [
+        0.382,
+        1.554,
+        0.377
+      ],
+      "url": "/assets/models/medieval-candle-stand.json",
+      "previewUrl": "/assets/previews/medieval-candle-stand.svg",
+      "geometryEdition": 2,
+      "contentHash": "dc830659903c9d862e56c3a183c6aa1dba00ed4071b2e4f307e7d69a1ed05fb3"
+    },
+    {
+      "id": "builtin-medieval-hearth",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Lareira de pedra",
+      "category": "Medieval / Fogo e luz",
+      "era": "Medieval",
+      "contexts": [
+        "Casa",
+        "Castelo",
+        "Taverna"
+      ],
+      "tags": [
+        "medieval",
+        "lareira",
+        "fogo",
+        "calor",
+        "luz"
+      ],
+      "description": "Boca de fogo entre pilares de pedra, verga de carvalho e coifa em degraus, com lenha acesa.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.9,
+        0.73
+      ],
+      "bounds": [
+        1.9,
+        2.8,
+        0.73
+      ],
+      "url": "/assets/models/medieval-hearth.json",
+      "previewUrl": "/assets/previews/medieval-hearth.svg",
+      "geometryEdition": 2,
+      "contentHash": "d905d43bd100b754d71536c99a3e9211170cc5937e8cee1b833090da35e51873"
+    },
+    {
+      "id": "builtin-medieval-cauldron",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Caldeirão em tripé",
+      "category": "Medieval / Fogo e luz",
+      "era": "Medieval",
+      "contexts": [
+        "Taverna",
+        "Casa",
+        "Acampamento"
+      ],
+      "tags": [
+        "medieval",
+        "caldeirão",
+        "cozinha",
+        "fogo"
+      ],
+      "description": "Panela de ferro pendurada por corrente sobre fogo de lenha.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.95,
+        0.86
+      ],
+      "bounds": [
+        0.943,
+        1.514,
+        0.86
+      ],
+      "url": "/assets/models/medieval-cauldron.json",
+      "previewUrl": "/assets/previews/medieval-cauldron.svg",
+      "geometryEdition": 2,
+      "contentHash": "6816125a0b4a4d01eb4429ca8dfa17a2ed83b71a256292d9443720654bff5948"
+    },
+    {
+      "id": "builtin-medieval-weapon-rack",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Estante de armas",
+      "category": "Medieval / Armas",
+      "era": "Medieval",
+      "contexts": [
+        "Castelo",
+        "Arsenal",
+        "Quartel"
+      ],
+      "tags": [
+        "medieval",
+        "armas",
+        "lança",
+        "espada",
+        "arsenal"
+      ],
+      "description": "Cavalete com lanças, alabarda, duas espadas e um escudo redondo.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.66,
+        0.46
+      ],
+      "bounds": [
+        1.66,
+        2.4,
+        0.46
+      ],
+      "url": "/assets/models/medieval-weapon-rack.json",
+      "previewUrl": "/assets/previews/medieval-weapon-rack.svg",
+      "geometryEdition": 2,
+      "contentHash": "0b04785f0f0809c3af0281e95ad15a5393851d9b15c0f1502736a765e71eea6a"
+    },
+    {
+      "id": "builtin-medieval-armor-stand",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Armadura em cabide",
+      "category": "Medieval / Armas",
+      "era": "Medieval",
+      "contexts": [
+        "Castelo",
+        "Arsenal",
+        "Salão"
+      ],
+      "tags": [
+        "medieval",
+        "armadura",
+        "elmo",
+        "cavaleiro"
+      ],
+      "description": "Peitoral, espaldeiras, saiote e elmo com viseira sobre cabide de madeira.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.81,
+        0.62
+      ],
+      "bounds": [
+        0.809,
+        1.87,
+        0.62
+      ],
+      "url": "/assets/models/medieval-armor-stand.json",
+      "previewUrl": "/assets/previews/medieval-armor-stand.svg",
+      "geometryEdition": 2,
+      "contentHash": "91333a015a9db3c786e743cad5b1dbaca0ef84701513c5305138ab7b1a56d874"
+    },
+    {
+      "id": "builtin-medieval-shield",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Escudo com espadas cruzadas",
+      "category": "Medieval / Armas",
+      "era": "Medieval",
+      "contexts": [
+        "Castelo",
+        "Salão",
+        "Taverna"
+      ],
+      "tags": [
+        "medieval",
+        "escudo",
+        "espada",
+        "parede",
+        "brasão"
+      ],
+      "description": "Escudo redondo pintado, com umbo de latão, sobre duas espadas cruzadas. Fixe à parede.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.7,
+        0.19
+      ],
+      "bounds": [
+        0.698,
+        0.791,
+        0.182
+      ],
+      "url": "/assets/models/medieval-shield.json",
+      "previewUrl": "/assets/previews/medieval-shield.svg",
+      "geometryEdition": 2,
+      "contentHash": "c88a6066dec0e504d154011c720f242716d08b4183b680fbde0baed9c957a804"
+    },
+    {
+      "id": "builtin-medieval-banner",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Estandarte de parede",
+      "category": "Medieval / Decoração",
+      "era": "Medieval",
+      "contexts": [
+        "Castelo",
+        "Salão",
+        "Capela"
+      ],
+      "tags": [
+        "medieval",
+        "estandarte",
+        "bandeira",
+        "brasão",
+        "parede"
+      ],
+      "description": "Pano vermelho de pontas em bico com faixa e medalhão, pendurado em haste.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.24,
+        0.09
+      ],
+      "bounds": [
+        1.24,
+        1.803,
+        0.081
+      ],
+      "url": "/assets/models/medieval-banner.json",
+      "previewUrl": "/assets/previews/medieval-banner.svg",
+      "geometryEdition": 2,
+      "contentHash": "ff7eb132654f3b99536281d02f40abff2a1effaa66f282f85fac3ca9c47e64b8"
+    },
+    {
+      "id": "builtin-medieval-anvil",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Bigorna sobre toco",
+      "category": "Medieval / Ofício",
+      "era": "Medieval",
+      "contexts": [
+        "Ferraria",
+        "Oficina"
+      ],
+      "tags": [
+        "medieval",
+        "bigorna",
+        "ferreiro",
+        "forja"
+      ],
+      "description": "Bigorna de ferro com bico, presa a um toco cintado, com martelo e tenaz.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.8,
+        0.63
+      ],
+      "bounds": [
+        0.799,
+        0.77,
+        0.624
+      ],
+      "url": "/assets/models/medieval-anvil.json",
+      "previewUrl": "/assets/previews/medieval-anvil.svg",
+      "geometryEdition": 2,
+      "contentHash": "976c6fc2e57f2f2fc857c24b9db40d97508a135fb5b798a43d7987a998ca338b"
+    },
+    {
+      "id": "builtin-medieval-forge",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Forja de ferreiro",
+      "category": "Medieval / Ofício",
+      "era": "Medieval",
+      "contexts": [
+        "Ferraria",
+        "Oficina"
+      ],
+      "tags": [
+        "medieval",
+        "forja",
+        "ferreiro",
+        "fogo",
+        "fole"
+      ],
+      "description": "Fornalha de pedra com brasas, coifa e chaminé, fole de couro, tina de têmpera e tenazes.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.41,
+        1.28
+      ],
+      "bounds": [
+        2.407,
+        2.85,
+        1.274
+      ],
+      "url": "/assets/models/medieval-forge.json",
+      "previewUrl": "/assets/previews/medieval-forge.svg",
+      "geometryEdition": 2,
+      "contentHash": "d704ee3ac86d4599632642873776eb7e870de3ab49b4064bc9d1d7665f08d64f"
+    },
+    {
+      "id": "builtin-medieval-market-stall",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Barraca de feira",
+      "category": "Medieval / Exterior",
+      "era": "Medieval",
+      "contexts": [
+        "Mercado",
+        "Vila",
+        "Feira"
+      ],
+      "tags": [
+        "medieval",
+        "barraca",
+        "feira",
+        "mercado",
+        "comércio"
+      ],
+      "description": "Balcão de tábuas sob toldo listrado, com caixa de frutas, saco e potes.",
+      "supportHeight": 0.8650000119209291,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.34,
+        1.46
+      ],
+      "bounds": [
+        2.34,
+        2.275,
+        1.451
+      ],
+      "url": "/assets/models/medieval-market-stall.json",
+      "previewUrl": "/assets/previews/medieval-market-stall.svg",
+      "geometryEdition": 2,
+      "contentHash": "4b171ff6b3364f81280f1c3f8b92205875266fecde005784e221afdc6f537f24"
+    },
+    {
+      "id": "builtin-medieval-stocks",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Pelourinho",
+      "category": "Medieval / Exterior",
+      "era": "Medieval",
+      "contexts": [
+        "Vila",
+        "Praça",
+        "Castelo"
+      ],
+      "tags": [
+        "medieval",
+        "pelourinho",
+        "punição",
+        "praça"
+      ],
+      "description": "Duas pranchas com furos para cabeça e mãos entre postes, com ferrolho e corrente.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.7,
+        0.6
+      ],
+      "bounds": [
+        1.7,
+        1.57,
+        0.6
+      ],
+      "url": "/assets/models/medieval-stocks.json",
+      "previewUrl": "/assets/previews/medieval-stocks.svg",
+      "geometryEdition": 2,
+      "contentHash": "1fbd16e5639f7c6153b026c9b8861ef1693b68d9c09b556630c48f4685783498"
+    },
+    {
+      "id": "builtin-medieval-training-dummy",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Boneco de treino",
+      "category": "Medieval / Exterior",
+      "era": "Medieval",
+      "contexts": [
+        "Castelo",
+        "Quartel",
+        "Pátio"
+      ],
+      "tags": [
+        "medieval",
+        "treino",
+        "boneco",
+        "espada",
+        "pátio"
+      ],
+      "description": "Poste com travessa e corpo de palha amarrado, escudo num braço e bastão no outro.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.31,
+        0.9
+      ],
+      "bounds": [
+        1.303,
+        1.86,
+        0.9
+      ],
+      "url": "/assets/models/medieval-training-dummy.json",
+      "previewUrl": "/assets/previews/medieval-training-dummy.svg",
+      "geometryEdition": 2,
+      "contentHash": "a23b13b86026ed7f3bebd96689a4440c6f0e17bee4524d9f33200acf62ed8636"
+    },
+    {
+      "id": "builtin-medieval-palisade",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Paliçada de troncos",
+      "category": "Medieval / Exterior",
+      "era": "Medieval",
+      "contexts": [
+        "Vila",
+        "Castelo",
+        "Acampamento"
+      ],
+      "tags": [
+        "medieval",
+        "paliçada",
+        "cerca",
+        "muro",
+        "defesa"
+      ],
+      "description": "Trecho de dois metros de troncos apontados, travados por dentro.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.99,
+        0.29
+      ],
+      "bounds": [
+        1.986,
+        2.32,
+        0.287
+      ],
+      "url": "/assets/models/medieval-palisade.json",
+      "previewUrl": "/assets/previews/medieval-palisade.svg",
+      "geometryEdition": 2,
+      "contentHash": "7d72c9947ef4e001172c155195e75522740b83b9c801b3ac81d23a0623775321"
+    },
+    {
+      "id": "builtin-medieval-signpost",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Placa de taverna",
+      "category": "Medieval / Exterior",
+      "era": "Medieval",
+      "contexts": [
+        "Taverna",
+        "Vila",
+        "Estrada"
+      ],
+      "tags": [
+        "medieval",
+        "placa",
+        "taverna",
+        "poste"
+      ],
+      "description": "Poste com braço, corrente e tabuleta de caneca pintada.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.12,
+        0.4
+      ],
+      "bounds": [
+        1.115,
+        2.74,
+        0.4
+      ],
+      "url": "/assets/models/medieval-signpost.json",
+      "previewUrl": "/assets/previews/medieval-signpost.svg",
+      "geometryEdition": 2,
+      "contentHash": "caee919b0c88152ebfffba8aab821658660cc0310922168ceef0f299cd4a73f2"
     }
   ]
 }

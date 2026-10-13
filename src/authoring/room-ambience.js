@@ -8,7 +8,7 @@ import { ROOM_RECIPES } from '../domain/room-recipes.js';
 import { roomFrame, candidates, stableRandom, wallSocket } from './room-layout.js';
 import { scopeFor, doorZones, AMBIENCE_TAG } from './furnishing.js';
 import { roomContents, describeRoom, roomEra } from './room-insight.js';
-import { eraAsset } from '../domain/room-eras.js';
+import { eraAsset, beforeElectricity } from '../domain/room-eras.js';
 import { WEAR_TAG } from './room-state.js';
 
 /** Fixtures the assistant hung, and objects of the person it switched on; both are redone on the next pass. */
@@ -24,7 +24,7 @@ export const ROOM_MOODS = [
 // What each luminous object is, so it lights the way it looks.
 const SOURCES = {
   lamp: ['lamp', 1], 'house-ceiling-lamp': ['lamp', .8], streetlamp: ['lamp', 1.2], chandelier: ['candle', 3], 'kerosene-lantern': ['candle', 1.4], candles: ['candle', 1], 'church-candelabra': ['candle', 1.8],
-  'ritual-candelabra': ['candle', 1.6], fireplace: ['torch', 1], campfire: ['torch', 1], 'backrooms-fluorescent': ['fluorescent', 1], 'surgical-lamp': ['fluorescent', .9], 'mountain-wall-lantern': ['candle', 1.5], 'mountain-round-lantern': ['candle', 1.5], 'mountain-lantern-post': ['candle', 1.6],
+  'ritual-candelabra': ['candle', 1.6], 'medieval-wall-torch': ['torch', .7], 'medieval-brazier': ['torch', .9], 'medieval-candle-stand': ['candle', 2.4], 'medieval-hearth': ['torch', 1.1], 'medieval-forge': ['torch', 1.2], 'medieval-cauldron': ['torch', .6], fireplace: ['torch', 1], campfire: ['torch', 1], 'backrooms-fluorescent': ['fluorescent', 1], 'surgical-lamp': ['fluorescent', .9], 'mountain-wall-lantern': ['candle', 1.5], 'mountain-round-lantern': ['candle', 1.5], 'mountain-lantern-post': ['candle', 1.6],
 };
 const SOURCES_PER_ROOM = 4;
 const SCREENS = ['crt-tv', 'computer', 'surveillance-monitor', 'arcade-cabinet', 'laptop'], FLAMES = ['candle', 'torch'];
@@ -38,7 +38,7 @@ export function roomMood(document, floorId, catalog = []) {
   if (dressing.includes('ritual-circle')) return pick('candles', 'há um ritual montado');
   if (dressing.includes('blood-pool') || dressing.includes('body-bag')) return pick('harsh', 'é uma cena de crime');
   if (floor.tags?.includes(WEAR_TAG) && floor.material?.wear?.type === 'grime') return pick('dim', 'o lugar está abandonado');
-  if (roomEra(document, floorId) === 'old') return pick('candles', 'o lugar é de uma época sem eletricidade');
+  if (beforeElectricity(roomEra(document, floorId))) return pick('candles', 'o lugar é de uma época sem eletricidade');
   const kind = describeRoom(document, floorId, catalog)?.inferred[0], recipe = ROOM_RECIPES.find(entry => entry.id === kind?.id);
   if (!recipe) return pick('warm', 'ainda não há um tipo de cômodo definido');
   return WARM_ROOMS.includes(recipe.group) || WARM_IDS.includes(recipe.id) ? pick('warm', `é ${recipe.name.toLowerCase()}`) : pick('cold', `é ${recipe.name.toLowerCase()}`);
@@ -71,7 +71,7 @@ export function proposeRoomLighting(document, { floorId, mood = 'auto', sources 
   const room = setup(document, floorId, catalog), { floor, area, frame, contents, toWorld, assetOf, named } = room;
   if (era) room.era = era;   // a corridor has no recipe to say which era its building is
   let chosen = mood === 'auto' ? roomMood(document, floor.id, catalog) : ROOM_MOODS.find(entry => entry.id === mood);
-  if (mood === 'auto' && room.era === 'old' && ['warm', 'cold'].includes(chosen.id)) chosen = { ...ROOM_MOODS.find(entry => entry.id === 'candles'), reason: 'o lugar é de uma época sem eletricidade' };
+  if (mood === 'auto' && beforeElectricity(room.era) && ['warm', 'cold'].includes(chosen.id)) chosen = { ...ROOM_MOODS.find(entry => entry.id === 'candles'), reason: 'o lugar é de uma época sem eletricidade' };
   if (!chosen) throw new ValidationError('Clima de luz inválido.');
   const proposal = blank(`Iluminar: ${chosen.name.toLowerCase()}`, expectedEditVersion, room), look = document.look ?? document.defaultLook, entities = Object.values(document.layout.entities);
   // Previous pass: fixtures leave, objects it switched on are reconsidered.
@@ -119,7 +119,7 @@ export function proposeRoomLighting(document, { floorId, mood = 'auto', sources 
   else if (chosen.id === 'cold') spread(Math.max(1, Math.ceil(areaSize / 20)), (x, z) => hang('backrooms-fluorescent', x, z, ceiling('fluorescent', .3)));
   else if (chosen.id === 'dim' && !on) hang('house-ceiling-lamp', 0, 0, ceiling('lamp', .35, { flicker: { ...illuminationDefaults('fluorescent', {}).flicker, enabled: true, amplitude: .35 } }));
   // Where flames are the only light and none is strong enough, a chandelier of candles hangs from the ceiling.
-  else if (chosen.id === 'candles' && room.era === 'old' && !strong) hang('chandelier', 0, 0, ceiling('candle', 3.2, { flicker: { ...illuminationDefaults('candle', {}).flicker, enabled: true } }));
+  else if (chosen.id === 'candles' && beforeElectricity(room.era) && !strong) hang('chandelier', 0, 0, ceiling('candle', 3.2, { flicker: { ...illuminationDefaults('candle', {}).flicker, enabled: true } }));
   else if (chosen.id === 'harsh') {
     // Over the scene if there is one, else over the middle of the room.
     const scene = objects.find(e => ['blood-pool', 'body-bag', 'autopsy-table'].includes(short(e))), [x, z] = scene ? frame.toLocal(scene.transform.position) : [0, 0];

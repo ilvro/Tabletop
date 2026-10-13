@@ -18,7 +18,7 @@ const catalog = JSON.parse(await readFile('public/assets/catalog.json')).assets,
 // `house@` lays the surroundings the building asks for; `house@woods` a chosen setting.
 list.split(',').forEach((full, i) => {
   const [entry, setting] = full.split('@');
-  const [spec, ...extra] = entry.replaceAll('~', '+~').split('+'), started = spec.startsWith('started:'), era = spec.includes('old:') ? 'old' : 'modern', type = spec.replace('started:', '').replace('old:', ''), center = [i * (Number(width) + (full.includes('@') ? 22 : 0)) * (full.includes('@') ? 1 : 0), 0, full.includes('@') ? 0 : i * (Number(length) + 8)];
+  const [spec, ...extra] = entry.replaceAll('~', '+~').split('+'), started = spec.startsWith('started:'), era = spec.includes('medieval:') ? 'medieval' : spec.includes('old:') ? 'old' : 'modern', type = spec.replace('started:', '').replace('old:', '').replace('medieval:', ''), center = [i * (Number(width) + (full.includes('@') ? 22 : 0)) * (full.includes('@') ? 1 : 0), 0, full.includes('@') ? 0 : i * (Number(length) + 8)];
   let floorId = null;
   if (started) {
     store.execute('proposal.accept', { proposal: proposeRoom({ width: Number(width), length: Number(length), center, lighting: false, name: 'Casca' }, store.editVersion) });

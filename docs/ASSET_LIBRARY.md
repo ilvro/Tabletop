@@ -135,3 +135,20 @@ Primitivas de receita: `box` (com `bevel`, `round`, `cushion`, `taper`), `lathe`
 Revisão visual: `node scripts/review-library.js` grava pranchas de todos os modelos em `test-results/library-review/`; passe IDs sem o prefixo para revisar alguns (`node scripts/review-library.js stove piano`). A iluminação é neutra e sem mapa de ambiente, como no padrão do aplicativo.
 
 Limites: a geometria é procedural, sem escultura orgânica nem texturas pintadas à mão; metais usam metalicidade moderada para permanecer legíveis sem reflexos. Instanciamento e níveis de detalhe não foram implementados.
+
+## Kit medieval (13 de outubro de 2026)
+
+27 modelos em `scripts/library-medieval.js`, com a época **Medieval** no catálogo. A biblioteca passa a ter 271 modelos; os 244 anteriores não mudaram (mesmos arquivos, contratos e resumos).
+
+- **Mobiliário**: trono, mesa de cavaletes, banco comprido, banqueta, cama de palha, armário de despensa, tina de banho.
+- **Armazenamento e utensílios**: baú com ferragens, barris em cavalete, sacos de grão, jarro e canecas.
+- **Fogo e luz**: tocha de parede, braseiro, castiçal de pé, lareira de pedra, caldeirão em tripé.
+- **Armas**: estante de armas, armadura em cabide, escudo com espadas, estandarte.
+- **Ofício**: bigorna sobre toco, forja com fole.
+- **Exterior**: barraca de feira, pelourinho, boneco de treino, paliçada, placa de taverna.
+
+Cada modelo é escrito direto com o vocabulário de `library-atelier-kit.js` (caixas chanfradas, torneados, curvas, anéis), com frente para +Z e no máximo oito combinações de material e acabamento, para desenhar em poucos lotes. Os nomes dos materiais levam o acabamento: `oak` e `board` recebem veio de madeira; `iron`, `steel` e `brass` são metal; `cloth` e `leather` são tecido.
+
+**Contrato de modelo novo**: o gerador cria o contrato (pegada, envelope, altura de apoio) na primeira vez que vê um modelo e o grava em `scripts/library-source/contracts.json`; daí em diante o contrato manda, como para os demais. `scripts/library-source/slots.json` lista os materiais públicos de cada um.
+
+Conferência: `node scripts/review-library.js <ids>` desenha as folhas em `test-results/library-review/`. Referência em `docs/references/assisted-build/biblioteca-medieval.jpg`.

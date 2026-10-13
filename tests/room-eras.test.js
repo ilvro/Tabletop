@@ -56,3 +56,25 @@ test('the era carries on to regeneration, light, states and buildings', () => {
   const walls = Object.values(built.document.layout.entities).filter(e => e.kind === 'wall' && e.thickness === .2); assert.ok(walls.every(w => w.material.texture === 'stone'));
   assert.ok(!Object.values(built.document.layout.entities).some(e => e.kind === 'floor' && ['tile', 'carpet', 'concrete'].includes(e.material.texture)));
 });
+
+test('the medieval era furnishes every room with medieval pieces, lights by torch and builds taverns and keeps', () => {
+  const allowed = e => ['Medieval', 'Antiguidade', 'Atemporal', 'Colonial / século XIX'].includes(eraOf(e)) || e.assetRef.id.startsWith('builtin-church-') || ['builtin-house-curtain', 'builtin-gravestone', 'builtin-spirit-board'].includes(e.assetRef.id);
+  for (const recipe of ROOM_RECIPES) { const { store } = room(recipe.id, 'medieval'); for (const piece of props(store)) assert.ok(allowed(piece), `${recipe.id}: ${piece.name} (${eraOf(piece)})`); }
+  // The everyday rooms are made of the kit, not of what was left over.
+  const ids = template => props(room(template, 'medieval').store).map(e => e.assetRef.id);
+  assert.ok(ids('bedroom').includes('builtin-medieval-bed') && ids('bedroom').includes('builtin-medieval-cupboard')); assert.ok(ids('kitchen').includes('builtin-medieval-hearth') && ids('kitchen').includes('builtin-medieval-trestle-table'));
+  assert.ok(ids('office').includes('builtin-medieval-stool')); assert.ok(ids('living').includes('builtin-medieval-bench'));
+  // The rooms of the kit itself.
+  const tavern = room('tavern', 'medieval'), made = props(tavern.store).map(e => e.assetRef.id);
+  for (const id of ['medieval-trestle-table', 'medieval-bench', 'medieval-hearth', 'medieval-barrel-rack', 'medieval-tankards', 'medieval-wall-torch']) assert.ok(made.includes(`builtin-${id}`), id);
+  assert.equal(describeRoom(tavern.store.document, tavern.floor.id, catalog).inferred[0].id, 'tavern'); assert.equal(roomMood(tavern.store.document, tavern.floor.id, catalog).id, 'candles');
+  tavern.store.execute('proposal.accept', { proposal: proposeRoomLighting(tavern.store.document, { floorId: tavern.floor.id }, tavern.store.editVersion, catalog) }); validateDocument(tavern.store.document);
+  const lit = props(tavern.store).filter(e => e.illumination?.enabled); assert.ok(lit.some(e => e.assetRef.id === 'builtin-medieval-hearth')); assert.ok(lit.every(e => ['candle', 'torch'].includes(e.illumination.profile)));
+  assert.ok(props(room('throne', 'medieval').store).some(e => e.assetRef.id === 'builtin-medieval-throne')); assert.ok(props(room('forge', 'medieval').store).some(e => e.assetRef.id === 'builtin-medieval-anvil'));
+  for (const type of ['tavern', 'keep']) {
+    const built = createSceneStore(createScene()); built.execute('proposal.accept', { proposal: proposeBuilding(built.document, { width: 18, length: 10, type, seed: 1, era: 'medieval' }, built.editVersion, catalog) }); validateDocument(built.document);
+    const floors = Object.values(built.document.layout.entities).filter(e => e.kind === 'floor'), walls = Object.values(built.document.layout.entities).filter(e => e.kind === 'wall');
+    assert.ok(floors.some(f => f.name === (type === 'tavern' ? 'Taverna' : 'Sala do trono')), type); assert.ok(walls.every(w => w.material.texture === 'stone'), 'stone inside and out');
+    for (const piece of props(built)) assert.ok(allowed(piece) || piece.assetRef.id === 'builtin-house-roof', `${type}: ${piece.name}`);
+  }
+});

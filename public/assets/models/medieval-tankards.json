@@ -1,0 +1,466 @@
+{
+  "name": "Jarro e canecas",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "oak": {
+      "color": "#6d4c31",
+      "roughness": 0.7
+    },
+    "board": {
+      "color": "#4a3323",
+      "roughness": 0.7
+    },
+    "iron": {
+      "color": "#35373a",
+      "roughness": 0.46,
+      "metalness": 0.5
+    },
+    "steel": {
+      "color": "#9aa1a4",
+      "roughness": 0.34,
+      "metalness": 0.5
+    },
+    "straw": {
+      "color": "#b89b56",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.02,
+        0.34
+      ],
+      "position": [
+        0.0065000057220458984,
+        0.009999999776482587,
+        0
+      ],
+      "material": "board",
+      "bevel": 0.008,
+      "round": true,
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#4a3323",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.07,
+          0
+        ],
+        [
+          0.085,
+          0.06
+        ],
+        [
+          0.08,
+          0.14
+        ],
+        [
+          0.05,
+          0.2
+        ],
+        [
+          0.055,
+          0.25
+        ],
+        [
+          0.045,
+          0.25
+        ],
+        [
+          0.04,
+          0.2
+        ],
+        [
+          0.065,
+          0.14
+        ],
+        [
+          0.07,
+          0.06
+        ],
+        [
+          0,
+          0.012
+        ]
+      ],
+      "segments": 20,
+      "position": [
+        -0.1234999942779541,
+        0.019999999776482588,
+        -0.03
+      ],
+      "material": "steel"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.045,
+      "tube": 0.008,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        -0.2034999942779541,
+        0.1499999997764826,
+        -0.03
+      ],
+      "material": "steel",
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.042,
+          0
+        ],
+        [
+          0.046,
+          0.1
+        ],
+        [
+          0.04,
+          0.1
+        ],
+        [
+          0.036,
+          0.012
+        ],
+        [
+          0,
+          0.012
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0.0665000057220459,
+        0.019999999776482588,
+        0.07
+      ],
+      "material": "oak",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.03,
+      "tube": 0.006,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        0.12150000572204589,
+        0.0699999997764826,
+        0.07
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.045,
+      "tube": 0.003,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.0665000057220459,
+        0.029999999776482586,
+        0.07
+      ],
+      "material": "iron",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.045,
+      "tube": 0.003,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.0665000057220459,
+        0.08999999977648258,
+        0.07
+      ],
+      "material": "iron",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.042,
+          0
+        ],
+        [
+          0.046,
+          0.1
+        ],
+        [
+          0.04,
+          0.1
+        ],
+        [
+          0.036,
+          0.012
+        ],
+        [
+          0,
+          0.012
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0.1665000057220459,
+        0.019999999776482588,
+        -0.06
+      ],
+      "material": "oak",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.03,
+      "tube": 0.006,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        0.2215000057220459,
+        0.0699999997764826,
+        -0.06
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.045,
+      "tube": 0.003,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.1665000057220459,
+        0.029999999776482586,
+        -0.06
+      ],
+      "material": "iron",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.045,
+      "tube": 0.003,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.1665000057220459,
+        0.08999999977648258,
+        -0.06
+      ],
+      "material": "iron",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.042,
+          0
+        ],
+        [
+          0.046,
+          0.1
+        ],
+        [
+          0.04,
+          0.1
+        ],
+        [
+          0.036,
+          0.012
+        ],
+        [
+          0,
+          0.012
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0.0265000057220459,
+        0.019999999776482588,
+        -0.09
+      ],
+      "material": "oak",
+      "surface": {
+        "texture": "wood",
+        "textureSize": 1.8,
+        "relief": 0.004,
+        "woodPattern": "grain",
+        "woodGrain": 0.4,
+        "woodGap": 0,
+        "textureColor": "#6d4c31",
+        "textureColorMode": "replace",
+        "textureBrightness": 1
+      }
+    },
+    {
+      "shape": "ring",
+      "radius": 0.03,
+      "tube": 0.006,
+      "segments": 32,
+      "sides": 8,
+      "position": [
+        0.0815000057220459,
+        0.0699999997764826,
+        -0.09
+      ],
+      "material": "iron",
+      "rotation": [
+        0,
+        2,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.045,
+      "tube": 0.003,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.0265000057220459,
+        0.029999999776482586,
+        -0.09
+      ],
+      "material": "iron",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.045,
+      "tube": 0.003,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.0265000057220459,
+        0.08999999977648258,
+        -0.09
+      ],
+      "material": "iron",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.16,
+        0.07,
+        0.1
+      ],
+      "position": [
+        0.1565000057220459,
+        0.05499999977648259,
+        0.09
+      ],
+      "material": "straw",
+      "segments": 16
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.5130000114440918,
+    0.27000001072883606,
+    0.3400000035762787
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "ferragens curvas com vazios reais"
+    ],
+    "seed": 19925
+  }
+}

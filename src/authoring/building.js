@@ -24,13 +24,15 @@ export const BUILDING_TYPES = [
   { id: 'bar', name: 'Bar', hub: 'bar', share: .55, rooms: [['storage', 1], ['bathroom', .55], ['kitchen', 1], ['office', .8]] },
   { id: 'warehouse', name: 'Galpão', hub: 'storage', share: .5, rooms: [['workshop', 1.2], ['office', .8], ['bathroom', .5], ['surveillance', .8]] },
   { id: 'church', name: 'Igreja', hub: 'chapel', share: .62, rooms: [['office', .8], ['storage', .7], ['ritual', 1]] },
+  { id: 'tavern', name: 'Taverna', hub: 'tavern', share: .5, era: 'medieval', rooms: [['kitchen', 1], ['storage', .8], ['bedroom', 1], ['bedroom', 1], ['bedroom', 1]] },
+  { id: 'keep', name: 'Fortaleza', hub: 'throne', share: .42, era: 'medieval', rooms: [['armory', 1], ['bedroom', 1.1], ['cell', .6], ['forge', 1.1], ['storage', .8], ['chapel', 1.2]] },
 ];
 const ROOM_WEIGHT = { bathroom: .55, cell: .6, garage: 1.5, ward: 1.4, kitchen: 1.1, bedroom: 1.1, meeting: 1.1, morgue: 1.1, workshop: 1.2, archive: .8, surveillance: .8, storage: .9 };
-const FLOORS = { tile: ['kitchen', 'bathroom', 'ward', 'clinic', 'morgue', 'lab', 'bar', 'shop'], concrete: ['garage', 'storage', 'workshop', 'cell', 'surveillance'], carpet: ['meeting', 'office', 'reception', 'archive', 'investigation', 'interrogation', 'library', 'classroom'], stone: ['chapel', 'ritual'] };
+const FLOORS = { stone: ['chapel', 'ritual', 'throne', 'armory', 'forge'], tile: ['kitchen', 'bathroom', 'ward', 'clinic', 'morgue', 'lab', 'bar', 'shop'], concrete: ['garage', 'storage', 'workshop', 'cell', 'surveillance'], carpet: ['meeting', 'office', 'reception', 'archive', 'investigation', 'interrogation', 'library', 'classroom'] };
 const WINDOWLESS = ['cell', 'archive', 'storage', 'morgue', 'surveillance', 'ritual', 'interrogation'];
 const recipeName = key => key === 'corridor' ? 'Corredor' : ROOM_RECIPES.find(recipe => recipe.id === key)?.name ?? key;
 const OLD_FLOOR = { tile: 'stone', concrete: 'stone', carpet: 'wood' };
-const flooring = (key, era = 'modern') => { const kind = Object.entries(FLOORS).find(([, rooms]) => rooms.includes(key))?.[0] ?? 'wood'; return surfacePatch(era === 'old' ? OLD_FLOOR[kind] ?? kind : kind); };
+const flooring = (key, era = 'modern') => { const kind = Object.entries(FLOORS).find(([, rooms]) => rooms.includes(key))?.[0] ?? 'wood'; return surfacePatch(era !== 'modern' ? OLD_FLOOR[kind] ?? kind : kind); };
 
 /**
  * Divides an outline into the rooms of a kind of building. Works in the
@@ -155,7 +157,7 @@ const dress = ({ store, attempt, report }, cell, catalog, { furnish, lighting, s
   // A building shares the scene's few real lights: two sources a room, the hub one more.
   if (lighting) attempt(() => proposeRoomLighting(store.document, { floorId: cell.floor.id, mood: 'auto', sources, fixtures: 1, era }, store.editVersion, catalog));
 };
-const wallMaterial = (outside, era = 'modern') => era === 'old' && outside ? surfacePatch('stone') : { ...surfacePatch('plaster'), color: outside ? '#d8cfbd' : era === 'old' ? '#d9ceb6' : '#e4ddd0' };
+const wallMaterial = (outside, era = 'modern') => era !== 'modern' && (outside || era === 'medieval') ? surfacePatch('stone') : { ...surfacePatch('plaster'), color: outside ? '#d8cfbd' : era === 'old' ? '#d9ceb6' : '#e4ddd0' };
 
 /** How long the outline must be for every room of the list to fit, or null if no reasonable length does. */
 export function outlineThatFits(type, long, short, seed, custom) {

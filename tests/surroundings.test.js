@@ -82,3 +82,10 @@ test('every building and setting validates, with the garage getting its driveway
     for (const room of of(made, 'floor').filter(f => !f.tags.includes(SURROUNDINGS_TAG))) for (const [x, z] of worldFootprint(room)) { const [lx, , lz] = localPoint(ground, [x, 0, z]); assert.ok(Math.abs(lx) < ground.width / 2 - 1 && Math.abs(lz) < ground.length / 2 - 1, 'the lot follows the rotated building'); }
   }
 });
+
+test('a medieval tavern stands behind a palisade, with its sign by the gate and no trace of the modern street', () => {
+  const store = building({ type: 'tavern', era: 'medieval', width: 18, length: 10 }), proposal = around(store);
+  assert.match(proposal.report.reasons[0], /Entorno rural, porque o prédio é taverna/);
+  assert.ok(model(store, 'medieval-palisade').length > 15); assert.equal(model(store, 'medieval-signpost').length, 1); assert.equal(model(store, 'medieval-market-stall').length, 1);
+  assert.equal(model(store, 'streetlamp').length + model(store, 'sedan').length + model(store, 'wooden-fence').length, 0); assert.ok(of(store, 'floor').some(f => f.name === 'Estrada de terra'));
+});

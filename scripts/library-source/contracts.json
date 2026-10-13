@@ -24,7 +24,136 @@
         "Escritório",
         "Delegacia"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente."
+      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "parts": [
+        {
+          "shape": "box",
+          "size": [
+            1.8,
+            0.09,
+            0.85
+          ],
+          "position": [
+            0,
+            0.775,
+            0
+          ],
+          "material": "wood"
+        },
+        {
+          "shape": "box",
+          "size": [
+            1.65,
+            0.1,
+            0.74
+          ],
+          "position": [
+            0,
+            0.7,
+            0
+          ],
+          "material": "edge"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.1,
+            0.68,
+            0.1
+          ],
+          "position": [
+            -0.78,
+            0.34,
+            -0.31
+          ],
+          "material": "edge"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.1,
+            0.68,
+            0.1
+          ],
+          "position": [
+            0.78,
+            0.34,
+            -0.31
+          ],
+          "material": "edge"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.1,
+            0.68,
+            0.1
+          ],
+          "position": [
+            -0.78,
+            0.34,
+            0.31
+          ],
+          "material": "edge"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.1,
+            0.68,
+            0.1
+          ],
+          "position": [
+            0.78,
+            0.34,
+            0.31
+          ],
+          "material": "edge"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.54,
+            0.23,
+            0.56
+          ],
+          "position": [
+            0.51,
+            0.58,
+            0.03
+          ],
+          "material": "wood"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.14,
+            0.022,
+            0.028
+          ],
+          "position": [
+            0.51,
+            0.58,
+            0.324
+          ],
+          "material": "metal"
+        }
+      ],
+      "materials": {
+        "wood": {
+          "color": "#79553b",
+          "roughness": 0.72
+        },
+        "edge": {
+          "color": "#392f2a",
+          "roughness": 0.75
+        },
+        "metal": {
+          "color": "#b49b75",
+          "roughness": 0.45,
+          "metalness": 0.65
+        }
+      }
     },
     {
       "id": "builtin-chair",
@@ -49,7 +178,117 @@
         "Casa",
         "Escritório"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente."
+      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "parts": [
+        {
+          "shape": "box",
+          "size": [
+            0.52,
+            0.08,
+            0.5
+          ],
+          "position": [
+            0,
+            0.45,
+            0
+          ],
+          "material": "frame"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.45,
+            0.06,
+            0.43
+          ],
+          "position": [
+            0,
+            0.51,
+            0.015
+          ],
+          "material": "fabric"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.065,
+            0.9,
+            0.065
+          ],
+          "position": [
+            -0.22,
+            0.45,
+            -0.22
+          ],
+          "material": "frame"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.065,
+            0.9,
+            0.065
+          ],
+          "position": [
+            0.22,
+            0.45,
+            -0.22
+          ],
+          "material": "frame"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.065,
+            0.42,
+            0.065
+          ],
+          "position": [
+            -0.22,
+            0.21,
+            0.22
+          ],
+          "material": "frame"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.065,
+            0.42,
+            0.065
+          ],
+          "position": [
+            0.22,
+            0.21,
+            0.22
+          ],
+          "material": "frame"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.4,
+            0.26,
+            0.06
+          ],
+          "position": [
+            0,
+            0.76,
+            -0.22
+          ],
+          "material": "fabric"
+        }
+      ],
+      "materials": {
+        "frame": {
+          "color": "#45392f",
+          "roughness": 0.7
+        },
+        "fabric": {
+          "color": "#677765",
+          "roughness": 0.95
+        }
+      }
     },
     {
       "id": "builtin-cabinet",
@@ -75,7 +314,152 @@
         "Delegacia",
         "Escritório"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente."
+      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "parts": [
+        {
+          "shape": "box",
+          "size": [
+            0.9,
+            1.4,
+            0.5
+          ],
+          "position": [
+            0,
+            0.7,
+            0
+          ],
+          "material": "shell"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.84,
+            0.3,
+            0.015
+          ],
+          "position": [
+            0,
+            0.24,
+            0.258
+          ],
+          "material": "drawer"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.84,
+            0.3,
+            0.015
+          ],
+          "position": [
+            0,
+            0.57,
+            0.258
+          ],
+          "material": "drawer"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.84,
+            0.3,
+            0.015
+          ],
+          "position": [
+            0,
+            0.9,
+            0.258
+          ],
+          "material": "drawer"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.84,
+            0.3,
+            0.015
+          ],
+          "position": [
+            0,
+            1.23,
+            0.258
+          ],
+          "material": "drawer"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.18,
+            0.024,
+            0.032
+          ],
+          "position": [
+            0,
+            0.3,
+            0.28
+          ],
+          "material": "detail"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.18,
+            0.024,
+            0.032
+          ],
+          "position": [
+            0,
+            0.63,
+            0.28
+          ],
+          "material": "detail"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.18,
+            0.024,
+            0.032
+          ],
+          "position": [
+            0,
+            0.96,
+            0.28
+          ],
+          "material": "detail"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.18,
+            0.024,
+            0.032
+          ],
+          "position": [
+            0,
+            1.29,
+            0.28
+          ],
+          "material": "detail"
+        }
+      ],
+      "materials": {
+        "shell": {
+          "color": "#697c77",
+          "roughness": 0.6,
+          "metalness": 0.35
+        },
+        "drawer": {
+          "color": "#80918a",
+          "roughness": 0.55,
+          "metalness": 0.3
+        },
+        "detail": {
+          "color": "#c7b899",
+          "roughness": 0.4,
+          "metalness": 0.5
+        }
+      }
     },
     {
       "id": "builtin-crate",
@@ -100,7 +484,94 @@
         "Depósito",
         "Fazenda"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente."
+      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "parts": [
+        {
+          "shape": "box",
+          "size": [
+            0.76,
+            0.74,
+            0.76
+          ],
+          "position": [
+            0,
+            0.37,
+            0
+          ],
+          "material": "board"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.82,
+            0.08,
+            0.82
+          ],
+          "position": [
+            0,
+            0.07,
+            0
+          ],
+          "material": "brace"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.82,
+            0.08,
+            0.82
+          ],
+          "position": [
+            0,
+            0.69,
+            0
+          ],
+          "material": "brace"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.1,
+            0.78,
+            0.8
+          ],
+          "position": [
+            -0.28,
+            0.39,
+            0
+          ],
+          "material": "strap"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.1,
+            0.78,
+            0.8
+          ],
+          "position": [
+            0.28,
+            0.39,
+            0
+          ],
+          "material": "strap"
+        }
+      ],
+      "materials": {
+        "board": {
+          "color": "#8b6240",
+          "roughness": 0.88
+        },
+        "brace": {
+          "color": "#ae8155",
+          "roughness": 0.8
+        },
+        "strap": {
+          "color": "#3f4543",
+          "roughness": 0.6,
+          "metalness": 0.4
+        }
+      }
     },
     {
       "id": "builtin-lamp",
@@ -125,7 +596,77 @@
         "Casa",
         "Escritório"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente."
+      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "parts": [
+        {
+          "shape": "cylinder",
+          "radiusTop": 0.21,
+          "radiusBottom": 0.24,
+          "height": 0.07,
+          "segments": 20,
+          "position": [
+            0,
+            0.035,
+            0
+          ],
+          "material": "dark"
+        },
+        {
+          "shape": "cylinder",
+          "radiusTop": 0.023,
+          "radiusBottom": 0.028,
+          "height": 1.43,
+          "segments": 12,
+          "position": [
+            0,
+            0.77,
+            0
+          ],
+          "material": "brass"
+        },
+        {
+          "shape": "cylinder",
+          "radiusTop": 0.15,
+          "radiusBottom": 0.31,
+          "height": 0.32,
+          "segments": 24,
+          "openEnded": true,
+          "position": [
+            0,
+            1.51,
+            0
+          ],
+          "material": "shade"
+        },
+        {
+          "shape": "sphere",
+          "radius": 0.07,
+          "position": [
+            0,
+            1.45,
+            0
+          ],
+          "material": "shade"
+        }
+      ],
+      "materials": {
+        "brass": {
+          "color": "#b99a61",
+          "roughness": 0.4,
+          "metalness": 0.7
+        },
+        "shade": {
+          "color": "#efe0b6",
+          "roughness": 0.82,
+          "emissive": "#e4a04a",
+          "emissiveIntensity": 0.18
+        },
+        "dark": {
+          "color": "#293735",
+          "roughness": 0.6,
+          "metalness": 0.3
+        }
+      }
     },
     {
       "id": "builtin-rug",
@@ -150,7 +691,89 @@
         "Casa",
         "Hotel"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente."
+      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "parts": [
+        {
+          "shape": "box",
+          "size": [
+            2.4,
+            0.018,
+            1.8
+          ],
+          "position": [
+            0,
+            0.009,
+            0
+          ],
+          "material": "fabric"
+        },
+        {
+          "shape": "box",
+          "size": [
+            2.26,
+            0.002,
+            0.035
+          ],
+          "position": [
+            0,
+            0.019,
+            -0.81
+          ],
+          "material": "border"
+        },
+        {
+          "shape": "box",
+          "size": [
+            2.26,
+            0.002,
+            0.035
+          ],
+          "position": [
+            0,
+            0.019,
+            0.81
+          ],
+          "material": "border"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.035,
+            0.002,
+            1.64
+          ],
+          "position": [
+            -1.1,
+            0.019,
+            0
+          ],
+          "material": "border"
+        },
+        {
+          "shape": "box",
+          "size": [
+            0.035,
+            0.002,
+            1.64
+          ],
+          "position": [
+            1.1,
+            0.019,
+            0
+          ],
+          "material": "border"
+        }
+      ],
+      "materials": {
+        "fabric": {
+          "color": "#774c4d",
+          "roughness": 1
+        },
+        "border": {
+          "color": "#c4ad80",
+          "roughness": 1
+        }
+      }
     },
     {
       "id": "builtin-dining-table",
@@ -3032,6 +3655,333 @@
         1.24,
         0.12,
         0.48
+      ]
+    },
+    {
+      "id": "builtin-medieval-throne",
+      "footprint": [
+        0.95,
+        0.8
+      ],
+      "bounds": [
+        0.95,
+        2.57,
+        0.8
+      ]
+    },
+    {
+      "id": "builtin-medieval-trestle-table",
+      "footprint": [
+        2.4,
+        0.91
+      ],
+      "bounds": [
+        2.4,
+        0.812,
+        0.903
+      ],
+      "supportHeight": 0.8124778093397618
+    },
+    {
+      "id": "builtin-medieval-bench",
+      "footprint": [
+        1.9,
+        0.34
+      ],
+      "bounds": [
+        1.9,
+        0.48,
+        0.34
+      ],
+      "supportHeight": 0.4800000035762786
+    },
+    {
+      "id": "builtin-medieval-stool",
+      "footprint": [
+        0.36,
+        0.39
+      ],
+      "bounds": [
+        0.36,
+        0.49,
+        0.38
+      ]
+    },
+    {
+      "id": "builtin-medieval-chest",
+      "footprint": [
+        1.02,
+        0.58
+      ],
+      "bounds": [
+        1.016,
+        0.73,
+        0.572
+      ]
+    },
+    {
+      "id": "builtin-medieval-bed",
+      "footprint": [
+        1.34,
+        2.1
+      ],
+      "bounds": [
+        1.34,
+        1.25,
+        2.1
+      ]
+    },
+    {
+      "id": "builtin-medieval-cupboard",
+      "footprint": [
+        1.28,
+        0.56
+      ],
+      "bounds": [
+        1.28,
+        1.805,
+        0.56
+      ]
+    },
+    {
+      "id": "builtin-medieval-barrel-rack",
+      "footprint": [
+        1.9,
+        0.93
+      ],
+      "bounds": [
+        1.9,
+        0.913,
+        0.93
+      ]
+    },
+    {
+      "id": "builtin-medieval-sacks",
+      "footprint": [
+        1.08,
+        0.56
+      ],
+      "bounds": [
+        1.07,
+        0.581,
+        0.555
+      ]
+    },
+    {
+      "id": "builtin-medieval-tankards",
+      "footprint": [
+        0.52,
+        0.34
+      ],
+      "bounds": [
+        0.513,
+        0.27,
+        0.34
+      ]
+    },
+    {
+      "id": "builtin-medieval-wooden-tub",
+      "footprint": [
+        1.46,
+        1.22
+      ],
+      "bounds": [
+        1.459,
+        0.665,
+        1.218
+      ]
+    },
+    {
+      "id": "builtin-medieval-wall-torch",
+      "footprint": [
+        0.13,
+        0.38
+      ],
+      "bounds": [
+        0.12,
+        0.622,
+        0.38
+      ]
+    },
+    {
+      "id": "builtin-medieval-brazier",
+      "footprint": [
+        0.6,
+        0.6
+      ],
+      "bounds": [
+        0.6,
+        1.21,
+        0.6
+      ]
+    },
+    {
+      "id": "builtin-medieval-candle-stand",
+      "footprint": [
+        0.39,
+        0.38
+      ],
+      "bounds": [
+        0.382,
+        1.554,
+        0.377
+      ]
+    },
+    {
+      "id": "builtin-medieval-hearth",
+      "footprint": [
+        1.9,
+        0.73
+      ],
+      "bounds": [
+        1.9,
+        2.8,
+        0.73
+      ]
+    },
+    {
+      "id": "builtin-medieval-cauldron",
+      "footprint": [
+        0.95,
+        0.86
+      ],
+      "bounds": [
+        0.943,
+        1.514,
+        0.86
+      ]
+    },
+    {
+      "id": "builtin-medieval-weapon-rack",
+      "footprint": [
+        1.66,
+        0.46
+      ],
+      "bounds": [
+        1.66,
+        2.4,
+        0.46
+      ]
+    },
+    {
+      "id": "builtin-medieval-armor-stand",
+      "footprint": [
+        0.81,
+        0.62
+      ],
+      "bounds": [
+        0.809,
+        1.87,
+        0.62
+      ]
+    },
+    {
+      "id": "builtin-medieval-shield",
+      "footprint": [
+        0.7,
+        0.19
+      ],
+      "bounds": [
+        0.698,
+        0.791,
+        0.182
+      ]
+    },
+    {
+      "id": "builtin-medieval-banner",
+      "footprint": [
+        1.24,
+        0.09
+      ],
+      "bounds": [
+        1.24,
+        1.803,
+        0.081
+      ]
+    },
+    {
+      "id": "builtin-medieval-anvil",
+      "footprint": [
+        0.8,
+        0.63
+      ],
+      "bounds": [
+        0.799,
+        0.77,
+        0.624
+      ]
+    },
+    {
+      "id": "builtin-medieval-forge",
+      "footprint": [
+        2.41,
+        1.28
+      ],
+      "bounds": [
+        2.407,
+        2.85,
+        1.274
+      ]
+    },
+    {
+      "id": "builtin-medieval-market-stall",
+      "footprint": [
+        2.34,
+        1.46
+      ],
+      "bounds": [
+        2.34,
+        2.275,
+        1.451
+      ],
+      "supportHeight": 0.8650000119209291
+    },
+    {
+      "id": "builtin-medieval-stocks",
+      "footprint": [
+        1.7,
+        0.6
+      ],
+      "bounds": [
+        1.7,
+        1.57,
+        0.6
+      ]
+    },
+    {
+      "id": "builtin-medieval-training-dummy",
+      "footprint": [
+        1.31,
+        0.9
+      ],
+      "bounds": [
+        1.303,
+        1.86,
+        0.9
+      ]
+    },
+    {
+      "id": "builtin-medieval-palisade",
+      "footprint": [
+        1.99,
+        0.29
+      ],
+      "bounds": [
+        1.986,
+        2.32,
+        0.287
+      ]
+    },
+    {
+      "id": "builtin-medieval-signpost",
+      "footprint": [
+        1.12,
+        0.4
+      ],
+      "bounds": [
+        1.115,
+        2.74,
+        0.4
       ]
     }
   ]
