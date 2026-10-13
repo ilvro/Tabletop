@@ -89,3 +89,11 @@ test('a medieval tavern stands behind a palisade, with its sign by the gate and 
   assert.ok(model(store, 'medieval-palisade').length > 15); assert.equal(model(store, 'medieval-signpost').length, 1); assert.equal(model(store, 'medieval-market-stall').length, 1);
   assert.equal(model(store, 'streetlamp').length + model(store, 'sedan').length + model(store, 'wooden-fence').length, 0); assert.ok(of(store, 'floor').some(f => f.name === 'Estrada de terra'));
 });
+
+test('a base of the future stands inside an energy barrier, with dish, panels, sentry and speeder', () => {
+  const store = building({ type: 'station', era: 'future', width: 22, length: 12 }), proposal = around(store);
+  assert.match(proposal.report.reasons[0], /pátio industrial, porque o prédio é base/);
+  assert.ok(model(store, 'future-barrier').length > 15); assert.equal(of(store, 'wall').filter(w => w.tags.includes(SURROUNDINGS_TAG)).length, 0, 'a barrier, not a wall');
+  for (const name of ['future-dish', 'future-turret', 'future-lamp-post']) assert.ok(model(store, name).length >= 1, name); assert.ok(model(store, 'future-solar-panel').length >= 1);
+  assert.equal(model(store, 'streetlamp').length + model(store, 'sedan').length + model(store, 'delivery-van').length, 0); assert.ok(model(store, 'future-lamp-post').every(lamp => lamp.illumination?.enabled));
+});

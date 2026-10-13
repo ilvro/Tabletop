@@ -1,0 +1,223 @@
+{
+  "name": "Contêiner de carga",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "screen": {
+      "color": "#2a5d6b",
+      "emissive": "#2fa7c4",
+      "emissiveIntensity": 0.7,
+      "roughness": 0.3
+    },
+    "hull": {
+      "color": "#d7dbde",
+      "roughness": 0.38
+    },
+    "steel": {
+      "color": "#9aa2a8",
+      "roughness": 0.3,
+      "metalness": 0.5
+    },
+    "accent": {
+      "color": "#e27a2b",
+      "roughness": 0.45
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1,
+        0.7,
+        0.7
+      ],
+      "position": [
+        0,
+        0.3700000017881394,
+        0
+      ],
+      "material": "hull",
+      "bevel": 0.04,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.76,
+        0.76
+      ],
+      "position": [
+        -0.465,
+        0.3800000017881394,
+        0
+      ],
+      "material": "dark",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1,
+        0.09,
+        0.09
+      ],
+      "position": [
+        0,
+        0.0450000017881394,
+        0.325
+      ],
+      "material": "dark",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1,
+        0.09,
+        0.09
+      ],
+      "position": [
+        0,
+        0.0450000017881394,
+        -0.325
+      ],
+      "material": "dark",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.76,
+        0.76
+      ],
+      "position": [
+        0.465,
+        0.3800000017881394,
+        0
+      ],
+      "material": "dark",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1,
+        0.09,
+        0.09
+      ],
+      "position": [
+        0,
+        0.7150000017881395,
+        0.325
+      ],
+      "material": "dark",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1,
+        0.09,
+        0.09
+      ],
+      "position": [
+        0,
+        0.7150000017881395,
+        -0.325
+      ],
+      "material": "dark",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.3,
+        0.012
+      ],
+      "position": [
+        0,
+        0.40000000178813944,
+        0.352
+      ],
+      "material": "accent",
+      "bevel": 0.00588,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.08,
+        0.014
+      ],
+      "position": [
+        0.3,
+        0.6200000017881394,
+        0.352
+      ],
+      "material": "screen",
+      "bevel": 0.005,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.04,
+        0.05
+      ],
+      "position": [
+        -0.25,
+        0.7400000017881394,
+        0
+      ],
+      "material": "steel",
+      "bevel": 0.012,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.04,
+        0.05
+      ],
+      "position": [
+        0.25,
+        0.7400000017881394,
+        0
+      ],
+      "material": "steel",
+      "bevel": 0.012,
+      "round": true
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.0299999713897705,
+    0.7599999904632568,
+    0.7599999904632568
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 33922
+  }
+}

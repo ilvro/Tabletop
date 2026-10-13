@@ -352,3 +352,24 @@ Pendência registrada nas épocas: não havia modelos medievais. Agora há 27 (v
 - Não há pessoas nem animais.
 - Cômodos sem equivalente medieval (laboratório, monitoramento, mercado, enfermaria) ficam ralos nessa época.
 - A sala do trono fica vazia no meio de propósito; em contornos grandes pode parecer pouco mobiliada.
+
+### Biblioteca e época futurista (13 de outubro)
+
+Última pendência das épocas. São 30 modelos (ver `docs/ASSET_LIBRARY.md`) e o assistente os usa.
+
+- **Época Futurista** (`room-eras.js`): mantém o que é contemporâneo ou atemporal, troca as peças do dia a dia pelas do kit (cadeira → cadeira de comando, mesa → mesa de refeitório, escrivaninha e balcão → console, cama → cápsula, maca → leito com scanner, armários e geladeira → armário de equipamentos, estante → estante de carga, caixas → contêiner, tambor → célula, luminárias → coluna e painel de luz, fogão e pia → sintetizador, sanitário → cabine, painel elétrico → terminal, quadros e espelho → tela de parede, planta → hidroponia) e tira o que é de época anterior. Peças futuristas nunca entram nas épocas Antiga e Medieval.
+- **Cinco cômodos próprios**, no grupo Futurista: ponte de comando, alojamento, enfermaria da base, sala do reator e compartimento de carga.
+- **Um prédio**: base (ponte, alojamentos, enfermaria, reator, carga, banheiro, laboratório), que já vem na época Futurista.
+- **Luz**: fria por padrão; as luminárias de teto penduradas são painéis de luz; consoles, telas, mesa holográfica, núcleo de dados e reator brilham como telas.
+- **Prédio**: paredes pintadas em cinza claro, piso de placas, portas de metal, sem cortinas e sem o telhado de telhas.
+- **Entorno**: barreira de energia no lugar do muro, postes de perímetro que iluminam, veículo flutuante na rua, torreta junto ao portão, antena e painéis solares no fundo.
+
+**Testes**: casos novos em `tests/room-eras.test.js` (os 35 cômodos na época futurista sem peça de época anterior; quarto, escritório, enfermaria, cozinha e depósito feitos do kit; os cinco cômodos próprios reconhecidos; luz fria com painéis; base erguida) e em `tests/surroundings.test.js` (barreira em vez de muro, antena, painel, torreta e poste aceso). Referência: `docs/references/assisted-build/futurista.jpg`.
+
+**Limites**
+
+- A base não tem cobertura: o único telhado da biblioteca é de telhas. Falta um teto ou casco próprio.
+- As janelas são as mesmas das outras épocas; não há escotilha, porta de correr nem câmara de ar.
+- É um kit de base em solo: não há peças de casco, corredor curvo ou hangar para montar uma nave.
+- Capela, sala de ritual e outros cômodos sem equivalente ficam com o que é atemporal.
+- O campo da barreira de energia é translúcido e, em cercas longas, soma muitas peças com transparência.

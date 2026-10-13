@@ -1,0 +1,240 @@
+{
+  "name": "Antena parabólica",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "hull": {
+      "color": "#d7dbde",
+      "roughness": 0.38
+    },
+    "steel": {
+      "color": "#9aa2a8",
+      "roughness": 0.3,
+      "metalness": 0.5
+    },
+    "glow": {
+      "color": "#9fefff",
+      "emissive": "#36d2ff",
+      "emissiveIntensity": 1.3
+    },
+    "alert": {
+      "color": "#ff8a70",
+      "emissive": "#ff4a2a",
+      "emissiveIntensity": 1.1
+    }
+  },
+  "parts": [
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.5,
+          0
+        ],
+        [
+          0.52,
+          0.06
+        ],
+        [
+          0.2,
+          0.14
+        ],
+        [
+          0.12,
+          0.9
+        ],
+        [
+          0,
+          0.9
+        ]
+      ],
+      "segments": 32,
+      "position": [
+        0,
+        5.9604645663569045e-9,
+        -0.18722352385520935
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.24,
+        0.24,
+        0.24
+      ],
+      "position": [
+        0,
+        0.9600000059604645,
+        -0.18722352385520935
+      ],
+      "material": "steel",
+      "segments": 24
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.3,
+          0.02
+        ],
+        [
+          0.6,
+          0.1
+        ],
+        [
+          0.85,
+          0.24
+        ],
+        [
+          0.9,
+          0.3
+        ],
+        [
+          0.86,
+          0.3
+        ],
+        [
+          0.6,
+          0.14
+        ],
+        [
+          0.3,
+          0.06
+        ],
+        [
+          0,
+          0.04
+        ]
+      ],
+      "segments": 28,
+      "position": [
+        0,
+        1.0000000059604646,
+        -0.08722352385520935
+      ],
+      "material": "hull",
+      "rotation": [
+        0.9,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0,
+          1.1,
+          0.16
+        ],
+        [
+          0,
+          1.6,
+          0.8
+        ]
+      ],
+      "radius": 0.012,
+      "segments": 2,
+      "sides": 8,
+      "position": [
+        0,
+        5.9604645663569045e-9,
+        -0.18722352385520935
+      ],
+      "material": "steel"
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.05,
+          0
+        ],
+        [
+          0.05,
+          0.08
+        ],
+        [
+          0,
+          0.1
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0,
+        1.5800000059604646,
+        0.5927764761447907
+      ],
+      "material": "alert",
+      "rotation": [
+        0.9,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.3,
+        0.3
+      ],
+      "position": [
+        0.3,
+        0.15000000596046456,
+        -0.48722352385520934
+      ],
+      "material": "hull",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.025,
+        0.012
+      ],
+      "position": [
+        0.3,
+        0.20000000596046458,
+        -0.33522352385520937
+      ],
+      "material": "glow",
+      "bevel": 0
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.7999999523162842,
+    1.8914772272109985,
+    1.4144470691680908
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "cordas e tubos curvos",
+      "arestas chanfradas"
+    ],
+    "seed": 22779
+  }
+}

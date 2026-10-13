@@ -9126,6 +9126,1061 @@
       "previewUrl": "/assets/previews/medieval-signpost.svg",
       "geometryEdition": 2,
       "contentHash": "caee919b0c88152ebfffba8aab821658660cc0310922168ceef0f299cd4a73f2"
+    },
+    {
+      "id": "builtin-future-bunk",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cápsula de descanso",
+      "category": "Futurista / Tripulação",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Alojamento"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "cama",
+        "cápsula",
+        "descanso"
+      ],
+      "description": "Leito embutido com dossel, luz de leitura e painel pessoal.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.07,
+        2.16
+      ],
+      "bounds": [
+        1.066,
+        1.1,
+        2.155
+      ],
+      "url": "/assets/models/future-bunk.json",
+      "previewUrl": "/assets/previews/future-bunk.svg",
+      "geometryEdition": 2,
+      "contentHash": "faafae5cc5dabd7d8a3358519f92e743090d53e91247d8e315cdb336eb13200b"
+    },
+    {
+      "id": "builtin-future-chair",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cadeira de comando",
+      "category": "Futurista / Tripulação",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Ponte"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "cadeira",
+        "assento",
+        "comando"
+      ],
+      "description": "Assento giratório estofado, com braços e encosto de cabeça.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.64,
+        0.58
+      ],
+      "bounds": [
+        0.64,
+        1.261,
+        0.576
+      ],
+      "url": "/assets/models/future-chair.json",
+      "previewUrl": "/assets/previews/future-chair.svg",
+      "geometryEdition": 2,
+      "contentHash": "41a9cd7ce929d6c3e59b1d5d76f186eade26e95e17c434bbf3d691afea05d543"
+    },
+    {
+      "id": "builtin-future-table",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Mesa de refeitório",
+      "category": "Futurista / Tripulação",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Refeitório"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "mesa",
+        "refeição"
+      ],
+      "description": "Tampo composto sobre dois pedestais, com guia luminosa.",
+      "supportHeight": 0.765,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.8,
+        0.9
+      ],
+      "bounds": [
+        1.8,
+        0.774,
+        0.9
+      ],
+      "url": "/assets/models/future-table.json",
+      "previewUrl": "/assets/previews/future-table.svg",
+      "geometryEdition": 2,
+      "contentHash": "25c53513f6241f1165fc207235c8a4209893f6d7bccc39dcf3ee126e52a4c09f"
+    },
+    {
+      "id": "builtin-future-sofa",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Banco estofado modular",
+      "category": "Futurista / Tripulação",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Saguão"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "banco",
+        "sofá",
+        "assento"
+      ],
+      "description": "Banco de três lugares com base iluminada.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.9,
+        0.71
+      ],
+      "bounds": [
+        1.9,
+        0.75,
+        0.707
+      ],
+      "url": "/assets/models/future-sofa.json",
+      "previewUrl": "/assets/previews/future-sofa.svg",
+      "geometryEdition": 2,
+      "contentHash": "cca72a03645aa7541d39563244b962df724fbae0043687dc4acf15b083f1ab4c"
+    },
+    {
+      "id": "builtin-future-locker",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Armário de equipamentos",
+      "category": "Futurista / Tripulação",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Alojamento"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "armário",
+        "equipamento",
+        "guardar"
+      ],
+      "description": "Armário duplo com respiros, fechos e identificação luminosa.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1,
+        0.53
+      ],
+      "bounds": [
+        1,
+        1.96,
+        0.522
+      ],
+      "url": "/assets/models/future-locker.json",
+      "previewUrl": "/assets/previews/future-locker.svg",
+      "geometryEdition": 2,
+      "contentHash": "2280fde5f9d8af156bd8eb915b8a1571e798ffdfd60a1581fe058e28cbceb169"
+    },
+    {
+      "id": "builtin-future-hygiene-pod",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cabine sanitária",
+      "category": "Futurista / Tripulação",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "banheiro",
+        "higiene",
+        "cabine"
+      ],
+      "description": "Cabine cilíndrica de vidro com sanitário, painel e luz no teto.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.04,
+        1.04
+      ],
+      "bounds": [
+        1.04,
+        2.15,
+        1.04
+      ],
+      "url": "/assets/models/future-hygiene-pod.json",
+      "previewUrl": "/assets/previews/future-hygiene-pod.svg",
+      "geometryEdition": 2,
+      "contentHash": "6522734a735004ab5dccff46aea0511d42ddbf64ddb1ed0f168cff7af5026951"
+    },
+    {
+      "id": "builtin-future-synthesizer",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Sintetizador de alimentos",
+      "category": "Futurista / Tripulação",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Refeitório"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "cozinha",
+        "comida",
+        "máquina"
+      ],
+      "description": "Bancada com nicho de preparo iluminado, painel e gavetas.",
+      "supportHeight": 0.9399999880790708,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.34,
+        0.67
+      ],
+      "bounds": [
+        1.34,
+        1.94,
+        0.663
+      ],
+      "url": "/assets/models/future-synthesizer.json",
+      "previewUrl": "/assets/previews/future-synthesizer.svg",
+      "geometryEdition": 2,
+      "contentHash": "f42b8a2c2b1c3d35aa978b0dd201690da846e839a4d4f15c55210a53561d6003"
+    },
+    {
+      "id": "builtin-future-console",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Console de comando",
+      "category": "Futurista / Comando",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Ponte"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "console",
+        "controle",
+        "tela",
+        "comando"
+      ],
+      "description": "Mesa inclinada com três telas, teclas luminosas e painel superior.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.74,
+        0.7
+      ],
+      "bounds": [
+        1.74,
+        1.48,
+        0.693
+      ],
+      "url": "/assets/models/future-console.json",
+      "previewUrl": "/assets/previews/future-console.svg",
+      "geometryEdition": 2,
+      "contentHash": "7484a295e68febe89e0aef55be46c138df03396c0d64469861c98c86a48c0190"
+    },
+    {
+      "id": "builtin-future-wall-screen",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Tela tática de parede",
+      "category": "Futurista / Comando",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Ponte"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "tela",
+        "mapa",
+        "parede"
+      ],
+      "description": "Painel largo com mapa, gráficos e marcador de alvo. Fixe à parede.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.84,
+        0.08
+      ],
+      "bounds": [
+        1.84,
+        1,
+        0.079
+      ],
+      "url": "/assets/models/future-wall-screen.json",
+      "previewUrl": "/assets/previews/future-wall-screen.svg",
+      "geometryEdition": 2,
+      "contentHash": "426f1a4e22b2c67cfa539dcc7bbd60e9fb4b140b4d0ff5427c27b9ec34a3c1cf"
+    },
+    {
+      "id": "builtin-future-terminal",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Terminal de parede",
+      "category": "Futurista / Comando",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Corredor"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "terminal",
+        "painel",
+        "parede",
+        "acesso"
+      ],
+      "description": "Painel de acesso com tela, teclado e indicador. Fixe à parede.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.5,
+        0.1
+      ],
+      "bounds": [
+        0.5,
+        0.7,
+        0.091
+      ],
+      "url": "/assets/models/future-terminal.json",
+      "previewUrl": "/assets/previews/future-terminal.svg",
+      "geometryEdition": 2,
+      "contentHash": "5130962cdd9b23d9e07e00390484ac94de7a2205a4fac12e0602b08a5464017b"
+    },
+    {
+      "id": "builtin-future-holo-table",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Mesa holográfica",
+      "category": "Futurista / Comando",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Ponte"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "holograma",
+        "mapa",
+        "mesa"
+      ],
+      "description": "Pedestal com projetor e um planeta em holograma.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.32,
+        1.32
+      ],
+      "bounds": [
+        1.32,
+        1.55,
+        1.32
+      ],
+      "url": "/assets/models/future-holo-table.json",
+      "previewUrl": "/assets/previews/future-holo-table.svg",
+      "geometryEdition": 2,
+      "contentHash": "319f36058f19701c0997a613d6db596aeb9c3837d18c2858b7b72f8d299ca5da"
+    },
+    {
+      "id": "builtin-future-server",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Núcleo de dados",
+      "category": "Futurista / Comando",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Laboratório"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "servidor",
+        "dados",
+        "computador"
+      ],
+      "description": "Torre de módulos atrás de vidro, com luzes de atividade.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.82,
+        0.71
+      ],
+      "bounds": [
+        0.818,
+        2,
+        0.708
+      ],
+      "url": "/assets/models/future-server.json",
+      "previewUrl": "/assets/previews/future-server.svg",
+      "geometryEdition": 2,
+      "contentHash": "6191dfd527784b0103958b1bc54042df46280a41a95d223dd2aac5937c7ccb02"
+    },
+    {
+      "id": "builtin-future-medbed",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Leito médico com scanner",
+      "category": "Futurista / Medicina",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Enfermaria"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "leito",
+        "médico",
+        "scanner"
+      ],
+      "description": "Maca fixa com arco de varredura e monitor de sinais.",
+      "supportHeight": 0.730000000372529,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.24,
+        2
+      ],
+      "bounds": [
+        1.235,
+        1.345,
+        2
+      ],
+      "url": "/assets/models/future-medbed.json",
+      "previewUrl": "/assets/previews/future-medbed.svg",
+      "geometryEdition": 2,
+      "contentHash": "d36d3d476a8d2caa6fe0f675c3d79dda4fa93f1a83da308bb64f5d1d12f73c69"
+    },
+    {
+      "id": "builtin-future-cryo-pod",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cápsula criogênica",
+      "category": "Futurista / Medicina",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Laboratório"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "criogenia",
+        "cápsula",
+        "sono"
+      ],
+      "description": "Tubo de vidro com ocupante em suspensão, mangueiras e painel.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.08,
+        1.08
+      ],
+      "bounds": [
+        1.08,
+        2.11,
+        1.08
+      ],
+      "url": "/assets/models/future-cryo-pod.json",
+      "previewUrl": "/assets/previews/future-cryo-pod.svg",
+      "geometryEdition": 2,
+      "contentHash": "5b653d40c6b304692e2f9bd57fd42d327f0642f513fae499bca955ec33c37e83"
+    },
+    {
+      "id": "builtin-future-reactor",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Núcleo de energia",
+      "category": "Futurista / Engenharia",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Reator"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "reator",
+        "energia",
+        "núcleo"
+      ],
+      "description": "Coluna de plasma dentro de vidro, entre dois anéis, com dutos e alertas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.56,
+        1.56
+      ],
+      "bounds": [
+        1.56,
+        2.3,
+        1.56
+      ],
+      "url": "/assets/models/future-reactor.json",
+      "previewUrl": "/assets/previews/future-reactor.svg",
+      "geometryEdition": 2,
+      "contentHash": "52481820e5eac560d364afb69324dac7c11159f1bd6ce009bd820273a275c016"
+    },
+    {
+      "id": "builtin-future-cell",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Célula de combustível",
+      "category": "Futurista / Engenharia",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Depósito"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "combustível",
+        "célula",
+        "tambor"
+      ],
+      "description": "Tambor selado com janela luminosa e faixas de aviso.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.63,
+        0.63
+      ],
+      "bounds": [
+        0.63,
+        0.96,
+        0.63
+      ],
+      "url": "/assets/models/future-cell.json",
+      "previewUrl": "/assets/previews/future-cell.svg",
+      "geometryEdition": 2,
+      "contentHash": "e19db6a05287773987df444f62864368f901b0e418de118b40ee65bca291e63b"
+    },
+    {
+      "id": "builtin-future-workbench",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Bancada de engenharia",
+      "category": "Futurista / Engenharia",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Oficina"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "bancada",
+        "oficina",
+        "braço robótico"
+      ],
+      "description": "Tampo com gavetas, painel de ferramentas, tela e braço articulado.",
+      "supportHeight": 0.8800000067055226,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.9,
+        0.8
+      ],
+      "bounds": [
+        1.9,
+        1.4,
+        0.8
+      ],
+      "url": "/assets/models/future-workbench.json",
+      "previewUrl": "/assets/previews/future-workbench.svg",
+      "geometryEdition": 2,
+      "contentHash": "4a77ed3b968935f9242ccb34da78152111a7897325393a611026e675f13414e9"
+    },
+    {
+      "id": "builtin-future-crate",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Contêiner de carga",
+      "category": "Futurista / Carga",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Depósito"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "caixa",
+        "carga",
+        "contêiner"
+      ],
+      "description": "Caixa reforçada com faixa de identificação, alças e leitor.",
+      "supportHeight": 0.7400000017881394,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.03,
+        0.76
+      ],
+      "bounds": [
+        1.03,
+        0.76,
+        0.76
+      ],
+      "url": "/assets/models/future-crate.json",
+      "previewUrl": "/assets/previews/future-crate.svg",
+      "geometryEdition": 2,
+      "contentHash": "b555f0a86c28e67f7ea4a73abd3ca0ac3b896afdd0d5c8d6e2d0566cfeb37ab7"
+    },
+    {
+      "id": "builtin-future-shelf",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Estante modular de carga",
+      "category": "Futurista / Carga",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Depósito"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "estante",
+        "prateleira",
+        "carga"
+      ],
+      "description": "Montantes de aço com quatro prateleiras e caixas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.5,
+        0.5
+      ],
+      "bounds": [
+        1.5,
+        2,
+        0.5
+      ],
+      "url": "/assets/models/future-shelf.json",
+      "previewUrl": "/assets/previews/future-shelf.svg",
+      "geometryEdition": 2,
+      "contentHash": "67710f63d6afb32a1a591514c41a2889c6e8adfba1f7bff5241085c711f03810"
+    },
+    {
+      "id": "builtin-future-weapon-rack",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Rack de armas",
+      "category": "Futurista / Carga",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Arsenal"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "armas",
+        "rifle",
+        "arsenal"
+      ],
+      "description": "Painel com quatro rifles presos, base e luz superior.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.5,
+        0.33
+      ],
+      "bounds": [
+        1.5,
+        1.9,
+        0.33
+      ],
+      "url": "/assets/models/future-weapon-rack.json",
+      "previewUrl": "/assets/previews/future-weapon-rack.svg",
+      "geometryEdition": 2,
+      "contentHash": "0420c3f8ef017d892c32e60368db64d52bd44f13962edc53bcfc514bf07fe6c7"
+    },
+    {
+      "id": "builtin-future-droid",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Droide de serviço",
+      "category": "Futurista / Autômatos",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Oficina"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "robô",
+        "droide",
+        "serviço"
+      ],
+      "description": "Corpo sobre base rolante, cabeça com visor, dois braços e antena.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.86,
+        0.6
+      ],
+      "bounds": [
+        0.855,
+        1.48,
+        0.6
+      ],
+      "url": "/assets/models/future-droid.json",
+      "previewUrl": "/assets/previews/future-droid.svg",
+      "geometryEdition": 2,
+      "contentHash": "b9188ce29ea7a5b0286afccf2555d211bfce1aa4af6ebd55f5ecd07f97128aa9"
+    },
+    {
+      "id": "builtin-future-turret",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Torreta de sentinela",
+      "category": "Futurista / Autômatos",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Perímetro",
+        "Posto"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "torreta",
+        "defesa",
+        "sentinela"
+      ],
+      "description": "Coluna com cabeça giratória, dois canos e sensor.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.84,
+        1.28
+      ],
+      "bounds": [
+        0.84,
+        1.38,
+        1.28
+      ],
+      "url": "/assets/models/future-turret.json",
+      "previewUrl": "/assets/previews/future-turret.svg",
+      "geometryEdition": 2,
+      "contentHash": "5373d74b7c2d998dcf8b4b0026c334c487e5a3219dcba434032289edb81e5167"
+    },
+    {
+      "id": "builtin-future-hydroponics",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Módulo de hidroponia",
+      "category": "Futurista / Engenharia",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Estufa"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "planta",
+        "estufa",
+        "hidroponia"
+      ],
+      "description": "Cuba de cultivo com mudas e lâmpada de crescimento.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.9,
+        0.56
+      ],
+      "bounds": [
+        0.9,
+        1.425,
+        0.558
+      ],
+      "url": "/assets/models/future-hydroponics.json",
+      "previewUrl": "/assets/previews/future-hydroponics.svg",
+      "geometryEdition": 2,
+      "contentHash": "b07f5133ca829add390b1edcea5e935f67b32e5ddd3016f94f788e6d1b23e7fd"
+    },
+    {
+      "id": "builtin-future-ceiling-lamp",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Painel de luz de teto",
+      "category": "Futurista / Luz",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Corredor"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "luz",
+        "teto",
+        "painel"
+      ],
+      "description": "Painel luminoso embutido. Fonte de luz vinculável.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.2,
+        0.5
+      ],
+      "bounds": [
+        1.2,
+        0.078,
+        0.5
+      ],
+      "url": "/assets/models/future-ceiling-lamp.json",
+      "previewUrl": "/assets/previews/future-ceiling-lamp.svg",
+      "geometryEdition": 2,
+      "contentHash": "649d84df866c5267aa6e0a08451f352992f9d2aac1b528d0fe2af573ea35cae1"
+    },
+    {
+      "id": "builtin-future-light-column",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Coluna de luz",
+      "category": "Futurista / Luz",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Nave",
+        "Saguão"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "luz",
+        "coluna",
+        "luminária"
+      ],
+      "description": "Tubo luminoso entre duas bases. Fonte de luz vinculável.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.38,
+        0.38
+      ],
+      "bounds": [
+        0.38,
+        1.58,
+        0.38
+      ],
+      "url": "/assets/models/future-light-column.json",
+      "previewUrl": "/assets/previews/future-light-column.svg",
+      "geometryEdition": 2,
+      "contentHash": "07864ee1d76eaf94c3246cbb2ea34865a83166dad054288b679d2b8de90c7e0b"
+    },
+    {
+      "id": "builtin-future-lamp-post",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Poste de perímetro",
+      "category": "Futurista / Exterior",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Perímetro",
+        "Colônia"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "poste",
+        "luz",
+        "exterior"
+      ],
+      "description": "Haste com braço e painel de luz voltado para baixo.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.06,
+        0.42
+      ],
+      "bounds": [
+        1.06,
+        3.355,
+        0.42
+      ],
+      "url": "/assets/models/future-lamp-post.json",
+      "previewUrl": "/assets/previews/future-lamp-post.svg",
+      "geometryEdition": 2,
+      "contentHash": "e690d476bc3f7e4df1b8dc96054eb6babcef038ddb7a4da503859329feaaeb8d"
+    },
+    {
+      "id": "builtin-future-barrier",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Barreira de energia",
+      "category": "Futurista / Exterior",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Perímetro",
+        "Colônia"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "barreira",
+        "cerca",
+        "campo de força"
+      ],
+      "description": "Dois emissores com feixes e campo translúcido entre eles. Trecho de dois metros.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.14,
+        0.28
+      ],
+      "bounds": [
+        2.14,
+        1.83,
+        0.28
+      ],
+      "url": "/assets/models/future-barrier.json",
+      "previewUrl": "/assets/previews/future-barrier.svg",
+      "geometryEdition": 2,
+      "contentHash": "22cc4639d848894f2a27e2ef15f3ac7cd6ae4b25812473d3b479654491701949"
+    },
+    {
+      "id": "builtin-future-dish",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Antena parabólica",
+      "category": "Futurista / Exterior",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Colônia",
+        "Posto"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "antena",
+        "comunicação",
+        "parabólica"
+      ],
+      "description": "Prato inclinado sobre coluna, com alimentador e caixa de controle.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.8,
+        1.42
+      ],
+      "bounds": [
+        1.8,
+        1.891,
+        1.414
+      ],
+      "url": "/assets/models/future-dish.json",
+      "previewUrl": "/assets/previews/future-dish.svg",
+      "geometryEdition": 2,
+      "contentHash": "d85dac604b5e7e11bc15420ea2371dba31a67128699641332d5cbfcedd52e139"
+    },
+    {
+      "id": "builtin-future-solar-panel",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Painel solar",
+      "category": "Futurista / Exterior",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Colônia",
+        "Posto"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "energia",
+        "solar",
+        "painel"
+      ],
+      "description": "Mesa inclinada de oito células sobre dois pés.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.2,
+        1.16
+      ],
+      "bounds": [
+        2.2,
+        1.308,
+        1.154
+      ],
+      "url": "/assets/models/future-solar-panel.json",
+      "previewUrl": "/assets/previews/future-solar-panel.svg",
+      "geometryEdition": 2,
+      "contentHash": "c760c56a74da70a239cf93b4d07f90a246482c95206ff4da709a739473dbcb89"
+    },
+    {
+      "id": "builtin-future-speeder",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Veículo flutuante",
+      "category": "Futurista / Exterior",
+      "era": "Futurista",
+      "contexts": [
+        "Base",
+        "Colônia",
+        "Rua"
+      ],
+      "tags": [
+        "futurista",
+        "ficção científica",
+        "veículo",
+        "transporte",
+        "flutuante"
+      ],
+      "description": "Carro sem rodas, com cabine de vidro, propulsores e sustentação luminosa.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.98,
+        3.9
+      ],
+      "bounds": [
+        1.98,
+        1.07,
+        3.9
+      ],
+      "url": "/assets/models/future-speeder.json",
+      "previewUrl": "/assets/previews/future-speeder.svg",
+      "geometryEdition": 2,
+      "contentHash": "d57fe58f4944ce319e003186e44ffd05a7582c60202aecea3b449afbbb92d254"
     }
   ]
 }

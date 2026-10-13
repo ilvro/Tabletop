@@ -1,0 +1,311 @@
+{
+  "name": "Estante modular de carga",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "hull": {
+      "color": "#d7dbde",
+      "roughness": 0.38
+    },
+    "steel": {
+      "color": "#9aa2a8",
+      "roughness": 0.3,
+      "metalness": 0.5
+    },
+    "accent": {
+      "color": "#e27a2b",
+      "roughness": 0.45
+    },
+    "glow": {
+      "color": "#9fefff",
+      "emissive": "#36d2ff",
+      "emissiveIntensity": 1.3
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        2,
+        0.05
+      ],
+      "position": [
+        -0.72,
+        1,
+        -0.22
+      ],
+      "material": "steel",
+      "bevel": 0.006500000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        2,
+        0.05
+      ],
+      "position": [
+        -0.72,
+        1,
+        0.22
+      ],
+      "material": "steel",
+      "bevel": 0.006500000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        2,
+        0.05
+      ],
+      "position": [
+        0.72,
+        1,
+        -0.22
+      ],
+      "material": "steel",
+      "bevel": 0.006500000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        2,
+        0.05
+      ],
+      "position": [
+        0.72,
+        1,
+        0.22
+      ],
+      "material": "steel",
+      "bevel": 0.006500000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.5,
+        0.04,
+        0.5
+      ],
+      "position": [
+        0,
+        0.12,
+        0
+      ],
+      "material": "dark",
+      "bevel": 0.01,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.5,
+        0.04,
+        0.5
+      ],
+      "position": [
+        0,
+        0.72,
+        0
+      ],
+      "material": "dark",
+      "bevel": 0.01,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.5,
+        0.04,
+        0.5
+      ],
+      "position": [
+        0,
+        1.32,
+        0
+      ],
+      "material": "dark",
+      "bevel": 0.01,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.5,
+        0.04,
+        0.5
+      ],
+      "position": [
+        0,
+        1.92,
+        0
+      ],
+      "material": "dark",
+      "bevel": 0.01,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.46,
+        0.34,
+        0.4
+      ],
+      "position": [
+        -0.4,
+        0.31,
+        0
+      ],
+      "material": "hull",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.46,
+        0.34,
+        0.4
+      ],
+      "position": [
+        0.2,
+        0.31,
+        0
+      ],
+      "material": "accent",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.46,
+        0.34,
+        0.4
+      ],
+      "position": [
+        -0.2,
+        0.91,
+        0
+      ],
+      "material": "hull",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.46,
+        0.34,
+        0.4
+      ],
+      "position": [
+        0.42,
+        0.91,
+        0
+      ],
+      "material": "hull",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.46,
+        0.34,
+        0.4
+      ],
+      "position": [
+        -0.42,
+        1.51,
+        0
+      ],
+      "material": "accent",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.46,
+        0.34,
+        0.4
+      ],
+      "position": [
+        0.1,
+        1.51,
+        0
+      ],
+      "material": "hull",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.4,
+        0.025,
+        0.008
+      ],
+      "position": [
+        0,
+        0.15,
+        0.246
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.4,
+        0.025,
+        0.008
+      ],
+      "position": [
+        0,
+        0.75,
+        0.246
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.4,
+        0.025,
+        0.008
+      ],
+      "position": [
+        0,
+        1.35,
+        0.246
+      ],
+      "material": "glow",
+      "bevel": 0
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.5,
+    2,
+    0.5
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 32489
+  }
+}

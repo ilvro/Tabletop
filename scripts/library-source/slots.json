@@ -1330,5 +1330,222 @@
   "water",
   "board",
   "linen"
+ ],
+ "builtin-future-barrier": [
+  "dark",
+  "alert",
+  "glow",
+  "holo"
+ ],
+ "builtin-future-bunk": [
+  "hull",
+  "dark",
+  "cloth",
+  "glass",
+  "glow",
+  "screen"
+ ],
+ "builtin-future-ceiling-lamp": [
+  "hull",
+  "glow",
+  "dark"
+ ],
+ "builtin-future-cell": [
+  "hull",
+  "glow",
+  "dark",
+  "steel",
+  "accent"
+ ],
+ "builtin-future-chair": [
+  "dark",
+  "cloth",
+  "hull",
+  "glow"
+ ],
+ "builtin-future-console": [
+  "hull",
+  "dark",
+  "screen",
+  "alert",
+  "glow",
+  "black"
+ ],
+ "builtin-future-crate": [
+  "hull",
+  "dark",
+  "accent",
+  "screen",
+  "steel"
+ ],
+ "builtin-future-cryo-pod": [
+  "dark",
+  "glass",
+  "hull",
+  "cloth",
+  "steel",
+  "screen",
+  "glow"
+ ],
+ "builtin-future-dish": [
+  "dark",
+  "steel",
+  "hull",
+  "alert",
+  "glow"
+ ],
+ "builtin-future-droid": [
+  "dark",
+  "hull",
+  "accent",
+  "steel",
+  "black",
+  "glow",
+  "alert"
+ ],
+ "builtin-future-holo-table": [
+  "hull",
+  "glow",
+  "screen",
+  "holo",
+  "alert"
+ ],
+ "builtin-future-hydroponics": [
+  "hull",
+  "dark",
+  "green",
+  "steel",
+  "glow",
+  "screen"
+ ],
+ "builtin-future-hygiene-pod": [
+  "dark",
+  "glass",
+  "hull",
+  "screen",
+  "glow"
+ ],
+ "builtin-future-lamp-post": [
+  "dark",
+  "hull",
+  "glow",
+  "screen"
+ ],
+ "builtin-future-light-column": [
+  "dark",
+  "glow",
+  "steel"
+ ],
+ "builtin-future-locker": [
+  "hull",
+  "dark",
+  "steel",
+  "black",
+  "screen",
+  "glow"
+ ],
+ "builtin-future-medbed": [
+  "hull",
+  "dark",
+  "cloth",
+  "glow",
+  "screen",
+  "steel"
+ ],
+ "builtin-future-reactor": [
+  "dark",
+  "glass",
+  "glow",
+  "hull",
+  "alert",
+  "steel"
+ ],
+ "builtin-future-server": [
+  "dark",
+  "glass",
+  "hull",
+  "alert",
+  "glow",
+  "black"
+ ],
+ "builtin-future-shelf": [
+  "steel",
+  "dark",
+  "hull",
+  "accent",
+  "glow"
+ ],
+ "builtin-future-sofa": [
+  "hull",
+  "cloth",
+  "glow",
+  "dark"
+ ],
+ "builtin-future-solar-panel": [
+  "dark",
+  "steel",
+  "hull",
+  "screen"
+ ],
+ "builtin-future-speeder": [
+  "hull",
+  "glass",
+  "dark",
+  "accent",
+  "glow",
+  "alert"
+ ],
+ "builtin-future-synthesizer": [
+  "hull",
+  "dark",
+  "black",
+  "glass",
+  "glow",
+  "screen",
+  "accent",
+  "steel"
+ ],
+ "builtin-future-table": [
+  "hull",
+  "dark",
+  "steel",
+  "glow"
+ ],
+ "builtin-future-terminal": [
+  "hull",
+  "screen",
+  "dark",
+  "alert",
+  "glow"
+ ],
+ "builtin-future-turret": [
+  "dark",
+  "hull",
+  "steel",
+  "alert",
+  "screen",
+  "glow"
+ ],
+ "builtin-future-wall-screen": [
+  "dark",
+  "screen",
+  "glow",
+  "alert",
+  "hull"
+ ],
+ "builtin-future-weapon-rack": [
+  "dark",
+  "hull",
+  "glow",
+  "steel",
+  "black"
+ ],
+ "builtin-future-workbench": [
+  "dark",
+  "hull",
+  "steel",
+  "screen",
+  "accent",
+  "glow"
  ]
 }

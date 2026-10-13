@@ -15,6 +15,7 @@ import {addChurchReconstruction} from './library-church-reconstruction.js';
 import {addResidentialLibrary} from './library-residential.js';
 import {addBackroomsLibrary} from './library-backrooms.js';
 import {addMedievalLibrary} from './library-medieval.js';
+import {addFutureLibrary} from './library-future.js';
 import {rasterThumbnail} from './recipe-thumbnail.js';
 import {reconstructAsset} from './library-construction.js';
 import {createHash} from 'node:crypto';
@@ -46,7 +47,7 @@ function add(id, name, category, era, contexts, tags, parts, description, suppor
   assets.push(asset);
   return asset;
 }
-const medieval = 'Medieval', modern = 'Contemporânea', retro = 'Décadas de 1970–1990', historic = 'Início do século XX', colonial = 'Colonial / século XIX', ancient = 'Antiguidade', timeless = 'Atemporal';
+const medieval = 'Medieval', future = 'Futurista', modern = 'Contemporânea', retro = 'Décadas de 1970–1990', historic = 'Início do século XX', colonial = 'Colonial / século XIX', ancient = 'Antiguidade', timeless = 'Atemporal';
 
 add('dining-table', 'Mesa de jantar rústica', 'Mobiliário / Mesas', colonial, ['Casa', 'Fazenda'], ['mesa', 'madeira', 'refeição', 'rural'], table(2.2, 1, .78), 'Mesa comprida para casas antigas e refeições na fazenda.', .78);
 add('bench', 'Banco de madeira', 'Mobiliário / Assentos', colonial, ['Fazenda', 'Igreja', 'Vila'], ['banco', 'madeira', 'rural'], table(1.6, .42, .45), 'Banco baixo de madeira maciça.', .45);
@@ -125,6 +126,7 @@ for (const id of churchIds) { alpineIds.add(id); detailIds.add(id); }
 for (const id of addResidentialLibrary({add,modern})) { alpineIds.add(id); detailIds.add(id); }
 for (const id of addBackroomsLibrary({add,modern})) { alpineIds.add(id); detailIds.add(id); }
 for (const id of addMedievalLibrary({add,medieval})) { alpineIds.add(id); detailIds.add(id); }
+for (const id of addFutureLibrary({add,future})) { alpineIds.add(id); detailIds.add(id); }
 
 function preview(object) {
   object.updateMatrixWorld(true);

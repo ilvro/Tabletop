@@ -1,0 +1,267 @@
+{
+  "name": "Leito médico com scanner",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "cloth": {
+      "color": "#3f5563",
+      "roughness": 0.95
+    },
+    "screen": {
+      "color": "#2a5d6b",
+      "emissive": "#2fa7c4",
+      "emissiveIntensity": 0.7,
+      "roughness": 0.3
+    },
+    "hull": {
+      "color": "#d7dbde",
+      "roughness": 0.38
+    },
+    "steel": {
+      "color": "#9aa2a8",
+      "roughness": 0.3,
+      "metalness": 0.5
+    },
+    "glow": {
+      "color": "#9fefff",
+      "emissive": "#36d2ff",
+      "emissiveIntensity": 1.3
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.7,
+        0.5,
+        1.5
+      ],
+      "position": [
+        -0.11250001192092896,
+        0.30000000037252905,
+        0
+      ],
+      "material": "hull",
+      "bevel": 0.05,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.76,
+        0.05,
+        1.56
+      ],
+      "position": [
+        -0.11250001192092896,
+        0.025000000372529037,
+        0
+      ],
+      "material": "dark",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.86,
+        0.1,
+        2
+      ],
+      "position": [
+        -0.11250001192092896,
+        0.620000000372529,
+        0
+      ],
+      "material": "hull",
+      "bevel": 0.04,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.74,
+        0.06,
+        1.84
+      ],
+      "position": [
+        -0.11250001192092896,
+        0.700000000372529,
+        0
+      ],
+      "material": "cloth",
+      "bevel": 0.0294,
+      "round": true,
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#3f5563",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.06,
+        0.28
+      ],
+      "position": [
+        -0.11250001192092896,
+        0.750000000372529,
+        -0.72
+      ],
+      "material": "hull",
+      "bevel": 0.0294,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.62,
+        0.26
+      ],
+      "position": [
+        -0.5825000119209289,
+        0.960000000372529,
+        -0.1
+      ],
+      "material": "hull",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.62,
+        0.26
+      ],
+      "position": [
+        0.357499988079071,
+        0.960000000372529,
+        -0.1
+      ],
+      "material": "hull",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1,
+        0.09,
+        0.26
+      ],
+      "position": [
+        -0.11250001192092896,
+        1.3000000003725292,
+        -0.1
+      ],
+      "material": "hull",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.8,
+        0.012,
+        0.16
+      ],
+      "position": [
+        -0.11250001192092896,
+        1.2500000003725291,
+        -0.1
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.34,
+        0.24,
+        0.04
+      ],
+      "position": [
+        0.4474999880790711,
+        1.1000000003725292,
+        -0.7
+      ],
+      "material": "screen",
+      "bevel": 0.01,
+      "round": true
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.02,
+      "radiusBottom": 0.02,
+      "height": 0.5,
+      "position": [
+        0.4474999880790711,
+        0.860000000372529,
+        -0.7
+      ],
+      "material": "steel",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.02,
+        1.8
+      ],
+      "position": [
+        0.32249998807907104,
+        0.620000000372529,
+        0
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.02,
+        1.8
+      ],
+      "position": [
+        -0.547500011920929,
+        0.620000000372529,
+        0
+      ],
+      "material": "glow",
+      "bevel": 0
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.2350000143051147,
+    1.3450000286102295,
+    2
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "estofamento com bordas macias",
+      "curvas de contorno refinadas",
+      "tecido com trama"
+    ],
+    "seed": 27222
+  }
+}

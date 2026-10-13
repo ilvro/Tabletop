@@ -25,6 +25,7 @@ export const BUILDING_TYPES = [
   { id: 'warehouse', name: 'Galpão', hub: 'storage', share: .5, rooms: [['workshop', 1.2], ['office', .8], ['bathroom', .5], ['surveillance', .8]] },
   { id: 'church', name: 'Igreja', hub: 'chapel', share: .62, rooms: [['office', .8], ['storage', .7], ['ritual', 1]] },
   { id: 'tavern', name: 'Taverna', hub: 'tavern', share: .5, era: 'medieval', rooms: [['kitchen', 1], ['storage', .8], ['bedroom', 1], ['bedroom', 1], ['bedroom', 1]] },
+  { id: 'station', name: 'Base', hub: 'bridge', share: .34, era: 'future', rooms: [['quarters', 1.1], ['medbay', 1.1], ['reactor', 1], ['cargo', 1.1], ['bathroom', .55], ['lab', 1], ['quarters', 1]] },
   { id: 'keep', name: 'Fortaleza', hub: 'throne', share: .42, era: 'medieval', rooms: [['armory', 1], ['bedroom', 1.1], ['cell', .6], ['forge', 1.1], ['storage', .8], ['chapel', 1.2]] },
 ];
 const ROOM_WEIGHT = { bathroom: .55, cell: .6, garage: 1.5, ward: 1.4, kitchen: 1.1, bedroom: 1.1, meeting: 1.1, morgue: 1.1, workshop: 1.2, archive: .8, surveillance: .8, storage: .9 };
@@ -32,7 +33,7 @@ const FLOORS = { stone: ['chapel', 'ritual', 'throne', 'armory', 'forge'], tile:
 const WINDOWLESS = ['cell', 'archive', 'storage', 'morgue', 'surveillance', 'ritual', 'interrogation'];
 const recipeName = key => key === 'corridor' ? 'Corredor' : ROOM_RECIPES.find(recipe => recipe.id === key)?.name ?? key;
 const OLD_FLOOR = { tile: 'stone', concrete: 'stone', carpet: 'wood' };
-const flooring = (key, era = 'modern') => { const kind = Object.entries(FLOORS).find(([, rooms]) => rooms.includes(key))?.[0] ?? 'wood'; return surfacePatch(era !== 'modern' ? OLD_FLOOR[kind] ?? kind : kind); };
+const flooring = (key, era = 'modern') => { const kind = Object.entries(FLOORS).find(([, rooms]) => rooms.includes(key))?.[0] ?? 'wood'; return era === 'future' ? { ...surfacePatch('tile'), tilePattern: 'grid', tileCount: 2, color: '#b4bcc2', textureColor: '#b4bcc2', textureColorMode: 'replace' } : surfacePatch(era !== 'modern' ? OLD_FLOOR[kind] ?? kind : kind); };
 
 /**
  * Divides an outline into the rooms of a kind of building. Works in the
@@ -157,7 +158,7 @@ const dress = ({ store, attempt, report }, cell, catalog, { furnish, lighting, s
   // A building shares the scene's few real lights: two sources a room, the hub one more.
   if (lighting) attempt(() => proposeRoomLighting(store.document, { floorId: cell.floor.id, mood: 'auto', sources, fixtures: 1, era }, store.editVersion, catalog));
 };
-const wallMaterial = (outside, era = 'modern') => era !== 'modern' && (outside || era === 'medieval') ? surfacePatch('stone') : { ...surfacePatch('plaster'), color: outside ? '#d8cfbd' : era === 'old' ? '#d9ceb6' : '#e4ddd0' };
+const wallMaterial = (outside, era = 'modern') => era === 'future' ? { ...surfacePatch('paint'), color: outside ? '#c9cfd4' : '#dfe3e6', textureColor: outside ? '#c9cfd4' : '#dfe3e6', textureColorMode: 'replace', paintChips: 0 } : era !== 'modern' && (outside || era === 'medieval') ? surfacePatch('stone') : { ...surfacePatch('plaster'), color: outside ? '#d8cfbd' : era === 'old' ? '#d9ceb6' : '#e4ddd0' };
 
 /** How long the outline must be for every room of the list to fit, or null if no reasonable length does. */
 export function outlineThatFits(type, long, short, seed, custom) {
@@ -241,7 +242,8 @@ export function proposeBuilding(document, { floorId = null, width = 14, length =
     const entity = createEntity('wall', { name: exterior ? 'Parede externa' : 'Parede interna', length: Math.hypot(b[0] - a[0], b[1] - a[1]), height, thickness: exterior ? .2 : .14, position: toWorld(a[0], a[1]), rotation: quaternionFromYaw(yaw + Math.atan2(-(b[1] - a[1]), b[0] - a[0]) * 180 / Math.PI), surfaceId: touching[0].floor.id, floorIds: touching.map(c => c.floor.id), groupId: group.id, ...placing, material: wallMaterial(exterior, era) });
     built.push(entity); return entity;
   }, outside);
-  const cut = (kind, record, point, size, options) => opening(built, kind, record, point, size, { groupId: group.id, ...placing, ...options });
+  // Doors of a base are metal, not wood.
+  const cut = (kind, record, point, size, options) => opening(built, kind, record, point, size, { groupId: group.id, ...placing, ...(era === 'future' && kind === 'door' ? { material: { color: '#aab2b9', roughness: .4, metalness: .3 } } : {}), ...options });
   // Way in: the person's door if there is one by the entrance room, else a new one at its end.
   const hubEnd = near(hubCell.x0, X0) ? X0 : X1;
   if (!ownDoors.length) cut('door', lineAt(records, [hubEnd, 0], true), [hubEnd, 0], Math.min(1.1, short - 1), { name: 'Entrada', height: 2.1, surfaceId: hubCell.floor.id, initialAngle: Math.PI / 3 });
@@ -286,7 +288,8 @@ export function proposeBuilding(document, { floorId = null, width = 14, length =
     store.execute('proposal.accept', { proposal: { id: id(), expectedEditVersion: store.editVersion, label: 'Estrutura', entities: built.filter(e => e.kind !== 'floor'), groups: [], areas: [], lights: [] } });
     plan.rooms.forEach((cell, i) => dress(context, cell, catalog, { furnish, lighting, seed: seed + i, sources: cell.hub ? 3 : 2, era }));
     if (hall) dress(context, hall, catalog, { furnish: false, lighting, seed, era });
-    const model = roof && !members && catalog.find(a => a.id === 'builtin-house-roof');
+    // The only roof in the library is a tiled one, which a base of the future would not have.
+    const model = roof && !members && era !== 'future' && catalog.find(a => a.id === 'builtin-house-roof');
     if (model) store.execute('proposal.accept', { proposal: { id: id(), expectedEditVersion: store.editVersion, label: 'Cobertura', groups: [roofGroup], areas: [], lights: [], entities: [createEntity('prop', { name: 'Telhado', assetRef: { id: model.id, revision: model.revision }, footprint: model.footprint, position: toWorld(0, 0, height), rotation: quaternionFromYaw(yaw + 90), scale: [(short + .9) / model.bounds[0], Math.max(.6, Math.min(1.2, short / 9)), (long + .9) / model.bounds[2]], groupId: roofGroup.id, ...placing })] } });
   });
   const names = plan.rooms.map(cell => cell.floor.name.toLowerCase()), say = text => proposal.report.reasons.push(text);

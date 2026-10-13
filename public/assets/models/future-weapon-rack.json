@@ -1,0 +1,473 @@
+{
+  "name": "Rack de armas",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "black": {
+      "color": "#121416",
+      "roughness": 0.85
+    },
+    "hull": {
+      "color": "#d7dbde",
+      "roughness": 0.38
+    },
+    "steel": {
+      "color": "#9aa2a8",
+      "roughness": 0.3,
+      "metalness": 0.5
+    },
+    "glow": {
+      "color": "#9fefff",
+      "emissive": "#36d2ff",
+      "emissiveIntensity": 1.3
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.5,
+        1.9,
+        0.16
+      ],
+      "position": [
+        0,
+        0.9499999880790708,
+        -0.08500000685453415
+      ],
+      "material": "dark",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.4,
+        0.05,
+        0.3
+      ],
+      "position": [
+        0,
+        0.04999998807907087,
+        0.01499999314546585
+      ],
+      "material": "hull",
+      "bevel": 0.012,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.4,
+        0.025,
+        0.04
+      ],
+      "position": [
+        0,
+        1.859999988079071,
+        -0.00500000685453415
+      ],
+      "material": "glow",
+      "bevel": 0.0032500000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.9,
+        0.06
+      ],
+      "position": [
+        -0.5,
+        1.049999988079071,
+        0.01499999314546585
+      ],
+      "material": "steel",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.3,
+        0.09
+      ],
+      "position": [
+        -0.5,
+        0.49999998807907087,
+        0.01499999314546585
+      ],
+      "material": "black",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.2,
+        0.12
+      ],
+      "position": [
+        -0.5,
+        0.7799999880790709,
+        0.04499999314546585
+      ],
+      "material": "black",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.3,
+        0.014
+      ],
+      "position": [
+        -0.5,
+        1.1999999880790708,
+        0.049999993145465854
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.05,
+        0.1
+      ],
+      "position": [
+        -0.5,
+        1.4999999880790709,
+        0.01499999314546585
+      ],
+      "material": "hull",
+      "bevel": 0.015,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.05,
+        0.1
+      ],
+      "position": [
+        -0.5,
+        0.3399999880790709,
+        0.01499999314546585
+      ],
+      "material": "hull",
+      "bevel": 0.015,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.9,
+        0.06
+      ],
+      "position": [
+        -0.17,
+        1.049999988079071,
+        0.01499999314546585
+      ],
+      "material": "steel",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.3,
+        0.09
+      ],
+      "position": [
+        -0.17,
+        0.49999998807907087,
+        0.01499999314546585
+      ],
+      "material": "black",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.2,
+        0.12
+      ],
+      "position": [
+        -0.17,
+        0.7799999880790709,
+        0.04499999314546585
+      ],
+      "material": "black",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.3,
+        0.014
+      ],
+      "position": [
+        -0.17,
+        1.1999999880790708,
+        0.049999993145465854
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.05,
+        0.1
+      ],
+      "position": [
+        -0.17,
+        1.4999999880790709,
+        0.01499999314546585
+      ],
+      "material": "hull",
+      "bevel": 0.015,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.05,
+        0.1
+      ],
+      "position": [
+        -0.17,
+        0.3399999880790709,
+        0.01499999314546585
+      ],
+      "material": "hull",
+      "bevel": 0.015,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.9,
+        0.06
+      ],
+      "position": [
+        0.17,
+        1.049999988079071,
+        0.01499999314546585
+      ],
+      "material": "steel",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.3,
+        0.09
+      ],
+      "position": [
+        0.17,
+        0.49999998807907087,
+        0.01499999314546585
+      ],
+      "material": "black",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.2,
+        0.12
+      ],
+      "position": [
+        0.17,
+        0.7799999880790709,
+        0.04499999314546585
+      ],
+      "material": "black",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.3,
+        0.014
+      ],
+      "position": [
+        0.17,
+        1.1999999880790708,
+        0.049999993145465854
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.05,
+        0.1
+      ],
+      "position": [
+        0.17,
+        1.4999999880790709,
+        0.01499999314546585
+      ],
+      "material": "hull",
+      "bevel": 0.015,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.05,
+        0.1
+      ],
+      "position": [
+        0.17,
+        0.3399999880790709,
+        0.01499999314546585
+      ],
+      "material": "hull",
+      "bevel": 0.015,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.07,
+        0.9,
+        0.06
+      ],
+      "position": [
+        0.5,
+        1.049999988079071,
+        0.01499999314546585
+      ],
+      "material": "steel",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.3,
+        0.09
+      ],
+      "position": [
+        0.5,
+        0.49999998807907087,
+        0.01499999314546585
+      ],
+      "material": "black",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.2,
+        0.12
+      ],
+      "position": [
+        0.5,
+        0.7799999880790709,
+        0.04499999314546585
+      ],
+      "material": "black",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.3,
+        0.014
+      ],
+      "position": [
+        0.5,
+        1.1999999880790708,
+        0.049999993145465854
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.05,
+        0.1
+      ],
+      "position": [
+        0.5,
+        1.4999999880790709,
+        0.01499999314546585
+      ],
+      "material": "hull",
+      "bevel": 0.015,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.05,
+        0.1
+      ],
+      "position": [
+        0.5,
+        0.3399999880790709,
+        0.01499999314546585
+      ],
+      "material": "hull",
+      "bevel": 0.015,
+      "round": true
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.5,
+    1.8999999761581423,
+    0.32999999821186066
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 61799
+  }
+}

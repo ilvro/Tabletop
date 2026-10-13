@@ -1,0 +1,334 @@
+{
+  "name": "Módulo de hidroponia",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "screen": {
+      "color": "#2a5d6b",
+      "emissive": "#2fa7c4",
+      "emissiveIntensity": 0.7,
+      "roughness": 0.3
+    },
+    "green": {
+      "color": "#4f8a4a",
+      "roughness": 0.95
+    },
+    "hull": {
+      "color": "#d7dbde",
+      "roughness": 0.38
+    },
+    "steel": {
+      "color": "#9aa2a8",
+      "roughness": 0.3,
+      "metalness": 0.5
+    },
+    "glow": {
+      "color": "#9fefff",
+      "emissive": "#36d2ff",
+      "emissiveIntensity": 1.3
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.9,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0,
+        0.25,
+        0.021000012755393982
+      ],
+      "material": "hull",
+      "bevel": 0.04,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.84,
+        0.05,
+        0.44
+      ],
+      "position": [
+        0,
+        0.5,
+        0.021000012755393982
+      ],
+      "material": "dark",
+      "bevel": 0.01,
+      "round": true
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.3,
+      "position": [
+        -0.3,
+        0.66,
+        0.021000012755393982
+      ],
+      "material": "green",
+      "segments": 12
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.2,
+        0.16,
+        0.2
+      ],
+      "position": [
+        -0.3,
+        0.86,
+        0.021000012755393982
+      ],
+      "material": "green",
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.14,
+        0.1,
+        0.16
+      ],
+      "position": [
+        -0.26,
+        0.74,
+        0.08100001275539398
+      ],
+      "material": "green",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.38,
+      "position": [
+        -0.1,
+        0.7000000000000001,
+        0.021000012755393982
+      ],
+      "material": "green",
+      "segments": 12
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.2,
+        0.16,
+        0.2
+      ],
+      "position": [
+        -0.1,
+        0.94,
+        0.021000012755393982
+      ],
+      "material": "green",
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.14,
+        0.1,
+        0.16
+      ],
+      "position": [
+        -0.060000000000000005,
+        0.74,
+        0.08100001275539398
+      ],
+      "material": "green",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.3,
+      "position": [
+        0.09999999999999998,
+        0.66,
+        0.021000012755393982
+      ],
+      "material": "green",
+      "segments": 12
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.2,
+        0.16,
+        0.2
+      ],
+      "position": [
+        0.09999999999999998,
+        0.86,
+        0.021000012755393982
+      ],
+      "material": "green",
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.14,
+        0.1,
+        0.16
+      ],
+      "position": [
+        0.13999999999999999,
+        0.74,
+        0.08100001275539398
+      ],
+      "material": "green",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 0.38,
+      "position": [
+        0.3,
+        0.7000000000000001,
+        0.021000012755393982
+      ],
+      "material": "green",
+      "segments": 12
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.2,
+        0.16,
+        0.2
+      ],
+      "position": [
+        0.3,
+        0.94,
+        0.021000012755393982
+      ],
+      "material": "green",
+      "segments": 24
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.14,
+        0.1,
+        0.16
+      ],
+      "position": [
+        0.33999999999999997,
+        0.74,
+        0.08100001275539398
+      ],
+      "material": "green",
+      "segments": 16
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.9,
+        0.03
+      ],
+      "position": [
+        -0.42,
+        0.95,
+        -0.17899998724460603
+      ],
+      "material": "steel",
+      "bevel": 0.0039
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.9,
+        0.03
+      ],
+      "position": [
+        0.42,
+        0.95,
+        -0.17899998724460603
+      ],
+      "material": "steel",
+      "bevel": 0.0039
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.9,
+        0.05,
+        0.2
+      ],
+      "position": [
+        0,
+        1.4,
+        -0.17899998724460603
+      ],
+      "material": "hull",
+      "bevel": 0.015,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.8,
+        0.012,
+        0.14
+      ],
+      "position": [
+        0,
+        1.372,
+        -0.17899998724460603
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.1,
+        0.012
+      ],
+      "position": [
+        0,
+        0.3,
+        0.273000012755394
+      ],
+      "material": "screen",
+      "bevel": 0.005,
+      "round": true
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.8999999761581421,
+    1.4249999523162842,
+    0.55799999833107
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "curvas de contorno refinadas"
+    ],
+    "seed": 601
+  }
+}

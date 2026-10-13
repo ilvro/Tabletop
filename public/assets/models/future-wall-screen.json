@@ -1,0 +1,212 @@
+{
+  "name": "Tela tática de parede",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "screen": {
+      "color": "#2a5d6b",
+      "emissive": "#2fa7c4",
+      "emissiveIntensity": 0.7,
+      "roughness": 0.3
+    },
+    "hull": {
+      "color": "#d7dbde",
+      "roughness": 0.38
+    },
+    "glow": {
+      "color": "#9fefff",
+      "emissive": "#36d2ff",
+      "emissiveIntensity": 1.3
+    },
+    "alert": {
+      "color": "#ff8a70",
+      "emissive": "#ff4a2a",
+      "emissiveIntensity": 1.1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.8,
+        1,
+        0.05
+      ],
+      "position": [
+        0,
+        0.5,
+        -0.0044999998062849045
+      ],
+      "material": "dark",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.7,
+        0.9,
+        0.012
+      ],
+      "position": [
+        0,
+        0.5,
+        0.023500000193715096
+      ],
+      "material": "screen",
+      "bevel": 0.00588,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.012,
+        0.004
+      ],
+      "position": [
+        -0.6,
+        0.2,
+        0.03150000019371509
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.012,
+        0.004
+      ],
+      "position": [
+        -0.2,
+        0.34,
+        0.03150000019371509
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.012,
+        0.004
+      ],
+      "position": [
+        0.19999999999999996,
+        0.48000000000000004,
+        0.03150000019371509
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.012,
+        0.004
+      ],
+      "position": [
+        0.6,
+        0.6200000000000001,
+        0.03150000019371509
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "ring",
+      "radius": 0.2,
+      "tube": 0.008,
+      "segments": 24,
+      "sides": 8,
+      "position": [
+        0.3,
+        0.56,
+        0.03150000019371509
+      ],
+      "material": "glow"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.1,
+      "tube": 0.006,
+      "segments": 24,
+      "sides": 8,
+      "position": [
+        0.3,
+        0.56,
+        0.03150000019371509
+      ],
+      "material": "alert"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.7,
+        0.004
+      ],
+      "position": [
+        -0.2,
+        0.5,
+        0.03150000019371509
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        1,
+        0.07
+      ],
+      "position": [
+        -0.9,
+        0.5,
+        -0.0044999998062849045
+      ],
+      "material": "hull",
+      "bevel": 0.005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        1,
+        0.07
+      ],
+      "position": [
+        0.9,
+        0.5,
+        -0.0044999998062849045
+      ],
+      "material": "hull",
+      "bevel": 0.005200000000000001
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.840000033378601,
+    1,
+    0.07899999991059303
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "ferragens curvas com vazios reais"
+    ],
+    "seed": 14158
+  }
+}

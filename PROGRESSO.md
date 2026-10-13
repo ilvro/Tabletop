@@ -1,5 +1,7 @@
 # Tabletop — Progresso do Projeto
 
+**Biblioteca futurista (13 de outubro):** 30 modelos novos (301 no total), época Futurista no assistente, cinco cômodos próprios (ponte, alojamento, enfermaria da base, reator, carga), prédio Base, luz fria com painéis e entorno com barreira de energia, antena e painéis solares. [Biblioteca](docs/ASSET_LIBRARY.md) · [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).
+
 **Biblioteca medieval (13 de outubro):** 27 modelos novos (271 no total), época Medieval no assistente trocando as peças de todos os cômodos, quatro cômodos próprios (taverna, sala do trono, ferraria, arsenal), dois prédios (taverna, fortaleza), luz de tochas e entorno com paliçada. [Biblioteca](docs/ASSET_LIBRARY.md) · [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).
 
 **Construção assistida, etapa 6 (13 de outubro):** entorno do prédio lido da porta de entrada, da garagem, do tipo e da época: terreno, muro ou cerca com portão, caminho, entrada de veículos, rua com postes e veículo, quintal, cemitério para igreja. Refazer troca só o que o assistente pôs. [Plano e andamento](docs/ASSISTED_BUILD_PLAN.md).

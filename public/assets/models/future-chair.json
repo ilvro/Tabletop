@@ -1,0 +1,298 @@
+{
+  "name": "Cadeira de comando",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "cloth": {
+      "color": "#3f5563",
+      "roughness": 0.95
+    },
+    "hull": {
+      "color": "#d7dbde",
+      "roughness": 0.38
+    },
+    "glow": {
+      "color": "#9fefff",
+      "emissive": "#36d2ff",
+      "emissiveIntensity": 1.3
+    }
+  },
+  "parts": [
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.26,
+          0
+        ],
+        [
+          0.27,
+          0.02
+        ],
+        [
+          0.08,
+          0.05
+        ],
+        [
+          0.045,
+          0.1
+        ],
+        [
+          0.045,
+          0.38
+        ],
+        [
+          0,
+          0.38
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        0,
+        0,
+        0.01794418692588806
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.09,
+        0.48
+      ],
+      "position": [
+        0,
+        0.44,
+        0.037944186925888065
+      ],
+      "material": "cloth",
+      "bevel": 0.03,
+      "round": true,
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#3f5563",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.54,
+        0.05,
+        0.5
+      ],
+      "position": [
+        0,
+        0.385,
+        0.037944186925888065
+      ],
+      "material": "hull",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.48,
+        0.62,
+        0.09
+      ],
+      "position": [
+        0,
+        0.8,
+        -0.19205581307411193
+      ],
+      "material": "cloth",
+      "rotation": [
+        -0.1,
+        0,
+        0
+      ],
+      "bevel": 0.04,
+      "round": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#3f5563",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.52,
+        0.66,
+        0.04
+      ],
+      "position": [
+        0,
+        0.8,
+        -0.23705581307411194
+      ],
+      "material": "hull",
+      "rotation": [
+        -0.1,
+        0,
+        0
+      ],
+      "bevel": 0.0196,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.26,
+        0.16,
+        0.08
+      ],
+      "position": [
+        0,
+        1.18,
+        -0.23205581307411194
+      ],
+      "material": "cloth",
+      "rotation": [
+        -0.1,
+        0,
+        0
+      ],
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#3f5563",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.05,
+        0.34
+      ],
+      "position": [
+        -0.29,
+        0.62,
+        0.05794418692588806
+      ],
+      "material": "hull",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.2,
+        0.05
+      ],
+      "position": [
+        -0.29,
+        0.51,
+        -0.06205581307411194
+      ],
+      "material": "dark",
+      "bevel": 0.005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.025,
+        0.04
+      ],
+      "position": [
+        -0.29,
+        0.65,
+        0.19794418692588805
+      ],
+      "material": "glow",
+      "bevel": 0.0026000000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.05,
+        0.34
+      ],
+      "position": [
+        0.29,
+        0.62,
+        0.05794418692588806
+      ],
+      "material": "hull",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.04,
+        0.2,
+        0.05
+      ],
+      "position": [
+        0.29,
+        0.51,
+        -0.06205581307411194
+      ],
+      "material": "dark",
+      "bevel": 0.005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.025,
+        0.04
+      ],
+      "position": [
+        0.29,
+        0.65,
+        0.19794418692588805
+      ],
+      "material": "glow",
+      "bevel": 0.0026000000000000003
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.6399999856948853,
+    1.2605986595153809,
+    0.5758883953094482
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "estofamento com bordas macias",
+      "arestas chanfradas",
+      "tecido com trama"
+    ],
+    "seed": 63364
+  }
+}

@@ -1,0 +1,270 @@
+{
+  "name": "Cápsula de descanso",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "cloth": {
+      "color": "#3f5563",
+      "roughness": 0.95
+    },
+    "screen": {
+      "color": "#2a5d6b",
+      "emissive": "#2fa7c4",
+      "emissiveIntensity": 0.7,
+      "roughness": 0.3
+    },
+    "glass": {
+      "color": "#9ec3cf",
+      "opacity": 0.28,
+      "roughness": 0.06,
+      "metalness": 0.1
+    },
+    "hull": {
+      "color": "#d7dbde",
+      "roughness": 0.38
+    },
+    "glow": {
+      "color": "#9fefff",
+      "emissive": "#36d2ff",
+      "emissiveIntensity": 1.3
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.05,
+        0.3,
+        2.15
+      ],
+      "position": [
+        0,
+        0.19999999932944773,
+        -0.002499997615814209
+      ],
+      "material": "hull",
+      "bevel": 0.05,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.98,
+        0.06,
+        2.08
+      ],
+      "position": [
+        0,
+        0.02999999932944772,
+        -0.002499997615814209
+      ],
+      "material": "dark",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.9,
+        0.1,
+        1.9
+      ],
+      "position": [
+        0,
+        0.39999999932944774,
+        0.047500002384185794
+      ],
+      "material": "cloth",
+      "bevel": 0.04,
+      "round": true,
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#3f5563",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.6,
+        0.09,
+        0.3
+      ],
+      "position": [
+        0,
+        0.4799999993294477,
+        -0.7224999976158142
+      ],
+      "material": "hull",
+      "bevel": 0.04,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.05,
+        0.7,
+        0.1
+      ],
+      "position": [
+        0,
+        0.6999999993294477,
+        -1.0224999976158142
+      ],
+      "material": "hull",
+      "bevel": 0.04,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.05,
+        0.08,
+        0.85
+      ],
+      "position": [
+        0,
+        1.0599999993294478,
+        -0.6424999976158142
+      ],
+      "material": "hull",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.64,
+        0.8
+      ],
+      "position": [
+        -0.495,
+        0.7399999993294477,
+        -0.6424999976158142
+      ],
+      "material": "glass",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.64,
+        0.8
+      ],
+      "position": [
+        0.495,
+        0.7399999993294477,
+        -0.6424999976158142
+      ],
+      "material": "glass",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.7,
+        0.025,
+        0.5
+      ],
+      "position": [
+        0,
+        1.0099999993294477,
+        -0.6424999976158142
+      ],
+      "material": "glow",
+      "bevel": 0.0032500000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.2,
+        0.02
+      ],
+      "position": [
+        0,
+        0.7799999993294477,
+        -0.9624999976158142
+      ],
+      "material": "screen",
+      "bevel": 0.0098,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.025,
+        1.9
+      ],
+      "position": [
+        -0.527,
+        0.19999999932944773,
+        -0.002499997615814209
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.025,
+        1.9
+      ],
+      "position": [
+        0.527,
+        0.19999999932944773,
+        -0.002499997615814209
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.05,
+        0.34,
+        0.08
+      ],
+      "position": [
+        0,
+        0.3199999993294477,
+        1.0375000023841858
+      ],
+      "material": "hull",
+      "bevel": 0.03,
+      "round": true
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.065999984741211,
+    1.100000023841858,
+    2.15500009059906
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "estofamento com bordas macias",
+      "tecido com trama"
+    ],
+    "seed": 40113
+  }
+}

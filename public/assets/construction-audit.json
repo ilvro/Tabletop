@@ -3604,6 +3604,359 @@
       "parts": 31,
       "triangles": 3924,
       "batches": 6
+    },
+    {
+      "id": "builtin-future-bunk",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "estofamento com bordas macias",
+        "tecido com trama"
+      ],
+      "parts": 13,
+      "triangles": 3356,
+      "batches": 6
+    },
+    {
+      "id": "builtin-future-chair",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "estofamento com bordas macias",
+        "arestas chanfradas",
+        "tecido com trama"
+      ],
+      "parts": 12,
+      "triangles": 2852,
+      "batches": 4
+    },
+    {
+      "id": "builtin-future-table",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 7,
+      "triangles": 1212,
+      "batches": 4
+    },
+    {
+      "id": "builtin-future-sofa",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "estofamento com bordas macias",
+        "tecido com trama"
+      ],
+      "parts": 9,
+      "triangles": 2356,
+      "batches": 4
+    },
+    {
+      "id": "builtin-future-locker",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 18,
+      "triangles": 1976,
+      "batches": 6
+    },
+    {
+      "id": "builtin-future-hygiene-pod",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "arestas chanfradas"
+      ],
+      "parts": 12,
+      "triangles": 2236,
+      "batches": 5
+    },
+    {
+      "id": "builtin-future-synthesizer",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 17,
+      "triangles": 2896,
+      "batches": 8
+    },
+    {
+      "id": "builtin-future-console",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 24,
+      "triangles": 3708,
+      "batches": 6
+    },
+    {
+      "id": "builtin-future-wall-screen",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 11,
+      "triangles": 1516,
+      "batches": 5
+    },
+    {
+      "id": "builtin-future-terminal",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 10,
+      "triangles": 2744,
+      "batches": 5
+    },
+    {
+      "id": "builtin-future-holo-table",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 10,
+      "triangles": 2784,
+      "batches": 5
+    },
+    {
+      "id": "builtin-future-server",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 55,
+      "triangles": 3540,
+      "batches": 6
+    },
+    {
+      "id": "builtin-future-medbed",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "estofamento com bordas macias",
+        "curvas de contorno refinadas",
+        "tecido com trama"
+      ],
+      "parts": 13,
+      "triangles": 3072,
+      "batches": 6
+    },
+    {
+      "id": "builtin-future-cryo-pod",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 11,
+      "triangles": 4624,
+      "batches": 7
+    },
+    {
+      "id": "builtin-future-reactor",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 18,
+      "triangles": 4296,
+      "batches": 6
+    },
+    {
+      "id": "builtin-future-cell",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 9,
+      "triangles": 1760,
+      "batches": 5
+    },
+    {
+      "id": "builtin-future-workbench",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 23,
+      "triangles": 3820,
+      "batches": 6
+    },
+    {
+      "id": "builtin-future-crate",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 11,
+      "triangles": 3300,
+      "batches": 5
+    },
+    {
+      "id": "builtin-future-shelf",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 17,
+      "triangles": 3212,
+      "batches": 5
+    },
+    {
+      "id": "builtin-future-weapon-rack",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 27,
+      "triangles": 6692,
+      "batches": 5
+    },
+    {
+      "id": "builtin-future-droid",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "ferragens curvas com vazios reais",
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 16,
+      "triangles": 3652,
+      "batches": 7
+    },
+    {
+      "id": "builtin-future-turret",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 13,
+      "triangles": 2828,
+      "batches": 6
+    },
+    {
+      "id": "builtin-future-hydroponics",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 19,
+      "triangles": 5652,
+      "batches": 6
+    },
+    {
+      "id": "builtin-future-ceiling-lamp",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 4,
+      "triangles": 688,
+      "batches": 3
+    },
+    {
+      "id": "builtin-future-light-column",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 5,
+      "triangles": 912,
+      "batches": 3
+    },
+    {
+      "id": "builtin-future-lamp-post",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 4,
+      "triangles": 900,
+      "batches": 4
+    },
+    {
+      "id": "builtin-future-barrier",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 8,
+      "triangles": 912,
+      "batches": 4
+    },
+    {
+      "id": "builtin-future-dish",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos",
+        "arestas chanfradas"
+      ],
+      "parts": 7,
+      "triangles": 1928,
+      "batches": 5
+    },
+    {
+      "id": "builtin-future-solar-panel",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 12,
+      "triangles": 3224,
+      "batches": 4
+    },
+    {
+      "id": "builtin-future-speeder",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 15,
+      "triangles": 11496,
+      "batches": 6
     }
   ]
 }

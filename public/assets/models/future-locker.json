@@ -1,0 +1,328 @@
+{
+  "name": "Armário de equipamentos",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "black": {
+      "color": "#121416",
+      "roughness": 0.85
+    },
+    "screen": {
+      "color": "#2a5d6b",
+      "emissive": "#2fa7c4",
+      "emissiveIntensity": 0.7,
+      "roughness": 0.3
+    },
+    "hull": {
+      "color": "#d7dbde",
+      "roughness": 0.38
+    },
+    "steel": {
+      "color": "#9aa2a8",
+      "roughness": 0.3,
+      "metalness": 0.5
+    },
+    "glow": {
+      "color": "#9fefff",
+      "emissive": "#36d2ff",
+      "emissiveIntensity": 1.3
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1,
+        1.95,
+        0.5
+      ],
+      "position": [
+        0,
+        0.985000000372529,
+        -0.011000007390975952
+      ],
+      "material": "hull",
+      "bevel": 0.03,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.96,
+        0.05,
+        0.46
+      ],
+      "position": [
+        0,
+        0.025000000372529037,
+        -0.011000007390975952
+      ],
+      "material": "dark",
+      "bevel": 0.015,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.46,
+        1.78,
+        0.02
+      ],
+      "position": [
+        -0.245,
+        0.990000000372529,
+        0.24099999260902405
+      ],
+      "material": "hull",
+      "bevel": 0.0098,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.5,
+        0.012
+      ],
+      "position": [
+        -0.05,
+        1.0000000003725291,
+        0.25499999260902406
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.018000000000000002,
+        0.01
+      ],
+      "position": [
+        -0.245,
+        1.620000000372529,
+        0.25199999260902406
+      ],
+      "material": "black",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.018000000000000002,
+        0.01
+      ],
+      "position": [
+        -0.245,
+        1.660000000372529,
+        0.25199999260902406
+      ],
+      "material": "black",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.018000000000000002,
+        0.01
+      ],
+      "position": [
+        -0.245,
+        1.700000000372529,
+        0.25199999260902406
+      ],
+      "material": "black",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.018000000000000002,
+        0.01
+      ],
+      "position": [
+        -0.245,
+        1.740000000372529,
+        0.25199999260902406
+      ],
+      "material": "black",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        0.06,
+        0.012
+      ],
+      "position": [
+        -0.245,
+        1.3500000003725292,
+        0.25199999260902406
+      ],
+      "material": "screen",
+      "bevel": 0.005,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.46,
+        1.78,
+        0.02
+      ],
+      "position": [
+        0.245,
+        0.990000000372529,
+        0.24099999260902405
+      ],
+      "material": "hull",
+      "bevel": 0.0098,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.5,
+        0.012
+      ],
+      "position": [
+        0.05,
+        1.0000000003725291,
+        0.25499999260902406
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.018000000000000002,
+        0.01
+      ],
+      "position": [
+        0.245,
+        1.620000000372529,
+        0.25199999260902406
+      ],
+      "material": "black",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.018000000000000002,
+        0.01
+      ],
+      "position": [
+        0.245,
+        1.660000000372529,
+        0.25199999260902406
+      ],
+      "material": "black",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.018000000000000002,
+        0.01
+      ],
+      "position": [
+        0.245,
+        1.700000000372529,
+        0.25199999260902406
+      ],
+      "material": "black",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.018000000000000002,
+        0.01
+      ],
+      "position": [
+        0.245,
+        1.740000000372529,
+        0.25199999260902406
+      ],
+      "material": "black",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        0.06,
+        0.012
+      ],
+      "position": [
+        0.245,
+        1.3500000003725292,
+        0.25199999260902406
+      ],
+      "material": "screen",
+      "bevel": 0.005,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        1.78,
+        0.012
+      ],
+      "position": [
+        0,
+        0.990000000372529,
+        0.24499999260902405
+      ],
+      "material": "black",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.9,
+        0.025,
+        0.06
+      ],
+      "position": [
+        0,
+        1.940000000372529,
+        0.18899999260902406
+      ],
+      "material": "glow",
+      "bevel": 0.0032500000000000003
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1,
+    1.9600000381469727,
+    0.5220000147819519
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 10809
+  }
+}

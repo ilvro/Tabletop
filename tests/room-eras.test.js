@@ -78,3 +78,23 @@ test('the medieval era furnishes every room with medieval pieces, lights by torc
     for (const piece of props(built)) assert.ok(allowed(piece) || piece.assetRef.id === 'builtin-house-roof', `${type}: ${piece.name}`);
   }
 });
+
+test('the futuristic era furnishes rooms with its kit, lights them cold and builds a base', () => {
+  const past = ['Colonial / século XIX', 'Início do século XX', 'Décadas de 1970–1990', 'Antiguidade', 'Medieval'];
+  for (const recipe of ROOM_RECIPES) { const { store } = room(recipe.id, 'future'); for (const piece of props(store)) assert.ok(!past.includes(eraOf(piece)), `${recipe.id}: ${piece.name} (${eraOf(piece)})`); }
+  const ids = template => props(room(template, 'future').store).map(e => e.assetRef.id);
+  assert.ok(ids('bedroom').includes('builtin-future-bunk') && ids('bedroom').includes('builtin-future-locker')); assert.ok(ids('office').includes('builtin-future-console') && ids('office').includes('builtin-future-chair'));
+  assert.ok(ids('ward').includes('builtin-future-medbed')); assert.ok(ids('kitchen').includes('builtin-future-synthesizer')); assert.ok(ids('storage').includes('builtin-future-crate'));
+  // Its own rooms, recognised as themselves, and never used by the older eras.
+  for (const [template, piece] of [['bridge', 'future-holo-table'], ['quarters', 'future-bunk'], ['medbay', 'future-cryo-pod'], ['reactor', 'future-reactor'], ['cargo', 'future-crate']]) {
+    const made = room(template, 'future'); assert.ok(props(made.store).some(e => e.assetRef.id === `builtin-${piece}`), template); assert.equal(describeRoom(made.store.document, made.floor.id, catalog).inferred[0].id, template);
+  }
+  assert.equal(eraAsset('medieval', 'future-console', catalog), null); assert.equal(eraAsset('old', 'future-bunk', catalog), null); assert.equal(eraAsset('future', 'medieval-throne', catalog), null);
+  const bridge = room('bridge', 'future'); assert.equal(roomMood(bridge.store.document, bridge.floor.id, catalog).id, 'cold');
+  bridge.store.execute('proposal.accept', { proposal: proposeRoomLighting(bridge.store.document, { floorId: bridge.floor.id }, bridge.store.editVersion, catalog) }); validateDocument(bridge.store.document);
+  assert.ok(props(bridge.store).some(e => e.assetRef.id === 'builtin-future-ceiling-lamp' && e.illumination?.enabled), 'light panels, not office tubes'); assert.ok(!props(bridge.store).some(e => e.assetRef.id === 'builtin-backrooms-fluorescent'));
+  const built = createSceneStore(createScene()); built.execute('proposal.accept', { proposal: proposeBuilding(built.document, { width: 22, length: 12, type: 'station', seed: 1, era: 'future' }, built.editVersion, catalog) }); validateDocument(built.document);
+  const names = Object.values(built.document.layout.entities).filter(e => e.kind === 'floor').map(f => f.name); for (const name of ['Ponte de comando', 'Alojamento', 'Sala do reator']) assert.ok(names.some(n => n.startsWith(name)), name);
+  for (const piece of props(built)) assert.ok(!past.includes(eraOf(piece)) || piece.assetRef.id === 'builtin-house-roof', piece.name);
+  assert.ok(Object.values(built.document.layout.entities).filter(e => e.kind === 'wall').every(w => w.material.texture === 'paint'));
+});

@@ -19,7 +19,7 @@ export const SETTINGS = [
   { id: 'graveyard', name: 'Cemitério', description: 'Grade de ferro, lápides em fileiras, cruzes e árvores secas.' },
   { id: 'yard', name: 'Pátio industrial', description: 'Chão de concreto, muro, tambores, paletes e caçamba.' },
 ];
-const BY_BUILDING = { tavern: 'rural', keep: 'rural', house: 'urban', police: 'urban', clinic: 'urban', office: 'urban', bar: 'urban', warehouse: 'yard', church: 'graveyard' };
+const BY_BUILDING = { station: 'yard', tavern: 'rural', keep: 'rural', house: 'urban', police: 'urban', clinic: 'urban', office: 'urban', bar: 'urban', warehouse: 'yard', church: 'graveyard' };
 const PARKED = { police: 'police-car', clinic: 'ambulance', warehouse: 'delivery-van' };
 // What stands in the yard of each setting: [model, how many per 100 m² of free ground at full greenery, where].
 const YARD = {
@@ -53,7 +53,7 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
   if (!(margin >= 2 && margin <= 30) || !(greenery >= 0 && greenery <= 1) || !Number.isInteger(seed) || seed < 0 || !SETTINGS.some(entry => entry.id === setting)) throw new ValidationError('Parâmetros do entorno inválidos.');
   const entities = Object.values(document.layout.entities), look = document.look ?? document.defaultLook;
   const building = describeBuilding(document, floorId, catalog), memberIds = new Set(building ? building.rooms.map(room => room.id) : [floorId]), members = [...memberIds].map(key => document.layout.entities[key]);
-  const eras = [floorId, ...members.map(floor => floor.id)].map(key => roomEra(document, key)), era = eras.includes('medieval') ? 'medieval' : eras.includes('old') ? 'old' : 'modern', old = beforeElectricity(era);
+  const eras = [floorId, ...members.map(floor => floor.id)].map(key => roomEra(document, key)), era = eras.includes('future') ? 'future' : eras.includes('medieval') ? 'medieval' : eras.includes('old') ? 'old' : 'modern', old = beforeElectricity(era);
   const chosen = setting === 'auto' ? inferSetting(building?.type?.id, era) : setting, definition = SETTINGS.find(entry => entry.id === chosen);
   const model = name => { const real = eraAsset(era, name, catalog); return real ? catalog.find(a => a.id === `builtin-${real}`) : null; };
   // The way in: an outside door of the building, and the side of the building it is on.
@@ -119,7 +119,7 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
 
   // The edge of the lot: a wall in town, a fence in the country and around a graveyard, nothing in the woods.
   if (enclosure && !open) {
-    const walled = chosen === 'urban' || chosen === 'yard', fenceModel = chosen === 'graveyard' ? 'iron-fence' : 'wooden-fence';
+    const walled = (chosen === 'urban' || chosen === 'yard') && era !== 'future', fenceModel = chosen === 'graveyard' ? 'iron-fence' : 'wooden-fence';
     const runs = [[[lot.x0, lot.z0], [lot.x1, lot.z0]], [[lot.x1, lot.z0], [lot.x1, lot.z1]], [[lot.x0, lot.z1], [lot.x0, lot.z0]]];
     let cursor = lot.x1; for (const [from, to] of [...gates].sort((a, b) => b[0] - a[0])) { if (cursor - to > .4) runs.push([[cursor, lot.z1], [to, lot.z1]]); cursor = from; } if (cursor - lot.x0 > .4) runs.push([[cursor, lot.z1], [lot.x0, lot.z1]]);
     for (const [[ax, az], [bx, bz]] of runs) {
@@ -151,6 +151,8 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
   }
   if (LANDMARK[chosen]) for (let attempt = 0; attempt < 12; attempt++) if (put(LANDMARK[chosen], lot.x0 + 2 + random(`lm/x/${attempt}`) * (lot.x1 - lot.x0 - 4), chosen === 'woods' ? bd / 2 + 2 + random(`lm/z/${attempt}`) * (frontYard - 3) : lot.z0 + 1.5 + random(`lm/z/${attempt}`) * (margin - 2.5), 0, { padding: .6 })) break;
   if (era === 'medieval' && !open) { for (const side of [2.4, -2.4, 3.6, -3.6]) if (put('medieval-signpost', doorX + side, lot.z1 - 1.3, 180, { padding: .1 })) break; for (let attempt = 0; attempt < 10; attempt++) if (put(building?.type?.id === 'keep' ? 'medieval-stocks' : 'medieval-market-stall', lot.x0 + 2 + random(`md/${attempt}`) * (lot.x1 - lot.x0 - 4), bd / 2 + 1.6 + random(`mz/${attempt}`) * (frontYard - 3.4), 180, { padding: .4 })) break; for (let attempt = 0; attempt < 10; attempt++) if (put('medieval-training-dummy', lot.x0 + 1.5 + random(`dd/${attempt}`) * (lot.x1 - lot.x0 - 3), lot.z0 + 1.5 + random(`dz/${attempt}`) * (margin - 2.5), 0, { padding: .5 })) break; }
+  // A base has its dish and its panels behind, and a sentry by the gate.
+  if (era === 'future' && !open) { for (const side of [2.6, -2.6]) if (put('future-turret', doorX + side, lot.z1 - 1.4, 0, { padding: .1 })) break; for (const [name, tries] of [['future-dish', 10], ['future-solar-panel', 10], ['future-solar-panel', 10]]) for (let attempt = 0; attempt < tries; attempt++) if (put(name, lot.x0 + 2 + random(`fx/${name}/${attempt}/${counts.size}`) * (lot.x1 - lot.x0 - 4), lot.z0 + 1.6 + random(`fz/${name}/${attempt}/${counts.size}`) * (margin - 3), 180, { padding: .4 })) break; }
   // What grows and what is left in the yard, each kind where it belongs.
   const spot = (where, key) => {
     const u = random(`${key}/u`), v = random(`${key}/v`), pick = random(`${key}/s`), across = lot.x0 + .9 + u * (lot.x1 - lot.x0 - 1.8), beside = () => [pick < .5 ? lot.x0 + .9 + u * (margin - 1.6) : lot.x1 - .9 - u * (margin - 1.6), lot.z0 + .9 + v * (lot.z1 - lot.z0 - 1.8)];

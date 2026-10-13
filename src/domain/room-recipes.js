@@ -24,7 +24,7 @@ const corner = (slot, asset, rule = {}) => ({ slot, asset, at: 'corner', ...rule
 const on = (slot, asset, of, rule = {}) => ({ slot, asset, at: 'on', of, ...rule });
 const item = (slot, asset, at, rule = {}) => ({ slot, asset, at, ...rule });
 
-export const ROOM_GROUPS = ['Trabalho', 'Casa', 'Delegacia', 'Saúde e ciência', 'Comércio e lazer', 'Indústria', 'Religioso e paranormal', 'Medieval'];
+export const ROOM_GROUPS = ['Trabalho', 'Casa', 'Delegacia', 'Saúde e ciência', 'Comércio e lazer', 'Indústria', 'Religioso e paranormal', 'Medieval', 'Futurista'];
 export const ROOM_RECIPES = [
   { id: 'office', name: 'Escritório', group: 'Trabalho', items: [
     item('desk.main', 'desk', 'center', { dx: -.25, dz: -.1, rotation: 0 }), item('desk.chair', 'chair', 'front', { of: 'desk.main', gap: .05 }),
@@ -181,6 +181,27 @@ export const ROOM_RECIPES = [
     wall('rack', 'medieval-weapon-rack', { prefer: 'long', count: [1, 2, 4] }), wall('armor', 'medieval-armor-stand', { count: [1, 2, 3] }), wall('chest', 'medieval-chest', { count: [1, 2, 3] }),
     item('table.main', 'medieval-trestle-table', 'center', { level: 1 }), item('table.stool', 'medieval-stool', 'front', { of: 'table.main', gap: .1, level: 1 }), wall('shield', 'medieval-shield', { lift: 1.3, count: [1, 2, 3] }),
     wall('torch', 'medieval-wall-torch', { lift: 1.5, count: [1, 2, 2] }), corner('barrel.corner', 'wooden-expedition-barrel', { level: 1 }), item('dummy.main', 'medieval-training-dummy', 'free', { level: 2 }),
+  ] },
+  { id: 'bridge', name: 'Ponte de comando', group: 'Futurista', items: [
+    item('holo.main', 'future-holo-table', 'center'), wall('console', 'future-console', { prefer: 'far', count: [1, 2, 3] }), item('seat.1', 'future-chair', 'front', { of: 'console.1', gap: .1 }), item('seat.2', 'future-chair', 'front', { of: 'console.2', gap: .1, level: 1 }),
+    item('seat.3', 'future-chair', 'front', { of: 'console.3', gap: .1, level: 2 }), wall('screen.main', 'future-wall-screen', { prefer: 'long', lift: 1.05 }), wall('server.main', 'future-server', { level: 1 }), wall('terminal', 'future-terminal', { prefer: 'door', lift: 1.0, count: [1, 1, 2] }),
+    corner('column', 'future-light-column', { count: [1, 2, 2] }), item('command.seat', 'future-chair', 'behind', { of: 'holo.main', gap: .5, face: 'toward', level: 1 }), corner('droid.corner', 'future-droid', { level: 2 }),
+  ] },
+  { id: 'quarters', name: 'Alojamento', group: 'Futurista', items: [
+    wall('bunk', 'future-bunk', { prefer: 'long', turn: 90, count: [1, 2, 4] }), wall('locker', 'future-locker', { count: [1, 2, 3] }), item('table.main', 'future-table', 'center', { level: 1 }), item('table.chair', 'future-chair', 'around', { of: 'table.main', count: [0, 2, 4], level: 1 }),
+    wall('terminal.main', 'future-terminal', { prefer: 'door', lift: 1.0 }), wall('sofa.main', 'future-sofa', { level: 1 }), corner('plant.corner', 'future-hydroponics', { level: 1 }), corner('column.corner', 'future-light-column', { level: 2 }), wall('screen.main', 'future-wall-screen', { lift: 1.05, level: 2 }),
+  ] },
+  { id: 'medbay', name: 'Enfermaria da base', group: 'Futurista', items: [
+    wall('bed', 'future-medbed', { prefer: 'long', count: [1, 2, 3], gap: .06 }), wall('cryo', 'future-cryo-pod', { prefer: 'far', count: [1, 2, 3] }), wall('console.main', 'future-console', { prefer: 'door' }), item('console.chair', 'future-chair', 'front', { of: 'console.main', gap: .1 }),
+    wall('locker.main', 'future-locker', { level: 1 }), wall('terminal.main', 'future-terminal', { lift: 1.0, level: 1 }), item('crate.main', 'future-crate', 'free', { level: 1 }), corner('droid.corner', 'future-droid', { level: 2 }), wall('screen.main', 'future-wall-screen', { lift: 1.05, level: 2 }),
+  ] },
+  { id: 'reactor', name: 'Sala do reator', group: 'Futurista', items: [
+    item('core.main', 'future-reactor', 'center'), wall('console.main', 'future-console', { prefer: 'door' }), item('console.chair', 'future-chair', 'front', { of: 'console.main', gap: .1 }), corner('cell', 'future-cell', { count: [1, 2, 4] }),
+    wall('server', 'future-server', { prefer: 'far', count: [0, 1, 2] }), wall('bench.main', 'future-workbench', { prefer: 'long', level: 1 }), wall('terminal', 'future-terminal', { lift: 1.0, count: [1, 2, 2] }), item('droid.main', 'future-droid', 'free', { level: 2 }), wall('locker.main', 'future-locker', { level: 2 }),
+  ] },
+  { id: 'cargo', name: 'Compartimento de carga', group: 'Futurista', items: [
+    item('crate', 'future-crate', 'grid', { count: [4, 8, 14], dz: -.45, spacingX: .3, spacingZ: .3, jitter: 5, rotation: 0 }), wall('shelf', 'future-shelf', { prefer: 'long', count: [1, 2, 4] }), corner('cell', 'future-cell', { count: [1, 2, 3] }),
+    wall('terminal.main', 'future-terminal', { prefer: 'door', lift: 1.0 }), item('droid.main', 'future-droid', 'free', { level: 1 }), wall('locker.main', 'future-locker', { level: 1 }), wall('rack.main', 'future-weapon-rack', { level: 2 }), wall('bench.main', 'future-workbench', { level: 2 }),
   ] },
 ];
 export const ROOM_TEMPLATE_IDS = ROOM_RECIPES.map(recipe => recipe.id);

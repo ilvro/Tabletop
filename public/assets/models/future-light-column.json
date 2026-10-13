@@ -1,0 +1,162 @@
+{
+  "name": "Coluna de luz",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "steel": {
+      "color": "#9aa2a8",
+      "roughness": 0.3,
+      "metalness": 0.5
+    },
+    "glow": {
+      "color": "#9fefff",
+      "emissive": "#36d2ff",
+      "emissiveIntensity": 1.3
+    }
+  },
+  "parts": [
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.18,
+          0
+        ],
+        [
+          0.19,
+          0.03
+        ],
+        [
+          0.07,
+          0.07
+        ],
+        [
+          0.06,
+          0.12
+        ],
+        [
+          0,
+          0.12
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0.05,
+          0
+        ],
+        [
+          0.05,
+          1.4
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0,
+        0.12,
+        0
+      ],
+      "material": "glow"
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.07,
+          0
+        ],
+        [
+          0.08,
+          0.03
+        ],
+        [
+          0.05,
+          0.06
+        ],
+        [
+          0,
+          0.06
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0,
+        1.52,
+        0
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.008,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0,
+        0.5,
+        0
+      ],
+      "material": "steel",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ring",
+      "radius": 0.055,
+      "tube": 0.008,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0,
+        1,
+        0
+      ],
+      "material": "steel",
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.3799999952316284,
+    1.5800000429153442,
+    0.3799999952316284
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "ferragens curvas com vazios reais"
+    ],
+    "seed": 40526
+  }
+}

@@ -152,3 +152,20 @@ Cada modelo é escrito direto com o vocabulário de `library-atelier-kit.js` (ca
 **Contrato de modelo novo**: o gerador cria o contrato (pegada, envelope, altura de apoio) na primeira vez que vê um modelo e o grava em `scripts/library-source/contracts.json`; daí em diante o contrato manda, como para os demais. `scripts/library-source/slots.json` lista os materiais públicos de cada um.
 
 Conferência: `node scripts/review-library.js <ids>` desenha as folhas em `test-results/library-review/`. Referência em `docs/references/assisted-build/biblioteca-medieval.jpg`.
+
+## Kit futurista (13 de outubro de 2026)
+
+30 modelos em `scripts/library-future.js`, com a época **Futurista** no catálogo. A biblioteca passa a ter 301 modelos; os anteriores não mudaram.
+
+- **Tripulação**: cápsula de descanso, cadeira de comando, mesa de refeitório, banco modular, armário de equipamentos, cabine sanitária, sintetizador de alimentos.
+- **Comando**: console de comando, tela tática de parede, terminal de parede, mesa holográfica, núcleo de dados.
+- **Medicina**: leito médico com scanner, cápsula criogênica.
+- **Engenharia**: núcleo de energia, célula de combustível, bancada com braço robótico, módulo de hidroponia.
+- **Carga**: contêiner, estante modular, rack de armas.
+- **Autômatos**: droide de serviço, torreta de sentinela.
+- **Luz**: painel de teto, coluna de luz.
+- **Exterior**: poste de perímetro, barreira de energia, antena parabólica, painel solar, veículo flutuante.
+
+Os materiais evitam os nomes que disparam acabamento de madeira ou pedra: `hull` (compósito pintado), `dark`, `steel`, `accent`, e os emissivos `glow`, `alert`, `screen` e `holo`; `glass` é transparente.
+
+**Ao mudar a forma de um modelo novo depois de gerado**, apague o contrato dele em `contracts.json` para que seja recriado, e mantenha a ordem do arquivo igual à do catálogo (o teste confere as duas listas lado a lado). Referência em `docs/references/assisted-build/biblioteca-futurista.jpg`.

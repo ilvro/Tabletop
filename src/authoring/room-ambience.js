@@ -24,10 +24,10 @@ export const ROOM_MOODS = [
 // What each luminous object is, so it lights the way it looks.
 const SOURCES = {
   lamp: ['lamp', 1], 'house-ceiling-lamp': ['lamp', .8], streetlamp: ['lamp', 1.2], chandelier: ['candle', 3], 'kerosene-lantern': ['candle', 1.4], candles: ['candle', 1], 'church-candelabra': ['candle', 1.8],
-  'ritual-candelabra': ['candle', 1.6], 'medieval-wall-torch': ['torch', .7], 'medieval-brazier': ['torch', .9], 'medieval-candle-stand': ['candle', 2.4], 'medieval-hearth': ['torch', 1.1], 'medieval-forge': ['torch', 1.2], 'medieval-cauldron': ['torch', .6], fireplace: ['torch', 1], campfire: ['torch', 1], 'backrooms-fluorescent': ['fluorescent', 1], 'surgical-lamp': ['fluorescent', .9], 'mountain-wall-lantern': ['candle', 1.5], 'mountain-round-lantern': ['candle', 1.5], 'mountain-lantern-post': ['candle', 1.6],
+  'ritual-candelabra': ['candle', 1.6], 'future-ceiling-lamp': ['fluorescent', .45], 'future-light-column': ['fluorescent', .5], 'future-lamp-post': ['fluorescent', .7], 'medieval-wall-torch': ['torch', .7], 'medieval-brazier': ['torch', .9], 'medieval-candle-stand': ['candle', 2.4], 'medieval-hearth': ['torch', 1.1], 'medieval-forge': ['torch', 1.2], 'medieval-cauldron': ['torch', .6], fireplace: ['torch', 1], campfire: ['torch', 1], 'backrooms-fluorescent': ['fluorescent', 1], 'surgical-lamp': ['fluorescent', .9], 'mountain-wall-lantern': ['candle', 1.5], 'mountain-round-lantern': ['candle', 1.5], 'mountain-lantern-post': ['candle', 1.6],
 };
 const SOURCES_PER_ROOM = 4;
-const SCREENS = ['crt-tv', 'computer', 'surveillance-monitor', 'arcade-cabinet', 'laptop'], FLAMES = ['candle', 'torch'];
+const SCREENS = ['crt-tv', 'computer', 'surveillance-monitor', 'arcade-cabinet', 'laptop', 'future-console', 'future-wall-screen', 'future-terminal', 'future-holo-table', 'future-server', 'future-reactor'], FLAMES = ['candle', 'torch'];
 const WARM_ROOMS = ['Casa', 'Religioso e paranormal'], WARM_IDS = ['library', 'bar'];
 const short = entity => (entity.assetRef?.id ?? '').replace('builtin-', '');
 
@@ -38,6 +38,7 @@ export function roomMood(document, floorId, catalog = []) {
   if (dressing.includes('ritual-circle')) return pick('candles', 'há um ritual montado');
   if (dressing.includes('blood-pool') || dressing.includes('body-bag')) return pick('harsh', 'é uma cena de crime');
   if (floor.tags?.includes(WEAR_TAG) && floor.material?.wear?.type === 'grime') return pick('dim', 'o lugar está abandonado');
+  if (roomEra(document, floorId) === 'future') return pick('cold', 'o lugar é futurista');
   if (beforeElectricity(roomEra(document, floorId))) return pick('candles', 'o lugar é de uma época sem eletricidade');
   const kind = describeRoom(document, floorId, catalog)?.inferred[0], recipe = ROOM_RECIPES.find(entry => entry.id === kind?.id);
   if (!recipe) return pick('warm', 'ainda não há um tipo de cômodo definido');
@@ -110,7 +111,8 @@ export function proposeRoomLighting(document, { floorId, mood = 'auto', sources 
   if (wanted.length > sources) proposal.report.reasons.push(`${wanted.length - sources} fontes menores ficam só como objeto, para não esgotar as luzes da cena.`);
   let hung = 0;
   const hang = (model, x, z, light) => {
-    const asset = catalog.find(a => a.id === `builtin-${model}`); if (!asset || !room.inside(toWorld(x, z))) return;
+    // The fixture of the era: a chandelier where there is no electricity, a light panel in the future.
+    const asset = catalog.find(a => a.id === `builtin-${eraAsset(room.era, model, catalog) ?? model}`); if (!asset || !room.inside(toWorld(x, z))) return;
     proposal.entities.push(createEntity('prop', { name: asset.name, assetRef: { id: asset.id, revision: asset.revision }, position: toWorld(x, z, height - asset.bounds[1] - .04), rotation: quaternionFromYaw(frame.yaw), footprint: asset.footprint, groupId: area.groupId ?? floor.groupId ?? null, levelId: floor.levelId ?? null, layerId: floor.layerId ?? null, tags: [FIXTURE_TAG], illumination: light })); hung++;
   };
   const spread = (wanted, place) => { const count = Math.min(wanted, fixtures), nx = Math.max(1, Math.round(Math.sqrt(count * area.width / area.length))), nz = Math.max(1, Math.ceil(count / nx)); for (let x = 0; x < nx; x++) for (let z = 0; z < nz; z++) place(area.width * ((x + .5) / nx - .5), area.length * ((z + .5) / nz - .5)); };

@@ -1,0 +1,319 @@
+{
+  "name": "Veículo flutuante",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "glass": {
+      "color": "#9ec3cf",
+      "opacity": 0.28,
+      "roughness": 0.06,
+      "metalness": 0.1
+    },
+    "hull": {
+      "color": "#d7dbde",
+      "roughness": 0.38
+    },
+    "accent": {
+      "color": "#e27a2b",
+      "roughness": 0.45
+    },
+    "glow": {
+      "color": "#9fefff",
+      "emissive": "#36d2ff",
+      "emissiveIntensity": 1.3
+    },
+    "alert": {
+      "color": "#ff8a70",
+      "emissive": "#ff4a2a",
+      "emissiveIntensity": 1.1
+    }
+  },
+  "parts": [
+    {
+      "shape": "ellipsoid",
+      "size": [
+        1.7,
+        0.7,
+        3.9
+      ],
+      "position": [
+        0,
+        0.49000000953674316,
+        0
+      ],
+      "material": "hull",
+      "segments": 32
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        1.3,
+        0.56,
+        1.9
+      ],
+      "position": [
+        0,
+        0.7900000095367432,
+        -0.2
+      ],
+      "material": "glass",
+      "segments": 32
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.5,
+        0.12,
+        3
+      ],
+      "position": [
+        0,
+        0.24000000953674316,
+        0
+      ],
+      "material": "dark",
+      "bevel": 0.05,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.2,
+        0.1,
+        0.8
+      ],
+      "position": [
+        0,
+        0.5200000095367432,
+        1.45
+      ],
+      "material": "accent",
+      "bevel": 0.04,
+      "round": true
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.34,
+        0.3,
+        1.1
+      ],
+      "position": [
+        -0.82,
+        0.3000000095367432,
+        -1.1
+      ],
+      "material": "dark",
+      "segments": 32
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.12,
+          0
+        ],
+        [
+          0.12,
+          0.04
+        ],
+        [
+          0,
+          0.04
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        -0.82,
+        0.3000000095367432,
+        -1.66
+      ],
+      "material": "glow",
+      "rotation": [
+        -1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.3,
+        0.12,
+        0.9
+      ],
+      "position": [
+        -0.6,
+        0.06000000953674317,
+        0.9
+      ],
+      "material": "glow",
+      "segments": 32
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.05,
+        0.3
+      ],
+      "position": [
+        -0.78,
+        0.5400000095367432,
+        1.7
+      ],
+      "material": "alert",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.34,
+        0.3,
+        1.1
+      ],
+      "position": [
+        0.82,
+        0.3000000095367432,
+        -1.1
+      ],
+      "material": "dark",
+      "segments": 32
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.12,
+          0
+        ],
+        [
+          0.12,
+          0.04
+        ],
+        [
+          0,
+          0.04
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        0.82,
+        0.3000000095367432,
+        -1.66
+      ],
+      "material": "glow",
+      "rotation": [
+        -1.5707963267948966,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.3,
+        0.12,
+        0.9
+      ],
+      "position": [
+        0.6,
+        0.06000000953674317,
+        0.9
+      ],
+      "material": "glow",
+      "segments": 32
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.06,
+        0.05,
+        0.3
+      ],
+      "position": [
+        0.78,
+        0.5400000095367432,
+        1.7
+      ],
+      "material": "alert",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.3,
+        0.12,
+        0.9
+      ],
+      "position": [
+        0,
+        0.06000000953674317,
+        -0.9
+      ],
+      "material": "glow",
+      "segments": 32
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.06,
+        0.05
+      ],
+      "position": [
+        -0.4,
+        0.48000000953674316,
+        1.92
+      ],
+      "material": "glow",
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.06,
+        0.05
+      ],
+      "position": [
+        0.4,
+        0.48000000953674316,
+        1.92
+      ],
+      "material": "glow",
+      "bevel": 0.02,
+      "round": true
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.9800000190734863,
+    1.0700000415742394,
+    3.9000000953674316
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 1075
+  }
+}

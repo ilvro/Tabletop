@@ -1,0 +1,237 @@
+{
+  "name": "Banco estofado modular",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#24282d",
+      "roughness": 0.5
+    },
+    "cloth": {
+      "color": "#3f5563",
+      "roughness": 0.95
+    },
+    "hull": {
+      "color": "#d7dbde",
+      "roughness": 0.38
+    },
+    "glow": {
+      "color": "#9fefff",
+      "emissive": "#36d2ff",
+      "emissiveIntensity": 1.3
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.9,
+        0.22,
+        0.7
+      ],
+      "position": [
+        0,
+        0.15,
+        -0.0034999996423721313
+      ],
+      "material": "hull",
+      "bevel": 0.04,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.8,
+        0.12,
+        0.58
+      ],
+      "position": [
+        0,
+        0.32,
+        0.03650000035762787
+      ],
+      "material": "cloth",
+      "bevel": 0.04,
+      "round": true,
+      "cushion": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#3f5563",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.9,
+        0.5,
+        0.16
+      ],
+      "position": [
+        0,
+        0.5,
+        -0.27349999964237215
+      ],
+      "material": "hull",
+      "bevel": 0.04,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.76,
+        0.36,
+        0.1
+      ],
+      "position": [
+        0,
+        0.56,
+        -0.18349999964237212
+      ],
+      "material": "cloth",
+      "bevel": 0.04,
+      "round": true,
+      "surface": {
+        "texture": "fabric",
+        "textureSize": 0.25,
+        "relief": 0.004,
+        "fabricWeave": "plain",
+        "fabricThread": 0.6,
+        "textureColor": "#3f5563",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.34,
+        0.7
+      ],
+      "position": [
+        -0.9,
+        0.36,
+        -0.0034999996423721313
+      ],
+      "material": "hull",
+      "bevel": 0.04,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.34,
+        0.7
+      ],
+      "position": [
+        0.9,
+        0.36,
+        -0.0034999996423721313
+      ],
+      "material": "hull",
+      "bevel": 0.04,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.7,
+        0.02,
+        0.012
+      ],
+      "position": [
+        0,
+        0.06,
+        0.34750000035762785
+      ],
+      "material": "glow",
+      "bevel": 0
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.05,
+          0
+        ],
+        [
+          0.05,
+          0.02
+        ],
+        [
+          0.03,
+          0.04
+        ],
+        [
+          0,
+          0.04
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        -0.7,
+        0,
+        -0.0034999996423721313
+      ],
+      "material": "dark"
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.05,
+          0
+        ],
+        [
+          0.05,
+          0.02
+        ],
+        [
+          0.03,
+          0.04
+        ],
+        [
+          0,
+          0.04
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0.7,
+        0,
+        -0.0034999996423721313
+      ],
+      "material": "dark"
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.899999976158142,
+    0.75,
+    0.7070000171661377
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "estofamento com bordas macias",
+      "tecido com trama"
+    ],
+    "seed": 16248
+  }
+}
