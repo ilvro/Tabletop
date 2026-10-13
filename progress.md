@@ -2,6 +2,12 @@
 
 Atualizado em 12 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Objetos de teto ocultos com os telhados (12 de outubro)
+
+**Feito**: com os telhados ocultos, luminárias e outros objetos de teto somem e a luz deles continua (`hangsFromCeiling` em `renderer.js`).
+
+**Validação**: 276 unitários passam; E2E `house-scene`, `dynamic-lighting` e `backrooms-scene` passam; conferência visual numa casa à noite. Sem teste automático específico.
+
 ## Encaixar cômodo por dentro de um prédio existente (12 de outubro)
 
 Motivo: o usuário esperava que acrescentar um cômodo adaptasse o interior; isso não existia para prédio construído, só ampliar para fora.

@@ -289,3 +289,7 @@ Observação do usuário: ampliar para fora é o caso excepcional; o normal ao a
 - Só para prédios cujos cômodos formam um retângulo; depois de ampliar para fora, não dá mais para rearranjar por dentro.
 - Cômodos vazios ou não reconhecidos dão lugar à nova divisão.
 - O cômodo novo entra sempre no fim de um lado; não se escolhe ao lado de qual cômodo ele fica (dá para trocar no planejamento, não no prédio pronto).
+
+### Objetos de teto somem com os telhados (12 de outubro)
+
+Com *Telhados* desligado (ou na vista superior), o que pende do teto também é ocultado: luminárias penduradas pelo assistente, objetos em encaixe de teto, plafons, lustres e fluorescentes, e objetos soltos acima de 1,9 m. Só o objeto some; a luz que ele emite é uma fonte separada e continua acesa, então a cena fica iluminada como os jogadores a verão. Vale só para a janela de edição. Conferido visualmente numa casa à noite; não há teste automático para isso.

@@ -199,7 +199,9 @@ export function createViewport(container, {
   let tool = 'select';
   let presentation = false;
   let cutaway = true, roofsHidden = false;
-  const ROOF = /roof|ceiling|vault-ribs|timber-truss|gable/;
+  const ROOF = /roof|ceiling|vault-ribs|timber-truss|gable/, HANGING = /ceiling-lamp|chandelier|fluorescent/;
+  // What hangs from a ceiling: assistant fixtures, ceiling sockets, known ceiling lights, and loose props placed up high.
+  const hangsFromCeiling = record => record?.kind === 'prop' && record.anchor?.socket !== 'wall' && (record.anchor?.socket === 'ceiling' || record.tags?.includes('luminária-assistida') || HANGING.test(record.assetRef?.id ?? '') || !record.surfaceId && !record.anchor && record.transform.position[1] >= 1.9);
   let destroyed = false;
   let generation = 0;
   let renderRequest = null;
@@ -630,6 +632,9 @@ export function createViewport(container, {
       const visible = visibleRecord(record) && !(cutaway && tool !== 'window' && inFront && facing && !(!presentation && (selectedId === id || records.get(selectedId)?.wallId === id)));
       if (object.visible !== visible) { object.visible = visible; invalidate(true); }
     }
+    // With the roofs lifted, ceiling fixtures are lifted too. Only the object is hidden: its light is
+    // a separate source that follows the record, so the room stays lit as it will be for the players.
+    for (const [id, object] of objects) { const record = records.get(id); if (!hangsFromCeiling(record) || ROOF.test(record.assetRef?.id ?? '')) continue; const visible = visibleRecord(record) && !(roofsHidden && !presentation); if (object.visible !== visible) { object.visible = visible; invalidate(true); } }
     for (const [id, object] of objects) if (['door', 'window'].includes(records.get(id)?.kind)) {
       // Cutaway removes the tall wall, retaining the door as a readable room entrance.
       const visible = visibleRecord(records.get(id));
