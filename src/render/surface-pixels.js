@@ -218,6 +218,18 @@ export function generateSurfaceTile(settings, size = SIZE) {
         rgb = [226 * value, 222 * value, 212 * value].map((c, i) => THREE.MathUtils.lerp(c * (1 - rim * .12), base[i], chip));
         height = height + rim * .08 - chip * .22; rough = THREE.MathUtils.lerp(rough, options.paintBase === 'metal' ? .38 : .9, chip); metal = options.paintBase === 'metal' ? chip : 0; tintable = 1 - chip; break;
       }
+      case 'hazard': {
+        // Stripes run across u, one period (two stripes) to the tile, so the tile repeats without a seam; angle and width are shader uniforms.
+        const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+        const A = hex(options.hazardColorA), B = hex(options.hazardColorB), band = u < .5 ? A : B;
+        const edge = Math.min(Math.abs(u - .5), u, 1 - u) * SIZE, soft = THREE.MathUtils.smoothstep(edge, 0, 1.5);
+        // Worn paint shows the concrete under it, in blotches and flecks.
+        const worn = noise(u, v, frequency(4), 701 + seed) * .6 + noise(u, v, frequency(19), 709 + seed) * .3 + fine * .1, limit = 1 - options.hazardWear * .8;
+        const chip = THREE.MathUtils.smoothstep(worn, limit - .02, limit + .02);
+        const substrate = [118 + fine * 20, 116 + fine * 20, 110 + fine * 20], dirt = 1 - n * .12 * options.hazardWear;
+        rgb = band.map((c, i) => THREE.MathUtils.lerp(THREE.MathUtils.lerp((A[i] + B[i]) / 2, c, soft) * dirt, substrate[i], chip));
+        height = .55 + fine * .03 - chip * .2; rough = THREE.MathUtils.lerp(.5 + fine * .1, .92, chip); metal = 0; tintable = 0; break;
+      }
       case 'snow': {
         const drift=noise(u,v,frequency(3),83+seed), powder=noise(u,v,frequency(32),15+seed);
         const value=.87+drift*.08+powder*.035+grain*.015;

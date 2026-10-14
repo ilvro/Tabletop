@@ -10636,7 +10636,7 @@
         "segurança",
         "listras"
       ],
-      "description": "Faixa amarela e preta de 30 cm. Fixe à parede na altura desejada e repita lado a lado.",
+      "description": "Faixa amarela e preta de 30 cm, do material Listras de alerta: ângulo, largura, cores e desgaste em Propriedades. Fixe à parede na altura desejada e repita lado a lado, ou cole uma faixa de qualquer comprimento com Decalque.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "footprint": [
         2,
@@ -10650,7 +10650,7 @@
       "url": "/assets/models/industrial-hazard-band.json",
       "previewUrl": "/assets/previews/industrial-hazard-band.svg",
       "geometryEdition": 2,
-      "contentHash": "e361827d0638eb09ce10a8d8791aba6b347fcd3f14b86f3c80caa51f6b717abc"
+      "contentHash": "393c05a48adbb8ac707d13f434ee3bc3725bc12eefe4526f88a65caa1b95c3d1"
     },
     {
       "id": "builtin-industrial-warning-light",
@@ -11027,6 +11027,45 @@
       "previewUrl": "/assets/previews/industrial-cable.svg",
       "geometryEdition": 2,
       "contentHash": "b75b5b5cf106186de6518626a2858504c77b682a6f6dc589e2e4d1d5307db645"
+    },
+    {
+      "id": "builtin-decal",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Decalque",
+      "category": "Industrial / Sinalização",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo",
+        "Escritório",
+        "Ruína"
+      ],
+      "tags": [
+        "industrial",
+        "decalque",
+        "letreiro",
+        "placa",
+        "adesivo",
+        "marca"
+      ],
+      "description": "Letreiro, marca ou faixa colada numa parede, no piso ou num objeto: texto, imagem da biblioteca ou uma faixa de material. Clique na superfície para colar; tamanho, fonte e desgaste em Propriedades.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.2,
+        0.02
+      ],
+      "bounds": [
+        1.2,
+        0.3,
+        0.015
+      ],
+      "url": "/assets/models/decal.json",
+      "previewUrl": "/assets/previews/decal.svg",
+      "geometryEdition": 2,
+      "contentHash": "4f7a4aea4aafb7d61c015aae91552fe68d7f375c6b20d81c033fa80c9d643e42"
     }
   ]
 }

@@ -1,6 +1,7 @@
 import { createDraft, finishDraft } from './immutable.js';
 import { clone, id, createLevel, createLayer, createLight } from '../domain/documents.js';
 import { assemblyMembers, assemblyClosure, assemblyFor, objectById, objectTransform, transformMatrix, transformByMatrix } from '../domain/assemblies.js';
+import { Vector3 } from 'three';
 import { yawFromQuaternion, rotateXZ, snapPosition, multiplyQuaternions } from '../domain/coords.js';
 import { kelvinToColor } from '../domain/lighting.js';
 import { applyEnvironment, primaryLight } from '../domain/environments.js';
@@ -73,6 +74,12 @@ function semanticPlacement(document, record, patch = {}, checkHost = true, initi
   }
   if (record.anchor) {
     const anchorHost = requireRecord(document.layout.entities, record.anchor.hostId, 'Host'); if (checkHost) editable(anchorHost, undefined, document);
+    if (record.anchor.socket === 'surface') {
+      // Glued to a face: the pose is carried by the whole matrix of the host, with its scale, so a decal follows a wall, a floor or a model.
+      record.transform.position = new Vector3(...record.anchor.offset).applyMatrix4(transformMatrix(anchorHost.transform)).toArray();
+      record.transform.rotation = multiplyQuaternions(anchorHost.transform.rotation, record.anchor.rotation);
+      return;
+    }
     const offset = [...record.anchor.offset]; if (record.anchor.socket === 'ceiling') offset[1] -= anchorHost.thickness;
     const position = worldPoint(anchorHost, offset);
     // A prop may hang on the far face of a wall: its socket then carries the half turn.
@@ -615,7 +622,7 @@ export function applyCommand(document, command, diagnostics) {
     }
     default: throw new ValidationError(`Comando desconhecido: ${command.type}.`);
   }
-  const placementUnchanged=command.type==='scene.rename'||command.type==='entity.update'&&Object.keys(payload.patch??{}).every(key=>['name','tags','locked','illumination','lightingZone','audience','visible'].includes(key));
+  const placementUnchanged=command.type==='scene.rename'||command.type==='entity.update'&&Object.keys(payload.patch??{}).every(key=>['name','tags','locked','illumination','lightingZone','audience','visible','screen'].includes(key));
   if(!placementUnchanged)refreshAnchors(next);
   next=diagnostics?diagnostics.measure('snapshotFinalization',()=>finishDraft(next)):finishDraft(next);
   return diagnostics?diagnostics.measure('validation',()=>validateDocument(next)):validateDocument(next);

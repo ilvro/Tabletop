@@ -66,6 +66,7 @@ export function createBrowserRepository({databaseName=`tabletop-library-v1:${sto
     const refs=new Map(), visit=value=>{
       if(!value || typeof value!=='object')return;
       if(value.assetRef)refs.set(`${value.assetRef.id}:${value.assetRef.revision}`,value.assetRef);
+      if(value.imageRef)refs.set(`${value.imageRef.id}:${value.imageRef.revision}`,value.imageRef);
       for(const child of Object.values(value))visit(child);
     };
     visit(document);

@@ -1,5 +1,7 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Tela com conteúdo, decalques e listras de alerta (14 de outubro):** monitores e telas mostram texto, barra de progresso, imagem ou chuvisco e iluminam a mesa; decalques de texto, imagem ou faixa de material colam em paredes, pisos e objetos e acompanham o suporte; novo material Listras de alerta. [Biblioteca](ASSET_LIBRARY.md).
+
 **Kit industrial e cabos pendentes (13 de outubro):** 23 modelos novos (324 no total) para fábrica e galpão abandonado, e cabos pendentes como objeto ajustável, com ferramenta de dois cliques e "Cabos no teto" no assistente. [Biblioteca](ASSET_LIBRARY.md).
 
 **Correções do entorno, telhado e grama; plano do galpão (13 de outubro):** o gramado não afunda mais no plano de fundo, o entorno incorpora construções vizinhas, o telhado encaixa nas paredes em qualquer tamanho e a grama deixou de repetir em ladrilhos. Plano técnico da cena do galpão: [plano](GALPAO_INDUSTRIAL_PLANO.md).

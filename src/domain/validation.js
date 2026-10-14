@@ -1,10 +1,12 @@
 import { CABLE_ASSET, validateCable } from './cables.js';
+import { validateScreen } from './screens.js';
+import { DECAL_ASSET, validateDecal } from './decals.js';
 import { isTrustedSnapshot } from '../state/immutable.js';
 import { ROOM_TEMPLATE_IDS } from './room-recipes.js';
 import { ROOM_ERA_IDS } from './room-eras.js';
 import { LIGHT_PROFILES, LIGHT_PIN_FIELDS, PROJECTIONS, RENDERING_DEFAULTS } from './dynamic-lighting.js';
 import {assertRockSculpt,isSculptableRock} from './rock-sculpt.js';
-import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES, TEXTURE_INTEGERS } from './materials.js';
+import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES, TEXTURE_INTEGERS, TEXTURE_COLOR_FIELDS } from './materials.js';
 import { WATER_RANGES, isVegetationAsset } from './landscape.js';
 import { ROCK_FORMS, ROCK_RANGES, CLIFF_RANGES, rockDefaults } from './rocks.js';
 import {SNOW_SHAPE_DEFAULTS,SNOW_SHAPE_RANGES} from './snow.js';
@@ -97,6 +99,7 @@ function surfaceFields(value,path) {
   if(value.relief !== undefined) number(value.relief,`${path}.relief`,0,.2);
   if(value.textureSlot !== undefined) text(value.textureSlot,`${path}.textureSlot`,128);
   if(value.textureColor !== undefined) color(value.textureColor,`${path}.textureColor`);
+  for (const key of TEXTURE_COLOR_FIELDS) if (value[key] !== undefined) color(value[key], `${path}.${key}`);
   for (const [key, [min, max]] of Object.entries(TEXTURE_RANGES)) if (value[key] !== undefined) {
     number(value[key],`${path}.${key}`,min,max);
     if (['woodBoards','textureSeed',...TEXTURE_INTEGERS].includes(key)) fail(Number.isInteger(value[key]),'Deve ser inteiro.',`${path}.${key}`);
@@ -144,20 +147,28 @@ function semanticReferences(value, document, path) {
   if (value.anchor != null) {
     keys(value.anchor, ['hostId', 'socket', 'offset', 'rotation'], `${path}.anchor`);
     reference(value.anchor.hostId, document.layout.entities, `${path}.anchor.hostId`, false);
-    choice(value.anchor.socket, ['wall', 'ceiling'], `${path}.anchor.socket`); vector(value.anchor.offset, 3, `${path}.anchor.offset`);
+    choice(value.anchor.socket, ['wall', 'ceiling', 'surface'], `${path}.anchor.socket`); vector(value.anchor.offset, 3, `${path}.anchor.offset`);
     if (value.anchor.rotation !== undefined) {
       fail(value.type === 'spot' || value.kind === 'prop', 'Orientação local do socket exige luz spot ou objeto.', path);
       quaternion(value.anchor.rotation, `${path}.anchor.rotation`);
     }
     const host = document.layout.entities[value.anchor.hostId];
     fail(value.kind === 'prop' || ['point', 'spot'].includes(value.type), 'Somente props e luzes locais podem usar sockets.', path);
-    fail(host.kind === (value.anchor.socket === 'wall' ? 'wall' : 'floor'), 'Host incompatível com o socket.', path);
     fail(!value.surfaceId, 'Âncora e apoio não podem controlar o mesmo objeto.', path);
-    if (host.kind === 'wall') {
-      number(value.anchor.offset[0], path, 0, host.length); number(value.anchor.offset[1], path, 0, host.height);
+    if (value.anchor.socket === 'surface') {
+      // A decal is glued to the face of a wall, floor or model, at any point and any turn around its normal.
+      fail(value.decal !== undefined, 'Somente decalques usam fixação em superfície.', path);
+      fail(['wall', 'floor', 'prop'].includes(host.kind) && !host.decal, 'Decalque cola em parede, piso ou objeto (não em outro decalque).', path);
+      fail(value.anchor.rotation !== undefined, 'Fixação em superfície exige orientação.', path);
+      value.anchor.offset.forEach((v, i) => number(v, `${path}.anchor.offset[${i}]`, -1000, 1000));
     } else {
-      const point = [value.anchor.offset[0], value.anchor.offset[2]];
-      fail(pointInPolygon(point, floorContour(host)) && !(host.holes ?? []).some(hole => pointInPolygon(point, hole)), 'Socket de teto deve estar sobre uma região sólida do piso.', path);
+      fail(host.kind === (value.anchor.socket === 'wall' ? 'wall' : 'floor'), 'Host incompatível com o socket.', path);
+      if (host.kind === 'wall') {
+        number(value.anchor.offset[0], path, 0, host.length); number(value.anchor.offset[1], path, 0, host.height);
+      } else {
+        const point = [value.anchor.offset[0], value.anchor.offset[2]];
+        fail(pointInPolygon(point, floorContour(host)) && !(host.holes ?? []).some(hole => pointInPolygon(point, hole)), 'Socket de teto deve estar sobre uma região sólida do piso.', path);
+      }
     }
   }
 }
@@ -173,7 +184,7 @@ function entity(value, path, document) {
     window: ['wallId', 'offset', 'width', 'height', 'sill', 'style', 'material'],
     stairs: ['transform', 'width', 'length', 'height', 'steps', 'material', 'fromLevelId', 'toLevelId'],
     ramp: ['transform', 'width', 'length', 'height', 'material', 'fromLevelId', 'toLevelId'],
-    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight', 'localEffect', 'rockShape', 'rockSculpt', 'vegetationSeed', 'cable'],
+    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight', 'localEffect', 'rockShape', 'rockSculpt', 'vegetationSeed', 'cable', 'screen', 'decal'],
   };
   choice(value.kind, Object.keys(fields), `${path}.kind`); keys(value, [...common, ...fields[value.kind]], path);
   text(value.name, `${path}.name`); bool(value.locked, `${path}.locked`); choice(value.audience, ['all', 'gm'], `${path}.audience`);
@@ -205,6 +216,16 @@ function entity(value, path, document) {
     try {assertRockSculpt(value.rockSculpt);} catch(error) {throw new ValidationError(error.message,`${path}.rockSculpt`);}
   }
   if (value.cable !== undefined) { fail(value.kind === 'prop' && value.assetRef?.id === CABLE_ASSET, 'Só o objeto Cabos pendentes aceita ajustes de cabo.', `${path}.cable`); validateCable(value.cable, `${path}.cable`); }
+  if (value.screen !== undefined) {
+    fail(value.kind === 'prop' && !value.cable && !value.decal, 'Só modelos com tela aceitam conteúdo de tela.', `${path}.screen`);
+    validateScreen(value.screen, `${path}.screen`);
+  }
+  if (value.decal !== undefined) {
+    fail(value.kind === 'prop' && value.assetRef?.id === DECAL_ASSET, 'Só o objeto Decalque aceita ajustes de decalque.', `${path}.decal`);
+    validateDecal(value.decal, `${path}.decal`);
+    fail(value.anchor?.socket === 'surface', 'O decalque precisa estar colado numa superfície.', path);
+    fail(value.transform.scale.every(v => Math.abs(v - 1) < 1e-8), 'O tamanho do decalque fica em decal.size.', path);
+  }
   if(value.rockShape !== undefined) {
     fail(value.kind==='prop' && !!rockDefaults(value.assetRef?.id),'A geometria editável exige uma rocha do kit de montanha.',`${path}.rockShape`);
     const r=value.rockShape,rp=`${path}.rockShape`;

@@ -70,6 +70,8 @@ export function createEntity(kind, options = {}) {
     ...(options.rockSculpt ? {rockSculpt:clone(options.rockSculpt)} : {}),
     ...(options.rockShape ? { rockShape: clone(options.rockShape) } : {}),
     ...(options.cable ? { cable: clone(options.cable) } : {}),
+    ...(options.screen ? { screen: clone(options.screen) } : {}),
+    ...(options.decal ? { decal: clone(options.decal) } : {}),
   };
 }
 

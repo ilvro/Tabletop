@@ -26,6 +26,8 @@ async function validateAssetReferences(document, assets) {
   const visit = (value) => {
     if (!value || typeof value !== 'object') return;
     if (value.assetRef) references.set(`${value.assetRef.id}:${value.assetRef.revision}`, value.assetRef);
+    // The image shown on a screen or glued as a decal is an asset of the library too.
+    if (value.imageRef) references.set(`${value.imageRef.id}:${value.imageRef.revision}`, value.imageRef);
     for (const child of Object.values(value)) visit(child);
   };
   visit(document);

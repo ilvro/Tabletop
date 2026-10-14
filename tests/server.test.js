@@ -13,6 +13,7 @@ import { proposeRoom } from '../src/authoring/quick-build.js';
 import { createSceneStore } from '../src/state/scene-store.js';
 import { proposeContourWalls } from '../src/authoring/structures.js';
 import { sculptTerrain } from '../src/authoring/terrain.js';
+import { screenDefaults } from '../src/domain/screens.js';
 
 const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=', 'base64');
 
@@ -424,4 +425,19 @@ test('gallery covers are derived, revision checked, retained through restart/cop
   await f.request(`/api/tabletop/scenes/${saved.id}?expectedRevision=2`, { method: 'DELETE' });
   assert.equal((await f.request(route)).status, 404);
   assert.equal((await readdir(path.join(f.dataDir, 'scenes'))).some(file => file.startsWith(saved.id)), false);
+});
+
+test('the image a screen shows or a decal carries is an asset like any other: it must exist to be saved', async (t) => {
+  const f = await fixture(t);
+  const image = (await f.request('/api/tabletop/assets?name=Retrato', { method: 'POST', raw: png, headers: { 'Content-Type': 'image/png' } })).value;
+  const tv = ref => createEntity('prop', { assetRef: { id: 'builtin-crate', revision: 1 }, footprint: [.7, .5], screen: screenDefaults({ kind: 'image', imageRef: ref }) });
+  const saved = createScene('Tela com imagem'), entity = tv({ id: image.id, revision: image.revision }); saved.layout.entities[entity.id] = entity;
+  const created = await f.request('/api/tabletop/scenes', { method: 'POST', body: { document: saved } }); assert.equal(created.status, 201, JSON.stringify(created.value));
+  const absent = createScene('Tela sem imagem'), orphan = tv({ id: 'imagem-ausente', revision: 1 }); absent.layout.entities[orphan.id] = orphan;
+  const refused = await f.request('/api/tabletop/scenes', { method: 'POST', body: { document: absent } });
+  assert.equal(refused.status, 422); assert.equal(refused.value.error?.code, 'MISSING_ASSET');
+  const wrongRevision = createScene('Decalque com revisão errada'), sign = createEntity('prop', { assetRef: { id: 'builtin-crate', revision: 1 }, footprint: [1, 1] });
+  wrongRevision.layout.entities[sign.id] = { ...sign, screen: screenDefaults({ kind: 'image', imageRef: { id: image.id, revision: 9 } }) };
+  assert.equal((await f.request('/api/tabletop/scenes', { method: 'POST', body: { document: wrongRevision } })).status, 422);
+  const reloaded = (await f.request(`/api/tabletop/scenes/${saved.id}`)).value; assert.deepEqual(reloaded.layout.entities[entity.id].screen, entity.screen);
 });

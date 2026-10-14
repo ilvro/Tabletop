@@ -135,4 +135,31 @@ Cada etapa segue a rotina do projeto: testes unitários do que for dado e regra,
 - Os cabos projetam sombra em qualquer qualidade; a restrição à qualidade alta não foi feita.
 - O assistente pendura cabos quando a pessoa pede, em qualquer cômodo; não os liga sozinho ao estado abandonado.
 
-**Próximo:** itens 1 e 2 (tela com conteúdo e decalques).
+**14 de outubro — itens 1 e 2 concluídos**
+
+- **Item 1, tela com conteúdo:** campo `screen` em qualquer modelo com o material `screen`, seção Propriedades → Tela, perfil de luz "Tela / monitor". Aceite: duas linhas e uma barra legíveis a 2 m (`screen-2m.png`), luz na mesa, pausa congela (E2E), salvar e reabrir preservam, apresentação mostra a tela.
+- **Item 2, decalques:** modelo `builtin-decal`, ferramenta e botão **Decalque**, campo `decal` e material **Listras de alerta**. Aceite: letreiro na parede do fundo, marca na carcaça do monitor, faixas de alerta ao longo de duas paredes, acompanha a parede e o monitor, e a sonda de cintilação com 0 pixels errados em 62 317.
+- Detalhes em [ASSET_LIBRARY.md](ASSET_LIBRARY.md) e [progress.md](../progress.md).
+
+**Diferenças em relação ao plano (itens 1 e 2)**
+
+- O `hostId` do decalque fica em `decal.anchor.hostId`, não na raiz do campo `decal`: é o mesmo dado, reaproveitando o mecanismo de fixação.
+- O decalque reaproveita o campo `anchor` do "Fixar em parede / teto", com o socket novo `surface`, mas não passa por esse painel: a colagem é feita pela ferramenta de clique.
+- `screen.scanlines` controla o efeito de tubo inteiro (linhas, curvatura e ruído) com uma intensidade só, não três controles.
+- A fase da animação no projetor pode diferir da do editor (cada janela tem o seu tempo de efeitos); conteúdo e estilo são os mesmos.
+- Projeção em superfície curva fica fora: na carcaça do monitor o decalque assenta na face plana.
+- A emissão aparece levemente nas bordas chanfradas da tela (1 a 2 cm), porque o UV do chanfro é planar.
+- O decalque está na biblioteca como `builtin-decal` (categoria Industrial / Sinalização), sem o prefixo `industrial-` dos outros modelos do kit.
+- A luz da tela só toma a cor e o brilho do conteúdo no perfil "Tela / monitor"; se a pessoa trocar o perfil, a luz volta a ser a que ela escolheu.
+- O conteúdo da tela inclui a variação (`seed`) na chave de compartilhamento do canvas, porque o chuvisco depende dela; só texto fixo e barra fixa deixam a tela sem animação.
+- `hazardAngle` e `hazardWidth` ficam em `TEXTURE_UNIFORM_FIELDS` e as cores em `TEXTURE_COLOR_FIELDS` (`src/domain/materials.js`), fora da chave do ladrilho.
+- Ao escolher "Faixa de material" num decalque sem textura, o material passa a ser Listras de alerta, para a faixa funcionar com um clique.
+- O vidro da tela usa rugosidade 0,55, em vez de 0,18, para a luz própria não abrir um clarão sobre o texto.
+- No E2E o clique do decalque na carcaça do monitor é feito na vista de topo, porque na perspectiva padrão a porta da sala tapa o monitor.
+- A conferência em imagem foi feita com o rasterizador por software (`CAPTURE_SOFTWARE=1`), não numa GPU.
+
+**Próximo:** resíduos do item 3 e item 4, degrau 1 (piso molhado), depois 5 e 6.
+
+**14 de outubro — microplano de execução**
+
+O detalhamento de tudo o que falta (resíduos do item 3 e itens 1, 2, 4, 5, 6 e 7), com arquivos, linhas, dados, shaders e provas de cada critério de aceite, está em [GALPAO_INDUSTRIAL_MICROPLANO.md](GALPAO_INDUSTRIAL_MICROPLANO.md).

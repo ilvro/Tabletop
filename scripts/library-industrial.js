@@ -88,9 +88,9 @@ export function addIndustrialLibrary({ add, modern }) {
     rb([1.5, .26, .02], [0, 3.2, .18], 'steel', .008), rb([1.38, .16, .006], [0, 3.2, .192], 'black', .004), ...[-1.4, 1.4].map(x => rb([.2, .12, .1], [x, 3.2, .2], 'alert', .03)),
     ...[-1, 1].flatMap(s => along(4, .4, 2.6).map(y => c(.03, .05, [s * 1.62, y, .16], 'steel', 'z'))),
   ], 'Batente pesado, duas folhas nervuradas, faixa de alerta, placa para letreiro e duas luzes de aviso. É um objeto: não abre passagem na parede.');
-  model('hazard-band', 'Faixa de alerta de parede · 2 m', 'Sinalização', PLANT, ['faixa', 'alerta', 'segurança', 'listras'], [
-    b([2, .3, .012], [0, .15, .006], 'yellow'), ...stripes(2, .3, [0, .15, .014], 8, .005),
-  ], 'Faixa amarela e preta de 30 cm. Fixe à parede na altura desejada e repita lado a lado.');
+  model('hazard-band', 'Faixa de alerta de parede · 2 m', 'Sinalização', PLANT, ['faixa', 'alerta', 'segurança', 'listras'], withSurface([
+    b([2, .3, .016], [0, .15, .008], 'yellow'),
+  ], { texture: 'hazard', hazardAngle: 45, hazardWidth: .1, hazardWear: .2 }), 'Faixa amarela e preta de 30 cm, do material Listras de alerta: ângulo, largura, cores e desgaste em Propriedades. Fixe à parede na altura desejada e repita lado a lado, ou cole uma faixa de qualquer comprimento com Decalque.');
   model('warning-light', 'Luz de aviso de parede', 'Sinalização', PLANT, ['luz', 'alarme', 'aviso', 'vermelha'], [
     rb([.2, .2, .05], [0, .14, .025], 'dark', .012), lathe([[0, 0], [.07, 0], [.075, .03], [.06, .12], [.03, .16], [0, .165]], [0, .14, .05], 'alert', 'z', { segments: 16 }),
     ...polar(6, .082, (u, v) => curve([[u, .14 + v, .05], [u * 1.02, .14 + v * 1.02, .14], [u * .5, .14 + v * .5, .225], [0, .14, .235]], .005, 'steel')), r(.082, .006, [0, .14, .12], 'steel'), c(.014, .1, [0, .02, .03], 'black'),
@@ -138,5 +138,10 @@ export function addIndustrialLibrary({ add, modern }) {
   const sample = cableDefaults(), depth = cableDepth(sample);
   model('cable', 'Cabos pendentes', 'Tubulação', [...PLANT, 'Ruína'], ['cabo', 'fio', 'teto', 'pendurado'], cableRecipe(sample).parts.map(part => ({ ...part, points: part.points.map(([x, y, z]) => [x - 1.5, y + depth + .02, z]), material: 'black' })),
     'Feixe de fios com barriga entre dois pontos, ou solto de um só. Vão, folga, quantidade de fios e espessura são ajustados em Propriedades.');
+  // The decal is drawn from its own settings once it is in a scene; this is the plate the library shows, with a stencilled stripe.
+  const decal = add('decal', 'Decalque', 'Industrial / Sinalização', modern, [...PLANT, 'Escritório', 'Ruína'], ['industrial', 'decalque', 'letreiro', 'placa', 'adesivo', 'marca'], [
+    b([1.2, .3, .01], [0, .15, .005], 'steel'), b([1.12, .22, .006], [0, .15, .011], 'black'), ...stripes(1.12, .22, [0, .15, .012], 6, .006),
+  ], 'Letreiro, marca ou faixa colada numa parede, no piso ou num objeto: texto, imagem da biblioteca ou uma faixa de material. Clique na superfície para colar; tamanho, fonte e desgaste em Propriedades.');
+  decal.materials = MATERIALS; ids.add(decal.id);
   return ids;
 }

@@ -65,7 +65,7 @@ export function projectPresentation(document) {
 export function presentationAssets(document, assets) {
   const references = new Set();
   const include = (reference) => { if (reference) references.add(`${reference.id}@${reference.revision}`); };
-  for (const entity of Object.values(document.layout.entities)) include(entity.assetRef);
+  for (const entity of Object.values(document.layout.entities)) { include(entity.assetRef); include(entity.screen?.imageRef); include(entity.decal?.imageRef); }
   for (const token of Object.values(document.tokens ?? {})) {
     const reference = Object.hasOwn(token.visualOverride ?? {}, 'assetRef') ?
       token.visualOverride.assetRef : document.actors[token.actorId]?.assetRef;

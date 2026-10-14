@@ -1,6 +1,34 @@
 # Tabletop — andamento
 
-Atualizado em 13 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 14 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+
+## Tela com conteúdo, decalques e listras de alerta — itens 1 e 2 do galpão (14 de outubro)
+
+**Feito**
+
+- **Tela com conteúdo** (`src/domain/screens.js`, `src/render/screens.js`, `src/ui/screen-panel.js`): campo opcional `screen` em qualquer modelo com o material `screen`. Texto de até 6 linhas, barra de progresso, imagem da biblioteca ou chuvisco, desenhados num canvas de 512 × 384 px (256 × 192 por software) usado como mapa de emissão, com shader de tubo (curvatura, linhas, ruído, vinheta, cintilação). Canvas compartilhado por conteúdo igual, redesenho a no máximo 10 por segundo, tudo função do tempo dos efeitos (a pausa congela). Acender a tela liga o perfil de luz **Tela / monitor**, sem sombra, com a cor média do conteúdo.
+- **Decalques** (`src/domain/decals.js`, `src/render/decals.js`, `src/ui/decal-panel.js`): modelo `builtin-decal` e campo `decal` (texto em canvas, imagem ou faixa de material; tamanho, opacidade, desgaste apagado e riscado). Colado por clique em parede, piso ou objeto (ferramenta nova, botão **Decalque** em Peças avulsas e o modelo na biblioteca) com o socket novo `surface` de `anchor`: acompanha o suporte, some com ele e é duplicado com ele. Mover desliza no plano; Rotacionar e **Giro no plano** giram na normal. Plano 2 mm acima da face, deslocamento de polígono (-1, -4), sem escrever profundidade; some junto com a parede em "Ver interior".
+- **Material Listras de alerta** (`hazard`): ângulo, largura de cada listra, duas cores e desgaste; vale em parede, piso, modelo e decalque. O modelo "Faixa de alerta de parede" passou a usá-lo.
+- `imageRef` (imagem de tela e de decalque) entra nas verificações de asset do servidor, do navegador e da apresentação.
+- `scripts/capture-industrial.js` agora põe a tela no monitor, o letreiro, a marca na carcaça e as faixas de alerta; captura o monitor a 2 m e uma sonda de cintilação dos decalques.
+- Documentado em [docs/ASSET_LIBRARY.md](docs/ASSET_LIBRARY.md); andamento e diferenças em [docs/GALPAO_INDUSTRIAL_PLANO.md](docs/GALPAO_INDUSTRIAL_PLANO.md).
+
+**Validação**
+
+- Unitários: 311 passam (21 novos: `screens` 9, `decals` 10, mais `surface-families` e `server`; o da biblioteca passou a 325 modelos).
+- E2E novo `screens-decals`: clique do decalque na parede do fundo e na carcaça do monitor, edição, faixa de material, parede e decalque com o material, mover a parede e o monitor, desfazer, tela com imagem da biblioteca, pausa congela, salvar, reabrir e apresentar, sem erros de página.
+- E2E rodados e passando (38 casos): `screens-decals`, `cables`, `assisted-rooms`, `asset-library`, `environments`, `materials-effects`, `material-sharing`, `material-transfer`, `material-wear`, `dynamic-lighting`, `panel-consistency`, `editor-ui`, `editor`, `performance`, `tutorials`, `pages` (depois de refazer `dist-pages`), `controls`, `lighting`. Os demais não foram repetidos.
+- Conferência em imagem (rasterizador por software, 1200 × 740): `screen-2m.png` mostra "BOOTING.", "SYS 4" e a barra legíveis a 2 m, com a mesa iluminada de verde; `eye.png` mostra letreiro, faixas de alerta em duas paredes e a marca "NS-04". Sonda de cintilação: 62 317 pixels dentro de painéis opacos de decalque, em duas vistas com 0,5° de diferença, e 0 fora da cor do painel.
+
+**Encontrado na validação**
+
+- Editar só o efeito de tubo recriava o canvas e zerava o desenho; o canvas agora é mantido durante o novo vínculo.
+- Na câmera de perspectiva padrão a porta da sala tapava o monitor e o clique do decalque (corretamente) recusava a porta como suporte; o E2E usa a vista de topo para esse clique.
+- A grade encaixa a parede onde ela cai, então "mover a parede 1 m" move menos; o E2E compara o decalque com o deslocamento real da parede.
+- O vidro da tela com brilho alto refletia a luz própria como um clarão sobre o texto; ficou mais fosco (rugosidade 0,55).
+- Ao trocar a faixa de alerta por uma placa com o material, o volume dela teve de continuar o do contrato da biblioteca (0,016 m de espessura).
+
+**Pendências reais**: a conferência foi feita por software, não numa GPU; as bordas chanfradas da tela emitem um pouco (1 a 2 cm); decalque em superfície curva continua fora; pisos molhados, brilho de lente, faíscas e a cena pronta seguem por fazer (itens 4 a 7).
 
 ## Kit industrial e cabos pendentes — concluídos (13 de outubro)
 

@@ -24,6 +24,8 @@ import { snapPosition, yawFromQuaternion } from '../domain/coords.js';
 import { groupChain, isLocked, isVisible, isSupport, isAccess, supportHeightAt, constrainOpening } from '../domain/geometry.js';
 import { createAssetCache, disposeObject, recipeInstance, standardMaterial } from './asset-cache.js';
 import { cableRecipe } from '../domain/cables.js';
+import { createScreenRuntime } from './screens.js';
+import { createDecalInstance, createDecalTextures } from './decals.js';
 import { applyTransform, readTransform, tagEntity, createFloor, createTerrain, updateTerrain, syncTerrainPicking, createAccess, createWall, createDoor, createWindow, createToken, applyMaterialOverrides } from './scene-objects.js';
 import { sculptTerrain, paintTerrain, terrainBrushOutline, protectTerrainFloors } from '../authoring/terrain.js';
 import { createAtmosphere, applyEnvironmentMaterials, materialSlots } from './atmosphere.js';
@@ -111,7 +113,7 @@ export function createViewport(container, {
   onSelect = () => {}, onMaterialPick = () => {}, onIlluminationOrigin = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
   onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
   onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {}, onRockStroke = () => {}, onWaterStroke = () => {}, onMaterialSlots = () => {},
-  onMeasurementChange = () => {}, onLightingDiagnostics = () => {}, navigationEnabled = true,
+  onMeasurementChange = () => {}, onLightingDiagnostics = () => {}, onSurfacePlace = () => {}, navigationEnabled = true,
 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-label', navigationEnabled ? 'Cena 3D — WASD desloca, Shift acelera, Page Up/Down altera altura, botão direito orbita, roda aproxima' : 'Cena publicada pelo mestre');
@@ -179,7 +181,11 @@ export function createViewport(container, {
   ground.receiveShadow = true;
   scene.add(ground);
   // A cable is drawn from its own settings; everything else comes from the library.
-  const instanceOf = (record, entity) => entity.cable ? new Promise(resolve => resolve(recipeInstance(cableRecipe(entity.cable)))) : cache.createInstance(record, entity.rockShape, entity.vegetationSeed, entity.rockSculpt);
+  const imageOf = reference => { const record = assetRecord(reference); return record ? cache.texture(record) : Promise.resolve(null); };
+  const screens = createScreenRuntime({ loadImage: reference => imageOf(reference).then(texture => texture?.image ?? null), small: softwareRenderer, onChange: () => invalidate(), onError: error => report(error) });
+  const decalTextures = createDecalTextures({ loadImage: imageOf, anisotropy: Math.min(8, renderer.capabilities.getMaxAnisotropy()) });
+  let screenTimer = null, animatedScreens = false;
+  const instanceOf = (record, entity) => entity.cable ? new Promise(resolve => resolve(recipeInstance(cableRecipe(entity.cable)))) : entity.decal ? createDecalInstance(entity, decalTextures) : cache.createInstance(record, entity.rockShape, entity.vegetationSeed, entity.rockSculpt);
   // The backdrop stays under every slab: a lawn or a street laid just below floor level must not sink into it.
   const slabBottoms = entities => entities.filter(e => e.kind === 'floor' && e.transform).map(e => e.transform.position[1] - (e.thickness ?? 0) - .03);
   const selectionBox = new THREE.BoxHelper(new THREE.Object3D(), '#b2dec1');
@@ -309,10 +315,11 @@ export function createViewport(container, {
     if (!paused) effectTime += elapsed;
     animatedLights = updateLightEffects(lightObjects, effectTime, paused);
     animatedAtmosphere = atmosphere.update(camera, effectTime, paused, height * renderer.getPixelRatio());
+    animatedScreens = diagnostics.measure('screens', () => screens.update(sceneDocument, objects, effectTime, paused, now));
     animatedLocalEffects = false;
     for (const effect of localEffects.values()) animatedLocalEffects = updateLocalEffect(effect,effectTime,localEffectsEnabled,paused) || animatedLocalEffects;
     const descriptors=lightObjects.filter(o=>!o.userData.source.isDirectionalLight).map(wrapper=>({id:wrapper.userData.lightRecord.id,wrapper,source:wrapper.userData.source,record:wrapper.userData.lightRecord}));
-    if(sceneDocument)descriptors.push(...diagnostics.measure('boundLights',()=>updateBoundLights(sceneDocument,objects,boundLights,effectTime,paused,visibleRecord,generation)));
+    if(sceneDocument)descriptors.push(...diagnostics.measure('boundLights',()=>updateBoundLights(sceneDocument,objects,boundLights,effectTime,paused,visibleRecord,generation,screens.lightFor)));
     for(const [id,effect]of localEffects){const data=effect.userData.localEffect;if(data.light && !sceneDocument.layout.entities[id]?.illumination)descriptors.push({id:id+':fire',wrapper:effect,source:data.light,record:{type:'point',distance:data.light.distance,priority:10,shadowEnabled:false}});}
     animatedLights ||= [...boundLights.values()].some(b=>b.wrapper.visible&&b.wrapper.userData.lightRecord.enabled&&!paused&&b.wrapper.userData.lightRecord.flicker?.enabled);
     content.updateMatrixWorld(true);lighting.updateMatrixWorld(true);camera.updateMatrixWorld();
@@ -352,6 +359,8 @@ export function createViewport(container, {
     try { diagnostics.measure('render', () => effects.render(camera, seconds)); } finally { materialSharing.end();gpuTimer.end();releaseRetired(); }
     sample('render',started);
     if ((moving || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
+    // A screen changes ten times a second at most: come back for it without drawing in a loop. The clock must keep running, so it is not reset.
+    else if (animatedScreens && !document.hidden) { screenTimer ??= setTimeout(() => { screenTimer = null; invalidate(); }, 100); }
     else lastFrameTime = null;
   }
   function attachOrbit(target) {
@@ -640,6 +649,12 @@ export function createViewport(container, {
     // With the roofs lifted, ceiling fixtures are lifted too. Only the object is hidden: its light is
     // a separate source that follows the record, so the room stays lit as it will be for the players.
     for (const [id, object] of objects) { const record = records.get(id); if (!hangsFromCeiling(record) || ROOF.test(record.assetRef?.id ?? '')) continue; const visible = visibleRecord(record) && !(roofsHidden && !presentation); if (object.visible !== visible) { object.visible = visible; invalidate(true); } }
+    // A sign glued to a wall that is lifted away goes with it.
+    for (const [id, object] of objects) {
+      const record = records.get(id); if (!record?.decal) continue;
+      const host = objects.get(record.anchor?.hostId), visible = visibleRecord(record) && (!host || host.visible);
+      if (object.visible !== visible) { object.visible = visible; invalidate(true); }
+    }
     for (const [id, object] of objects) if (['door', 'window'].includes(records.get(id)?.kind)) {
       // Cutaway removes the tall wall, retaining the door as a readable room entrance.
       const visible = visibleRecord(records.get(id));
@@ -697,8 +712,8 @@ export function createViewport(container, {
     const openings=new Map(); for(const e of Object.values(next.layout.entities))if(e.wallId){const list=openings.get(e.wallId)??[];list.push(e);openings.set(e.wallId,list);}
     const oldLook=old?.look??old?.defaultLook;
     const sameVisualContext=oldLook&&oldLook.materialAdjustments===look.materialAdjustments&&oldLook.environmentBindings===look.environmentBindings&&oldLook.daylight?.phase===look.daylight?.phase&&oldLook.nightWindows===look.nightWindows;
-    const shapeFields=record=>Object.keys(record).filter(key=>!['transform','name','locked','audience','tags','groupId','levelId','layerId','illumination','lightingZone'].includes(key));
-    const shapeKey=record=>{const {transform,name,locked,audience,tags,groupId,levelId,layerId,illumination,lightingZone,...shape}=record;
+    const shapeFields=record=>Object.keys(record).filter(key=>!['transform','name','locked','audience','tags','groupId','levelId','layerId','illumination','lightingZone','screen'].includes(key));
+    const shapeKey=record=>{const {transform,name,locked,audience,tags,groupId,levelId,layerId,illumination,lightingZone,screen,...shape}=record;
       const host=record.wallId&&next.layout.entities[record.wallId];
       return JSON.stringify([shape,look.materialAdjustments?.[record.id],look.environmentBindings?.[record.id],look.daylight?.phase,look.nightWindows,
         record.kind==='wall'?[wallProfiles.get(record.id),(openings.get(record.id)??[]).map(openingShape)]:host?wallShape(host):null,
@@ -718,6 +733,7 @@ export function createViewport(container, {
     const usedAssets = [];
     for (const entity of entities) {
       if(entity.assetRef){const asset=assetRecord(entity.assetRef);if(asset)usedAssets.push(asset);}
+      for(const reference of [entity.screen?.imageRef,entity.decal?.imageRef])if(reference){const asset=assetRecord(reference);if(asset)usedAssets.push(asset);}
       if(entity.kind==='terrain'&&objects.has(entity.id)&&sameVisualContext&&records.get(entity.id)!==entity){const object=objects.get(entity.id),beforeBounds=new THREE.Box3().setFromObject(object),maskVersion=object.children[0].geometry.attributes.surfaceMaskA.version,updated=updateTerrain(object,entity);if(updated){signatures.set(entity.id,shapeKey(entity));if(updated.spatial||records.get(entity.id).heights!==entity.heights&&JSON.stringify(records.get(entity.id).heights)!==JSON.stringify(entity.heights)){spatial=true;changedBounds.push(beforeBounds,new THREE.Box3().setFromObject(object));}if(object.children[0].geometry.attributes.surfaceMaskA.version!==maskVersion)diagnostics.count('terrainBufferUpdates');}}
       if(reusable(entity))continue;
       let object;
@@ -1155,6 +1171,15 @@ export function createViewport(container, {
         onIlluminationOrigin(selectedId,objects.get(selectedId).worldToLocal(hit.point.clone()).toArray());
       }else if (tool === 'material-sample') {
         onMaterialPick(pick(event)?.object.userData.entityId ?? null);
+      } else if (tool === 'decal') {
+        rayFromEvent(event);
+        const hit = raycaster.intersectObjects(pickCandidates(), true).find(h => h.object.userData.entityId && !h.object.userData.decorative && !h.object.userData.decal && visibleInHierarchy(h.object));
+        const host = records.get(hit?.object.userData.entityId);
+        if (!hit || !host || !['wall', 'floor', 'prop'].includes(host.kind) || host.decal) { report('Clique numa parede, piso ou objeto visível.'); return; }
+        const normal = new THREE.Vector3(...surfaceNormal(hit));
+        // Double-sided meshes report the face they were built with: the decal faces the camera.
+        if (normal.dot(raycaster.ray.direction) > 0) normal.negate();
+        onSurfacePlace({ hostId: host.id, point: hit.point.toArray(), normal: normal.toArray() });
       } else if (tool === 'place') {
         const support = supportPoint(event);
         if (support) onPlace({ ...support, snap: Boolean(sceneDocument?.layout.grid.snap && !event.altKey) });
@@ -1406,7 +1431,7 @@ export function createViewport(container, {
       }
     },
     setSelection(id, ids = id ? [id] : []) { if(id===selectedId&&ids.length===selectedIds.length&&ids.every((key,i)=>key===selectedIds[i])){diagnostics.count('selectionUpdatesSkipped');return;}selectedId = id; selectedIds = ids; updateSelection(); },
-    setTool(mode) { cancelGesture(); ruler.clear(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window', 'terrain', 'material-sample', 'measure', 'illumination-origin'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
+    setTool(mode) { cancelGesture(); ruler.clear(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window', 'terrain', 'material-sample', 'measure', 'illumination-origin', 'decal'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
     setRulerSnap(value) { rulerSnap = Boolean(value); },
     clearMeasurement() { if (pointer?.ruler) cancelPointer(); ruler.clear(); invalidate(); },
     setTerrainBrush(options) { terrainBrush = { ...terrainBrush, ...options }; },
@@ -1439,6 +1464,8 @@ export function createViewport(container, {
       return { x: rect.left + (vector.x + 1) * rect.width / 2, y: rect.top + (1 - vector.y) * rect.height / 2, visible: vector.z >= -1 && vector.z <= 1 && Math.abs(vector.x) <= 1 && Math.abs(vector.y) <= 1 };
     },
     getMaterialSlots(id) { return materialSlots(objects.get(id)); },
+    /** Where a material slot is on the model of `id`, in the model's own axes; null while the model is loading or has no such slot. */
+    getSlotFrame(id, slot = 'screen') { const object = objects.get(id); return object ? screens.slotFrame(object, slot) : null; },
     setLegibility(value){readingLight.visible=!!value;invalidate();},
     setLightingQuality(tier,custom) {lightManager.setQuality(tier,custom);effects.setQuality?.(tier);invalidate(true);},
     setEffectsEnabled(value) { reflections.configure(sceneDocument?.look??sceneDocument?.defaultLook,value);effects.setEnabled(value); atmosphere.setEnabled(value); localEffectsEnabled=value; configureDistanceFog(sceneDocument?.look ?? sceneDocument?.defaultLook); invalidate(); },
@@ -1448,7 +1475,7 @@ export function createViewport(container, {
     resetPerformance() {diagnostics.reset();},
     /** Diagnostic switch: the frame must look the same either way. */
     setMaterialSharing(value) { shareMaterials = !!value; invalidate(); },
-    getInfo() { return {performance:{...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported}, materialSharing:materialSharing.info(), zoneProbes:zoneProbes.info(), directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
+    getInfo() { return {screens:screens.info(), screenPool:screens.size, decalTextures:decalTextures.size, decals:[...objects].flatMap(([id,object])=>{const record=records.get(id);if(!record?.decal)return [];let mesh=null;object.traverse(child=>{if(child.userData.decal)mesh=child;});const material=mesh?.material;return [{id,hostId:record.anchor?.hostId,kind:record.decal.kind,polygonOffset:Boolean(material?.polygonOffset),polygonOffsetFactor:material?.polygonOffsetFactor,polygonOffsetUnits:material?.polygonOffsetUnits,depthWrite:material?.depthWrite,receiveShadow:Boolean(mesh?.receiveShadow),castShadow:Boolean(mesh?.castShadow),lift:mesh?.position.z,visible:object.visible}];}),performance:{...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported}, materialSharing:materialSharing.info(), zoneProbes:zoneProbes.info(), directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
       assetDiagnostics:[...objects].flatMap(([id,object])=>{const diagnostics=[];object.traverse(child=>{if(child.userData.diagnostic)diagnostics.push({id,message:child.userData.diagnostic});});return diagnostics;}),
       sculptedRocks:[...objects].flatMap(([id,object])=>{let vertices=0,triangles=0;object.traverse(m=>{if(m.geometry?.userData.sculptPrepared){vertices+=m.geometry.attributes.position.count;triangles+=m.geometry.index.count/3;}});return vertices?[{id,vertices,triangles,samples:records.get(id)?.rockSculpt?.stamps.length??0,bounds:new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3()).toArray()}]:[];}),
       rockGeometries: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.geometry?.userData.rock) list.push({id,...child.geometry.userData.rock,triangles:(child.geometry.index?.count??child.geometry.attributes.position.count)/3});for(const rock of child.geometry?.userData.rocks??[])list.push({id,...rock});});return list;}),
@@ -1457,7 +1484,7 @@ export function createViewport(container, {
       wearMaterials: [...objects].flatMap(([id,object])=>{const result=[];object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material])if(mat?.userData.wear)result.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.wear});});return result;}),
       environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },
     destroy() {
-      destroyed = true;clearTimeout(probeTimer);gpuTimer.dispose();diagnostics.dispose();lightManager.dispose();zoneProbes.dispose();reflections.dispose();cutawayCasters.dispose();lightingHelpers.dispose();
+      destroyed = true;clearTimeout(probeTimer);clearTimeout(screenTimer);screens.dispose();decalTextures.dispose();gpuTimer.dispose();diagnostics.dispose();lightManager.dispose();zoneProbes.dispose();reflections.dispose();cutawayCasters.dispose();lightingHelpers.dispose();
       ruler.destroy();
       previewGeneration++;
       for (const helper of extraSelections) disposeObject(helper); disposeObject(polygonLine); disposeObject(brushLine);

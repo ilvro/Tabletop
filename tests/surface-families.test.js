@@ -1,17 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { SURFACE_MATERIALS, TEXTURE_CHOICES, TEXTURE_DEFAULTS, TEXTURE_PATTERN_FIELDS, TEXTURE_RANGES, surfacePatch, textureFieldPatch } from '../src/domain/materials.js';
+import { SURFACE_MATERIALS, TEXTURE_CHOICES, TEXTURE_COLOR_FIELDS, TEXTURE_DEFAULTS, TEXTURE_PATTERN_FIELDS, TEXTURE_RANGES, patternDefaults, surfacePatch, textureFieldPatch } from '../src/domain/materials.js';
 import { validateDocument } from '../src/domain/validation.js';
 import { generateSurfaceTile, surfaceStyleKey, surfaceReferenceLuma, createLazySurfaceAtlas } from '../src/render/surface-pixels.js';
 
-const families = ['fabric', 'leather', 'plaster', 'tile', 'carpet', 'paint'];
+const families = ['fabric', 'leather', 'plaster', 'tile', 'carpet', 'paint', 'hazard'];
 
 test('every texture family exposes its pattern as editable, validated settings', async () => {
   for (const id of families) assert.ok(SURFACE_MATERIALS.some(p => p.id === id), id);
   // Each pattern field has a default and either a range or a list of choices: nothing is fixed in code.
   for (const [texture, fields] of Object.entries(TEXTURE_PATTERN_FIELDS)) for (const field of fields) {
-    assert.ok(field in TEXTURE_DEFAULTS, `${texture}.${field} default`); assert.ok(TEXTURE_RANGES[field] || TEXTURE_CHOICES[field], `${texture}.${field} domain`);
+    assert.ok(field in TEXTURE_DEFAULTS, `${texture}.${field} default`); assert.ok(TEXTURE_RANGES[field] || TEXTURE_CHOICES[field] || TEXTURE_COLOR_FIELDS.includes(field), `${texture}.${field} domain`);
   }
   const scene = JSON.parse(await readFile('public/scenes/casa-de-bairro.json', 'utf8')), floor = Object.values(scene.layout.entities).find(e => e.kind === 'floor');
   const withMaterial = patch => { const next = structuredClone(scene); next.layout.entities[floor.id].material = { ...surfacePatch('tile'), ...patch }; return next; };
@@ -28,7 +28,7 @@ test('each setting changes the generated surface, deterministically and without 
     const base = generateSurfaceTile({ texture });
     assert.deepEqual(generateSurfaceTile({ texture }), base, `${texture} is deterministic`);
     for (const field of fields) {
-      const values = TEXTURE_CHOICES[field] ?? [TEXTURE_RANGES[field][0], TEXTURE_RANGES[field][1]];
+      const values = TEXTURE_CHOICES[field] ?? (TEXTURE_COLOR_FIELDS.includes(field) ? ['#2244aa', '#aa4422'] : [TEXTURE_RANGES[field][0], TEXTURE_RANGES[field][1]]);
       for (const value of values) {
         if (value === TEXTURE_DEFAULTS[field]) continue;
         // Grout width and board count only exist for some layouts; every other value must show.
@@ -86,4 +86,25 @@ test('the material panel offers a control for every pattern setting of the chose
   }
   // Percent fields show what the document stores as a fraction.
   assert.match(textureCustomization('material-', { ...surfacePatch('tile'), tileGrout: .08 }, helpers), /data-field="material-tileGrout" value="8"/);
+});
+
+test('hazard stripes: two colours to a period, no seam, worn paint shows the concrete, and angle and width cost no pixels', async () => {
+  const options = patternDefaults('hazard'), tile = generateSurfaceTile({ texture: 'hazard', ...options }), S = 256;
+  const column = x => { const sum = [0, 0, 0]; for (let y = 0; y < S; y++) for (let c = 0; c < 3; c++) sum[c] += tile.albedo[(y * S + x) * 4 + c]; return sum.map(v => v / S); };
+  const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  column(64).forEach((v, c) => assert.ok(Math.abs(v - hex(options.hazardColorA)[c]) < 25, `stripe A, channel ${c}: ${v}`));
+  column(192).forEach((v, c) => assert.ok(Math.abs(v - hex(options.hazardColorB)[c]) < 25, `stripe B, channel ${c}: ${v}`));
+  const step = (x, y) => { let sum = 0; for (let row = 0; row < S; row++) for (let c = 0; c < 3; c++) sum += Math.abs(tile.albedo[(row * S + x) * 4 + c] - tile.albedo[(row * S + y) * 4 + c]); return sum / S; };
+  assert.ok(step(S - 1, 0) <= step(127, 128) * 1.25 + 2, 'the edge between tiles is an edge between stripes, like any other');
+  assert.ok(tile.albedo.every((v, i) => i % 4 !== 3 || v === 0), 'the stripes keep their own colours when a surface is recoloured');
+  const bare = settings => { const { details } = generateSurfaceTile({ texture: 'hazard', ...options, ...settings }); let n = 0; for (let i = 0; i < S * S; i++) if (details[i * 4 + 1] > 200) n++; return n / (S * S); };
+  assert.ok(bare({ hazardWear: 1 }) > bare({ hazardWear: .2 }) + .2); assert.ok(bare({ hazardWear: 0 }) < .02);
+  const key = settings => surfaceStyleKey({ texture: 'hazard', ...options, ...settings });
+  assert.notEqual(key({ hazardColorA: '#ff0000' }), key({})); assert.equal(key({ hazardAngle: 90, hazardWidth: .5 }), key({}));
+  assert.deepEqual(Object.keys(patternDefaults('hazard')).filter(k => k.startsWith('hazard')).sort(), ['hazardAngle', 'hazardColorA', 'hazardColorB', 'hazardWear', 'hazardWidth']);
+  assert.ok(!('hazardAngle' in patternDefaults('tile')), 'the other textures carry none of it');
+  const scene = JSON.parse(await readFile('public/scenes/casa-de-bairro.json', 'utf8')), floor = Object.values(scene.layout.entities).find(e => e.kind === 'floor');
+  const withMaterial = patch => { const next = structuredClone(scene); next.layout.entities[floor.id].material = { ...surfacePatch('hazard'), ...patch }; return next; };
+  validateDocument(withMaterial({ hazardAngle: 90, hazardWidth: .25, hazardColorA: '#ffd000', hazardColorB: '#000000', hazardWear: 0 }));
+  for (const bad of [{ hazardColorA: '#fff' }, { hazardColorB: 'black' }, { hazardAngle: 200 }, { hazardWidth: .01 }, { hazardWear: 2 }]) assert.throws(() => validateDocument(withMaterial(bad)), JSON.stringify(bad));
 });

@@ -172,7 +172,7 @@ Os materiais evitam os nomes que disparam acabamento de madeira ou pedra: `hull`
 
 ## Kit industrial e cabos pendentes (13 de outubro de 2026)
 
-23 modelos em `scripts/library-industrial.js`, categoria **Industrial**. A biblioteca passa a ter 324 modelos; os anteriores não mudaram.
+23 modelos em `scripts/library-industrial.js`, categoria **Industrial**. A biblioteca passa a ter 324 modelos (325 com o Decalque, abaixo); os anteriores não mudaram.
 
 | Grupo | Modelos |
 | --- | --- |
@@ -209,3 +209,39 @@ Três formas de colocar:
 Em Propriedades → **Cabo** ajustam-se tipo, vão, folga, fios, espessura, desalinho e variação. Mover e girar o objeto leva as duas pontas juntas. Cada fio é um tubo de seis lados; um feixe inteiro é um só desenho.
 
 Conferência: `node scripts/review-library.js industrial-…` para as folhas de modelos e `node scripts/capture-industrial.js <dir>` para um galpão montado com o kit, visto de fora e da altura dos olhos.
+
+### Tela com conteúdo
+
+Todo modelo com o material `screen` (televisão de tubo, terminal, monitores do console) aceita um campo opcional `screen` (`src/domain/screens.js`). Propriedades → **Tela** só aparece em modelos que têm esse material, depois que o modelo carrega.
+
+| Campo | O que é |
+| --- | --- |
+| `enabled`, `kind` | tela acesa; `text`, `image` (da biblioteca) ou `static` (chuvisco) |
+| `lines` | até 6 linhas de até 40 caracteres: texto, tamanho (fração da altura), alinhamento e animação (fixo, reticências, cursor) |
+| `color`, `background`, `progress` | cor do texto e da barra, fundo, barra de progresso (em ciclo ou valor fixo) |
+| `imageRef` | `{ id, revision }` de um asset de imagem; entra nas verificações de asset do servidor, do navegador e da apresentação |
+| `scanlines`, `flicker`, `seed` | efeito de tubo (linhas, curvatura leve, ruído e vinheta, numa intensidade só), cintilação e variação |
+
+- O conteúdo é desenhado num canvas de 512 × 384 px (256 × 192 em renderização por software), usado como mapa de emissão do material. O vidro fica escuro; tudo o que se vê vem da emissão, que também alimenta o bloom. Telas de conteúdo igual dividem um canvas e uma textura, e o canvas é redesenhado no máximo 10 vezes por segundo.
+- Toda animação é função do tempo dos efeitos: **Pausar efeitos animados**, o movimento reduzido do sistema e a aba oculta congelam o conteúdo e o chuvisco. A fase da animação na janela do projetor pode diferir da do editor; o conteúdo é o mesmo.
+- Acender a tela liga a iluminação própria do objeto, no perfil **Tela / monitor**, sem sombra, em frente ao vidro, com a cor média do que a tela mostra e brilho proporcional à luminosidade dela. Apagar a tela desliga essa luz e guarda o conteúdo.
+- O UV da tela é o da face frontal da caixa que a desenha; as bordas chanfradas emitem levemente (1 a 2 cm).
+
+### Decalques e listras de alerta
+
+O modelo `builtin-decal` ("Industrial / Sinalização") é uma placa fina que se cola numa superfície; o que ele mostra vem do campo `decal` (`src/domain/decals.js`) e é desenhado no renderizador.
+
+| Campo | O que é |
+| --- | --- |
+| `kind` | `text` (letreiro gerado em canvas), `image` (da biblioteca) ou `surface` (faixa do material escolhido em Material e textura) |
+| `size` | largura × altura em metros; a escala do objeto fica em 1 |
+| `text`, `font`, `textColor`, `background` | até 80 caracteres, fonte (estêncil, sem serifa, terminal), cor e fundo opcional |
+| `imageRef`, `opacity` | imagem da biblioteca e opacidade |
+| `wear` | `faded` (apagado), `scratched` (riscado) e `seed`, em metros do próprio decalque |
+
+- **Colar:** Construir → Peças avulsas → **Decalque**, ou o modelo na biblioteca, e um clique numa parede, piso ou objeto visível. O decalque guarda o ponto e a orientação em `anchor` (`hostId`, `socket: 'surface'`, `offset`, `rotation`), o mesmo campo dos objetos presos à parede e ao teto, que o painel "Fixar em parede / teto" não edita. Mover ou girar a parede, o piso ou o modelo leva o decalque; remover o suporte remove o decalque; duplicar o suporte duplica o decalque.
+- **Arrastar:** Mover desliza o decalque no plano da superfície; Rotacionar o gira em torno da normal (também em Propriedades → **Giro no plano**). O que sai do plano é projetado de volta.
+- **Sem cintilar:** o plano flutua 2 mm sobre a face, com deslocamento de polígono (-1, -4) e sem escrever profundidade. Ele recebe luz e sombra da superfície e some junto com a parede quando "Ver interior" a esconde.
+- **Material Listras de alerta** (`hazard`, qualquer parede, piso, modelo ou decalque): ângulo, largura de cada listra em metros, duas cores e desgaste. Ângulo e largura são uniformes do shader e não custam pixels; cada listra mede exatamente a largura pedida. O modelo "Faixa de alerta de parede" usa esse material. Uma faixa de qualquer comprimento é um decalque `surface` com o material `hazard`.
+- Fora do escopo: decalque sobre superfície curva. O plano assenta na face plana (na carcaça do monitor, a frente).
+

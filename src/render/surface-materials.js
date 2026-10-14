@@ -117,7 +117,7 @@ function distribution(shader, prefix, settings) {
 }
 function customization(shader, prefix, settings) {
   const o=textureOptions(settings), mode=['original','tint','replace'].indexOf(o.textureColorMode);
-  const angle=(o.textureRotation+(settings.texture==='wood' && o.woodDirection==='vertical'?90:0))*Math.PI/180;
+  const angle=(o.textureRotation+(settings.texture==='wood' && o.woodDirection==='vertical'?90:0)+(settings.texture==='hazard'?o.hazardAngle:0))*Math.PI/180;
   Object.assign(shader.uniforms,{
     [`${prefix}Tint`]:{value:new THREE.Color(o.textureColor)},
     [`${prefix}Adjust`]:{value:new THREE.Vector4(o.textureBrightness,o.textureContrast,o.textureSaturation,0)},
@@ -136,7 +136,8 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
   if (!preset && !texturedTerrain && !coverPreset) return;
   const active = layers.filter(layer => layer.visible).slice(0,8);
   const atlas = library.acquire([...(preset?[settings]:[]),...active.filter(layer=>surfacePreset(layer.texture)),...(coverPreset?[coverage]:[])],material);
-  material.userData.surface = { texture: preset?.id ?? 'none', size: settings.textureSize ?? preset?.size ?? 2, relief: settings.relief ?? preset?.relief ?? .03, layers: active.map(l=>l.texture??'none'), options:textureOptions(settings), layerOptions:active.map(textureOptions), distributions:active.map(l=>distributionOptions(l.distribution)), coverage:coverage?structuredClone(coverage):null };
+  const tileSize = settings.texture==='hazard' ? 2*textureOptions(settings).hazardWidth : settings.textureSize ?? preset?.size ?? 2;
+  material.userData.surface = { texture: preset?.id ?? 'none', size: tileSize, relief: settings.relief ?? preset?.relief ?? .03, layers: active.map(l=>l.texture??'none'), options:textureOptions(settings), layerOptions:active.map(textureOptions), distributions:active.map(l=>distributionOptions(l.distribution)), coverage:coverage?structuredClone(coverage):null };
   // Terrain color is composed in the fragment shader, retaining legacy masks and their ordering.
   if (texturedTerrain) material.vertexColors = false;
   const relief = settings.relief ?? preset?.relief ?? .03;
@@ -144,7 +145,7 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
   const precision=value=>Number(Number(value).toFixed(6));
   material.onBeforeCompile = shader => {
     previous.call(material,shader);
-    Object.assign(shader.uniforms, { surfaceAlbedo:{value:atlas.albedo}, surfaceDetails:{value:atlas.details}, surfaceLayout:{value:new THREE.Vector2(atlas.columns,atlas.rows)}, surfaceIndex:{value:preset?atlas.index(settings):-1}, surfaceSize:{value:settings.textureSize??preset?.size??2}, surfaceRelief:{value:relief} });
+    Object.assign(shader.uniforms, { surfaceAlbedo:{value:atlas.albedo}, surfaceDetails:{value:atlas.details}, surfaceLayout:{value:new THREE.Vector2(atlas.columns,atlas.rows)}, surfaceIndex:{value:preset?atlas.index(settings):-1}, surfaceSize:{value:tileSize}, surfaceRelief:{value:relief} });
     shader.vertexShader = 'varying vec3 surfacePosition, surfaceNormal;\n'+shader.vertexShader;
     shader.vertexShader = shader.vertexShader.replace('#include <defaultnormal_vertex>', '#include <defaultnormal_vertex>\nsurfaceNormal = inverseTransformDirection(transformedNormal,viewMatrix);');
     shader.vertexShader = shader.vertexShader.replace('#include <project_vertex>', '#include <project_vertex>\nsurfacePosition = (modelMatrix * vec4(transformed,1.0)).xyz;');

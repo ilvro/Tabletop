@@ -7,6 +7,7 @@ export const LIGHT_PROFILES = [
   { id:'fluorescent', name:'Fluorescente', color:'#dcecff', intensity:95, distance:12, type:'spot' },
   { id:'window', name:'Janela / vitral', color:'#dddfff', intensity:120, distance:18, type:'spot', projection:'stained' },
   { id:'ritual', name:'Luz ritual', color:'#ff2540', intensity:85, distance:12, type:'point' },
+  { id:'screen', name:'Tela / monitor', color:'#9cc3ff', intensity:8, distance:3.5, type:'point' },
 ];
 export const QUALITY = {
   economy:{name:'Econômica',locals:4,shadowViews:2,mapSize:512,steps:8},

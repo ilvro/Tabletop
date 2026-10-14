@@ -4115,11 +4115,11 @@
       "family": "fabrication",
       "reconstruction": "components",
       "methods": [
-        "pintura com lascas"
+        "fonte detalhada preservada"
       ],
-      "parts": 9,
-      "triangles": 108,
-      "batches": 2
+      "parts": 1,
+      "triangles": 12,
+      "batches": 1
     },
     {
       "id": "builtin-industrial-warning-light",
@@ -4239,6 +4239,17 @@
       "parts": 3,
       "triangles": 1008,
       "batches": 1
+    },
+    {
+      "id": "builtin-decal",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "fonte detalhada preservada"
+      ],
+      "parts": 8,
+      "triangles": 96,
+      "batches": 2
     }
   ]
 }

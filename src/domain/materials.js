@@ -20,6 +20,8 @@ export const SURFACE_MATERIALS = [
   { id: 'carpet', name: 'Carpete / tapete', roughness: 1, metalness: 0, size: .8, relief: .015 },
   // Metalness lets chipped paint reveal bare metal; painted areas mask it out.
   { id: 'paint', name: 'Pintura sobre metal ou madeira', roughness: .6, metalness: .5, size: 1.2, relief: .006 },
+  // One period is two stripes, so the tile size is twice the width of one; the angle and the width are uniforms.
+  { id: 'hazard', name: 'Listras de alerta', roughness: .62, metalness: 0, size: .4, relief: .006 },
 ];
 /** Optional parameters preserve the appearance of existing documents. */
 export const TEXTURE_DEFAULTS = Object.freeze({
@@ -31,6 +33,7 @@ export const TEXTURE_DEFAULTS = Object.freeze({
   fabricWeave: 'plain', fabricThread: .6, leatherPattern: 'pebbled', leatherGrain: .6, leatherCreases: .3,
   plasterFinish: 'smooth', plasterDamage: .1, tilePattern: 'grid', tileCount: 4, tileGrout: .05, tileVariation: .25,
   carpetPattern: 'pile', carpetPile: .6, paintFinish: 'smooth', paintChips: .15, paintBase: 'metal',
+  hazardAngle: 45, hazardWidth: .1, hazardColorA: '#e5b21c', hazardColorB: '#17160f', hazardWear: .2,
 });
 export const TEXTURE_OPTION_FIELDS = Object.keys(TEXTURE_DEFAULTS);
 export const TEXTURE_RANGES = {
@@ -39,6 +42,7 @@ export const TEXTURE_RANGES = {
   woodBoards: [1, 32], woodGap: [0, .15], woodGrain: [0, 1], metalWear: [0, 1],
   rockCracks: [0, 1], woodAge: [0, 1], fabricThread: [0, 1], leatherGrain: [0, 1], leatherCreases: [0, 1],
   plasterDamage: [0, 1], tileCount: [1, 16], tileGrout: [0, .2], tileVariation: [0, 1], carpetPile: [0, 1], paintChips: [0, 1],
+  hazardAngle: [0, 180], hazardWidth: [.02, 1], hazardWear: [0, 1],
 };
 /** Ranges that only accept whole numbers. */
 export const TEXTURE_INTEGERS = ['tileCount'];
@@ -51,12 +55,17 @@ export const TEXTURE_CHOICES = {
   carpetPattern: ['pile', 'loop', 'striped', 'diamonds'], paintFinish: ['smooth', 'brushstrokes', 'hammered'],
   paintBase: ['metal', 'rust', 'wood', 'primer'],
 };
+/** Pattern settings that are colours (#RRGGBB) instead of a number or a choice. */
+export const TEXTURE_COLOR_FIELDS = ['hazardColorA', 'hazardColorB'];
 /** Pattern parameters that change the generated pixels, per texture. */
 export const TEXTURE_PATTERN_FIELDS = {
   wood: ['woodPattern', 'woodBoards', 'woodGap', 'woodGrain', 'woodAge'], metal: ['metalPattern', 'metalWear'], rock: ['rockPattern', 'rockCracks'],
   fabric: ['fabricWeave', 'fabricThread'], leather: ['leatherPattern', 'leatherGrain', 'leatherCreases'], plaster: ['plasterFinish', 'plasterDamage'],
   tile: ['tilePattern', 'tileCount', 'tileGrout', 'tileVariation'], carpet: ['carpetPattern', 'carpetPile'], paint: ['paintFinish', 'paintChips', 'paintBase'],
+  hazard: ['hazardColorA', 'hazardColorB', 'hazardWear'],
 };
+/** Family settings that only move or scale the pattern in the shader: they cost no pixels, so they stay out of the tile key. */
+export const TEXTURE_UNIFORM_FIELDS = { hazard: ['hazardAngle', 'hazardWidth'] };
 export const textureOptions = settings => Object.fromEntries(TEXTURE_OPTION_FIELDS.map(key => [key, settings?.[key] ?? TEXTURE_DEFAULTS[key]]));
 /** Inspector percentages are presentation only; documents store fractions. */
 export function textureFieldPatch(settings, key, value) {
@@ -67,8 +76,8 @@ export function textureFieldPatch(settings, key, value) {
 /** Defaults written when a texture is chosen: the general settings, the wood/metal/rock
  * settings documents have always carried, and the pattern of the chosen family. */
 const LEGACY_PATTERNS = ['wood', 'metal', 'rock'];
-const familyFields = new Set(Object.entries(TEXTURE_PATTERN_FIELDS).filter(([texture]) => !LEGACY_PATTERNS.includes(texture)).flatMap(([, fields]) => fields).concat('woodAge'));
-export const patternDefaults = id => Object.fromEntries(Object.entries(TEXTURE_DEFAULTS).filter(([key]) => !familyFields.has(key) || (TEXTURE_PATTERN_FIELDS[id] ?? []).includes(key) && key !== 'woodAge'));
+const familyFields = new Set([...Object.entries(TEXTURE_PATTERN_FIELDS).filter(([texture]) => !LEGACY_PATTERNS.includes(texture)).flatMap(([, fields]) => fields), ...Object.values(TEXTURE_UNIFORM_FIELDS).flat(), 'woodAge']);
+export const patternDefaults = id => Object.fromEntries(Object.entries(TEXTURE_DEFAULTS).filter(([key]) => !familyFields.has(key) || ((TEXTURE_PATTERN_FIELDS[id] ?? []).includes(key) || (TEXTURE_UNIFORM_FIELDS[id] ?? []).includes(key)) && key !== 'woodAge'));
 export function layerSurfacePatch(id) {
   const preset = surfacePreset(id);
   return preset ? { texture: id, textureSize: preset.size, color: '#ffffff', ...patternDefaults(id) } : { texture: 'none' };
