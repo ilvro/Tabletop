@@ -1415,7 +1415,9 @@
       "aoRadius": 0.6,
       "volumetricLights": true,
       "volumeStrength": 0.5,
-      "cutawayShadows": true
+      "cutawayShadows": true,
+      "surfaceReflections": false,
+      "surfaceReflectionIntensity": 1
     }
   },
   "actors": {},

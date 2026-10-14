@@ -103,3 +103,5 @@ export const LOCAL_EFFECT_DEFAULTS = {
   speed: 1, opacity: .85, color: '#ff9f38', seed: 42, lightIntensity: 28, hideModel: false,
 };
 export const smokeDefaults = () => ({ ...structuredClone(LOCAL_EFFECT_DEFAULTS), type: 'smoke', count: 80, size: [1.2, 3, 1.2], opacity: .35, color: '#777b80', speed: .6, lightIntensity: 0, hideModel: true });
+export const sparksDefaults = () => ({ ...structuredClone(LOCAL_EFFECT_DEFAULTS), type: 'sparks', count: 48, size: [.8, .8, .8], offset: [0, 0, 0], speed: 1, opacity: 1, color: '#ffc46b', lightIntensity: 18, hideModel: true });
+export const dripDefaults = () => ({ ...structuredClone(LOCAL_EFFECT_DEFAULTS), type: 'drip', count: 6, size: [.3, 3, .3], offset: [0, 0, 0], speed: 1, opacity: .8, color: '#a9c4d6', lightIntensity: 0, hideModel: true });

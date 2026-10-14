@@ -153,6 +153,9 @@ export function createViewport(container, {
   // the restriction for tests that exercise those paths.
   const softwareRenderer = (() => { const gl = renderer.getContext(), debug = gl.getExtension('WEBGL_debug_renderer_info'), name = String(debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)); return /swiftshader|llvmpipe|software/i.test(name) && !globalThis.location?.search?.includes('hardware'); })();
   const effects = createEffectsPipeline(renderer, scene, { sharp: !softwareRenderer });
+  // Meshes with a wet surface, found again only when the scene's objects change.
+  let wetList = [], wetStale = true;
+  effects.setWetSource(() => { if (wetStale) { wetList = []; content.traverse(child => { if (child.isMesh && child.userData.wet && !child.userData.decorative) wetList.push(child); }); wetStale = false; } return wetList; });
   const atmosphere = createAtmosphere(scene);
   const surfaces = createSurfaceLibrary(), localEffects = new Map();
   const lightManager=createLightManager(scene),zones=createLightingZones(),reflections=createReflectionEnvironment(renderer,scene),boundLights=new Map(),signatures=new Map();
@@ -184,7 +187,9 @@ export function createViewport(container, {
   const imageOf = reference => { const record = assetRecord(reference); return record ? cache.texture(record) : Promise.resolve(null); };
   const screens = createScreenRuntime({ loadImage: reference => imageOf(reference).then(texture => texture?.image ?? null), small: softwareRenderer, onChange: () => invalidate(), onError: error => report(error) });
   const decalTextures = createDecalTextures({ loadImage: imageOf, anisotropy: Math.min(8, renderer.capabilities.getMaxAnisotropy()) });
-  let screenTimer = null, animatedScreens = false;
+  let screenTimer = null, animatedScreens = false, qualityTier = 'balanced';
+  // Thin wires alias in shadow maps: they only cast shadows at the highest quality.
+  const cableShadows = (object, cast) => object.traverse(mesh => { if (mesh.isMesh) mesh.castShadow = cast && !mesh.material?.transparent; });
   const instanceOf = (record, entity) => entity.cable ? new Promise(resolve => resolve(recipeInstance(cableRecipe(entity.cable)))) : entity.decal ? createDecalInstance(entity, decalTextures) : cache.createInstance(record, entity.rockShape, entity.vegetationSeed, entity.rockSculpt);
   // The backdrop stays under every slab: a lawn or a street laid just below floor level must not sink into it.
   const slabBottoms = entities => entities.filter(e => e.kind === 'floor' && e.transform).map(e => e.transform.position[1] - (e.thickness ?? 0) - .03);
@@ -604,7 +609,8 @@ export function createViewport(container, {
     }
     trackAsset(instanceOf(record,entity).then((instance) => {
       if (!stillCurrent()) { disposeObject(instance); return; }
-      parent.add(instance);
+      parent.add(instance);wetStale = true;
+      if (entity.cable) cableShadows(instance, qualityTier === 'high');
       if(entity.localEffect?.enabled && entity.localEffect.type==='fire') instance.traverse(child=>{if(child.userData.materialSlot==='flame') child.visible=false;});
       applyMaterialOverrides(instance, entity.material, sceneDocument.look?.materialAdjustments?.[entity.id] ?? sceneDocument.defaultLook?.materialAdjustments?.[entity.id], true);
       const look = sceneDocument.look ?? sceneDocument.defaultLook;
@@ -676,7 +682,7 @@ export function createViewport(container, {
     if(!next||force||old?.id!==next.id)releaseRetired();
     if(force||old?.id!==next?.id)snowRegions=null;
     const reparent = force || !isTrustedSnapshot(next) || !old || old.id !== next?.id || old.layout.groups !== next?.layout.groups || ['entities','tokens'].some(name => { const a=name==='entities'?old.layout.entities:old.tokens??{},b=name==='entities'?next?.layout.entities??{}:next?.tokens??{}; return Object.keys(b).some(id=>a[id]?.groupId!==b[id]?.groupId); }) || Object.keys((next?.look??next?.defaultLook)?.lights??{}).some(id => (old.look??old.defaultLook).lights[id]?.groupId !== (next.look??next.defaultLook).lights[id]?.groupId);
-    generation += 1;
+    generation += 1;wetStale = true;
     cancelPointer(); ruler.clear(); transform.detach();
     runtimeStats={created:0,reused:0,removed:0};
     const changedBounds=[],createdIds=new Set();let spatial=false;
@@ -1171,15 +1177,15 @@ export function createViewport(container, {
         onIlluminationOrigin(selectedId,objects.get(selectedId).worldToLocal(hit.point.clone()).toArray());
       }else if (tool === 'material-sample') {
         onMaterialPick(pick(event)?.object.userData.entityId ?? null);
-      } else if (tool === 'decal') {
+      } else if (tool === 'decal' || tool === 'cable') {
         rayFromEvent(event);
         const hit = raycaster.intersectObjects(pickCandidates(), true).find(h => h.object.userData.entityId && !h.object.userData.decorative && !h.object.userData.decal && visibleInHierarchy(h.object));
         const host = records.get(hit?.object.userData.entityId);
-        if (!hit || !host || !['wall', 'floor', 'prop'].includes(host.kind) || host.decal) { report('Clique numa parede, piso ou objeto visível.'); return; }
+        if (!hit || !host || !['wall', 'floor', 'prop'].includes(host.kind) || host.decal || host.cable && tool === 'cable') { report('Clique numa parede, piso ou objeto visível.'); return; }
         const normal = new THREE.Vector3(...surfaceNormal(hit));
         // Double-sided meshes report the face they were built with: the decal faces the camera.
         if (normal.dot(raycaster.ray.direction) > 0) normal.negate();
-        onSurfacePlace({ hostId: host.id, point: hit.point.toArray(), normal: normal.toArray() });
+        onSurfacePlace({ hostId: host.id, point: hit.point.toArray(), normal: normal.toArray(), purpose: tool });
       } else if (tool === 'place') {
         const support = supportPoint(event);
         if (support) onPlace({ ...support, snap: Boolean(sceneDocument?.layout.grid.snap && !event.altKey) });
@@ -1431,7 +1437,7 @@ export function createViewport(container, {
       }
     },
     setSelection(id, ids = id ? [id] : []) { if(id===selectedId&&ids.length===selectedIds.length&&ids.every((key,i)=>key===selectedIds[i])){diagnostics.count('selectionUpdatesSkipped');return;}selectedId = id; selectedIds = ids; updateSelection(); },
-    setTool(mode) { cancelGesture(); ruler.clear(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window', 'terrain', 'material-sample', 'measure', 'illumination-origin', 'decal'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
+    setTool(mode) { cancelGesture(); ruler.clear(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window', 'terrain', 'material-sample', 'measure', 'illumination-origin', 'decal', 'cable'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
     setRulerSnap(value) { rulerSnap = Boolean(value); },
     clearMeasurement() { if (pointer?.ruler) cancelPointer(); ruler.clear(); invalidate(); },
     setTerrainBrush(options) { terrainBrush = { ...terrainBrush, ...options }; },
@@ -1467,7 +1473,7 @@ export function createViewport(container, {
     /** Where a material slot is on the model of `id`, in the model's own axes; null while the model is loading or has no such slot. */
     getSlotFrame(id, slot = 'screen') { const object = objects.get(id); return object ? screens.slotFrame(object, slot) : null; },
     setLegibility(value){readingLight.visible=!!value;invalidate();},
-    setLightingQuality(tier,custom) {lightManager.setQuality(tier,custom);effects.setQuality?.(tier);invalidate(true);},
+    setLightingQuality(tier,custom) {lightManager.setQuality(tier,custom);effects.setQuality?.(tier);qualityTier=tier;for(const [id,object] of objects)if(records.get(id)?.cable)cableShadows(object,tier==='high');invalidate(true);},
     setEffectsEnabled(value) { reflections.configure(sceneDocument?.look??sceneDocument?.defaultLook,value);effects.setEnabled(value); atmosphere.setEnabled(value); localEffectsEnabled=value; configureDistanceFog(sceneDocument?.look ?? sceneDocument?.defaultLook); invalidate(); },
     setSuspended(value){suspended=value;if(value&&renderRequest!=null){cancelAnimationFrame(renderRequest);renderRequest=null;}if(!value)invalidate();},
     isBusy() {return Boolean(pointer||transform.dragging||transition||navigationKeys.size||orbitMoving);},
@@ -1475,12 +1481,13 @@ export function createViewport(container, {
     resetPerformance() {diagnostics.reset();},
     /** Diagnostic switch: the frame must look the same either way. */
     setMaterialSharing(value) { shareMaterials = !!value; invalidate(); },
-    getInfo() { return {screens:screens.info(), screenPool:screens.size, decalTextures:decalTextures.size, decals:[...objects].flatMap(([id,object])=>{const record=records.get(id);if(!record?.decal)return [];let mesh=null;object.traverse(child=>{if(child.userData.decal)mesh=child;});const material=mesh?.material;return [{id,hostId:record.anchor?.hostId,kind:record.decal.kind,polygonOffset:Boolean(material?.polygonOffset),polygonOffsetFactor:material?.polygonOffsetFactor,polygonOffsetUnits:material?.polygonOffsetUnits,depthWrite:material?.depthWrite,receiveShadow:Boolean(mesh?.receiveShadow),castShadow:Boolean(mesh?.castShadow),lift:mesh?.position.z,visible:object.visible}];}),performance:{...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported}, materialSharing:materialSharing.info(), zoneProbes:zoneProbes.info(), directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
+    getInfo() { return {localEffectLights:[...localEffects].map(([id,effect])=>({id,type:effect.userData.localEffect.config.type,lightIntensity:effect.userData.localEffect.light?.intensity??0})),cableShadows:[...objects].flatMap(([id,object])=>{if(!records.get(id)?.cable)return [];let cast=false;object.traverse(m=>{if(m.isMesh&&m.castShadow)cast=true;});return [{id,castShadow:cast}];}),qualityTier,screens:screens.info(), screenPool:screens.size, decalTextures:decalTextures.size, decals:[...objects].flatMap(([id,object])=>{const record=records.get(id);if(!record?.decal)return [];let mesh=null;object.traverse(child=>{if(child.userData.decal)mesh=child;});const material=mesh?.material;return [{id,hostId:record.anchor?.hostId,kind:record.decal.kind,polygonOffset:Boolean(material?.polygonOffset),polygonOffsetFactor:material?.polygonOffsetFactor,polygonOffsetUnits:material?.polygonOffsetUnits,depthWrite:material?.depthWrite,receiveShadow:Boolean(mesh?.receiveShadow),castShadow:Boolean(mesh?.castShadow),lift:mesh?.position.z,visible:object.visible}];}),performance:{...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported}, materialSharing:materialSharing.info(), zoneProbes:zoneProbes.info(), directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
       assetDiagnostics:[...objects].flatMap(([id,object])=>{const diagnostics=[];object.traverse(child=>{if(child.userData.diagnostic)diagnostics.push({id,message:child.userData.diagnostic});});return diagnostics;}),
       sculptedRocks:[...objects].flatMap(([id,object])=>{let vertices=0,triangles=0;object.traverse(m=>{if(m.geometry?.userData.sculptPrepared){vertices+=m.geometry.attributes.position.count;triangles+=m.geometry.index.count/3;}});return vertices?[{id,vertices,triangles,samples:records.get(id)?.rockSculpt?.stamps.length??0,bounds:new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3()).toArray()}]:[];}),
       rockGeometries: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.geometry?.userData.rock) list.push({id,...child.geometry.userData.rock,triangles:(child.geometry.index?.count??child.geometry.attributes.position.count)/3});for(const rock of child.geometry?.userData.rocks??[])list.push({id,...rock});});return list;}),
       snowCoats:[...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.userData.physicalSnow)list.push({id,triangles:(child.geometry.index?.count??child.geometry.attributes.position.count)/3,...child.geometry.userData.snowDeposit});});return list;}), snowTriangles, animatedWater, waterSurfaces:[...records.values()].filter(r=>r.kind==='water').map(r=>({id:r.id,...r.water})),
       surfaceMaterials: [...objects].flatMap(([id,object])=>{const list=[]; object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material]) if(mat?.userData.surface) list.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.surface});});return list;}),
+      wetMaterials: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.userData.wet)list.push({id,...child.userData.wet});});return list;}),
       wearMaterials: [...objects].flatMap(([id,object])=>{const result=[];object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material])if(mat?.userData.wear)result.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.wear});});return result;}),
       environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition) }; },
     destroy() {

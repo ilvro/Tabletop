@@ -1,0 +1,48 @@
+{
+  "name": "Laje de cobertura · 4,2 m",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "concrete": {
+      "color": "#77756f",
+      "roughness": 0.96
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        4.2,
+        0.22,
+        4.2
+      ],
+      "position": [
+        0,
+        0.10999999940395357,
+        0
+      ],
+      "material": "concrete",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 1.4
+      }
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    4.199999809265137,
+    0.2199999988079071,
+    4.199999809265137
+  ],
+  "design": {
+    "edition": 2,
+    "family": "fabrication",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 19765
+  }
+}

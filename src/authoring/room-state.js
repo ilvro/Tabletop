@@ -8,6 +8,7 @@ import { roomFrame, candidates, stableRandom } from './room-layout.js';
 import { scopeFor, doorZones, AMBIENCE_TAG } from './furnishing.js';
 import { roomContents, roomEra } from './room-insight.js';
 import { eraAsset } from '../domain/room-eras.js';
+import { proposeRoomCables, CABLE_TAG } from './room-ambience.js';
 
 /** Marks surfaces whose wear came from a state, so tidying never erases wear the person applied. */
 export const WEAR_TAG = 'desgaste-ambientação';
@@ -147,6 +148,17 @@ export function proposeRoomState(document, { floorId, state = 'abandoned', inten
   tell(added, 'Uma peça de ambientação entra.', '# peças de ambientação entram.');
   tell(shifted, state === 'tidy' ? 'Um móvel seu é endireitado.' : state === 'ritual' ? 'Um móvel seu é afastado do centro.' : 'Um móvel seu sai do lugar.', state === 'tidy' ? '# móveis seus são endireitados.' : state === 'ritual' ? '# móveis seus são afastados do centro.' : '# móveis seus saem do lugar.');
   tell(worn, 'Uma superfície recebe desgaste.', '# superfícies recebem desgaste (piso, paredes e móveis).');
+  // Wires hang in a place left to rot, or in a future one; any other state takes the ones the assistant hung.
+  if (state === 'abandoned' || era === 'future' && state !== 'tidy') {
+    const hung = proposeRoomCables(document, { floorId, amount: .3 + .5 * intensity, seed }, expectedEditVersion, catalog);
+    for (const cable of hung.entities) cable.tags.push(AMBIENCE_TAG);
+    proposal.entities.push(...hung.entities); proposal.removals.push(...hung.removals);
+    proposal.report.kept.push(...(hung.report.kept ?? [])); proposal.report.reasons.push(...hung.report.reasons);
+  } else {
+    for (const old of Object.values(document.layout.entities).filter(e => e.cable && e.tags?.includes(CABLE_TAG) && pointInPolygon(frame.toLocal(e.transform.position), frame.contour))) {
+      if (isLocked(document, old)) proposal.report.kept.push(old.id); else proposal.removals.push({ kind: 'entity', id: old.id });
+    }
+  }
   if (!proposal.entities.length && !proposal.updates.length && !proposal.removals.length) throw new ValidationError(state === 'tidy' ? 'O cômodo já está arrumado.' : 'Não há o que mudar neste cômodo com este estado.');
   return proposal;
 }

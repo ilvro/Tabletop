@@ -9,6 +9,7 @@ import { proposeRoom } from '../src/authoring/quick-build.js';
 import { proposeFurnishing, AMBIENCE_TAG } from '../src/authoring/furnishing.js';
 import { proposeRoomState, WEAR_TAG } from '../src/authoring/room-state.js';
 import { describeRoom } from '../src/authoring/room-insight.js';
+import { CABLE_TAG } from '../src/authoring/room-ambience.js';
 import { ROOM_STATES } from '../src/domain/room-states.js';
 import { ROOM_RECIPES } from '../src/domain/room-recipes.js';
 
@@ -68,7 +69,7 @@ test('states reshape the room that is there, tag what they add and are replaced 
     for (let i = 0; i < solid.length; i++) for (let j = i + 1; j < solid.length; j++) assert.equal(footprintsOverlap(worldFootprint(solid[i]), worldFootprint(solid[j])), false, `${label}: ${solid[i].name} × ${solid[j].name}`);
     // The next state takes the previous dressing away and brings its own.
     const next = state(store, floor, entry.id === 'ritual' ? 'crime' : 'ritual'), dressed = props(store).filter(e => e.tags.includes(AMBIENCE_TAG)).map(e => e.id).sort();
-    assert.deepEqual(next.removals.map(op => op.id).sort(), dressed, label);
+    assert.deepEqual(next.removals.map(op => op.id).filter(key => !store.document.layout.entities[key].cable).sort(), dressed.filter(key => !store.document.layout.entities[key].cable), label);
     store.execute('proposal.accept', { proposal: next }); validateDocument(store.document);
     // Tidying leaves exactly the person's objects, without the wear a state applied.
     store.execute('proposal.accept', { proposal: state(store, floor, 'tidy') }); validateDocument(store.document);
@@ -107,4 +108,15 @@ test('a ritual clears the centre by moving the person\'s furniture to the walls 
   assert.match(proposal.report.reasons.join(' '), /afastad/);
   // An empty room gets an altar of its own.
   const empty = room(); assert.ok(state(empty.store, empty.floor, 'ritual').entities.some(e => e.assetRef.id === 'builtin-ritual-altar'));
+});
+
+test('an abandoned room gets wires hung from its ceiling as part of the proposal, and a tidy one takes them away', () => {
+  const { store, floor } = room(null, { width: 10, length: 8 });
+  const abandoned = state(store, floor, 'abandoned'), hung = abandoned.entities.filter(e => e.cable);
+  assert.ok(hung.length >= 4, `${hung.length} cables`); assert.ok(hung.every(e => e.tags.includes(CABLE_TAG)));
+  assert.equal(store.document.layout.entities && Object.values(store.document.layout.entities).filter(e => e.cable).length, 0, 'a proposal hangs nothing until it is accepted');
+  store.execute('proposal.accept', { proposal: abandoned }); validateDocument(store.document);
+  assert.ok(Object.values(store.document.layout.entities).filter(e => e.cable).length >= 4);
+  const tidy = state(store, floor, 'tidy'); assert.ok(tidy.removals.filter(op => store.document.layout.entities[op.id]?.cable).length >= 4);
+  store.execute('proposal.accept', { proposal: tidy }); assert.equal(Object.values(store.document.layout.entities).filter(e => e.cable).length, 0);
 });

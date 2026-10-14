@@ -52,3 +52,14 @@ O detalhamento técnico de cada item está em [GALPAO_INDUSTRIAL_PLANO.md](GALPA
 5. Montar a cena, comparar com a referência lado a lado, e só então escrever o tutorial de recriação.
 
 Sem os itens 1, 2, 3 e 8 a cena não se parece com a referência. Os itens 10 a 12 separam "parecido" de "tão bom quanto".
+
+## Comparação com a cena montada (14 de outubro)
+
+Imagem lado a lado: [galpao-industrial-comparacao.png](references/scenes/galpao-industrial-comparacao.png), da câmera **Olhos** da cena de exemplo contra a referência. O que ficou igual: cabos em arco por todo o teto, tubulação e duto, faixas de alerta em duas paredes, portão com luz vermelha e risco horizontal, monitor com `BOOTING..` e barra, letreiro, ladrilho molhado com reflexo e faíscas. Diferenças que restam:
+
+- **Exposição.** A referência é quase toda escura, com luz só do monitor, do fluorescente e do portão; a cena de exemplo usa o ambiente Horror ritual, bem mais claro. É ajuste de ambiente (exposição, preenchimento), não de recurso.
+- **Enquadramento.** Na referência o monitor ocupa a esquerda, em primeiro plano; aqui ele está de lado e menor. A câmera **Tela a 2 m** é o enquadramento do monitor.
+- **Monitor.** O da referência é um CRT largo com chuvisco sob o texto; o do kit é uma televisão de tubo menor, com a barra animada em ciclo. O chuvisco existe como conteúdo, mas não como fundo sob o texto.
+- **Coberturas.** A vista dos olhos esconde a cobertura para mostrar o céu; com Telhados ligado o teto aparece.
+- **Estilo.** Os cabos são mais retos e uniformes, as paredes não têm manchas de ferrugem e sujeira em quantidade, e falta a vegetação caindo do teto no primeiro plano. São diferenças de estilo.
+

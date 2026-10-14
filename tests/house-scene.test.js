@@ -15,7 +15,7 @@ const original=JSON.parse(await readFile('public/scenes/casa-de-bairro.json','ut
 const records=Object.values(original.layout.entities);
 
 test('gallery replaces retired demos with a reproducible, self-contained residential scene',async()=>{
-  assert.deepEqual(EXAMPLE_SCENES.map(e=>e.id).sort(),['backrooms','casa-de-bairro','igreja-antiga','snowy-mountain-pass']);
+  assert.deepEqual(EXAMPLE_SCENES.map(e=>e.id).sort(),['backrooms','casa-de-bairro','galpao-industrial','igreja-antiga','snowy-mountain-pass']);
   assert.deepEqual((await readdir('public/scenes')).filter(f=>f.endsWith('.json')).sort(),EXAMPLE_SCENES.map(e=>e.id+'.json').sort());
   assert.deepEqual(createHouseScene(assets),original);validateDocument(original);
   assert.equal(Object.keys(original.cameraPresets).length,5);assert.equal(records.filter(e=>e.illumination).length,8);

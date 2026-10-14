@@ -1,5 +1,7 @@
 # Tabletop — Progresso do Projeto
 
+**Galpão industrial completo (14 de outubro):** piso molhado com reflexos de superfície, risco de lente no bloom, faíscas e gotejamento, cabos que prendem em vigas e só projetam sombra em alta, laje de cobertura, cena de exemplo **Galpão industrial** e tutorial de recriação. [Biblioteca](docs/ASSET_LIBRARY.md) · [cenas de exemplo](docs/EXAMPLE_SCENES.md).
+
 **Tela com conteúdo, decalques e listras de alerta (14 de outubro):** monitores e telas mostram texto, barra de progresso, imagem ou chuvisco e iluminam a mesa; decalques de texto, imagem ou faixa de material colam em paredes, pisos e objetos e acompanham o suporte; novo material Listras de alerta. [Biblioteca](docs/ASSET_LIBRARY.md).
 
 **Kit industrial e cabos pendentes (13 de outubro):** 23 modelos novos (324 no total) para fábrica e galpão abandonado, e cabos pendentes como objeto ajustável, com ferramenta de dois cliques e "Cabos no teto" no assistente. [Biblioteca](docs/ASSET_LIBRARY.md).

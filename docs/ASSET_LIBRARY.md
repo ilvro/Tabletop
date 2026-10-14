@@ -172,7 +172,7 @@ Os materiais evitam os nomes que disparam acabamento de madeira ou pedra: `hull`
 
 ## Kit industrial e cabos pendentes (13 de outubro de 2026)
 
-23 modelos em `scripts/library-industrial.js`, categoria **Industrial**. A biblioteca passa a ter 324 modelos (325 com o Decalque, abaixo); os anteriores não mudaram.
+23 modelos em `scripts/library-industrial.js`, categoria **Industrial**. A biblioteca passa a ter 324 modelos (326 com o Decalque e a laje de cobertura, abaixo); os anteriores não mudaram.
 
 | Grupo | Modelos |
 | --- | --- |
@@ -244,4 +244,13 @@ O modelo `builtin-decal` ("Industrial / Sinalização") é uma placa fina que se
 - **Sem cintilar:** o plano flutua 2 mm sobre a face, com deslocamento de polígono (-1, -4) e sem escrever profundidade. Ele recebe luz e sombra da superfície e some junto com a parede quando "Ver interior" a esconde.
 - **Material Listras de alerta** (`hazard`, qualquer parede, piso, modelo ou decalque): ângulo, largura de cada listra em metros, duas cores e desgaste. Ângulo e largura são uniformes do shader e não custam pixels; cada listra mede exatamente a largura pedida. O modelo "Faixa de alerta de parede" usa esse material. Uma faixa de qualquer comprimento é um decalque `surface` com o material `hazard`.
 - Fora do escopo: decalque sobre superfície curva. O plano assenta na face plana (na carcaça do monitor, a frente).
+
+### Piso molhado, reflexos de superfície e risco de lente
+
+- **Molhado** (`material.wet`, `src/domain/wetness.js`, `src/render/wetness.js`): em Propriedades → Material e textura → **Molhado**, qualquer parede, piso ou modelo escurece, perde rugosidade e, nas faces voltadas para cima, junta poças lisas e planas (`amount`, `puddles`, `puddleSize`, `seed`). Paredes só escurecem, em escorridos. Não depende de textura.
+- **Reflexos de superfície** (Ambiente → Névoa, bloom e qualidade → **Reflexos de superfície**, `look.rendering.surfaceReflections`): um passo de tela desenha em cima das superfícies molhadas o que está na imagem, em meia resolução (32 passos de raio, refinamento e desfoque maior onde só há umidade). Entra logo depois do desenho da cena e antes da névoa e do bloom; o contato (AO) continua depois da névoa. Só nas qualidades equilibrada e alta. Só reflete o que está na imagem: paredes escondidas por "Ver interior" não aparecem, e o reflexo some perto das bordas. Sem ele, o degrau de umidade sozinho já escurece e dá brilho especular alongado às luzes pontuais.
+- **Risco de lente** (Ambiente → Halo luminoso → **Risco horizontal**, `look.bloom.streak` e `streakLength`): borrão só horizontal do que o bloom já extrai acima do limiar, somado no fim. Fontes fracas não ganham risco; desligado por padrão e ausente nos documentos antigos.
+- **Faíscas e gotejamento** (`localEffect.type` `sparks` e `drip`, `src/domain/local-effects.js`): mesmos controles de fogo e fumaça. As faíscas vêm em rajadas a intervalos irregulares, cada uma com um clarão de luz que decai; a goteira tem gotas que incham onde pendem, caem sob gravidade e somem ao tocar o piso (`size[1]` é a altura da queda). Tudo é função do tempo dos efeitos: a pausa congela, inclusive a luz. Botões **Faíscas** e **Goteira** em Peças avulsas; a goteira sobe até o teto do cômodo.
+- **Cabos:** projetam sombra só na qualidade alta. A ferramenta **Cabo** aceita clique em viga, duto, topo de objeto, parede ou no piso de cima (a ponta sobe até o teto, como antes); as pontas não ficam ancoradas, então mover a viga depois não leva o cabo.
+- **Laje de cobertura** (`builtin-industrial-ceiling-slab`, 4,2 × 4,2 m, 22 cm): a face de baixo fica na altura do objeto; emende várias no topo das paredes. "Telhados" a esconde.
 

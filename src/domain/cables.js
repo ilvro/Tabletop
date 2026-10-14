@@ -69,3 +69,14 @@ export function cableBetween(from, to, patch = {}) {
   if (reach < .05) throw new ValidationError('Escolha dois pontos diferentes para o cabo.');
   return { position: [...from], cable: cableDefaults({ span, sag: +Math.max(.08, reach * .16).toFixed(3), ...patch }) };
 }
+
+/**
+ * Where an end of a cable hangs from, given what the click hit: a model (a beam, a duct, the top of a
+ * thing) or the underside of a floor above is the point itself; a wall is that point a little out from
+ * the face; the top of a floor is the ground, and the end hangs from the height of the walls above it.
+ */
+export function cableEndpoint({ point, normal, hostKind, wallHeight = 2.6 }) {
+  if (hostKind === 'wall') return point.map((v, i) => +(v + normal[i] * .02).toFixed(4));
+  if (hostKind === 'floor' && normal[1] > .5) return [point[0], +(point[1] + wallHeight - .04).toFixed(4), point[2]];
+  return [...point];
+}

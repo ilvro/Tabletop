@@ -39,6 +39,18 @@ export const CONDITIONS = {
   placingToken: state => state.placingKind === 'token' || Object.keys(state.document.tokens ?? {}).length > 0,
   tokens: (state, number) => Object.keys(state.document.tokens ?? {}).length >= number,
   cameras: (state, number) => Object.keys(state.document.cameraPresets ?? {}).length >= number,
+  /** A screen is lit on some object, and what it writes. */
+  screenLit: state => entities(state).some(entity => entity.screen?.enabled),
+  screenText: (state, text) => entities(state).some(entity => entity.screen?.lines.some(line => line.text.includes(text))),
+  /** At least `number` decals, of a kind if one is named. */
+  decals: (state, number, kind) => entities(state).filter(entity => entity.decal && (!kind || entity.decal.kind === kind)).length >= number,
+  decalText: (state, text) => entities(state).some(entity => entity.decal?.text.includes(text)),
+  hazardOn: state => entities(state).some(entity => entity.material?.texture === 'hazard'),
+  wetFloor: state => entities(state).some(entity => entity.kind === 'floor' && entity.material?.wet?.enabled),
+  rendering: (state, key) => Boolean((state.document.look ?? state.document.defaultLook).rendering?.[key]),
+  bloomOn: state => Boolean((state.document.look ?? state.document.defaultLook).bloom?.enabled),
+  bloomStreak: state => ((state.document.look ?? state.document.defaultLook).bloom?.streak ?? 0) > 0,
+  effectType: (state, type) => entities(state).some(entity => entity.localEffect?.enabled && entity.localEffect.type === type),
   presenting: (state, on = true) => state.presenting === on,
   saved: state => state.saved,
 };

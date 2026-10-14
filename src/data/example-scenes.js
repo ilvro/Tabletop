@@ -15,6 +15,9 @@ export const EXAMPLE_SCENES = Object.freeze([
   Object.freeze({ id:'igreja-antiga',name:'Igreja Antiga · templo e vale dos vampiros',
     description:'Igreja completa com banquete, conjunto ritual, galerias, sala de correntes, torre, cobertura e caminho pelo vale violeta. Dez câmeras e cópia totalmente editável.',
     file:'scenes/igreja-antiga.json' }),
+  Object.freeze({ id:'galpao-industrial',name:'Galpão industrial · abandonado',
+    description:'Galpão de 16 × 12 m com cabos, tela acesa, letreiros, faixas de alerta, piso molhado, faíscas e goteira. Cinco câmeras e cópia editável.',
+    file:'scenes/galpao-industrial.json' }),
 ]);
 
 export async function readExampleScene(exampleId, { fetcher = globalThis.fetch, signal } = {}) {

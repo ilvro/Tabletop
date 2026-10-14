@@ -11066,6 +11066,43 @@
       "previewUrl": "/assets/previews/decal.svg",
       "geometryEdition": 2,
       "contentHash": "4f7a4aea4aafb7d61c015aae91552fe68d7f375c6b20d81c033fa80c9d643e42"
+    },
+    {
+      "id": "builtin-industrial-ceiling-slab",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Laje de cobertura · 4,2 m",
+      "category": "Industrial / Estrutura",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "teto",
+        "laje",
+        "cobertura",
+        "concreto"
+      ],
+      "description": "Laje de concreto de 4,2 × 4,2 m e 22 cm. A face de baixo fica na altura do objeto: ponha-a no topo das paredes e emende várias lado a lado. \"Telhados\" a esconde.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        4.2,
+        4.2
+      ],
+      "bounds": [
+        4.2,
+        0.22,
+        4.2
+      ],
+      "url": "/assets/models/industrial-ceiling-slab.json",
+      "previewUrl": "/assets/previews/industrial-ceiling-slab.svg",
+      "geometryEdition": 2,
+      "contentHash": "b7edde3c6b5ba9094381f7277b51d69e02a41e61cc7a37c31104f364cc3f0525"
     }
   ]
 }

@@ -2,6 +2,33 @@
 
 Atualizado em 14 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Resíduos do item 3, itens 4 a 7 do galpão (14 de outubro)
+
+**Feito**
+
+- **Cabos:** sombra só na qualidade alta; a ferramenta **Cabo** aceita clique em viga, duto, topo de objeto, parede e teto, além do chão; **Cabos no teto** entra nos estados Abandonado e Futurista do assistente (e Arrumado os retira).
+- **Piso molhado** (`src/domain/wetness.js`, `src/render/wetness.js`): campo `material.wet` em qualquer superfície, painel **Molhado**; escurece, baixa a rugosidade e junta poças planas.
+- **Reflexos de superfície** (`src/render/screen-reflections.js`, `src/render/effects.js`): passo de tela em meia resolução que reflete a imagem nas superfícies molhadas, antes da névoa e do bloom; só em equilibrada e alta.
+- **Risco de lente** (`src/render/anamorphic.js`): `bloom.streak` e `streakLength`, saído do high-pass do bloom.
+- **Faíscas e gotejamento** (`src/domain/local-effects.js`, `src/render/local-effects.js`): rajadas irregulares com clarão de luz, gotas que pendem, caem e somem no piso; botões **Faíscas** e **Goteira**.
+- **Cena pronta e tutorial:** `scripts/industrial-scene.js` monta o galpão só com comandos do editor; cena de exemplo **Galpão industrial** (101 elementos, 5 câmeras), modelo novo de laje de cobertura (326 modelos) e lição **Galpão industrial** com condições novas em `src/tutorial/conditions.js`.
+- Comparação com a referência em `docs/references/scenes/galpao-industrial-comparacao.png` e seção nova em `docs/GALPAO_INDUSTRIAL_ANALISE.md`.
+
+**Validação**
+
+- Unitários: 319 passam (novos: `wetness`, `local-effects`, `industrial-scene`, estados do cômodo com cabos; os da biblioteca passam a 326 modelos e os exemplos gerados foram regerados).
+- E2E novo `wet-effects`: piso molhado, reflexos e risco ligados pela interface, sombra de cabos por qualidade, clarão das faíscas, goteira e pausa, salvar e reabrir, sem erros de página. A lição **Galpão industrial** passa inteira em `tutorials`.
+- E2E rodados e passando (51 casos): `tutorials` (3 lições), `wet-effects`, `screens-decals`, `cables`, `assisted-rooms`, `materials-effects`, `environments`, `dynamic-lighting`, `effects-sharpness`, `example-previews`, `panel-consistency`, `editor-ui`, `asset-library`, `lighting`, `material-sharing`, `performance`, `pages` (depois de refazer `dist-pages`). Os demais não foram repetidos.
+- Conferência em imagem (software, 1200 × 740): `gate.png` mostra o risco horizontal na luz vermelha, o ladrilho molhado com o reflexo vermelho e a cobertura; `wet-only.png` mostra a cena aceitável só com o degrau de umidade; sonda de cintilação de decalques de novo com 0 pixels errados em 62 317.
+
+**Encontrado na validação**
+
+- O passo de reflexos limpava o quadro ao somar o reflexo (tela preta e sem profundidade para a névoa); agora soma sem limpar.
+- Os exemplos gerados (Backrooms e estudos de iluminação) carregavam os padrões de renderização antigos e foram regerados.
+- A porta e as paredes tapam objetos na vista de perspectiva padrão; o E2E clica em objetos pela vista superior.
+
+**Pendências reais**: nenhuma medida de FPS numa GPU (o ambiente aqui é por software); o reflexo só vê o que está na imagem; as pontas de cabo não ficam ancoradas ao que foram coladas; o tutorial é longo (cerca de 30 passos); a cena de exemplo é mais clara que a referência.
+
 ## Tela com conteúdo, decalques e listras de alerta — itens 1 e 2 do galpão (14 de outubro)
 
 **Feito**

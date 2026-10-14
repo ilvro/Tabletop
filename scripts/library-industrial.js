@@ -143,5 +143,9 @@ export function addIndustrialLibrary({ add, modern }) {
     b([1.2, .3, .01], [0, .15, .005], 'steel'), b([1.12, .22, .006], [0, .15, .011], 'black'), ...stripes(1.12, .22, [0, .15, .012], 6, .006),
   ], 'Letreiro, marca ou faixa colada numa parede, no piso ou num objeto: texto, imagem da biblioteca ou uma faixa de material. Clique na superfície para colar; tamanho, fonte e desgaste em Propriedades.');
   decal.materials = MATERIALS; ids.add(decal.id);
+  // A roof for a plant: slabs side by side. The lower face sits on the top of the walls, so the model stands on the wall tops.
+  model('ceiling-slab', 'Laje de cobertura · 4,2 m', 'Estrutura', PLANT, ['teto', 'laje', 'cobertura', 'concreto'], withSurface([
+    rb([4.2, .22, 4.2], [0, .11, 0], 'concrete', .02),
+  ], CONCRETE), 'Laje de concreto de 4,2 × 4,2 m e 22 cm. A face de baixo fica na altura do objeto: ponha-a no topo das paredes e emende várias lado a lado. "Telhados" a esconde.');
   return ids;
 }

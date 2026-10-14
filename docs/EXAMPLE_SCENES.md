@@ -10,11 +10,17 @@ Atualizado em 8 de outubro de 2026. As capas dos exemplos agora são geradas din
 
 **Abrir → Cenas → Cenas de exemplo → Casa de bairro · jardim e quintal** abre o piloto residencial do plano: lote de 24 × 30 m, dois quartos, sala/jantar, cozinha, banheiro, lavanderia, garagem e quintal. São 171 elementos editáveis e cinco câmeras. Para a planta, oculte **10 · Coberturas**. [Planta, uso e geração](CASA_DE_BAIRRO.md).
 
-A galeria contém agora Backrooms, Casa de bairro, Igreja Antiga e Subida da montanha. **Passagem de Inverno · Ponte e Névoa** foi removida, e os quatro estudos de iluminação foram transferidos para fixtures de desenvolvimento. Cópias pessoais já salvas não são alteradas.
+A galeria contém agora Backrooms, Casa de bairro, Galpão industrial, Igreja Antiga e Subida da montanha. **Passagem de Inverno · Ponte e Névoa** foi removida, e os quatro estudos de iluminação foram transferidos para fixtures de desenvolvimento. Cópias pessoais já salvas não são alteradas.
 
 ## Igreja Antiga
 
 **Abrir → Cenas → Cenas de exemplo → Igreja Antiga · templo e vale dos vampiros** cria uma cópia editável do templo completo e seu exterior: 423 elementos, dez câmeras, galerias/escadas, banquete/ritual, sala de correntes e vale rochoso violeta. Para a planta, oculte a pasta **11 · Coberturas**. [Montagem, medidas, câmeras e limites](IGREJA_ANTIGA_CENA.md). Geradores: `scripts/generate-church-scene.js` e `scripts/preview-church-scene.js`.
+
+## Galpão industrial
+
+**Abrir → Cenas → Cenas de exemplo → Galpão industrial · abandonado** cria uma cópia editável de um galpão de 16 × 12 m com 101 elementos e cinco câmeras (Olhos, Tela a 2 m, Portão, Planta superior e Entrada): cobertura de lajes, tubulação, dutos e eletrocalhas, portão com luz vermelha, cabos do assistente e um cabo rompido soltando faíscas, goteira, piso de ladrilho molhado com reflexo, monitor com tela acesa, letreiro, marca na carcaça e faixas de alerta em duas paredes. Para a planta, use **Planta superior** (a cobertura se esconde na vista superior) ou **Telhados**.
+
+A cena é gerada por `scripts/industrial-scene.js` (`node scripts/generate-industrial-scene.js` a regrava) usando só o que o editor oferece, e o tutorial **Galpão industrial** a recria passo a passo. `node scripts/capture-industrial.js <pasta>` captura as vistas e a comparação com a referência.
 
 ## Carregar e editar
 

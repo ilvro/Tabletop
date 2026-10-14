@@ -4,6 +4,7 @@ import { wearEdgeGeometry, supportsWearEdges } from './wear-edges.js';
 import { SURFACE_MATERIALS, surfacePreset, textureOptions, distributionOptions } from '../domain/materials.js';
 
 export { generateSurfaceAtlas, generateSurfaceTile } from './surface-pixels.js';
+import { applyWetness } from './wetness.js';
 import { createLazySurfaceAtlas, packSurfaceTiles, surfaceStyleKey, surfaceReferenceLuma } from './surface-pixels.js';
 
 let pixels;
@@ -217,7 +218,7 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
 
 export function applySurfaceTextures(object, entity, library) {
   if (!entity.material) return;
-  const { wear, ...authored } = entity.material;
+  const { wear, wet, ...authored } = entity.material;
   const settings=entity.kind!=='terrain' && authored.coverage?.physicalThickness>0 ? {...authored,coverage:null} : authored;
   const coordinates = wear?.enabled && wear.amount > 0 ? wearCoordinates(object) : null;
   object.traverse(child => {
@@ -238,6 +239,7 @@ export function applySurfaceTextures(object, entity, library) {
         applySurfaceMaterial(material,settings,library,entity.kind==='terrain'?entity:null);
       }
       if (selected && coordinates) applyMaterialWear(material, wear, coordinates, coordinates.matrices.get(child));
+      if (selected && wet?.enabled) { applyWetness(material, wet); child.userData.wet = wet; }
     }
   });
 }

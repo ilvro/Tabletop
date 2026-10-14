@@ -1,5 +1,6 @@
 import { CABLE_ASSET, validateCable } from './cables.js';
 import { validateScreen } from './screens.js';
+import { validateWet } from './wetness.js';
 import { DECAL_ASSET, validateDecal } from './decals.js';
 import { isTrustedSnapshot } from '../state/immutable.js';
 import { ROOM_TEMPLATE_IDS } from './room-recipes.js';
@@ -53,7 +54,7 @@ function transform(value, path, structural = false) {
   if (structural) fail(value.scale.every(v => Math.abs(v - 1) < 1e-8), 'Escala estrutural deve ser incorporada às dimensões.', path);
 }
 function material(value, path, partial = false) {
-  keys(value, ['color', 'roughness', 'metalness', 'emissive', 'emissiveIntensity', 'texture', 'textureSize', 'relief', 'textureSlot', 'coverage', ...(!partial ? ['wear'] : []), ...TEXTURE_OPTION_FIELDS], path);
+  keys(value, ['color', 'roughness', 'metalness', 'emissive', 'emissiveIntensity', 'texture', 'textureSize', 'relief', 'textureSlot', 'coverage', ...(!partial ? ['wear', 'wet'] : []), ...TEXTURE_OPTION_FIELDS], path);
   if (!partial || value.color !== undefined) color(value.color, `${path}.color`);
   for (const field of ['roughness', 'metalness']) if (!partial || value[field] !== undefined) number(value[field], `${path}.${field}`, 0, 1);
   surfaceFields(value,path);
@@ -66,6 +67,7 @@ function material(value, path, partial = false) {
     for (const [key, range] of Object.entries(WEAR_RANGES)) if (key !== 'edgeWidth' || w[key] !== undefined) number(w[key], `${wp}.${key}`, ...range);
     fail(Number.isInteger(w.seed), 'Seed deve ser inteiro.', `${wp}.seed`);
   }
+  if (value.wet !== undefined && value.wet !== null) validateWet(value.wet, `${path}.wet`);
   if (value.coverage !== undefined && value.coverage !== null) {
     const c = value.coverage, cp = `${path}.coverage`;
     keys(c, ['texture','color','textureSize','amount','relief','physicalThickness','exposedOnly',...Object.keys(SNOW_SHAPE_DEFAULTS), ...distributionFields], cp);
@@ -108,7 +110,7 @@ function surfaceFields(value,path) {
 }
 function localEffect(value,path) {
   keys(value,['type','enabled','count','size','offset','speed','opacity','color','seed','lightIntensity','hideModel'],path);
-  choice(value.type,['fire','smoke'],path); bool(value.enabled,path); bool(value.hideModel,path);
+  choice(value.type,['fire','smoke','sparks','drip'],path); bool(value.enabled,path); bool(value.hideModel,path);
   number(value.count,path,1,512); fail(Number.isInteger(value.count),'Quantidade deve ser inteira.',path);
   vector(value.size,3,path,.1); value.size.forEach(v=>number(v,path,.1,20)); vector(value.offset,3,path);
   number(value.speed,path,0,10); number(value.opacity,path,0,1); color(value.color,path); number(value.lightIntensity,path,0,500);
@@ -403,7 +405,7 @@ function look(value, path, document, seen) {
   if(value.rendering!==undefined) {
     keys(value.rendering,Object.keys(RENDERING_DEFAULTS),`${path}.rendering`);
     for(const [key,defaultValue] of Object.entries(RENDERING_DEFAULTS)) if(value.rendering[key]!==undefined) {
-      if(typeof defaultValue==='boolean')bool(value.rendering[key],path);else number(value.rendering[key],path,key==='aoRadius'?.05:0,key==='reflectionIntensity'?3:key==='aoRadius'?5:1);
+      if(typeof defaultValue==='boolean')bool(value.rendering[key],path);else number(value.rendering[key],path,key==='aoRadius'?.05:0,key==='reflectionIntensity'?3:key==='aoRadius'?5:key==='surfaceReflectionIntensity'?2:1);
     }
   }
   if (value.effectsPaused !== undefined) bool(value.effectsPaused, `${path}.effectsPaused`);
@@ -422,8 +424,10 @@ function look(value, path, document, seen) {
   }
   if (value.bloom !== undefined) {
     const b = value.bloom, p = `${path}.bloom`;
-    keys(b, ['enabled', 'strength', 'radius', 'threshold'], p);
+    keys(b, ['enabled', 'strength', 'radius', 'threshold', 'streak', 'streakLength'], p);
     bool(b.enabled, p); number(b.strength, p, 0, 1); number(b.radius, p, 0, 1); number(b.threshold, p, 0, 10);
+    // The anamorphic streak is optional: documents without it keep the plain halo.
+    for (const key of ['streak', 'streakLength']) if (b[key] !== undefined) number(b[key], `${p}.${key}`, 0, 1);
   }
   if (value.daylight !== undefined) {
     keys(value.daylight, ['phase', 'exposure'], `${path}.daylight`);

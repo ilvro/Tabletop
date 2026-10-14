@@ -6,6 +6,8 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
 import { createLightingZones } from './lighting-zones.js';
+import { ScreenReflectionPass } from './screen-reflections.js';
+import { AnamorphicStreakPass } from './anamorphic.js';
 
 // Keep the analytical legacy slab; opt into bounded ray samples for local regions/scattering.
 const volumeShader = zones => ({
@@ -121,7 +123,7 @@ class HeightFogPass extends ShaderPass {
 /** Lazy optional GPU pipeline. Each viewport owns and can suppress its effects. */
 export function createEffectsPipeline(renderer, scene, { offscreen = false, sharp: allowSharp = true } = {}) {
   const zones=createLightingZones();let activeZones=zones,sources=[],quality={steps:12},tier='balanced',fallbackDepth,sceneDepth=null;
-  let composer, renderPass, volumePass, bloomPass, outputPass,aoPass;
+  let composer, renderPass, volumePass, bloomPass, outputPass,aoPass,ssrPass=null,streakPass=null,wetSource=()=>[];
   let currentLook = {}, enabled = true, width = 1, height = 1,hadLocalFog=false;
   // Effects draw into an offscreen target, which bypasses the canvas antialiasing
   // and used to be capped at one physical pixel per CSS pixel: switching AO or
@@ -133,10 +135,11 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
   let sharpTarget=true,appliedRatio=0;
   const sharp=()=>allowSharp&&tier!=='economy',effectsRatio=()=>Math.min(renderer.getPixelRatio(),!sharp()?1:tier==='high'?Infinity:1.25);
   const aoSize=()=>[Math.max(1,width*effectsRatio()/2|0),Math.max(1,height*effectsRatio()/2|0)];
+  function sizePasses(){const ratio=effectsRatio(),w=Math.max(1,Math.floor(width*ratio)),h=Math.max(1,Math.floor(height*ratio));ssrPass?.setSize(w,h);streakPass?.setSize(w,h);}
   function dispose() {
     if (!composer) return;
     for (const pass of composer.passes) pass.dispose();
-    composer.dispose(); composer = null; bloomPass = null;aoPass=null;appliedRatio=0;
+    composer.dispose(); composer = null; bloomPass = null;aoPass=null;ssrPass=null;streakPass=null;appliedRatio=0;
     fallbackDepth?.dispose();fallbackDepth=null;
   }
   function configure(look = currentLook) {
@@ -144,7 +147,9 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
     const localFog=activeZones.hasFog();
     hadLocalFog=localFog;
     const ao=enabled&&look.rendering?.ao&&tier!=='economy';
-    if (!offscreen && (!enabled || !(look.volumetricFog?.enabled || look.bloom?.enabled||localFog||ao))) { dispose(); return; }
+    // Reflections of the frame on wet surfaces: balanced and high quality only.
+    const ssr=enabled&&!!look.rendering?.surfaceReflections&&['balanced','high'].includes(tier);
+    if (!offscreen && (!enabled || !(look.volumetricFog?.enabled || look.bloom?.enabled||localFog||ao||ssr))) { dispose(); return; }
     if (composer && sharpTarget !== sharp()) dispose();
     if (!composer) {
       sharpTarget = sharp();
@@ -160,7 +165,7 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
       composer.addPass(renderPass); composer.addPass(volumePass); composer.addPass(outputPass);
       composer.setSize(width, height);
     }
-    if(appliedRatio!==effectsRatio()){appliedRatio=effectsRatio();composer.setPixelRatio(appliedRatio);}
+    if(appliedRatio!==effectsRatio()){appliedRatio=effectsRatio();composer.setPixelRatio(appliedRatio);sizePasses();}
     volumePass.enabled = enabled&&Boolean(look.volumetricFog?.enabled||localFog);
     const f=look.volumetricFog;
     volumePass.uniforms.fogColor.value.set(f?.color??'#9daac2');
@@ -174,8 +179,12 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
       // already has depth, and the shaders derive normals from it: sample that.
       aoPass._renderGBuffer=false;for(const material of [aoPass.gtaoMaterial,aoPass.pdMaterial]){material.defines.NORMAL_VECTOR_TYPE=0;material.uniforms.tNormal.value=null;material.needsUpdate=true;}
       const draw=aoPass.render.bind(aoPass);aoPass.render=(...args)=>{aoPass.gtaoMaterial.uniforms.tDepth.value=aoPass.pdMaterial.uniforms.tDepth.value=sceneDepth;draw(...args);};
-      composer.insertPass(aoPass,2);}
+      composer.insertPass(aoPass,composer.passes.indexOf(volumePass)+1);}
     else if(!ao&&aoPass){composer.removePass(aoPass);aoPass.dispose();aoPass=null;}
+    // Before the fog and the bloom: the reflected light is part of the picture they work on.
+    if(ssr&&!ssrPass){ssrPass=new ScreenReflectionPass(scene);ssrPass.wetMeshes=()=>wetSource();composer.insertPass(ssrPass,1);sizePasses();}
+    else if(!ssr&&ssrPass){composer.removePass(ssrPass);ssrPass.dispose();ssrPass=null;}
+    if(ssrPass)ssrPass.intensity=look.rendering.surfaceReflectionIntensity??1;
     if(aoPass){aoPass.blendIntensity=look.rendering.aoIntensity??.35;aoPass.updateGtaoMaterial({radius:look.rendering.aoRadius??.6});aoPass.setSize(...aoSize());}
     if (enabled && look.bloom?.enabled && !bloomPass) {
       bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height));
@@ -184,6 +193,11 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
       composer.removePass(bloomPass); bloomPass.dispose(); bloomPass = null;
     }
     if (bloomPass) Object.assign(bloomPass, { strength: look.bloom.strength, radius: look.bloom.radius, threshold: look.bloom.threshold });
+    // The streak reads the bloom's high-pass, so it exists only with a bloom and only when asked for.
+    const streak=bloomPass&&(look.bloom.streak??0)>0;
+    if(streak&&!streakPass){streakPass=new AnamorphicStreakPass(bloomPass);composer.insertPass(streakPass,composer.passes.indexOf(bloomPass)+1);sizePasses();}
+    else if(!streak&&streakPass){composer.removePass(streakPass);streakPass.dispose();streakPass=null;}
+    if(streakPass){streakPass.amount=look.bloom.streak;streakPass.length=look.bloom.streakLength??.5;}
   }
   return {
     configure,
@@ -194,11 +208,13 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
       if(volumePass&&composer){Object.assign(volumePass.uniforms,value.uniforms);volumePass.uniforms.localFog.value=value.uniforms.zoneCount.value>0;volumePass.uniforms.steps.value=q.steps;volumePass.sources=sources;}
     },
     setEnabled(value) { enabled = value; configure(); },
-    resize(w, h) { if (width === w && height === h) return; width = w; height = h; composer?.setSize(w, h);aoPass?.setSize(...aoSize()); },
+    /** The wet meshes the reflections are cast on: a function, asked once a frame. */
+    setWetSource(source){wetSource=source;},
+    resize(w, h) { if (width === w && height === h) return; width = w; height = h; composer?.setSize(w, h);aoPass?.setSize(...aoSize());sizePasses(); },
     render(camera, seconds, target = null) {
       if (!composer) { renderer.render(scene, camera); return; }
       camera.updateMatrixWorld();
-      renderPass.camera = camera;
+      renderPass.camera = camera;if(ssrPass)ssrPass.camera=camera;
       if(aoPass){aoPass.camera=camera;const perspective=camera.isPerspectiveCamera?1:0;if(aoPass.gtaoMaterial.defines.PERSPECTIVE_CAMERA!==perspective){aoPass.gtaoMaterial.defines.PERSPECTIVE_CAMERA=perspective;aoPass.gtaoMaterial.needsUpdate=true;}}
       volumePass.uniforms.inverseProjection.value.copy(camera.projectionMatrixInverse);
       volumePass.uniforms.cameraWorld.value.copy(camera.matrixWorld);
@@ -207,7 +223,7 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
       scene.updateMatrixWorld();scene.matrixWorldAutoUpdate=false;
       try{composer.render(seconds);if(target){composer.copyPass.renderToScreen=false;composer.copyPass.render(renderer,target,composer.readBuffer);}}finally{scene.matrixWorldAutoUpdate=true;renderer.setRenderTarget(previous);}
     },
-    info() { return { enabled, bloom: Boolean(composer && bloomPass), volumetricFog: Boolean(composer && volumePass.enabled), ao:!!aoPass,scattering:!!composer&&volumePass.uniforms.scattering.value,steps:quality.steps,pixelRatio: effectsRatio(),samples:composer&&sharpTarget?4:0 }; },
+    info() { return { enabled, surfaceReflections: !!ssrPass, reflectedMeshes: ssrPass?.drawn ?? 0, streak: !!streakPass, bloom: Boolean(composer && bloomPass), volumetricFog: Boolean(composer && volumePass.enabled), ao:!!aoPass,scattering:!!composer&&volumePass.uniforms.scattering.value,steps:quality.steps,pixelRatio: effectsRatio(),samples:composer&&sharpTarget?4:0 }; },
     dispose,
   };
 }

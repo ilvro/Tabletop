@@ -158,7 +158,23 @@ Cada etapa segue a rotina do projeto: testes unitários do que for dado e regra,
 - No E2E o clique do decalque na carcaça do monitor é feito na vista de topo, porque na perspectiva padrão a porta da sala tapa o monitor.
 - A conferência em imagem foi feita com o rasterizador por software (`CAPTURE_SOFTWARE=1`), não numa GPU.
 
-**Próximo:** resíduos do item 3 e item 4, degrau 1 (piso molhado), depois 5 e 6.
+**14 de outubro — resíduos do item 3 e itens 4 a 7 concluídos**
+
+- **Item 3:** sombra de cabos só em alta; pontas em viga, duto, topo de objeto, parede e teto; cabos nos estados Abandonado e Futurista.
+- **Item 4:** degrau 1 (**Molhado**) e degrau 2 (reflexos de superfície, mantidos: a captura mostra o risco vermelho no piso e o monitor refletido).
+- **Item 5:** risco de lente no bloom, desligado por padrão. **Item 6:** faíscas e gotejamento.
+- **Item 7:** cena montada por `scripts/industrial-scene.js`, comparação lado a lado, cena de exemplo **Galpão industrial** com miniatura gerada pela galeria, e lição **Galpão industrial** no tutorial.
+
+**Diferenças em relação ao plano (itens 3 a 7)**
+
+- O reflexo de tela entra antes da névoa e do bloom, mas o AO continua depois da névoa (não foi movido, para não mudar todas as cenas). O reflexo é somado no próprio quadro, sem trocar de buffer, porque a névoa precisa da profundidade.
+- Sem GPU nesta máquina, o custo do reflexo não foi medido em quadros por segundo (o plano pedia 60 FPS em equilibrada). A conferência foi em imagem, por software.
+- As pontas de cabo encaixam, mas não ficam ancoradas: mover a viga depois não leva o cabo. A prévia entre os dois cliques é um marcador na primeira ponta, não o cabo inteiro seguindo o ponteiro.
+- O estado Abandonado põe cabos em qualquer era; o Futurista, em todos os estados menos Arrumado.
+- A cobertura é um modelo novo (laje de 4,2 m) em vez de um piso do andar de cima, para "Telhados" poder escondê-la.
+- A cena de exemplo é mais clara que a referência (ambiente Horror ritual); a lista de diferenças está em `GALPAO_INDUSTRIAL_ANALISE.md`.
+
+**Próximo:** medir o custo dos reflexos numa GPU e ajustar a exposição da cena de exemplo.
 
 **14 de outubro — microplano de execução**
 

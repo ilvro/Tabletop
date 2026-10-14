@@ -4250,6 +4250,17 @@
       "parts": 8,
       "triangles": 96,
       "batches": 2
+    },
+    {
+      "id": "builtin-industrial-ceiling-slab",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 1,
+      "triangles": 300,
+      "batches": 1
     }
   ]
 }
