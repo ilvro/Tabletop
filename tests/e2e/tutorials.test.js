@@ -31,7 +31,7 @@ for (const lesson of LESSONS) test(`tutorial "${lesson.title}" can be followed f
       const act=step.act??'click';
       if (act==='continue') await page.locator('.tutor-card [data-tutor="next"]').click();
       else if (act==='click') await page.locator(step.target).first().click();
-      else if (act[0]==='fill') await page.locator(act[1]).fill(act[2]);
+      else if (act[0]==='fill') { await page.locator(act[1]).fill(act[2]);await page.keyboard.press('Tab'); }
       else if (act[0]==='key') await key(act);
       else if (act[0]==='world') { const p=await page.evaluate(v=>window.__tabletop.project(v),act[1]);await page.mouse.click(p.x,p.y); }
       await page.waitForFunction(i=>!window.tabletopTutor.active||window.tabletopTutor.active.step>i,index).catch(()=>assert.fail(`${where}: doing the step did not complete it`));

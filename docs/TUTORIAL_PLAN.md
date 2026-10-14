@@ -100,4 +100,6 @@ Marcação de lição nova, lições 7 e 8, e a exportação das lições como p
 - Lição **Construção assistida** (26 passos): sala, fogão à mão, leitura do assistente, completar, estado Ritual, luz, prédio novo, entorno.
 - Testes: `tests/tutorials.test.js` (formato das lições e condições) e `tests/e2e/tutorials.test.js`, que percorre toda lição de `LESSONS` passo a passo e falha quando um alvo some ou uma condição deixa de poder ser cumprida.
 
+- Lição **Primeiros passos** (29 passos): regiões da tela, prévia e confirmação, câmera, Assets, seleção, Propriedades, ferramentas, desfazer, Elementos, Ambiente, token, enquadramento, Apresentar e Salvar. Vem antes da Construção assistida na lista.
+
 **Falta**: etapa 3 (oferta na primeira visita), etapa 4 (ajuda no lugar), etapa 5 (novidades); lições de recriar cenas prontas, que dependem das duas cenas de referência; uma lição exigir cena vazia hoje é só um aviso na lista, não cria a cena nova sozinha.

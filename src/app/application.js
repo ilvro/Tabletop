@@ -499,7 +499,8 @@ export async function startApplication() {
   function tutorialState() {
     if (!tutorReading || tutorReading.document !== store.document || tutorReading.floor !== smartFloorId) tutorReading = { document: store.document, floor: smartFloorId, inferred: smartFloorId ? describeRoom(store.document, smartFloorId, assets)?.inferred[0]?.id ?? null : null, inBuilding: Boolean(smartFloorId && describeBuilding(store.document, smartFloorId, assets)) };
     const assetsOpen = document.getElementById('assets-dialog').open;
-    return { document: store.document, tab, sections: [...openBuildSections], proposal: Boolean(proposal), assetsOpen, placing: tool === 'place' && placing?.asset ? placing.asset.id : null,
+    return { document: store.document, tab, sections: [...openBuildSections], proposal: Boolean(proposal), assetsOpen, placing: tool === 'place' && placing?.asset ? placing.asset.id : null, placingKind: tool === 'place' ? placing?.type ?? null : null,
+      selected: store.document.layout.entities[selection]?.kind ?? (store.document.tokens?.[selection] ? 'token' : null), tool, topView, canRedo: store.canRedo, presenting: isPresentation, saved: !store.dirty && store.document.revision > 0,
       listedAssets: assetsOpen ? [...document.querySelectorAll('#asset-cards [data-asset]')].map(node => node.dataset.asset) : [],
       assistant: { inferred: tutorReading.inferred, state: stateOptions.state, buildingMode: buildingOptions.mode ?? (tutorReading.inBuilding ? 'extend' : 'new') } };
   }

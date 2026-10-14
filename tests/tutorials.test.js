@@ -17,7 +17,7 @@ test('every lesson is well-formed data: unique ids, known conditions and targets
       for (const [name] of checks(step.done)) assert.ok(CONDITIONS[name], `${where}: unknown condition ${name}`);
       if (step.done[0] !== 'read') assert.ok(step.target, `${where}: a step that waits for an action points at something`);
       // Targets hold on to identifiers the interface already keeps stable, never to layout or text.
-      if (step.target) assert.match(step.target, /data-(action|tab|field|choice|asset|build-section)=|#[a-z-]+|\.assistant-reading/, where);
+      if (step.target) assert.match(step.target, /data-(action|tab|field|choice|asset|build-section|environment)=|#[a-z-]+|^\.(assistant-reading|tabs|inspector|camera-strip|tool-strip)$/, where);
       if (step.act === 'continue') assert.equal(step.done[0], 'read', where);
     });
     assert.equal(lesson.steps.at(-1).done[0], 'read', `${lesson.id}: a lesson ends on a closing step`);

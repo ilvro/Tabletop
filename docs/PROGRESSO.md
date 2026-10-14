@@ -1,5 +1,7 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Tutorial Primeiros passos e análise do galpão (13 de outubro):** segunda lição (29 passos) cobrindo a tela inteira, da prévia ao Salvar, testada pelo mesmo E2E genérico ([andamento](TUTORIAL_PLAN.md)); análise da cena de referência do galpão industrial, com o que falta de modelos e técnica ([análise](GALPAO_INDUSTRIAL_ANALISE.md)).
+
 **Tutorial, primeira lição (13 de outubro):** botão Tutoriais na barra superior, motor que aponta o controle e avança quando o resultado aparece, e a lição Construção assistida (26 passos), percorrida inteira por um teste E2E genérico. [Plano e andamento](TUTORIAL_PLAN.md).
 
 **Biblioteca futurista (13 de outubro):** 30 modelos novos (301 no total), época Futurista no assistente, cinco cômodos próprios (ponte, alojamento, enfermaria da base, reator, carga), prédio Base, luz fria com painéis e entorno com barreira de energia, antena e painéis solares. [Biblioteca](ASSET_LIBRARY.md) · [Plano e andamento](ASSISTED_BUILD_PLAN.md).

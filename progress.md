@@ -2,6 +2,22 @@
 
 Atualizado em 13 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Tutorial "Primeiros passos" e análise do galpão — concluídos (13 de outubro)
+
+**Feito**
+
+- Lição **Primeiros passos** (29 passos) em `src/tutorial/lessons.js`: regiões da tela, prévia e confirmação, câmera, Assets, seleção, Propriedades, ferramentas, desfazer/refazer, Elementos, Ambiente, token, enquadramento, Apresentar e Salvar.
+- Condições novas em `src/tutorial/conditions.js` (seleção, ferramenta, vista, desfazer, ambiente, tokens, câmeras, apresentação, salvo) e o estado correspondente em `tutorialState`.
+- Análise da cena de referência do galpão industrial em [docs/GALPAO_INDUSTRIAL_ANALISE.md](docs/GALPAO_INDUSTRIAL_ANALISE.md): o que já dá para fazer, o que falta de modelos e de técnica, e a ordem sugerida.
+
+**Validação**
+
+- Unitários: 286 passam.
+- E2E `tutorials`: as duas lições percorridas do primeiro ao último passo. Um passo da lição nova passa sozinho (a mesa já aparece na biblioteca antes da busca).
+- Conferência visual de 10 passos da lição nova, incluindo o modo Apresentar.
+
+**Pendências reais**: a cena do galpão não foi construída; depende de modelos e recursos listados na análise. Os demais E2E não foram repetidos.
+
 ## Tutorial, primeira lição — concluída (13 de outubro)
 
 **Feito**
