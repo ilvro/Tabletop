@@ -2,6 +2,30 @@
 
 Atualizado em 13 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Kit industrial e cabos pendentes — concluídos (13 de outubro)
+
+**Feito**
+
+- 22 modelos em `scripts/library-industrial.js` mais o modelo de cabos (324 no total): tubos e conexões, duto, suportes, eletrocalha, coluna, portão, faixa de alerta, luz de aviso, luminária fluorescente, mesa e estante de aço, entulho, papéis, mato e trepadeira.
+- Cabos pendentes (`src/domain/cables.js`): objeto com campo `cable`, desenhado no renderizador a partir dos ajustes; validação; painel **Cabo** em Propriedades (`src/ui/cable-panel.js`).
+- Três entradas: ferramenta **Cabo** de dois cliques em Peças avulsas, o modelo na biblioteca e **Cabos no teto** no assistente de cômodo (`proposeRoomCables` em `src/authoring/room-ambience.js`).
+- `scripts/capture-industrial.js` monta um galpão com o kit e captura de fora e da altura dos olhos.
+- Documentado em [docs/ASSET_LIBRARY.md](docs/ASSET_LIBRARY.md); andamento em [docs/GALPAO_INDUSTRIAL_PLANO.md](docs/GALPAO_INDUSTRIAL_PLANO.md).
+
+**Validação**
+
+- Unitários: 290 passam (3 novos de cabos; o da biblioteca passou a 324 modelos).
+- E2E novo `cables`: dois cliques, edição no painel, desfazer, colocação pela biblioteca, cabos do assistente e salvar.
+- Conferência em imagem: folhas dos 22 modelos e o galpão de demonstração na GPU.
+- E2E rodados e passando (21 casos): `cables`, `asset-library`, `assisted-rooms`, `editor-ui`, `panel-consistency`, `pages`, `controls`, `performance`, `tutorials`. Os demais não foram repetidos.
+
+**Encontrado na validação**
+
+- O entulho saiu primeiro como pedras arredondadas; refeito como pedaços de laje. A ferrugem dos tubos estava laranja demais; pintura escurecida e menos lascas.
+- Regravar `slots.json` à mão mudou a formatação do arquivo inteiro; restaurado do repositório.
+
+**Pendências reais**: o galpão de demonstração não tem teto; as pontas do cabo não encaixam em vigas nem em objetos; sombra de cabos em todas as qualidades; tela com conteúdo, decalques e piso molhado continuam por fazer.
+
 ## Correções vistas no tutorial e plano técnico do galpão (13 de outubro)
 
 **Feito**

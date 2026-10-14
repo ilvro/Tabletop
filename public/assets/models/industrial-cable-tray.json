@@ -1,0 +1,431 @@
+{
+  "name": "Eletrocalha · 2 m",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "dark": {
+      "color": "#23272b",
+      "roughness": 0.7,
+      "metalness": 0.2
+    },
+    "black": {
+      "color": "#141618",
+      "roughness": 0.9
+    },
+    "steel": {
+      "color": "#8a9194",
+      "roughness": 0.42,
+      "metalness": 0.5
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        2,
+        0.06,
+        0.008
+      ],
+      "position": [
+        0,
+        0.02999999932944772,
+        -0.2
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        2,
+        0.06,
+        0.008
+      ],
+      "position": [
+        0,
+        0.02999999932944772,
+        0.2
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.008,
+        0.4
+      ],
+      "position": [
+        -0.94,
+        0.00799999932944772,
+        0
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.008,
+        0.4
+      ],
+      "position": [
+        -0.705,
+        0.00799999932944772,
+        0
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.008,
+        0.4
+      ],
+      "position": [
+        -0.47,
+        0.00799999932944772,
+        0
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.008,
+        0.4
+      ],
+      "position": [
+        -0.235,
+        0.00799999932944772,
+        0
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.008,
+        0.4
+      ],
+      "position": [
+        0,
+        0.00799999932944772,
+        0
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.008,
+        0.4
+      ],
+      "position": [
+        0.23499999999999988,
+        0.00799999932944772,
+        0
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.008,
+        0.4
+      ],
+      "position": [
+        0.47,
+        0.00799999932944772,
+        0
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.008,
+        0.4
+      ],
+      "position": [
+        0.7050000000000001,
+        0.00799999932944772,
+        0
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.03,
+        0.008,
+        0.4
+      ],
+      "position": [
+        0.94,
+        0.00799999932944772,
+        0
+      ],
+      "material": "steel",
+      "bevel": 0
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.016,
+      "radiusBottom": 0.016,
+      "height": 1.98,
+      "position": [
+        0,
+        0.02999999932944772,
+        -0.1
+      ],
+      "material": "black",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.019,
+      "radiusBottom": 0.019,
+      "height": 1.98,
+      "position": [
+        0,
+        0.03199999932944772,
+        0.02
+      ],
+      "material": "black",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.022,
+      "radiusBottom": 0.022,
+      "height": 1.98,
+      "position": [
+        0,
+        0.03399999932944772,
+        0.12
+      ],
+      "material": "black",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.012,
+      "height": 1.98,
+      "position": [
+        0,
+        0.02799999932944772,
+        -0.03
+      ],
+      "material": "dark",
+      "segments": 12,
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.008,
+      "radiusBottom": 0.008,
+      "height": 0.45,
+      "position": [
+        -0.8,
+        0.27499999932944774,
+        -0.2
+      ],
+      "material": "steel",
+      "segments": 8
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.016,
+      "radiusBottom": 0.016,
+      "height": 0.014,
+      "position": [
+        -0.8,
+        0.06199999932944772,
+        -0.2
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.03,
+      "radiusBottom": 0.03,
+      "height": 0.008,
+      "position": [
+        -0.8,
+        0.4959999993294477,
+        -0.2
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.008,
+      "radiusBottom": 0.008,
+      "height": 0.45,
+      "position": [
+        -0.8,
+        0.27499999932944774,
+        0.2
+      ],
+      "material": "steel",
+      "segments": 8
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.016,
+      "radiusBottom": 0.016,
+      "height": 0.014,
+      "position": [
+        -0.8,
+        0.06199999932944772,
+        0.2
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.03,
+      "radiusBottom": 0.03,
+      "height": 0.008,
+      "position": [
+        -0.8,
+        0.4959999993294477,
+        0.2
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.008,
+      "radiusBottom": 0.008,
+      "height": 0.45,
+      "position": [
+        0.8,
+        0.27499999932944774,
+        -0.2
+      ],
+      "material": "steel",
+      "segments": 8
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.016,
+      "radiusBottom": 0.016,
+      "height": 0.014,
+      "position": [
+        0.8,
+        0.06199999932944772,
+        -0.2
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.03,
+      "radiusBottom": 0.03,
+      "height": 0.008,
+      "position": [
+        0.8,
+        0.4959999993294477,
+        -0.2
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.008,
+      "radiusBottom": 0.008,
+      "height": 0.45,
+      "position": [
+        0.8,
+        0.27499999932944774,
+        0.2
+      ],
+      "material": "steel",
+      "segments": 8
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.016,
+      "radiusBottom": 0.016,
+      "height": 0.014,
+      "position": [
+        0.8,
+        0.06199999932944772,
+        0.2
+      ],
+      "material": "dark",
+      "segments": 12
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.03,
+      "radiusBottom": 0.03,
+      "height": 0.008,
+      "position": [
+        0.8,
+        0.4959999993294477,
+        0.2
+      ],
+      "material": "dark",
+      "segments": 12
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    2,
+    0.5,
+    0.46000000834465027
+  ],
+  "design": {
+    "edition": 2,
+    "family": "fabrication",
+    "reconstruction": "components",
+    "methods": [
+      "curvas de contorno refinadas"
+    ],
+    "seed": 3953
+  }
+}

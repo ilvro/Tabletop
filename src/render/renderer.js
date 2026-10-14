@@ -22,7 +22,8 @@ import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { snapPosition, yawFromQuaternion } from '../domain/coords.js';
 import { groupChain, isLocked, isVisible, isSupport, isAccess, supportHeightAt, constrainOpening } from '../domain/geometry.js';
-import { createAssetCache, disposeObject, standardMaterial } from './asset-cache.js';
+import { createAssetCache, disposeObject, recipeInstance, standardMaterial } from './asset-cache.js';
+import { cableRecipe } from '../domain/cables.js';
 import { applyTransform, readTransform, tagEntity, createFloor, createTerrain, updateTerrain, syncTerrainPicking, createAccess, createWall, createDoor, createWindow, createToken, applyMaterialOverrides } from './scene-objects.js';
 import { sculptTerrain, paintTerrain, terrainBrushOutline, protectTerrainFloors } from '../authoring/terrain.js';
 import { createAtmosphere, applyEnvironmentMaterials, materialSlots } from './atmosphere.js';
@@ -177,6 +178,8 @@ export function createViewport(container, {
   ground.position.y = -0.24;
   ground.receiveShadow = true;
   scene.add(ground);
+  // A cable is drawn from its own settings; everything else comes from the library.
+  const instanceOf = (record, entity) => entity.cable ? new Promise(resolve => resolve(recipeInstance(cableRecipe(entity.cable)))) : cache.createInstance(record, entity.rockShape, entity.vegetationSeed, entity.rockSculpt);
   // The backdrop stays under every slab: a lawn or a street laid just below floor level must not sink into it.
   const slabBottoms = entities => entities.filter(e => e.kind === 'floor' && e.transform).map(e => e.transform.position[1] - (e.thickness ?? 0) - .03);
   const selectionBox = new THREE.BoxHelper(new THREE.Object3D(), '#b2dec1');
@@ -590,7 +593,7 @@ export function createViewport(container, {
       }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } }));
       return;
     }
-    trackAsset(cache.createInstance(record,entity.rockShape,entity.vegetationSeed,entity.rockSculpt).then((instance) => {
+    trackAsset(instanceOf(record,entity).then((instance) => {
       if (!stillCurrent()) { disposeObject(instance); return; }
       parent.add(instance);
       if(entity.localEffect?.enabled && entity.localEffect.type==='fire') instance.traverse(child=>{if(child.userData.materialSlot==='flame') child.visible=false;});
@@ -854,7 +857,7 @@ export function createViewport(container, {
       } else if (entity.kind === 'prop') {
         object = new THREE.Group(); applyTransform(object, entity.transform);
         const parent = object, asset = assetRecord(entity.assetRef);
-        if (asset) cache.createInstance(asset,entity.rockShape,entity.vegetationSeed,entity.rockSculpt).then(instance => {
+        if (asset) instanceOf(asset,entity).then(instance => {
           if (destroyed || previewVersion !== previewGeneration) { disposeObject(instance); return; }
           applyMaterialOverrides(instance, entity.material, null, true); ghost(instance); parent.add(instance); invalidate();
         }).catch(error => { if (previewVersion === previewGeneration) report(error); });

@@ -123,4 +123,16 @@ Cada etapa segue a rotina do projeto: testes unitários do que for dado e regra,
 
 ## Andamento
 
-Nada implementado ainda.
+**13 de outubro — etapa 0 e item 3 concluídos**
+
+- **Etapa 0:** 22 modelos do kit industrial (tubulação, estrutura, sinalização, mobiliário e abandono). A faixa de alerta entrou como modelo de parede de 2 m; o material de listras continua no item 2.
+- **Item 3:** cabos pendentes como objeto com ajustes próprios, ferramenta de dois cliques, entrada na biblioteca e "Cabos no teto" no assistente de cômodo. Detalhes em [ASSET_LIBRARY.md](ASSET_LIBRARY.md).
+- Primeira comparação com a referência (`scripts/capture-industrial.js`): a silhueta fecha, com cabos em arco, duto, faixas, portão com luz vermelha e monitor sobre a mesa. Faltam teto, o conteúdo da tela, o letreiro e o piso molhado.
+
+**Diferenças em relação ao plano**
+
+- As pontas do cabo são marcadas no chão e sobem para a altura das paredes; não há encaixe em viga ou topo de objeto. A altura de cada ponta se ajusta em Propriedades.
+- Os cabos projetam sombra em qualquer qualidade; a restrição à qualidade alta não foi feita.
+- O assistente pendura cabos quando a pessoa pede, em qualquer cômodo; não os liga sozinho ao estado abandonado.
+
+**Próximo:** itens 1 e 2 (tela com conteúdo e decalques).

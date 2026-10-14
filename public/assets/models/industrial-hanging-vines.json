@@ -1,0 +1,371 @@
+{
+  "name": "Trepadeira pendente",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "leaf": {
+      "color": "#4a6a37",
+      "roughness": 0.95
+    },
+    "stem": {
+      "color": "#3b3424",
+      "roughness": 0.95
+    }
+  },
+  "parts": [
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0,
+          2,
+          0
+        ],
+        [
+          0.04,
+          1.5,
+          0.03
+        ],
+        [
+          -0.05,
+          0.9,
+          0
+        ],
+        [
+          0.02,
+          0.3,
+          0.05
+        ]
+      ],
+      "radius": 0.012,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.011569321155548096,
+        5.9604645663569045e-9,
+        0.049125880002975464
+      ],
+      "material": "stem"
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.2,
+          2,
+          0.06
+        ],
+        [
+          0.26,
+          1.6,
+          0.02
+        ],
+        [
+          0.18,
+          1.15,
+          0.08
+        ]
+      ],
+      "radius": 0.009,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.011569321155548096,
+        5.9604645663569045e-9,
+        0.049125880002975464
+      ],
+      "material": "stem"
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.22,
+          2,
+          -0.04
+        ],
+        [
+          -0.3,
+          1.4,
+          0
+        ],
+        [
+          -0.2,
+          0.7,
+          -0.06
+        ]
+      ],
+      "radius": 0.01,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.011569321155548096,
+        5.9604645663569045e-9,
+        0.049125880002975464
+      ],
+      "material": "stem"
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.06,
+          2,
+          -0.14
+        ],
+        [
+          0.1,
+          1.75,
+          -0.2
+        ],
+        [
+          0.02,
+          1.45,
+          -0.16
+        ]
+      ],
+      "radius": 0.008,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.011569321155548096,
+        5.9604645663569045e-9,
+        0.049125880002975464
+      ],
+      "material": "stem"
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.22,
+          2,
+          -0.04
+        ],
+        [
+          -0.05,
+          1.96,
+          0
+        ],
+        [
+          0.2,
+          2,
+          0.06
+        ]
+      ],
+      "radius": 0.009,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.011569321155548096,
+        5.9604645663569045e-9,
+        0.049125880002975464
+      ],
+      "material": "stem"
+    },
+    {
+      "shape": "foliage",
+      "style": "fern",
+      "size": [
+        0.5,
+        0.6,
+        0.5
+      ],
+      "count": 7,
+      "seed": 431,
+      "position": [
+        0.011569321155548096,
+        1.7200000059604645,
+        0.049125880002975464
+      ],
+      "material": "leaf",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      },
+      "rotation": [
+        3.141592653589793,
+        0,
+        0
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "fern",
+      "size": [
+        0.4,
+        0.5,
+        0.4
+      ],
+      "count": 7,
+      "seed": 432,
+      "position": [
+        0.2515693211555481,
+        1.5000000059604646,
+        0.08912588000297547
+      ],
+      "material": "leaf",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      },
+      "rotation": [
+        3.141592653589793,
+        0.9,
+        0
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "fern",
+      "size": [
+        0.46,
+        0.6,
+        0.46
+      ],
+      "count": 7,
+      "seed": 433,
+      "position": [
+        -0.2584306788444519,
+        1.3000000059604646,
+        0.029125880002975463
+      ],
+      "material": "leaf",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      },
+      "rotation": [
+        3.141592653589793,
+        1.8,
+        0
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "fern",
+      "size": [
+        0.42,
+        0.56,
+        0.42
+      ],
+      "count": 7,
+      "seed": 434,
+      "position": [
+        0.011569321155548096,
+        1.0000000059604646,
+        0.06912588000297547
+      ],
+      "material": "leaf",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      },
+      "rotation": [
+        3.141592653589793,
+        2.7,
+        0
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "fern",
+      "size": [
+        0.34,
+        0.44,
+        0.34
+      ],
+      "count": 7,
+      "seed": 435,
+      "position": [
+        -0.18843067884445192,
+        0.7600000059604646,
+        -0.0008741199970245389
+      ],
+      "material": "leaf",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      },
+      "rotation": [
+        3.141592653589793,
+        3.6,
+        0
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "fern",
+      "size": [
+        0.3,
+        0.4,
+        0.3
+      ],
+      "count": 7,
+      "seed": 436,
+      "position": [
+        0.041569321155548095,
+        0.4000000059604646,
+        0.09912588000297547
+      ],
+      "material": "leaf",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      },
+      "rotation": [
+        3.141592653589793,
+        4.5,
+        0
+      ]
+    },
+    {
+      "shape": "foliage",
+      "style": "fern",
+      "size": [
+        0.3,
+        0.36,
+        0.3
+      ],
+      "count": 7,
+      "seed": 437,
+      "position": [
+        0.0715693211555481,
+        1.6200000059604647,
+        -0.13087411999702453
+      ],
+      "material": "leaf",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      },
+      "rotation": [
+        3.141592653589793,
+        5.4,
+        0
+      ]
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.924077033996582,
+    2.008880615234375,
+    0.6076952219009399
+  ],
+  "design": {
+    "edition": 2,
+    "family": "fabrication",
+    "reconstruction": "components",
+    "methods": [
+      "cordas e tubos curvos"
+    ],
+    "seed": 18337
+  }
+}

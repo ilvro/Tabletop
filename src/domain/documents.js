@@ -69,6 +69,7 @@ export function createEntity(kind, options = {}) {
     ...(options.vegetationSeed !== undefined ? {vegetationSeed:options.vegetationSeed} : {}),
     ...(options.rockSculpt ? {rockSculpt:clone(options.rockSculpt)} : {}),
     ...(options.rockShape ? { rockShape: clone(options.rockShape) } : {}),
+    ...(options.cable ? { cable: clone(options.cable) } : {}),
   };
 }
 

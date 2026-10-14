@@ -169,3 +169,43 @@ Conferência: `node scripts/review-library.js <ids>` desenha as folhas em `test-
 Os materiais evitam os nomes que disparam acabamento de madeira ou pedra: `hull` (compósito pintado), `dark`, `steel`, `accent`, e os emissivos `glow`, `alert`, `screen` e `holo`; `glass` é transparente.
 
 **Ao mudar a forma de um modelo novo depois de gerado**, apague o contrato dele em `contracts.json` para que seja recriado, e mantenha a ordem do arquivo igual à do catálogo (o teste confere as duas listas lado a lado). Referência em `docs/references/assisted-build/biblioteca-futurista.jpg`.
+
+## Kit industrial e cabos pendentes (13 de outubro de 2026)
+
+23 modelos em `scripts/library-industrial.js`, categoria **Industrial**. A biblioteca passa a ter 324 modelos; os anteriores não mudaram.
+
+| Grupo | Modelos |
+| --- | --- |
+| Tubulação | tubo reto de 2 m e de 4 m, curva de 90°, curva que sobe, tê, tubo vertical de parede, feixe de três tubos, duto grosso, suporte de teto, eletrocalha, cabos pendentes |
+| Estrutura | coluna de aço, portão industrial de duas folhas |
+| Sinalização | faixa de alerta de parede, luz de aviso vermelha, luminária fluorescente pendente |
+| Mobiliário | mesa de aço tubular, estante de aço |
+| Abandono | entulho de concreto, piso solto, papéis espalhados, mato nascendo do piso, trepadeira pendente |
+
+Convenções do kit:
+
+- Tubos deitam no chão do modelo, ao longo de X: uma linha no teto se monta subindo as peças pela altura e encostando flange com flange.
+- O que pende do teto (feixe de tubos, duto, suporte, eletrocalha, luminária, trepadeira) tem o topo como ponto de encosto: a altura do objeto é o pé-direito menos a altura do modelo.
+- O portão é um objeto, não abre passagem na parede. A faixa de alerta e a luz de aviso encostam na parede pela face de trás.
+- Tubos usam pintura lascada sobre ferrugem; entulho usa a textura de concreto.
+
+### Cabos pendentes
+
+O modelo `builtin-industrial-cable` é o único desenhado a partir de ajustes do próprio objeto, guardados no campo `cable` (`src/domain/cables.js`):
+
+| Campo | O que é |
+| --- | --- |
+| `mode` | `span`, entre dois pontos; `drop`, solto de um ponto |
+| `span` | da primeira ponta (a posição do objeto) até a segunda, nos eixos do objeto |
+| `sag` | folga em metros no meio do vão; no modo solto, o balanço da ponta |
+| `strands`, `radius`, `spread`, `seed` | quantidade de fios, espessura, desalinho entre eles e variação |
+
+Três formas de colocar:
+
+1. **Construir → Peças avulsas → Cabo**: dois cliques no chão; as pontas ficam na altura do topo das paredes daquele cômodo.
+2. **Assets → Cabos pendentes**: um clique põe um feixe de 3 m na altura de 2,56 m.
+3. **Assistente de cômodo → Detalhes → Cabos no teto**: feixes de parede a parede, entre pontos do teto e pontas soltas, na quantidade escolhida e sempre acima da altura da cabeça. Vem como prévia; refazer troca só os que o assistente pendurou, e um cabo bloqueado fica.
+
+Em Propriedades → **Cabo** ajustam-se tipo, vão, folga, fios, espessura, desalinho e variação. Mover e girar o objeto leva as duas pontas juntas. Cada fio é um tubo de seis lados; um feixe inteiro é um só desenho.
+
+Conferência: `node scripts/review-library.js industrial-…` para as folhas de modelos e `node scripts/capture-industrial.js <dir>` para um galpão montado com o kit, visto de fora e da altura dos olhos.

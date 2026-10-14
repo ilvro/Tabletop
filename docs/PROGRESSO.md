@@ -1,5 +1,7 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Kit industrial e cabos pendentes (13 de outubro):** 23 modelos novos (324 no total) para fábrica e galpão abandonado, e cabos pendentes como objeto ajustável, com ferramenta de dois cliques e "Cabos no teto" no assistente. [Biblioteca](ASSET_LIBRARY.md).
+
 **Correções do entorno, telhado e grama; plano do galpão (13 de outubro):** o gramado não afunda mais no plano de fundo, o entorno incorpora construções vizinhas, o telhado encaixa nas paredes em qualquer tamanho e a grama deixou de repetir em ladrilhos. Plano técnico da cena do galpão: [plano](GALPAO_INDUSTRIAL_PLANO.md).
 
 **Tutorial Primeiros passos e análise do galpão (13 de outubro):** segunda lição (29 passos) cobrindo a tela inteira, da prévia ao Salvar, testada pelo mesmo E2E genérico ([andamento](TUTORIAL_PLAN.md)); análise da cena de referência do galpão industrial, com o que falta de modelos e técnica ([análise](GALPAO_INDUSTRIAL_ANALISE.md)).

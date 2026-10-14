@@ -3957,6 +3957,288 @@
       "parts": 15,
       "triangles": 11496,
       "batches": 6
+    },
+    {
+      "id": "builtin-industrial-pipe-straight",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 15,
+      "triangles": 1216,
+      "batches": 3
+    },
+    {
+      "id": "builtin-industrial-pipe-long",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 23,
+      "triangles": 1904,
+      "batches": 3
+    },
+    {
+      "id": "builtin-industrial-pipe-elbow",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 15,
+      "triangles": 1568,
+      "batches": 3
+    },
+    {
+      "id": "builtin-industrial-pipe-elbow-up",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos",
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 15,
+      "triangles": 1568,
+      "batches": 3
+    },
+    {
+      "id": "builtin-industrial-pipe-tee",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 24,
+      "triangles": 2624,
+      "batches": 3
+    },
+    {
+      "id": "builtin-industrial-pipe-riser",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 17,
+      "triangles": 4292,
+      "batches": 4
+    },
+    {
+      "id": "builtin-industrial-pipe-bundle",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 35,
+      "triangles": 7012,
+      "batches": 4
+    },
+    {
+      "id": "builtin-industrial-duct",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 41,
+      "triangles": 5424,
+      "batches": 4
+    },
+    {
+      "id": "builtin-industrial-pipe-hanger",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "curvas de contorno refinadas",
+        "arestas chanfradas"
+      ],
+      "parts": 11,
+      "triangles": 452,
+      "batches": 2
+    },
+    {
+      "id": "builtin-industrial-cable-tray",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "curvas de contorno refinadas"
+      ],
+      "parts": 27,
+      "triangles": 836,
+      "batches": 3
+    },
+    {
+      "id": "builtin-industrial-column",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "pintura com lascas"
+      ],
+      "parts": 18,
+      "triangles": 1000,
+      "batches": 4
+    },
+    {
+      "id": "builtin-industrial-blast-door",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "fixações e grelhas de carcaça",
+        "perfis torneados e bordas de chapa",
+        "pintura com lascas"
+      ],
+      "parts": 61,
+      "triangles": 8108,
+      "batches": 7
+    },
+    {
+      "id": "builtin-industrial-hazard-band",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "pintura com lascas"
+      ],
+      "parts": 9,
+      "triangles": 108,
+      "batches": 2
+    },
+    {
+      "id": "builtin-industrial-warning-light",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 10,
+      "triangles": 2556,
+      "batches": 4
+    },
+    {
+      "id": "builtin-industrial-tube-light",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 18,
+      "triangles": 824,
+      "batches": 3
+    },
+    {
+      "id": "builtin-industrial-metal-table",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 14,
+      "triangles": 1176,
+      "batches": 3
+    },
+    {
+      "id": "builtin-industrial-metal-shelf",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "fixações e grelhas de carcaça",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 24,
+      "triangles": 3284,
+      "batches": 6
+    },
+    {
+      "id": "builtin-industrial-rubble-concrete",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 10,
+      "triangles": 2912,
+      "batches": 2
+    },
+    {
+      "id": "builtin-industrial-rubble-tiles",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 11,
+      "triangles": 3300,
+      "batches": 2
+    },
+    {
+      "id": "builtin-industrial-scattered-papers",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "pintura com lascas"
+      ],
+      "parts": 11,
+      "triangles": 420,
+      "batches": 2
+    },
+    {
+      "id": "builtin-industrial-floor-weeds",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 7,
+      "triangles": 1344,
+      "batches": 2
+    },
+    {
+      "id": "builtin-industrial-hanging-vines",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos"
+      ],
+      "parts": 12,
+      "triangles": 3338,
+      "batches": 2
+    },
+    {
+      "id": "builtin-industrial-cable",
+      "family": "fabrication",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos"
+      ],
+      "parts": 3,
+      "triangles": 1008,
+      "batches": 1
     }
   ]
 }

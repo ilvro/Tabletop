@@ -10,6 +10,7 @@ import { scopeFor, doorZones, AMBIENCE_TAG } from './furnishing.js';
 import { roomContents, describeRoom, roomEra } from './room-insight.js';
 import { eraAsset, beforeElectricity } from '../domain/room-eras.js';
 import { WEAR_TAG } from './room-state.js';
+import { CABLE_ASSET, cableBetween, cableDefaults } from '../domain/cables.js';
 
 /** Fixtures the assistant hung, and objects of the person it switched on; both are redone on the next pass. */
 export const FIXTURE_TAG = 'luminária-assistida', LIT_TAG = 'luz-assistida';
@@ -200,5 +201,41 @@ export function proposeRoomDetails(document, { floorId, amount = .6, seed = 1 } 
   say(counts.curtains, 'Cortina na janela.', 'Cortinas nas # janelas.'); say(counts.rug, `Tapete sob ${rugHost?.name.toLowerCase()}.`, '');
   say(counts.wall, 'Uma peça numa parede vazia.', '# peças nas paredes vazias.'); say(counts.corner, 'Um canto preenchido.', '# cantos preenchidos.'); say(counts.top, 'Um objeto sobre um móvel vazio.', '# objetos sobre móveis vazios.');
   if (!proposal.entities.length) throw new ValidationError('Este cômodo já tem os detalhes que o assistente sabe sugerir.');
+  return proposal;
+}
+
+/** Cables the assistant hung; a new pass takes them down first. */
+export const CABLE_TAG = 'cabos-assistidos';
+/**
+ * Hangs bundles of cable under the ceiling of a room: long ones from wall to
+ * wall, shorter ones between points of the ceiling, and a few broken ends
+ * dropping loose. They keep clear of head height, and what was hung by an
+ * earlier pass is taken down unless the person locked it.
+ */
+export function proposeRoomCables(document, { floorId, amount = .6, seed = 1 } = {}, expectedEditVersion = 0, catalog = []) {
+  if (!Number.isFinite(amount) || amount < 0 || amount > 1 || !Number.isInteger(seed) || seed < 0) throw new ValidationError('Parâmetros de cabos inválidos.');
+  const room = setup(document, floorId, catalog), { floor, area, frame, contents, toWorld } = room, asset = catalog.find(a => a.id === CABLE_ASSET);
+  if (!asset) throw new ValidationError('A biblioteca não tem o modelo de cabos.');
+  const proposal = blank('Cabos no teto', expectedEditVersion, room), height = Math.max(2.4, ...contents.walls.map(wall => wall.height)) - .04, clearance = Math.min(1.9, height - .5);
+  for (const old of Object.values(document.layout.entities).filter(e => e.cable && e.tags?.includes(CABLE_TAG) && room.inside(e.transform.position))) { if (isLocked(document, old)) proposal.report.kept.push(old.id); else proposal.removals.push({ kind: 'entity', id: old.id }); }
+  const xs = frame.contour.map(p => p[0]), zs = frame.contour.map(p => p[1]), box = { x0: Math.min(...xs) + .12, x1: Math.max(...xs) - .12, z0: Math.min(...zs) + .12, z1: Math.max(...zs) - .12 };
+  const within = (x, z) => pointInPolygon([x, z], frame.contour), random = key => { let h = Math.floor(stableRandom(seed, `cabos/${key}`) * 4294967296); h ^= h >>> 16; h = Math.imul(h, 0x85ebca6b); h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35); h ^= h >>> 16; return (h >>> 0) / 4294967296; };
+  const width = box.x1 - box.x0, depth = box.z1 - box.z0, total = Math.max(1, Math.min(48, Math.round(width * depth / 7 * (.25 + amount * 1.5))));
+  const edge = key => { const side = Math.floor(random(`${key}/s`) * 4), t = random(`${key}/t`); return side === 0 ? [box.x0, box.z0 + depth * t] : side === 1 ? [box.x1, box.z0 + depth * t] : side === 2 ? [box.x0 + width * t, box.z0] : [box.x0 + width * t, box.z1]; };
+  const anywhere = key => [box.x0 + width * random(`${key}/x`), box.z0 + depth * random(`${key}/z`)];
+  const counts = { span: 0, drop: 0 };
+  for (let index = 0; index < total; index++) for (let attempt = 0; attempt < 12; attempt++) {
+    const key = `${index}/${attempt}`, kind = random(`${key}/k`), loose = kind > .86, [ax, az] = kind < .45 ? edge(`${key}/a`) : anywhere(`${key}/a`), [bx, bz] = loose ? [ax, az] : kind < .45 ? edge(`${key}/b`) : anywhere(`${key}/b`), reach = Math.hypot(bx - ax, bz - az);
+    if (!within(ax, az) || !loose && (!within(bx, bz) || !within((ax + bx) / 2, (az + bz) / 2) || reach < 1.2 || reach > 14)) continue;
+    const strands = 1 + Math.floor(random(`${key}/n`) * 4.6), radius = +(.009 + random(`${key}/r`) * .012).toFixed(4), from = toWorld(ax, az, height);
+    // The belly grows with the span and stops where a person would walk into it.
+    const cable = loose ? cableDefaults({ mode: 'drop', span: [0, -(.5 + random(`${key}/l`) * Math.max(.3, height - clearance - .3)), 0], sag: .3, strands: Math.min(3, strands), radius, spread: .08, seed: index })
+      : cableBetween(from, toWorld(bx, bz, height), { sag: +Math.min(height - clearance, reach * (.1 + random(`${key}/g`) * .2)).toFixed(3), strands, radius, spread: +(.05 + random(`${key}/p`) * .2).toFixed(3), seed: index }).cable;
+    proposal.entities.push(createEntity('prop', { name: asset.name, assetRef: { id: asset.id, revision: asset.revision }, footprint: [.2, .2], position: from, cable, groupId: area.groupId ?? floor.groupId ?? null, levelId: floor.levelId ?? null, layerId: floor.layerId ?? null, tags: [CABLE_TAG] }));
+    counts[loose ? 'drop' : 'span']++; break;
+  }
+  if (!proposal.entities.length) proposal.report.omissions.push('O cômodo é pequeno demais para pendurar cabos.');
+  else proposal.report.reasons.push(`${counts.span} ${counts.span === 1 ? 'feixe pendurado' : 'feixes pendurados'} a ${height.toFixed(1)} m${counts.drop ? ` e ${counts.drop} ${counts.drop === 1 ? 'ponta solta' : 'pontas soltas'}` : ''}; o ponto mais baixo fica acima de ${clearance.toFixed(1)} m.`);
+  if (proposal.removals.length) proposal.report.reasons.push('Os cabos da passada anterior foram retirados.');
   return proposal;
 }

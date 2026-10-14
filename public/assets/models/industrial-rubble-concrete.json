@@ -1,0 +1,292 @@
+{
+  "name": "Entulho de concreto",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "rust": {
+      "color": "#6a4632",
+      "roughness": 0.46,
+      "metalness": 0.35
+    },
+    "concrete": {
+      "color": "#77756f",
+      "roughness": 0.96
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.74,
+        0.2,
+        0.5
+      ],
+      "position": [
+        -0.026603639125823975,
+        0.1718389029800892,
+        -0.005697309970855713
+      ],
+      "material": "concrete",
+      "rotation": [
+        0.12,
+        0.4,
+        0.08
+      ],
+      "bevel": 0.024,
+      "round": true,
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 1.4
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.44,
+        0.16,
+        0.36
+      ],
+      "position": [
+        0.473396360874176,
+        0.1418389029800892,
+        0.23430269002914428
+      ],
+      "material": "concrete",
+      "rotation": [
+        0.3,
+        1.1,
+        -0.1
+      ],
+      "bevel": 0.0192,
+      "round": true,
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 1.4
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.12,
+        0.3
+      ],
+      "position": [
+        -0.32660363912582396,
+        0.26183890298008916,
+        0.09430269002914429
+      ],
+      "material": "concrete",
+      "rotation": [
+        -0.5,
+        -0.3,
+        0.5
+      ],
+      "bevel": 0.0144,
+      "round": true,
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 1.4
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.32,
+        0.14,
+        0.26
+      ],
+      "position": [
+        -0.526603639125824,
+        0.1118389029800892,
+        0.2943026900291443
+      ],
+      "material": "concrete",
+      "rotation": [
+        0,
+        0.7,
+        0.1
+      ],
+      "bevel": 0.016800000000000002,
+      "round": true,
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 1.4
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.24,
+        0.1,
+        0.2
+      ],
+      "position": [
+        0.19339636087417603,
+        0.09183890298008919,
+        -0.40569730997085574
+      ],
+      "material": "concrete",
+      "rotation": [
+        0.1,
+        2,
+        0.3
+      ],
+      "bevel": 0.012,
+      "round": true,
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 1.4
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.08,
+        0.14
+      ],
+      "position": [
+        -0.346603639125824,
+        0.0818389029800892,
+        -0.3256973099708557
+      ],
+      "material": "concrete",
+      "rotation": [
+        0,
+        0.3,
+        0
+      ],
+      "bevel": 0.0096,
+      "round": true,
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 1.4
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.12,
+        0.06,
+        0.1
+      ],
+      "position": [
+        0.613396360874176,
+        0.07183890298008919,
+        -0.1856973099708557
+      ],
+      "material": "concrete",
+      "rotation": [
+        0.2,
+        1.4,
+        0
+      ],
+      "bevel": 0.0072,
+      "round": true,
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 1.4
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.1,
+        0.05,
+        0.08
+      ],
+      "position": [
+        0.07339636087417603,
+        0.07183890298008919,
+        0.4943026900291443
+      ],
+      "material": "concrete",
+      "rotation": [
+        0,
+        0.9,
+        0.2
+      ],
+      "bevel": 0.006,
+      "round": true,
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 1.4
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.1,
+          0.2,
+          0.05
+        ],
+        [
+          0.2,
+          0.42,
+          0.1
+        ],
+        [
+          0.5,
+          0.46,
+          0
+        ]
+      ],
+      "radius": 0.008,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        -0.026603639125823975,
+        0.04183890298008919,
+        -0.005697309970855713
+      ],
+      "material": "rust"
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.1,
+          0.16,
+          -0.1
+        ],
+        [
+          -0.2,
+          0.36,
+          -0.2
+        ],
+        [
+          -0.44,
+          0.3,
+          -0.36
+        ]
+      ],
+      "radius": 0.008,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        -0.026603639125823975,
+        0.04183890298008919,
+        -0.005697309970855713
+      ],
+      "material": "rust"
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.4585257768630981,
+    0.5097433310321787,
+    1.116136074066162
+  ],
+  "design": {
+    "edition": 2,
+    "family": "fabrication",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "cordas e tubos curvos"
+    ],
+    "seed": 3307
+  }
+}

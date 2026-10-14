@@ -1,0 +1,264 @@
+{
+  "name": "Papéis espalhados",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "paper": {
+      "color": "#cdc6b1",
+      "roughness": 0.95
+    },
+    "yellow": {
+      "color": "#d6a31f",
+      "roughness": 0.6
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.0015,
+        0.297
+      ],
+      "position": [
+        0.006027162075042725,
+        0.000999999719671905,
+        -0.0376458466053009
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        0.2,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.0015,
+        0.297
+      ],
+      "position": [
+        0.3060271620750427,
+        0.002599999719671905,
+        0.1623541533946991
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        -0.5,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.0015,
+        0.297
+      ],
+      "position": [
+        -0.3339728379249573,
+        0.004199999719671905,
+        0.0623541533946991
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        1.1,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.0015,
+        0.297
+      ],
+      "position": [
+        0.12602716207504272,
+        0.0057999997196719055,
+        -0.3976458466053009
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        0.7,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.0015,
+        0.297
+      ],
+      "position": [
+        -0.1939728379249573,
+        0.007399999719671906,
+        -0.3376458466053009
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        -0.2,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.0015,
+        0.297
+      ],
+      "position": [
+        0.5060271620750427,
+        0.008999999719671905,
+        -0.1376458466053009
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        1.9,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.0015,
+        0.297
+      ],
+      "position": [
+        -0.5139728379249573,
+        0.010599999719671906,
+        -0.2176458466053009
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        2.6,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.0015,
+        0.297
+      ],
+      "position": [
+        0.3660271620750427,
+        0.012199999719671905,
+        0.4023541533946991
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        0.1,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.0015,
+        0.297
+      ],
+      "position": [
+        -0.05397283792495727,
+        0.013799999719671906,
+        0.3623541533946991
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        1.5,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.24,
+        0.03,
+        0.32
+      ],
+      "position": [
+        -0.4539728379249573,
+        0.014999999719671905,
+        0.3823541533946991
+      ],
+      "material": "yellow",
+      "rotation": [
+        0,
+        0.5,
+        0
+      ],
+      "bevel": 0.004,
+      "round": true,
+      "surface": {
+        "texture": "paint",
+        "textureSize": 1.2,
+        "relief": 0.003,
+        "paintFinish": "smooth",
+        "paintChips": 0.1,
+        "paintBase": "metal",
+        "textureColor": "#d6a31f",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.22,
+        0.002,
+        0.3
+      ],
+      "position": [
+        -0.4339728379249573,
+        0.03199999971967191,
+        0.3923541533946991
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        0.58,
+        0
+      ],
+      "bevel": 0
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.3609962463378906,
+    0.03299999976623803,
+    1.1577354669570923
+  ],
+  "design": {
+    "edition": 2,
+    "family": "fabrication",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "pintura com lascas"
+    ],
+    "seed": 26818
+  }
+}

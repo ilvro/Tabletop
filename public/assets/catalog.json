@@ -10181,6 +10181,852 @@
       "previewUrl": "/assets/previews/future-speeder.svg",
       "geometryEdition": 2,
       "contentHash": "d57fe58f4944ce319e003186e44ffd05a7582c60202aecea3b449afbbb92d254"
+    },
+    {
+      "id": "builtin-industrial-pipe-straight",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Tubo reto · 2 m",
+      "category": "Industrial / Tubulação",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "tubo",
+        "cano",
+        "tubulação"
+      ],
+      "description": "Trecho de 2 m com flanges parafusadas. Suba pela altura para montar linhas no teto ou na parede.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.02,
+        0.23
+      ],
+      "bounds": [
+        2.014,
+        0.227,
+        0.227
+      ],
+      "url": "/assets/models/industrial-pipe-straight.json",
+      "previewUrl": "/assets/previews/industrial-pipe-straight.svg",
+      "geometryEdition": 2,
+      "contentHash": "7c572ff3dfd55bcb2c9cf750e1763ded96499a5ac4622f839f9e8400d54325e6"
+    },
+    {
+      "id": "builtin-industrial-pipe-long",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Tubo reto · 4 m",
+      "category": "Industrial / Tubulação",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "tubo",
+        "cano",
+        "tubulação"
+      ],
+      "description": "Trecho de 4 m com luva de emenda no meio.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        4.02,
+        0.23
+      ],
+      "bounds": [
+        4.014,
+        0.227,
+        0.227
+      ],
+      "url": "/assets/models/industrial-pipe-long.json",
+      "previewUrl": "/assets/previews/industrial-pipe-long.svg",
+      "geometryEdition": 2,
+      "contentHash": "069a41e4fbda2dc5c988ef384d1961797d1b3897d99d69cc065ae71e194ccfa6"
+    },
+    {
+      "id": "builtin-industrial-pipe-elbow",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Curva de tubo · 90°",
+      "category": "Industrial / Tubulação",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "tubo",
+        "curva",
+        "cotovelo"
+      ],
+      "description": "Curva no plano do chão, com flange nas duas pontas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.63,
+        0.63
+      ],
+      "bounds": [
+        0.621,
+        0.227,
+        0.621
+      ],
+      "url": "/assets/models/industrial-pipe-elbow.json",
+      "previewUrl": "/assets/previews/industrial-pipe-elbow.svg",
+      "geometryEdition": 2,
+      "contentHash": "0c1bd45ba9159517036a68cb9531bc96cc2ce2efa9a20a8b03b4dece608335dc"
+    },
+    {
+      "id": "builtin-industrial-pipe-elbow-up",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Curva de tubo · sobe",
+      "category": "Industrial / Tubulação",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "tubo",
+        "curva",
+        "subida"
+      ],
+      "description": "Curva que leva uma linha horizontal para cima.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.63,
+        0.23
+      ],
+      "bounds": [
+        0.621,
+        0.627,
+        0.227
+      ],
+      "url": "/assets/models/industrial-pipe-elbow-up.json",
+      "previewUrl": "/assets/previews/industrial-pipe-elbow-up.svg",
+      "geometryEdition": 2,
+      "contentHash": "d6c7096d36addb55e493e0966038f24705fe99b5cbedc06dd0b6d6191abbce6b"
+    },
+    {
+      "id": "builtin-industrial-pipe-tee",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Tê de tubo",
+      "category": "Industrial / Tubulação",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "tubo",
+        "derivação",
+        "tê"
+      ],
+      "description": "Derivação de uma linha, com três flanges.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.02,
+        0.63
+      ],
+      "bounds": [
+        1.014,
+        0.227,
+        0.621
+      ],
+      "url": "/assets/models/industrial-pipe-tee.json",
+      "previewUrl": "/assets/previews/industrial-pipe-tee.svg",
+      "geometryEdition": 2,
+      "contentHash": "d72767129c45938c3d9650eda244ff8dae788b83518a3d7630e80dcdffc2f6bb"
+    },
+    {
+      "id": "builtin-industrial-pipe-riser",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Tubo vertical de parede · 3 m",
+      "category": "Industrial / Tubulação",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "tubo",
+        "prumada",
+        "parede"
+      ],
+      "description": "Prumada com três abraçadeiras. Encoste na parede.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.24,
+        0.2
+      ],
+      "bounds": [
+        0.24,
+        3,
+        0.2
+      ],
+      "url": "/assets/models/industrial-pipe-riser.json",
+      "previewUrl": "/assets/previews/industrial-pipe-riser.svg",
+      "geometryEdition": 2,
+      "contentHash": "f0d3661d8791aa6121d2eb3070f2d77e85c4e5318c5a6b6b844c5b5cd8b31525"
+    },
+    {
+      "id": "builtin-industrial-pipe-bundle",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Feixe de três tubos · 3 m",
+      "category": "Industrial / Tubulação",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "tubo",
+        "linha",
+        "teto"
+      ],
+      "description": "Três linhas em suportes de tirante. O topo dos tirantes toca o teto.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3,
+        0.68
+      ],
+      "bounds": [
+        3,
+        0.535,
+        0.68
+      ],
+      "url": "/assets/models/industrial-pipe-bundle.json",
+      "previewUrl": "/assets/previews/industrial-pipe-bundle.svg",
+      "geometryEdition": 2,
+      "contentHash": "cab3986ae42820241d1d8c49ab02ed1ab8385d525469157f9877d5d593d87372"
+    },
+    {
+      "id": "builtin-industrial-duct",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Duto grosso · 3 m",
+      "category": "Industrial / Tubulação",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "duto",
+        "tubo",
+        "teto",
+        "ventilação"
+      ],
+      "description": "Duto de 56 cm com anéis de reforço e duas braçadeiras de tirante. O topo dos tirantes toca o teto.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.04,
+        0.66
+      ],
+      "bounds": [
+        3.04,
+        0.98,
+        0.66
+      ],
+      "url": "/assets/models/industrial-duct.json",
+      "previewUrl": "/assets/previews/industrial-duct.svg",
+      "geometryEdition": 2,
+      "contentHash": "45d5bf64873bf3e42cfb4c28c683b89660ed2bdcb2dde517c53fde96a6a9de2e"
+    },
+    {
+      "id": "builtin-industrial-pipe-hanger",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Suporte de tubos de teto",
+      "category": "Industrial / Tubulação",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "suporte",
+        "tirante",
+        "teto"
+      ],
+      "description": "Travessa em dois tirantes rosqueados, para apoiar linhas de tubo ou cabos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.9,
+        0.06
+      ],
+      "bounds": [
+        0.9,
+        0.6,
+        0.06
+      ],
+      "url": "/assets/models/industrial-pipe-hanger.json",
+      "previewUrl": "/assets/previews/industrial-pipe-hanger.svg",
+      "geometryEdition": 2,
+      "contentHash": "f1481d5b18bae3c03ecf2efb809ef580601873036884b341c6e16d0d58e13886"
+    },
+    {
+      "id": "builtin-industrial-cable-tray",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Eletrocalha · 2 m",
+      "category": "Industrial / Tubulação",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "eletrocalha",
+        "cabos",
+        "teto"
+      ],
+      "description": "Calha em escada com quatro cabos, pendurada em tirantes.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2,
+        0.46
+      ],
+      "bounds": [
+        2,
+        0.5,
+        0.46
+      ],
+      "url": "/assets/models/industrial-cable-tray.json",
+      "previewUrl": "/assets/previews/industrial-cable-tray.svg",
+      "geometryEdition": 2,
+      "contentHash": "ee02ef53da621004b4d5e458e5ab0d0a400b9f3849c069833f4337b8ba25a78e"
+    },
+    {
+      "id": "builtin-industrial-column",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Coluna de aço · 3 m",
+      "category": "Industrial / Estrutura",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "coluna",
+        "viga",
+        "estrutura"
+      ],
+      "description": "Perfil em H com chapas de base e topo e faixa de alerta ao pé.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.42,
+        0.38
+      ],
+      "bounds": [
+        0.42,
+        3,
+        0.38
+      ],
+      "url": "/assets/models/industrial-column.json",
+      "previewUrl": "/assets/previews/industrial-column.svg",
+      "geometryEdition": 2,
+      "contentHash": "3192f202f274cea5e62c5e8ec13db0af8f46711cd1a76704c02c025143d54a2b"
+    },
+    {
+      "id": "builtin-industrial-blast-door",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Portão industrial de duas folhas",
+      "category": "Industrial / Estrutura",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "porta",
+        "portão",
+        "entrada"
+      ],
+      "description": "Batente pesado, duas folhas nervuradas, faixa de alerta, placa para letreiro e duas luzes de aviso. É um objeto: não abre passagem na parede.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.8,
+        0.42
+      ],
+      "bounds": [
+        3.8,
+        3.4,
+        0.42
+      ],
+      "url": "/assets/models/industrial-blast-door.json",
+      "previewUrl": "/assets/previews/industrial-blast-door.svg",
+      "geometryEdition": 2,
+      "contentHash": "b6738eee6e49d3a54835c62257323e0b29d9e2d45f8f3f9ed49045dd2a149280"
+    },
+    {
+      "id": "builtin-industrial-hazard-band",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Faixa de alerta de parede · 2 m",
+      "category": "Industrial / Sinalização",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "faixa",
+        "alerta",
+        "segurança",
+        "listras"
+      ],
+      "description": "Faixa amarela e preta de 30 cm. Fixe à parede na altura desejada e repita lado a lado.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2,
+        0.02
+      ],
+      "bounds": [
+        2,
+        0.3,
+        0.016
+      ],
+      "url": "/assets/models/industrial-hazard-band.json",
+      "previewUrl": "/assets/previews/industrial-hazard-band.svg",
+      "geometryEdition": 2,
+      "contentHash": "e361827d0638eb09ce10a8d8791aba6b347fcd3f14b86f3c80caa51f6b717abc"
+    },
+    {
+      "id": "builtin-industrial-warning-light",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Luz de aviso de parede",
+      "category": "Industrial / Sinalização",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "luz",
+        "alarme",
+        "aviso",
+        "vermelha"
+      ],
+      "description": "Lâmpada vermelha em grade, sobre caixa de parede. Fonte de luz vinculável.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.2,
+        0.24
+      ],
+      "bounds": [
+        0.2,
+        0.27,
+        0.24
+      ],
+      "url": "/assets/models/industrial-warning-light.json",
+      "previewUrl": "/assets/previews/industrial-warning-light.svg",
+      "geometryEdition": 2,
+      "contentHash": "724c9f30a90e44f92bcd074fdecf79b2c64c661b6fc4d4c78670683941dacf26"
+    },
+    {
+      "id": "builtin-industrial-tube-light",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Luminária fluorescente pendente",
+      "category": "Industrial / Sinalização",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "luz",
+        "fluorescente",
+        "teto"
+      ],
+      "description": "Calha com dois tubos e grade, em dois tirantes. O topo dos tirantes toca o teto. Fonte de luz vinculável.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.3,
+        0.22
+      ],
+      "bounds": [
+        1.3,
+        0.694,
+        0.22
+      ],
+      "url": "/assets/models/industrial-tube-light.json",
+      "previewUrl": "/assets/previews/industrial-tube-light.svg",
+      "geometryEdition": 2,
+      "contentHash": "0a611d8e2fc1092833e819a1d516264244a99dec7b106c4fdaae2ea69b389df5"
+    },
+    {
+      "id": "builtin-industrial-metal-table",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Mesa de aço tubular",
+      "category": "Industrial / Mobiliário",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo",
+        "Oficina"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "mesa",
+        "bancada",
+        "metal"
+      ],
+      "description": "Tampo de chapa sobre quadro de tubo, com prateleira baixa.",
+      "supportHeight": 0.7800000000521541,
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.5,
+        0.7
+      ],
+      "bounds": [
+        1.5,
+        0.78,
+        0.7
+      ],
+      "url": "/assets/models/industrial-metal-table.json",
+      "previewUrl": "/assets/previews/industrial-metal-table.svg",
+      "geometryEdition": 2,
+      "contentHash": "7bff9749d25f97ddd78342e2e0fe8b20ef9127aee088268cfb641eec6bb45d61"
+    },
+    {
+      "id": "builtin-industrial-metal-shelf",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Estante de aço",
+      "category": "Industrial / Mobiliário",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo",
+        "Depósito"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "estante",
+        "prateleira",
+        "metal"
+      ],
+      "description": "Montantes perfurados e cinco prateleiras de chapa, com caixas e uma lata esquecidas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.2,
+        0.44
+      ],
+      "bounds": [
+        1.2,
+        1.9,
+        0.44
+      ],
+      "url": "/assets/models/industrial-metal-shelf.json",
+      "previewUrl": "/assets/previews/industrial-metal-shelf.svg",
+      "geometryEdition": 2,
+      "contentHash": "5cb500c99fd45e11db51c79ca39da23150b7f757ba4fb2d9eae297440ac00b61"
+    },
+    {
+      "id": "builtin-industrial-rubble-concrete",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Entulho de concreto",
+      "category": "Industrial / Abandono",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo",
+        "Ruína"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "entulho",
+        "escombros",
+        "concreto"
+      ],
+      "description": "Oito pedaços de laje quebrada com vergalhões expostos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.46,
+        1.12
+      ],
+      "bounds": [
+        1.459,
+        0.51,
+        1.116
+      ],
+      "url": "/assets/models/industrial-rubble-concrete.json",
+      "previewUrl": "/assets/previews/industrial-rubble-concrete.svg",
+      "geometryEdition": 2,
+      "contentHash": "645836b1d310eb1e873043217eceae392042fd63b1999265a2cbbeaa3f819f1c"
+    },
+    {
+      "id": "builtin-industrial-rubble-tiles",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Piso solto e quebrado",
+      "category": "Industrial / Abandono",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo",
+        "Ruína"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "entulho",
+        "piso",
+        "ladrilho",
+        "quebrado"
+      ],
+      "description": "Oito placas levantadas, viradas e empilhadas, com lascas em volta.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.36,
+        1.27
+      ],
+      "bounds": [
+        1.357,
+        0.092,
+        1.261
+      ],
+      "url": "/assets/models/industrial-rubble-tiles.json",
+      "previewUrl": "/assets/previews/industrial-rubble-tiles.svg",
+      "geometryEdition": 2,
+      "contentHash": "6a92c19a0497237b97920c043752d41e276047a2afc560b9cd3b3df943f0a0dd"
+    },
+    {
+      "id": "builtin-industrial-scattered-papers",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Papéis espalhados",
+      "category": "Industrial / Abandono",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo",
+        "Escritório",
+        "Arquivo"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "papel",
+        "documentos",
+        "chão"
+      ],
+      "description": "Folhas soltas e uma pasta caída.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.37,
+        1.16
+      ],
+      "bounds": [
+        1.361,
+        0.033,
+        1.158
+      ],
+      "url": "/assets/models/industrial-scattered-papers.json",
+      "previewUrl": "/assets/previews/industrial-scattered-papers.svg",
+      "geometryEdition": 2,
+      "contentHash": "c96d052eb699cb757b78b4d1c58018d03e37468ea95810f126efe4b69eb0579c"
+    },
+    {
+      "id": "builtin-industrial-floor-weeds",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Mato nascendo do piso",
+      "category": "Industrial / Abandono",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo",
+        "Ruína"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "mato",
+        "planta",
+        "abandono",
+        "vegetação"
+      ],
+      "description": "Tufos de capim e uma samambaia rompendo o piso, com lascas levantadas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.89,
+        0.82
+      ],
+      "bounds": [
+        0.89,
+        0.575,
+        0.818
+      ],
+      "url": "/assets/models/industrial-floor-weeds.json",
+      "previewUrl": "/assets/previews/industrial-floor-weeds.svg",
+      "geometryEdition": 2,
+      "contentHash": "6c3e29284eba632836ce500ef252b8efd49286b4a324e4a1f76e8780b7e26e3a"
+    },
+    {
+      "id": "builtin-industrial-hanging-vines",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Trepadeira pendente",
+      "category": "Industrial / Abandono",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo",
+        "Ruína"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "trepadeira",
+        "cipó",
+        "planta",
+        "teto",
+        "vegetação"
+      ],
+      "description": "Cipós que descem 1,7 m do teto, com folhas caídas. O topo toca o teto.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.93,
+        0.61
+      ],
+      "bounds": [
+        0.924,
+        2.009,
+        0.608
+      ],
+      "url": "/assets/models/industrial-hanging-vines.json",
+      "previewUrl": "/assets/previews/industrial-hanging-vines.svg",
+      "geometryEdition": 2,
+      "contentHash": "2d2a6dedb472089f5eaa1383f4e7b0fd81393f5a38e644a22a9050a79a38fd6e"
+    },
+    {
+      "id": "builtin-industrial-cable",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cabos pendentes",
+      "category": "Industrial / Tubulação",
+      "era": "Contemporânea",
+      "contexts": [
+        "Fábrica",
+        "Galpão",
+        "Laboratório",
+        "Subsolo",
+        "Ruína"
+      ],
+      "tags": [
+        "industrial",
+        "fábrica",
+        "cabo",
+        "fio",
+        "teto",
+        "pendurado"
+      ],
+      "description": "Feixe de fios com barriga entre dois pontos, ou solto de um só. Vão, folga, quantidade de fios e espessura são ajustados em Propriedades.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.02,
+        0.14
+      ],
+      "bounds": [
+        3.016,
+        0.608,
+        0.136
+      ],
+      "url": "/assets/models/industrial-cable.json",
+      "previewUrl": "/assets/previews/industrial-cable.svg",
+      "geometryEdition": 2,
+      "contentHash": "b75b5b5cf106186de6518626a2858504c77b682a6f6dc589e2e4d1d5307db645"
     }
   ]
 }

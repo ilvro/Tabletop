@@ -175,7 +175,9 @@ export function smartBuildPanel(document, options, floorId, existing, insight, s
     <label class="field range-field"><span class="field-label">Quantidade</span><span class="value-box"><input type="number" data-field="ambience-amount" value="${Math.round(ambience.amount * 100)}" min="0" max="100" step="5"/><i>%</i></span><input type="range" data-range="ambience-amount" value="${Math.round(ambience.amount * 100)}" min="0" max="100" step="5" tabindex="-1" aria-hidden="true"/></label>
     <button class="wide accent-outline" data-action="details-preview" ${floorId ? '' : 'disabled'}>Prévia dos detalhes</button>
     <button class="wide quiet" data-action="details-variation" ${floorId ? '' : 'disabled'}>Ver outra versão</button>
-    <p class="microcopy">Cortinas nas janelas, tapete sob o móvel principal, peças nas paredes e cantos vazios e objetos sobre tampos livres. Só acrescenta o que ainda não existe.</p></div></section>`;
+    <p class="microcopy">Cortinas nas janelas, tapete sob o móvel principal, peças nas paredes e cantos vazios e objetos sobre tampos livres. Só acrescenta o que ainda não existe.</p>
+    <button class="wide accent-outline" data-action="cables-preview" ${floorId ? '' : 'disabled'}>Cabos no teto</button>
+    <p class="microcopy">Feixes de parede a parede, entre pontos do teto e pontas soltas, na quantidade acima e sempre acima da altura da cabeça. Para um lugar abandonado, uma fábrica ou uma base. Refazer troca os que o assistente pendurou.</p></div></section>`;
 }
 
 export function polishPanel(count, options, document) {

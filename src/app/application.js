@@ -23,6 +23,8 @@ import { isVegetationAsset } from '../domain/landscape.js';
 import { rockDefaults } from '../domain/rocks.js';
 import { measurementText } from '../domain/measurement.js';
 import { rockPanel } from '../ui/rock-panel.js';
+import { cablePanel } from '../ui/cable-panel.js';
+import { CABLE_ASSET, cableBetween, cableDefaults } from '../domain/cables.js';
 import { createMountainTerrain } from '../authoring/mountain.js';
 import { numberField, colorField, checkField, bindControls } from '../ui/controls.js';
 import { paintSwatches } from '../ui/swatches.js';
@@ -42,7 +44,7 @@ import { proposeFurnishing } from '../authoring/furnishing.js';
 import { proposeRoomState } from '../authoring/room-state.js';
 import { describeRoom } from '../authoring/room-insight.js';
 import { proposeBuilding, proposeAddRoom, proposeRemoveRoom, proposeRedivide, describeBuilding, planBuilding, addRoomSpots, BUILDING_TYPES } from '../authoring/building.js';
-import { proposeRoomLighting, proposeRoomDetails, roomMood, suggestAtmosphere } from '../authoring/room-ambience.js';
+import { proposeRoomLighting, proposeRoomDetails, proposeRoomCables, roomMood, suggestAtmosphere } from '../authoring/room-ambience.js';
 import { proposeSurroundings, inferSetting, SETTINGS, SURROUNDINGS_TAG } from '../authoring/surroundings.js';
 import { roomEra } from '../authoring/room-insight.js';
 import { createTutor, tutorialCenter } from '../tutorial/tutor.js';
@@ -594,6 +596,13 @@ export async function startApplication() {
     } else if (placing.type === 'light') {
       const light = createLight({ type: placing.lightType ?? 'point', position: [position[0], position[1] + 2.2, position[2]], surfaceId, ...constructionSemantics() });
       if (execute('light.add', { light })) newId = light.id;
+    } else if (placing.type === 'cable') {
+      // Two clicks on the ground mark where the ends hang from; the height is the top of the walls of that room.
+      const walls = Object.values(store.document.layout.entities).filter(e => e.kind === 'wall' && (e.floorIds ?? [e.surfaceId]).includes(surfaceId)), point = [position[0], position[1] + (walls.length ? Math.max(...walls.map(w => w.height)) : 2.6) - .04, position[2]];
+      if (!placing.from) { placing.from = point; notify('Agora clique sob a segunda ponta do cabo. Esc cancela.'); return; }
+      const asset = assets.find(a => a.id === CABLE_ASSET);
+      try { const entity = createEntity('prop', { name: asset.name, assetRef: { id: asset.id, revision: asset.revision }, footprint: [.2, .2], ...cableBetween(placing.from, point), ...constructionSemantics() }); placing.from = null; if (execute('entity.add', { entity, snap: false })) newId = entity.id; }
+      catch (error) { notify(error.message, true); return; }
     } else if (['stairs', 'ramp'].includes(placing.type)) {
       const candidateLevel = store.document.layout.levels?.[store.document.layout.entities[surfaceId]?.levelId ?? activeLevelId];
       const from = candidateLevel && Math.abs(candidateLevel.elevation - position[1]) < 1e-6 ? candidateLevel : null;
@@ -604,6 +613,8 @@ export async function startApplication() {
       const asset = placing.asset;
       const geological=rockDefaults(asset.id);
       const entity = createEntity('prop', { ...(isVegetationAsset(asset.id)?{vegetationSeed:0}:{}), ...(geological ? {material:{...surfacePatch('rock'),rockPattern:geological.form.startsWith('organic')?'organic':['strata','cliff','spire'].includes(geological.form)?'strata':geological.form==='rounded'?'granite':'fractured'},rockShape:geological} : {}), name: asset.name, position, surfaceId, assetRef: { id: asset.id, revision: asset.revision }, footprint: asset.footprint ?? [1, 1], ...constructionSemantics(), ...(asset.supportHeight ? { supportHeight: asset.supportHeight } : {}), ...(placing.localEffect || asset.id==='builtin-campfire' ? { localEffect: clone(placing.localEffect??LOCAL_EFFECT_DEFAULTS) } : {}) });
+      // From the library a cable arrives with its default span, hung at wall height; the settings are in Propriedades.
+      if (asset.id === CABLE_ASSET) { entity.cable = cableDefaults(); entity.footprint = [.2, .2]; entity.surfaceId = null; entity.transform.position[1] += 2.56; }
       if (execute('entity.add', { entity, snap })) newId = entity.id;
     }
     if (newId) {
@@ -672,7 +683,7 @@ export async function startApplication() {
     if (['scene','elements'].includes(panel.dataset.currentTab)) rememberDisclosures(panel, sceneDisclosures);
     panel.dataset.currentTab = tab;
     if (tab === 'build') {
-      panel.innerHTML = `<section class="quick-section"><span class="eyebrow">QUICK BUILD</span>${button('room-draw', 'Desenhar sala', 'room', 'wide accent-outline')}<form id="quick-form"><div class="field-grid">${numberField('room-width', 'Largura interna · m', roomOptions.width, { min: 1.4 })}${numberField('room-length', 'Comprimento · m', roomOptions.length, { min: 1 })}</div>${numberField('room-height', 'Altura das paredes · m', roomOptions.height, { min: 2.2 })}<span class="section-caption">SUGESTÕES OPCIONAIS</span>${checkField('room-door', 'Incluir uma porta', roomOptions.door)}${checkField('room-lighting', 'Adicionar iluminação', roomOptions.lighting)}<button class="primary wide" type="submit">${icon('eye')} Ver prévia</button></form></section><section><span class="eyebrow">CONSTRUIR MANUALMENTE</span><div class="construction-grid">${button('floor-add', 'Piso', 'floor')}${button('wall-add', 'Parede', 'wall')}${button('door-add', 'Porta', 'door')}${button('light-place', 'Luz pontual', 'light')}${button('spot-place', 'Luz spot', 'light')}${button('fire-place', 'Fogueira', 'light')}${button('smoke-place', 'Fumaça', 'light')}</div></section><section><span class="eyebrow">PERSONAGENS</span><label class="field"><span>Nome do token</span><input id="token-name" value="Investigador" maxlength="256" /></label><div class="token-controls"><input id="token-color" aria-label="Cor do token" type="color" value="#e4b76f" />${button('token-place', 'Colocar token', 'token', 'wide')}</div><p class="microcopy">Para usar um retrato, importe uma imagem na biblioteca.</p></section><section><span class="eyebrow">GRID E PRECISÃO</span>${checkField('grid-visible', 'Mostrar grid', store.document.layout.grid.visible)}${checkField('grid-snap', 'Encaixar no grid', store.document.layout.grid.snap)}${numberField('grid-size', 'Célula · m', store.document.layout.grid.cellSize, { min: .1 })}</section>`;
+      panel.innerHTML = `<section class="quick-section"><span class="eyebrow">QUICK BUILD</span>${button('room-draw', 'Desenhar sala', 'room', 'wide accent-outline')}<form id="quick-form"><div class="field-grid">${numberField('room-width', 'Largura interna · m', roomOptions.width, { min: 1.4 })}${numberField('room-length', 'Comprimento · m', roomOptions.length, { min: 1 })}</div>${numberField('room-height', 'Altura das paredes · m', roomOptions.height, { min: 2.2 })}<span class="section-caption">SUGESTÕES OPCIONAIS</span>${checkField('room-door', 'Incluir uma porta', roomOptions.door)}${checkField('room-lighting', 'Adicionar iluminação', roomOptions.lighting)}<button class="primary wide" type="submit">${icon('eye')} Ver prévia</button></form></section><section><span class="eyebrow">CONSTRUIR MANUALMENTE</span><div class="construction-grid">${button('floor-add', 'Piso', 'floor')}${button('wall-add', 'Parede', 'wall')}${button('door-add', 'Porta', 'door')}${button('light-place', 'Luz pontual', 'light')}${button('spot-place', 'Luz spot', 'light')}${button('fire-place', 'Fogueira', 'light')}${button('smoke-place', 'Fumaça', 'light')}${button('cable-place', 'Cabo', 'ruler', '', 'title="Cabos pendentes entre dois pontos: dois cliques no chão"')}</div></section><section><span class="eyebrow">PERSONAGENS</span><label class="field"><span>Nome do token</span><input id="token-name" value="Investigador" maxlength="256" /></label><div class="token-controls"><input id="token-color" aria-label="Cor do token" type="color" value="#e4b76f" />${button('token-place', 'Colocar token', 'token', 'wide')}</div><p class="microcopy">Para usar um retrato, importe uma imagem na biblioteca.</p></section><section><span class="eyebrow">GRID E PRECISÃO</span>${checkField('grid-visible', 'Mostrar grid', store.document.layout.grid.visible)}${checkField('grid-snap', 'Encaixar no grid', store.document.layout.grid.snap)}${numberField('grid-size', 'Célula · m', store.document.layout.grid.cellSize, { min: .1 })}</section>`;
       panel.innerHTML += constructionPanel(store.document, { surfaceId: activeSurfaceId, height: buildHeight, polygon: tool === 'polygon' });
       panel.innerHTML += levelsPanel(store.document, { levelId: activeLevelId, layerId: activeLayerId, isolated: isolatedLevel });
       panel.innerHTML += terrainPanel(terrainOptions);
@@ -909,7 +920,7 @@ export async function startApplication() {
     if (type === 'token' || record.kind === 'prop') fields += `<section><span class="eyebrow">ESCALA VISUAL</span><div class="axis-fields">${record.transform.scale.map((value, axis) => numberField(`scale-${axis}`, ['X', 'Y', 'Z'][axis], value, { min: .01 })).join('')}</div>${type === 'token' ? `<span class="eyebrow">BASE · METROS</span><div class="field-grid">${numberField('footprint-0', 'Largura', record.footprint[0], { min: .1 })}${numberField('footprint-1', 'Profundidade', record.footprint[1], { min: .1 })}</div>${colorField('token-color', 'Cor do personagem', actor.color)}` : ''}</section>`;
     if (record.material && record.kind !== 'terrain' && record.water?.state!=='water') fields += materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField, transferControls: materialTransferControls(record) });
     if(record.kind==='prop' && isVegetationAsset(record.assetRef.id)) fields+=`<section><span class="eyebrow">VEGETAÇÃO · GEOMETRIA</span>${numberField('vegetationSeed','Variação geométrica',record.vegetationSeed??0,{min:0,max:65535,step:1})}<p class="microcopy">Varia ramificação e folhagem, preservando o tamanho e a base. Escala e rotação continuam independentes.</p></section>`;
-    if (record.kind === 'prop') fields += rockPanel(record,{numberField});
+    if (record.kind === 'prop') fields += rockPanel(record,{numberField}) + cablePanel(record);
     if (record.kind === 'prop') fields += localEffectPanel(record, { numberField, colorField, checkField });
     if(record.material){fields+=illuminationPanel(record,viewport.getMaterialSlots(record.id),lightPresets,selectedLightPreset,{numberField,colorField,checkField});fields+=zonePanel(record,{numberField,colorField,checkField});}
     if (type === 'light') fields += lightPanel(record, { numberField, colorField, checkField });
@@ -1685,6 +1696,10 @@ export async function startApplication() {
     else if (field.startsWith('wear-')) patch.material = { wear: wearFieldPatch(record.material.wear, field.slice(5), value) };
     else if (field.startsWith('material-')) patch.material = field === 'material-texture' ? surfacePatch(value) : textureFieldPatch(record.material, field.slice(9), value);
     else if(field.startsWith('water-') && record.kind==='water') patch.water={[field.slice(6)]:value};
+    else if (field.startsWith('cable-') && record.cable) {
+      const member = field.slice(6);
+      patch.cable = member.startsWith('span-') ? { ...record.cable, span: record.cable.span.map((v, axis) => axis === Number(member.slice(5)) ? value : v) } : { ...record.cable, [member]: value };
+    }
     else if (field.startsWith('rock-') && rockDefaults(record.assetRef?.id)) {
       patch.rockShape={...(record.rockShape??rockDefaults(record.assetRef.id)),[field.slice(5)]:value};
     }
@@ -1959,6 +1974,10 @@ export async function startApplication() {
         try { showAuthorshipProposal(proposeRoomLighting(store.document, { mood: ambienceOptions.mood, floorId: smartFloorId }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
+      case 'cables-preview': {
+        try { ambienceOptions.cableSeed = (ambienceOptions.cableSeed ?? 0) + 1; showAuthorshipProposal(proposeRoomCables(store.document, { amount: ambienceOptions.amount, seed: ambienceOptions.cableSeed, floorId: smartFloorId }, store.editVersion, assets)); }
+        catch (error) { notify(error.message, true); } break;
+      }
       case 'details-variation': ambienceOptions.seed = (ambienceOptions.seed + 1) % 4294967296;
       // falls through
       case 'details-preview': {
@@ -1981,6 +2000,7 @@ export async function startApplication() {
         clearProposal(); setTool('window'); viewport.setTopView(false);
         notify('Clique na parede onde deseja colocar o centro da janela.'); break;
       }
+      case 'cable-place': placing = { type: 'cable', from: null }; clearProposal(); setTool('place'); notify('Clique no chão sob a primeira ponta do cabo; depois, sob a segunda.'); break;
       case 'stairs-place': placing = { type: 'stairs' }; clearProposal(); setTool('place'); notify('Clique no apoio para colocar a escada; ajuste desnível e degraus no inspetor.'); break;
       case 'ramp-place': placing = { type: 'ramp' }; clearProposal(); setTool('place'); notify('Clique no apoio para colocar a rampa; ajuste o desnível no inspetor.'); break;
       case 'duplicate-scene': return duplicateScene();

@@ -1,3 +1,4 @@
+import { CABLE_ASSET, validateCable } from './cables.js';
 import { isTrustedSnapshot } from '../state/immutable.js';
 import { ROOM_TEMPLATE_IDS } from './room-recipes.js';
 import { ROOM_ERA_IDS } from './room-eras.js';
@@ -172,7 +173,7 @@ function entity(value, path, document) {
     window: ['wallId', 'offset', 'width', 'height', 'sill', 'style', 'material'],
     stairs: ['transform', 'width', 'length', 'height', 'steps', 'material', 'fromLevelId', 'toLevelId'],
     ramp: ['transform', 'width', 'length', 'height', 'material', 'fromLevelId', 'toLevelId'],
-    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight', 'localEffect', 'rockShape', 'rockSculpt', 'vegetationSeed'],
+    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight', 'localEffect', 'rockShape', 'rockSculpt', 'vegetationSeed', 'cable'],
   };
   choice(value.kind, Object.keys(fields), `${path}.kind`); keys(value, [...common, ...fields[value.kind]], path);
   text(value.name, `${path}.name`); bool(value.locked, `${path}.locked`); choice(value.audience, ['all', 'gm'], `${path}.audience`);
@@ -203,6 +204,7 @@ function entity(value, path, document) {
     fail(isSculptableRock(value),'A escultura exige uma rocha editável.',`${path}.rockSculpt`);
     try {assertRockSculpt(value.rockSculpt);} catch(error) {throw new ValidationError(error.message,`${path}.rockSculpt`);}
   }
+  if (value.cable !== undefined) { fail(value.kind === 'prop' && value.assetRef?.id === CABLE_ASSET, 'Só o objeto Cabos pendentes aceita ajustes de cabo.', `${path}.cable`); validateCable(value.cable, `${path}.cable`); }
   if(value.rockShape !== undefined) {
     fail(value.kind==='prop' && !!rockDefaults(value.assetRef?.id),'A geometria editável exige uma rocha do kit de montanha.',`${path}.rockShape`);
     const r=value.rockShape,rp=`${path}.rockShape`;

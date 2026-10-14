@@ -1,0 +1,195 @@
+{
+  "name": "Mato nascendo do piso",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "concrete": {
+      "color": "#77756f",
+      "roughness": 0.96
+    },
+    "leaf": {
+      "color": "#4a6a37",
+      "roughness": 0.95
+    }
+  },
+  "parts": [
+    {
+      "shape": "foliage",
+      "style": "grass",
+      "size": [
+        0.5,
+        0.55,
+        0.5
+      ],
+      "count": 30,
+      "seed": 411,
+      "position": [
+        0.005000010132789612,
+        0.02469189278781414,
+        -0.011395871639251709
+      ],
+      "material": "leaf",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "foliage",
+      "style": "grass",
+      "size": [
+        0.36,
+        0.4,
+        0.36
+      ],
+      "count": 20,
+      "seed": 412,
+      "position": [
+        0.2650000101327896,
+        0.02469189278781414,
+        0.1486041283607483
+      ],
+      "material": "leaf",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "foliage",
+      "style": "fern",
+      "size": [
+        0.5,
+        0.4,
+        0.5
+      ],
+      "count": 6,
+      "seed": 413,
+      "position": [
+        -0.1949999898672104,
+        0.02469189278781414,
+        -0.15139587163925172
+      ],
+      "material": "leaf",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "foliage",
+      "style": "grass",
+      "size": [
+        0.3,
+        0.3,
+        0.3
+      ],
+      "count": 14,
+      "seed": 414,
+      "position": [
+        -0.2949999898672104,
+        0.02469189278781414,
+        0.22860412836074828
+      ],
+      "material": "leaf",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.6,
+        "relief": 0.008
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.025,
+        0.16
+      ],
+      "position": [
+        0.3050000101327896,
+        0.05469189278781414,
+        -0.2313958716392517
+      ],
+      "material": "concrete",
+      "rotation": [
+        0.3,
+        0.5,
+        0.1
+      ],
+      "bevel": 0.003,
+      "round": true,
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 1.4
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.14,
+        0.02,
+        0.1
+      ],
+      "position": [
+        -0.054999989867210386,
+        0.044691892787814144,
+        0.3286041283607483
+      ],
+      "material": "concrete",
+      "rotation": [
+        -0.2,
+        1.3,
+        0.15
+      ],
+      "bevel": 0.0024,
+      "round": true,
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 1.4
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.022,
+        0.12
+      ],
+      "position": [
+        -0.3349999898672104,
+        0.04969189278781414,
+        -0.3113958716392517
+      ],
+      "material": "concrete",
+      "rotation": [
+        0.1,
+        2.4,
+        -0.25
+      ],
+      "bevel": 0.0026399999999999996,
+      "round": true,
+      "surface": {
+        "texture": "concrete",
+        "textureSize": 1.4
+      }
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.8900000154972076,
+    0.574691890869951,
+    0.8179629445075989
+  ],
+  "design": {
+    "edition": 2,
+    "family": "fabrication",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 27098
+  }
+}

@@ -4348,6 +4348,283 @@
         1.07,
         3.9
       ]
+    },
+    {
+      "id": "builtin-industrial-pipe-straight",
+      "footprint": [
+        2.02,
+        0.23
+      ],
+      "bounds": [
+        2.014,
+        0.227,
+        0.227
+      ]
+    },
+    {
+      "id": "builtin-industrial-pipe-long",
+      "footprint": [
+        4.02,
+        0.23
+      ],
+      "bounds": [
+        4.014,
+        0.227,
+        0.227
+      ]
+    },
+    {
+      "id": "builtin-industrial-pipe-elbow",
+      "footprint": [
+        0.63,
+        0.63
+      ],
+      "bounds": [
+        0.621,
+        0.227,
+        0.621
+      ]
+    },
+    {
+      "id": "builtin-industrial-pipe-elbow-up",
+      "footprint": [
+        0.63,
+        0.23
+      ],
+      "bounds": [
+        0.621,
+        0.627,
+        0.227
+      ]
+    },
+    {
+      "id": "builtin-industrial-pipe-tee",
+      "footprint": [
+        1.02,
+        0.63
+      ],
+      "bounds": [
+        1.014,
+        0.227,
+        0.621
+      ]
+    },
+    {
+      "id": "builtin-industrial-pipe-riser",
+      "footprint": [
+        0.24,
+        0.2
+      ],
+      "bounds": [
+        0.24,
+        3,
+        0.2
+      ]
+    },
+    {
+      "id": "builtin-industrial-pipe-bundle",
+      "footprint": [
+        3,
+        0.68
+      ],
+      "bounds": [
+        3,
+        0.535,
+        0.68
+      ]
+    },
+    {
+      "id": "builtin-industrial-duct",
+      "footprint": [
+        3.04,
+        0.66
+      ],
+      "bounds": [
+        3.04,
+        0.98,
+        0.66
+      ]
+    },
+    {
+      "id": "builtin-industrial-pipe-hanger",
+      "footprint": [
+        0.9,
+        0.06
+      ],
+      "bounds": [
+        0.9,
+        0.6,
+        0.06
+      ]
+    },
+    {
+      "id": "builtin-industrial-cable-tray",
+      "footprint": [
+        2,
+        0.46
+      ],
+      "bounds": [
+        2,
+        0.5,
+        0.46
+      ]
+    },
+    {
+      "id": "builtin-industrial-column",
+      "footprint": [
+        0.42,
+        0.38
+      ],
+      "bounds": [
+        0.42,
+        3,
+        0.38
+      ]
+    },
+    {
+      "id": "builtin-industrial-blast-door",
+      "footprint": [
+        3.8,
+        0.42
+      ],
+      "bounds": [
+        3.8,
+        3.4,
+        0.42
+      ]
+    },
+    {
+      "id": "builtin-industrial-hazard-band",
+      "footprint": [
+        2,
+        0.02
+      ],
+      "bounds": [
+        2,
+        0.3,
+        0.016
+      ]
+    },
+    {
+      "id": "builtin-industrial-warning-light",
+      "footprint": [
+        0.2,
+        0.24
+      ],
+      "bounds": [
+        0.2,
+        0.27,
+        0.24
+      ]
+    },
+    {
+      "id": "builtin-industrial-tube-light",
+      "footprint": [
+        1.3,
+        0.22
+      ],
+      "bounds": [
+        1.3,
+        0.694,
+        0.22
+      ]
+    },
+    {
+      "id": "builtin-industrial-metal-table",
+      "footprint": [
+        1.5,
+        0.7
+      ],
+      "bounds": [
+        1.5,
+        0.78,
+        0.7
+      ],
+      "supportHeight": 0.7800000000521541
+    },
+    {
+      "id": "builtin-industrial-metal-shelf",
+      "footprint": [
+        1.2,
+        0.44
+      ],
+      "bounds": [
+        1.2,
+        1.9,
+        0.44
+      ]
+    },
+    {
+      "id": "builtin-industrial-rubble-concrete",
+      "footprint": [
+        1.46,
+        1.12
+      ],
+      "bounds": [
+        1.459,
+        0.51,
+        1.116
+      ]
+    },
+    {
+      "id": "builtin-industrial-rubble-tiles",
+      "footprint": [
+        1.36,
+        1.27
+      ],
+      "bounds": [
+        1.357,
+        0.092,
+        1.261
+      ]
+    },
+    {
+      "id": "builtin-industrial-scattered-papers",
+      "footprint": [
+        1.37,
+        1.16
+      ],
+      "bounds": [
+        1.361,
+        0.033,
+        1.158
+      ]
+    },
+    {
+      "id": "builtin-industrial-floor-weeds",
+      "footprint": [
+        0.89,
+        0.82
+      ],
+      "bounds": [
+        0.89,
+        0.575,
+        0.818
+      ]
+    },
+    {
+      "id": "builtin-industrial-hanging-vines",
+      "footprint": [
+        0.93,
+        0.61
+      ],
+      "bounds": [
+        0.924,
+        2.009,
+        0.608
+      ]
+    },
+    {
+      "id": "builtin-industrial-cable",
+      "footprint": [
+        3.02,
+        0.14
+      ],
+      "bounds": [
+        3.016,
+        0.608,
+        0.136
+      ]
     }
   ]
 }
