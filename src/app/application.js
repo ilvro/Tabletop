@@ -513,10 +513,13 @@ export async function startApplication() {
   function previewBuilding() {
     try {
       // Where it was drawn; otherwise beside what the scene already has.
-      const taken = Object.values(store.document.layout.entities).filter(e => e.transform && ['floor', 'terrain'].includes(e.kind)).map(e => e.transform.position[0] + Math.max(e.width, e.length) / 2);
-      const center = buildingOptions.center ?? [taken.length ? Math.max(...taken) + 3 + Math.max(buildingOptions.width, buildingOptions.length) / 2 : 0, 0, 0];
-      const { addTemplate, pick, ...options } = buildingOptions;
-      const next = proposeBuilding(store.document, { ...options, floorId: buildingOptions.floorId || null, center }, store.editVersion, assets); next.buildingPreview = true;
+      const standing = Object.values(store.document.layout.entities).filter(e => e.transform && ['floor', 'terrain'].includes(e.kind)), reach = e => Math.max(e.width, e.length) / 2, half = Math.max(buildingOptions.width, buildingOptions.length) / 2;
+      const beside = side => [standing.length ? side > 0 ? Math.max(...standing.map(e => e.transform.position[0] + reach(e))) + 3 + half : Math.min(...standing.map(e => e.transform.position[0] - reach(e))) - 3 - half : 0, 0, 0];
+      const { addTemplate, pick, ...options } = buildingOptions, propose = center => proposeBuilding(store.document, { ...options, floorId: buildingOptions.floorId || null, center }, store.editVersion, assets);
+      let center = buildingOptions.center ?? beside(1), next = propose(center);
+      // The entrance should open onto free ground, not onto what is already standing: when it would, the building goes to the other side.
+      if (!buildingOptions.center && !buildingOptions.floorId && standing.length) { const door = next.entities.find(e => e.kind === 'door' && /entrada/i.test(e.name)), wall = door && next.entities.find(e => e.id === door.wallId); if (wall && Math.abs(wall.transform.position[0] + door.offset * Math.cos(yawFromQuaternion(wall.transform.rotation) * Math.PI / 180) - (center[0] - buildingOptions.width / 2)) < .4) { center = beside(-1); next = propose(center); } }
+      next.buildingPreview = true;
       showAuthorshipProposal(next);
     } catch (error) { notify(error.message, true); }
   }

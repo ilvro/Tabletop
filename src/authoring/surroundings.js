@@ -70,9 +70,22 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
   const quarter = Math.abs(front.turn) === 90, bw = quarter ? box.z1 - box.z0 : box.x1 - box.x0, bd = quarter ? box.x1 - box.x0 : box.z1 - box.z0;
   const open = chosen === 'woods', frontYard = open ? margin : margin * 1.3, lot = { x0: -bw / 2 - margin, x1: bw / 2 + margin, z0: -bd / 2 - margin, z1: bd / 2 + frontYard };
   const doorX = entrance ? Math.max(-bw / 2 + .8, Math.min(bw / 2 - .8, toLocal(rotateXZ([...at.slice(0, 1), 0, at[1]], baseYaw).map((v, i) => v + anchor.transform.position[i]))[0])) : 0;
+  // Other constructions close by are part of the place: the lot grows to take them in whole instead of cutting through them.
+  // One standing between the door and the street stays outside: the front yard stops short of it and there is no street.
+  const neighbours = entities.filter(e => e.kind === 'floor' && !memberIds.has(e.id) && !e.tags?.includes(SURROUNDINGS_TAG) && e.transform && Math.abs(e.transform.position[1] - anchor.transform.position[1]) < 1.5)
+    .map(floor => { const points = worldFootprint(floor).map(([x, z]) => toLocal([x, 0, z])), xs = points.map(p => p[0]), zs = points.map(p => p[1]); return { x0: Math.min(...xs), x1: Math.max(...xs), z0: Math.min(...zs), z1: Math.max(...zs) }; })
+    .filter(n => !(n.x0 > -bw / 2 - .3 && n.x1 < bw / 2 + .3 && n.z0 > -bd / 2 - .3 && n.z1 < bd / 2 + .3));
+  let blockedFront = false, absorbed = 0;
+  for (const n of neighbours.sort((a, b) => Math.hypot(a.x0 + a.x1, a.z0 + a.z1) - Math.hypot(b.x0 + b.x1, b.z0 + b.z1))) {
+    if (n.x1 < lot.x0 - 1 || n.x0 > lot.x1 + 1 || n.z1 < lot.z0 - 1 || n.z0 > lot.z1 + (open ? 1 : 9)) continue;
+    if (n.z0 >= bd / 2 - .3 && n.x0 < doorX + 1.6 && n.x1 > doorX - 1.6) { lot.z1 = Math.min(lot.z1, Math.max(bd / 2 + 1.2, n.z0 - .8)); blockedFront = true; continue; }
+    if (n.z0 > lot.z1) { blockedFront = true; continue; }
+    lot.x0 = Math.min(lot.x0, n.x0 - 1.5); lot.x1 = Math.max(lot.x1, n.x1 + 1.5); lot.z0 = Math.min(lot.z0, n.z0 - 1.5); if (!blockedFront) lot.z1 = Math.max(lot.z1, n.z1 + 1.5); absorbed++;
+  }
+  const yardFront = lot.z1 - bd / 2;
   const base = anchor.transform.position[1], placing = { levelId: anchor.levelId ?? null, layerId: anchor.layerId ?? null }, group = { id: id(), name: `Entorno — ${definition.name}`, parentId: null, locked: false, audience: 'all' };
   const proposal = { id: id(), expectedEditVersion, label: `Entorno: ${definition.name.toLowerCase()}`, entities: [], groups: [group], areas: [], lights: [], updates: [], rehoming: [], removals: [], report: { kept: [], suppressed: [], omissions: [], conflicts: [], reasons: [] } };
-  const road = street && !open, reach = { x0: lot.x0 - 1, x1: lot.x1 + 1, z0: lot.z0 - 1, z1: lot.z1 + (road ? 9 : 1) }, inReach = position => { const [x, z] = toLocal(position); return x >= lot.x0 - 14 && x <= lot.x1 + 14 && z >= lot.z0 - 14 && z <= lot.z1 + 22; };   // wide enough for a previous pass of any setting
+  const road = street && !open && !blockedFront, reach = { x0: lot.x0 - 1, x1: lot.x1 + 1, z0: lot.z0 - 1, z1: lot.z1 + (road ? 9 : 1) }, inReach = position => { const [x, z] = toLocal(position); return x >= lot.x0 - 14 && x <= lot.x1 + 14 && z >= lot.z0 - 14 && z <= lot.z1 + 22; };   // wide enough for a previous pass of any setting
 
   // The previous pass leaves; what the person put on the old ground moves to the new one.
   const previous = entities.filter(e => e.tags?.includes(SURROUNDINGS_TAG) && e.transform && inReach(e.transform.position) && !isLocked(document, e)), oldFloors = new Set(previous.filter(e => e.kind === 'floor').map(e => e.id));
@@ -147,10 +160,10 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
     // Filled from the far corners inwards, on both sides alike, as a graveyard grows.
     plots.sort((p, q) => (Math.abs(q[0]) - q[1] * .6) - (Math.abs(p[0]) - p[1] * .6));
     for (const [x, z] of plots) { if (made >= rows) break; if (put(random(`g/${x}/${z}`) < .16 ? 'grave-cross' : 'gravestone', x + (random(`gx/${x}/${z}`) - .5) * .3, z, 180 + (random(`gr/${x}/${z}`) - .5) * 14, { padding: .25 })) made++; }
-    if (greenery > .5) put('mausoleum', lot.x1 - 2.6, lot.z0 + 2.6, 180) ; if (greenery > .3) put('open-grave', lot.x0 + 2.4, bd / 2 + frontYard * .5, 0);
+    if (greenery > .5) put('mausoleum', lot.x1 - 2.6, lot.z0 + 2.6, 180) ; if (greenery > .3) put('open-grave', lot.x0 + 2.4, bd / 2 + yardFront * .5, 0);
   }
-  if (LANDMARK[chosen]) for (let attempt = 0; attempt < 12; attempt++) if (put(LANDMARK[chosen], lot.x0 + 2 + random(`lm/x/${attempt}`) * (lot.x1 - lot.x0 - 4), chosen === 'woods' ? bd / 2 + 2 + random(`lm/z/${attempt}`) * (frontYard - 3) : lot.z0 + 1.5 + random(`lm/z/${attempt}`) * (margin - 2.5), 0, { padding: .6 })) break;
-  if (era === 'medieval' && !open) { for (const side of [2.4, -2.4, 3.6, -3.6]) if (put('medieval-signpost', doorX + side, lot.z1 - 1.3, 180, { padding: .1 })) break; for (let attempt = 0; attempt < 10; attempt++) if (put(building?.type?.id === 'keep' ? 'medieval-stocks' : 'medieval-market-stall', lot.x0 + 2 + random(`md/${attempt}`) * (lot.x1 - lot.x0 - 4), bd / 2 + 1.6 + random(`mz/${attempt}`) * (frontYard - 3.4), 180, { padding: .4 })) break; for (let attempt = 0; attempt < 10; attempt++) if (put('medieval-training-dummy', lot.x0 + 1.5 + random(`dd/${attempt}`) * (lot.x1 - lot.x0 - 3), lot.z0 + 1.5 + random(`dz/${attempt}`) * (margin - 2.5), 0, { padding: .5 })) break; }
+  if (LANDMARK[chosen]) for (let attempt = 0; attempt < 12; attempt++) if (put(LANDMARK[chosen], lot.x0 + 2 + random(`lm/x/${attempt}`) * (lot.x1 - lot.x0 - 4), chosen === 'woods' ? bd / 2 + 2 + random(`lm/z/${attempt}`) * (yardFront - 3) : lot.z0 + 1.5 + random(`lm/z/${attempt}`) * (margin - 2.5), 0, { padding: .6 })) break;
+  if (era === 'medieval' && !open) { for (const side of [2.4, -2.4, 3.6, -3.6]) if (put('medieval-signpost', doorX + side, lot.z1 - 1.3, 180, { padding: .1 })) break; for (let attempt = 0; attempt < 10; attempt++) if (put(building?.type?.id === 'keep' ? 'medieval-stocks' : 'medieval-market-stall', lot.x0 + 2 + random(`md/${attempt}`) * (lot.x1 - lot.x0 - 4), bd / 2 + 1.6 + random(`mz/${attempt}`) * (yardFront - 3.4), 180, { padding: .4 })) break; for (let attempt = 0; attempt < 10; attempt++) if (put('medieval-training-dummy', lot.x0 + 1.5 + random(`dd/${attempt}`) * (lot.x1 - lot.x0 - 3), lot.z0 + 1.5 + random(`dz/${attempt}`) * (margin - 2.5), 0, { padding: .5 })) break; }
   // A base has its dish and its panels behind, and a sentry by the gate.
   if (era === 'future' && !open) { for (const side of [2.6, -2.6]) if (put('future-turret', doorX + side, lot.z1 - 1.4, 0, { padding: .1 })) break; for (const [name, tries] of [['future-dish', 10], ['future-solar-panel', 10], ['future-solar-panel', 10]]) for (let attempt = 0; attempt < tries; attempt++) if (put(name, lot.x0 + 2 + random(`fx/${name}/${attempt}/${counts.size}`) * (lot.x1 - lot.x0 - 4), lot.z0 + 1.6 + random(`fz/${name}/${attempt}/${counts.size}`) * (margin - 3), 180, { padding: .4 })) break; }
   // What grows and what is left in the yard, each kind where it belongs.
@@ -158,7 +171,7 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
     const u = random(`${key}/u`), v = random(`${key}/v`), pick = random(`${key}/s`), across = lot.x0 + .9 + u * (lot.x1 - lot.x0 - 1.8), beside = () => [pick < .5 ? lot.x0 + .9 + u * (margin - 1.6) : lot.x1 - .9 - u * (margin - 1.6), lot.z0 + .9 + v * (lot.z1 - lot.z0 - 1.8)];
     // Behind the building or down its sides; in front of it; hugging the edge of the lot; or anywhere.
     if (where === 'back') return pick < .2 || pick > .8 ? beside() : [across, lot.z0 + .9 + v * (margin - 1.6)];
-    if (where === 'front') return [across, bd / 2 + 1 + v * (frontYard - 2)];
+    if (where === 'front') return [across, bd / 2 + 1 + v * (yardFront - 2)];
     if (where === 'edge') return pick < .34 ? [across, lot.z0 + .8 + v * 1.2] : [pick < .67 ? lot.x0 + .8 + v * 1.2 : lot.x1 - .8 - v * 1.2, lot.z0 + .9 + u * (lot.z1 - lot.z0 - 1.8)];
     return [across, lot.z0 + .9 + v * (lot.z1 - lot.z0 - 1.8)];
   };
@@ -173,6 +186,8 @@ export function proposeSurroundings(document, { floorId, setting = 'auto', margi
   if (driveway) proposal.report.reasons.push('A garagem dá para a frente, então há entrada de veículos e um segundo portão.');
   if (counts.size) proposal.report.reasons.push([...counts].map(([name, count]) => `${count} × ${name.toLowerCase()}`).join(', ') + '.');
   if (outsiders.length || mine.length) proposal.report.reasons.push(`${outsiders.length + mine.length === 1 ? 'O objeto que você tinha do lado de fora ficou' : `Os ${new Set([...outsiders, ...mine]).size} objetos que você tinha do lado de fora ficaram`} onde estava${outsiders.length + mine.length === 1 ? '' : 'm'}; o entorno contorna.`);
+  if (absorbed) proposal.report.reasons.push(absorbed === 1 ? 'A construção vizinha ficou dentro do terreno; muro e plantas contornam.' : `As ${absorbed} construções vizinhas ficaram dentro do terreno; muro e plantas contornam.`);
+  if (blockedFront && street && !open) proposal.report.omissions.push('Sem rua: há outra construção na frente da entrada.');
   if (previous.length) proposal.report.reasons.push('O entorno anterior foi substituído.');
   return proposal;
 }

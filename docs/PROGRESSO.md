@@ -1,5 +1,7 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Correções do entorno, telhado e grama; plano do galpão (13 de outubro):** o gramado não afunda mais no plano de fundo, o entorno incorpora construções vizinhas, o telhado encaixa nas paredes em qualquer tamanho e a grama deixou de repetir em ladrilhos. Plano técnico da cena do galpão: [plano](GALPAO_INDUSTRIAL_PLANO.md).
+
 **Tutorial Primeiros passos e análise do galpão (13 de outubro):** segunda lição (29 passos) cobrindo a tela inteira, da prévia ao Salvar, testada pelo mesmo E2E genérico ([andamento](TUTORIAL_PLAN.md)); análise da cena de referência do galpão industrial, com o que falta de modelos e técnica ([análise](GALPAO_INDUSTRIAL_ANALISE.md)).
 
 **Tutorial, primeira lição (13 de outubro):** botão Tutoriais na barra superior, motor que aponta o controle e avança quando o resultado aparece, e a lição Construção assistida (26 passos), percorrida inteira por um teste E2E genérico. [Plano e andamento](TUTORIAL_PLAN.md).

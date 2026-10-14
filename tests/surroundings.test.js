@@ -5,7 +5,7 @@ import { createScene, createEntity } from '../src/domain/documents.js';
 import { createSceneStore } from '../src/state/scene-store.js';
 import { validateDocument } from '../src/domain/validation.js';
 import { quaternionFromYaw } from '../src/domain/coords.js';
-import { worldFootprint, footprintsOverlap, localPoint } from '../src/domain/geometry.js';
+import { worldFootprint, footprintsOverlap, localPoint, worldPoint } from '../src/domain/geometry.js';
 import { proposeBuilding, proposeAddRoom, describeBuilding, BUILDING_TYPES } from '../src/authoring/building.js';
 import { proposeSurroundings, inferSetting, SETTINGS, SURROUNDINGS_TAG } from '../src/authoring/surroundings.js';
 
@@ -96,4 +96,21 @@ test('a base of the future stands inside an energy barrier, with dish, panels, s
   assert.ok(model(store, 'future-barrier').length > 15); assert.equal(of(store, 'wall').filter(w => w.tags.includes(SURROUNDINGS_TAG)).length, 0, 'a barrier, not a wall');
   for (const name of ['future-dish', 'future-turret', 'future-lamp-post']) assert.ok(model(store, name).length >= 1, name); assert.ok(model(store, 'future-solar-panel').length >= 1);
   assert.equal(model(store, 'streetlamp').length + model(store, 'sedan').length + model(store, 'delivery-van').length, 0); assert.ok(model(store, 'future-lamp-post').every(lamp => lamp.illumination?.enabled));
+});
+
+test('a construction standing beside the building is taken into the lot whole; one in front of the door stops the yard and the street', () => {
+  // A shed 3 m behind the house: the lawn and the wall go around it, nothing cuts through it, and the lawn lies under it.
+  const store = building({ type: 'house', roof: false, furnish: false, lighting: false }), house = of(store, 'floor'), zs = house.flatMap(f => [f.transform.position[2] - f.length / 2, f.transform.position[2] + f.length / 2]), xs = house.flatMap(f => [f.transform.position[0] - f.width / 2, f.transform.position[0] + f.width / 2]);
+  const door = of(store, 'door').find(d => /entrada/i.test(d.name)), wall = store.document.layout.entities[door.wallId], at = worldPoint(wall, [door.offset, 0, 0]);
+  const centre = [(Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...zs) + Math.max(...zs)) / 2], out = [at[0] - centre[0], at[2] - centre[1]], axis = Math.abs(out[0]) / (Math.max(...xs) - Math.min(...xs)) > Math.abs(out[1]) / (Math.max(...zs) - Math.min(...zs)) ? 0 : 1, sign = Math.sign(out[axis]);
+  const beside = distance => { const half = axis ? (Math.max(...zs) - Math.min(...zs)) / 2 : (Math.max(...xs) - Math.min(...xs)) / 2, position = [centre[0], 0, centre[1]]; position[axis ? 2 : 0] += distance * (half + 5); return position; };
+  const shed = createEntity('floor', { name: 'Galpão', width: 4, length: 4, position: beside(-sign) }); store.execute('entity.add', { entity: shed });
+  const proposal = around(store), lawn = tagged(store).find(e => e.name === 'Terreno'), ground = worldFootprint(lawn), inside = ([x, z]) => x > Math.min(...ground.map(p => p[0])) + 1 && x < Math.max(...ground.map(p => p[0])) - 1 && z > Math.min(...ground.map(p => p[1])) + 1 && z < Math.max(...ground.map(p => p[1])) - 1;
+  assert.ok(worldFootprint(shed).every(inside), 'the lot grows to hold the shed'); assert.match(proposal.report.reasons.join(' '), /vizinha ficou dentro do terreno/);
+  for (const piece of tagged(store).filter(e => e.kind === 'prop')) assert.ok(!footprintsOverlap(worldFootprint(piece), worldFootprint(shed)), piece.name);
+  assert.ok(tagged(store).some(e => e.name === 'Rua'));
+  // The same shed right in front of the door: the yard ends before it and no street is laid over it.
+  const blocked = building({ type: 'house', roof: false, furnish: false, lighting: false }), front = createEntity('floor', { name: 'Galpão', width: 4, length: 4, position: (() => { const p = [at[0], 0, at[2]]; p[axis ? 2 : 0] += sign * 5; return p; })() }); blocked.execute('entity.add', { entity: front });
+  const second = around(blocked); assert.ok(!tagged(blocked).some(e => e.name === 'Rua')); assert.match(second.report.omissions.join(' '), /Sem rua/);
+  for (const strip of tagged(blocked).filter(e => e.kind === 'floor')) assert.ok(!footprintsOverlap(worldFootprint(strip), worldFootprint(front)), strip.name);
 });

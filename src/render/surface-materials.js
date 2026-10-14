@@ -154,7 +154,10 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
     let compose = `vec3 surfaceColor = vec3(1.0); float surfaceHeight = .5, surfaceRoughness = 1.0, surfaceMetalness = 1.0;
       if(surfaceIndex >= 0.0) { surfaceColor = ${customize(baseSample('surfaceAlbedo'))}; vec4 d = ${baseSample('surfaceDetails')}; surfaceHeight=d.r; surfaceRoughness=d.g; surfaceMetalness=d.b; }`;
     // A world-space mineral field prevents repeated tiles from repeating their broad colour.
-    const organic=(s,color,height,prefix)=>{if(s.texture!=='rock'||s.rockPattern!=='organic')return '';shader.uniforms[`${prefix}Mineral`]={value:new THREE.Vector2(precision((s.textureSize??3)*1.8),precision((s.textureSeed??0)*.017))};shader.fragmentShader=`uniform vec2 ${prefix}Mineral;\n`+shader.fragmentShader;return `{float mineral=surfaceNoise(surfacePosition/${prefix}Mineral.x+vec3(${prefix}Mineral.y)); ${color}*=.72+mineral*.55; ${height}+=(mineral-.5)*.12;}`;};
+    const organic=(s,color,height,prefix)=>{
+      // Grass repeats badly as a plain tile: broad and mid patches in world space make a lawn out of it, greener here, drier there.
+      if(s.texture==='grass')return `{float broad=surfaceNoise(surfacePosition/4.3+vec3(3.7)),mid=surfaceNoise(surfacePosition/1.37+vec3(7.1)); ${color}*=mix(vec3(.74,.82,.7),vec3(1.14,1.08,.84),broad*.65+mid*.35); ${height}+=(mid-.5)*.1;}`;
+      if(s.texture!=='rock'||s.rockPattern!=='organic')return '';shader.uniforms[`${prefix}Mineral`]={value:new THREE.Vector2(precision((s.textureSize??3)*1.8),precision((s.textureSeed??0)*.017))};shader.fragmentShader=`uniform vec2 ${prefix}Mineral;\n`+shader.fragmentShader;return `{float mineral=surfaceNoise(surfacePosition/${prefix}Mineral.x+vec3(${prefix}Mineral.y)); ${color}*=.72+mineral*.55; ${height}+=(mineral-.5)*.12;}`;};
     compose+=organic(settings,'surfaceColor','surfaceHeight','base');
     if(texturedTerrain) {
       shader.vertexShader = 'attribute vec4 surfaceMaskA, surfaceMaskB; varying vec4 maskA, maskB;\n'+shader.vertexShader;

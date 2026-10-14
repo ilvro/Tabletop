@@ -33,7 +33,9 @@ for (const lesson of LESSONS) test(`tutorial "${lesson.title}" can be followed f
       else if (act==='click') await page.locator(step.target).first().click();
       else if (act[0]==='fill') { await page.locator(act[1]).fill(act[2]);await page.keyboard.press('Tab'); }
       else if (act[0]==='key') await key(act);
-      else if (act[0]==='world') { const p=await page.evaluate(v=>window.__tabletop.project(v),act[1]);await page.mouse.click(p.x,p.y); }
+      else if (act[0]==='world') { const p=await page.evaluate(v=>window.__tabletop.project(v),act[1]);
+        // The point must be free: a window still closing, or the tutor's own card over it, would take the click.
+        await page.waitForFunction(({x,y})=>!!document.elementFromPoint(x,y)?.closest('#viewport'),p).catch(()=>assert.fail(`${where}: the point to click in the scene is covered`));await page.mouse.click(p.x,p.y); }
       await page.waitForFunction(i=>!window.tabletopTutor.active||window.tabletopTutor.active.step>i,index).catch(()=>assert.fail(`${where}: doing the step did not complete it`));
     }
     assert.ok(skipped.length<=lesson.steps.length/4,`steps ${skipped} completed by themselves: the lesson mostly teaches what is already done`);

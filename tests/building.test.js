@@ -27,6 +27,7 @@ test('an outline is divided into the rooms of the building, covering it exactly,
   assert.notDeepEqual(planBuilding('house', 14, 9, 1), planBuilding('house', 14, 9, 2));
 });
 
+const near = (actual, expected, tolerance) => assert.ok(Math.abs(actual - expected) <= tolerance, `${actual} ≉ ${expected}`);
 test('a house is raised with shared walls, a door to every room, windows outside, a roof and furnished rooms', () => {
   const { store, proposal } = build({ width: 15, length: 9, type: 'house', seed: 2 });
   const floors = of(store, 'floor'), walls = of(store, 'wall'), doors = of(store, 'door'), windows = of(store, 'window'), rooms = floors.filter(f => f.name !== 'Corredor');
@@ -43,7 +44,12 @@ test('a house is raised with shared walls, a door to every room, windows outside
   // Rooms are what the plan says and are furnished as such.
   const props = of(store, 'prop'); assert.ok(props.length > 25);
   for (const [name, kind] of [['Sala de estar', 'living'], ['Cozinha', 'kitchen'], ['Banheiro', 'bathroom']]) { const room = rooms.find(f => f.name.startsWith(name)); assert.ok(room, name); assert.equal(describeRoom(store.document, room.id, catalog).inferred[0].id, kind); }
-  const roofs = props.filter(e => e.assetRef.id === 'builtin-house-roof'); assert.equal(roofs.length, 1); assert.ok(roofs[0].transform.position[1] >= 2.7);
+  const roofs = props.filter(e => e.assetRef.id === 'builtin-house-roof'); assert.equal(roofs.length, 1); 
+  // The tiles come down to the top of the side walls and the gables stand on the end walls: no gap, no gable hanging inside.
+  const roofModel = catalog.find(a => a.id === 'builtin-house-roof'), [sx, sy, sz] = roofs[0].transform.scale, sides = [sx * 6, sz * 7.5].sort((a, b) => a - b), outer = props.length && Object.values(store.document.layout.entities).filter(e => e.kind === 'floor');
+  near(roofs[0].transform.position[1] + .177 * sy, 2.7, .01); assert.ok(roofModel);
+  const xs = outer.flatMap(f => [f.transform.position[0] - f.width / 2, f.transform.position[0] + f.width / 2]), zs = outer.flatMap(f => [f.transform.position[2] - f.length / 2, f.transform.position[2] + f.length / 2]), spans = [(Math.max(...xs) - Math.min(...xs)) / 2, (Math.max(...zs) - Math.min(...zs)) / 2].sort((a, b) => a - b);
+  near(sides[0], spans[0] + .09, .02); near(sides[1], spans[1], .02);
   assert.equal(store.document.layout.groups[roofs[0].groupId].name, 'Cobertura — Casa');
   // Lit by fixtures and objects, within the scene's budget.
   const lit = props.filter(e => e.illumination?.enabled); assert.ok(lit.length >= rooms.length && lit.length <= floors.length * 3);

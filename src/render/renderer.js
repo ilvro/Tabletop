@@ -177,6 +177,8 @@ export function createViewport(container, {
   ground.position.y = -0.24;
   ground.receiveShadow = true;
   scene.add(ground);
+  // The backdrop stays under every slab: a lawn or a street laid just below floor level must not sink into it.
+  const slabBottoms = entities => entities.filter(e => e.kind === 'floor' && e.transform).map(e => e.transform.position[1] - (e.thickness ?? 0) - .03);
   const selectionBox = new THREE.BoxHelper(new THREE.Object3D(), '#b2dec1');
   selectionBox.material.depthTest = false;
   selectionBox.material.transparent = true;
@@ -708,7 +710,7 @@ export function createViewport(container, {
       if(record.transform&&(!isTrustedSnapshot(next)||before?.transform!==record.transform||reparent)){applyTransform(object,record.transform);if(object.parent&&object.parent!==content&&object.parent!==lighting){const world=new THREE.Matrix4().compose(object.position,object.quaternion,object.scale);object.parent.updateWorldMatrix(true,false);world.premultiply(object.parent.matrixWorld.clone().invert()).decompose(object.position,object.quaternion,object.scale);}}if(moved){object.updateWorldMatrix(true,true);changedBounds.push(new THREE.Box3().setFromObject(object));}object.name=record.name??next.actors?.[record.actorId]?.name;records.set(record.id,record);if(record.kind!=='wall'||visibilityChanged)object.visible=visibleRecord(record);runtimeStats.reused++;return object;
     }if(object)remove(record.id,{retire:true});signatures.set(record.id,key);return null;};
     const entities = values(next.layout.entities);
-    ground.position.y = Math.min(-.025, ...entities.filter(e => e.kind === 'terrain').map(e => e.transform.position[1] + Math.min(...e.heights) - .05));
+    ground.position.y = Math.min(-.025, ...entities.filter(e => e.kind === 'terrain').map(e => e.transform.position[1] + Math.min(...e.heights) - .05), ...slabBottoms(entities));
     const doors = entities.filter((record) => ['door', 'window'].includes(record.kind));
     const usedAssets = [];
     for (const entity of entities) {
@@ -1178,7 +1180,7 @@ export function createViewport(container, {
     hint.style.display = 'none';
   }
   function replaceTerrain(record) {
-    ground.position.y = Math.min(-.025, ...values(sceneDocument.layout.entities).filter(e => e.kind === 'terrain').map(e => { const terrain = e.id === record.id ? record : e; return terrain.transform.position[1] + Math.min(...terrain.heights) - .05; }));
+    ground.position.y = Math.min(-.025, ...slabBottoms(values(sceneDocument.layout.entities)), ...values(sceneDocument.layout.entities).filter(e => e.kind === 'terrain').map(e => { const terrain = e.id === record.id ? record : e; return terrain.transform.position[1] + Math.min(...terrain.heights) - .05; }));
     const previous = objects.get(record.id),maskVersion=previous?.children[0].geometry.attributes.surfaceMaskA.version, updated = previous && updateTerrain(previous,record);
     if(updated){if(previous.children[0].geometry.attributes.surfaceMaskA.version!==maskVersion)diagnostics.count('terrainBufferUpdates');pickBounds=new WeakMap();invalidate(updated.spatial);return;}
     diagnostics.count('terrainRebuilds');

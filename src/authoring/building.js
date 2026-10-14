@@ -33,6 +33,8 @@ const FLOORS = { stone: ['chapel', 'ritual', 'throne', 'armory', 'forge'], tile:
 const WINDOWLESS = ['cell', 'archive', 'storage', 'morgue', 'surveillance', 'ritual', 'interrogation'];
 const recipeName = key => key === 'corridor' ? 'Corredor' : ROOM_RECIPES.find(recipe => recipe.id === key)?.name ?? key;
 const OLD_FLOOR = { tile: 'stone', concrete: 'stone', carpet: 'wood' };
+// The roof model, in its own metres: where the side walls meet the tiles, how high the tiles are there, and where the gables stand.
+const ROOF = { wall: 6, eave: .177, gable: 7.5 };
 const flooring = (key, era = 'modern') => { const kind = Object.entries(FLOORS).find(([, rooms]) => rooms.includes(key))?.[0] ?? 'wood'; return era === 'future' ? { ...surfacePatch('tile'), tilePattern: 'grid', tileCount: 2, color: '#b4bcc2', textureColor: '#b4bcc2', textureColorMode: 'replace' } : surfacePatch(era !== 'modern' ? OLD_FLOOR[kind] ?? kind : kind); };
 
 /**
@@ -289,8 +291,10 @@ export function proposeBuilding(document, { floorId = null, width = 14, length =
     plan.rooms.forEach((cell, i) => dress(context, cell, catalog, { furnish, lighting, seed: seed + i, sources: cell.hub ? 3 : 2, era }));
     if (hall) dress(context, hall, catalog, { furnish: false, lighting, seed, era });
     // The only roof in the library is a tiled one, which a base of the future would not have.
+    // The model's gables stand on the end walls and its tiles meet the top of the side walls, whatever the size.
+    const pitch = Math.max(.6, Math.min(1.2, short / 9));
     const model = roof && !members && era !== 'future' && catalog.find(a => a.id === 'builtin-house-roof');
-    if (model) store.execute('proposal.accept', { proposal: { id: id(), expectedEditVersion: store.editVersion, label: 'Cobertura', groups: [roofGroup], areas: [], lights: [], entities: [createEntity('prop', { name: 'Telhado', assetRef: { id: model.id, revision: model.revision }, footprint: model.footprint, position: toWorld(0, 0, height), rotation: quaternionFromYaw(yaw + 90), scale: [(short + .9) / model.bounds[0], Math.max(.6, Math.min(1.2, short / 9)), (long + .9) / model.bounds[2]], groupId: roofGroup.id, ...placing })] } });
+    if (model) store.execute('proposal.accept', { proposal: { id: id(), expectedEditVersion: store.editVersion, label: 'Cobertura', groups: [roofGroup], areas: [], lights: [], entities: [createEntity('prop', { name: 'Telhado', assetRef: { id: model.id, revision: model.revision }, footprint: model.footprint, position: toWorld(0, 0, height - ROOF.eave * pitch), rotation: quaternionFromYaw(yaw + 90), scale: [(short / 2 + .09) / ROOF.wall, pitch, long / 2 / ROOF.gable], groupId: roofGroup.id, ...placing })] } });
   });
   const names = plan.rooms.map(cell => cell.floor.name.toLowerCase()), say = text => proposal.report.reasons.push(text);
   say(`${programme.name} de ${long.toFixed(1)} × ${short.toFixed(1)} m: ${names.join(', ')}${hall ? ' e corredor' : ''}.`);

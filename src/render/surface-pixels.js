@@ -76,8 +76,11 @@ export function generateSurfaceTile(settings, size = SIZE) {
         rgb = [143*value,143*value,132*value]; height = joint ? .04 : .55+n*.25+fine*.15; break;
       }
       case 'grass': {
-        const blade = Math.pow(Math.max(0, Math.sin(u*2*Math.PI*frequency(64) + n*8 + v*2*Math.PI*frequency(16))),8);
-        rgb = [35+fine*34+blade*30,65+n*40+blade*45,22+fine*25]; height = .25 + blade*.35 + fine*.3; break;
+        // Blades in two directions over small tufts; broad patches stay faint so the tile does not read as a pattern when repeated.
+        const tuft = noise(u,v,frequency(24),layer+31+seed), dry = THREE.MathUtils.smoothstep(noise(u,v,frequency(48),layer+37+seed),.74,.95);
+        const blade = Math.pow(Math.max(0, Math.sin((u*frequency(96)+v*frequency(40))*2*Math.PI + tuft*9)),6)*.6 + Math.pow(Math.max(0, Math.sin((u*frequency(72)-v*frequency(56))*2*Math.PI + fine*7)),6)*.4;
+        const shade = .8 + n*.1 + tuft*.16 + grain*.06;
+        rgb = [(46+blade*36+dry*44)*shade,(80+blade*44+dry*20)*shade,(28+blade*14+dry*4)*shade]; height = .2 + blade*.4 + tuft*.25 + fine*.15; rough = .85 + fine*.15; break;
       }
       case 'metal': {
         const scratches = noise(u,v,frequency(128),5+seed)*.13 + Math.sin(v*Math.PI*2*frequency(128))*.045;

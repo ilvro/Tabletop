@@ -10,7 +10,7 @@ export function addResidentialLibrary({add,modern}) {
   model('roof','Casa · telhado de duas águas',[
     profile(roofContour,16,[0,0,0],'clay'),
     ...Array.from({length:33},(_,i)=>profile(roofContour.map(([x,y])=>[x,y+.045]),.035,[0,0,-8+i*.5],'clay')),
-    ...[-7.5,7.5].map(z=>profile([[-6,0],[6,0],[0,2.12]],.2,[0,0,z],'ivory')),
+    ...[-7.5,7.5].map(z=>profile([[-6,0],[6,0],[6,.17],[0,2.29],[-6,.17]],.16,[0,0,z],'ivory')),
     c(.15,16,[0,2.4,0],'clay',.15,[Math.PI/2,0,0]),
     ...[-6.5,6.5].map(x=>b([.1,.2,16],[x,0,0],'wood')),
   ],'Cobertura de 13 × 16 m, cumeeira, fiadas e empenas. Ocultar a camada Coberturas para jogar em planta.');

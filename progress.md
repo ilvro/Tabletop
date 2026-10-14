@@ -2,6 +2,26 @@
 
 Atualizado em 13 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Correções vistas no tutorial e plano técnico do galpão (13 de outubro)
+
+**Feito**
+
+- **Gramado sumindo no fundo:** o plano de fundo do editor ficava a 2,5 cm abaixo de zero e o terreno do entorno a 4 cm; o gramado e a rua afundavam nele. O plano de fundo agora fica sempre abaixo de qualquer piso (`src/render/renderer.js`).
+- **Construção vizinha:** o entorno passa a ler outras construções próximas. A que está ao lado ou atrás entra inteira no terreno, com muro e plantas contornando; a que está na frente da porta faz o quintal parar antes dela e a rua não é criada, com aviso (`src/authoring/surroundings.js`).
+- **Prédio novo:** quando a entrada daria para o que já existe na cena, o prédio vai para o outro lado.
+- **Telhado:** as empenas do modelo preenchem todo o vão sob as telhas; o prédio assenta o telhado para as telhas tocarem o topo das paredes laterais e as empenas ficarem sobre as paredes das pontas, em qualquer tamanho (`scripts/library-residential.js`, `src/authoring/building.js`).
+- **Grama:** textura refeita (folhas em duas direções, sem manchas grandes por ladrilho) e variação em coordenadas de mundo no shader, para não repetir de metro em metro. Vale para todo gramado, inclusive terrenos pintados.
+- Último passo da lição Construção assistida aponta como refinar gramado e muros em Propriedades.
+- Plano técnico da cena do galpão em [docs/GALPAO_INDUSTRIAL_PLANO.md](docs/GALPAO_INDUSTRIAL_PLANO.md).
+
+**Validação**
+
+- Unitários: 287 passam (1 novo sobre construções vizinhas; o do telhado passou a medir o encaixe).
+- Conferência em imagem na GPU: casa com entorno e a cena final do tutorial.
+- E2E rodados e passando: `assisted-rooms` (6), `house-scene`, `example-scenes`, `terrain-paint`, `materials-effects`, `tutorials`. Na bateria, a lição Primeiros passos falhou uma vez no clique de colocar a mesa (a janela de Assets ainda fechava sobre o ponto); o teste passou a esperar o ponto livre e passou três vezes seguidas. Os demais E2E não foram repetidos.
+
+**Pendências reais**: a variação larga da grama é discreta; a rua deixa de existir quando há construção na frente, sem alternativa de contorno; o galpão continua não construído.
+
 ## Tutorial "Primeiros passos" e análise do galpão — concluídos (13 de outubro)
 
 **Feito**

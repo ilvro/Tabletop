@@ -80,7 +80,7 @@ export const LESSONS = [
       { say: 'Falta o lado de fora. Abra <b>Entorno do prédio</b>.', target: '[data-build-section="surroundings"] > summary', tab: 'build', reveal: false, done: ['taskOpen', 'surroundings'] },
       { say: 'Clique em <b>Prévia do entorno</b>.', why: 'A frente é o lado da porta de entrada: o portão fica diante dela e o caminho leva até ela. O tipo de entorno vem do tipo de prédio.', target: '[data-action="around-preview"]', tab: 'build', done: ['previewOpen'] },
       { ...ACCEPT, done: [['hasTag', 'entorno'], ['previewClosed']] },
-      { say: 'Pronto: uma cozinha em ritual, uma casa mobiliada e o terreno em volta.', why: 'Tudo o que foi criado são objetos comuns, que você move, troca e apaga como qualquer outro. Experimente a vista Superior, o botão Telhados e, no Assistente de cômodo, as épocas Medieval e Futurista.', done: ['read'], act: 'continue' },
+      { say: 'Pronto: uma cozinha em ritual, uma casa mobiliada e o terreno em volta.', why: 'Tudo o que foi criado são objetos comuns, que você move, troca e apaga como qualquer outro. Clique no gramado ou num muro e troque textura, cor e desgaste em Propriedades; em Água e vegetação, espalhe mais plantas. Experimente também a vista Superior, o botão Telhados e as épocas Medieval e Futurista.', done: ['read'], act: 'continue' },
     ],
   },
 ];

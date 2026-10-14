@@ -41,6 +41,8 @@ Com isso sai um galpão escuro reconhecível, mas não a imagem: faltam justamen
 11. **Brilho de lente**: o risco horizontal na luz vermelha. O bloom dá o halo, não o risco anamórfico.
 12. **Faíscas / água espirrando** junto ao monitor: os efeitos locais atuais são chama e fumaça.
 
+O detalhamento técnico de cada item está em [GALPAO_INDUSTRIAL_PLANO.md](GALPAO_INDUSTRIAL_PLANO.md).
+
 ## Ordem sugerida
 
 1. Kit industrial de modelos (itens 2 a 7) pelo mesmo caminho das bibliotecas medieval e futurista.
