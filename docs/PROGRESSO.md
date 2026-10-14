@@ -1,5 +1,7 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Tutorial, primeira lição (13 de outubro):** botão Tutoriais na barra superior, motor que aponta o controle e avança quando o resultado aparece, e a lição Construção assistida (26 passos), percorrida inteira por um teste E2E genérico. [Plano e andamento](TUTORIAL_PLAN.md).
+
 **Biblioteca futurista (13 de outubro):** 30 modelos novos (301 no total), época Futurista no assistente, cinco cômodos próprios (ponte, alojamento, enfermaria da base, reator, carga), prédio Base, luz fria com painéis e entorno com barreira de energia, antena e painéis solares. [Biblioteca](ASSET_LIBRARY.md) · [Plano e andamento](ASSISTED_BUILD_PLAN.md).
 
 **Biblioteca medieval (13 de outubro):** 27 modelos novos (271 no total), época Medieval no assistente trocando as peças de todos os cômodos, quatro cômodos próprios (taverna, sala do trono, ferraria, arsenal), dois prédios (taverna, fortaleza), luz de tochas e entorno com paliçada. [Biblioteca](ASSET_LIBRARY.md) · [Plano e andamento](ASSISTED_BUILD_PLAN.md).
@@ -10,7 +12,7 @@
 
 **Construção assistida, programa e contorno (11 de outubro):** a pessoa escolhe a entrada e os cômodos do prédio, vê a planta em escala, desenha o contorno direto na cena e a prévia acompanha o painel. [Plano e andamento](ASSISTED_BUILD_PLAN.md).
 
-**Plano do tutorial (11 de outubro):** lições como dados, avanço por condição sobre o estado, motor único, e todas as lições executadas nos testes para não envelhecerem. [Plano](TUTORIAL_PLAN.md). Nada implementado ainda.
+**Plano do tutorial (11 de outubro):** lições como dados, avanço por condição sobre o estado, motor único, e todas as lições executadas nos testes para não envelhecerem. [Plano](TUTORIAL_PLAN.md).
 
 **Construção assistida, completar o que existe (11 de outubro):** o prédio agora aceita um contorno já começado (mantém paredes, portas e móveis, escolhe a planta que os respeita e completa em volta) e acrescenta um cômodo a um prédio existente compartilhando a parede. [Plano e andamento](ASSISTED_BUILD_PLAN.md).
 

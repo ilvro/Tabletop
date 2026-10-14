@@ -2,6 +2,29 @@
 
 Atualizado em 13 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Tutorial, primeira lição — concluída (13 de outubro)
+
+**Feito**
+
+- Motor de tutorial (`src/tutorial/`): lições como dados, alvo por identificador da interface, passo concluído por condição sobre o estado. Botão **Tutoriais** na barra superior com a lista de lições e progresso salvo no navegador.
+- Lição **Construção assistida**, 26 passos, da sala vazia à casa mobiliada com entorno.
+- O convite da cena vazia sai da frente enquanto uma lição roda; em alvos do tamanho da cena o cartão vai para a borda direita.
+- Andamento e decisões em [docs/TUTORIAL_PLAN.md](docs/TUTORIAL_PLAN.md).
+
+**Validação**
+
+- Unitários: 286 passam (2 novos).
+- E2E rodados e passando: `tutorials` (a lição inteira, do primeiro ao último passo), `assisted-rooms` (6), `editor-ui`, `panel-consistency`, `controls`. Os demais não foram repetidos.
+- Conferência visual da lista e de 11 passos no editor real.
+
+**Encontrado na validação**
+
+- O botão novo estourava a barra superior em 390 px; nessa largura ele mostra só o ícone.
+- O passo de confirmar a sala dizia "Aceitar proposta", mas o botão se chama "Criar sala"; os passos de confirmação passaram a apontar o botão destacado.
+- Aba Construir e tarefa Sala já abrem prontas numa cena nova, então os passos 2 e 3 passam sozinhos.
+
+**Pendências reais**: etapas 3 a 5 do plano; lições de recriar cenas prontas (aguardam as duas cenas); a lição pede cena vazia apenas por aviso; a bateria E2E completa não foi rodada.
+
 ## Biblioteca e época futurista — concluídas (13 de outubro)
 
 **Feito**

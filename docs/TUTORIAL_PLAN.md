@@ -92,4 +92,12 @@ Marcação de lição nova, lições 7 e 8, e a exportação das lições como p
 
 ## Andamento
 
-Nada implementado ainda.
+**13 de outubro — etapas 1 e 2 com a primeira lição**
+
+- Motor em `src/tutorial/tutor.js`: anel sobre o controle, cartão ao lado, avanço quando a condição do passo vale, Voltar / Pular passo / Sair, aviso quando o alvo não está na tela, progresso em `localStorage` (`tabletop-tutorials-v1`). O tutor só aponta e espera; nunca edita a cena.
+- Condições em `src/tutorial/conditions.js`; lições em `src/tutorial/lessons.js`. Acrescentar uma lição é acrescentar uma entrada de dados.
+- Entrada: botão **Tutoriais** na barra superior abre a lista de lições (Começar, Continuar do passo N, Refazer). Ficou na barra e não numa aba lateral porque as abas laterais precisam ficar livres enquanto a lição aponta para elas.
+- Lição **Construção assistida** (26 passos): sala, fogão à mão, leitura do assistente, completar, estado Ritual, luz, prédio novo, entorno.
+- Testes: `tests/tutorials.test.js` (formato das lições e condições) e `tests/e2e/tutorials.test.js`, que percorre toda lição de `LESSONS` passo a passo e falha quando um alvo some ou uma condição deixa de poder ser cumprida.
+
+**Falta**: etapa 3 (oferta na primeira visita), etapa 4 (ajuda no lugar), etapa 5 (novidades); lições de recriar cenas prontas, que dependem das duas cenas de referência; uma lição exigir cena vazia hoje é só um aviso na lista, não cria a cena nova sozinha.

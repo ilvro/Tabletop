@@ -45,6 +45,7 @@ import { proposeBuilding, proposeAddRoom, proposeRemoveRoom, proposeRedivide, de
 import { proposeRoomLighting, proposeRoomDetails, roomMood, suggestAtmosphere } from '../authoring/room-ambience.js';
 import { proposeSurroundings, inferSetting, SETTINGS, SURROUNDINGS_TAG } from '../authoring/surroundings.js';
 import { roomEra } from '../authoring/room-insight.js';
+import { createTutor, tutorialCenter } from '../tutorial/tutor.js';
 import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { resampleTerrain, resizeTerrain, protectTerrainFloors } from '../authoring/terrain.js';
 import { proposeAnchoring } from '../authoring/anchoring.js';
@@ -78,7 +79,7 @@ export async function startApplication() {
       <header class="app-header">
         <a class="brand" href="${esc(applicationURL(''))}" aria-label="Tabletop"><span class="brand-mark">T</span><span>TABLETOP<small>CRIAR. PREPARAR. APRESENTAR.</small></span></a>
         <div class="document-heading"><span id="doc-type-eyebrow" class="eyebrow">SUA MESA / CENA</span><input id="scene-name" aria-label="Nome da cena" maxlength="256" disabled /></div>
-        <div class="panel-toggles"><button data-action="sidebar-toggle" aria-expanded="true" aria-controls="side-content">Ferramentas</button><button data-action="inspector-toggle" aria-expanded="true" aria-controls="inspector-content">Propriedades</button></div><div class="header-actions"><span id="save-status" role="status" class="save-status"></span>${button('new', 'Nova', 'plus', 'quiet')}${button('open', 'Abrir', 'folder', 'quiet')}<button type="button" data-tab="assets" class="quiet" aria-controls="assets-dialog" aria-expanded="false" title="Biblioteca de modelos, texturas e retratos">${icon('frame')}<span>Assets</span></button>${button('present', 'Apresentar', 'display', 'quiet')}${button('save', 'Salvar', 'save', 'primary', 'id="save-scene"')}</div>
+        <div class="panel-toggles"><button data-action="sidebar-toggle" aria-expanded="true" aria-controls="side-content">Ferramentas</button><button data-action="inspector-toggle" aria-expanded="true" aria-controls="inspector-content">Propriedades</button></div><div class="header-actions"><span id="save-status" role="status" class="save-status"></span>${button('new', 'Nova', 'plus', 'quiet')}${button('open', 'Abrir', 'folder', 'quiet')}<button type="button" data-tab="assets" class="quiet" aria-controls="assets-dialog" aria-expanded="false" title="Biblioteca de modelos, texturas e retratos">${icon('frame')}<span>Assets</span></button>${button('tutorials', 'Tutoriais', 'sun', 'quiet', 'aria-expanded="false" aria-controls="tutorial-center" title="Aprender a usar, passo a passo, na própria cena"')}${button('present', 'Apresentar', 'display', 'quiet')}${button('save', 'Salvar', 'save', 'primary', 'id="save-scene"')}</div>
       </header>
       <aside class="sidebar">
         <nav class="tabs" aria-label="Painéis"><button data-tab="build" class="active">Construir</button><button data-tab="elements">Elementos</button><button data-tab="scene">Ambiente</button></nav>
@@ -89,7 +90,7 @@ export async function startApplication() {
         <div id="viewport" aria-label="Viewport 3D"></div>
         <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (G)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (R)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (V)" aria-label="Escala"')}<i></i>${button('tool-measure', '', 'ruler', 'icon-button', 'title="Régua (M)" aria-label="Régua" aria-pressed="false"')}${button('material-eyedropper', '', 'eyedropper', 'icon-button', 'title="Conta-gotas (I)" aria-label="Conta-gotas" aria-pressed="false"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
         <div id="welcome" class="welcome-card"><span class="eyebrow">UMA CENA COMEÇA COM UM ESPAÇO</span><h1>Sua próxima história<br/>começa aqui.</h1><p>Desenhe uma sala, escolha a luz e traga seus personagens para a mesa.</p>${button('room-draw', 'Desenhar minha primeira sala', 'room', 'primary')}<small>Ou use as medidas no painel Construir.</small></div>
-        <div id="tool-context" class="tool-context" hidden></div><div id="proposal-bar" class="proposal-bar" hidden></div>
+        <aside id="tutorial-center" class="tutorial-center" aria-label="Tutoriais" hidden></aside><div id="tool-context" class="tool-context" hidden></div><div id="proposal-bar" class="proposal-bar" hidden></div>
         <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}${button('roofs', 'Telhados', 'room', 'quiet active', 'aria-pressed="true" title="Mostrar ou ocultar telhados e forros enquanto edita"')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet', 'title="Capturar WASD e suas combinações em tela cheia; Esc sai" aria-pressed="false"')}</div><span id="gesture-hint" class="gesture-hint">WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom</span></div>
         <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
       </main>
@@ -493,6 +494,17 @@ export async function startApplication() {
     else { const [ba, ia] = slot(a), [bb, ib] = slot(b); [bands[ba][ia], bands[bb][ib]] = [bands[bb][ib], bands[ba][ia]]; }
     buildingOptions = { ...buildingOptions, hub, bands, rooms: bands.flat(), pick: null }; clearProposal(); if (live) previewBuilding(); renderSidebar();
   }
+  // What the tutorials' conditions read. The assistant's reading is kept per document and floor: this runs every frame of a lesson.
+  let tutorReading = null;
+  function tutorialState() {
+    if (!tutorReading || tutorReading.document !== store.document || tutorReading.floor !== smartFloorId) tutorReading = { document: store.document, floor: smartFloorId, inferred: smartFloorId ? describeRoom(store.document, smartFloorId, assets)?.inferred[0]?.id ?? null : null, inBuilding: Boolean(smartFloorId && describeBuilding(store.document, smartFloorId, assets)) };
+    const assetsOpen = document.getElementById('assets-dialog').open;
+    return { document: store.document, tab, sections: [...openBuildSections], proposal: Boolean(proposal), assetsOpen, placing: tool === 'place' && placing?.asset ? placing.asset.id : null,
+      listedAssets: assetsOpen ? [...document.querySelectorAll('#asset-cards [data-asset]')].map(node => node.dataset.asset) : [],
+      assistant: { inferred: tutorReading.inferred, state: stateOptions.state, buildingMode: buildingOptions.mode ?? (tutorReading.inBuilding ? 'extend' : 'new') } };
+  }
+  const sceneEmpty = () => !Object.keys(store.document.layout.entities).length;
+  function renderTutorials() { const panel = document.getElementById('tutorial-center'); if (!panel.hidden) panel.innerHTML = tutorialCenter(tutor, sceneEmpty()); }
   function previewSurroundings() {
     try { const next = proposeSurroundings(store.document, { ...aroundOptions, floorId: smartFloorId }, store.editVersion, assets); next.aroundPreview = true; showAuthorshipProposal(next); }
     catch (error) { notify(error.message, true); }
@@ -1902,6 +1914,8 @@ export async function startApplication() {
         try { showAuthorshipProposal(proposeRoomState(store.document, { ...stateOptions, floorId: smartFloorId }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
+      case 'tutorials': { const panel = document.getElementById('tutorial-center'); panel.hidden = !panel.hidden; root.querySelector('.app-header [data-action="tutorials"]').setAttribute('aria-expanded', String(!panel.hidden)); renderTutorials(); break; }
+      case 'tutorial-start': document.getElementById('tutorial-center').hidden = true; root.querySelector('.app-header [data-action="tutorials"]').setAttribute('aria-expanded', 'false'); tutor.start(metadata.id, Number(metadata.from ?? 0)); break;
       case 'around-variation': aroundOptions.seed = (aroundOptions.seed + 1) % 4294967296; renderSidebar();
       // falls through
       case 'around-preview': previewSurroundings(); break;
@@ -2486,7 +2500,8 @@ export async function startApplication() {
     if (recovery && recovery.document.id === store.document.id && contentJSON(recovery.document) === contentJSON(store.document)) { await drafts.dismiss(recovery); recovery = null; }
   }
   initialized = true; document.getElementById('scene-name').disabled = false;
-  store.subscribe(updateView); updateView({ type: 'saved' }); viewport.frameScene();
+  const tutor = createTutor(root, { state: tutorialState, open: name => { tab = name; renderSidebar(); } }); tutor.onChange(renderTutorials); window.tabletopTutor = tutor;
+  store.subscribe(updateView); store.subscribe(renderTutorials); updateView({ type: 'saved' }); viewport.frameScene();
   const firstCamera = Object.values(store.document.cameraPresets || {})[0]; if (firstCamera) viewport.setCamera(firstCamera);
   previews.schedule();
   if (recovery) {
