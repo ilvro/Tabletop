@@ -57,6 +57,7 @@ try {
   await page.evaluate(() => document.querySelector('[data-action="roofs"]')?.click()); // the roof is lifted for the picture from outside
   await page.evaluate(() => document.querySelector('[data-action="frame"]').click()); await page.waitForTimeout(4000); await page.screenshot({ path: path.join(out, 'outside.png') }); { const { screens, decals, surfaceMaterials } = await page.evaluate(() => window.__tabletop.stats()); console.log('outside', { screens, decals, hazard: surfaceMaterials.filter(m => m.texture === 'hazard').length }); }
   if (await page.locator('.app-shell.sidebar-collapsed').count()) await page.locator('[data-action=sidebar-toggle]').click();
+  await page.evaluate(() => document.querySelector('[data-action="roofs"]')?.click()); // roof back on for the views from inside
   await page.locator('.tabs [data-tab="scene"]').click(); await (await reveal(page.locator(`[data-camera-cut="${eye.id}"]`))).click();
   await page.locator('[data-action="cutaway"]').click(); await page.locator('[data-action=sidebar-toggle]').click(); await page.locator('[data-action=inspector-toggle]').click();
   await page.waitForTimeout(4000); await page.screenshot({ path: path.join(out, 'eye.png') }); console.log('eye', errors);
@@ -66,8 +67,7 @@ try {
     await page.locator('.tabs [data-tab="scene"]').click(); await (await reveal(page.locator(`[data-camera-cut="${key}"]`))).click(); await page.locator('[data-action=sidebar-toggle]').click(); await page.waitForTimeout(3500);
   };
   await cut(close.id); await page.screenshot({ path: path.join(out, 'screen-2m.png') });
-  // Roof back on, then the other cameras of the scene.
-  await page.evaluate(() => document.querySelector('[data-action="roofs"]')?.click());
+  // The other cameras of the scene.
   for (const [name, camera] of [['gate', cameras.gate], ['entrance', cameras.entrance]]) { await cut(camera.id); await page.screenshot({ path: path.join(out, `${name}.png`) }); }
   // The wet floor alone: the same view with the reflections of the frame off.
   await cut(eye.id);

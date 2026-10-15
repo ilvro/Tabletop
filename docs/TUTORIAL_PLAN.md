@@ -102,4 +102,18 @@ Marcação de lição nova, lições 7 e 8, e a exportação das lições como p
 
 - Lição **Primeiros passos** (29 passos): regiões da tela, prévia e confirmação, câmera, Assets, seleção, Propriedades, ferramentas, desfazer, Elementos, Ambiente, token, enquadramento, Apresentar e Salvar. Vem antes da Construção assistida na lista.
 
-**Falta**: etapa 3 (oferta na primeira visita), etapa 4 (ajuda no lugar), etapa 5 (novidades); lições de recriar cenas prontas, que dependem das duas cenas de referência; uma lição exigir cena vazia hoje é só um aviso na lista, não cria a cena nova sozinha.
+**15 de outubro — iluminação e o galpão, refeitos depois da primeira revisão**
+
+A primeira versão foi rejeitada: a lição de luz misturava uma lâmpada quente, um candelabro e luminárias brancas do assistente (nada combinava e não ficava bonito), e não ensinava o bastante para refazer a luz do galpão ou da igreja; a lição do galpão não dizia onde pôr as peças e só citava os valores do exemplo, então o resultado ficava claro, vermelho e sem os materiais.
+
+- **Iluminação e ambientação** (48 passos): uma capela à noite montada pela receita das cenas de exemplo. Escuro como base (Noite, lua 0,05, luz ambiente 0,06 azul-marinho, sem céu, janelas acesas desligadas); luz principal no candelabro (Vela / candelabro, força 10, alcance 6,5, sombras prioritárias); contraluz azul pelo vitral (Janela / vitral, #6f7fff); acento de velas sem sombra; zona com preenchimento marrom; piso molhado; névoa iluminada; reflexos; halo com limiar 1,4; os números do galpão e da igreja no fim. Duas famílias de cor, âmbar contra azul.
+- **Galpão abandonado** em três partes que se continuam (`continues`): **1 · Casca e estrutura** (39 passos), **2 · Objetos e efeitos** (57), **3 · Luz e atmosfera** (27). Cada passo põe os valores do exemplo (cores e tamanhos de textura, desgaste, umidade, rotações, cores de material e de tela, força, alcance, origem e sombras de cada luz, névoa, halo, reflexos). O encaixe no grid é desligado no primeiro passo, para valerem as posições do exemplo; as repetições (lajes, tubos, colunas) vêm com as coordenadas.
+- Motor: um ponto pulsando marca na cena onde clicar (`spot`, ou o ponto do gesto do passo), acompanhando a câmera. Condições `has`, `lookIs` e `moonIs` conferem um valor exato de uma peça ou do visual; `picked` confere a peça selecionada (a lição a seleciona pela busca de Elementos); `materialCopied` diz de onde veio o material.
+- Correções no editor achadas ao percorrer: clicar no tampo de uma mesa ou altar agora põe o objeto em cima dele (antes ia para o chão, e o terminal ficava embaixo da mesa); a luz de uma janela nasce no vidro, apontada para dentro do cômodo (antes nascia no começo da parede, apontada para baixo).
+
+**15 de outubro — segunda revisão**
+
+- Toda cor tem, ao lado do seletor, uma caixa para o código hexadecimal (`hexBox` em `src/ui/controls.js`): aceita #a1b2c3, a1b2c3 ou #abc, confirma com Enter ou ao sair, e volta ao valor anterior se o código for inválido. O seletor nativo do sistema às vezes só oferece RGB. As lições digitam as cores nessa caixa.
+- O cartão do tutor cobria o segundo campo de passos com vários campos (largura e comprimento, cor e força). Agora o anel envolve todos os campos que o passo pede no mesmo painel, com seus rótulos, e o cartão fica fora dessa área; seções recolhidas desses campos são abertas.
+
+**Falta**: etapa 3 (oferta na primeira visita), etapa 4 (ajuda no lugar), etapa 5 (novidades); recriar as demais cenas prontas (Igreja Antiga, Backrooms, Casa de bairro); uma lição exigir cena vazia hoje é só um aviso na lista, não cria a cena nova sozinha.

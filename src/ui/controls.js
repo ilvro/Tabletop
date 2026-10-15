@@ -29,7 +29,15 @@ export function numberField(field, label, value, { min, max, step = .1, disabled
   if (!isRange(field, min, max, step)) return `<label class="field measure-field">${labelMarkup(parts)}${input}</label>`;
   return `<label class="field range-field">${labelMarkup(parts)}${input}<input type="range" data-range="${field}" value="${shown}" step="${step}" ${limits} ${state} tabindex="-1" aria-hidden="true"/></label>`;
 }
-export const colorField = (field, label, value) => `<label class="field color-field"><span class="field-label">${label}</span><input type="color" data-field="${field}" value="${esc(value)}" /></label>`;
+/** A text box beside a colour picker: the code can be typed or pasted (#a1b2c3, a1b2c3 or #abc), whatever picker the system offers. */
+export const hexBox = (field, value) => `<input type="text" class="hex-box" data-hex="${field}" value="${esc(String(value).toLowerCase())}" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Código hexadecimal da cor"/>`;
+export const colorField = (field, label, value) => `<label class="field color-field"><span class="field-label">${label}</span><span class="color-pair"><input type="color" data-field="${field}" value="${esc(value)}" />${hexBox(field, value)}</span></label>`;
+/** '#ABC', 'a1b2c3' or '#a1b2c3' as '#a1b2c3'; null when it is not a colour. */
+export function normalizeHex(text) {
+  const code = String(text).trim().replace(/^#/, '').toLowerCase();
+  if (/^[0-9a-f]{3}$/.test(code)) return `#${[...code].map(digit => digit + digit).join('')}`;
+  return /^[0-9a-f]{6}$/.test(code) ? `#${code}` : null;
+}
 export const checkField = (field, label, checked) => `<label class="check"><input type="checkbox" data-field="${field}" ${checked ? 'checked' : ''}/><span>${label}</span></label>`;
 
 const optionName = name => String(name).split(' · ');
@@ -50,13 +58,24 @@ export function choiceField(field, label, value, options, { swatch, columns, dis
 /** Wires the companions of every control inside `root` to their native field. */
 export function bindControls(root, commit) {
   const numberOf = range => range.closest('.range-field')?.querySelector(`[data-field="${range.dataset.range}"]`);
+  const pickerOf = box => box.parentElement?.querySelector(`input[type="color"][data-field="${box.dataset.hex}"]`);
   root.addEventListener('input', event => {
     const target = event.target;
-    if (target.dataset?.range) { const number = numberOf(target); if (number) number.value = target.value; }
+    if (target.type === 'color' && target.dataset?.field) { const box = target.parentElement?.querySelector(`[data-hex="${target.dataset.field}"]`); if (box) box.value = target.value; }
+    else if (target.dataset?.range) { const number = numberOf(target); if (number) number.value = target.value; }
     else if (target.type === 'number' && target.closest?.('.range-field')) { const range = target.closest('.range-field').querySelector('[data-range]'); if (range) range.value = target.value; }
   });
   // A drag ends in a single change, so it is a single undo step.
   root.addEventListener('change', event => {
+    // A typed code is committed through its picker, as if it had been picked there.
+    if (event.target.dataset?.hex) {
+      const box = event.target, picker = pickerOf(box), code = normalizeHex(box.value);
+      if (!picker) return;
+      if (!code) { box.value = picker.value; return; }
+      box.value = code;
+      if (picker.value !== code) { picker.value = code; commit(picker); }
+      return;
+    }
     if (!event.target.dataset?.range) return;
     const number = numberOf(event.target);
     if (number) { number.value = event.target.value; commit(number); }

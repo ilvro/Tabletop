@@ -1,5 +1,7 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Tutoriais de iluminação e do galpão (15 de outubro):** lição Iluminação e ambientação (48 passos, capela à noite: escuro, luz principal, contraluz, acentos, zona, névoa, halo, reflexos) e Galpão abandonado em três partes encadeadas com os valores da cena de exemplo; ponto na cena marca onde clicar. Clique em tampo de mesa coloca em cima; luz de janela aponta para dentro. [Andamento](docs/TUTORIAL_PLAN.md#andamento)
+
 **Galpão industrial completo (14 de outubro):** piso molhado com reflexos de superfície, risco de lente no bloom, faíscas e gotejamento, cabos que prendem em vigas e só projetam sombra em alta, laje de cobertura, cena de exemplo **Galpão industrial** e tutorial de recriação. [Biblioteca](ASSET_LIBRARY.md) · [cenas de exemplo](EXAMPLE_SCENES.md).
 
 **Tela com conteúdo, decalques e listras de alerta (14 de outubro):** monitores e telas mostram texto, barra de progresso, imagem ou chuvisco e iluminam a mesa; decalques de texto, imagem ou faixa de material colam em paredes, pisos e objetos e acompanham o suporte; novo material Listras de alerta. [Biblioteca](ASSET_LIBRARY.md).

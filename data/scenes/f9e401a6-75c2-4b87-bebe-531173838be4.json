@@ -1,0 +1,7429 @@
+{
+  "schemaVersion": 2,
+  "documentType": "scene",
+  "id": "f9e401a6-75c2-4b87-bebe-531173838be4",
+  "revision": 1,
+  "name": "Galpão industrial · abandonado",
+  "createdAt": "2026-10-15T12:37:14.142Z",
+  "updatedAt": "2026-10-15T12:37:14.142Z",
+  "layout": {
+    "grid": {
+      "type": "square",
+      "origin": [
+        0,
+        0
+      ],
+      "cellSize": 1,
+      "visible": false,
+      "snap": false,
+      "color": "#87969e",
+      "opacity": 0.25
+    },
+    "entities": {
+      "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4": {
+        "id": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "name": "Piso — Galpão",
+        "kind": "floor",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "width": 16.36,
+        "length": 12.36,
+        "thickness": 0.16,
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.85,
+          "metalness": 0,
+          "textureColor": "#4a4643",
+          "textureColorMode": "replace",
+          "textureBrightness": 0.75,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "brick",
+          "textureSize": 1.2,
+          "relief": 0.03,
+          "wet": {
+            "enabled": true,
+            "amount": 0.7,
+            "puddles": 0.5,
+            "puddleSize": 2,
+            "seed": 5
+          }
+        }
+      },
+      "aba33bac-ae5b-4cc4-9cfe-a88746d83279": {
+        "id": "aba33bac-ae5b-4cc4-9cfe-a88746d83279",
+        "name": "Parede sul",
+        "kind": "wall",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -8.18,
+            0,
+            6.09
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "length": 16.36,
+        "height": 9,
+        "thickness": 0.18,
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.96,
+          "metalness": 0,
+          "textureColor": "#5a5d60",
+          "textureColorMode": "replace",
+          "textureBrightness": 0.8,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "concrete",
+          "textureSize": 2.6,
+          "relief": 0.015,
+          "wear": {
+            "enabled": true,
+            "amount": 0.7,
+            "size": 2.2,
+            "seed": 11,
+            "placement": "all",
+            "center": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "radius": 0.4,
+            "softness": 0.5,
+            "color": "#463c30",
+            "roughness": 0.94,
+            "metalness": 0,
+            "relief": 0.008,
+            "type": "grime"
+          }
+        }
+      },
+      "e079b563-73e0-4bc9-b9f0-643e9c93c7dc": {
+        "id": "e079b563-73e0-4bc9-b9f0-643e9c93c7dc",
+        "name": "Parede norte",
+        "kind": "wall",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -8.18,
+            0,
+            -6.09
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "length": 16.36,
+        "height": 9,
+        "thickness": 0.18,
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.96,
+          "metalness": 0,
+          "textureColor": "#5a5d60",
+          "textureColorMode": "replace",
+          "textureBrightness": 0.8,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "concrete",
+          "textureSize": 2.6,
+          "relief": 0.015,
+          "wear": {
+            "enabled": true,
+            "amount": 0.7,
+            "size": 2.2,
+            "seed": 11,
+            "placement": "all",
+            "center": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "radius": 0.4,
+            "softness": 0.5,
+            "color": "#463c30",
+            "roughness": 0.94,
+            "metalness": 0,
+            "relief": 0.008,
+            "type": "grime"
+          }
+        }
+      },
+      "c01e060f-6f2a-465d-a801-341f90bd9ae1": {
+        "id": "c01e060f-6f2a-465d-a801-341f90bd9ae1",
+        "name": "Parede oeste",
+        "kind": "wall",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -8.09,
+            0,
+            6
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "length": 12,
+        "height": 9,
+        "thickness": 0.18,
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.96,
+          "metalness": 0,
+          "textureColor": "#5a5d60",
+          "textureColorMode": "replace",
+          "textureBrightness": 0.8,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "concrete",
+          "textureSize": 2.6,
+          "relief": 0.015,
+          "wear": {
+            "enabled": true,
+            "amount": 0.7,
+            "size": 2.2,
+            "seed": 11,
+            "placement": "all",
+            "center": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "radius": 0.4,
+            "softness": 0.5,
+            "color": "#463c30",
+            "roughness": 0.94,
+            "metalness": 0,
+            "relief": 0.008,
+            "type": "grime"
+          }
+        }
+      },
+      "e3342554-312d-40ee-b345-7107c24074b6": {
+        "id": "e3342554-312d-40ee-b345-7107c24074b6",
+        "name": "Parede leste",
+        "kind": "wall",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            8.09,
+            0,
+            6
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "length": 12,
+        "height": 9,
+        "thickness": 0.18,
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.96,
+          "metalness": 0,
+          "textureColor": "#5a5d60",
+          "textureColorMode": "replace",
+          "textureBrightness": 0.8,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "texture": "concrete",
+          "textureSize": 2.6,
+          "relief": 0.015,
+          "wear": {
+            "enabled": true,
+            "amount": 0.7,
+            "size": 2.2,
+            "seed": 11,
+            "placement": "all",
+            "center": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "radius": 0.4,
+            "softness": 0.5,
+            "color": "#463c30",
+            "roughness": 0.94,
+            "metalness": 0,
+            "relief": 0.008,
+            "type": "grime"
+          }
+        }
+      },
+      "89dfed56-f0a4-4cd4-8a8c-12292d38e3c3": {
+        "id": "89dfed56-f0a4-4cd4-8a8c-12292d38e3c3",
+        "name": "Laje de cobertura · 4,2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6.3,
+            9,
+            -4.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-ceiling-slab",
+          "revision": 1
+        },
+        "footprint": [
+          4.2,
+          4.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "8d3cc8db-4fef-4b89-916c-116e83936324": {
+        "id": "8d3cc8db-4fef-4b89-916c-116e83936324",
+        "name": "Laje de cobertura · 4,2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6.3,
+            9,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-ceiling-slab",
+          "revision": 1
+        },
+        "footprint": [
+          4.2,
+          4.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "7a6e83ce-a5a1-4056-8fd1-725bb04062b2": {
+        "id": "7a6e83ce-a5a1-4056-8fd1-725bb04062b2",
+        "name": "Laje de cobertura · 4,2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6.3,
+            9,
+            4.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-ceiling-slab",
+          "revision": 1
+        },
+        "footprint": [
+          4.2,
+          4.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "36d30735-822d-483e-83c3-0b0804000bd1": {
+        "id": "36d30735-822d-483e-83c3-0b0804000bd1",
+        "name": "Laje de cobertura · 4,2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.1,
+            9,
+            -4.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-ceiling-slab",
+          "revision": 1
+        },
+        "footprint": [
+          4.2,
+          4.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "28a0b843-f7c1-4d9e-a282-1f45a062679a": {
+        "id": "28a0b843-f7c1-4d9e-a282-1f45a062679a",
+        "name": "Laje de cobertura · 4,2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.1,
+            9,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-ceiling-slab",
+          "revision": 1
+        },
+        "footprint": [
+          4.2,
+          4.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "94a44e01-22f8-4031-a9ab-7cb7734cf2b5": {
+        "id": "94a44e01-22f8-4031-a9ab-7cb7734cf2b5",
+        "name": "Laje de cobertura · 4,2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.1,
+            9,
+            4.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-ceiling-slab",
+          "revision": 1
+        },
+        "footprint": [
+          4.2,
+          4.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "f8896b67-421f-4b43-949a-c0b204642756": {
+        "id": "f8896b67-421f-4b43-949a-c0b204642756",
+        "name": "Laje de cobertura · 4,2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            2.1,
+            9,
+            -4.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-ceiling-slab",
+          "revision": 1
+        },
+        "footprint": [
+          4.2,
+          4.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "eefba929-2f26-429a-a17c-0e89342195fa": {
+        "id": "eefba929-2f26-429a-a17c-0e89342195fa",
+        "name": "Laje de cobertura · 4,2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            2.1,
+            9,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-ceiling-slab",
+          "revision": 1
+        },
+        "footprint": [
+          4.2,
+          4.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "118cd602-5355-464f-915c-a46d5f09fa49": {
+        "id": "118cd602-5355-464f-915c-a46d5f09fa49",
+        "name": "Laje de cobertura · 4,2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            2.1,
+            9,
+            4.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-ceiling-slab",
+          "revision": 1
+        },
+        "footprint": [
+          4.2,
+          4.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "4194a215-0664-4586-9b4b-2bcca6a7231f": {
+        "id": "4194a215-0664-4586-9b4b-2bcca6a7231f",
+        "name": "Laje de cobertura · 4,2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            6.3,
+            9,
+            -4.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-ceiling-slab",
+          "revision": 1
+        },
+        "footprint": [
+          4.2,
+          4.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c37172ac-c147-4efd-91d3-95e4d3418580": {
+        "id": "c37172ac-c147-4efd-91d3-95e4d3418580",
+        "name": "Laje de cobertura · 4,2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            6.3,
+            9,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-ceiling-slab",
+          "revision": 1
+        },
+        "footprint": [
+          4.2,
+          4.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c56b1d59-9394-4408-8310-468b5b5b2a62": {
+        "id": "c56b1d59-9394-4408-8310-468b5b5b2a62",
+        "name": "Laje de cobertura · 4,2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            6.3,
+            9,
+            4.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-ceiling-slab",
+          "revision": 1
+        },
+        "footprint": [
+          4.2,
+          4.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "91dd0b34-2678-4d67-acef-a93c506474bf": {
+        "id": "91dd0b34-2678-4d67-acef-a93c506474bf",
+        "name": "Duto grosso · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -4.5,
+            6.4,
+            -3.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-duct",
+          "revision": 1
+        },
+        "footprint": [
+          3.04,
+          0.66
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "08a5455c-59f0-4508-b217-80b4667135fc": {
+        "id": "08a5455c-59f0-4508-b217-80b4667135fc",
+        "name": "Duto grosso · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -1.5,
+            6.4,
+            -3.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-duct",
+          "revision": 1
+        },
+        "footprint": [
+          3.04,
+          0.66
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "8daeb033-b436-43cc-87b7-2cbd5a6053ce": {
+        "id": "8daeb033-b436-43cc-87b7-2cbd5a6053ce",
+        "name": "Duto grosso · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            1.5,
+            6.4,
+            -3.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-duct",
+          "revision": 1
+        },
+        "footprint": [
+          3.04,
+          0.66
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "081d87b9-cc68-4eac-a590-8c402359cff6": {
+        "id": "081d87b9-cc68-4eac-a590-8c402359cff6",
+        "name": "Duto grosso · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            4.5,
+            6.4,
+            -3.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-duct",
+          "revision": 1
+        },
+        "footprint": [
+          3.04,
+          0.66
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "e6776318-c119-4be1-a35c-7d27a27de6e1": {
+        "id": "e6776318-c119-4be1-a35c-7d27a27de6e1",
+        "name": "Feixe de três tubos · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -4.5,
+            8.43,
+            3.6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-bundle",
+          "revision": 1
+        },
+        "footprint": [
+          3,
+          0.68
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "1f462dca-054d-4117-a747-eadb6de52008": {
+        "id": "1f462dca-054d-4117-a747-eadb6de52008",
+        "name": "Feixe de três tubos · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -1.5,
+            8.43,
+            3.6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-bundle",
+          "revision": 1
+        },
+        "footprint": [
+          3,
+          0.68
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "4527aaf0-a508-420d-8d17-972c0db9e314": {
+        "id": "4527aaf0-a508-420d-8d17-972c0db9e314",
+        "name": "Feixe de três tubos · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            1.5,
+            8.43,
+            3.6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-bundle",
+          "revision": 1
+        },
+        "footprint": [
+          3,
+          0.68
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "034d8aec-5cfa-4ddf-aeff-70cf06dd33e1": {
+        "id": "034d8aec-5cfa-4ddf-aeff-70cf06dd33e1",
+        "name": "Feixe de três tubos · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            4.5,
+            8.43,
+            3.6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-bundle",
+          "revision": 1
+        },
+        "footprint": [
+          3,
+          0.68
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "dc934635-b78a-4163-afde-9f671d60b489": {
+        "id": "dc934635-b78a-4163-afde-9f671d60b489",
+        "name": "Eletrocalha · 2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            5.6,
+            5.6,
+            -4
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable-tray",
+          "revision": 1
+        },
+        "footprint": [
+          2,
+          0.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "8103d2a3-043d-4568-a2f7-984755f7f576": {
+        "id": "8103d2a3-043d-4568-a2f7-984755f7f576",
+        "name": "Eletrocalha · 2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            5.6,
+            5.6,
+            -2
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable-tray",
+          "revision": 1
+        },
+        "footprint": [
+          2,
+          0.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "78f471ab-4539-4e5f-961e-698455e46758": {
+        "id": "78f471ab-4539-4e5f-961e-698455e46758",
+        "name": "Eletrocalha · 2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            5.6,
+            5.6,
+            0
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable-tray",
+          "revision": 1
+        },
+        "footprint": [
+          2,
+          0.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "5cfb97eb-5e07-4a4b-ad69-d41a63e54eac": {
+        "id": "5cfb97eb-5e07-4a4b-ad69-d41a63e54eac",
+        "name": "Eletrocalha · 2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            5.6,
+            5.6,
+            2
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable-tray",
+          "revision": 1
+        },
+        "footprint": [
+          2,
+          0.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "7e28f1de-4fe1-4cb5-a30a-4e67b0d815ee": {
+        "id": "7e28f1de-4fe1-4cb5-a30a-4e67b0d815ee",
+        "name": "Eletrocalha · 2 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            5.6,
+            5.6,
+            4
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable-tray",
+          "revision": 1
+        },
+        "footprint": [
+          2,
+          0.46
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "826ad2be-7414-49e7-b514-47c3366789d8": {
+        "id": "826ad2be-7414-49e7-b514-47c3366789d8",
+        "name": "Tubo reto · 4 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6,
+            6.2,
+            -5.75
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-long",
+          "revision": 1
+        },
+        "footprint": [
+          4.02,
+          0.23
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "d1e07160-88a6-45d4-bd9d-149f179cbcd8": {
+        "id": "d1e07160-88a6-45d4-bd9d-149f179cbcd8",
+        "name": "Tubo reto · 4 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2,
+            6.2,
+            -5.75
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-long",
+          "revision": 1
+        },
+        "footprint": [
+          4.02,
+          0.23
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "b334b531-2dd6-4932-8645-29117e5c7ccb": {
+        "id": "b334b531-2dd6-4932-8645-29117e5c7ccb",
+        "name": "Tubo reto · 4 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            2,
+            6.2,
+            -5.75
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-long",
+          "revision": 1
+        },
+        "footprint": [
+          4.02,
+          0.23
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "653502b6-3e47-46d3-8470-75411db83dfa": {
+        "id": "653502b6-3e47-46d3-8470-75411db83dfa",
+        "name": "Tubo reto · 4 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            6,
+            6.2,
+            -5.75
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-long",
+          "revision": 1
+        },
+        "footprint": [
+          4.02,
+          0.23
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "5a6ede82-bf70-41f7-acf0-ac69fa02cc16": {
+        "id": "5a6ede82-bf70-41f7-acf0-ac69fa02cc16",
+        "name": "Tubo reto · 4 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6,
+            3,
+            -5.75
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-long",
+          "revision": 1
+        },
+        "footprint": [
+          4.02,
+          0.23
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "39db811f-fcda-49d7-bbc7-4cc79372cf2c": {
+        "id": "39db811f-fcda-49d7-bbc7-4cc79372cf2c",
+        "name": "Tubo reto · 4 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2,
+            3,
+            -5.75
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-long",
+          "revision": 1
+        },
+        "footprint": [
+          4.02,
+          0.23
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "e4fb75fd-7c0f-4ca6-ad5f-52ee2e327cae": {
+        "id": "e4fb75fd-7c0f-4ca6-ad5f-52ee2e327cae",
+        "name": "Tubo reto · 4 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            7.75,
+            4.2,
+            -4
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-long",
+          "revision": 1
+        },
+        "footprint": [
+          4.02,
+          0.23
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "fe4c7d31-362a-4798-b70f-6002b170ba98": {
+        "id": "fe4c7d31-362a-4798-b70f-6002b170ba98",
+        "name": "Tubo reto · 4 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            7.75,
+            4.2,
+            0
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-long",
+          "revision": 1
+        },
+        "footprint": [
+          4.02,
+          0.23
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "15893730-c92a-45cb-a746-84446e76eeee": {
+        "id": "15893730-c92a-45cb-a746-84446e76eeee",
+        "name": "Tubo reto · 4 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            7.75,
+            4.2,
+            4
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-long",
+          "revision": 1
+        },
+        "footprint": [
+          4.02,
+          0.23
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "762bcb6a-7e57-4f57-9640-4f14c3a335b1": {
+        "id": "762bcb6a-7e57-4f57-9640-4f14c3a335b1",
+        "name": "Trepadeira pendente",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6.6,
+            7,
+            1.4
+          ],
+          "rotation": [
+            0,
+            0.8660254037844386,
+            0,
+            0.5000000000000001
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-hanging-vines",
+          "revision": 1
+        },
+        "footprint": [
+          0.93,
+          0.61
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "d5b2cde2-b906-4470-8309-81938968ee3f": {
+        "id": "d5b2cde2-b906-4470-8309-81938968ee3f",
+        "name": "Trepadeira pendente",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            3.8,
+            7,
+            -4.6
+          ],
+          "rotation": [
+            0,
+            0.25881904510252074,
+            0,
+            0.9659258262890683
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-hanging-vines",
+          "revision": 1
+        },
+        "footprint": [
+          0.93,
+          0.61
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "647ef680-ceaa-4c74-b32c-a832e60edcae": {
+        "id": "647ef680-ceaa-4c74-b32c-a832e60edcae",
+        "name": "Trepadeira pendente",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.6,
+            7,
+            4.4
+          ],
+          "rotation": [
+            0,
+            0.984807753012208,
+            0,
+            -0.1736481776669303
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-hanging-vines",
+          "revision": 1
+        },
+        "footprint": [
+          0.93,
+          0.61
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "23ccbe43-eacb-4f1b-b899-c36c15f0bdbd": {
+        "id": "23ccbe43-eacb-4f1b-b899-c36c15f0bdbd",
+        "name": "Coluna de aço · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.5,
+            0,
+            -4.5
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            3,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-column",
+          "revision": 1
+        },
+        "footprint": [
+          0.42,
+          0.38
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "fb3c8caa-9c3d-4b0a-86c7-34958cada2fe": {
+        "id": "fb3c8caa-9c3d-4b0a-86c7-34958cada2fe",
+        "name": "Coluna de aço · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            6,
+            0,
+            -4.5
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            3,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-column",
+          "revision": 1
+        },
+        "footprint": [
+          0.42,
+          0.38
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "e7769c9c-cd2b-4698-8ae3-1d6bf535ae05": {
+        "id": "e7769c9c-cd2b-4698-8ae3-1d6bf535ae05",
+        "name": "Coluna de aço · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.5,
+            0,
+            4.5
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            3,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-column",
+          "revision": 1
+        },
+        "footprint": [
+          0.42,
+          0.38
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "6925e13c-c8bc-40f1-be3a-03bb4e00c770": {
+        "id": "6925e13c-c8bc-40f1-be3a-03bb4e00c770",
+        "name": "Coluna de aço · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            6,
+            0,
+            4.5
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            3,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-column",
+          "revision": 1
+        },
+        "footprint": [
+          0.42,
+          0.38
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "a2ab616e-11a8-4ae6-810f-fcd95ea500e2": {
+        "id": "a2ab616e-11a8-4ae6-810f-fcd95ea500e2",
+        "name": "Tubo vertical de parede · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -7.98,
+            0,
+            -2
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            3,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-riser",
+          "revision": 1
+        },
+        "footprint": [
+          0.24,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "48dd8af7-ee30-4195-88df-bfa6e3afc6d6": {
+        "id": "48dd8af7-ee30-4195-88df-bfa6e3afc6d6",
+        "name": "Tubo vertical de parede · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -7.98,
+            0,
+            1.5
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            3,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-pipe-riser",
+          "revision": 1
+        },
+        "footprint": [
+          0.24,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "87ff43c8-91c5-433e-887c-a3862942e1dc": {
+        "id": "87ff43c8-91c5-433e-887c-a3862942e1dc",
+        "name": "Mezanino",
+        "kind": "floor",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6.3,
+            4.2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "width": 3.4,
+        "length": 11.2,
+        "thickness": 0.22,
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.75,
+          "metalness": 0.5,
+          "textureColor": "#454a4e",
+          "textureColorMode": "replace",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "paintFinish": "smooth",
+          "paintChips": 0.35,
+          "paintBase": "rust",
+          "texture": "paint",
+          "textureSize": 1.4,
+          "relief": 0.004
+        }
+      },
+      "a67409fe-3dd4-4f6f-ac1e-8b0b3e92ea3d": {
+        "id": "a67409fe-3dd4-4f6f-ac1e-8b0b3e92ea3d",
+        "name": "Escada do mezanino",
+        "kind": "stairs",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.8120553510767374,
+            0,
+            -4
+          ],
+          "rotation": [
+            0,
+            -0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "width": 1.1,
+        "length": 3.6,
+        "height": 4.2,
+        "steps": 12,
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.75,
+          "metalness": 0.5,
+          "textureColor": "#3f4448",
+          "textureColorMode": "replace",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "paintFinish": "smooth",
+          "paintChips": 0.3,
+          "paintBase": "rust",
+          "texture": "paint",
+          "textureSize": 1.4,
+          "relief": 0.004
+        },
+        "fromLevelId": null,
+        "toLevelId": null
+      },
+      "5bd341f3-9f86-4f68-8975-5bd42874ed66": {
+        "id": "5bd341f3-9f86-4f68-8975-5bd42874ed66",
+        "name": "Coluna de aço · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -4.7,
+            0,
+            -5
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1.3333333333333333,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-column",
+          "revision": 1
+        },
+        "footprint": [
+          0.42,
+          0.38
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "654877b2-e39e-46de-bb29-a95c7f60792a": {
+        "id": "654877b2-e39e-46de-bb29-a95c7f60792a",
+        "name": "Coluna de aço · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -4.7,
+            0,
+            -0.6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1.3333333333333333,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-column",
+          "revision": 1
+        },
+        "footprint": [
+          0.42,
+          0.38
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "eb928fc8-d00a-471d-a8ae-57e16749c680": {
+        "id": "eb928fc8-d00a-471d-a8ae-57e16749c680",
+        "name": "Coluna de aço · 3 m",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -4.7,
+            0,
+            3.8
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1.3333333333333333,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-column",
+          "revision": 1
+        },
+        "footprint": [
+          0.42,
+          0.38
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "00567f8d-74c6-4e42-ae30-a38973e64f91": {
+        "id": "00567f8d-74c6-4e42-ae30-a38973e64f91",
+        "name": "Grade de cemitério",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "87ff43c8-91c5-433e-887c-a3862942e1dc",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -4.62,
+            4.2,
+            -1.8
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-iron-fence",
+          "revision": 1
+        },
+        "footprint": [
+          2.08,
+          0.08
+        ],
+        "material": {
+          "color": "#3f4448",
+          "roughness": 0.6,
+          "metalness": 0.6
+        }
+      },
+      "ee5d132b-e816-4dd9-8b2c-fd4e6386d69c": {
+        "id": "ee5d132b-e816-4dd9-8b2c-fd4e6386d69c",
+        "name": "Grade de cemitério",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "87ff43c8-91c5-433e-887c-a3862942e1dc",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -4.62,
+            4.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-iron-fence",
+          "revision": 1
+        },
+        "footprint": [
+          2.08,
+          0.08
+        ],
+        "material": {
+          "color": "#3f4448",
+          "roughness": 0.6,
+          "metalness": 0.6
+        }
+      },
+      "6cc1e011-d7d2-4ee3-b02b-980e592d8cb6": {
+        "id": "6cc1e011-d7d2-4ee3-b02b-980e592d8cb6",
+        "name": "Grade de cemitério",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "87ff43c8-91c5-433e-887c-a3862942e1dc",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -4.62,
+            4.2,
+            2.4
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-iron-fence",
+          "revision": 1
+        },
+        "footprint": [
+          2.08,
+          0.08
+        ],
+        "material": {
+          "color": "#3f4448",
+          "roughness": 0.6,
+          "metalness": 0.6
+        }
+      },
+      "6a4ca098-1b78-4c3f-892c-f86970246a46": {
+        "id": "6a4ca098-1b78-4c3f-892c-f86970246a46",
+        "name": "Grade de cemitério",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "87ff43c8-91c5-433e-887c-a3862942e1dc",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -4.62,
+            4.2,
+            4.5
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-iron-fence",
+          "revision": 1
+        },
+        "footprint": [
+          2.08,
+          0.08
+        ],
+        "material": {
+          "color": "#3f4448",
+          "roughness": 0.6,
+          "metalness": 0.6
+        }
+      },
+      "9b3ae75d-9c6a-4220-87c1-39b49380663f": {
+        "id": "9b3ae75d-9c6a-4220-87c1-39b49380663f",
+        "name": "Reservatório de água",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "87ff43c8-91c5-433e-887c-a3862942e1dc",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6.5,
+            4.2,
+            -3.4
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-water-tank",
+          "revision": 1
+        },
+        "footprint": [
+          1.53,
+          1.47
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "d7218eb2-43c0-4519-be27-ee653233411c": {
+        "id": "d7218eb2-43c0-4519-be27-ee653233411c",
+        "name": "Tambor industrial",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "87ff43c8-91c5-433e-887c-a3862942e1dc",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -7.3,
+            4.2,
+            1.2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-barrel",
+          "revision": 1
+        },
+        "footprint": [
+          0.63,
+          0.63
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "521a6c4c-1907-4414-84dc-6094af720497": {
+        "id": "521a6c4c-1907-4414-84dc-6094af720497",
+        "name": "Tambor industrial",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "87ff43c8-91c5-433e-887c-a3862942e1dc",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6.6,
+            4.2,
+            1.7
+          ],
+          "rotation": [
+            0,
+            0.25881904510252074,
+            0,
+            0.9659258262890683
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-barrel",
+          "revision": 1
+        },
+        "footprint": [
+          0.63,
+          0.63
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c4136a01-6266-4ab7-9bac-aef37ecf897b": {
+        "id": "c4136a01-6266-4ab7-9bac-aef37ecf897b",
+        "name": "Caixa antiga fechada · tampa e ferragens",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "87ff43c8-91c5-433e-887c-a3862942e1dc",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6.9,
+            4.2,
+            4.3
+          ],
+          "rotation": [
+            0,
+            0.08715574274765817,
+            0,
+            0.9961946980917455
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-old-closed-crate",
+          "revision": 1
+        },
+        "footprint": [
+          1.25,
+          1.01
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "b578ff18-f2bc-428d-90ea-1e9aadc6a064": {
+        "id": "b578ff18-f2bc-428d-90ea-1e9aadc6a064",
+        "name": "Papéis espalhados",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "87ff43c8-91c5-433e-887c-a3862942e1dc",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6.2,
+            4.2,
+            -0.4
+          ],
+          "rotation": [
+            0,
+            0.49999999999999994,
+            0,
+            0.8660254037844387
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-scattered-papers",
+          "revision": 1
+        },
+        "footprint": [
+          1.37,
+          1.16
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "60d2c9d2-326b-4216-bb2b-591bb42534ad": {
+        "id": "60d2c9d2-326b-4216-bb2b-591bb42534ad",
+        "name": "Portão industrial de duas folhas",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            2.5,
+            0,
+            -5.8
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-blast-door",
+          "revision": 1
+        },
+        "footprint": [
+          3.8,
+          0.42
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "4f702544-eaa2-49e3-8395-f33c9dafc845": {
+        "id": "4f702544-eaa2-49e3-8395-f33c9dafc845",
+        "name": "Luz de aviso de parede",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            2.5,
+            3.75,
+            -5.92
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-warning-light",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.24
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "illumination": {
+          "enabled": true,
+          "profile": "ritual",
+          "mode": "assisted",
+          "type": "point",
+          "color": "#ff2a1a",
+          "intensity": 40,
+          "distance": 11,
+          "position": [
+            0,
+            0,
+            0.4
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 0.7853981633974483,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": false,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 10,
+          "shadowPolicy": "off",
+          "mapSize": 1024,
+          "projection": "none",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        }
+      },
+      "153a756e-0ca4-48b8-98a3-c10a058a3937": {
+        "id": "153a756e-0ca4-48b8-98a3-c10a058a3937",
+        "name": "Faixa de alerta",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "anchor": {
+          "hostId": "e079b563-73e0-4bc9-b9f0-643e9c93c7dc",
+          "socket": "surface",
+          "offset": [
+            8.18,
+            2.2,
+            0.08999999999999986
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        "transform": {
+          "position": [
+            0,
+            2.2,
+            -6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-decal",
+          "revision": 1
+        },
+        "footprint": [
+          16.36,
+          0.02
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.62,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "hazardAngle": 45,
+          "hazardWidth": 0.1,
+          "hazardColorA": "#e5b21c",
+          "hazardColorB": "#17160f",
+          "hazardWear": 0.45,
+          "texture": "hazard",
+          "textureSize": 0.4,
+          "relief": 0.006
+        },
+        "decal": {
+          "kind": "surface",
+          "size": [
+            16.36,
+            0.3
+          ],
+          "text": "SETOR 7",
+          "font": "stencil",
+          "textColor": "#e9e2cf",
+          "background": null,
+          "imageRef": null,
+          "opacity": 1,
+          "wear": {
+            "faded": 0.3,
+            "scratched": 0.2,
+            "seed": 4
+          }
+        }
+      },
+      "3db68e73-8629-4d8e-b8d5-166a51b7868a": {
+        "id": "3db68e73-8629-4d8e-b8d5-166a51b7868a",
+        "name": "Faixa de alerta",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "anchor": {
+          "hostId": "e3342554-312d-40ee-b345-7107c24074b6",
+          "socket": "surface",
+          "offset": [
+            6,
+            2.2,
+            -0.09000000000000163
+          ],
+          "rotation": [
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        "transform": {
+          "position": [
+            8,
+            2.2,
+            0
+          ],
+          "rotation": [
+            0,
+            -0.7071067811865476,
+            0,
+            0.7071067811865475
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-decal",
+          "revision": 1
+        },
+        "footprint": [
+          12,
+          0.02
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.62,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "hazardAngle": 45,
+          "hazardWidth": 0.1,
+          "hazardColorA": "#e5b21c",
+          "hazardColorB": "#17160f",
+          "hazardWear": 0.45,
+          "texture": "hazard",
+          "textureSize": 0.4,
+          "relief": 0.006
+        },
+        "decal": {
+          "kind": "surface",
+          "size": [
+            12,
+            0.3
+          ],
+          "text": "SETOR 7",
+          "font": "stencil",
+          "textColor": "#e9e2cf",
+          "background": null,
+          "imageRef": null,
+          "opacity": 1,
+          "wear": {
+            "faded": 0.3,
+            "scratched": 0.2,
+            "seed": 4
+          }
+        }
+      },
+      "b669f249-b454-4c3b-90c2-4cbf27460c21": {
+        "id": "b669f249-b454-4c3b-90c2-4cbf27460c21",
+        "name": "Faixa de alerta",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "anchor": {
+          "hostId": "c01e060f-6f2a-465d-a801-341f90bd9ae1",
+          "socket": "surface",
+          "offset": [
+            6,
+            2.2,
+            0.08999999999999808
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        "transform": {
+          "position": [
+            -8,
+            2.2,
+            0
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-decal",
+          "revision": 1
+        },
+        "footprint": [
+          12,
+          0.02
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.62,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "hazardAngle": 45,
+          "hazardWidth": 0.1,
+          "hazardColorA": "#e5b21c",
+          "hazardColorB": "#17160f",
+          "hazardWear": 0.45,
+          "texture": "hazard",
+          "textureSize": 0.4,
+          "relief": 0.006
+        },
+        "decal": {
+          "kind": "surface",
+          "size": [
+            12,
+            0.3
+          ],
+          "text": "SETOR 7",
+          "font": "stencil",
+          "textColor": "#e9e2cf",
+          "background": null,
+          "imageRef": null,
+          "opacity": 1,
+          "wear": {
+            "faded": 0.3,
+            "scratched": 0.2,
+            "seed": 4
+          }
+        }
+      },
+      "40bf34c1-3762-4d9c-b080-fd4190d25328": {
+        "id": "40bf34c1-3762-4d9c-b080-fd4190d25328",
+        "name": "Faixa de alerta alta",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "anchor": {
+          "hostId": "e079b563-73e0-4bc9-b9f0-643e9c93c7dc",
+          "socket": "surface",
+          "offset": [
+            8.18,
+            4.9,
+            0.08999999999999986
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        "transform": {
+          "position": [
+            0,
+            4.9,
+            -6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-decal",
+          "revision": 1
+        },
+        "footprint": [
+          16.36,
+          0.02
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.62,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "hazardAngle": 45,
+          "hazardWidth": 0.1,
+          "hazardColorA": "#e5b21c",
+          "hazardColorB": "#17160f",
+          "hazardWear": 0.45,
+          "texture": "hazard",
+          "textureSize": 0.4,
+          "relief": 0.006
+        },
+        "decal": {
+          "kind": "surface",
+          "size": [
+            16.36,
+            0.25
+          ],
+          "text": "SETOR 7",
+          "font": "stencil",
+          "textColor": "#e9e2cf",
+          "background": null,
+          "imageRef": null,
+          "opacity": 1,
+          "wear": {
+            "faded": 0.3,
+            "scratched": 0.2,
+            "seed": 4
+          }
+        }
+      },
+      "51a680d9-1461-4937-9bdc-d51d1d5bfabd": {
+        "id": "51a680d9-1461-4937-9bdc-d51d1d5bfabd",
+        "name": "Faixa de alerta alta",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "anchor": {
+          "hostId": "c01e060f-6f2a-465d-a801-341f90bd9ae1",
+          "socket": "surface",
+          "offset": [
+            6,
+            4.9,
+            0.08999999999999808
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        "transform": {
+          "position": [
+            -8,
+            4.9,
+            0
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-decal",
+          "revision": 1
+        },
+        "footprint": [
+          12,
+          0.02
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.62,
+          "metalness": 0,
+          "textureColor": "#ffffff",
+          "textureColorMode": "original",
+          "textureBrightness": 1,
+          "textureContrast": 1,
+          "textureSaturation": 1,
+          "textureRotation": 0,
+          "textureSeed": 0,
+          "patternDensity": 1,
+          "woodPattern": "planks",
+          "woodBoards": 5,
+          "woodDirection": "horizontal",
+          "woodGap": 0.025,
+          "woodGrain": 0.5,
+          "metalPattern": "brushed",
+          "metalWear": 0.15,
+          "rockPattern": "fractured",
+          "rockCracks": 0.6,
+          "hazardAngle": 45,
+          "hazardWidth": 0.1,
+          "hazardColorA": "#e5b21c",
+          "hazardColorB": "#17160f",
+          "hazardWear": 0.45,
+          "texture": "hazard",
+          "textureSize": 0.4,
+          "relief": 0.006
+        },
+        "decal": {
+          "kind": "surface",
+          "size": [
+            12,
+            0.25
+          ],
+          "text": "SETOR 7",
+          "font": "stencil",
+          "textColor": "#e9e2cf",
+          "background": null,
+          "imageRef": null,
+          "opacity": 1,
+          "wear": {
+            "faded": 0.3,
+            "scratched": 0.2,
+            "seed": 4
+          }
+        }
+      },
+      "912eeae0-7e1f-4531-ada3-fe60f090b12a": {
+        "id": "912eeae0-7e1f-4531-ada3-fe60f090b12a",
+        "name": "Letreiro",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "anchor": {
+          "hostId": "e079b563-73e0-4bc9-b9f0-643e9c93c7dc",
+          "socket": "surface",
+          "offset": [
+            10.68,
+            4.35,
+            0.08999999999999986
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        "transform": {
+          "position": [
+            2.5,
+            4.35,
+            -6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-decal",
+          "revision": 1
+        },
+        "footprint": [
+          2.4,
+          0.02
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "decal": {
+          "kind": "text",
+          "size": [
+            2.4,
+            0.55
+          ],
+          "text": "SETOR 7",
+          "font": "stencil",
+          "textColor": "#c9c3b4",
+          "background": "#26292b",
+          "imageRef": null,
+          "opacity": 1,
+          "wear": {
+            "faded": 0.45,
+            "scratched": 0.3,
+            "seed": 7
+          }
+        }
+      },
+      "1a4d5113-62da-4e7f-90e8-1e629a71f2fe": {
+        "id": "1a4d5113-62da-4e7f-90e8-1e629a71f2fe",
+        "name": "Mesa de aço tubular",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -1.3,
+            0,
+            3
+          ],
+          "rotation": [
+            0,
+            0.21643961393810288,
+            0,
+            0.9762960071199334
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-metal-table",
+          "revision": 1
+        },
+        "footprint": [
+          1.5,
+          0.7
+        ],
+        "material": {
+          "color": "#55595c",
+          "roughness": 0.7,
+          "metalness": 0.3
+        }
+      },
+      "8661700e-df03-477a-b9cf-575974fe19a8": {
+        "id": "8661700e-df03-477a-b9cf-575974fe19a8",
+        "name": "Terminal de computador",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -1.3,
+            0.78,
+            3
+          ],
+          "rotation": [
+            0,
+            0.21643961393810288,
+            0,
+            0.9762960071199334
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-computer",
+          "revision": 1
+        },
+        "footprint": [
+          0.7,
+          0.52
+        ],
+        "material": {
+          "color": "#8a8780",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "screen": {
+          "enabled": true,
+          "kind": "text",
+          "lines": [
+            {
+              "text": "BOOTING",
+              "size": 0.2,
+              "align": "center",
+              "anim": "dots"
+            }
+          ],
+          "color": "#dde4e8",
+          "background": "#05070a",
+          "progress": {
+            "enabled": true,
+            "mode": "loop",
+            "value": 0.4,
+            "speed": 0.2
+          },
+          "imageRef": null,
+          "scanlines": 0.7,
+          "flicker": 0.2,
+          "seed": 1
+        },
+        "illumination": {
+          "enabled": true,
+          "profile": "screen",
+          "mode": "assisted",
+          "type": "point",
+          "color": "#c9d8e6",
+          "intensity": 3,
+          "distance": 3.2,
+          "position": [
+            0,
+            0.4895165288401024,
+            0.48991003045257203
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 0.7853981633974483,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": false,
+            "pattern": "candle",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 10,
+          "shadowPolicy": "off",
+          "mapSize": 1024,
+          "projection": "none",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        }
+      },
+      "073e8af2-056b-4153-b337-309bebcf97f0": {
+        "id": "073e8af2-056b-4153-b337-309bebcf97f0",
+        "name": "Marca no monitor",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "anchor": {
+          "hostId": "8661700e-df03-477a-b9cf-575974fe19a8",
+          "socket": "surface",
+          "offset": [
+            -0.2622527402280044,
+            0.27435822357297557,
+            -0.12008996954742823
+          ],
+          "rotation": [
+            0,
+            -2.7755575615628907e-17,
+            0,
+            1
+          ]
+        },
+        "transform": {
+          "position": [
+            -1.5884339148229678,
+            1.0543582235729756,
+            3.001994322666066
+          ],
+          "rotation": [
+            0,
+            0.21643961393810285,
+            0,
+            0.9762960071199334
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-decal",
+          "revision": 1
+        },
+        "footprint": [
+          0.16,
+          0.02
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "decal": {
+          "kind": "text",
+          "size": [
+            0.16,
+            0.04
+          ],
+          "text": "AVARUS",
+          "font": "sans",
+          "textColor": "#9da2a6",
+          "background": null,
+          "imageRef": null,
+          "opacity": 1,
+          "wear": {
+            "faded": 0.4,
+            "scratched": 0.3,
+            "seed": 3
+          }
+        }
+      },
+      "e4204da5-9cbf-4727-be48-e580f107c23c": {
+        "id": "e4204da5-9cbf-4727-be48-e580f107c23c",
+        "name": "Mesa de aço tubular",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            4.6,
+            0,
+            1.2
+          ],
+          "rotation": [
+            0,
+            -0.573576436351046,
+            0,
+            0.8191520442889918
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-metal-table",
+          "revision": 1
+        },
+        "footprint": [
+          1.5,
+          0.7
+        ],
+        "material": {
+          "color": "#55595c",
+          "roughness": 0.7,
+          "metalness": 0.3
+        }
+      },
+      "1a4f64db-e94b-4100-bedf-6ea826ce165e": {
+        "id": "1a4f64db-e94b-4100-bedf-6ea826ce165e",
+        "name": "Estante de aço",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -7.4,
+            0,
+            -4
+          ],
+          "rotation": [
+            0,
+            0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-metal-shelf",
+          "revision": 1
+        },
+        "footprint": [
+          1.2,
+          0.44
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "e982e51a-8428-4de9-ac15-e2e16a0ab13b": {
+        "id": "e982e51a-8428-4de9-ac15-e2e16a0ab13b",
+        "name": "Gerador portátil",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6.2,
+            0,
+            -0.8
+          ],
+          "rotation": [
+            0,
+            0.6427876096865393,
+            0,
+            0.766044443118978
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-generator",
+          "revision": 1
+        },
+        "footprint": [
+          0.81,
+          0.56
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "007ced2e-e794-4bc9-8e57-de73c5f482c7": {
+        "id": "007ced2e-e794-4bc9-8e57-de73c5f482c7",
+        "name": "Cilindro de oxigênio",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -7.5,
+            0,
+            2
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-oxygen-tank",
+          "revision": 1
+        },
+        "footprint": [
+          0.32,
+          0.32
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c573f558-328f-4eef-af62-dacb61b3f04d": {
+        "id": "c573f558-328f-4eef-af62-dacb61b3f04d",
+        "name": "Cilindro de oxigênio",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -7.2,
+            0,
+            2.35
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-oxygen-tank",
+          "revision": 1
+        },
+        "footprint": [
+          0.32,
+          0.32
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "303bc84e-5bcf-418b-bb43-f4f03da86db5": {
+        "id": "303bc84e-5bcf-418b-bb43-f4f03da86db5",
+        "name": "Armários de vestiário",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            7.68,
+            0,
+            2.6
+          ],
+          "rotation": [
+            0,
+            -0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-locker",
+          "revision": 1
+        },
+        "footprint": [
+          1.21,
+          0.56
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "d34b0e27-288b-40af-a1fa-1507908c68f8": {
+        "id": "d34b0e27-288b-40af-a1fa-1507908c68f8",
+        "name": "Armários de vestiário",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            7.68,
+            0,
+            3.85
+          ],
+          "rotation": [
+            0,
+            -0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-locker",
+          "revision": 1
+        },
+        "footprint": [
+          1.21,
+          0.56
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "6b5378cb-a422-46b5-862e-4a4f7656e2b0": {
+        "id": "6b5378cb-a422-46b5-862e-4a4f7656e2b0",
+        "name": "Quadro elétrico",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            7.88,
+            1.3,
+            -1.5
+          ],
+          "rotation": [
+            0,
+            -0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-power-panel",
+          "revision": 1
+        },
+        "footprint": [
+          0.58,
+          0.21
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "ea66853d-2ab5-49cb-be1f-cff3dd68f8fa": {
+        "id": "ea66853d-2ab5-49cb-be1f-cff3dd68f8fa",
+        "name": "Quadro elétrico",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            7.88,
+            1.3,
+            -0.8
+          ],
+          "rotation": [
+            0,
+            -0.7071067811865475,
+            0,
+            0.7071067811865476
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-power-panel",
+          "revision": 1
+        },
+        "footprint": [
+          0.58,
+          0.21
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "e8b9cd07-7954-4684-91e9-9f67b8d8e54c": {
+        "id": "e8b9cd07-7954-4684-91e9-9f67b8d8e54c",
+        "name": "Caixa de madeira",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            7.1,
+            0,
+            -2.6
+          ],
+          "rotation": [
+            0,
+            0.08715574274765817,
+            0,
+            0.9961946980917455
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-crate",
+          "revision": 1
+        },
+        "footprint": [
+          0.82,
+          0.82
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "b36adbde-9985-411e-a2b3-37da523908ee": {
+        "id": "b36adbde-9985-411e-a2b3-37da523908ee",
+        "name": "Caixa de madeira",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            7.1,
+            0.78,
+            -2.6
+          ],
+          "rotation": [
+            0,
+            0.3007057995042731,
+            0,
+            0.9537169507482269
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-crate",
+          "revision": 1
+        },
+        "footprint": [
+          0.82,
+          0.82
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "4276ae82-c636-46a2-8e07-1fe3cd46975f": {
+        "id": "4276ae82-c636-46a2-8e07-1fe3cd46975f",
+        "name": "Caixa de madeira",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            7.15,
+            0,
+            -1.7
+          ],
+          "rotation": [
+            0,
+            -0.043619387365336,
+            0,
+            0.9990482215818578
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-crate",
+          "revision": 1
+        },
+        "footprint": [
+          0.82,
+          0.82
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "e72c936f-611a-4ef0-8f99-591284f65fe3": {
+        "id": "e72c936f-611a-4ef0-8f99-591284f65fe3",
+        "name": "Palete de madeira",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            4.8,
+            0,
+            -2.8
+          ],
+          "rotation": [
+            0,
+            0.17364817766693033,
+            0,
+            0.984807753012208
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-pallet",
+          "revision": 1
+        },
+        "footprint": [
+          1.11,
+          0.81
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "656a2004-4441-4e9b-824f-f63478a2e687": {
+        "id": "656a2004-4441-4e9b-824f-f63478a2e687",
+        "name": "Carrinho de paletes",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            4,
+            0,
+            -3.6
+          ],
+          "rotation": [
+            0,
+            0.3420201433256687,
+            0,
+            0.9396926207859084
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-pallet-jack",
+          "revision": 1
+        },
+        "footprint": [
+          0.66,
+          1.51
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "27aa1907-478b-4409-bc1a-30f3486b0c75": {
+        "id": "27aa1907-478b-4409-bc1a-30f3486b0c75",
+        "name": "Tambor industrial",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -1.4,
+            0,
+            -4.9
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-barrel",
+          "revision": 1
+        },
+        "footprint": [
+          0.63,
+          0.63
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "64bb6352-8e33-48dc-a425-05e0ea28b925": {
+        "id": "64bb6352-8e33-48dc-a425-05e0ea28b925",
+        "name": "Tambor industrial",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -0.6,
+            0,
+            -5.1
+          ],
+          "rotation": [
+            0,
+            0.3420201433256687,
+            0,
+            0.9396926207859084
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-barrel",
+          "revision": 1
+        },
+        "footprint": [
+          0.63,
+          0.63
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "cbd68705-7001-4803-8be6-45d19038b425": {
+        "id": "cbd68705-7001-4803-8be6-45d19038b425",
+        "name": "Entulho de concreto",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            1.5,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0.25881904510252074,
+            0,
+            0.9659258262890683
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-rubble-concrete",
+          "revision": 1
+        },
+        "footprint": [
+          1.46,
+          1.12
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "3b2075b1-8c7e-4d45-978f-d77c5909a779": {
+        "id": "3b2075b1-8c7e-4d45-978f-d77c5909a779",
+        "name": "Piso solto e quebrado",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -3.6,
+            0,
+            1
+          ],
+          "rotation": [
+            0,
+            0.573576436351046,
+            0,
+            0.8191520442889918
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-rubble-tiles",
+          "revision": 1
+        },
+        "footprint": [
+          1.36,
+          1.27
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "489e65b0-b123-4321-b1c6-f900ae4eb818": {
+        "id": "489e65b0-b123-4321-b1c6-f900ae4eb818",
+        "name": "Piso solto e quebrado",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            3.4,
+            0,
+            -2.6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-rubble-tiles",
+          "revision": 1
+        },
+        "footprint": [
+          1.36,
+          1.27
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "b23eb318-ce17-49e9-823d-37053b451793": {
+        "id": "b23eb318-ce17-49e9-823d-37053b451793",
+        "name": "Papéis espalhados",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -3.4,
+            0,
+            3.8
+          ],
+          "rotation": [
+            0,
+            0.17364817766693033,
+            0,
+            0.984807753012208
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-scattered-papers",
+          "revision": 1
+        },
+        "footprint": [
+          1.37,
+          1.16
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "90f56705-ac52-410d-a256-3cfb5f951921": {
+        "id": "90f56705-ac52-410d-a256-3cfb5f951921",
+        "name": "Mato nascendo do piso",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            4.4,
+            0,
+            -0.6
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-floor-weeds",
+          "revision": 1
+        },
+        "footprint": [
+          0.89,
+          0.82
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "c76e2f1b-7815-4d12-85f7-ad92ea45a1db": {
+        "id": "c76e2f1b-7815-4d12-85f7-ad92ea45a1db",
+        "name": "Mato nascendo do piso",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -2.4,
+            0,
+            -1.2
+          ],
+          "rotation": [
+            0,
+            0.6427876096865393,
+            0,
+            0.766044443118978
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-floor-weeds",
+          "revision": 1
+        },
+        "footprint": [
+          0.89,
+          0.82
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "f6234a9f-2586-4ba0-a035-059cd4271fc4": {
+        "id": "f6234a9f-2586-4ba0-a035-059cd4271fc4",
+        "name": "Mato nascendo do piso",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -0.4,
+            0,
+            4.1
+          ],
+          "rotation": [
+            0,
+            0.984807753012208,
+            0,
+            -0.1736481776669303
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-floor-weeds",
+          "revision": 1
+        },
+        "footprint": [
+          0.89,
+          0.82
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "3cf2188e-9d10-4b84-823a-f1f3a416a4d0": {
+        "id": "3cf2188e-9d10-4b84-823a-f1f3a416a4d0",
+        "name": "Mato nascendo do piso",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            5.6,
+            0,
+            -4.4
+          ],
+          "rotation": [
+            0,
+            0.9396926207859083,
+            0,
+            0.3420201433256688
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-floor-weeds",
+          "revision": 1
+        },
+        "footprint": [
+          0.89,
+          0.82
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        }
+      },
+      "6f8d444d-533b-4fab-83fa-dfe6543d02a1": {
+        "id": "6f8d444d-533b-4fab-83fa-dfe6543d02a1",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -6.965828022593633,
+            8.96,
+            -3.270935181956738
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            1.9508,
+            0,
+            -1.8372
+          ],
+          "sag": 0.764,
+          "strands": 1,
+          "radius": 0.0095,
+          "spread": 0.219,
+          "seed": 0
+        }
+      },
+      "b813d2b5-ad3c-4be5-ad68-d43504a3799e": {
+        "id": "b813d2b5-ad3c-4be5-ad68-d43504a3799e",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -6.2525338493939495,
+            8.96,
+            -0.5295915722474458
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            1.7327,
+            0,
+            -3.3326
+          ],
+          "sag": 0.725,
+          "strands": 3,
+          "radius": 0.0147,
+          "spread": 0.091,
+          "seed": 1
+        }
+      },
+      "d428c98f-d268-4fa6-b646-b8b31e455564": {
+        "id": "d428c98f-d268-4fa6-b646-b8b31e455564",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -8.06,
+            8.96,
+            -3.763153607295826
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            2.355,
+            0,
+            9.8232
+          ],
+          "sag": 2.201,
+          "strands": 1,
+          "radius": 0.0108,
+          "spread": 0.106,
+          "seed": 2
+        }
+      },
+      "88668bba-1ece-4d74-928f-a518ba272b7c": {
+        "id": "88668bba-1ece-4d74-928f-a518ba272b7c",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            1.4355160044133672,
+            8.96,
+            3.0006461072154336
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "drop",
+          "span": [
+            0,
+            -3.6370800134912136,
+            0
+          ],
+          "sag": 0.3,
+          "strands": 3,
+          "radius": 0.0202,
+          "spread": 0.08,
+          "seed": 4
+        }
+      },
+      "1aee0d22-7456-42c8-8764-da51b744789e": {
+        "id": "1aee0d22-7456-42c8-8764-da51b744789e",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            4.150745319183915,
+            8.96,
+            -2.4779852467775343
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -0.5063,
+            0,
+            -3.3959
+          ],
+          "sag": 0.877,
+          "strands": 3,
+          "radius": 0.0167,
+          "spread": 0.102,
+          "seed": 5
+        }
+      },
+      "1cb39268-85d9-4e78-8084-ab57b39042db": {
+        "id": "1cb39268-85d9-4e78-8084-ab57b39042db",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            4.694026848198845,
+            8.96,
+            2.899403499746694
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -9.316,
+            0,
+            -4.9462
+          ],
+          "sag": 1.41,
+          "strands": 5,
+          "radius": 0.0101,
+          "spread": 0.202,
+          "seed": 6
+        }
+      },
+      "abab6a20-4642-4d35-867a-2eeaa8c25540": {
+        "id": "abab6a20-4642-4d35-867a-2eeaa8c25540",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            2.2650066758971654,
+            8.96,
+            4.417170896362513
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            1.7566,
+            0,
+            -7.5231
+          ],
+          "sag": 1.211,
+          "strands": 4,
+          "radius": 0.0101,
+          "spread": 0.076,
+          "seed": 7
+        }
+      },
+      "04bea281-8d67-4c25-9ea2-1d7d7a3ba4ec": {
+        "id": "04bea281-8d67-4c25-9ea2-1d7d7a3ba4ec",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -1.3498990974854674,
+            8.96,
+            -2.362814449360594
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "drop",
+          "span": [
+            0,
+            -2.5835230747703464,
+            0
+          ],
+          "sag": 0.3,
+          "strands": 3,
+          "radius": 0.0191,
+          "spread": 0.08,
+          "seed": 8
+        }
+      },
+      "99f1dbd9-bdc5-4efc-bb09-06a45d97e58e": {
+        "id": "99f1dbd9-bdc5-4efc-bb09-06a45d97e58e",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -4.9176036163978285,
+            8.96,
+            0.7683440455142412
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "drop",
+          "span": [
+            0,
+            -3.8325218652747575,
+            0
+          ],
+          "sag": 0.3,
+          "strands": 2,
+          "radius": 0.0103,
+          "spread": 0.08,
+          "seed": 9
+        }
+      },
+      "3cb6a014-f4e7-470b-8ccc-552ac201623f": {
+        "id": "3cb6a014-f4e7-470b-8ccc-552ac201623f",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -0.4588256687670951,
+            8.96,
+            -5.069007928976789
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -7.5058,
+            0,
+            6.0022
+          ],
+          "sag": 1.48,
+          "strands": 2,
+          "radius": 0.0179,
+          "spread": 0.13,
+          "seed": 11
+        }
+      },
+      "3eaf5891-04e1-483a-9520-40796cfb955e": {
+        "id": "3eaf5891-04e1-483a-9520-40796cfb955e",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -0.37011795818805737,
+            8.96,
+            -0.21743061502464123
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -4.7376,
+            0,
+            2.236
+          ],
+          "sag": 1.07,
+          "strands": 3,
+          "radius": 0.0168,
+          "spread": 0.128,
+          "seed": 12
+        }
+      },
+      "6dfd2317-01e1-41a4-a764-803d59c529ce": {
+        "id": "6dfd2317-01e1-41a4-a764-803d59c529ce",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            8.06,
+            8.96,
+            -0.8074036348331717
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -3.2348,
+            0,
+            -5.2526
+          ],
+          "sag": 1.837,
+          "strands": 3,
+          "radius": 0.0148,
+          "spread": 0.125,
+          "seed": 13
+        }
+      },
+      "2ea8e19c-9e6f-49fb-9110-c7d8e891ab63": {
+        "id": "2ea8e19c-9e6f-49fb-9110-c7d8e891ab63",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -6.865144967455417,
+            8.96,
+            -1.2199683536868537
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "drop",
+          "span": [
+            0,
+            -3.0656834533996884,
+            0
+          ],
+          "sag": 0.3,
+          "strands": 1,
+          "radius": 0.0151,
+          "spread": 0.08,
+          "seed": 14
+        }
+      },
+      "7cded019-51d2-4086-8ca5-1d118787f216": {
+        "id": "7cded019-51d2-4086-8ca5-1d118787f216",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            2.926412865044549,
+            8.96,
+            6.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -6.4892,
+            0,
+            0
+          ],
+          "sag": 1.258,
+          "strands": 3,
+          "radius": 0.0126,
+          "spread": 0.085,
+          "seed": 15
+        }
+      },
+      "793070fd-e7fd-45f1-93a4-6ad9226f10b3": {
+        "id": "793070fd-e7fd-45f1-93a4-6ad9226f10b3",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -8.06,
+            8.96,
+            5.8379753761645405
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            12.4138,
+            0,
+            0.222
+          ],
+          "sag": 1.353,
+          "strands": 4,
+          "radius": 0.0137,
+          "spread": 0.056,
+          "seed": 16
+        }
+      },
+      "32df108d-bd32-4e83-9052-bccf80fb9a7c": {
+        "id": "32df108d-bd32-4e83-9052-bccf80fb9a7c",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            2.8672040445357556,
+            8.96,
+            4.6145643462426955
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -2.69,
+            0,
+            -2.7857
+          ],
+          "sag": 0.786,
+          "strands": 3,
+          "radius": 0.0182,
+          "spread": 0.111,
+          "seed": 17
+        }
+      },
+      "4c79f69f-182a-427c-9473-8bd6cbc079f9": {
+        "id": "4c79f69f-182a-427c-9473-8bd6cbc079f9",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            6.495314056295902,
+            8.96,
+            -3.2214810628630217
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -4.0312,
+            0,
+            0.3947
+          ],
+          "sag": 0.746,
+          "strands": 3,
+          "radius": 0.0186,
+          "spread": 0.176,
+          "seed": 18
+        }
+      },
+      "801dbd97-bd22-4283-b325-88ae5976d0ad": {
+        "id": "801dbd97-bd22-4283-b325-88ae5976d0ad",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            8.06,
+            8.96,
+            4.228761364007368
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -5.8545,
+            0,
+            1.8312
+          ],
+          "sag": 1.77,
+          "strands": 1,
+          "radius": 0.016,
+          "spread": 0.158,
+          "seed": 19
+        }
+      },
+      "2ebca5a6-4cf3-4dea-8559-74f5e251311f": {
+        "id": "2ebca5a6-4cf3-4dea-8559-74f5e251311f",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -5.725368400895968,
+            8.96,
+            -1.1587136922776695
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            1.7207,
+            0,
+            1.4275
+          ],
+          "sag": 0.316,
+          "strands": 4,
+          "radius": 0.0188,
+          "spread": 0.101,
+          "seed": 20
+        }
+      },
+      "23ebc28d-1d54-4bf9-b7f9-7579478bd922": {
+        "id": "23ebc28d-1d54-4bf9-b7f9-7579478bd922",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -8.06,
+            8.96,
+            -1.4123802198842164
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            0,
+            0,
+            2.6835
+          ],
+          "sag": 0.487,
+          "strands": 3,
+          "radius": 0.017,
+          "spread": 0.073,
+          "seed": 22
+        }
+      },
+      "bb23bf6b-ec87-4f68-aa1e-79f04b8c1398": {
+        "id": "bb23bf6b-ec87-4f68-aa1e-79f04b8c1398",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            6.313714973488823,
+            8.96,
+            -5.607117933835834
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            1.0892,
+            0,
+            6.827
+          ],
+          "sag": 0.754,
+          "strands": 5,
+          "radius": 0.0093,
+          "spread": 0.181,
+          "seed": 23
+        }
+      },
+      "9e3ebda5-fe9b-4855-83a3-3469ff07df19": {
+        "id": "9e3ebda5-fe9b-4855-83a3-3469ff07df19",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            7.637928819116205,
+            8.96,
+            2.5786719667073337
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -11,
+            0,
+            0.649
+          ],
+          "sag": 2.614,
+          "strands": 3,
+          "radius": 0.0139,
+          "spread": 0.065,
+          "seed": 24
+        }
+      },
+      "51b4f82a-af58-4d73-b2da-10e916043fca": {
+        "id": "51b4f82a-af58-4d73-b2da-10e916043fca",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            2.490487386351452,
+            8.96,
+            -2.4488879302795974
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -3.1246,
+            0,
+            2.4339
+          ],
+          "sag": 0.768,
+          "strands": 4,
+          "radius": 0.0209,
+          "spread": 0.151,
+          "seed": 25
+        }
+      },
+      "f72d550e-3f4b-4c2c-b69b-30977dc6bcad": {
+        "id": "f72d550e-3f4b-4c2c-b69b-30977dc6bcad",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            5.915074989655986,
+            8.96,
+            -3.110196153279394
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -13.3339,
+            0,
+            2.243
+          ],
+          "sag": 2.123,
+          "strands": 4,
+          "radius": 0.0152,
+          "spread": 0.097,
+          "seed": 26
+        }
+      },
+      "f10bb50a-1987-455a-b2e2-e564c4f7fdcf": {
+        "id": "f10bb50a-1987-455a-b2e2-e564c4f7fdcf",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            4.094748891964555,
+            8.96,
+            4.496730732098221
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -1.2218,
+            0,
+            -3.5445
+          ],
+          "sag": 0.572,
+          "strands": 2,
+          "radius": 0.0123,
+          "spread": 0.164,
+          "seed": 27
+        }
+      },
+      "4bc7d678-6835-4410-946f-b1f7112e7955": {
+        "id": "4bc7d678-6835-4410-946f-b1f7112e7955",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -8.06,
+            8.96,
+            -2.287249506097287
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            0,
+            0,
+            3.0709
+          ],
+          "sag": 0.433,
+          "strands": 3,
+          "radius": 0.0204,
+          "spread": 0.072,
+          "seed": 28
+        }
+      },
+      "6f423af4-2598-431d-89a4-160f00a4d968": {
+        "id": "6f423af4-2598-431d-89a4-160f00a4d968",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            7.557121469974518,
+            8.96,
+            6.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            0.5029,
+            0,
+            -10.9629
+          ],
+          "sag": 2.571,
+          "strands": 4,
+          "radius": 0.0154,
+          "spread": 0.222,
+          "seed": 29
+        }
+      },
+      "49db25e3-e4fb-4dfc-acc1-31f6fa8dd085": {
+        "id": "49db25e3-e4fb-4dfc-acc1-31f6fa8dd085",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -1.954339779186994,
+            8.96,
+            6.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            10.0143,
+            0,
+            -4.7403
+          ],
+          "sag": 1.783,
+          "strands": 2,
+          "radius": 0.0187,
+          "spread": 0.088,
+          "seed": 30
+        }
+      },
+      "30911c32-a476-41b9-87aa-e85646f834c7": {
+        "id": "30911c32-a476-41b9-87aa-e85646f834c7",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -2.316742338864133,
+            8.96,
+            -0.18223278340883553
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "drop",
+          "span": [
+            0,
+            -0.9851821169164032,
+            0
+          ],
+          "sag": 0.3,
+          "strands": 3,
+          "radius": 0.0206,
+          "spread": 0.08,
+          "seed": 31
+        }
+      },
+      "d84e318b-493f-4ddb-98ad-d35ebdb18056": {
+        "id": "d84e318b-493f-4ddb-98ad-d35ebdb18056",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -1.6652386153861878,
+            8.96,
+            5.249527286896481
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "drop",
+          "span": [
+            0,
+            -6.338021915098653,
+            0
+          ],
+          "sag": 0.3,
+          "strands": 3,
+          "radius": 0.0164,
+          "spread": 0.08,
+          "seed": 32
+        }
+      },
+      "d8c99867-9ae3-4abe-bf35-b66e96a05be6": {
+        "id": "d8c99867-9ae3-4abe-bf35-b66e96a05be6",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -6.9318977013975385,
+            8.96,
+            5.237164267888292
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            0.9233,
+            0,
+            -11.2597
+          ],
+          "sag": 2.583,
+          "strands": 5,
+          "radius": 0.018,
+          "spread": 0.193,
+          "seed": 33
+        }
+      },
+      "412b701e-1c70-4752-aad6-bc9f6e596923": {
+        "id": "412b701e-1c70-4752-aad6-bc9f6e596923",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            6.961552729588002,
+            8.96,
+            -0.4792940358258786
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "drop",
+          "span": [
+            0,
+            -1.6875942934118213,
+            0
+          ],
+          "sag": 0.3,
+          "strands": 1,
+          "radius": 0.0148,
+          "spread": 0.08,
+          "seed": 34
+        }
+      },
+      "15139b49-6221-4a89-862e-89b8ea4999ae": {
+        "id": "15139b49-6221-4a89-862e-89b8ea4999ae",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            0.345927595309913,
+            8.96,
+            3.5133783009275783
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            1.871,
+            0,
+            0.0703
+          ],
+          "sag": 0.448,
+          "strands": 2,
+          "radius": 0.0105,
+          "spread": 0.244,
+          "seed": 35
+        }
+      },
+      "80fcef67-bfd0-4edc-90f2-3c639bf17bf0": {
+        "id": "80fcef67-bfd0-4edc-90f2-3c639bf17bf0",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -4.519119076337665,
+            8.96,
+            2.203484661485999
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -1.7764,
+            0,
+            1.6825
+          ],
+          "sag": 0.692,
+          "strands": 3,
+          "radius": 0.0143,
+          "spread": 0.079,
+          "seed": 36
+        }
+      },
+      "2d6df122-4b13-41ff-9c5e-5a1ab28042a7": {
+        "id": "2d6df122-4b13-41ff-9c5e-5a1ab28042a7",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            6.466308400696144,
+            8.96,
+            -2.8747990887612103
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -11.5633,
+            0,
+            0.0336
+          ],
+          "sag": 2.871,
+          "strands": 3,
+          "radius": 0.019,
+          "spread": 0.227,
+          "seed": 37
+        }
+      },
+      "10b2240e-b758-4aab-90bb-b0399bf12dd0": {
+        "id": "10b2240e-b758-4aab-90bb-b0399bf12dd0",
+        "name": "Cabos pendentes",
+        "kind": "prop",
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [
+          "cabos-assistidos"
+        ],
+        "levelId": null,
+        "layerId": null,
+        "transform": {
+          "position": [
+            -6.3791680727340285,
+            8.96,
+            -4.75804257441312
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "span",
+          "span": [
+            -1.4055,
+            0,
+            7.4806
+          ],
+          "sag": 2.019,
+          "strands": 1,
+          "radius": 0.0209,
+          "spread": 0.143,
+          "seed": 38
+        }
+      },
+      "955b09e5-f0da-4e14-b5f5-9315c2f681ac": {
+        "id": "955b09e5-f0da-4e14-b5f5-9315c2f681ac",
+        "name": "Cabo rompido",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            0.5,
+            8.96,
+            2.4
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-cable",
+          "revision": 1
+        },
+        "footprint": [
+          0.2,
+          0.2
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "cable": {
+          "mode": "drop",
+          "span": [
+            0,
+            -7.6,
+            0
+          ],
+          "sag": 0.4,
+          "strands": 3,
+          "radius": 0.014,
+          "spread": 0.12,
+          "seed": 9
+        }
+      },
+      "bb8f0257-cbf3-40aa-b767-135029cbbc7f": {
+        "id": "bb8f0257-cbf3-40aa-b767-135029cbbc7f",
+        "name": "Faíscas",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            0.55,
+            1.35,
+            2.4
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-campfire",
+          "revision": 1
+        },
+        "footprint": [
+          0.3,
+          0.3
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "localEffect": {
+          "type": "sparks",
+          "enabled": true,
+          "count": 48,
+          "size": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "speed": 1,
+          "opacity": 1,
+          "color": "#ffc46b",
+          "seed": 42,
+          "lightIntensity": 10,
+          "hideModel": true
+        }
+      },
+      "b105ba92-3471-48a2-8bc9-f5cb4d115634": {
+        "id": "b105ba92-3471-48a2-8bc9-f5cb4d115634",
+        "name": "Goteira",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -3,
+            8.96,
+            -1.5
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-campfire",
+          "revision": 1
+        },
+        "footprint": [
+          0.3,
+          0.3
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "localEffect": {
+          "type": "drip",
+          "enabled": true,
+          "count": 5,
+          "size": [
+            0.3,
+            8.96,
+            0.3
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "speed": 1,
+          "opacity": 0.8,
+          "color": "#a9c4d6",
+          "seed": 42,
+          "lightIntensity": 0,
+          "hideModel": true
+        }
+      },
+      "a4057254-f204-44e5-9993-375250a60a32": {
+        "id": "a4057254-f204-44e5-9993-375250a60a32",
+        "name": "Luminária fluorescente pendente",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -1.9,
+            3.3,
+            2.5
+          ],
+          "rotation": [
+            0,
+            0.573576436351046,
+            0,
+            0.8191520442889918
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-tube-light",
+          "revision": 1
+        },
+        "footprint": [
+          1.3,
+          0.22
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "illumination": {
+          "enabled": true,
+          "profile": "fluorescent",
+          "mode": "assisted",
+          "type": "point",
+          "color": "#d6ecff",
+          "intensity": 24,
+          "distance": 9,
+          "position": [
+            0,
+            -0.1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 0.7853981633974483,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": true,
+            "pattern": "fluorescent",
+            "amplitude": 0.12,
+            "frequency": 5,
+            "seed": 3
+          },
+          "priority": 10,
+          "shadowPolicy": "auto",
+          "mapSize": 1024,
+          "projection": "none",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        }
+      },
+      "0f3de7a2-8d10-4b2a-a489-383f528693a1": {
+        "id": "0f3de7a2-8d10-4b2a-a489-383f528693a1",
+        "name": "Luminária fluorescente pendente",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            -6.2,
+            3.7,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-tube-light",
+          "revision": 1
+        },
+        "footprint": [
+          1.3,
+          0.22
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "illumination": {
+          "enabled": true,
+          "profile": "fluorescent",
+          "mode": "assisted",
+          "type": "point",
+          "color": "#cfe3ff",
+          "intensity": 8,
+          "distance": 6,
+          "position": [
+            0,
+            -0.1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 0.7853981633974483,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": false,
+            "pattern": "fluorescent",
+            "amplitude": 0.12,
+            "frequency": 2,
+            "seed": 1
+          },
+          "priority": 10,
+          "shadowPolicy": "off",
+          "mapSize": 1024,
+          "projection": "none",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        }
+      },
+      "2d7df6ca-7870-4844-9ed5-92163a252ca5": {
+        "id": "2d7df6ca-7870-4844-9ed5-92163a252ca5",
+        "name": "Luminária fluorescente pendente",
+        "kind": "prop",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "audience": "all",
+        "tags": [],
+        "transform": {
+          "position": [
+            1,
+            5.809234936097536,
+            -3.153512804005494
+          ],
+          "rotation": [
+            0,
+            0.08715574274765817,
+            0,
+            0.9961946980917455
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "assetRef": {
+          "id": "builtin-industrial-tube-light",
+          "revision": 1
+        },
+        "footprint": [
+          1.3,
+          0.22
+        ],
+        "material": {
+          "color": "#ffffff",
+          "roughness": 0.8,
+          "metalness": 0
+        },
+        "illumination": {
+          "enabled": true,
+          "profile": "fluorescent",
+          "mode": "assisted",
+          "type": "point",
+          "color": "#b9d8ff",
+          "intensity": 10,
+          "distance": 8,
+          "position": [
+            0,
+            -0.1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "angle": 0.7853981633974483,
+          "penumbra": 0.5,
+          "phase": "always",
+          "emissionSlot": "none",
+          "emissionIntensity": 1.5,
+          "flicker": {
+            "enabled": true,
+            "pattern": "fluorescent",
+            "amplitude": 0.45,
+            "frequency": 9,
+            "seed": 8
+          },
+          "priority": 10,
+          "shadowPolicy": "off",
+          "mapSize": 1024,
+          "projection": "none",
+          "projectionSeed": 42,
+          "projectionRotation": 0,
+          "pinned": []
+        }
+      }
+    },
+    "groups": {
+      "d21bb0b7-82f5-4c65-bd83-eff222562f70": {
+        "id": "d21bb0b7-82f5-4c65-bd83-eff222562f70",
+        "name": "Galpão",
+        "parentId": null,
+        "locked": false,
+        "audience": "all"
+      }
+    },
+    "areas": {
+      "fce0d1cc-8693-4fbc-b7e9-d6794c61b003": {
+        "id": "fce0d1cc-8693-4fbc-b7e9-d6794c61b003",
+        "name": "Galpão",
+        "kind": "rectangle",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        },
+        "width": 16,
+        "length": 12,
+        "surfaceId": "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+        "memberIds": [
+          "418c5b8a-03f8-4e38-b434-a43e9cb6b8f4",
+          "aba33bac-ae5b-4cc4-9cfe-a88746d83279",
+          "e079b563-73e0-4bc9-b9f0-643e9c93c7dc",
+          "c01e060f-6f2a-465d-a801-341f90bd9ae1",
+          "e3342554-312d-40ee-b345-7107c24074b6"
+        ],
+        "groupId": "d21bb0b7-82f5-4c65-bd83-eff222562f70"
+      }
+    },
+    "compositions": {}
+  },
+  "sourceMap": null,
+  "sourceEnvironment": {
+    "id": "ritual",
+    "revision": 1
+  },
+  "look": {
+    "background": "#05070a",
+    "fill": {
+      "skyColor": "#3d4d63",
+      "groundColor": "#0b0c0f",
+      "intensity": 0.14
+    },
+    "lights": {
+      "d7bffa22-b1d0-4662-a3e0-bf3674db28c9": {
+        "id": "d7bffa22-b1d0-4662-a3e0-bf3674db28c9",
+        "name": "Sol / Lua",
+        "type": "directional",
+        "position": [
+          4,
+          8,
+          6
+        ],
+        "rotation": [
+          0.286788218175523,
+          0.286788218175523,
+          -0.0904239778555041,
+          0.909576022144496
+        ],
+        "color": "#6f82a8",
+        "intensity": 0.05,
+        "distance": 0,
+        "shadowEnabled": true,
+        "audience": "all",
+        "groupId": null,
+        "surfaceId": null,
+        "locked": false,
+        "role": "key",
+        "temperature": null,
+        "enabled": true
+      }
+    },
+    "materialAdjustments": {},
+    "daylight": {
+      "phase": "night",
+      "exposure": 0.95
+    },
+    "sky": {
+      "enabled": false,
+      "topColor": "#160c33",
+      "horizonColor": "#874f90",
+      "celestialEnabled": true,
+      "discSize": 0.035,
+      "stars": true,
+      "clouds": true,
+      "cloudColor": "#ffffff",
+      "cloudCoverage": 0.35,
+      "cloudOpacity": 0.45,
+      "cloudSpeed": 0.025,
+      "cloudScale": 3,
+      "seed": 1
+    },
+    "weather": {
+      "type": "none",
+      "count": 600,
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        30,
+        12,
+        30
+      ],
+      "color": "#afc9de",
+      "opacity": 0.45,
+      "particleSize": 0.025,
+      "speed": 10,
+      "wind": [
+        1,
+        0
+      ],
+      "seed": 1
+    },
+    "fog": {
+      "enabled": false,
+      "mode": "linear",
+      "color": "#8899aa",
+      "near": 8,
+      "far": 45,
+      "density": 0.025
+    },
+    "volumetricFog": {
+      "enabled": true,
+      "color": "#1a222c",
+      "density": 0.014,
+      "baseHeight": 0,
+      "height": 9,
+      "maxDistance": 80
+    },
+    "bloom": {
+      "enabled": true,
+      "strength": 0.16,
+      "radius": 0.3,
+      "threshold": 1.6,
+      "streak": 0.1,
+      "streakLength": 0.25
+    },
+    "nightWindows": {
+      "enabled": true,
+      "color": "#ffc86d",
+      "intensity": 2
+    },
+    "effectsPaused": false,
+    "rendering": {
+      "reflections": true,
+      "reflectionIntensity": 0.35,
+      "ao": true,
+      "aoIntensity": 0.35,
+      "aoRadius": 0.6,
+      "volumetricLights": true,
+      "volumeStrength": 0.12,
+      "cutawayShadows": true,
+      "surfaceReflections": true,
+      "surfaceReflectionIntensity": 1.2
+    }
+  },
+  "actors": {},
+  "tokens": {},
+  "cameraPresets": {
+    "7c1e8c43-4a13-4510-a1c4-4b8d9d75821e": {
+      "id": "7c1e8c43-4a13-4510-a1c4-4b8d9d75821e",
+      "name": "Olhos",
+      "projection": "perspective",
+      "position": [
+        -0.35,
+        1.4,
+        4.95
+      ],
+      "target": [
+        0.4,
+        2.9,
+        -5.8
+      ],
+      "fov": 64,
+      "orthographicHeight": 18
+    },
+    "381b262a-eb07-4e1c-b8a1-b6951948768c": {
+      "id": "381b262a-eb07-4e1c-b8a1-b6951948768c",
+      "name": "Tela a 2 m",
+      "projection": "perspective",
+      "position": [
+        -0.5012895080838217,
+        1.3095165288401025,
+        4.712840177397839
+      ],
+      "target": [
+        -1.3465260315652205,
+        1.2695165288401025,
+        2.9002246033245385
+      ],
+      "fov": 50,
+      "orthographicHeight": 18
+    },
+    "3fa67ebf-3570-428a-9eb1-a77ef8f5a273": {
+      "id": "3fa67ebf-3570-428a-9eb1-a77ef8f5a273",
+      "name": "Portão",
+      "projection": "perspective",
+      "position": [
+        -1,
+        1.6,
+        2
+      ],
+      "target": [
+        2.5,
+        2.2,
+        -5.8
+      ],
+      "fov": 55,
+      "orthographicHeight": 18
+    },
+    "02ebe3f7-7817-44e9-b7ba-b7eb56170161": {
+      "id": "02ebe3f7-7817-44e9-b7ba-b7eb56170161",
+      "name": "Planta superior",
+      "projection": "orthographic",
+      "position": [
+        0,
+        40,
+        0.0001
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "fov": 40,
+      "orthographicHeight": 20
+    },
+    "e60088c3-409e-4d98-93bc-333be443947c": {
+      "id": "e60088c3-409e-4d98-93bc-333be443947c",
+      "name": "Entrada",
+      "projection": "perspective",
+      "position": [
+        4.4,
+        1.7,
+        5.4
+      ],
+      "target": [
+        -5,
+        3.2,
+        -3
+      ],
+      "fov": 64,
+      "orthographicHeight": 18
+    }
+  },
+  "sessionState": {
+    "doors": {}
+  },
+  "audioCue": null
+}

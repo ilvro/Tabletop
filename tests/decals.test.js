@@ -130,3 +130,9 @@ test('a decal is drawn as a plane that floats a hair off its face, without writi
   await assert.rejects(createDecalInstance({ ...entity, decal: decalDefaults({ kind: 'image', imageRef: { id: 'x', revision: 1 } }) }, textures), /imagem/i);
   const stripe = await createDecalInstance({ ...entity, decal: decalDefaults({ kind: 'surface' }) }, textures); assert.equal(stripe.children[0].material.map, null);
 });
+
+test('changing the key light of a scene with glued decals keeps them where they are', () => {
+  const wall = createEntity('wall', { position: [0, 0, 0], length: 6, height: 3 }), store = sceneWith(wall), decal = glue(store, wall, [2, 1.4, .09], [0, 0, 1]);
+  store.execute('environment.key.update', { patch: { intensity: .1 } }); validateDocument(store.document);
+  nearAll(entityOf(store, decal).transform.position, [2, 1.4, .09]);
+});

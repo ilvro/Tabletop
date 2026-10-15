@@ -97,7 +97,7 @@ test('the runtime gives equal content one canvas, draws it at most ten times a s
   assert.equal(runtime.size, 2, 'two screens with the same content share one canvas'); assert.ok(animated);
   const info = runtime.info(), shared = info.filter(i => i.key === info[0].key); assert.equal(shared.length, 2); assert.equal(shared[0].draws, shared[1].draws);
   const moving = info.find(i => i.id === 'a'); assert.ok(moving.draws >= 9 && moving.draws <= 11, `${moving.draws} draws in a second`); assert.equal(info.find(i => i.id === 'c').draws, 1, 'a still picture is drawn once');
-  assert.equal(a.material.emissiveMap, b.material.emissiveMap); assert.notEqual(a.material.emissiveMap, c.material.emissiveMap); assert.equal(a.material.emissiveMap.colorSpace, THREE.SRGBColorSpace); assert.equal(a.material.emissiveIntensity, 1.6);
+  assert.equal(a.material.emissiveMap, b.material.emissiveMap); assert.notEqual(a.material.emissiveMap, c.material.emissiveMap); assert.equal(a.material.emissiveMap.colorSpace, THREE.SRGBColorSpace); assert.ok(a.material.emissiveIntensity > 1 && a.material.emissiveIntensity < 1.6);
   assert.notEqual(a.material.userData.screen, b.material.userData.screen, 'a different tube effect is a different material');
   // Editing only the tube effect keeps the canvas and what was drawn on it.
   const drawsBefore = runtime.info().find(i => i.id === 'a').draws, keyBefore = runtime.info().find(i => i.id === 'a').key;
@@ -119,7 +119,7 @@ test('paused effects freeze a screen: the clock stops, nothing is drawn and the 
 
 test('a screen finds itself on the model and gets a planar UV when the mesh has none', () => {
   const { root, mesh } = tvModel(), frame = screenSlotFrame(root);
-  assert.deepEqual(frame.normal, [0, 0, 1]); assert.ok(Math.abs(frame.lightPosition[2] - (frame.center[2] + .3)) < 1e-9); assert.ok(Math.abs(frame.center[1] - .3) < 1e-9);
+  assert.deepEqual(frame.normal, [0, 0, 1]); assert.ok(Math.abs(frame.lightPosition[2] - (frame.center[2] + .5)) < 1e-9); assert.ok(Math.abs(frame.center[1] - .3) < 1e-9);
   assert.equal(screenSlotFrame(new THREE.Group()), null);
   mesh.geometry.deleteAttribute('uv'); const runtime = createScreenRuntime({ createCanvas: fakeCanvas });
   runtime.update(documentWith({ id: 'a', screen: screenDefaults() }), new Map([['a', root]]), 0, false, 0);

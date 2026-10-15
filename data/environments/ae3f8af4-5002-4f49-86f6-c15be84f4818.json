@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 2,
+  "documentType": "environment",
+  "id": "ae3f8af4-5002-4f49-86f6-c15be84f4818",
+  "name": "Meu ambiente",
+  "revision": 1,
+  "createdAt": "2026-10-15T18:32:43.977Z",
+  "updatedAt": "2026-10-15T18:32:43.977Z",
+  "settings": {
+    "background": "#111d35",
+    "fill": {
+      "skyColor": "#8ba4cb",
+      "groundColor": "#252e43",
+      "intensity": 0.06
+    },
+    "daylight": {
+      "phase": "night",
+      "exposure": 1.1
+    },
+    "sky": {
+      "enabled": false,
+      "topColor": "#071329",
+      "horizonColor": "#304f84",
+      "celestialEnabled": true,
+      "discSize": 0.035,
+      "stars": true,
+      "clouds": true,
+      "cloudColor": "#6c86b5",
+      "cloudCoverage": 0.22,
+      "cloudOpacity": 0.22,
+      "cloudSpeed": 0.025,
+      "cloudScale": 3,
+      "seed": 1
+    },
+    "weather": {
+      "type": "none",
+      "count": 600,
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        30,
+        12,
+        30
+      ],
+      "color": "#afc9de",
+      "opacity": 0.45,
+      "particleSize": 0.025,
+      "speed": 10,
+      "wind": [
+        1,
+        0
+      ],
+      "seed": 1
+    },
+    "fog": {
+      "enabled": false,
+      "mode": "linear",
+      "color": "#8899aa",
+      "near": 8,
+      "far": 45,
+      "density": 0.025
+    },
+    "volumetricFog": {
+      "enabled": true,
+      "color": "#a5b6c5",
+      "density": 0.06,
+      "baseHeight": 0,
+      "height": 3,
+      "maxDistance": 80
+    },
+    "bloom": {
+      "enabled": true,
+      "strength": 0.18,
+      "radius": 0.3,
+      "threshold": 1.4
+    },
+    "nightWindows": {
+      "enabled": false,
+      "color": "#ffc86d",
+      "intensity": 2
+    },
+    "effectsPaused": false,
+    "rendering": {
+      "reflections": false,
+      "reflectionIntensity": 0.35,
+      "ao": false,
+      "aoIntensity": 0.35,
+      "aoRadius": 0.6,
+      "volumetricLights": true,
+      "volumeStrength": 0.5,
+      "cutawayShadows": false,
+      "surfaceReflections": true,
+      "surfaceReflectionIntensity": 1
+    },
+    "keyLight": {
+      "name": "Sol / Lua",
+      "type": "directional",
+      "position": [
+        4,
+        8,
+        6
+      ],
+      "rotation": [
+        0.34615685778006333,
+        -0.2416283945124098,
+        0.09275245049666295,
+        0.9017694448716104
+      ],
+      "temperature": 12000,
+      "color": "#bfd3ff",
+      "intensity": 0.05,
+      "distance": 0,
+      "shadowEnabled": true,
+      "enabled": true,
+      "audience": "all",
+      "locked": false,
+      "groupId": null,
+      "surfaceId": null
+    }
+  }
+}

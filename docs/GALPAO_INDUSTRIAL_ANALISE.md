@@ -53,13 +53,12 @@ O detalhamento técnico de cada item está em [GALPAO_INDUSTRIAL_PLANO.md](GALPA
 
 Sem os itens 1, 2, 3 e 8 a cena não se parece com a referência. Os itens 10 a 12 separam "parecido" de "tão bom quanto".
 
-## Comparação com a cena montada (14 de outubro)
+## Comparação com a cena montada (14 de outubro, segunda versão)
 
-Imagem lado a lado: [galpao-industrial-comparacao.png](references/scenes/galpao-industrial-comparacao.png), da câmera **Olhos** da cena de exemplo contra a referência. O que ficou igual: cabos em arco por todo o teto, tubulação e duto, faixas de alerta em duas paredes, portão com luz vermelha e risco horizontal, monitor com `BOOTING..` e barra, letreiro, ladrilho molhado com reflexo e faíscas. Diferenças que restam:
+Imagem lado a lado: [galpao-industrial-comparacao.png](references/scenes/galpao-industrial-comparacao.png), da câmera **Olhos** contra a referência. A primeira versão estava clara demais, com bloom e risco exagerados, paredes e piso sem textura e teto baixo; foi refeita:
 
-- **Exposição.** A referência é quase toda escura, com luz só do monitor, do fluorescente e do portão; a cena de exemplo usa o ambiente Horror ritual, bem mais claro. É ajuste de ambiente (exposição, preenchimento), não de recurso.
-- **Enquadramento.** Na referência o monitor ocupa a esquerda, em primeiro plano; aqui ele está de lado e menor. A câmera **Tela a 2 m** é o enquadramento do monitor.
-- **Monitor.** O da referência é um CRT largo com chuvisco sob o texto; o do kit é uma televisão de tubo menor, com a barra animada em ciclo. O chuvisco existe como conteúdo, mas não como fundo sob o texto.
-- **Coberturas.** A vista dos olhos esconde a cobertura para mostrar o céu; com Telhados ligado o teto aparece.
-- **Estilo.** Os cabos são mais retos e uniformes, as paredes não têm manchas de ferrugem e sujeira em quantidade, e falta a vegetação caindo do teto no primeiro plano. São diferenças de estilo.
+- **Luz:** ambiente de noite com preenchimento quase nulo e lua fraca; um fluorescente frio sobre a bancada, outro piscando ao fundo e o vermelho do portão (40, alcance 11 m). Bloom com limiar 1,3 e força 0,2; risco de lente em 0,15. O brilho da própria tela caiu (emissão 1,15, luz da tela 3).
+- **Paredes:** concreto escuro com escorridos de sujeira. **Piso:** pedra escura assentada em fiadas, molhada, com poças. **Pé-direito:** 6,5 m, colunas e prumadas esticadas até o teto.
+- **Bancada:** terminal de computador (monitor de tubo e teclado) virado para a câmera, como na referência, em vez da televisão com antena.
 
+Diferenças que restam: o monitor da referência é maior e mais próximo; não há chuvisco sob o texto (o chuvisco é um conteúdo, não um fundo); a referência tem mais vegetação e sujeira em primeiro plano; e o fluorescente da referência aparece no quadro, em cima à esquerda, enquanto aqui ele fica logo acima da bancada, fora do enquadramento.

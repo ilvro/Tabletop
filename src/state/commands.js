@@ -563,7 +563,7 @@ export function applyCommand(document, command, diagnostics) {
     case 'environment.key.update': {
       let light = primaryLight(look);
       if (!light) { light = createLight({ type: 'directional', role: 'key', name: 'Sol / Lua', intensity: 2.2, distance: 0, position: [4, 8, 6], shadowEnabled: true }); put(look.lights, light); }
-      next = applyCommand(next, { type: 'light.update', payload: { id: light.id, patch: payload.patch } }); break;
+      next = createDraft(applyCommand(next, { type: 'light.update', payload: { id: light.id, patch: payload.patch } })); break;
     }
     case 'environment.binding.update': {
       const target = next.layout.entities[payload.id] ?? look.lights[payload.id];

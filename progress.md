@@ -1,6 +1,47 @@
 # Tabletop — andamento
 
-Atualizado em 14 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 15 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+
+## Tutoriais: iluminação e o galpão passo a passo (15 de outubro)
+
+**Feito**
+
+- Primeira versão revisada a pedido do usuário (luz sem coerência nem profundidade; galpão sem indicação de onde pôr as peças e muito diferente do exemplo). Agora: lição **Iluminação e ambientação** (48 passos, capela à noite pela receita das cenas de exemplo) e **Galpão abandonado** em três partes encadeadas (39 + 57 + 27 passos) com os valores do exemplo. Detalhes em [docs/TUTORIAL_PLAN.md](docs/TUTORIAL_PLAN.md).
+- Motor: ponto pulsando na cena onde clicar; etapas no cartão; lições que continuam outra (`continues`), com aviso na lista; condições de valor exato (`has`, `lookIs`, `moonIs`), peça selecionada, apoio ativo, origem do material copiado.
+- Editor: clique no tampo de mesa/altar coloca em cima (`src/render/renderer.js`, `supportPoint`); luz de janela nasce no vidro apontada para dentro (`illuminationDefaults` + `windowInward`).
+- E2E genérico: `select`, `click` com seletor, vários gestos por passo e lições encadeadas.
+
+**Validação**: unitários 321 passam (novo: luz de janela apontada para dentro). E2E `tutorials` percorre as seis lições do primeiro ao último passo; as partes 2 e 3 do galpão rodam encadeadas desde a parte 1 (a 3 leva ~40 min no Chromium por software; o limite por passo subiu para 25 s). O resultado da lição do galpão foi renderizado da câmera Olhos e comparado com a cena de exemplo: mesmas paredes, piso molhado com reflexo vermelho, letreiro, terminal e fluorescente no quadro; faltam as repetições opcionais (tubos, eletrocalhas, faixa alta, mais cabos). A capela da lição de luz foi conferida da altura dos olhos. Nenhuma pessoa seguiu as versões novas ainda.
+
+**Revisão 2 (mesmo dia)**: caixa de código hexadecimal ao lado de toda cor; o cartão do tutor não cobre mais os outros campos de um passo (o anel envolve todos). Unitários 322; as duas lições conferidas em capturas nos passos apontados pelo usuário.
+
+**Pendências reais**: avaliação com uma pessoa; lições de recriar Igreja Antiga, Backrooms e Casa de bairro.
+
+## Galpão industrial mais alto e mais cheio (14 de outubro)
+
+**Feito**
+
+- Pé-direito de 9 m. Mezanino de 4,2 m ao longo da parede esquerda (piso como plataforma, escada de 22 degraus, guarda-corpo e pilares), com caixa-d'água, tambores e caixa em cima; tubulação nas paredes em 3, 4,2 e 6,2 m; duto e eletrocalhas descidos para dar camadas de altura; armários, quadros elétricos, gerador, cilindros, caixas empilhadas, palete e carrinho; um fluorescente fraco sob o mezanino.
+- A grade do editor vem escondida na cena (as linhas brancas de 1 m sobre o piso eram a grade, não a textura).
+- Escada e mezanino em pintura sobre ferrugem (a chapa xadrez faiscava em blocos com a luz); relevo das paredes menor; bloom e risco mais contidos; névoa menos iluminada.
+
+**Validação**: unitários 320; captura por software (`eye.png`, `screen-2m.png`) conferida.
+
+## Galpão industrial refeito para ficar perto da referência (14 de outubro)
+
+**Feito**
+
+- `scripts/industrial-scene.js` reescrito em 13 etapas na ordem de montagem no editor (base do tutorial futuro): pé-direito de 6,5 m com colunas e prumadas esticadas; paredes de concreto escuro com sujeira; piso de pedra escura molhado; terminal de computador virado para a câmera; faixas de alerta em três paredes e em duas alturas; letreiro sobre o portão; cabos que cairiam na bancada retirados; luz de noite com dois fluorescentes e o vermelho do portão; bloom e risco contidos; câmera **Olhos** no enquadramento da referência.
+- Brilho menor de toda tela (emissão 1,15; perfil Tela / monitor com intensidade 4 e luz a 50 cm do vidro) e risco de lente com metade da força.
+- A frente da tela agora é achada por raios (o lado aberto), não pelas caixas: no terminal de computador o teclado à frente fazia a tela "olhar" para trás.
+- Corrigido: mudar a luz principal numa cena com decalques ou objetos fixos travava (`environment.key.update` mexia num documento já congelado).
+
+**Validação**
+
+- Unitários: 320 passam (novo: luz principal com decalques colados).
+- Conferência em imagem por software: `eye.png`, `screen-2m.png` e a comparação lado a lado regravada em `docs/references/scenes/galpao-industrial-comparacao.png`.
+
+**Pendências reais**: o monitor fica menor que o da referência; não há chuvisco sob o texto; vegetação e sujeira em primeiro plano são poucas.
 
 ## Resíduos do item 3, itens 4 a 7 do galpão (14 de outubro)
 

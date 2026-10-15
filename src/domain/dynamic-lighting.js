@@ -7,7 +7,7 @@ export const LIGHT_PROFILES = [
   { id:'fluorescent', name:'Fluorescente', color:'#dcecff', intensity:95, distance:12, type:'spot' },
   { id:'window', name:'Janela / vitral', color:'#dddfff', intensity:120, distance:18, type:'spot', projection:'stained' },
   { id:'ritual', name:'Luz ritual', color:'#ff2540', intensity:85, distance:12, type:'point' },
-  { id:'screen', name:'Tela / monitor', color:'#9cc3ff', intensity:8, distance:3.5, type:'point' },
+  { id:'screen', name:'Tela / monitor', color:'#9cc3ff', intensity:4, distance:3.5, type:'point' },
 ];
 export const QUALITY = {
   economy:{name:'Econômica',locals:4,shadowViews:2,mapSize:512,steps:8},
@@ -24,6 +24,8 @@ export function illuminationDefaults(profile='candle', host={}, current=null) {
   const p=LIGHT_PROFILES.find(p=>p.id===profile);if(!p)throw new Error('Perfil de iluminação inválido.');
   const next={enabled:true,profile,mode:'assisted',type:p.type,color:p.color,intensity:p.intensity,distance:p.distance,position:[0,host.supportHeight??(host.kind==='prop'?.8:2.2),0],rotation:[0,0,0,1],angle:Math.PI/4,penumbra:.5,phase:'always',emissionSlot:'none',emissionIntensity:1.5,
     flicker:{...FLICKER_DEFAULTS,pattern:profile==='fluorescent'?'fluorescent':'candle',enabled:!!p.animated,amplitude:.12},priority:10,shadowPolicy:'auto',mapSize:1024,projection:p.projection??'none',projectionSeed:42,projectionRotation:0,pinned:[]};
+  // A window lights the room from its glass, near the top and just inside, aimed in and down (`inward` says which side the room is).
+  if(host.kind==='window'){const side=host.inward??1,[x,y,z]=[0,-.6,.8*side],length=Math.hypot(x,y,z),[bx,by,bz]=[x/length,y/length,z/length],q=[-bz,0,bx,1-by],n=Math.hypot(...q);next.position=[host.offset??0,(host.sill??.9)+(host.height??1.2)*.8,.35*side];next.rotation=q.map(v=>v/n);}
   if(current){next.position=structuredClone(current.position);next.rotation=structuredClone(current.rotation);next.pinned=[...current.pinned];for(const key of current.pinned)next[key]=structuredClone(current[key]);}
   if(next.projection!=='none')next.type='spot';
   return next;

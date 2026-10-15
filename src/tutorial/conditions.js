@@ -4,11 +4,22 @@
  * result exists, by whatever path the person got there.
  *
  * `state` is `{ document, tab, sections, proposal, assetsOpen, placing, placingKind, selected, tool,
- * topView, canRedo, presenting, saved, assistant }`,
- * where `assistant` is what the room assistant currently reads and is set to.
+ * topView, canRedo, presenting, saved, assistant, room, copied, surface, picked }`,
+ * where `assistant` is what the room assistant currently reads and is set to, `room` the measures
+ * and options of the Sala task, `copied` the name of the piece a waiting material came from and `surface` the
+ * support new pieces are placed on and `picked` the model of the selected piece.
  */
 const entities = state => Object.values(state.document.layout.entities);
 const count = (state, kind) => entities(state).filter(entity => entity.kind === kind).length;
+const models = (state, id) => entities(state).filter(entity => entity.assetRef?.id === id);
+const look = state => state.document.look ?? state.document.defaultLook;
+/** The lights placed by hand (Luz pontual, Luz spot), without the sun or moon. */
+const lamps = state => Object.values(look(state).lights ?? {}).filter(light => light.role !== 'key');
+/** A value at a dotted path ('material.wear.amount'); 'yaw' is the turn about the vertical, in degrees. */
+const valueAt = (record, path) => path === 'yaw' ? Math.round(2 * Math.atan2(record.transform.rotation[1], record.transform.rotation[3]) * 180 / Math.PI) : path.split('.').reduce((value, key) => value?.[key], record);
+/** Numbers match to about 2 %, colours and words ignoring case, angles a full turn apart. */
+const same = (value, wanted) => typeof wanted === 'number' ? typeof value === 'number' && [0, 360, -360].some(turn => Math.abs(value + turn - wanted) <= Math.max(.011, Math.abs(wanted) * .02)) : String(value).toLowerCase() === String(wanted).toLowerCase();
+const moon = state => Object.values(look(state).lights ?? {}).find(light => light.role === 'key' && light.type === 'directional');
 export const CONDITIONS = {
   /** Always true: an explanation the person leaves with "Continuar". */
   read: () => false,
@@ -23,7 +34,7 @@ export const CONDITIONS = {
   atLeast: (state, kind, number) => count(state, kind) >= number,
   hasTag: (state, tag) => entities(state).some(entity => entity.tags?.includes(tag)),
   furnished: state => Object.keys(state.document.layout.compositions ?? {}).length > 0,
-  litObject: state => entities(state).some(entity => entity.illumination?.enabled),
+  litObject: (state, number = 1) => entities(state).filter(entity => entity.illumination?.enabled).length >= number,
   roomSeenAs: (state, template) => state.assistant.inferred === template,
   assistantState: (state, id) => state.assistant.state === id,
   buildingMode: (state, mode) => state.assistant.buildingMode === mode,
@@ -53,6 +64,53 @@ export const CONDITIONS = {
   effectType: (state, type) => entities(state).some(entity => entity.localEffect?.enabled && entity.localEffect.type === type),
   presenting: (state, on = true) => state.presenting === on,
   saved: state => state.saved,
+
+  /** The Sala task is set to this measure or option, before the room exists. */
+  roomOption: (state, key, value) => state.room?.[key] === value,
+  gridHidden: state => state.document.layout.grid?.visible === false,
+  /** At least `number` pieces of a kind wear this texture ('concrete', 'brick'…). */
+  textured: (state, kind, texture, number = 1) => entities(state).filter(entity => entity.kind === kind && entity.material?.texture === texture).length >= number,
+  worn: (state, kind, type) => entities(state).some(entity => entity.kind === kind && entity.material?.wear?.type === type),
+  /** A material waits to be pasted, copied from a piece whose name starts with `from` when one is given. */
+  materialCopied: (state, from) => Boolean(state.copied) && (!from || state.copied.startsWith(from)),
+  copies: (state, id, number) => models(state, id).length >= number,
+  /** An object of this model stands at least this high (Posição Y) or is stretched this much (Escala Y). */
+  raised: (state, id, height) => models(state, id).some(entity => entity.transform.position[1] >= height),
+  stretched: (state, id, factor) => models(state, id).some(entity => (entity.transform.scale?.[1] ?? 1) >= factor),
+  /** A floor raised to this height (a platform, a mezzanine), centred near `x` when one is given, or of this size. */
+  floorAt: (state, height, x) => entities(state).some(entity => entity.kind === 'floor' && entity.transform.position[1] >= height && (x === undefined || Math.abs(entity.transform.position[0] - x) < .3)),
+  floorSize: (state, width, length) => entities(state).some(entity => entity.kind === 'floor' && Math.abs(entity.width - width) < .05 && Math.abs(entity.length - length) < .05),
+  /** Stairs or a ramp climbing at least this much. */
+  climbs: (state, height) => entities(state).some(entity => ['stairs', 'ramp'].includes(entity.kind) && entity.height >= height),
+  placingKind: (state, kind) => state.placingKind === kind,
+  /** New pieces land on a support at most this high: the ground floor rather than a platform. */
+  supportAt: (state, height) => (state.document.layout.entities[state.surface]?.transform.position[1] ?? Infinity) <= height,
+  /** An object lights its surroundings with this profile ('candle', 'ritual', 'fluorescent'…). */
+  glowing: (state, profile) => entities(state).some(entity => entity.illumination?.enabled !== false && entity.illumination?.profile === profile),
+  decalWide: (state, metres) => entities(state).some(entity => entity.decal && entity.decal.size[0] >= metres),
+  screenProgress: state => entities(state).some(entity => entity.screen?.enabled && entity.screen.progress?.enabled),
+  zoneOn: state => entities(state).some(entity => entity.lightingZone?.enabled),
+  /** Hand-placed lights: how many, warmed by Kelvin, flickering (an object's own light counts too). */
+  lamps: (state, number) => lamps(state).length >= number,
+  placingLight: state => state.placingKind === 'light' || lamps(state).length > 0,
+  kelvin: state => lamps(state).some(light => light.temperature != null),
+  warmLight: (state, kelvin) => lamps(state).some(light => light.temperature != null && light.temperature <= kelvin),
+  flickering: state => lamps(state).some(light => light.flicker?.enabled) || entities(state).some(entity => entity.illumination?.flicker?.enabled),
+  /** The scene as a whole: sun or moon, the fill from everywhere, the time of day, the sky, the fog. */
+  moonBelow: (state, intensity) => (moon(state)?.intensity ?? 0) <= intensity,
+  fillBelow: (state, intensity) => look(state).fill.intensity <= intensity,
+  phase: (state, id) => look(state).daylight?.phase === id,
+  skyOff: state => look(state).sky?.enabled === false,
+  volumeOn: state => Boolean(look(state).volumetricFog?.enabled),
+  mood: (state, id) => state.assistant.mood === id,
+  /** The selected piece is of this model. */
+  picked: (state, id) => state.picked === id,
+  gridSnapOff: state => state.document.layout.grid?.snap === false,
+  /** Some piece, chosen by model ('builtin-…') or kind ('wall', 'floor'), has this value: ['has', 'wall', 'material.textureSize', 2.6]. */
+  has: (state, which, path, value) => entities(state).some(entity => (entity.assetRef?.id === which || entity.kind === which) && same(valueAt(entity, path), value)),
+  /** The look of the scene has this value: ['lookIs', 'bloom.threshold', 1.6]. */
+  lookIs: (state, path, value) => same(valueAt(look(state), path), value),
+  moonIs: (state, path, value) => same(valueAt(moon(state) ?? {}, path), value),
 };
 /** A step's `done` is `['name', ...args]`, or a list of them that must all hold. */
 export function met(done, state) {

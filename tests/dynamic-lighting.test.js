@@ -109,3 +109,15 @@ test('reflected light is optional per zone, bounded, and legacy zones keep their
   assert.equal(region.indirect,.6);assert.ok(Math.abs(region.probe.x-(3+zone.position[0]))<1e-6&&region.probe.y>zone.position[1]-zone.size[1]/2&&region.probe.y<=zone.position[1]+zone.size[1]/2);
   assert.equal(zones.uniforms.zoneIndirect.value.length,16);assert.equal(zones.uniforms.zoneSH.value.length,192);
 });
+
+test('a window lights the room from its glass, aimed in and down toward the side the room is on', () => {
+  for (const inward of [1, -1]) {
+    const light = illuminationDefaults('window', { kind: 'window', offset: 3, sill: .9, height: 1.2, inward });
+    assert.deepEqual(light.position.map(v => +v.toFixed(3)), [3, 1.86, .35 * inward]);
+    const direction = new THREE.Vector3(0, -1, 0).applyQuaternion(new THREE.Quaternion(...light.rotation));
+    assert.ok(direction.y < -.5 && Math.sign(direction.z) === inward, `aimed into the room (${direction.toArray()})`);
+  }
+  // Changing the profile later keeps where the person put the source.
+  const moved = { ...illuminationDefaults('window', { kind: 'window', offset: 1, sill: .9, height: 1.2 }), position: [1, 2, .5] };
+  assert.deepEqual(illuminationDefaults('candle', { kind: 'window', offset: 1 }, moved).position, [1, 2, .5]);
+});

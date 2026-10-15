@@ -36,7 +36,7 @@ export class AnamorphicStreakPass extends Pass {
     u.width.value = this.a.width;
     let source = this.bloom.renderTargetBright.texture;
     for (const [target, spacing] of [[this.a, 1], [this.b, 4], [this.a, 16]]) { u.tSource.value = source; u.spacing.value = spacing * scale; renderer.setRenderTarget(target); renderer.clear(); this.blur.render(renderer); source = target.texture; }
-    this.add.material.uniforms.tStreak.value = this.a.texture; this.add.material.uniforms.amount.value = this.amount * 2;
+    this.add.material.uniforms.tStreak.value = this.a.texture; this.add.material.uniforms.amount.value = this.amount;
     const autoClear = renderer.autoClear; renderer.autoClear = false; renderer.setRenderTarget(readBuffer); this.add.render(renderer); renderer.autoClear = autoClear; renderer.setRenderTarget(previous);
   }
   dispose() { this.a.dispose(); this.b.dispose(); for (const quad of [this.blur, this.add]) { quad.material.dispose(); quad.dispose(); } }

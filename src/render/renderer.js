@@ -944,7 +944,8 @@ export function createViewport(container, {
   function supportPoint(event, planeY) {
     rayFromEvent(event);
     if (planeY === undefined && supportSurface !== null) {
-      const floors = [...objects].filter(([id]) => (supportSurface === undefined || supportSurface === id) && isSupport(records.get(id))).map(([, object]) => object);
+      // The active support, and any piece that offers its top (a table, an altar): a click on a tabletop puts the object on it.
+      const floors = [...objects].filter(([id]) => (supportSurface === undefined || supportSurface === id || records.get(id)?.kind === 'prop' && records.get(id).supportHeight > 0) && isSupport(records.get(id))).map(([, object]) => object);
       const hit = raycaster.intersectObjects(floors, true).find(intersection => intersection.face?.normal.y > 1e-8 && visibleInHierarchy(intersection.object));
       if (hit) return { position: hit.point.toArray(), surfaceId: hit.object.userData.entityId };
       if (supportSurface) return null;

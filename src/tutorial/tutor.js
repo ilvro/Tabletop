@@ -9,34 +9,63 @@ const write = progress => { try { localStorage.setItem(STORE, JSON.stringify(pro
 /**
  * Runs a lesson over the live editor. It only points and waits: the person
  * operates the real interface, and a step completes when its condition holds.
- * `host` supplies `state()` for the conditions and `open(tab)` to bring a side
- * tab forward; the tutor never edits the scene.
+ * `host` supplies `state()` for the conditions, `open(tab)` to bring a side
+ * tab forward and `project(point)` to find a point of the scene on screen; the tutor never edits the scene.
  */
 export function createTutor(root, host) {
   const layer = document.createElement('div'); layer.className = 'tutor'; layer.hidden = true;
-  layer.innerHTML = '<div class="tutor-ring" hidden></div><section class="tutor-card" role="dialog" aria-live="polite" aria-label="Tutorial"></section>';
+  layer.innerHTML = '<div class="tutor-ring" hidden></div><div class="tutor-spot" hidden><i></i></div><section class="tutor-card" role="dialog" aria-live="polite" aria-label="Tutorial"></section>';
   root.append(layer);
-  const ring = layer.firstElementChild, card = layer.lastElementChild;
+  const ring = layer.firstElementChild, spot = ring.nextElementSibling, card = layer.lastElementChild;
   let lesson = null, index = 0, frame = 0, shown = -1, missing = 0, held = -1, listeners = [];
   const step = () => lesson?.steps[index], progress = read();
   const emit = () => listeners.forEach(listener => listener());
 
   function render() {
     const current = step(), last = index === lesson.steps.length - 1, waits = current.done?.[0] === 'read' || held === index;
+    // A long lesson is cut in stages: the card says which one the step belongs to.
+    const stages = lesson.steps.filter(entry => entry.stage), stage = lesson.steps.slice(0, index + 1).findLast(entry => entry.stage)?.stage;
     card.innerHTML = `<header><span class="eyebrow">${esc(lesson.title)} · ${index + 1} de ${lesson.steps.length}</span><button type="button" class="quiet" data-tutor="exit" aria-label="Sair do tutorial">Sair</button></header>
-      <div class="tutor-progress"><i style="width:${((index + 1) / lesson.steps.length * 100).toFixed(1)}%"></i></div>
+      <div class="tutor-progress"><i style="width:${((index + 1) / lesson.steps.length * 100).toFixed(1)}%"></i></div>${stage ? `<p class="tutor-stage">Etapa ${stages.findIndex(entry => entry.stage === stage) + 1} de ${stages.length} · ${esc(stage)}</p>` : ''}
       <p class="tutor-say">${current.say}</p>${current.why ? `<p class="tutor-why">${current.why}</p>` : ''}
       <p class="tutor-lost" hidden>Não encontrei este controle na tela. Siga a instrução acima; se não der, pule o passo.</p>
       <footer><button type="button" class="quiet" data-tutor="back" ${index ? '' : 'disabled'}>Voltar</button>${waits ? `<button type="button" class="primary" data-tutor="next">${last ? 'Concluir' : 'Continuar'}</button>` : '<button type="button" class="quiet" data-tutor="skip">Pular passo</button>'}</footer>`;
     shown = index; missing = 0;
   }
-  /** Brings the target into reach: its side tab forward and the tasks around it open. */
+  /** The other controls a step asks for (a length beside a width, a colour beside its strength), by their selectors. */
+  function companions(current) {
+    const acts = Array.isArray(current.act?.[0]) ? current.act : [current.act];
+    return acts.filter(act => ['click', 'fill', 'select'].includes(act?.[0]) && typeof act[1] === 'string').map(act => act[1]).filter(selector => selector !== current.target);
+  }
+  const open = node => { for (let parent = node.parentElement; parent; parent = parent.parentElement) if (parent.tagName === 'DETAILS' && !parent.open) parent.querySelector(':scope > summary')?.click(); };
+  /** Brings the target into reach: its side tab forward and the tasks around it, and around the controls that go with it, open. */
   function prepare(current) {
     if (current.tab && host.state().tab !== current.tab) host.open(current.tab);
     const target = current.target && root.querySelector(current.target);
     if (!target || current.reveal === false) return target;
-    for (let parent = target.parentElement; parent; parent = parent.parentElement) if (parent.tagName === 'DETAILS' && !parent.open) parent.querySelector(':scope > summary')?.click();
+    open(target);
+    for (const selector of companions(current)) { const node = root.querySelector(selector); if (node && region(node) === region(target)) open(node); }
     return target;
+  }
+  const region = node => node.closest('#side-content, #inspector-content, .app-header, dialog');
+  /**
+   * What the step is about on screen: the target with its label, and the controls that go with it in the same panel.
+   * The ring goes around all of it and the card keeps clear of it, so no field the step asks for is covered.
+   */
+  function area(current, target) {
+    const field = node => (node.matches('input, select, textarea') && node.closest('.field, .check')) || node;
+    let box = target.getBoundingClientRect();
+    if (!box.width) return box;
+    box = field(target).getBoundingClientRect();
+    let { left, top, right, bottom } = box;
+    for (const selector of companions(current)) {
+      const node = root.querySelector(selector);
+      if (!node || region(node) !== region(target)) continue;
+      const other = field(node).getBoundingClientRect();
+      if (!other.width || other.bottom < 0 || other.top > innerHeight) continue;
+      left = Math.min(left, other.left); top = Math.min(top, other.top); right = Math.max(right, other.right); bottom = Math.max(bottom, other.bottom);
+    }
+    return { left, top, right, bottom, width: right - left, height: bottom - top };
   }
   function tick() {
     frame = requestAnimationFrame(tick);
@@ -45,7 +74,7 @@ export function createTutor(root, host) {
     // Done by any path, including before the step was shown.
     // A step the person went back to is theirs to leave.
     if (current.done?.[0] !== 'read' && held !== index && met(current.done, host.state())) { advance(); return; }
-    const target = prepare(current), box = target?.getBoundingClientRect();
+    const target = prepare(current), box = target && area(current, target);
     const visible = box && box.width > 0 && box.bottom > 0 && box.top < innerHeight;
     if (target && !visible && box.width > 0) target.scrollIntoView({ block: 'center' });
     ring.hidden = !visible;
@@ -54,6 +83,16 @@ export function createTutor(root, host) {
     missing = current.target && !visible ? missing + 1 : 0; card.querySelector('.tutor-lost').hidden = missing < 90;
     layer.dataset.missing = missing >= 90 ? current.target : '';
     place(visible ? box : null);
+    // Where in the scene to click: a mark on the very point, followed as the camera moves.
+    const point = where(current), mark = point && host.project?.(point);
+    spot.hidden = !mark?.visible;
+    if (mark?.visible) Object.assign(spot.style, { left: `${Math.round(mark.x)}px`, top: `${Math.round(mark.y)}px` });
+  }
+  /** The point of the scene a step asks for: its `spot`, or the point its gesture clicks. */
+  function where(current) {
+    if (current.spot) return current.spot;
+    const acts = Array.isArray(current.act?.[0]) ? current.act : [current.act];
+    return acts.find(act => act?.[0] === 'world')?.[1] ?? null;
   }
   /** The card sits beside the target without covering it; over the scene when there is none. */
   function place(box) {
@@ -74,7 +113,7 @@ export function createTutor(root, host) {
     held = -1; index++; progress[lesson.id] = { ...progress[lesson.id], step: index }; write(progress); emit();
   }
   function finish(completed) {
-    cancelAnimationFrame(frame); layer.hidden = true; ring.hidden = true; document.body.classList.remove('tutoring');
+    cancelAnimationFrame(frame); layer.hidden = true; ring.hidden = true; spot.hidden = true; document.body.classList.remove('tutoring');
     if (lesson) { progress[lesson.id] = completed ? { done: true } : { ...progress[lesson.id], step: index }; write(progress); }
     lesson = null; shown = -1; emit();
   }
@@ -102,7 +141,8 @@ export function tutorialCenter(tutor, sceneEmpty) {
     <p class="microcopy">Cada tutorial acontece na própria cena: ele aponta, você faz, e o passo avança quando o resultado aparece. Dá para sair e voltar depois.</p>
     ${tutor.lessons.map(lesson => { const state = progress[lesson.id] ?? {}, resume = !state.done && state.step > 0; return `<article class="lesson ${state.done ? 'done' : ''}">
       <h3>${esc(lesson.title)}<small>${lesson.minutes} min · ${lesson.steps.length} passos${state.done ? ' · concluído' : resume ? ` · parou no passo ${state.step + 1}` : ''}</small></h3><p>${esc(lesson.summary)}</p>
+      ${lesson.continues ? `<p class="lesson-note">Continua a cena de <b>${esc(tutor.lessons.find(entry => entry.id === lesson.continues)?.title ?? '')}</b>: com ela aberta, comece por aqui.</p>` : ''}
       ${lesson.needs === 'empty' && !sceneEmpty ? '<p class="lesson-note">Este tutorial constrói do zero. A cena aberta já tem objetos: crie uma cena nova antes (botão <b>Nova</b>, no topo) para os passos não se confundirem com o que já existe.</p>' : ''}
       <div class="lesson-actions"><button type="button" class="primary" data-action="tutorial-start" data-id="${lesson.id}">${state.done ? 'Refazer' : 'Começar'}</button>${resume ? `<button type="button" data-action="tutorial-start" data-id="${lesson.id}" data-from="${state.step}">Continuar do passo ${state.step + 1}</button>` : ''}</div></article>`; }).join('')}
-    <p class="microcopy">Mais tutoriais virão, incluindo a reconstrução passo a passo de cenas prontas.</p>`;
+    <p class="microcopy">Mais tutoriais virão, incluindo a reconstrução de outras cenas prontas.</p>`;
 }

@@ -4,6 +4,8 @@ import { screenContentKey, screenFrame, screenAnimated, dotsAt, cursorAt, progre
 /** One uniform for every screen: material sharing can swap a material for its twin without freezing anybody's noise. */
 export const screenClock = { value: 0 };
 const FRAME_MS = 100;
+/** How strongly the content glows: enough to read and to feed the bloom without washing out the letters. */
+export const SCREEN_EMISSION = 1.15;
 const SIZE = { width: 512, height: 384 }, SMALL = { width: 256, height: 192 };
 const asList = material => Array.isArray(material) ? material : [material];
 const hashCell = (i, frame, seed) => { const x = Math.sin(i * 12.9898 + frame * 78.233 + seed * 37.719) * 43758.5453; return x - Math.floor(x); };
@@ -23,19 +25,32 @@ export function screenMeshes(object, slot = 'screen') {
 /** Where the slot is on the model, in the model's own axes: its centre, the way it faces and where a light in front of it hangs. */
 export function screenSlotFrame(object, slot = 'screen') {
   object.updateWorldMatrix(true, true);
-  const inverse = object.matrixWorld.clone().invert(), box = new THREE.Box3(), whole = new THREE.Box3();
+  const inverse = object.matrixWorld.clone().invert(), box = new THREE.Box3();
   object.traverse(mesh => {
     if (!mesh.isMesh || mesh.userData.decorative || !mesh.geometry) return;
     mesh.geometry.boundingBox ?? mesh.geometry.computeBoundingBox();
     const local = mesh.geometry.boundingBox.clone().applyMatrix4(new THREE.Matrix4().multiplyMatrices(inverse, mesh.matrixWorld));
-    whole.union(local);
     if (asList(mesh.material).some(material => material?.isMeshStandardMaterial && slotOf(mesh, material) === slot)) box.union(local);
   });
   if (box.isEmpty()) return null;
-  const center = box.getCenter(new THREE.Vector3()), size = box.getSize(new THREE.Vector3()), middle = whole.getCenter(new THREE.Vector3());
-  const axis = [0, 1, 2].reduce((best, i) => size.getComponent(i) < size.getComponent(best) ? i : best, 0);
-  const normal = new THREE.Vector3(); normal.setComponent(axis, Math.sign(center.getComponent(axis) - middle.getComponent(axis)) || 1);
-  return { center: center.toArray(), size: size.toArray(), normal: normal.toArray(), lightPosition: center.clone().addScaledVector(normal, .3).toArray() };
+  const center = box.getCenter(new THREE.Vector3()), size = box.getSize(new THREE.Vector3());
+  const axis = [0, 1, 2].reduce((best, i) => size.getComponent(i) < size.getComponent(best) ? i : best, 0), across = [0, 1, 2].filter(i => i !== axis);
+  // The glass faces the side that is open: a ray leaving the screen backwards meets the casing at once.
+  // (Bounding boxes cannot tell: parts of one material are merged, the keyboard with the frame.)
+  const raycaster = new THREE.Raycaster(), meshes = []; object.traverse(mesh => { if (mesh.isMesh && !mesh.userData.decorative && !asList(mesh.material).some(m => slotOf(mesh, m) === slot)) meshes.push(mesh); });
+  const blocked = sign => {
+    const direction = new THREE.Vector3(); direction.setComponent(axis, sign);
+    let hits = 0;
+    for (const [u, v] of [[0, 0], [-.3, -.3], [.3, .3], [-.3, .3], [.3, -.3]]) {
+      const origin = center.clone(); origin.setComponent(axis, center.getComponent(axis) + sign * (size.getComponent(axis) / 2 + .002));
+      origin.setComponent(across[0], origin.getComponent(across[0]) + u * size.getComponent(across[0])); origin.setComponent(across[1], origin.getComponent(across[1]) + v * size.getComponent(across[1]));
+      raycaster.set(origin.applyMatrix4(object.matrixWorld), direction.clone().transformDirection(object.matrixWorld)); raycaster.far = 2;
+      if (raycaster.intersectObjects(meshes, false).length) hits++;
+    }
+    return hits;
+  };
+  const normal = new THREE.Vector3(); normal.setComponent(axis, blocked(1) <= blocked(-1) ? 1 : -1);
+  return { center: center.toArray(), size: size.toArray(), normal: normal.toArray(), lightPosition: center.clone().addScaledVector(normal, .5).toArray() };
 }
 
 /** A planar UV over the two longest axes, for a slot whose mesh arrived without one. */
@@ -151,7 +166,7 @@ export function createScreenRuntime({ loadImage = async () => null, createCanvas
   function style(record) {
     const { material, saved, entry, screen } = record;
     material.onBeforeCompile = saved.onBeforeCompile; material.customProgramCacheKey = saved.customProgramCacheKey;
-    material.emissiveMap = entry.texture; material.emissive.set('#ffffff'); material.emissiveIntensity = 1.6;
+    material.emissiveMap = entry.texture; material.emissive.set('#ffffff'); material.emissiveIntensity = SCREEN_EMISSION;
     material.color.set('#06090a'); material.roughness = .55; material.metalness = 0;
     material.userData.screen = `${entry.key}|${screen.scanlines}|${screen.flicker}|${screen.seed}`;
     installTubeShader(material, screen); material.needsUpdate = true;
@@ -189,7 +204,7 @@ export function createScreenRuntime({ loadImage = async () => null, createCanvas
       const object = objects.get(record.id), current = bound.get(record.id), signature = signatureOf(record.screen);
       if (current && current.signature === signature && (current.materials.length || current.children === object.children.length)) {
         // Another pass (an environment binding, a material edit) may have overwritten the material.
-        for (const item of current.materials) if (item.material.emissiveMap !== item.entry.texture || item.material.emissiveIntensity !== 1.6) style(item);
+        for (const item of current.materials) if (item.material.emissiveMap !== item.entry.texture || item.material.emissiveIntensity !== SCREEN_EMISSION) style(item);
         continue;
       }
       // Editing the tube effect keeps what was drawn: hold the canvas across the rebinding.

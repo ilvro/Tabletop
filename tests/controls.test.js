@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { numberField, choiceField, splitLabel } from '../src/ui/controls.js';
+import { numberField, choiceField, splitLabel, normalizeHex } from '../src/ui/controls.js';
 import { textureSelect, textureCustomization, wearPanel } from '../src/ui/material-panels.js';
 import { numberField as n, colorField } from '../src/ui/controls.js';
 import { wearDefaults } from '../src/domain/wear.js';
@@ -51,4 +51,14 @@ test('wear type and placement are one click away', () => {
   const html = wearPanel({ wear: { ...wearDefaults('rust'), placement: 'edges' } }, { numberField: n, colorField });
   assert.match(html, /data-choice="rust" class="active"[^>]*><span>Ferrugem<\/span>/);
   assert.match(html, /data-choice="edges" class="active"[^>]*><span>Bordas<\/span>/);
+});
+
+test('a colour field has a box for its code, and codes are read in the usual ways', () => {
+  const markup = colorField('fill-color', 'Luz ambiente · cor', '#26304D');
+  assert.match(markup, /type="color" data-field="fill-color" value="#26304D"/);
+  assert.match(markup, /data-hex="fill-color" value="#26304d"/);
+  assert.equal(normalizeHex('#6F7FFF'), '#6f7fff');
+  assert.equal(normalizeHex(' 6f7fff '), '#6f7fff');
+  assert.equal(normalizeHex('#abc'), '#aabbcc');
+  for (const wrong of ['', '#12', 'red', '#12345g', '#1234567']) assert.equal(normalizeHex(wrong), null, wrong);
 });

@@ -517,6 +517,13 @@ export async function startApplication() {
     else { const [ba, ia] = slot(a), [bb, ib] = slot(b); [bands[ba][ia], bands[bb][ib]] = [bands[bb][ib], bands[ba][ia]]; }
     buildingOptions = { ...buildingOptions, hub, bands, rooms: bands.flat(), pick: null }; clearProposal(); if (live) previewBuilding(); renderSidebar();
   }
+  /** Which side of its wall a window's room is on: +1 along the wall's local Z, −1 against it. */
+  function windowInward(window) {
+    const wall = store.document.layout.entities[window.wallId], floor = store.document.layout.entities[wall?.floorIds?.[0] ?? wall?.surfaceId];
+    if (!wall?.transform || !floor?.transform) return 1;
+    const turn = new Quaternion(...wall.transform.rotation), middle = new Vector3(window.offset, 0, 0).applyQuaternion(turn).add(new Vector3(...wall.transform.position));
+    return new Vector3(0, 0, 1).applyQuaternion(turn).dot(new Vector3(...floor.transform.position).sub(middle)) >= 0 ? 1 : -1;
+  }
   // What the tutorials' conditions read. The assistant's reading is kept per document and floor: this runs every frame of a lesson.
   let tutorReading = null;
   function tutorialState() {
@@ -525,7 +532,8 @@ export async function startApplication() {
     return { document: store.document, tab, sections: [...openBuildSections], proposal: Boolean(proposal), assetsOpen, placing: tool === 'place' && placing?.asset ? placing.asset.id : null, placingKind: tool === 'place' ? placing?.type ?? null : null,
       selected: store.document.layout.entities[selection]?.kind ?? (store.document.tokens?.[selection] ? 'token' : null), tool, topView, canRedo: store.canRedo, presenting: isPresentation, saved: !store.dirty && store.document.revision > 0,
       listedAssets: assetsOpen ? [...document.querySelectorAll('#asset-cards [data-asset]')].map(node => node.dataset.asset) : [],
-      assistant: { inferred: tutorReading.inferred, state: stateOptions.state, buildingMode: buildingOptions.mode ?? (tutorReading.inBuilding ? 'extend' : 'new') } };
+      assistant: { inferred: tutorReading.inferred, state: stateOptions.state, mood: ambienceOptions.mood, buildingMode: buildingOptions.mode ?? (tutorReading.inBuilding ? 'extend' : 'new') },
+      room: roomOptions, copied: materialClipboard?.name ?? null, surface: activeSurfaceId ?? null, picked: store.document.layout.entities[selection]?.assetRef?.id ?? null };
   }
   const sceneEmpty = () => !Object.keys(store.document.layout.entities).length;
   function renderTutorials() { const panel = document.getElementById('tutorial-center'); if (!panel.hidden) panel.innerHTML = tutorialCenter(tutor, sceneEmpty()); }
@@ -1573,7 +1581,7 @@ export async function startApplication() {
       if(field.startsWith('zone-')){const key=field.slice(5),z=clone(record.lightingZone??{...ZONE_DEFAULTS,size:[record.width??record.footprint?.[0]??8,4,record.length??record.footprint?.[1]??8]});if(/^(size|position)-[012]$/.test(key)){const [array,i]=key.split('-');z[array][Number(i)]=value;}else z[key]=value;execute('entity.update',{id:record.id,patch:{lightingZone:z},snap:false});return;}
       const key=field.slice(13);let config;
       if(['yaw','pitch'].includes(key)){config=clone(record.illumination);const angles=new Euler().setFromQuaternion(new Quaternion(...config.rotation),'YXZ');angles[key==='yaw'?'y':'x']=value*Math.PI/180;config.rotation=new Quaternion().setFromEuler(angles).toArray();}
-      else{config=illuminationPatch(record.illumination,key,key==='mapSize'?Number(value):value,record);if(key==='type'&&value==='point')config.projection='none';}
+      else{config=illuminationPatch(record.illumination,key,key==='mapSize'?Number(value):value,record.kind==='window'?{...record,inward:windowInward(record)}:record);if(key==='type'&&value==='point')config.projection='none';}
       execute('entity.update',{id:record.id,patch:{illumination:config},snap:false});return;
     }
     if (field === 'terrain-material-target') { terrainMaterialTarget = value === 'base' ? 'base' : 'layer'; if(value !== 'base') terrainBrush.layerId=value; viewport.setTerrainBrush(terrainBrush); renderInspector(); return; }
@@ -2596,7 +2604,7 @@ export async function startApplication() {
     if (recovery && recovery.document.id === store.document.id && contentJSON(recovery.document) === contentJSON(store.document)) { await drafts.dismiss(recovery); recovery = null; }
   }
   initialized = true; document.getElementById('scene-name').disabled = false;
-  const tutor = createTutor(root, { state: tutorialState, open: name => { tab = name; renderSidebar(); } }); tutor.onChange(renderTutorials); window.tabletopTutor = tutor;
+  const tutor = createTutor(root, { state: tutorialState, open: name => { tab = name; renderSidebar(); }, project: point => viewport.project(point) }); tutor.onChange(renderTutorials); window.tabletopTutor = tutor;
   store.subscribe(updateView); store.subscribe(renderTutorials); updateView({ type: 'saved' }); viewport.frameScene();
   const firstCamera = Object.values(store.document.cameraPresets || {})[0]; if (firstCamera) viewport.setCamera(firstCamera);
   previews.schedule();
