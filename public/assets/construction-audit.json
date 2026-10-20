@@ -4261,6 +4261,289 @@
       "parts": 1,
       "triangles": 300,
       "batches": 1
+    },
+    {
+      "id": "builtin-temple-square-pier",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 34,
+      "triangles": 4792,
+      "batches": 4
+    },
+    {
+      "id": "builtin-temple-arched-gateway",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 16,
+      "triangles": 4336,
+      "batches": 3
+    },
+    {
+      "id": "builtin-temple-portcullis",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 37,
+      "triangles": 1964,
+      "batches": 1
+    },
+    {
+      "id": "builtin-temple-wall-niche",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 10,
+      "triangles": 2744,
+      "batches": 3
+    },
+    {
+      "id": "builtin-temple-rune-ring",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 47,
+      "triangles": 7784,
+      "batches": 4
+    },
+    {
+      "id": "builtin-temple-spike-barricade",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "curvas de contorno refinadas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 10,
+      "triangles": 1696,
+      "batches": 2
+    },
+    {
+      "id": "builtin-temple-floor-grate",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 19,
+      "triangles": 804,
+      "batches": 2
+    },
+    {
+      "id": "builtin-ice-icicles",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "curvas de contorno refinadas"
+      ],
+      "parts": 19,
+      "triangles": 2656,
+      "batches": 1
+    },
+    {
+      "id": "builtin-ice-crystal-cluster",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "fonte detalhada preservada"
+      ],
+      "parts": 11,
+      "triangles": 3012,
+      "batches": 2
+    },
+    {
+      "id": "builtin-nordic-rune-console",
+      "family": "instrument",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 18,
+      "triangles": 1808,
+      "batches": 4
+    },
+    {
+      "id": "builtin-nordic-gear-wall",
+      "family": "instrument",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos"
+      ],
+      "parts": 60,
+      "triangles": 16892,
+      "batches": 4
+    },
+    {
+      "id": "builtin-nordic-conduit-pillar",
+      "family": "instrument",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "curvas de contorno refinadas"
+      ],
+      "parts": 55,
+      "triangles": 2936,
+      "batches": 5
+    },
+    {
+      "id": "builtin-nordic-forge-engine",
+      "family": "instrument",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais",
+        "cordas e tubos curvos",
+        "couro granulado"
+      ],
+      "parts": 40,
+      "triangles": 6088,
+      "batches": 8
+    },
+    {
+      "id": "builtin-nordic-runestone",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "cordas e tubos curvos"
+      ],
+      "parts": 15,
+      "triangles": 996,
+      "batches": 2
+    },
+    {
+      "id": "builtin-nordic-vault-door",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 58,
+      "triangles": 2788,
+      "batches": 5
+    },
+    {
+      "id": "builtin-nordic-stasis-pod",
+      "family": "instrument",
+      "reconstruction": "components",
+      "methods": [
+        "ferragens curvas com vazios reais",
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 45,
+      "triangles": 8316,
+      "batches": 6
+    },
+    {
+      "id": "builtin-nordic-rune-lantern",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos",
+        "perfis torneados e bordas de chapa",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 12,
+      "triangles": 1708,
+      "batches": 3
+    },
+    {
+      "id": "builtin-nordic-tablet-shelf",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 37,
+      "triangles": 4764,
+      "batches": 3
+    },
+    {
+      "id": "builtin-nordic-floor-sigil",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 40,
+      "triangles": 1992,
+      "batches": 2
+    },
+    {
+      "id": "builtin-nordic-spiral-stair-turn",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "perfis torneados e bordas de chapa",
+        "cordas e tubos curvos"
+      ],
+      "parts": 100,
+      "triangles": 28160,
+      "batches": 2
+    },
+    {
+      "id": "builtin-cave-painting-hunt",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos",
+        "arestas chanfradas"
+      ],
+      "parts": 68,
+      "triangles": 13904,
+      "batches": 3
+    },
+    {
+      "id": "builtin-cave-painting-ring",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos",
+        "arestas chanfradas"
+      ],
+      "parts": 57,
+      "triangles": 13136,
+      "batches": 3
+    },
+    {
+      "id": "builtin-cave-painting-descent",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "cordas e tubos curvos",
+        "arestas chanfradas"
+      ],
+      "parts": 54,
+      "triangles": 9808,
+      "batches": 4
     }
   ]
 }

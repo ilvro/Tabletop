@@ -1,0 +1,280 @@
+{
+  "name": "Pingentes de gelo · cortina",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "ice": {
+      "color": "#cfe7ef",
+      "roughness": 0.06,
+      "opacity": 0.8,
+      "emissive": "#3f7f95",
+      "emissiveIntensity": 0.18
+    }
+  },
+  "parts": [
+    {
+      "shape": "ellipsoid",
+      "size": [
+        2.5,
+        0.16,
+        0.34
+      ],
+      "position": [
+        0.009978711605072021,
+        1.45389414396137,
+        -0.00627608597278595
+      ],
+      "material": "ice",
+      "segments": 32
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.08207205680056168,
+      "radiusBottom": 0.004,
+      "height": 1.0414411360112337,
+      "position": [
+        -1.1799643124639456,
+        0.9131735759557531,
+        0.08771165823004
+      ],
+      "material": "ice",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.09578195278356234,
+      "radiusBottom": 0.004,
+      "height": 1.3156390556712467,
+      "position": [
+        -0.9857542103549498,
+        0.7760746161257466,
+        -0.009912365119565536
+      ],
+      "material": "ice",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.08652876800885727,
+      "radiusBottom": 0.004,
+      "height": 1.1305753601771453,
+      "position": [
+        -0.886948247086134,
+        0.8686064638727973,
+        0.04906176100982154
+      ],
+      "material": "ice",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.0519470297268141,
+      "radiusBottom": 0.004,
+      "height": 0.4389405945362819,
+      "position": [
+        -0.7695746530396539,
+        1.214423846693229,
+        0.07346172433322092
+      ],
+      "material": "ice",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.09059326323490555,
+      "radiusBottom": 0.004,
+      "height": 1.211865264698111,
+      "position": [
+        -0.5894170981229079,
+        0.8279615116123145,
+        -0.07706367445251681
+      ],
+      "material": "ice",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.07753535363075909,
+      "radiusBottom": 0.004,
+      "height": 0.9507070726151818,
+      "position": [
+        -0.48733329270935133,
+        0.958540607653779,
+        -0.09135729585316145
+      ],
+      "material": "ice",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.10169470651447113,
+      "radiusBottom": 0.004,
+      "height": 1.4338941302894226,
+      "position": [
+        -0.2969906450210073,
+        0.7169470788166586,
+        -0.08974736322040788
+      ],
+      "material": "ice",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.07527597463932355,
+      "radiusBottom": 0.004,
+      "height": 0.9055194927864709,
+      "position": [
+        -0.1932571188998688,
+        0.9811343975681345,
+        0.013098813983960914
+      ],
+      "material": "ice",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.05665582009656545,
+      "radiusBottom": 0.004,
+      "height": 0.533116401931309,
+      "position": [
+        -0.09757338435325472,
+        1.1673359429957153,
+        0.08382766609089798
+      ],
+      "material": "ice",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.08590928379777973,
+      "radiusBottom": 0.004,
+      "height": 1.1181856759555948,
+      "position": [
+        0.07815581594588401,
+        0.8748013059835725,
+        0.06491220870165926
+      ],
+      "material": "ice",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.09213895851539369,
+      "radiusBottom": 0.004,
+      "height": 1.2427791703078737,
+      "position": [
+        0.24005553403438173,
+        0.8125045588074331,
+        -0.034271763756867205
+      ],
+      "material": "ice",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.09095692738490828,
+      "radiusBottom": 0.004,
+      "height": 1.2191385476981655,
+      "position": [
+        0.3337556654891003,
+        0.8243248701122872,
+        0.09041421347920811
+      ],
+      "material": "ice",
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.04884497182323774,
+      "radiusBottom": 0.004,
+      "height": 0.37689943646475477,
+      "position": [
+        0.4891168975750832,
+        1.2454444257289925,
+        0.06039475832755757
+      ],
+      "material": "ice",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.0589197563943817,
+      "radiusBottom": 0.004,
+      "height": 0.578395127887634,
+      "position": [
+        0.5984677638713005,
+        1.1446965800175528,
+        -0.01016836809356909
+      ],
+      "material": "ice",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.052855156186262624,
+      "radiusBottom": 0.004,
+      "height": 0.45710312372525247,
+      "position": [
+        0.7750640763011732,
+        1.2053425820987438,
+        0.004800110693160621
+      ],
+      "material": "ice",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.06447720308152102,
+      "radiusBottom": 0.004,
+      "height": 0.6895440616304205,
+      "position": [
+        0.8985437041628231,
+        1.0891221131461597,
+        -0.010524216577641788
+      ],
+      "material": "ice",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.08136760300828702,
+      "radiusBottom": 0.004,
+      "height": 1.0273520601657402,
+      "position": [
+        1.0500131519944453,
+        0.9202181138784998,
+        0.03641149685037098
+      ],
+      "material": "ice",
+      "segments": 16
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.04508101914954328,
+      "radiusBottom": 0.004,
+      "height": 0.30162038299086563,
+      "position": [
+        1.1578659608195416,
+        1.2830839524659372,
+        0.021218606948381936
+      ],
+      "material": "ice",
+      "segments": 16
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    2.519957423210144,
+    1.533894181139701,
+    0.36274227499961853
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "curvas de contorno refinadas"
+    ],
+    "seed": 44603
+  }
+}

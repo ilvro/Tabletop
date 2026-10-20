@@ -11103,6 +11103,876 @@
       "previewUrl": "/assets/previews/industrial-ceiling-slab.svg",
       "geometryEdition": 2,
       "contentHash": "b7edde3c6b5ba9094381f7277b51d69e02a41e61cc7a37c31104f364cc3f0525"
+    },
+    {
+      "id": "builtin-temple-square-pier",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Templo · pilar quadrado escalonado com argola",
+      "category": "Arquitetura / Templo gelado",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína"
+      ],
+      "tags": [
+        "templo gelado",
+        "templo",
+        "pedra",
+        "inverno",
+        "pilar",
+        "coluna",
+        "argola"
+      ],
+      "description": "Pilar de cantaria de 9 m: base em degraus, pedestal com almofadas e pirâmides, cornija e fuste até o teto, com argola de ferro na frente e atrás.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.9,
+        2.9
+      ],
+      "bounds": [
+        2.9,
+        9,
+        2.9
+      ],
+      "url": "/assets/models/temple-square-pier.json",
+      "previewUrl": "/assets/previews/temple-square-pier.svg",
+      "geometryEdition": 2,
+      "contentHash": "c22d26bc5dfaa818aeb9877a51063b7746e8aef09d3e859b94d55fb59756b764"
+    },
+    {
+      "id": "builtin-temple-arched-gateway",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Templo · portal em arco com recesso",
+      "category": "Arquitetura / Templo gelado",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína"
+      ],
+      "tags": [
+        "templo gelado",
+        "templo",
+        "pedra",
+        "inverno",
+        "portal",
+        "arco",
+        "parede",
+        "passagem"
+      ],
+      "description": "Parede de cantaria com um recesso facetado e, ao fundo, o arco redondo de 4,4 × 5,8 m onde se encaixa a grade levadiça.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        8.2,
+        1.41
+      ],
+      "bounds": [
+        8.2,
+        9,
+        1.41
+      ],
+      "url": "/assets/models/temple-arched-gateway.json",
+      "previewUrl": "/assets/previews/temple-arched-gateway.svg",
+      "geometryEdition": 2,
+      "contentHash": "c0e8ee575aee3fb5ebe3aa5ea14951e73e049b3bd5f80cfe8974e96fdab27639"
+    },
+    {
+      "id": "builtin-temple-portcullis",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Templo · grade levadiça em arco",
+      "category": "Arquitetura / Templo gelado",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína"
+      ],
+      "tags": [
+        "templo gelado",
+        "templo",
+        "pedra",
+        "inverno",
+        "grade",
+        "portão",
+        "ferro",
+        "levadiça"
+      ],
+      "description": "Grade de barras quadradas com topo em arco de 4,4 × 5,8 m e pontas no pé. Encaixa no portal em arco do templo.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        4.44,
+        0.2
+      ],
+      "bounds": [
+        4.44,
+        5.815,
+        0.195
+      ],
+      "url": "/assets/models/temple-portcullis.json",
+      "previewUrl": "/assets/previews/temple-portcullis.svg",
+      "geometryEdition": 2,
+      "contentHash": "901a0b2e8021232e7eedce253a788b2d6bd2ab902d8a1a45d9c4ae590323074c"
+    },
+    {
+      "id": "builtin-temple-wall-niche",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Templo · nicho de porta com pilastras",
+      "category": "Arquitetura / Templo gelado",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína"
+      ],
+      "tags": [
+        "templo gelado",
+        "templo",
+        "pedra",
+        "inverno",
+        "nicho",
+        "porta",
+        "pilastra",
+        "parede"
+      ],
+      "description": "Vão de passagem de 2,1 × 3,9 m entre pilastras, com verga, cornija e dois degraus. Encoste à parede; o fundo é escuro.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.5,
+        1.29
+      ],
+      "bounds": [
+        3.5,
+        5.3,
+        1.29
+      ],
+      "url": "/assets/models/temple-wall-niche.json",
+      "previewUrl": "/assets/previews/temple-wall-niche.svg",
+      "geometryEdition": 2,
+      "contentHash": "55edd0702c7d2cf01a7285f067adbe22ed05428abeaca33b42851578afcdd762"
+    },
+    {
+      "id": "builtin-temple-rune-ring",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Templo · anel rúnico de pedra",
+      "category": "Arquitetura / Templo gelado",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Ritual"
+      ],
+      "tags": [
+        "templo gelado",
+        "templo",
+        "pedra",
+        "inverno",
+        "portal",
+        "runa",
+        "ritual",
+        "anomalia"
+      ],
+      "description": "Anel de pedra de 3,8 m sobre base em degraus, com runas acesas nas duas faces e um véu luminoso no vão. Dê luz própria azul.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        4.2,
+        1.7
+      ],
+      "bounds": [
+        4.2,
+        4.21,
+        1.7
+      ],
+      "url": "/assets/models/temple-rune-ring.json",
+      "previewUrl": "/assets/previews/temple-rune-ring.svg",
+      "geometryEdition": 2,
+      "contentHash": "f3744cf45ee7672fbe9d933f07ff0fde454d7869886c146fbe76cfb954286ba7"
+    },
+    {
+      "id": "builtin-temple-spike-barricade",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Barricada de estacas cruzadas",
+      "category": "Exterior / Barreiras",
+      "era": "Atemporal",
+      "contexts": [
+        "Acampamento",
+        "Templo",
+        "Fortificação",
+        "Guerra"
+      ],
+      "tags": [
+        "barricada",
+        "estacas",
+        "madeira",
+        "defesa",
+        "templo gelado"
+      ],
+      "description": "Viga sobre três pares de estacas afiadas, amarradas em X. Barreira de acampamento ou de cerco.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.5,
+        1.19
+      ],
+      "bounds": [
+        2.5,
+        1.173,
+        1.186
+      ],
+      "url": "/assets/models/temple-spike-barricade.json",
+      "previewUrl": "/assets/previews/temple-spike-barricade.svg",
+      "geometryEdition": 2,
+      "contentHash": "091e20db8bc766efcd7415293ba8c306fd3221b92abaa3e006e46ba0050049e6"
+    },
+    {
+      "id": "builtin-temple-floor-grate",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Templo · grade de alçapão no piso",
+      "category": "Arquitetura / Templo gelado",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína"
+      ],
+      "tags": [
+        "templo gelado",
+        "templo",
+        "pedra",
+        "inverno",
+        "grade",
+        "alçapão",
+        "piso",
+        "ferro"
+      ],
+      "description": "Grade de ferro de 2,5 × 1,7 m sobre um poço escuro. Fica rente ao piso.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.5,
+        1.7
+      ],
+      "bounds": [
+        2.5,
+        0.07,
+        1.7
+      ],
+      "url": "/assets/models/temple-floor-grate.json",
+      "previewUrl": "/assets/previews/temple-floor-grate.svg",
+      "geometryEdition": 2,
+      "contentHash": "de4fc6c7b3abffe6c91556ad677e004a7ce04d6023038ca624443e47362dea51"
+    },
+    {
+      "id": "builtin-ice-icicles",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Pingentes de gelo · cortina",
+      "category": "Exterior / Gelo",
+      "era": "Atemporal",
+      "contexts": [
+        "Caverna",
+        "Montanha",
+        "Templo",
+        "Inverno"
+      ],
+      "tags": [
+        "gelo",
+        "pingentes",
+        "inverno",
+        "teto",
+        "caverna",
+        "templo gelado"
+      ],
+      "description": "Fileira de 2,5 m de pingentes de gelo translúcidos, até 1,5 m. Fica pendurada pelo topo em tetos, cornijas e bordas de rocha.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.52,
+        0.37
+      ],
+      "bounds": [
+        2.52,
+        1.534,
+        0.363
+      ],
+      "url": "/assets/models/ice-icicles.json",
+      "previewUrl": "/assets/previews/ice-icicles.svg",
+      "geometryEdition": 2,
+      "contentHash": "4ddb1e200412004982f6e9bfad50969696350399ab79a00ec74345988f86adfd"
+    },
+    {
+      "id": "builtin-ice-crystal-cluster",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Cristais de gelo luminosos",
+      "category": "Exterior / Gelo",
+      "era": "Atemporal",
+      "contexts": [
+        "Caverna",
+        "Templo",
+        "Ritual",
+        "Inverno"
+      ],
+      "tags": [
+        "gelo",
+        "cristal",
+        "luz",
+        "anomalia",
+        "templo gelado"
+      ],
+      "description": "Prismas de gelo azulados brotando de rocha, acesos por dentro. Dê luz própria para iluminar o entorno.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.45,
+        1.3
+      ],
+      "bounds": [
+        1.442,
+        1.518,
+        1.298
+      ],
+      "url": "/assets/models/ice-crystal-cluster.json",
+      "previewUrl": "/assets/previews/ice-crystal-cluster.svg",
+      "geometryEdition": 2,
+      "contentHash": "1e8a134130398078796e297a20f1b00807359cee4c9b9192f251ba6498e19156"
+    },
+    {
+      "id": "builtin-nordic-rune-console",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · console rúnico",
+      "category": "Nórdico / Tecnologia rúnica",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "console",
+        "runa",
+        "tecnologia",
+        "painel"
+      ],
+      "description": "Pedestal de pedra com painel de bronze inclinado e runas acesas sob o vidro, e uma alavanca ao lado.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.08,
+        0.85
+      ],
+      "bounds": [
+        1.08,
+        1.34,
+        0.85
+      ],
+      "url": "/assets/models/nordic-rune-console.json",
+      "previewUrl": "/assets/previews/nordic-rune-console.svg",
+      "geometryEdition": 2,
+      "contentHash": "094c711a481a5a69b649cc57340a6d88f78e8f320c331031411616c279216820"
+    },
+    {
+      "id": "builtin-nordic-gear-wall",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · mecanismo de engrenagens de parede",
+      "category": "Nórdico / Tecnologia rúnica",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "engrenagem",
+        "mecanismo",
+        "máquina",
+        "parede"
+      ],
+      "description": "Três engrenagens de bronze com aros de luz sobre placa de pedra, 3,3 × 3,1 m. Encoste a uma parede.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.36,
+        0.49
+      ],
+      "bounds": [
+        3.36,
+        3.141,
+        0.49
+      ],
+      "url": "/assets/models/nordic-gear-wall.json",
+      "previewUrl": "/assets/previews/nordic-gear-wall.svg",
+      "geometryEdition": 2,
+      "contentHash": "9cac6e3494414235e860fbb30500907da033abaaa4f53bfe5b970e37e06a0c8a"
+    },
+    {
+      "id": "builtin-nordic-conduit-pillar",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · coluna condutora rúnica",
+      "category": "Nórdico / Tecnologia rúnica",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "coluna",
+        "energia",
+        "cristal",
+        "luz"
+      ],
+      "description": "Coluna de 4,1 m com núcleo de cristal aceso entre barras de ferro e anéis de bronze com runas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1,
+        1
+      ],
+      "bounds": [
+        1,
+        4.125,
+        1
+      ],
+      "url": "/assets/models/nordic-conduit-pillar.json",
+      "previewUrl": "/assets/previews/nordic-conduit-pillar.svg",
+      "geometryEdition": 2,
+      "contentHash": "837e134d6161aafbfe03d83d1fa0302adb9482265911b8f980e4edaeef83ef9f"
+    },
+    {
+      "id": "builtin-nordic-forge-engine",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · forja rúnica",
+      "category": "Nórdico / Tecnologia rúnica",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "forja",
+        "fornalha",
+        "máquina",
+        "fogo"
+      ],
+      "description": "Fornalha de bronze sobre base de pedra, com boca de brasas atrás de grade, runas, fole e chaminé. Dê luz própria quente na boca.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.74,
+        3
+      ],
+      "bounds": [
+        3.736,
+        5.96,
+        3
+      ],
+      "url": "/assets/models/nordic-forge-engine.json",
+      "previewUrl": "/assets/previews/nordic-forge-engine.svg",
+      "geometryEdition": 2,
+      "contentHash": "784ea1763774fda8ed3432e3f6eae8f00a28a66270330550b9c83d198df3116e"
+    },
+    {
+      "id": "builtin-nordic-runestone",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · pedra rúnica com sulcos acesos",
+      "category": "Nórdico / Pedras rúnicas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "pedra rúnica",
+        "runa",
+        "monumento",
+        "luz"
+      ],
+      "description": "Laje de pedra de 2,4 m com a serpente e uma coluna de runas gravadas, acesas por dentro.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        1.5,
+        0.7
+      ],
+      "bounds": [
+        1.5,
+        2.4,
+        0.7
+      ],
+      "url": "/assets/models/nordic-runestone.json",
+      "previewUrl": "/assets/previews/nordic-runestone.svg",
+      "geometryEdition": 2,
+      "contentHash": "61791826086770bdd1b2f2ea1e40114e27b28f81d80e214df65422c075ab7545"
+    },
+    {
+      "id": "builtin-nordic-vault-door",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · porta-cofre circular aberta",
+      "category": "Nórdico / Portas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "porta",
+        "cofre",
+        "selada",
+        "runa"
+      ],
+      "description": "Moldura de pedra 4,4 × 4 m com vão redondo de 3 m e a porta de bronze rolada para o lado no trilho. Coloque sobre um vão de passagem.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        6.3,
+        1.2
+      ],
+      "bounds": [
+        6.3,
+        4,
+        1.2
+      ],
+      "url": "/assets/models/nordic-vault-door.json",
+      "previewUrl": "/assets/previews/nordic-vault-door.svg",
+      "geometryEdition": 2,
+      "contentHash": "24d9e955ed4b61f16f57733f1e0b63af15a065a473bec3e42eef20c05b4714ba"
+    },
+    {
+      "id": "builtin-nordic-stasis-pod",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · cápsula de estase rompida",
+      "category": "Nórdico / Tecnologia rúnica",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "cápsula",
+        "estase",
+        "contenção",
+        "medo"
+      ],
+      "description": "Cápsula de 3 m sobre base rúnica: vidro fosco com dois painéis estourados para fora, cacos no chão e correntes partidas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.5,
+        2.59
+      ],
+      "bounds": [
+        2.491,
+        3.1,
+        2.582
+      ],
+      "url": "/assets/models/nordic-stasis-pod.json",
+      "previewUrl": "/assets/previews/nordic-stasis-pod.svg",
+      "geometryEdition": 2,
+      "contentHash": "3d669e0e963c5f61fe6e69bfe15bd6630d303ec61ae744124bfb66193201ec09"
+    },
+    {
+      "id": "builtin-nordic-rune-lantern",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · lanterna rúnica de cristal",
+      "category": "Nórdico / Iluminação",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "lanterna",
+        "luz",
+        "cristal",
+        "iluminação"
+      ],
+      "description": "Lanterna de pé de 2,3 m: tripé de ferro e gaiola com cristal aceso. Dê luz própria fria.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.5,
+        0.52
+      ],
+      "bounds": [
+        0.496,
+        2.371,
+        0.517
+      ],
+      "url": "/assets/models/nordic-rune-lantern.json",
+      "previewUrl": "/assets/previews/nordic-rune-lantern.svg",
+      "geometryEdition": 2,
+      "contentHash": "e0e26aa1d7ede4ecbdca6acbc026033f7fc9422505356ec4d84b3232c63e0d15"
+    },
+    {
+      "id": "builtin-nordic-tablet-shelf",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · estante de tábuas rúnicas",
+      "category": "Nórdico / Pedras rúnicas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "estante",
+        "tábua",
+        "runa",
+        "arquivo"
+      ],
+      "description": "Estante de pedra com tábuas rúnicas encostadas, algumas ainda acesas. Para arquivos e bibliotecas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.4,
+        0.6
+      ],
+      "bounds": [
+        2.4,
+        2.45,
+        0.6
+      ],
+      "url": "/assets/models/nordic-tablet-shelf.json",
+      "previewUrl": "/assets/previews/nordic-tablet-shelf.svg",
+      "geometryEdition": 2,
+      "contentHash": "1991fee17410daee85496d8b7ad13a4ad955b108ec07ec68f260564a4876cf86"
+    },
+    {
+      "id": "builtin-nordic-floor-sigil",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · círculo rúnico no piso",
+      "category": "Nórdico / Pedras rúnicas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "círculo",
+        "runa",
+        "ritual",
+        "piso"
+      ],
+      "description": "Dois anéis de ferro embutidos no piso, 3 m, com runas acesas entre eles e raios até o centro.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.05,
+        3.05
+      ],
+      "bounds": [
+        3.044,
+        0.044,
+        3.044
+      ],
+      "url": "/assets/models/nordic-floor-sigil.json",
+      "previewUrl": "/assets/previews/nordic-floor-sigil.svg",
+      "geometryEdition": 2,
+      "contentHash": "426ff2527b7d59d6c422fe554fe2364c664f43b36862e47d367c77a5f8984f8a"
+    },
+    {
+      "id": "builtin-nordic-spiral-stair-turn",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · escada em espiral do abismo (uma volta)",
+      "category": "Nórdico / Escadas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Abismo",
+        "Caverna",
+        "Masmorra",
+        "Torre"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "escada",
+        "espiral",
+        "abismo",
+        "descida"
+      ],
+      "description": "Uma volta de 40 degraus presos à parede de um poço de 16,5 m de raio, descendo 8 m, com corrimão de ferro na borda aberta. Empilhe voltas a cada 8 m, com o mesmo giro, para descer mais.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        32.8,
+        32.8
+      ],
+      "bounds": [
+        32.8,
+        9.845,
+        32.8
+      ],
+      "url": "/assets/models/nordic-spiral-stair-turn.json",
+      "previewUrl": "/assets/previews/nordic-spiral-stair-turn.svg",
+      "geometryEdition": 2,
+      "contentHash": "3b3ea1d38bc6897deb9ff1627c1a028c2bbb7cd2f2ad2233debad4217474a255"
+    },
+    {
+      "id": "builtin-cave-painting-hunt",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Pintura rupestre · a caçada",
+      "category": "Arte / Pinturas rupestres",
+      "era": "Antiguidade",
+      "contexts": [
+        "Caverna",
+        "Templo",
+        "Ruína"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "pintura rupestre",
+        "caverna",
+        "arte",
+        "caça"
+      ],
+      "description": "Painel de 4 × 1,8 m: caçadores com lanças atrás de dois alces e um lobo, com mãos carimbadas. Encoste a uma parede de rocha.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.83,
+        0.12
+      ],
+      "bounds": [
+        3.823,
+        1.721,
+        0.12
+      ],
+      "url": "/assets/models/cave-painting-hunt.json",
+      "previewUrl": "/assets/previews/cave-painting-hunt.svg",
+      "geometryEdition": 2,
+      "contentHash": "638f5112614673a58b05c6c76d508cd21a19198e08c41d3b38bc5241e602ecb2"
+    },
+    {
+      "id": "builtin-cave-painting-ring",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Pintura rupestre · o anel e os que se curvam",
+      "category": "Arte / Pinturas rupestres",
+      "era": "Antiguidade",
+      "contexts": [
+        "Caverna",
+        "Templo",
+        "Ritual"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "pintura rupestre",
+        "caverna",
+        "arte",
+        "ritual",
+        "anel"
+      ],
+      "description": "Painel de 4 × 2 m: um anel de luz com raios e figuras ajoelhadas dos dois lados, mãos e uma espiral. Encoste a uma parede de rocha.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.79,
+        0.06
+      ],
+      "bounds": [
+        3.784,
+        1.944,
+        0.06
+      ],
+      "url": "/assets/models/cave-painting-ring.json",
+      "previewUrl": "/assets/previews/cave-painting-ring.svg",
+      "geometryEdition": 2,
+      "contentHash": "1829e058e873cbf86d56b54920397a1247d55fd265b3e920992b86f60aa3ef95"
+    },
+    {
+      "id": "builtin-cave-painting-descent",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Pintura rupestre · a descida",
+      "category": "Arte / Pinturas rupestres",
+      "era": "Antiguidade",
+      "contexts": [
+        "Caverna",
+        "Abismo",
+        "Ritual"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "pintura rupestre",
+        "caverna",
+        "arte",
+        "abismo",
+        "espiral"
+      ],
+      "description": "Painel de 4 × 1,9 m: uma fila de figuras entrando numa espiral escura cercada de olhos, e marcas de contagem. Encoste a uma parede de rocha.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        4.04,
+        0.09
+      ],
+      "bounds": [
+        4.036,
+        1.766,
+        0.09
+      ],
+      "url": "/assets/models/cave-painting-descent.json",
+      "previewUrl": "/assets/previews/cave-painting-descent.svg",
+      "geometryEdition": 2,
+      "contentHash": "94704a44d89dfa6a3060435f9a4d61a799d4407ef50cb0cda65bb3aacbf1fd99"
     }
   ]
 }

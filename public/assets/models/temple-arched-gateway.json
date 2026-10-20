@@ -1,0 +1,595 @@
+{
+  "name": "Templo · portal em arco com recesso",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "stone": {
+      "color": "#6f7b79",
+      "roughness": 0.93
+    },
+    "trim": {
+      "color": "#5c6866",
+      "roughness": 0.9
+    },
+    "recess": {
+      "color": "#3c4648",
+      "roughness": 0.95
+    }
+  },
+  "parts": [
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -4,
+          0
+        ],
+        [
+          -3.3,
+          0
+        ],
+        [
+          -3.3,
+          4.1
+        ],
+        [
+          -2.8578838324886475,
+          5.749999999999999
+        ],
+        [
+          -1.6500000000000006,
+          6.957883832488647
+        ],
+        [
+          2.0206672185931328e-16,
+          7.3999999999999995
+        ],
+        [
+          1.6499999999999995,
+          6.957883832488648
+        ],
+        [
+          2.8578838324886475,
+          5.749999999999999
+        ],
+        [
+          3.3,
+          4.1
+        ],
+        [
+          3.3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          -4,
+          9
+        ]
+      ],
+      "depth": 0.5,
+      "position": [
+        0,
+        5.9604645663569045e-9,
+        0.30500001311302183
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#6f7b79",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "profile",
+      "contour": [
+        [
+          -4,
+          0
+        ],
+        [
+          -2.2,
+          0
+        ],
+        [
+          -2.2,
+          3.6
+        ],
+        [
+          -2.157727616887107,
+          4.029198708435483
+        ],
+        [
+          -2.032534971524831,
+          4.441903551203198
+        ],
+        [
+          -1.8292331470655998,
+          4.822254512643125
+        ],
+        [
+          -1.5556349186104046,
+          5.155634918610405
+        ],
+        [
+          -1.2222545126431243,
+          5.4292331470656
+        ],
+        [
+          -0.8419035512031975,
+          5.632534971524831
+        ],
+        [
+          -0.4291987084354821,
+          5.757727616887108
+        ],
+        [
+          1.3471114790620887e-16,
+          5.800000000000001
+        ],
+        [
+          0.42919870843548236,
+          5.757727616887108
+        ],
+        [
+          0.8419035512031977,
+          5.632534971524831
+        ],
+        [
+          1.2222545126431246,
+          5.4292331470656
+        ],
+        [
+          1.5556349186104048,
+          5.155634918610405
+        ],
+        [
+          1.8292331470655998,
+          4.822254512643124
+        ],
+        [
+          2.032534971524831,
+          4.441903551203198
+        ],
+        [
+          2.157727616887107,
+          4.029198708435483
+        ],
+        [
+          2.2,
+          3.6
+        ],
+        [
+          2.2,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          -4,
+          9
+        ]
+      ],
+      "depth": 0.7,
+      "position": [
+        0,
+        5.9604645663569045e-9,
+        -0.29499998688697815
+      ],
+      "material": "recess",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#3c4648",
+        "textureColorMode": "replace",
+        "relief": 0.04
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.34,
+        0.2
+      ],
+      "position": [
+        -2.42,
+        3.600000005960465,
+        0.15500001311302186
+      ],
+      "material": "trim",
+      "rotation": [
+        0,
+        0,
+        1.5707963267948966
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.34,
+        0.2
+      ],
+      "position": [
+        -2.3015567694342716,
+        4.347821132347837,
+        0.15500001311302186
+      ],
+      "material": "trim",
+      "rotation": [
+        0,
+        0,
+        1.2566370614359172
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.34,
+        0.2
+      ],
+      "position": [
+        -1.9578211263873726,
+        5.02244031650825,
+        0.15500001311302186
+      ],
+      "material": "trim",
+      "rotation": [
+        0,
+        0,
+        0.9424777960769379
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.34,
+        0.2
+      ],
+      "position": [
+        -1.4224403105477847,
+        5.557821132347838,
+        0.15500001311302186
+      ],
+      "material": "trim",
+      "rotation": [
+        0,
+        0,
+        0.6283185307179586
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.34,
+        0.2
+      ],
+      "position": [
+        -0.7478211263873725,
+        5.901556775394736,
+        0.15500001311302186
+      ],
+      "material": "trim",
+      "rotation": [
+        0,
+        0,
+        0.3141592653589793
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.34,
+        0.2
+      ],
+      "position": [
+        1.4818226269682973e-16,
+        6.020000005960464,
+        0.15500001311302186
+      ],
+      "material": "trim",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.34,
+        0.2
+      ],
+      "position": [
+        0.7478211263873729,
+        5.901556775394736,
+        0.15500001311302186
+      ],
+      "material": "trim",
+      "rotation": [
+        0,
+        0,
+        -0.3141592653589793
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.34,
+        0.2
+      ],
+      "position": [
+        1.422440310547785,
+        5.557821132347838,
+        0.15500001311302186
+      ],
+      "material": "trim",
+      "rotation": [
+        0,
+        0,
+        -0.6283185307179586
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.34,
+        0.2
+      ],
+      "position": [
+        1.9578211263873728,
+        5.02244031650825,
+        0.15500001311302186
+      ],
+      "material": "trim",
+      "rotation": [
+        0,
+        0,
+        -0.9424777960769379
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.34,
+        0.2
+      ],
+      "position": [
+        2.3015567694342716,
+        4.347821132347837,
+        0.15500001311302186
+      ],
+      "material": "trim",
+      "rotation": [
+        0,
+        0,
+        -1.2566370614359172
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.34,
+        0.2
+      ],
+      "position": [
+        2.42,
+        3.6000000059604647,
+        0.15500001311302186
+      ],
+      "material": "trim",
+      "rotation": [
+        0,
+        0,
+        -1.5707963267948966
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        8.2,
+        0.3,
+        1.32
+      ],
+      "position": [
+        0,
+        8.850000005960464,
+        -0.04499998688697815
+      ],
+      "material": "trim",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.3,
+        0.9
+      ],
+      "position": [
+        -2.45,
+        0.15000000596046456,
+        0.25500001311302184
+      ],
+      "material": "trim",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        0.3,
+        0.9
+      ],
+      "position": [
+        2.45,
+        0.15000000596046456,
+        0.25500001311302184
+      ],
+      "material": "trim",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    8.199999809265137,
+    9,
+    1.4100000262260437
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 1603
+  }
+}

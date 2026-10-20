@@ -1,0 +1,258 @@
+{
+  "name": "Templo · nicho de porta com pilastras",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "stone": {
+      "color": "#6f7b79",
+      "roughness": 0.93
+    },
+    "trim": {
+      "color": "#5c6866",
+      "roughness": 0.9
+    },
+    "void": {
+      "color": "#07090b",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        2.1,
+        3.9,
+        0.04
+      ],
+      "position": [
+        0,
+        2.050000001490116,
+        -0.4850000113248825
+      ],
+      "material": "void",
+      "bevel": 0.005200000000000001
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        4.7,
+        0.62
+      ],
+      "position": [
+        -1.32,
+        2.350000001490116,
+        -0.2850000113248825
+      ],
+      "material": "stone",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#6f7b79",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        3.9,
+        0.4
+      ],
+      "position": [
+        -1,
+        2.050000001490116,
+        -0.3350000113248825
+      ],
+      "material": "stone",
+      "bevel": 0.015,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#6f7b79",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.5,
+        4.7,
+        0.62
+      ],
+      "position": [
+        1.32,
+        2.350000001490116,
+        -0.2850000113248825
+      ],
+      "material": "stone",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#6f7b79",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        3.9,
+        0.4
+      ],
+      "position": [
+        1,
+        2.050000001490116,
+        -0.3350000113248825
+      ],
+      "material": "stone",
+      "bevel": 0.015,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#6f7b79",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        3.3,
+        0.42,
+        0.74
+      ],
+      "position": [
+        0,
+        4.910000001490117,
+        -0.2450000113248825
+      ],
+      "material": "trim",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        3.5,
+        0.18,
+        0.84
+      ],
+      "position": [
+        0,
+        5.210000001490116,
+        -0.2250000113248825
+      ],
+      "material": "trim",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        2.2,
+        0.16,
+        0.4
+      ],
+      "position": [
+        0,
+        4.020000001490116,
+        -0.3350000113248825
+      ],
+      "material": "trim",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        3.2,
+        0.2,
+        1.1
+      ],
+      "position": [
+        0,
+        0.10000000149011615,
+        0.0949999886751175
+      ],
+      "material": "trim",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        2.4,
+        0.18,
+        0.6
+      ],
+      "position": [
+        0,
+        0.2900000014901161,
+        -0.0850000113248825
+      ],
+      "material": "trim",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 2.4,
+        "textureColor": "#5c6866",
+        "textureColorMode": "replace",
+        "relief": 0.03
+      }
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    3.5,
+    5.300000190734863,
+    1.2899999618530273
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 49433
+  }
+}

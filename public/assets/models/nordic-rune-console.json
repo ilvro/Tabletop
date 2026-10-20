@@ -1,0 +1,404 @@
+{
+  "name": "Nórdico · console rúnico",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "stone": {
+      "color": "#5f6b6a",
+      "roughness": 0.93
+    },
+    "bronze": {
+      "color": "#8c6b3c",
+      "roughness": 0.42,
+      "metalness": 0.5
+    },
+    "iron": {
+      "color": "#2b2f33",
+      "roughness": 0.46,
+      "metalness": 0.5
+    },
+    "glow": {
+      "color": "#d8f6ff",
+      "emissive": "#5fd6ff",
+      "emissiveIntensity": 2
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.05,
+        0.16,
+        0.85
+      ],
+      "position": [
+        -0.010000020265579224,
+        0.0799999982118607,
+        0
+      ],
+      "material": "stone",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.62,
+        0.82,
+        0.5
+      ],
+      "position": [
+        -0.010000020265579224,
+        0.5699999982118606,
+        0
+      ],
+      "material": "stone",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.68,
+        0.06,
+        0.56
+      ],
+      "position": [
+        -0.010000020265579224,
+        0.2999999982118607,
+        0
+      ],
+      "material": "bronze",
+      "bevel": 0.01,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.68,
+        0.06,
+        0.56
+      ],
+      "position": [
+        -0.010000020265579224,
+        0.7799999982118607,
+        0
+      ],
+      "material": "bronze",
+      "bevel": 0.01,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.06,
+        0.1,
+        0.7
+      ],
+      "position": [
+        -0.010000020265579224,
+        1.0199999982118606,
+        0.04
+      ],
+      "material": "bronze",
+      "rotation": [
+        0.45,
+        0,
+        0
+      ],
+      "bevel": 0.02,
+      "round": true
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.78,
+        0.02,
+        0.46
+      ],
+      "position": [
+        -0.010000020265579224,
+        1.0719999982118606,
+        0.065
+      ],
+      "material": "glow",
+      "rotation": [
+        0.45,
+        0,
+        0
+      ],
+      "bevel": 0.0026000000000000003
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.012,
+        0.18
+      ],
+      "position": [
+        -0.3100000202655792,
+        1.0829999982118608,
+        0.07
+      ],
+      "material": "iron",
+      "rotation": [
+        0.45,
+        0,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.012,
+        0.1
+      ],
+      "position": [
+        -0.28000002026557924,
+        1.0829999982118608,
+        0.05
+      ],
+      "material": "iron",
+      "rotation": [
+        0.45,
+        -0.6,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.012,
+        0.18
+      ],
+      "position": [
+        -0.16000002026557922,
+        1.0829999982118608,
+        0.07
+      ],
+      "material": "iron",
+      "rotation": [
+        0.45,
+        0,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.012,
+        0.1
+      ],
+      "position": [
+        -0.13000002026557922,
+        1.0829999982118608,
+        0.05
+      ],
+      "material": "iron",
+      "rotation": [
+        0.45,
+        0.6,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.012,
+        0.18
+      ],
+      "position": [
+        -0.010000020265579224,
+        1.0829999982118608,
+        0.07
+      ],
+      "material": "iron",
+      "rotation": [
+        0.45,
+        0,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.012,
+        0.1
+      ],
+      "position": [
+        0.019999979734420775,
+        1.0829999982118608,
+        0.05
+      ],
+      "material": "iron",
+      "rotation": [
+        0.45,
+        -0.6,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.012,
+        0.18
+      ],
+      "position": [
+        0.13999997973442074,
+        1.0829999982118608,
+        0.07
+      ],
+      "material": "iron",
+      "rotation": [
+        0.45,
+        0,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.012,
+        0.1
+      ],
+      "position": [
+        0.16999997973442074,
+        1.0829999982118608,
+        0.05
+      ],
+      "material": "iron",
+      "rotation": [
+        0.45,
+        0.6,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.012,
+        0.18
+      ],
+      "position": [
+        0.28999997973442077,
+        1.0829999982118608,
+        0.07
+      ],
+      "material": "iron",
+      "rotation": [
+        0.45,
+        0,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.012,
+        0.1
+      ],
+      "position": [
+        0.31999997973442074,
+        1.0829999982118608,
+        0.05
+      ],
+      "material": "iron",
+      "rotation": [
+        0.45,
+        -0.6,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.022,
+      "radiusBottom": 0.022,
+      "height": 0.42,
+      "position": [
+        0.4899999797344208,
+        1.0499999982118609,
+        -0.1
+      ],
+      "material": "iron",
+      "segments": 12
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.045,
+          0.01
+        ],
+        [
+          0.05,
+          0.05
+        ],
+        [
+          0,
+          0.08
+        ]
+      ],
+      "segments": 16,
+      "position": [
+        0.4899999797344208,
+        1.2599999982118608,
+        -0.1
+      ],
+      "material": "bronze"
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    1.0799999237060547,
+    1.340000033378601,
+    0.8500000238418579
+  ],
+  "design": {
+    "edition": 2,
+    "family": "instrument",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "curvas de contorno refinadas"
+    ],
+    "seed": 55835
+  }
+}

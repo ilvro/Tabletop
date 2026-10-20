@@ -1,0 +1,976 @@
+{
+  "name": "Nórdico · estante de tábuas rúnicas",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "stone": {
+      "color": "#5f6b6a",
+      "roughness": 0.93
+    },
+    "glow": {
+      "color": "#d8f6ff",
+      "emissive": "#5fd6ff",
+      "emissiveIntensity": 2
+    },
+    "void": {
+      "color": "#06080a",
+      "roughness": 1
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        2.4,
+        0.6
+      ],
+      "position": [
+        -1.12,
+        1.2000000476837165,
+        0
+      ],
+      "material": "stone",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        2.4,
+        0.6
+      ],
+      "position": [
+        1.12,
+        1.2000000476837165,
+        0
+      ],
+      "material": "stone",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        2.4,
+        0.1,
+        0.6
+      ],
+      "position": [
+        0,
+        0.3600000476837165,
+        0
+      ],
+      "material": "stone",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        2.4,
+        0.1,
+        0.6
+      ],
+      "position": [
+        0,
+        1.0600000476837166,
+        0
+      ],
+      "material": "stone",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        2.4,
+        0.1,
+        0.6
+      ],
+      "position": [
+        0,
+        1.7600000476837165,
+        0
+      ],
+      "material": "stone",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        2.4,
+        0.1,
+        0.6
+      ],
+      "position": [
+        0,
+        2.4000000476837164,
+        0
+      ],
+      "material": "stone",
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.5,
+        0.07
+      ],
+      "position": [
+        0.3813846368169269,
+        0.6700000476837165,
+        -0.05
+      ],
+      "material": "stone",
+      "rotation": [
+        0.03778502145575826,
+        0,
+        0.1259500715191942
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.14,
+        0.008
+      ],
+      "position": [
+        0.3813846368169269,
+        0.7000000476837165,
+        -0.012
+      ],
+      "material": "void",
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        0.3622355903408694,
+        0.7181412039545761,
+        -0.012
+      ],
+      "material": "void",
+      "rotation": [
+        0,
+        0,
+        -0.6709397232529611
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.5,
+        0.07
+      ],
+      "position": [
+        0.8183493949457531,
+        0.6700000476837165,
+        -0.05
+      ],
+      "material": "stone",
+      "rotation": [
+        0.04949206368019064,
+        0,
+        0.16497354560063549
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.14,
+        0.008
+      ],
+      "position": [
+        0.8183493949457531,
+        0.7000000476837165,
+        -0.012
+      ],
+      "material": "void",
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        0.8415780435336986,
+        0.7291903781637473,
+        -0.012
+      ],
+      "material": "void",
+      "rotation": [
+        0,
+        0,
+        0.8543997761077711
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        0.7955716267514914,
+        0.701592907900951,
+        -0.012
+      ],
+      "material": "void",
+      "rotation": [
+        0,
+        0,
+        -0.8323836315433808
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.5,
+        0.07
+      ],
+      "position": [
+        -0.820940100961309,
+        1.3700000476837166,
+        -0.05
+      ],
+      "material": "stone",
+      "rotation": [
+        0.01701551359800204,
+        0,
+        0.0567183786600068
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.14,
+        0.008
+      ],
+      "position": [
+        -0.820940100961309,
+        1.4000000476837167,
+        -0.012
+      ],
+      "material": "glow",
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        -0.838452397702257,
+        1.3783379007521455,
+        -0.012
+      ],
+      "material": "glow",
+      "rotation": [
+        0,
+        0,
+        -0.6047799404140229
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        -0.7989825847249912,
+        1.3994727143528916,
+        -0.012
+      ],
+      "material": "glow",
+      "rotation": [
+        0,
+        0,
+        0.7936340300685345
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.5,
+        0.07
+      ],
+      "position": [
+        -0.4192898455721232,
+        1.3700000476837166,
+        -0.05
+      ],
+      "material": "stone",
+      "rotation": [
+        0.009739835497215235,
+        0,
+        0.03246611832405078
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.14,
+        0.008
+      ],
+      "position": [
+        -0.4192898455721232,
+        1.4000000476837167,
+        -0.012
+      ],
+      "material": "void",
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        -0.44113053830323035,
+        1.3893870749613164,
+        -0.012
+      ],
+      "material": "void",
+      "rotation": [
+        0,
+        0,
+        -0.7882399932688329
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.5,
+        0.07
+      ],
+      "position": [
+        0.8210720899804235,
+        1.3700000476837166,
+        -0.05
+      ],
+      "material": "stone",
+      "rotation": [
+        0.015079059857017418,
+        0,
+        0.050263532856724726
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.14,
+        0.008
+      ],
+      "position": [
+        0.8210720899804235,
+        1.4000000476837167,
+        -0.012
+      ],
+      "material": "glow",
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        0.8052731687113338,
+        1.42253459758883,
+        -0.012
+      ],
+      "material": "glow",
+      "rotation": [
+        0,
+        0,
+        -0.5386201453463828
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        0.841685124576316,
+        1.36234090944359,
+        -0.012
+      ],
+      "material": "glow",
+      "rotation": [
+        0,
+        0,
+        0.7332048387284902
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.5,
+        0.07
+      ],
+      "position": [
+        -0.8751222047257444,
+        2.070000047683717,
+        -0.05
+      ],
+      "material": "stone",
+      "rotation": [
+        -0.015565189845455055,
+        0,
+        -0.05188396615151685
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.14,
+        0.008
+      ],
+      "position": [
+        -0.8751222047257444,
+        2.1000000476837166,
+        -0.012
+      ],
+      "material": "glow",
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        -0.8555406163231738,
+        2.0716821201772277,
+        -0.012
+      ],
+      "material": "glow",
+      "rotation": [
+        0,
+        0,
+        0.689000309839263
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.5,
+        0.07
+      ],
+      "position": [
+        -0.45431776316307276,
+        2.070000047683717,
+        -0.05
+      ],
+      "material": "stone",
+      "rotation": [
+        0.019871150841816464,
+        0,
+        0.06623716947272155
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.14,
+        0.008
+      ],
+      "position": [
+        -0.45431776316307276,
+        2.1000000476837166,
+        -0.012
+      ],
+      "material": "glow",
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        -0.47790788754299607,
+        2.0827312943863987,
+        -0.012
+      ],
+      "material": "glow",
+      "rotation": [
+        0,
+        0,
+        -0.8724603626937091
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        -0.4772269642843724,
+        2.078613286271565,
+        -0.012
+      ],
+      "material": "glow",
+      "rotation": [
+        0,
+        0,
+        -0.8387455435132101
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.5,
+        0.07
+      ],
+      "position": [
+        0.0006983067753708917,
+        2.070000047683717,
+        -0.05
+      ],
+      "material": "stone",
+      "rotation": [
+        -0.023726281773975382,
+        0,
+        -0.07908760591325127
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.14,
+        0.008
+      ],
+      "position": [
+        0.0006983067753708917,
+        2.1000000476837166,
+        -0.012
+      ],
+      "material": "void",
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        -0.018086271920385068,
+        2.09378046859557,
+        -0.012
+      ],
+      "material": "void",
+      "rotation": [
+        0,
+        0,
+        -0.6559204153622545
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.5,
+        0.07
+      ],
+      "position": [
+        0.8078646587281159,
+        2.070000047683717,
+        -0.05
+      ],
+      "material": "stone",
+      "rotation": [
+        -0.0501906099684449,
+        0,
+        -0.16730203322814965
+      ],
+      "bevel": 0.02,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.022,
+        0.14,
+        0.008
+      ],
+      "position": [
+        0.8078646587281159,
+        2.1000000476837166,
+        -0.012
+      ],
+      "material": "void",
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.02,
+        0.07700000000000001,
+        0.008
+      ],
+      "position": [
+        0.8258316738606463,
+        2.1158788170139124,
+        -0.012
+      ],
+      "material": "void",
+      "rotation": [
+        0,
+        0,
+        0.622840514771259
+      ],
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    2.4000000953674316,
+    2.450000047683715,
+    0.6000000238418579
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas"
+    ],
+    "seed": 8282
+  }
+}
