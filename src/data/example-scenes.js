@@ -18,6 +18,9 @@ export const EXAMPLE_SCENES = Object.freeze([
   Object.freeze({ id:'galpao-industrial',name:'Galpão industrial · abandonado',
     description:'Galpão de 16 × 12 m com cabos, tela acesa, letreiros, faixas de alerta, piso molhado, faíscas e goteira. Cinco câmeras e cópia editável.',
     file:'scenes/galpao-industrial.json' }),
+  Object.freeze({ id:'templo-gelado',name:'Templo gelado · caverna e grade levadiça',
+    description:'Salão de pilares numa caverna de neve e, atrás da grade levadiça, um complexo nórdico abandonado que desce pela montanha até um abismo com escada em espiral. Dezesseis câmeras e cópia editável.',
+    file:'scenes/templo-gelado.json' }),
 ]);
 
 export async function readExampleScene(exampleId, { fetcher = globalThis.fetch, signal } = {}) {
