@@ -18,10 +18,12 @@ for (const lesson of LESSONS) test(`tutorial "${lesson.title}" can be followed f
     await page.goto(`http://127.0.0.1:${server.address().port}/?diagnostics`);await page.waitForFunction(()=>!!window.__tabletop);
     // A lesson that continues another runs on the scene the earlier ones leave: they are followed first, in order.
     const chain=[lesson];while(chain[0].continues)chain.unshift(LESSONS.find(entry=>entry.id===chain[0].continues));
+    // The inspector shows one tab at a time: a gesture on a field of another tab first opens that tab, as a person would.
+    const showPane=selector=>page.locator(selector).first().evaluate(node=>{const pane=node.closest('[data-inspector-tab]');if(pane?.hidden)document.querySelector(`[data-inspector-tab-button="${pane.dataset.inspectorTab}"]`)?.click();for(let p=node.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS'&&!p.open)p.open=true;},undefined,{timeout:30000}).catch(()=>{});
     const key=([,name])=>page.keyboard.press(name);let skipped=[];
     for (const current of chain) {
     skipped=[];
-    await page.locator('.app-header [data-action="tutorials"]').click();
+    await page.locator('[data-action="tutorials"]').first().click();
     await page.locator(`#tutorial-center [data-action="tutorial-start"][data-id="${current.id}"]`).first().click();
     for (const [index,step] of current.steps.entries()) {
       const where=`${current.id} #${index+1} "${step.say.replace(/<[^>]+>/g,'')}"`;
@@ -38,9 +40,9 @@ for (const lesson of LESSONS) test(`tutorial "${lesson.title}" can be followed f
       for (const one of Array.isArray(act[0])?act:[act]) {
         if (one==='continue') await page.locator('.tutor-card [data-tutor="next"]').click();
         else if (one==='click') await page.locator(step.target).first().click();
-        else if (one[0]==='click') await page.locator(one[1]).first().click();
-        else if (one[0]==='fill') { await page.locator(one[1]).first().fill(one[2]);await page.keyboard.press('Tab'); }
-        else if (one[0]==='select') await page.locator(one[1]).first().selectOption(one[2]);
+        else if (one[0]==='click') { await showPane(one[1]); await page.locator(one[1]).first().click(); }
+        else if (one[0]==='fill') { await showPane(one[1]); await page.locator(one[1]).first().fill(one[2]);await page.keyboard.press('Tab'); }
+        else if (one[0]==='select') { await showPane(one[1]); await page.locator(one[1]).first().selectOption(one[2]); }
         else if (one[0]==='key') await key(one);
         else if (one[0]==='world') { const p=await page.evaluate(v=>window.__tabletop.project(v),one[1]);
           // The point must be free: a window still closing, or the tutor's own card over it, would take the click.

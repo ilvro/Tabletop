@@ -4,7 +4,7 @@ import { createViewport } from './renderer.js';
 export function createScenePreviewRenderer() {
   let host, viewport;
   return {
-    async render(document, assets, signal) {
+    async render(document, assets, signal, { camera: shot } = {}) {
       if(signal?.aborted)return null;
       if(!viewport){
         host=globalThis.document.createElement('div');host.setAttribute('aria-hidden','true');
@@ -14,7 +14,7 @@ export function createScenePreviewRenderer() {
       try{
         viewport.setSuspended(true);viewport.setAssets(assets);viewport.setDocument(document);
         await viewport.ready();if(signal?.aborted)return null;
-        const camera=Object.values(document.cameraPresets??{})[0];if(camera)viewport.setCamera(camera);else viewport.frameScene();
+        const camera=shot??Object.values(document.cameraPresets??{})[0];if(camera)viewport.setCamera(camera);else viewport.frameScene();
         // Load/compile without repeatedly drawing the hidden scene. One frame applies
         // derived asset bounds, zones and deposits before the actual thumbnail pass.
         viewport.setSuspended(false);

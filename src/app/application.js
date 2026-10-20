@@ -42,7 +42,7 @@ import { FOG_DEFAULTS, VOLUME_DEFAULTS, BLOOM_DEFAULTS, FLICKER_DEFAULTS, SKY_DE
 import { createScene, createMap, createSceneFromMap, createMapFromScene, createEntity, createToken, createLight, createLevel, createLayer, clone, id, validateDocument, duplicateDocument, migrateDocument } from '../domain/documents.js';
 import { polygonSize, groupChain, isSupport, isAccess, supportHeightAt, constrainOpening, localPoint, isLocked } from '../domain/geometry.js';
 import { quaternionFromYaw, yawFromQuaternion } from '../domain/coords.js';
-import { primaryLight, createEnvironmentFromLook, applyEnvironment, environmentDiff } from '../domain/environments.js';
+import { ENVIRONMENTS, primaryLight, createEnvironmentFromLook, applyEnvironment, environmentDiff } from '../domain/environments.js';
 import { createSceneStore } from '../state/scene-store.js';
 import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
@@ -64,11 +64,27 @@ import { repository, ApiError } from '../data/api.js';
 import { applicationURL, storageScope } from '../data/paths.js';
 import { drafts } from '../data/drafts.js';
 import { icon, escapeHTML as esc } from '../ui/icons.js';
+import { shellMarkup, button } from '../ui/shell.js';
+import { viewState } from './view-state.js';
+import { INSPECTOR_TABS, inspectorTabFor, kindLabel } from '../ui/inspector-tabs.js';
+import { revealNode } from '../ui/reveal.js';
+import { sceneAccent } from '../ui/scene-accent.js';
+import { posterMarkup } from '../ui/posters.js';
+import { createStageCut } from '../ui/stage-cut.js';
+import { createCommandPalette } from '../ui/command-palette.js';
+import { WHERE, normalize } from '../ui/command-index.js';
+import { keyFor } from '../ui/shortcuts.js';
+import { LESSONS } from '../tutorial/lessons.js';
+import { BUILD_TASKS, SCENE_TASKS, SHOTS_TASKS, TASKS_BY_TAB } from '../ui/task-definitions.js';
+import { actorHero, actorAvatar } from '../ui/actor-hero.js';
+import { shotsPanel, shotDockMarkup } from '../ui/shots-panel.js';
+import { createShotThumbnails } from './shot-thumbnails.js';
+import { shortcutsSheetMarkup } from '../ui/shortcuts.js';
 import { projectPresentation, presentationAssets } from './presentation.js';
 import { splitLabels } from '../domain/asset-library.js';
 import { assetLibraryPanel, assetCards, metadataEditor } from '../ui/asset-library-panel.js';
 
-const button = (action, label, glyph, className = '', extra = '') => `<button type="button" data-action="${action}" class="${className}" ${extra}>${glyph ? icon(glyph) : ''}<span>${label}</span></button>`;
+const TAB_TITLES = { build: 'CONSTRUIR', elements: 'ELEMENTOS', scene: 'AMBIENTE', shots: 'TOMADAS' };
 const contentJSON = (doc) => { const { revision, createdAt, updatedAt, ...body } = doc; return JSON.stringify(body); };
 const entryName = (doc, entry) => doc.actors?.[entry.actorId]?.name ?? entry.name;
 const lastSceneKey = `tabletop-last-scene${storageScope()==='/'?'':':'+storageScope()}`;
@@ -81,57 +97,7 @@ export async function startApplication() {
   const root = document.getElementById('app');
   const presentationId = new URLSearchParams(location.search).get('presentation');
   if (presentationId) return startPresentation(root, presentationId);
-  root.innerHTML = `
-    <div class="app-shell">
-      <header class="app-header">
-        <a class="brand" href="${esc(applicationURL(''))}" aria-label="Tabletop"><span class="brand-mark">T</span><span>TABLETOP<small>CRIAR. PREPARAR. APRESENTAR.</small></span></a>
-        <div class="document-heading"><span id="doc-type-eyebrow" class="eyebrow">SUA MESA / CENA</span><input id="scene-name" aria-label="Nome da cena" maxlength="256" disabled /></div>
-        <div class="panel-toggles"><button data-action="sidebar-toggle" aria-expanded="true" aria-controls="side-content">Ferramentas</button><button data-action="inspector-toggle" aria-expanded="true" aria-controls="inspector-content">Propriedades</button></div><div class="header-actions"><span id="save-status" role="status" class="save-status"></span>${button('new', 'Nova', 'plus', 'quiet')}${button('open', 'Abrir', 'folder', 'quiet')}<button type="button" data-tab="assets" class="quiet" aria-controls="assets-dialog" aria-expanded="false" title="Biblioteca de modelos, texturas e retratos">${icon('frame')}<span>Assets</span></button>${button('tutorials', 'Tutoriais', 'sun', 'quiet', 'aria-expanded="false" aria-controls="tutorial-center" title="Aprender a usar, passo a passo, na própria cena"')}${button('present', 'Apresentar', 'display', 'quiet')}${button('save', 'Salvar', 'save', 'primary', 'id="save-scene"')}</div>
-      </header>
-      <aside class="sidebar">
-        <nav class="tabs" aria-label="Painéis"><button data-tab="build" class="active">Construir</button><button data-tab="elements">Elementos</button><button data-tab="scene">Ambiente</button></nav>
-        <div id="side-content" class="side-content"></div>
-        <footer class="sidebar-footer"><span class="local-dot"></span> ${repository.storage==='browser'?'Dados salvos neste navegador.':'Sua mesa, no seu computador.'}</footer>
-      </aside>
-      <main class="workspace">
-        <div id="viewport" aria-label="Viewport 3D"></div>
-        <div class="viewport-top"><div class="tool-strip" role="toolbar" aria-label="Ferramentas">${button('tool-select', '', 'cursor', 'icon-button active', 'title="Selecionar (Q)" aria-label="Selecionar"')}${button('tool-move', '', 'move', 'icon-button', 'title="Mover (G)" aria-label="Mover"')}${button('tool-rotate', '', 'rotate', 'icon-button', 'title="Rotacionar (R)" aria-label="Rotacionar"')}${button('tool-scale', '', 'scale', 'icon-button', 'title="Escala (V)" aria-label="Escala"')}<i></i>${button('tool-measure', '', 'ruler', 'icon-button', 'title="Régua (M)" aria-label="Régua" aria-pressed="false"')}${button('material-eyedropper', '', 'eyedropper', 'icon-button', 'title="Conta-gotas (I)" aria-label="Conta-gotas" aria-pressed="false"')}<i></i>${button('undo', '', 'undo', 'icon-button', 'title="Desfazer (Ctrl+Z)" aria-label="Desfazer" id="undo"')}${button('redo', '', 'redo', 'icon-button', 'title="Refazer (Ctrl+Shift+Z)" aria-label="Refazer" id="redo"')}</div><div class="view-tag">${icon('room', 15)}<span id="view-tag">VISÃO DO MESTRE</span></div></div>
-        <div id="welcome" class="welcome-card"><span class="eyebrow">UMA CENA COMEÇA COM UM ESPAÇO</span><h1>Sua próxima história<br/>começa aqui.</h1><p>Desenhe uma sala, escolha a luz e traga seus personagens para a mesa.</p>${button('room-draw', 'Desenhar minha primeira sala', 'room', 'primary')}<small>Ou use as medidas no painel Construir.</small></div>
-        <aside id="tutorial-center" class="tutorial-center" aria-label="Tutoriais" hidden></aside><div id="tool-context" class="tool-context" hidden></div><div id="proposal-bar" class="proposal-bar" hidden></div>
-        <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}${button('roofs', 'Telhados', 'room', 'quiet active', 'aria-pressed="true" title="Mostrar ou ocultar telhados e forros enquanto edita"')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet', 'title="Capturar WASD e suas combinações em tela cheia; Esc sai" aria-pressed="false"')}</div><span id="gesture-hint" class="gesture-hint">WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom</span></div>
-        <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
-      </main>
-      <aside class="inspector"><div class="panel-heading"><span class="eyebrow">PROPRIEDADES</span>${icon('scale', 16)}</div><div id="inspector-content"></div></aside>
-      <footer class="statusbar"><span id="scene-summary">Preparando sua mesa…</span><span><kbd>Q</kbd> Selecionar <kbd>G</kbd> Mover <kbd>R</kbd> Girar <kbd>V</kbd> Escala <kbd>F</kbd> Enquadrar</span></footer>
-    </div>
-    <div id="presentation-controls" hidden><span id="presentation-name"></span>${button('present', 'Voltar à edição', 'close', 'quiet')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet')}</div>
-    <dialog id="documents-dialog" class="library-dialog floating-window" aria-labelledby="documents-title">
-      <div class="dialog-header">
-        <div class="dialog-title-group" data-window-handle tabindex="0" role="group" aria-label="Mover janela Abrir: arraste ou use as setas">
-          <span class="eyebrow">BIBLIOTECA & GESTÃO</span>
-          <h2 id="documents-title">Abrir e gerenciar</h2>
-        </div>
-        <button type="button" data-window-reset class="quiet" aria-label="Reposicionar janela Abrir" title="Reposicionar janela">↺</button><button type="button" id="close-library-dialog" data-action="close-dialog" class="icon-button dialog-close-btn" aria-label="Fechar painel" title="Fechar (Esc)">
-          ${icon('close', 18)}
-        </button>
-      </div>
-      <nav class="dialog-tabs">
-        <button type="button" data-dialog-tab="scenes" class="active">${icon('room', 14)} Cenas</button>
-        <button type="button" data-dialog-tab="maps">${icon('floor', 14)} Mapas</button>
-        <button type="button" data-dialog-tab="tokens">${icon('token', 14)} Tokens</button>
-        <button type="button" data-dialog-tab="documents">${icon('folder', 14)} Documentos</button>
-      </nav>
-      <div id="documents-tab-content" class="dialog-tab-content"></div>
-    </dialog>
-    <dialog id="assets-dialog" class="floating-window assets-window" aria-labelledby="assets-title">
-      <div class="dialog-header"><div data-window-handle class="dialog-title-group" tabindex="0" role="group" aria-label="Mover janela Assets: arraste ou use as setas"><span class="eyebrow">BIBLIOTECA · ARRASTE PARA MOVER</span><h2 id="assets-title">Assets</h2></div><button type="button" data-window-reset class="quiet" aria-label="Reposicionar janela Assets">↺</button><button type="button" data-action="assets-close" class="icon-button" aria-label="Fechar Assets">${icon('close',18)}</button></div>
-      <div id="assets-content" class="window-content"></div>
-    </dialog>
-    <dialog id="asset-metadata-dialog" aria-label="Classificar asset"></dialog>
-    <dialog id="recovery-dialog"><span class="eyebrow">RECUPERAÇÃO LOCAL</span><h2>Há trabalho não salvo</h2><p id="recovery-description"></p><div class="dialog-actions">${button('discard-draft', 'Descartar rascunho', '', 'quiet')}${button('restore-draft', 'Restaurar trabalho', 'undo', 'primary')}</div></dialog>
-    <div id="context-menu" class="context-menu" hidden></div>
-    <input id="asset-file" type="file" accept="image/png,image/jpeg,image/webp,.glb" hidden />
-    <input id="document-json-file" type="file" accept=".json,application/json" hidden />`;
+  root.innerHTML = shellMarkup({ storage: repository.storage, homeURL: applicationURL('') });
 
   let assets = [], savedScenes = [], savedMaps = [], selection = null, tool = 'select', tab = 'build';
   let materialClipboard = null,illuminationClipboard=null;
@@ -140,13 +106,13 @@ export async function startApplication() {
   let dialogTab = 'scenes';
   let savedEnvironments = [], selectedEnvironmentId = '', environmentPreview = null, skyReturnCamera = null;
   const openAtmosphereSections = new Set();
-  const sceneDisclosures = new Map(), inspectorDisclosures = new Map(), treeFilter = { search: '', kind: 'all' }, collapsedTreeGroups = new Set();
+  const sceneDisclosures = new Map(), inspectorDisclosures = new Map(), inspectorTab = new Map(), treeFilter = { search: '', kind: 'all' }, collapsedTreeGroups = new Set();
   let libraryFilters = { search: '', category: '', era: '', context: '', tags: [], favorites: false };
   let libraryLimit = 24, editingAsset = null;
   let proposal = null, placing = null, saving = false, isPresentation = false, cutaway = true;
   let repeatAssetPlacement = true;
   let measurement = null, rulerSnap = false;
-  let workingCamera = null, publishedCamera = null, recovery = null, draftTimer, noticeTimer;
+  let barQuietUntil = 0, lastTabbed = null, barFrame = 0, pointerHeld = false, barSignature = '', letterbox = false, titleSequence = 0, titleCard = { title: '', subtitle: '', duration: 4 }, viewTagFrame = 0, publishedPresetId = null, rehearsedId = null, dockIndex = 0, dockHidden = false, lastConnected = false, workingCamera = null, publishedCamera = null, recovery = null, draftTimer, noticeTimer;
   let draftWarningShown = false;
   const performanceDiagnostics=createPerformanceDiagnostics();
   let openTicket = 0;
@@ -164,7 +130,98 @@ export async function startApplication() {
   const compactLayout = window.matchMedia('(max-width:900px)');
   let desktopPanels = { sidebar: false, inspector: false };
   if(compactLayout.matches) root.querySelector('.app-shell').classList.add('sidebar-collapsed','inspector-collapsed');
-  function syncPanelToggles() { for(const key of ['sidebar','inspector']) root.querySelector(`[data-action=${key}-toggle]`).setAttribute('aria-expanded',String(!root.querySelector('.app-shell').classList.contains(`${key}-collapsed`))); }
+  function syncPanelToggles() {
+    const shell = root.querySelector('.app-shell');
+    for (const key of ['sidebar', 'inspector']) root.querySelector(`[data-action=${key}-toggle]`).setAttribute('aria-expanded', String(!shell.classList.contains(`${key}-collapsed`)));
+    root.querySelectorAll('.rail-tabs [data-tab]').forEach(node => node.setAttribute('aria-expanded', String(node.dataset.tab === tab && !shell.classList.contains('sidebar-collapsed'))));
+  }
+  // --- selection bar: the few things you do right after picking an object, next to the object ---
+  const scheduleSelectionBar = () => { if (!barFrame) barFrame = requestAnimationFrame(() => { barFrame = 0; updateSelectionBar(); }); };
+  // The bar waits a moment after a selection, a tool change or a click, so it never sits under the next click.
+  const holdSelectionBar = () => { barQuietUntil = performance.now() + 350; scheduleSelectionBar(); };
+  function updateSelectionBar() {
+    const wait = barQuietUntil - performance.now();
+    if (wait > 0) { document.getElementById('selection-bar').hidden = true; setTimeout(scheduleSelectionBar, wait + 20); return; }
+    const bar = document.getElementById('selection-bar'), found = selection && selectedIds.size <= 1 ? locate() : null;
+    const record = found?.record, anchor = record && (record.transform?.position ?? record.position);
+    const allowed = found && found.type !== 'group' && record.kind !== 'terrain' && anchor && !isPresentation && !pointerHeld && !proposal && ['select', 'move', 'rotate', 'scale'].includes(tool);
+    const point = allowed ? viewport.project([anchor[0], anchor[1] + 1.4, anchor[2]]) : null;
+    if (!point?.visible) { if (!bar.hidden) bar.hidden = true; return; }
+    const hasLight = Boolean(document.querySelector('#inspector-content [data-inspector-tab-button="light"]'));
+    const signature = `${selection}:${hasLight}`;
+    if (signature !== barSignature) {
+      barSignature = signature;
+      bar.innerHTML = `<button type="button" data-bar="move" data-tip="Mover" data-key="G" aria-label="Mover">${icon('move', 16)}</button><button type="button" data-bar="rotate" data-tip="Girar" data-key="R" aria-label="Girar">${icon('rotate', 16)}</button><button type="button" data-bar="look" data-tip="Aparência" aria-label="Aparência">${icon('eyedropper', 16)}</button>${hasLight ? `<button type="button" data-bar="light" data-tip="Luz" aria-label="Luz">${icon('light', 16)}</button>` : ''}<i></i><button type="button" data-bar="duplicate" data-tip="Duplicar" data-key="Ctrl+D" aria-label="Duplicar">${icon('layers', 16)}</button><button type="button" data-bar="delete" data-tip="Excluir" data-key="Delete" aria-label="Excluir" class="danger">${icon('trash', 16)}</button>`;
+    }
+    const host = bar.parentElement.getBoundingClientRect();
+    bar.style.transform = `translate(${Math.round(point.x - host.left)}px, ${Math.round(point.y - host.top)}px) translate(-50%, calc(-100% - 10px))`;
+    if (bar.hidden) bar.hidden = false;
+  }
+  function useSelectionBar(name) {
+    if (name === 'move') setTool('move'); else if (name === 'rotate') setTool('rotate');
+    else if (name === 'look' || name === 'light') { const shell = root.querySelector('.app-shell'); if (shell.classList.contains('inspector-collapsed')) togglePanel('inspector'); selectInspectorTab(name === 'look' ? 'look' : 'light'); }
+    else if (name === 'duplicate') act('object-duplicate'); else if (name === 'delete') act('object-delete');
+  }
+  // --- Ctrl+K: everything the editor can do or reach, found by name ---
+  function openTask(tabName, key) {
+    tab = tabName; if (root.querySelector('.app-shell').classList.contains('sidebar-collapsed')) togglePanel('sidebar');
+    if (tabName === 'build') openBuildSections.add(key); else sceneDisclosures.set(key, true);
+    renderSidebar(); syncPanelToggles();
+    const node = document.querySelector(`#side-content [data-panel-section="${key}"], #side-content [data-build-section="${key}"]`);
+    if (node) { node.open = true; node.scrollIntoView({ block: 'start' }); flash(node); }
+  }
+  const flash = node => { node.classList.remove('reveal-flash'); void node.offsetWidth; node.classList.add('reveal-flash'); setTimeout(() => node.classList.remove('reveal-flash'), 1300); };
+  function goToTab(name) { tab = name; if (root.querySelector('.app-shell').classList.contains('sidebar-collapsed')) togglePanel('sidebar'); assetsWindow.close(); renderSidebar(); syncPanelToggles(); }
+  const labelOf = field => {
+    const holder = field.closest('label.field, label.check, .check');
+    const labelNode = holder?.querySelector('.field-label') ?? holder?.querySelector('span');
+    const text = labelNode ? [...labelNode.childNodes].filter(node => node.nodeType === 3).map(node => node.textContent).join('').trim() || labelNode.textContent.trim() : '';
+    return text || field.getAttribute('aria-label') || '';
+  };
+  function paletteEntries() {
+    const entries = [], doc = store.document, add = (group, label, run, extra = {}) => entries.push({ group, label, run, ...extra });
+    const action = (label, name, keywords = '') => add('Ações', label, () => act(name), { keywords, hint: keyFor(label) });
+    action('Salvar', 'save', 'gravar'); action('Nova cena', 'new', 'novo criar'); action('Abrir cenas e mapas', 'open', 'biblioteca galeria'); add('Ações', 'Assets', () => root.querySelector('[data-tab="assets"]').click(), { keywords: 'biblioteca modelos texturas retratos importar' });
+    action('Apresentar', 'present', 'projetor jogadores previa'); action('Abrir segunda tela', 'presentation-window', 'projetor'); action('Publicar câmera atual', 'publish-camera', 'projetor mostrar');
+    action('Desfazer', 'undo'); action('Refazer', 'redo'); action('Duplicar', 'object-duplicate', 'copiar objeto');
+    add('Ações', 'Selecionar', () => setTool('select'), { keywords: 'ferramenta', hint: keyFor('Selecionar') }); add('Ações', 'Mover', () => setTool('move'), { keywords: 'ferramenta', hint: keyFor('Mover') });
+    add('Ações', 'Girar', () => setTool('rotate'), { keywords: 'rotacionar ferramenta', hint: keyFor('Girar') }); add('Ações', 'Escala', () => setTool('scale'), { keywords: 'tamanho ferramenta', hint: keyFor('Escala') });
+    add('Ações', 'Régua', () => act('tool-measure'), { keywords: 'medir distancia ferramenta', hint: keyFor('Régua') }); add('Ações', 'Conta-gotas', () => act('material-eyedropper'), { keywords: 'copiar material ferramenta', hint: keyFor('Conta-gotas') });
+    action('Esculpir terreno', 'terrain-sculpt', 'pincel relevo'); action('Enquadrar', 'frame', 'foco camera');
+    action('Perspectiva', 'perspective', 'camera vista'); action('Vista superior', 'top', 'camera planta'); action('Ver interior', 'cutaway', 'paredes da frente'); action('Telhados', 'roofs', 'forro mostrar ocultar'); action('Tela cheia', 'fullscreen');
+    action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda');
+    for (const [name, label, keywords] of [['build', 'Construir', 'ferramentas sala prédio'], ['elements', 'Elementos', 'lista objetos cena'], ['scene', 'Ambiente', 'luz atmosfera clima'], ['shots', 'Tomadas', 'câmeras enquadramentos projetor']]) add('Ações', `Ir para ${label}`, () => goToTab(name), { keywords });
+    for (const preset of ENVIRONMENTS) add('Ações', `Ambiente · ${preset.name}`, () => execute('environment.apply', { presetId: preset.id }), { keywords: `${preset.description} horario atmosfera`, hint: 'aplicar ambiente' });
+    for (const [tabName, groups] of Object.entries(TASKS_BY_TAB)) for (const { title, tasks } of groups) for (const [, key, label, description] of tasks) add('Tarefas', label, () => openTask(tabName, key), { keywords: `${description} ${title}`, hint: `${TAB_TITLES[tabName].toLowerCase()} · ${title}` });
+    const seen = new Set();
+    for (const field of document.querySelectorAll('#inspector-content [data-field]')) {
+      const label = labelOf(field), name = field.dataset.field;
+      if (!label || seen.has(name) || field.type === 'hidden') continue; seen.add(name);
+      const section = field.closest('details[data-panel-section]')?.querySelector(':scope > summary')?.textContent.trim() ?? '';
+      add('Nesta seleção', label, () => { revealNode(field); field.focus({ preventScroll: true }); flash(field.closest('label, .check') ?? field); }, { keywords: section, hint: section });
+    }
+    for (const entry of [...Object.values(doc.layout?.entities ?? {}), ...Object.values(doc.tokens ?? {}), ...Object.values(doc.look?.lights ?? doc.defaultLook?.lights ?? {})]) {
+      const name = entryName(doc, entry); if (name) add('Elementos', name, () => { selectObject(entry.id); act('frame-selection'); }, { hint: kindLabel({ type: entry.actorId ? 'token' : entry.type ? 'light' : 'entity', record: entry }).toLowerCase() });
+    }
+    for (const asset of assets) add('Assets', asset.name, () => beginAssetPlacement(asset), { keywords: [asset.category, asset.era, ...(asset.tags ?? []), ...(asset.contexts ?? [])].filter(Boolean).join(' '), hint: asset.category ?? asset.type });
+    for (const scene of savedScenes) add('Cenas', scene.name, () => openScene(scene.id), { hint: 'minha cena' });
+    for (const map of savedMaps) add('Cenas', map.name, () => openMap(map.id), { hint: 'mapa' });
+    for (const example of EXAMPLE_SCENES) add('Cenas', example.name, () => openExample(example.id), { keywords: example.description, hint: 'exemplo' });
+    for (const lesson of LESSONS) add('Tutoriais', lesson.title, () => { document.getElementById('tutorial-center').hidden = true; tutor.start(lesson.id, 0); }, { keywords: lesson.summary, hint: `${lesson.minutes} min` });
+    for (const item of WHERE) add('Onde fica', item.label, () => notify(item.hint), { keywords: item.keywords, hint: 'onde fica' });
+    return entries;
+  }
+  const palette = createCommandPalette(document.getElementById('command-palette'), { collect: paletteEntries });
+  function toggleShortcuts(open) {
+    const sheet = document.getElementById('shortcuts-sheet'), next = open ?? !sheet.open;
+    if (next && !sheet.open) { sheet.innerHTML = shortcutsSheetMarkup(); sheet.show(); sheet.querySelector('button')?.focus(); }
+    else if (!next && sheet.open) { sheet.close(); root.querySelector('[data-action="shortcuts"]')?.focus(); }
+  }
+  function togglePanel(key) {
+    const shell = root.querySelector('.app-shell'), closed = shell.classList.toggle(`${key}-collapsed`);
+    if (compactLayout.matches && !closed) shell.classList.add(`${key === 'sidebar' ? 'inspector' : 'sidebar'}-collapsed`);
+    syncPanelToggles();
+  }
   syncPanelToggles();
   compactLayout.addEventListener('change', event => {
     const shell=root.querySelector('.app-shell');
@@ -174,8 +231,9 @@ export async function startApplication() {
     } else for(const key of ['sidebar','inspector']) shell.classList.toggle(`${key}-collapsed`,desktopPanels[key]);
     syncPanelToggles();
   });
+  const stageCut = createStageCut(root.querySelector('.stage-cut'));
   const assetsWindow = floatingWindow(document.getElementById('assets-dialog'), { trigger: root.querySelector('[data-tab=assets]'), position: [280,96] });
-  const documentsWindow = floatingWindow(document.getElementById('documents-dialog'), { trigger: root.querySelector('[data-action=open]'), position: [280,96] });
+  const documentsWindow = floatingWindow(document.getElementById('documents-dialog'), { trigger: root.querySelector('[data-action=open]'), position: [110,48] });
   animateDisclosures(root);
   let polishOptions = { mode: 'align', axis: 'x', alignment: 'center', angle: 5, seed: 1, palette: 'natural', clearance: .8, referenceId: '' };
   let activeLevelId = null, activeLayerId = null, isolatedLevel = false, polygonHoleHost = null, polygonKind='floor', terrainCell = 0;
@@ -289,7 +347,7 @@ export async function startApplication() {
     } else {
       const found = locate(targetId);
       if (!found) return;
-      const typeLabel = found.type === 'token' ? 'TOKEN' : found.type === 'light' ? 'LUZ' : ({ floor: 'PISO', wall: 'PAREDE', door: 'PORTA', prop: 'OBJETO' }[found.record.kind] || 'OBJETO');
+      const typeLabel = kindLabel(found);
       const name = found.type === 'token' ? doc.actors?.[found.record.actorId]?.name ?? found.record.name : found.record.name;
       menu.innerHTML = `
         <div class="context-menu-header">${selectedIds.size > 1 ? `${selectedIds.size} SELECIONADOS` : `${typeLabel}: ${esc(name)}`}</div>
@@ -386,7 +444,7 @@ export async function startApplication() {
       }
     },
     onCameraChange: preset => {
-      hideContextMenu();
+      hideContextMenu(); scheduleViewTag(); scheduleSelectionBar();
       root.querySelector('[data-action="perspective"]')?.classList.toggle('active', preset.projection === 'perspective');
       root.querySelector('[data-action="top"]')?.classList.toggle('active', preset.projection === 'orthographic');
       const field = root.querySelector('[data-field="camera-fov"]');
@@ -398,6 +456,7 @@ export async function startApplication() {
     viewport, repository, assets: () => assets,
     current: () => ({ document: store.document, version: store.editVersion, dirty: store.dirty, previewing: Boolean(environmentPreview) }),
     onUpdate: () => {
+      renderWelcome();
       if (!document.getElementById('documents-dialog')?.hasAttribute('open')) return;
       for (const node of root.querySelectorAll('[data-open], [data-open-map], [data-open-example]')) {
         const example = EXAMPLE_SCENES.find(item => item.id === node.dataset.openExample);
@@ -406,7 +465,7 @@ export async function startApplication() {
         if (!doc) continue;
         const title = node.querySelector('strong'); if (title) title.textContent = doc.name;
         const detail = node.querySelector('.scene-card-description small');
-        if (detail) detail.textContent = doc.revision === 0 ? 'Em criação · ainda não salva' : `Revisão ${doc.revision} · ${new Date(doc.updatedAt).toLocaleString('pt-BR')}`;
+        if (detail) detail.textContent = doc.revision === 0 ? 'Em criação · ainda não salva' : `Tomada ${doc.revision} · ${new Date(doc.updatedAt).toLocaleString('pt-BR')}`;
         const actions = node.closest('.item-card')?.querySelector('.item-card-actions');
         if (actions) actions.hidden = doc.revision === 0;
         const image = example ? previews.exampleImage(example) : previews.image(doc); if (!image) continue;
@@ -420,6 +479,27 @@ export async function startApplication() {
       if (!previewWarningShown) { previewWarningShown = true; notify(`Não foi possível gerar a prévia agora: ${error.message}. Sua cena continua disponível.`, true); }
     },
   });
+  const shotThumbnails = createShotThumbnails({ assets: () => assets, canRun: () => !isPresentation && tab === 'shots' && !viewport.isBusy?.(), onUpdate: () => { if (tab === 'shots') renderSidebar(); renderShotDock(); } });
+  const presets = () => Object.values(store.document.cameraPresets ?? {});
+  // The carousel of shots over the stage, while a projector is connected or the editor is presenting.
+  function renderShotDock() {
+    const dock = document.getElementById('shot-dock'), list = presets();
+    const visible = list.length > 0 && !dockHidden && (isPresentation || hasPresentation()) && tab !== 'shots';
+    dock.hidden = !visible;
+    if (!visible) { if (dock.dataset.html) { dock.innerHTML = ''; dock.dataset.html = ''; } return; }
+    dockIndex = Math.min(Math.max(dockIndex, 0), list.length - 1);
+    const html = shotDockMarkup(store.document, { index: dockIndex, publishedId: publishedPresetId, thumbnails: camera => shotThumbnails.image(store.document, camera, store.editVersion) });
+    if (dock.dataset.html !== html) { dock.innerHTML = html; dock.dataset.html = html; }
+  }
+  function takeShot(preset, { cut = false, rehearse = false } = {}) {
+    if (!preset) return;
+    const duration = cut ? 0 : cameraDuration;
+    viewport.setCamera(preset, { duration });
+    if (rehearse) rehearsedId = preset.id; else { rehearsedId = null; publishCamera(preset, duration, preset.id); }
+    dockIndex = Math.max(0, presets().findIndex(item => item.id === preset.id));
+    if (tab === 'shots') renderSidebar();
+    renderShotDock(); scheduleViewTag();
+  }
   let exampleObserver;
   function observeGalleryCards() {
     exampleObserver?.disconnect();
@@ -568,7 +648,7 @@ export async function startApplication() {
   function setTool(next) {
     const previous = tool;
     if (next !== 'polygon') polygonHoleHost = null;
-    tool = next; viewport.setTool(next); if (previous === 'cable' && next !== 'cable') viewport.setPreview(null);
+    tool = next; viewport.setTool(next); holdSelectionBar(); if (previous === 'cable' && next !== 'cable') viewport.setPreview(null);
     root.querySelector('[data-action="tool-measure"]').setAttribute('aria-pressed', String(next === 'measure'));
     if (next === 'measure' && window.innerWidth <= 900) { root.querySelector('.app-shell').classList.add('sidebar-collapsed', 'inspector-collapsed'); syncPanelToggles(); }
     for (const node of root.querySelectorAll('[data-action=material-eyedropper]')) { node.classList.toggle('active', next === 'material-sample'); node.setAttribute('aria-pressed', String(next === 'material-sample')); }
@@ -695,7 +775,7 @@ export async function startApplication() {
   }
   function sendSnapshot(force=false) {
     if(!force&&!hasPresentation()){performanceDiagnostics.count('broadcastsSkipped');return;}
-    const fields={camera:publishedCamera??viewport.getCamera(),cameraSequence,cameraDuration:publishedDuration,cutaway};
+    const fields={camera:publishedCamera??viewport.getCamera(),cameraSequence,cameraDuration:publishedDuration,cutaway,letterbox};
     if(!force&&lastSentDocument===store.document&&lastSentAssets===assets){sendPresentation('view',fields);return;}
     const doc=performanceDiagnostics.measure('presentationProjection',()=>projectPresentation(store.document));
     sendPresentation('snapshot',{...fields,document:doc,assets:presentationAssets(doc,assets)});
@@ -710,9 +790,19 @@ export async function startApplication() {
     const peer=data.receiverId??'legacy';
     if(data.type==='ready'||data.type==='heartbeat'){const previous=receivers.get(peer);receivers.set(peer,Date.now());if(data.type==='ready'||!previous||Date.now()-previous>20000)sendSnapshot(true);}
     if(data.type==='closed')receivers.delete(peer);
+    scheduleViewTag();
   });
-  function publishCamera(preset, duration = cameraDuration) {
-    publishedCamera=clone(preset);publishedDuration=duration;cameraSequence++;
+  setInterval(scheduleViewTag,5000);
+  // At most one DOM update per frame, and only when the badge text changes.
+  function scheduleViewTag() { if (!viewTagFrame) viewTagFrame = requestAnimationFrame(() => { viewTagFrame = 0; renderViewTag(); }); }
+  function renderViewTag() {
+    const connected = hasPresentation(), node = document.getElementById('view-tag'), state = viewState({ isPresentation, connected, working: viewport.getCamera(), published: publishedCamera });
+    if (connected !== lastConnected) { lastConnected = connected; if (tab === 'shots') renderSidebar(); renderShotDock(); }
+    if (node.dataset.state !== state.key) { node.dataset.state = state.key; node.title = state.title; node.disabled = state.key !== 'offset'; }
+    const label = node.querySelector('span'); if (label.textContent !== state.text) label.textContent = state.text;
+  }
+  function publishCamera(preset, duration = cameraDuration, presetId = null) {
+    publishedCamera=clone(preset);publishedDuration=duration;publishedPresetId=presetId;cameraSequence++;scheduleViewTag();
     if(hasPresentation())sendPresentation('camera',{camera:publishedCamera,cameraSequence,cameraDuration:duration,cutaway});
   }
   function cameraPanel() {
@@ -730,9 +820,11 @@ export async function startApplication() {
   function buildSidebar(panel) {
     root.querySelectorAll('.tabs [data-tab]').forEach((node) => { const active = node.dataset.tab === tab; node.classList.toggle('active', active); if (node.dataset.tab !== 'assets') node.setAttribute('aria-pressed', String(active)); });
     if (document.getElementById('assets-dialog').open) renderAssets();
+    document.getElementById('drawer-title').textContent = TAB_TITLES[tab] ?? tab.toUpperCase();
+    renderShotDock();
     const scroll = panel.scrollTop;
     const focused = panel.contains(document.activeElement) ? document.activeElement.dataset.field : null;
-    if (['scene','elements'].includes(panel.dataset.currentTab)) rememberDisclosures(panel, sceneDisclosures);
+    if (['scene','elements','shots'].includes(panel.dataset.currentTab)) rememberDisclosures(panel, sceneDisclosures);
     panel.dataset.currentTab = tab;
     if (tab === 'build') {
       panel.innerHTML = `<section class="quick-section"><span class="eyebrow">QUICK BUILD</span>${button('room-draw', 'Desenhar sala', 'room', 'wide accent-outline')}<form id="quick-form"><div class="field-grid">${numberField('room-width', 'Largura interna · m', roomOptions.width, { min: 1.4 })}${numberField('room-length', 'Comprimento · m', roomOptions.length, { min: 1 })}</div>${numberField('room-height', 'Altura das paredes · m', roomOptions.height, { min: 2.2 })}<span class="section-caption">SUGESTÕES OPCIONAIS</span>${checkField('room-door', 'Incluir uma porta', roomOptions.door)}${checkField('room-lighting', 'Adicionar iluminação', roomOptions.lighting)}<button class="primary wide" type="submit">${icon('eye')} Ver prévia</button></form></section><section><span class="eyebrow">CONSTRUIR MANUALMENTE</span><div class="construction-grid">${button('floor-add', 'Piso', 'floor')}${button('wall-add', 'Parede', 'wall')}${button('door-add', 'Porta', 'door')}${button('light-place', 'Luz pontual', 'light')}${button('spot-place', 'Luz spot', 'light')}${button('fire-place', 'Fogueira', 'light')}${button('smoke-place', 'Fumaça', 'light')}${button('sparks-place', 'Faíscas', 'light')}${button('drip-place', 'Goteira', 'light')}${button('cable-place', 'Cabo', 'ruler', '', 'title="Cabos pendentes entre dois pontos: dois cliques no chão"')}${button('decal-place', 'Decalque', 'ruler', '', 'title="Clique numa parede, piso ou objeto"')}</div></section><section><span class="eyebrow">PERSONAGENS</span><label class="field"><span>Nome do token</span><input id="token-name" value="Investigador" maxlength="256" /></label><div class="token-controls"><input id="token-color" aria-label="Cor do token" type="color" value="#e4b76f" />${button('token-place', 'Colocar token', 'token', 'wide')}</div><p class="microcopy">Para usar um retrato, importe uma imagem na biblioteca.</p></section><section><span class="eyebrow">GRID E PRECISÃO</span>${checkField('grid-visible', 'Mostrar grid', store.document.layout.grid.visible)}${checkField('grid-snap', 'Encaixar no grid', store.document.layout.grid.snap)}${numberField('grid-size', 'Célula · m', store.document.layout.grid.cellSize, { min: .1 })}</section>`;
@@ -753,14 +845,7 @@ export async function startApplication() {
       let around = null; if (smartFloorId) { const type = insight?.building?.type, era = roomEra(store.document, smartFloorId), id = inferSetting(type?.id, era); around = { id, name: SETTINGS.find(entry => entry.id === id).name, reason: id === 'rural' && era !== 'modern' && !['tavern', 'keep'].includes(type?.id) ? 'porque o prédio é de uma época antiga' : type ? `porque o prédio é ${type.name.toLowerCase()}` : '' }; }
       panel.innerHTML += surroundingsPanel(store.document, aroundOptions, smartFloorId, around);
       // Plain headings and one level of tasks: what is inside a task is visible as soon as it opens.
-      taskList(panel, [
-        { title: 'Construções', tasks: [
-          [0,'room','Sala','Desenhar no chão ou criar por medidas'], [1,'manual','Peças avulsas','Piso, parede, porta, luzes, fogo e fumaça'],
-          [4,'structures','Pisos, paredes e acessos','Contornos, superfícies de apoio e escadas'], [9,'furnishing','Assistente de cômodo','Entende o que já existe, completa e muda o estado'], [8,'building','Prédio','Novo a partir de um contorno, ou ampliar o que existe'] ] },
-        { title: 'Paisagem', tasks: [[6,'terrain','Terreno e relevo','Criar terreno, elevar, nivelar e pintar'], [7,'landscape','Água e vegetação','Lagos, rios, gelo e plantas'], [10,'surroundings','Entorno do prédio','Terreno, muro, caminho, rua e quintal']] },
-        { title: 'Personagens', tasks: [[2,'characters','Tokens','Colocar personagens na mesa']] },
-        { title: 'Organização', tasks: [[5,'levels','Andares e camadas','Separar e isolar partes da cena'], [3,'grid','Grid e precisão','Mostrar, encaixar e medir']] },
-      ], { attribute: 'buildSection' });
+      taskList(panel, BUILD_TASKS, { attribute: 'buildSection' });
       for (const task of panel.querySelectorAll('[data-build-section]')) task.open = openBuildSections.has(task.dataset.buildSection);
     } else if (tab === 'elements') {
       const kinds = [['build','Estrutura'],['props','Objetos'],['lights','Luzes'],['tokens','Tokens']];
@@ -768,18 +853,16 @@ export async function startApplication() {
       sectionDisclosure(panel.lastElementChild, 'document', 'Documento', false, 'Salvar uma cópia da cena').classList.add('task');
       restoreDisclosures(panel, sceneDisclosures);
       renderSceneTreeIfVisible(panel.querySelector('#scene-tree'));
+    } else if (tab === 'shots') {
+      const doc = store.document, connected = hasPresentation() || isPresentation;
+      panel.innerHTML = `${shotsPanel(doc, { publishedId: publishedPresetId, rehearsedId, live: connected, thumbnails: camera => shotThumbnails.image(doc, camera, store.editVersion) })}${cameraPanel()}<section><span class="eyebrow">SEGUNDA TELA</span><p class="microcopy">O projetor é a janela que os jogadores veem. Ensaiar mexe só no seu editor; Transição e Corte publicam a tomada para o projetor.</p>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">CARTELA DE TÍTULO</span><label class="field"><span>Título</span><input type="text" data-field="title-card-title" value="${esc(titleCard.title)}" placeholder="${esc(doc.name)}" maxlength="120" autocomplete="off" /></label><label class="field"><span>Subtítulo</span><input type="text" data-field="title-card-subtitle" value="${esc(titleCard.subtitle)}" maxlength="120" autocomplete="off" /></label>${numberField('title-card-duration', 'Duração · s', titleCard.duration, { min: 2, max: 12, step: 1 })}${button('title-card', 'Mostrar no projetor', 'display', 'wide primary', connected && !isPresentation ? '' : 'disabled')}${checkField('projector-letterbox', 'Barras de cinema · 2,39:1', letterbox)}<p class="microcopy">A cartela aparece sobre a imagem do projetor e some sozinha. Nada disso é salvo na cena.</p></section>`;
+      taskList(panel, SHOTS_TASKS);
+      restoreDisclosures(panel, sceneDisclosures);
+      shotThumbnails.request(doc, store.editVersion);
     } else {
       const currentLook = store.document.look ?? store.document.defaultLook;
-      panel.innerHTML = `${environmentPanel(store.document, savedEnvironments, selectedEnvironmentId, openAtmosphereSections, { numberField, colorField, checkField })}${atmospherePanel(currentLook, effectsEnabled, { numberField, colorField, checkField }, openAtmosphereSections,lightingQuality,lightingBudget)}${cameraPanel()}<section><span class="eyebrow">ENQUADRAMENTOS</span>${button('camera-save', 'Salvar câmera atual', 'camera', 'wide')}<div class="camera-presets">${Object.values(store.document.cameraPresets || {}).map((camera) => `<div class="preset-row"><button data-camera="${camera.id}">${icon('camera', 14)}${esc(camera.name)}</button><button data-camera-cut="${camera.id}" title="Cortar para este enquadramento" aria-label="Cortar para ${esc(camera.name)}">${icon('camera', 14)}</button><button data-camera-delete="${camera.id}" aria-label="Excluir enquadramento ${esc(camera.name)}">${icon('close', 14)}</button></div>`).join('') || '<p class="microcopy">Prepare uma câmera para a apresentação.</p>'}</div>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section>`;
-      taskList(panel, [
-        { title: 'Atmosfera', tasks: [
-          [0,'presets','Ambientes e horários','Pontos de partida prontos e salvos',true], [1,'sun','Sol / lua e cor da luz','Direção, força e cor da luz principal'], [2,'sky','Céu e nuvens','Cor do céu, nuvens e estrelas'],
-          [3,'weather','Clima e partículas','Chuva, neve, poeira, brasas'], [4,'night','Objetos que acendem à noite','Janelas e luminárias por horário'], [5,'effects','Névoa, bloom e qualidade','Profundidade, brilho e desempenho'],
-        ] },
-        { title: 'Câmera e apresentação', tasks: [
-          [6,'navigation','Câmera cinematográfica','Velocidade, lente e transições'], [7,'shots','Enquadramentos e projetor','Câmeras salvas e segunda tela',true],
-        ] },
-      ]);
+      panel.innerHTML = `${environmentPanel(store.document, savedEnvironments, selectedEnvironmentId, openAtmosphereSections, { numberField, colorField, checkField })}${atmospherePanel(currentLook, effectsEnabled, { numberField, colorField, checkField }, openAtmosphereSections,lightingQuality,lightingBudget)}`;
+      taskList(panel, SCENE_TASKS);
       restoreDisclosures(panel, sceneDisclosures);
     }
     if (focused) panel.querySelector(`[data-field="${focused}"]`)?.focus({ preventScroll: true });
@@ -834,8 +917,9 @@ export async function startApplication() {
     const renderEntry = (entry) => {
       const typeGlyph = entry.kind === 'floor' ? 'floor' : entry.kind === 'wall' ? 'wall' : entry.kind === 'door' ? 'door' : entry.actorId ? 'token' : entry.type ? 'light' : 'room';
       const name = entryName(doc, entry);
+      const avatar = entry.actorId ? actorAvatar(portraitOf(doc.actors?.[entry.actorId])) : '';
       return `<div draggable="true" data-drag-id="${entry.id}" data-select="${entry.id}" class="tree-entry ${selectedIds.has(assemblyFor(doc,entry.id)?.id ?? entry.id) ? 'selected' : ''}">
-        ${icon(typeGlyph, 14)}
+        ${avatar || icon(typeGlyph, 14)}
         <span class="tree-label" title="${esc([name, doc.layout.levels?.[entry.levelId]?.name, doc.layout.layers?.[entry.layerId]?.name].filter(Boolean).join(' · '))}">${esc(name)}${filtering && entry.groupId && doc.layout.groups?.[entry.groupId] ? `<small>${esc(doc.layout.groups[entry.groupId].name)}</small>` : ''}</span>${manyLevels && entry.levelId && doc.layout.levels?.[entry.levelId] ? `<small title="Andar">${esc(doc.layout.levels[entry.levelId].name)}</small>` : ''}
         ${entry.audience === 'gm' ? '<small>GM</small>' : ''}
         <div class="tree-entry-actions">
@@ -897,7 +981,24 @@ export async function startApplication() {
 
     tree.innerHTML = html;
   }
+  const heroActions = () => `<div class="hero-actions">${button('object-copy', '', 'copy', 'icon-button', 'data-tip="Copiar" data-tip-side="top" data-key="Ctrl+C" aria-label="Copiar"')}${button('frame-selection', '', 'frame', 'icon-button', 'data-tip="Enquadrar" data-tip-side="top" data-key="F" aria-label="Enquadrar"')}${button('object-duplicate', '', 'layers', 'icon-button', 'data-tip="Duplicar" data-tip-side="top" data-key="Ctrl+D" aria-label="Duplicar"')}${button('object-delete', '', 'trash', 'icon-button danger', 'data-tip="Excluir" data-tip-side="top" data-key="Delete" aria-label="Excluir"')}</div>`;
+  // The portrait of an actor is the image asset it points to, if any.
+  const portraitOf = actor => { const asset = actor?.assetRef ? assets.find(item => item.id === actor.assetRef.id) : null; return asset && (asset.type === 'image' || asset.previewUrl) ? asset.previewUrl ?? asset.url : null; };
+  function inspectorHero(found, name, doc) {
+    if (found.type === 'token') return actorHero(doc.actors[found.record.actorId], found.record, portraitOf(doc.actors[found.record.actorId]), heroActions());
+    const { record } = found, meta = [doc.layout.levels?.[record.levelId]?.name, doc.layout.groups?.[record.groupId]?.name].filter(Boolean).join(' · ');
+    return `<div class="object-title inspector-hero"><span class="hero-tags"><span class="tt-tag is-small">${kindLabel(found)}</span>${record.audience === 'gm' ? '<span class="tt-tag is-small is-gm">SÓ MESTRE</span>' : ''}</span><strong class="tt-display">${esc(name)}</strong>${meta ? `<small class="hero-meta">${esc(meta)}</small>` : ''}${heroActions()}</div>`;
+  }
+  function selectInspectorTab(id) {
+    const panel = document.getElementById('inspector-content'), found = locate();
+    if (!found) return;
+    inspectorTab.set(found.type === 'entity' ? found.record.kind : found.type, id);
+    for (const node of panel.querySelectorAll('[data-inspector-tab]')) node.hidden = node.dataset.inspectorTab !== id;
+    for (const button of panel.querySelectorAll('[data-inspector-tab-button]')) { const on = button.dataset.inspectorTabButton === id; button.setAttribute('aria-selected', String(on)); button.tabIndex = on ? 0 : -1; button.classList.toggle('active', on); }
+    panel.scrollTop = 0;
+  }
   function renderInspector() {
+    holdSelectionBar();
     const live=document.getElementById('inspector-content'),desired=live.cloneNode(true),previous=live.dataset.objectId;
     performanceDiagnostics.measure('inspector',()=>{buildInspector(desired);reconcileElement(live,desired);});
     if(previous!==live.dataset.objectId)live.scrollTop=0;
@@ -908,7 +1009,7 @@ export async function startApplication() {
     if (anchorEditing) { panel.innerHTML = anchoringPanel(store.document, [...selectedIds], anchorHostId); return; }
     if (selection && !selectedIds.has(selection)) selectedIds = new Set([selection]);
     if (!selection) selectedIds.clear();
-    if (selectedIds.size > 1) { panel.innerHTML = `<section><span class="eyebrow">UNIR OBJETOS</span><button class="wide primary" data-action="assembly-bind">Ancorar objetos juntos</button><p class="microcopy">Cria uma composição que se seleciona, move e gira como uma unidade. Desancore pela pasta para editar os objetos individualmente.</p></section>` + ([...selectedIds].every(objectId => store.document.layout.entities[objectId]?.material && store.document.layout.entities[objectId].water?.state !== 'water') ? `<section><span class=eyebrow>MATERIAIS DA SELEÇÃO</span>${materialTransferControls()}</section>` : '') + polishPanel(selectedIds.size, polishOptions, store.document); viewport.setSelection(selection, [...selectedIds]); return; }
+    if (selectedIds.size > 1) { panel.innerHTML = `<div class="object-title inspector-hero"><span class="hero-tags"><span class="tt-tag is-small">SELEÇÃO</span></span><strong class="tt-display">${selectedIds.size} objetos</strong></div><section><span class="eyebrow">UNIR OBJETOS</span><button class="wide primary" data-action="assembly-bind">Ancorar objetos juntos</button><p class="microcopy">Cria uma composição que se seleciona, move e gira como uma unidade. Desancore pela pasta para editar os objetos individualmente.</p></section>` + ([...selectedIds].every(objectId => store.document.layout.entities[objectId]?.material && store.document.layout.entities[objectId].water?.state !== 'water') ? `<section><span class=eyebrow>MATERIAIS DA SELEÇÃO</span>${materialTransferControls()}</section>` : '') + polishPanel(selectedIds.size, polishOptions, store.document); viewport.setSelection(selection, [...selectedIds]); return; }
     const found = locate();
     const scroll = panel.dataset.objectId === selection ? panel.scrollTop : 0;
     panel.dataset.objectId = selection ?? '';
@@ -926,7 +1027,7 @@ export async function startApplication() {
     const { type, record } = found, doc = store.document;
     if (type === 'group') {
       const members = assemblyMembers(doc,record.id), t=record.transform;
-      panel.innerHTML=`<div class="object-title"><strong>${esc(record.name)}</strong><small>COMPOSIÇÃO ANCORADA · ${members.length} objetos</small></div><label class="field"><span>Nome da pasta</span><input data-field="assembly-name" value="${esc(record.name)}" maxlength="256"/></label><p class="microcopy">Clique em qualquer membro para selecionar todos. Mover (G), Rotacionar (R) e Escalar (S) atuam na composição inteira.</p><section><span class="eyebrow">POSIÇÃO DA COMPOSIÇÃO</span><div class="axis-fields">${t.position.map((value,i) => numberField(`assembly-position-${i}`,['X','Y · altura','Z'][i],value)).join('')}</div>${numberField('assembly-yaw','Rotação Y · graus',yawFromQuaternion(t.rotation),{ step:15 })}${numberField('assembly-size','Tamanho uniforme',t.scale[0],{ min:.01 })}</section><details><summary>Objetos da composição</summary><ul>${members.map(member => `<li>${esc(entryName(doc,member))}</li>`).join('')}</ul></details><button class="wide" data-action="assembly-unbind" data-id="${record.id}">Desancorar objetos</button><p class="microcopy">Desancorar conserva as posições e a pasta; seus objetos voltam a ser selecionados individualmente.</p><div class="object-actions">${button('object-copy','Copiar','copy')}${button('object-duplicate','Duplicar','copy')}${button('object-delete','Excluir','trash','danger')}</div>`;
+      panel.innerHTML=`<div class="object-title inspector-hero"><span class="hero-tags"><span class="tt-tag is-small">COMPOSIÇÃO</span></span><strong class="tt-display">${esc(record.name)}</strong><small class="hero-meta">Ancorada · ${members.length} objetos</small></div><label class="field"><span>Nome da pasta</span><input data-field="assembly-name" value="${esc(record.name)}" maxlength="256"/></label><p class="microcopy">Clique em qualquer membro para selecionar todos. Mover (G), Rotacionar (R) e Escalar (S) atuam na composição inteira.</p><section><span class="eyebrow">POSIÇÃO DA COMPOSIÇÃO</span><div class="axis-fields">${t.position.map((value,i) => numberField(`assembly-position-${i}`,['X','Y · altura','Z'][i],value)).join('')}</div>${numberField('assembly-yaw','Rotação Y · graus',yawFromQuaternion(t.rotation),{ step:15 })}${numberField('assembly-size','Tamanho uniforme',t.scale[0],{ min:.01 })}</section><details><summary>Objetos da composição</summary><ul>${members.map(member => `<li>${esc(entryName(doc,member))}</li>`).join('')}</ul></details><button class="wide" data-action="assembly-unbind" data-id="${record.id}">Desancorar objetos</button><p class="microcopy">Desancorar conserva as posições e a pasta; seus objetos voltam a ser selecionados individualmente.</p><div class="object-actions">${button('object-copy','Copiar','copy')}${button('object-duplicate','Duplicar','copy')}${button('object-delete','Excluir','trash','danger')}</div>`;
       organizeInspector();
       if (focused) panel.querySelector(`[data-field="${focused}"]`)?.focus({ preventScroll: true });
       panel.scrollTop = scroll;
@@ -936,7 +1037,8 @@ export async function startApplication() {
     const actor = type === 'token' ? doc.actors[record.actorId] : null;
     const name = actor?.name ?? record.name;
     const position = record.transform?.position ?? record.position;
-    let fields = `<div class="object-title"><span class="object-icon">${icon(type === 'token' ? 'token' : type === 'light' ? 'light' : record.kind === 'door' ? 'door' : 'room', 24)}</span><span><small>${type === 'token' ? 'TOKEN' : type === 'light' ? 'LUZ' : ({ water: record.water?.state==='ice'?'GELO':'ÁGUA', terrain: 'TERRENO', floor: 'PISO', wall: 'PAREDE', door: 'PORTA', window: 'JANELA', stairs: 'ESCADA', ramp: 'RAMPA', prop: 'ASSET' }[record.kind])}</small><strong>${esc(name)}</strong></span></div><label class="field"><span>Nome</span><input data-field="object-name" value="${esc(name)}" maxlength="256" /></label>`;
+    const nameField = `<label class="field"><span>Nome</span><input data-field="object-name" value="${esc(name)}" maxlength="256" /></label>`, nameInOrganization = record.kind !== 'terrain';
+    let fields = inspectorHero(found, name, doc) + (nameInOrganization ? '' : nameField);
     if(isSculptableRock(record)) {
       if (!ROCK_SCULPT_MODES.includes(terrainBrush.mode)) { terrainBrush.mode = 'raise'; viewport.setTerrainBrush(terrainBrush); }
       fields+=rockSculptPanel(record,terrainBrush,tool==='terrain',{numberField,presetsPanel:personalBrushes('rock')});
@@ -955,7 +1057,7 @@ export async function startApplication() {
       fields += `<section><span class="eyebrow">POSIÇÃO · METROS</span><div class="axis-fields">${position.map((value, axis) => numberField(`position-${axis}`, ['X', 'Y · altura', 'Z'][axis], value)).join('')}</div>${numberField('object-yaw', 'Rotação Y · graus', type === 'light' ? new Euler().setFromQuaternion(new Quaternion(...record.rotation), 'YXZ').y * 180 / Math.PI : yawFromQuaternion(record.transform.rotation), { step: 15 })}</section>`;
     }
     if (type === 'entity' || type === 'token' || type === 'light') {
-      fields += `<section><span class="eyebrow">ORGANIZAÇÃO</span><label class="field"><span>Pasta / Grupo</span><select data-field="entity-group"><option value="">(Sem pasta / Raiz)</option>${Object.values(doc.layout.groups).map((g) => `<option value="${g.id}" ${record.groupId === g.id ? 'selected' : ''}>${esc(g.name)}</option>`).join('')}</select></label></section>`;
+      fields += `<section><span class="eyebrow">ORGANIZAÇÃO</span>${nameInOrganization ? nameField : ''}<label class="field"><span>Pasta / Grupo</span><select data-field="entity-group"><option value="">(Sem pasta / Raiz)</option>${Object.values(doc.layout.groups).map((g) => `<option value="${g.id}" ${record.groupId === g.id ? 'selected' : ''}>${esc(g.name)}</option>`).join('')}</select></label></section>`;
     }
     if (record.transform && !record.decal) fields += `<section><span class="eyebrow">SUPERFÍCIE DE APOIO</span><label class="field"><span>Apoio</span><select data-field="object-surface"><option value="">Sem vínculo</option>${Object.values(doc.layout.entities).filter(e => e.id !== record.id && isSupport(e)).map(e => `<option value="${e.id}" ${record.surfaceId === e.id ? 'selected' : ''}>${esc(e.name)}</option>`).join('')}</select></label>${record.kind === 'prop' ? checkField('prop-support', 'Oferecer superfície de apoio', Boolean(record.supportHeight)) + (record.supportHeight ? numberField('supportHeight', 'Altura local do apoio · m', record.supportHeight, { min: .01 }) : '') : ''}</section>`;
     fields += `<section><span class="eyebrow">ANDAR / CAMADA</span>${[['object-level','Andar','levels','levelId'],['object-layer','Camada','layers','layerId']].map(([field,label,collection,key]) => `<label class="field"><span>${label}</span><select data-field="${field}"><option value="">Sem vínculo</option>${Object.values(doc.layout[collection] ?? {}).map(entry => `<option value="${entry.id}" ${record[key] === entry.id ? 'selected' : ''}>${esc(entry.name)}</option>`).join('')}</select></label>`).join('')}</section>`;
@@ -978,7 +1080,7 @@ export async function startApplication() {
     if(record.material && !record.decal){fields+=illuminationPanel(record,viewport.getMaterialSlots(record.id),lightPresets,selectedLightPreset,{numberField,colorField,checkField});fields+=zonePanel(record,{numberField,colorField,checkField});}
     if (type === 'light') fields += lightPanel(record, { numberField, colorField, checkField });
     if (type === 'light' || ['prop','window'].includes(record.kind) && !record.decal) fields += bindingPanel(record, doc.look ?? doc.defaultLook, viewport.getMaterialSlots(record.id), openAtmosphereSections, { numberField, colorField, checkField });
-    fields += `<section><span class="eyebrow">APRESENTAÇÃO</span>${checkField('object-secret', 'Somente para o mestre', record.audience === 'gm')}${record.locked === undefined ? '' : checkField('object-locked', 'Bloquear edição', record.locked)}</section>${record.kind === 'terrain' ? '</details>' : ''}<div class="object-actions">${button('object-copy', 'Copiar', 'copy')}${button('object-duplicate', 'Duplicar', 'copy')}${button('object-delete', 'Excluir', 'trash', 'danger')}</div>`;
+    fields += `<section><span class="eyebrow">APRESENTAÇÃO</span>${checkField('object-secret', 'Somente para o mestre', record.audience === 'gm')}${record.locked === undefined ? '' : checkField('object-locked', 'Bloquear edição', record.locked)}</section>${record.kind === 'terrain' ? '</details>' : ''}`;
     if (record.kind !== 'terrain') fields += `<details class="object-adjustments" ${adjustmentsOpen ? 'open' : ''}><summary>Alinhar e ajustar objetos</summary>${polishPanel(1, polishOptions, doc)}</details>`;
     panel.innerHTML = isLocked(doc, record) ? `<p class="microcopy">Elemento, pasta, andar ou camada bloqueados. Desbloqueie na organização da cena para editar.</p>${fields}` : fields;
     for(const [key,open] of geometryDisclosures) {const node=panel.querySelector(`[data-disclosure=${key}]`);if(node)node.open=open;}
@@ -996,9 +1098,49 @@ export async function startApplication() {
         sectionDisclosure(section, title, label, expanded);
       }
       if (found?.record.kind !== 'terrain') restoreDisclosures(panel, inspectorDisclosures);
+      if (found?.record.kind !== 'terrain' && found?.type !== 'group') tabInspector();
+    }
+
+    // Sections go to the tab of their job; only the active tab is visible. Applied before reconciling, so a rerender keeps it.
+    function tabInspector() {
+      const nodes = [...panel.children].filter(node => node.tagName === 'DETAILS' || (node.tagName === 'SECTION' && !node.querySelector(':scope > .eyebrow')));
+      for (const node of nodes) {
+        const key = node.dataset.panelSection;
+        const tabId = node.classList.contains('object-adjustments') ? 'position' : key ? inspectorTabFor(key) ?? 'look' : /^reagir/i.test(node.textContent.trim()) ? 'light' : 'look';
+        node.dataset.inspectorTab = tabId;
+      }
+      const available = INSPECTOR_TABS.filter(entry => nodes.some(node => node.dataset.inspectorTab === entry.id));
+      if (!available.length) return;
+      const kindKey = found.type === 'entity' ? record.kind : found.type;
+      // A light opens on its Luz tab each time it is picked; the rest remember the last tab used for that kind.
+      if (type === 'light' && lastTabbed !== selection) inspectorTab.set(kindKey, 'light');
+      lastTabbed = selection;
+      let active = tool === 'terrain' && available.some(entry => entry.id === 'look') ? 'look' : inspectorTab.get(kindKey) ?? available[0].id;
+      if (!available.some(entry => entry.id === active)) active = available[0].id;
+      const inActive = nodes.filter(node => node.dataset.inspectorTab === active);
+      for (const node of nodes) {
+        node.hidden = node.dataset.inspectorTab !== active;
+        if (!node.hidden && inActive.length <= 2 && node.tagName === 'DETAILS' && node.dataset.panelSection && !inspectorDisclosures.has(node.dataset.panelSection)) node.open = true;
+      }
+      const bar = document.createElement('div');
+      bar.className = 'inspector-tabs'; bar.setAttribute('role', 'tablist'); bar.setAttribute('aria-label', 'Propriedades');
+      bar.innerHTML = available.map(entry => `<button type="button" role="tab" data-inspector-tab-button="${entry.id}" aria-selected="${entry.id === active}" tabindex="${entry.id === active ? 0 : -1}" class="${entry.id === active ? 'active' : ''}">${icon(entry.icon, 15)}<span>${entry.label}</span></button>`).join('');
+      panel.querySelector('.inspector-hero')?.after(bar);
     }
   }
 
+  let syncedLocation = '';
+  // The address follows the open document so that it can be copied into a note; diagnostics and other parameters stay.
+  function syncLocation(doc) {
+    const key = `${doc.documentType}:${doc.id}:${doc.revision > 0}`;
+    if (key === syncedLocation) return; syncedLocation = key;
+    try {
+      const url = new URL(location.href);
+      for (const name of ['scene', 'map', 'example', 'shot']) url.searchParams.delete(name);
+      if (doc.revision > 0) url.searchParams.set(doc.documentType === 'map' ? 'map' : 'scene', doc.id);
+      history.replaceState(null, '', url);
+    } catch { /* an address that cannot be rewritten is only a missing convenience */ }
+  }
   function updateView(event = {}) {
     const contentChanged=event.type!=='saved'||!viewInitialized||event.changes?.name||Boolean(event.changes?.categories?.length);
     const doc = store.document;
@@ -1006,7 +1148,7 @@ export async function startApplication() {
     if (selection && !locate()) selection = null;
     selectedIds = new Set([...selectedIds].filter(key => locate(key)));
     if (!selection) selection = [...selectedIds].at(-1) ?? null;
-    if (event.type === 'replace') { skyReturnCamera = null; selectedIds.clear(); selection = null; activeSurfaceId = undefined; smartFloorId = null; activeLevelId = null; activeLayerId = null; isolatedLevel = false; }
+    if (event.type === 'replace') { shotThumbnails.cancel(); rehearsedId = null; dockIndex = 0; skyReturnCamera = null; selectedIds.clear(); selection = null; activeSurfaceId = undefined; smartFloorId = null; activeLevelId = null; activeLayerId = null; isolatedLevel = false; }
     if (!doc.layout.levels?.[activeLevelId]) { activeLevelId = null; isolatedLevel = false; }
     if (!doc.layout.layers?.[activeLayerId]) activeLayerId = null;
     const floors = Object.values(doc.layout.entities).filter(e => e.kind === 'floor');
@@ -1024,15 +1166,20 @@ export async function startApplication() {
     viewport.setSelection(isPresentation ? null : selection, isPresentation ? [] : [...selectedIds]);
     document.getElementById('scene-name').value = doc.name;
     document.getElementById('presentation-name').textContent = doc.name;
-    const eyebrow = document.getElementById('doc-type-eyebrow');
-    if (eyebrow) eyebrow.textContent = `SUA MESA / ${isMap ? 'MAPA' : 'CENA'}`;
-    document.getElementById('welcome').hidden = Object.keys(doc.layout?.entities || {}).length > 0 || !!proposal || isPresentation;
+    const eyebrow = document.getElementById('doc-type-eyebrow'), take = document.getElementById('take'), takeText = doc.revision > 0 ? `TOMADA ${doc.revision}` : 'RASCUNHO';
+    if (eyebrow.textContent !== (isMap ? 'MAPA' : 'CENA')) eyebrow.textContent = isMap ? 'MAPA' : 'CENA';
+    if (take.textContent !== takeText) take.textContent = takeText;
+    scheduleViewTag(); renderShotDock(); syncLocation(doc); scheduleSelectionBar();
+    const accent = sceneAccent(environmentPreview?.next?.look ?? doc.look ?? doc.defaultLook), shellNode = root.querySelector('.app-shell');
+    if (shellNode.dataset.accent !== accent) { shellNode.dataset.accent = accent; shellNode.style.setProperty('--scene-accent', accent); document.getElementById('tt-rim-flood')?.setAttribute('flood-color', accent); }
+    document.getElementById('welcome').hidden = Object.keys(doc.layout?.entities || {}).length > 0 || !!proposal || isPresentation; renderWelcome();
     document.getElementById('undo').disabled = !store.canUndo;
     document.getElementById('redo').disabled = !store.canRedo;
     document.getElementById('undo').title = `Desfazer${store.undoLabel ? `: ${store.undoLabel}` : ''} (Ctrl+Z)`;
     const status = document.getElementById('save-status');
     status.textContent = saving ? 'Salvando…' : store.dirty ? 'Alterações locais' : `${repository.storage==='browser'?'Salvo neste navegador':'Salvo'} · revisão ${doc.revision}`;
-    status.classList.toggle('unsaved', store.dirty); document.getElementById('save-scene').disabled = saving;
+    status.classList.toggle('unsaved', store.dirty);
+    const saveButton = document.getElementById('save-scene'); saveButton.disabled = saving; saveButton.classList.toggle('primary', store.dirty); saveButton.classList.toggle('quiet', !store.dirty);
     document.getElementById('scene-summary').textContent = `${Object.keys(doc.layout?.entities || {}).length} elementos · ${Object.keys(doc.tokens || {}).length} tokens · ${Object.keys(doc.look?.lights || doc.defaultLook?.lights || {}).length} luzes · grid ${doc.layout?.grid?.cellSize ?? 1} m`;
     if(contentChanged){
       const changes=event.changes, categories=changes?.categories??[];
@@ -1044,6 +1191,26 @@ export async function startApplication() {
     viewInitialized=true;
     clearTimeout(draftTimer); draftTimer = setTimeout(flushDraft, 180);
   }
+  let welcomeHTML = '', welcomePreviews = false;
+  // The start screen: continue the latest scene, load an example, or start from nothing. Rendered only while it is shown.
+  function renderWelcome() {
+    const node = document.getElementById('welcome');
+    let html = '';
+    if (!node.hidden) {
+      const latest = [...savedScenes].filter(scene => scene.revision > 0).sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt)))[0];
+      const examples = EXAMPLE_SCENES.slice(0, 4);
+      html = `<span class="tt-eyebrow">UMA CENA COMEÇA COM UM ESPAÇO</span><h1 class="tt-display">Qual é a próxima cena?</h1>
+        ${latest ? `<section class="welcome-continue"><span class="tt-eyebrow">CONTINUAR</span>${posterMarkup({ tag: 'MINHA CENA', name: latest.name, image: previews.image(latest), open: `data-welcome-open="${latest.id}"`, accent: sceneAccent(latest.look ?? latest.defaultLook), meta: `Tomada ${latest.revision} · ${new Date(latest.updatedAt).toLocaleString('pt-BR')}`, cta: 'Continuar esta cena', className: 'is-large' })}</section>` : ''}
+        <section><span class="tt-eyebrow">CENAS DE EXEMPLO</span><div class="welcome-strip">${examples.map(example => posterMarkup({ tag: 'EXEMPLO', tagClass: 'is-dark', name: example.name, image: previews.exampleImage(example), open: `data-welcome-example="${example.id}"`, accent: sceneAccent(example.look ?? example.defaultLook), className: 'is-compact' })).join('')}</div>${button('open-all', 'Ver todas', 'folder', 'quiet')}</section>
+        <section class="welcome-start"><span class="tt-eyebrow">COMEÇAR DO ZERO</span><div class="welcome-start-actions">${button('room-draw', 'Desenhar minha primeira sala', 'room', 'primary cta')}${button('welcome-building', 'Prédio por contorno', 'floor', 'quiet')}${button('welcome-tutorials', 'Aprender o básico', 'cap', 'quiet')}</div></section>`;
+    }
+    if (html !== welcomeHTML) { node.innerHTML = html; welcomeHTML = html; }
+    // Posters fill in with real previews a moment later; tests (diagnostics) keep the start screen free of that work.
+    if (html && !welcomePreviews && !new URLSearchParams(location.search).has('diagnostics')) {
+      welcomePreviews = true;
+      setTimeout(() => { previews.ensureExamples(EXAMPLE_SCENES.slice(0, 4)); const latest = [...savedScenes].sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt)))[0]; if (latest) previews.ensure([latest], { visibleIds: new Set([latest.id]) }); }, 1500);
+    }
+  }
   async function refreshSaved() {
     const [scenesResult, mapsResult] = await Promise.allSettled([
       repository.list('scene',{previews:false}),
@@ -1051,6 +1218,7 @@ export async function startApplication() {
     ]);
     if (scenesResult.status === 'fulfilled') savedScenes = scenesResult.value;
     if (mapsResult.status === 'fulfilled') savedMaps = mapsResult.value;
+    renderWelcome();
   }
   async function saveScene() {
     if (saving) return false;
@@ -1184,10 +1352,12 @@ export async function startApplication() {
     const doc=await loadExampleScene(exampleId);
     if(ticket!==openTicket)return;
     if(store.document.id!==sourceId||store.editVersion!==sourceVersion) {notify('A cena atual mudou durante o carregamento. Suas alterações foram preservadas; abra o exemplo novamente.',true);return;}
+    await stageCut.close();
     selection=null;clearProposal();setTool('select');
     store.replace(doc,{saved:false});viewport.frameScene();
     const camera=Object.values(doc.cameraPresets)[0];if(camera)viewport.setCamera(camera);
     closeDialog();notify('Exemplo aberto como cópia editável. Use Salvar para guardar sua cena.');
+    void stageCut.open(viewport.ready());
   }
 
   async function openScene(sceneId) {
@@ -1197,11 +1367,13 @@ export async function startApplication() {
     const doc = await repository.read(sceneId, 'scene');
     if (ticket !== openTicket) return;
     if (store.document.id !== sourceId || store.editVersion !== sourceVersion) { notify('A cena atual mudou durante o carregamento. Suas alterações foram preservadas; abra novamente quando estiver pronto.', true); return; }
+    await stageCut.close();
     selection = null; clearProposal(); setTool('select');
     store.replace(doc); lastScene.write(doc.id); viewport.frameScene();
     const camera = Object.values(doc.cameraPresets || {})[0]; if (camera) viewport.setCamera(camera);
     closeDialog();
     notify(`Cena “${doc.name}” aberta.`);
+    void stageCut.open(viewport.ready());
   }
 
   async function openMap(mapId) {
@@ -1210,10 +1382,12 @@ export async function startApplication() {
     const doc = await repository.read(mapId, 'map');
     if (ticket !== openTicket) return;
     if (store.document.id !== sourceId || store.editVersion !== sourceVersion) { notify('O documento atual mudou durante o carregamento.', true); return; }
+    await stageCut.close();
     selection = null; clearProposal(); setTool('select');
     store.replace(doc); lastScene.write(doc.id); viewport.frameScene();
     closeDialog();
     notify(`Mapa “${doc.name}” aberto para edição.`);
+    void stageCut.open(viewport.ready());
   }
 
   async function instantiateMap(mapId) {
@@ -1340,14 +1514,12 @@ export async function startApplication() {
       const current = store.document.documentType === 'scene' ? store.document : null;
       const scenes = savedScenes.map(scene => scene.id === current?.id ? { ...scene, ...current } : scene);
       if (current && !scenes.some(scene => scene.id === current.id)) scenes.unshift(current);
+      const accentOf = doc => sceneAccent(doc.look ?? doc.defaultLook);
       container.innerHTML = `
         <section class="example-scenes" aria-labelledby="example-scenes-title">
           <h3 id="example-scenes-title" class="eyebrow">CENAS DE EXEMPLO</h3>
           <p class="microcopy">Carregue uma cópia para explorar, editar e salvar como sua cena.</p>
-          ${EXAMPLE_SCENES.map(example=>`<button type="button" class="example-scene-card" data-open-example="${example.id}">
-            ${previewImage(example, true)}
-            <span><strong>${esc(example.name)}</strong><small>${esc(example.description)}</small><b>Carregar cena</b></span>
-          </button>`).join('')}
+          <div class="poster-grid">${EXAMPLE_SCENES.map(example => posterMarkup({ tag: 'EXEMPLO', tagClass: 'is-dark', name: example.name, text: example.description, cta: 'Carregar cena', image: previews.exampleImage(example), open: `data-open-example="${example.id}"`, accent: accentOf(example), className: 'example-scene-card' })).join('')}</div>
         </section>
         <div class="tab-toolbar">
           <span class="eyebrow">${scenes.length} cena(s) · prévias automáticas</span>
@@ -1355,24 +1527,14 @@ export async function startApplication() {
             ${button('dialog-new-scene', 'Nova cena', 'plus', 'primary')}
           </div>
         </div>
-        ${scenes.map((scene) => `
-          <div class="item-card scene-library-card">
-            <button type="button" class="item-card-main" data-open="${scene.id}">
-              ${previewImage(scene)}
-              <span class="scene-card-description">
-              <span style="display:flex;align-items:center;gap:6px">
-                <strong>${esc(scene.name)}</strong>
-                ${scene.id === store.document.id ? '<span class="item-badge" style="background:#2d473e;color:#8ce2be">Atual</span>' : ''}
-              </span>
-              <small>${scene.revision === 0 ? 'Em criação · ainda não salva' : `Revisão ${scene.revision} · ${new Date(scene.updatedAt).toLocaleString('pt-BR')}`}</small>
-              </span>
-            </button>
-            <div class="item-card-actions" ${scene.revision === 0 ? 'hidden' : ''}>
-              <button type="button" class="quiet" data-duplicate-scene-id="${scene.id}" title="Duplicar cena">${icon('copy', 14)}</button>
-              <button type="button" class="quiet danger" data-delete-scene="${scene.id}" title="Excluir cena">${icon('trash', 14)}</button>
-            </div>
-          </div>
-        `).join('') || '<div class="empty-dialog">Nenhuma cena salva ainda.<p>Crie uma sala e use Salvar para começar sua coleção.</p></div>'}
+        <div class="poster-grid">${scenes.map(scene => posterMarkup({
+          tag: 'MINHA CENA', name: scene.name, image: previews.image(scene), open: `data-open="${scene.id}"`, accent: accentOf(scene), className: 'scene-library-card',
+          badge: scene.id === store.document.id ? '<span class="item-badge is-current">Atual</span>' : '',
+          meta: scene.revision === 0 ? 'Em criação · ainda não salva' : `Tomada ${scene.revision} · ${new Date(scene.updatedAt).toLocaleString('pt-BR')}`,
+          actionsHidden: scene.revision === 0,
+          actions: `<button type="button" class="quiet" data-duplicate-scene-id="${scene.id}" title="Duplicar cena" aria-label="Duplicar cena">${icon('copy', 14)}</button><button type="button" class="quiet danger" data-delete-scene="${scene.id}" title="Excluir cena" aria-label="Excluir cena">${icon('trash', 14)}</button>`,
+        })).join('')}</div>
+        ${scenes.length ? '' : '<div class="empty-dialog">Nenhuma cena salva ainda.<p>Crie uma sala e use Salvar para começar sua coleção.</p></div>'}
       `;
     } else if (dialogTab === 'maps') {
       container.innerHTML = `
@@ -1383,26 +1545,13 @@ export async function startApplication() {
             ${button('dialog-new-map', 'Novo mapa em branco', 'plus', 'quiet')}
           </div>
         </div>
-        ${savedMaps.map((map) => `
-          <div class="item-card scene-library-card">
-            <button type="button" class="item-card-main" data-open-map="${map.id}">
-              ${previewImage(map)}
-              <span class="scene-card-description">
-              <span style="display:flex;align-items:center;gap:6px">
-                <span class="item-badge">MAPA</span>
-                <strong>${esc(map.name)}</strong>
-                ${map.id === store.document.id ? '<span class="item-badge" style="background:#2d473e;color:#8ce2be">Atual</span>' : ''}
-              </span>
-              <small>Revisão ${map.revision} · ${new Date(map.updatedAt).toLocaleString('pt-BR')}</small>
-              </span>
-            </button>
-            <div class="item-card-actions">
-              <button type="button" class="primary" data-instantiate-map="${map.id}" title="Criar nova cena usando este mapa">${icon('plus', 14)} Criar cena</button>
-              <button type="button" class="quiet" data-duplicate-map-id="${map.id}" title="Duplicar mapa">${icon('copy', 14)}</button>
-              <button type="button" class="quiet danger" data-delete-map="${map.id}" title="Excluir mapa">${icon('trash', 14)}</button>
-            </div>
-          </div>
-        `).join('') || '<div class="empty-dialog">Nenhum mapa salvo ainda.<p>Você pode converter a estrutura da sua cena atual em um Mapa modelo reutilizável!</p></div>'}
+        <div class="poster-grid">${savedMaps.map(map => posterMarkup({
+          tag: 'MAPA', name: map.name, image: previews.image(map), open: `data-open-map="${map.id}"`, accent: sceneAccent(map.look ?? map.defaultLook), className: 'scene-library-card',
+          badge: map.id === store.document.id ? '<span class="item-badge is-current">Atual</span>' : '',
+          meta: `Tomada ${map.revision} · ${new Date(map.updatedAt).toLocaleString('pt-BR')}`,
+          actions: `<button type="button" class="primary" data-instantiate-map="${map.id}" title="Criar nova cena usando este mapa">${icon('plus', 14)} Criar cena</button><button type="button" class="quiet" data-duplicate-map-id="${map.id}" title="Duplicar mapa" aria-label="Duplicar mapa">${icon('copy', 14)}</button><button type="button" class="quiet danger" data-delete-map="${map.id}" title="Excluir mapa" aria-label="Excluir mapa">${icon('trash', 14)}</button>`,
+        })).join('')}</div>
+        ${savedMaps.length ? '' : '<div class="empty-dialog">Nenhum mapa salvo ainda.<p>Você pode converter a estrutura da sua cena atual em um Mapa modelo reutilizável!</p></div>'}
       `;
     } else if (dialogTab === 'tokens') {
       const defaultTokens = [
@@ -1425,8 +1574,8 @@ export async function startApplication() {
         <div class="token-library-grid">
           ${defaultTokens.map((t) => `
             <div class="token-library-card">
-              <div class="token-avatar" style="border-color:${t.color};background:${t.color}22">
-                <span style="font-weight:700;color:${t.color}">${t.name[0]}</span>
+              <div class="token-avatar" style="--token:${t.color}">
+                <span class="token-initial">${t.name[0]}</span>
               </div>
               <strong>${esc(t.name)}</strong>
               <button type="button" class="primary" data-dialog-pick-token="${esc(t.name)}" data-token-color="${t.color}">Colocar</button>
@@ -1536,6 +1685,10 @@ export async function startApplication() {
     if (field === 'camera-speed') { if (Number.isFinite(Number(value))) { cameraSpeed = Math.max(.2, Math.min(40, Number(value))); viewport.setNavigationSpeed(cameraSpeed); } renderSidebar(); return; }
     if (field === 'camera-fov') { viewport.setFov(Number(value)); renderSidebar(); return; }
     if (field === 'camera-duration') { cameraDuration = Number(value); return; }
+    if (field === 'title-card-title') { titleCard.title = String(value).slice(0, 120); return; }
+    if (field === 'title-card-subtitle') { titleCard.subtitle = String(value).slice(0, 120); return; }
+    if (field === 'title-card-duration') { titleCard.duration = Math.min(12, Math.max(2, Number(value) || 4)); return; }
+    if (field === 'projector-letterbox') { letterbox = Boolean(value); sendSnapshot(); return; }
     if (field.startsWith('assembly-')) {
       const group=locate()?.record; if(!group?.anchored) return;
       if(field==='assembly-name') { execute('group.update',{ id:group.id,patch:{ name:value } }); return; }
@@ -2006,8 +2159,8 @@ export async function startApplication() {
         try { showAuthorshipProposal(proposeRoomState(store.document, { ...stateOptions, floorId: smartFloorId }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
-      case 'tutorials': { const panel = document.getElementById('tutorial-center'); panel.hidden = !panel.hidden; root.querySelector('.app-header [data-action="tutorials"]').setAttribute('aria-expanded', String(!panel.hidden)); renderTutorials(); break; }
-      case 'tutorial-start': document.getElementById('tutorial-center').hidden = true; root.querySelector('.app-header [data-action="tutorials"]').setAttribute('aria-expanded', 'false'); tutor.start(metadata.id, Number(metadata.from ?? 0)); break;
+      case 'tutorials': { const panel = document.getElementById('tutorial-center'); panel.hidden = !panel.hidden; root.querySelector('.rail [data-action="tutorials"]').setAttribute('aria-expanded', String(!panel.hidden)); renderTutorials(); break; }
+      case 'tutorial-start': document.getElementById('tutorial-center').hidden = true; root.querySelector('.rail [data-action="tutorials"]').setAttribute('aria-expanded', 'false'); tutor.start(metadata.id, Number(metadata.from ?? 0)); break;
       case 'around-variation': aroundOptions.seed = (aroundOptions.seed + 1) % 4294967296; renderSidebar();
       // falls through
       case 'around-preview': previewSurroundings(); break;
@@ -2026,6 +2179,9 @@ export async function startApplication() {
         try { showAuthorshipProposal(proposeAddRoom(store.document, { floorId: smartFloorId, template: metadata.id ?? buildingOptions.addTemplate, spot: Number(metadata.spot ?? 0), seed: buildingOptions.seed, furnish: buildingOptions.furnish, lighting: buildingOptions.lighting }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
+      case 'welcome-building': return act('building-draw');
+      case 'welcome-tutorials': return act('tutorials');
+      case 'open-all': return openDialog();
       case 'building-draw': drawingBuilding = true; clearProposal(); setTool('room'); notify('Arraste no chão para desenhar o contorno do prédio.'); break;
       case 'building-room-remove': { const live = Boolean(proposal?.buildingPreview); buildingOptions.bands = null; buildingOptions.pick = null; buildingOptions.rooms = buildingRooms().filter((_, i) => i !== Number(metadata.id)); clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
       case 'building-rooms-reset': { const live = Boolean(proposal?.buildingPreview); buildingOptions.rooms = null; buildingOptions.hub = null; buildingOptions.bands = null; buildingOptions.pick = null; clearProposal(); if (live) previewBuilding(); renderSidebar(); break; }
@@ -2094,7 +2250,7 @@ export async function startApplication() {
       }
       case 'new': if (canSwitch()) { selection = null; clearProposal(); store.replace(createScene('Nova cena'), { saved: false }); setTool('select'); viewport.frameScene(); } break;
       case 'open': return openDialog();
-      case 'sidebar-toggle': case 'inspector-toggle': { const key=action.split('-')[0],shell=root.querySelector('.app-shell'),closed=shell.classList.toggle(`${key}-collapsed`);if(compactLayout.matches && !closed) shell.classList.add(`${key==='sidebar'?'inspector':'sidebar'}-collapsed`);syncPanelToggles();break; }
+      case 'sidebar-toggle': case 'inspector-toggle': togglePanel(action.split('-')[0]); break;
       case 'assets-close': assetsWindow.close(); break;
       case 'close-dialog': closeDialog(); break;
       case 'room-draw': clearProposal(); setTool('room'); document.getElementById('welcome').hidden = true; notify('Arraste no chão para desenhar o tamanho da sala.'); break;
@@ -2154,8 +2310,25 @@ export async function startApplication() {
       case 'top': viewport.setTopView(true); topView = true; syncRoofs(); break;
       case 'roofs': roofsChoice = !(roofsChoice ?? !topView); syncRoofs(); break;
       case 'frame': if (selection) viewport.frameSelection(selection); else viewport.frameScene(); break;
+      case 'frame-selection': if (selection) viewport.frameSelection(selection); break;
       case 'cutaway': cutaway = !cutaway; viewport.setCutaway(cutaway); root.querySelector('[data-action="cutaway"]').classList.toggle('active', cutaway); broadcast(); break;
       case 'camera-save': { const camera = { ...viewport.getCamera(), id: id(), name: `Enquadramento ${Object.keys(store.document.cameraPresets).length + 1}` }; execute('camera.save', { camera }); notify('Enquadramento salvo na cena.'); break; }
+      case 'view-tag': if (document.getElementById('view-tag').dataset.state === 'offset') { viewport.stopCameraMotion(); publishCamera(viewport.getCamera()); notify('Câmera publicada na segunda tela.'); } break;
+      case 'shortcuts': toggleShortcuts(); break;
+      case 'copy-link': {
+        const doc = store.document;
+        if (doc.revision === 0) { notify('Salve a cena para ter um link que a abre de novo.', true); break; }
+        const url = new URL(location.href); for (const name of ['scene', 'map', 'example', 'shot']) url.searchParams.delete(name);
+        url.searchParams.set(doc.documentType === 'map' ? 'map' : 'scene', doc.id);
+        try { await navigator.clipboard.writeText(url.toString()); notify('Link copiado.'); } catch { notify(url.toString()); }
+        break;
+      }
+      case 'command-palette': palette.open(); break;
+      case 'title-card': {
+        if (!hasPresentation()) { notify('Abra a segunda tela para mostrar a cartela.', true); break; }
+        sendPresentation('title', { titleSequence: ++titleSequence, title: titleCard.title.trim() || store.document.name, subtitle: titleCard.subtitle.trim(), accent: sceneAccent(store.document.look ?? store.document.defaultLook), duration: titleCard.duration });
+        notify('Cartela enviada ao projetor.'); break;
+      }
       case 'publish-camera': viewport.stopCameraMotion(); publishCamera(viewport.getCamera()); notify('Câmera publicada na segunda tela.'); break;
       case 'camera-stop': viewport.stopCameraMotion(); publishCamera(viewport.getCamera(), 0); notify('Transição interrompida no enquadramento atual.'); break;
       case 'camera-cut': viewport.stopCameraMotion(true); publishCamera(viewport.getCamera(), 0); notify('Corte imediato publicado.'); break;
@@ -2320,9 +2493,17 @@ export async function startApplication() {
     if (node.dataset.action) { Promise.resolve(act(node.dataset.action, node.dataset)).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.treeKind) { treeFilter.kind = treeFilter.kind === node.dataset.treeKind ? 'all' : node.dataset.treeKind; renderSidebar(); return; }
     if (node.dataset.groupCollapse) { const key = node.dataset.groupCollapse; if (collapsedTreeGroups.has(key)) collapsedTreeGroups.delete(key); else collapsedTreeGroups.add(key); renderSceneTreeIfVisible(); return; }
+    if (node.dataset.bar) { useSelectionBar(node.dataset.bar); return; }
+    if (node.dataset.inspectorTabButton) { selectInspectorTab(node.dataset.inspectorTabButton); return; }
     if (node.dataset.tab) {
       if (node.dataset.tab === 'assets') { renderAssets(); assetsWindow.open(); document.getElementById('asset-search').focus({preventScroll:true}); }
-      else { assetsWindow.close(); tab = node.dataset.tab; renderSidebar(); }
+      else {
+        assetsWindow.close();
+        const shell = root.querySelector('.app-shell');
+        // A place always opens the drawer; a double click on the active place collapses it (see the dblclick listener).
+        tab = node.dataset.tab; if (shell.classList.contains('sidebar-collapsed')) togglePanel('sidebar'); renderSidebar();
+        syncPanelToggles();
+      }
       return;
     }
     if (node.dataset.dialogTab) { dialogTab = node.dataset.dialogTab; renderDialogContent(); observeGalleryCards(); return; }
@@ -2333,12 +2514,14 @@ export async function startApplication() {
     }
     if (node.dataset.environmentPreview) { try { previewEnvironment(node.dataset.environmentPreview); } catch (error) { notify(error.message, true); } return; }
     if (node.dataset.environment) { execute('environment.apply', { presetId: node.dataset.environment }); return; }
-    if (node.dataset.camera || node.dataset.cameraCut) {
-      const preset = store.document.cameraPresets[node.dataset.camera ?? node.dataset.cameraCut];
-      const duration = node.dataset.cameraCut ? 0 : cameraDuration;
-      viewport.setCamera(preset, { duration }); publishCamera(preset, duration); return;
-    }
+    if (node.dataset.camera || node.dataset.cameraCut) { takeShot(store.document.cameraPresets[node.dataset.camera ?? node.dataset.cameraCut], { cut: Boolean(node.dataset.cameraCut) }); return; }
+    if (node.dataset.cameraRehearse) { takeShot(store.document.cameraPresets[node.dataset.cameraRehearse], { rehearse: true }); return; }
+    if (node.hasAttribute('data-dock-hide')) { dockHidden = true; renderShotDock(); return; }
+    if (node.dataset.dockStep) { dockIndex += Number(node.dataset.dockStep); renderShotDock(); return; }
+    if (node.dataset.dockSelect) { dockIndex = Number(node.dataset.dockSelect); renderShotDock(); return; }
     if (node.dataset.cameraDelete) { execute('camera.remove', { id: node.dataset.cameraDelete }); return; }
+    if (node.dataset.welcomeOpen) { openScene(node.dataset.welcomeOpen).catch((error) => notify(error.message, true)); return; }
+    if (node.dataset.welcomeExample) { openExample(node.dataset.welcomeExample).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.open) { openScene(node.dataset.open).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.openExample) { openExample(node.dataset.openExample).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.openMap) { openMap(node.dataset.openMap).catch((error) => notify(error.message, true)); return; }
@@ -2491,8 +2674,11 @@ export async function startApplication() {
   });
   window.addEventListener('keydown', (event) => {
     if (!initialized) return;
+    if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey && event.key.toLowerCase() === 'k') { event.preventDefault(); if (!isPresentation) palette.open(); return; }
+    if (palette.isOpen) return;
     if (event.key === 'Escape') {
       if (document.getElementById('asset-metadata-dialog').open) return;
+      if (document.getElementById('shortcuts-sheet').open) { toggleShortcuts(false); return; }
       if (document.getElementById('assets-dialog').open) { assetsWindow.close(); return; }
       const docDialog = document.getElementById('documents-dialog');
       if (docDialog && docDialog.hasAttribute('open')) {
@@ -2506,7 +2692,14 @@ export async function startApplication() {
     }
     if (event.defaultPrevented || event.target.closest('input,select,textarea,[contenteditable]:not([contenteditable="false"])')) return;
     if (document.querySelector('dialog[open]:not(.floating-window)') || event.target.closest('.floating-window')) return;
+    if (!document.getElementById('shot-dock').hidden && ['select', 'move', 'rotate', 'scale'].includes(tool) && !proposal && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      const list = presets();
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); dockIndex += event.key === 'ArrowRight' ? 1 : -1; renderShotDock(); return; }
+      if (event.key === 'Enter') { event.preventDefault(); takeShot(list[dockIndex], { cut: event.shiftKey }); return; }
+      if (/^[1-9]$/.test(event.key) && list[Number(event.key) - 1]) { event.preventDefault(); takeShot(list[Number(event.key) - 1], { cut: true }); return; }
+    }
     if (isPresentation) return;
+    if (event.key === '?') { event.preventDefault(); toggleShortcuts(); return; }
     if (event.ctrlKey || event.metaKey) {
       if (event.shiftKey && ['c', 'v'].includes(event.key.toLowerCase())) { event.preventDefault(); act(event.key.toLowerCase() === 'c' ? 'material-copy' : 'material-paste'); return; }
       if (event.key.toLowerCase() === 's') { event.preventDefault(); saveScene(); }
@@ -2525,6 +2718,19 @@ export async function startApplication() {
     if (keys[event.key.toLowerCase()]) { if (keys[event.key.toLowerCase()] === 'measure') act('tool-measure'); else setTool(keys[event.key.toLowerCase()]); }
     if (event.key.toLowerCase() === 'f') act('frame');
     if (event.key === 'Delete' || event.key === 'Backspace') { if (buildingOptions.pick != null && document.activeElement?.closest?.('.building-sketch')) { event.preventDefault(); act('building-cell-delete'); } else act('object-delete'); }
+  });
+
+  root.querySelector('.rail-tabs').addEventListener('dblclick', event => { const node = event.target.closest('[data-tab]'); if (node?.dataset.tab === tab) togglePanel('sidebar'); });
+
+  const stage = document.getElementById('viewport');
+  stage.addEventListener('pointerdown', () => { pointerHeld = true; scheduleSelectionBar(); }, true);
+  for (const type of ['pointerup', 'pointercancel']) window.addEventListener(type, () => { if (pointerHeld) { pointerHeld = false; holdSelectionBar(); } });
+  const inspectorPanel = document.getElementById('inspector-content');
+  inspectorPanel.addEventListener('dblclick', event => { if (!event.target.closest('.inspector-hero strong')) return; const field = inspectorPanel.querySelector('[data-field="object-name"]'); if (field) { revealNode(field); field.focus(); field.select(); } });
+  inspectorPanel.addEventListener('keydown', event => {
+    const tabButton = event.target.closest('[data-inspector-tab-button]'); if (!tabButton || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    const buttons = [...inspectorPanel.querySelectorAll('[data-inspector-tab-button]')], next = buttons[(buttons.indexOf(tabButton) + (event.key === 'ArrowRight' ? 1 : -1) + buttons.length) % buttons.length];
+    event.preventDefault(); next.click(); next.focus();
   });
 
   const dialogElem = document.getElementById('documents-dialog');
@@ -2591,7 +2797,8 @@ export async function startApplication() {
   if (initial[5].status === 'fulfilled') brushPresets = initial[5].value;
   else brushPresetsError = 'Não foi possível ler os pincéis pessoais. Verifique o armazenamento do navegador e tente salvar novamente.';
   viewport.setAssets(assets);
-  const lastId = lastScene.read();
+  const linkParams = new URLSearchParams(location.search), linkedId = linkParams.get('scene') ?? linkParams.get('map');
+  const lastId = linkedId ?? lastScene.read();
   if (lastId) {
     const isMap = savedMaps.some((scene) => scene.id === lastId);
     const isScene = savedScenes.some((scene) => scene.id === lastId);
@@ -2608,6 +2815,12 @@ export async function startApplication() {
   store.subscribe(updateView); store.subscribe(renderTutorials); updateView({ type: 'saved' }); viewport.frameScene();
   const firstCamera = Object.values(store.document.cameraPresets || {})[0]; if (firstCamera) viewport.setCamera(firstCamera);
   previews.schedule();
+  // Direct links from notes and other apps: they open a scene and may rehearse a shot, but never publish it to the projector.
+  if (linkedId && store.document.id !== linkedId) notify('Não encontrei a cena ou o mapa deste link. Abrindo sua mesa normalmente.', true);
+  const linkedShot = linkParams.get('shot');
+  if (linkedId && linkedShot) { const preset = store.document.cameraPresets?.[linkedShot]; if (preset) { viewport.setCamera(preset); rehearsedId = preset.id; scheduleViewTag(); } else notify('A tomada deste link não existe mais.', true); }
+  const linkedExample = linkParams.get('example');
+  if (linkedExample) { if (EXAMPLE_SCENES.some(item => item.id === linkedExample)) openExample(linkedExample).catch(error => notify(error.message, true)); else notify('Não encontrei o exemplo deste link.', true); }
   if (recovery) {
     document.getElementById('recovery-description').textContent = `“${recovery.document.name}” possui um rascunho local de ${new Date(recovery.savedAt).toLocaleString('pt-BR')}. Restaurar não sobrescreve a versão salva ${repository.storage==='browser'?'neste navegador':'no servidor'}.`;
     document.getElementById('recovery-dialog').showModal();
@@ -2622,7 +2835,7 @@ function startPresentation(root, sessionId) {
   if (!/^[a-zA-Z0-9_-]{1,120}$/.test(sessionId)) throw new Error('Endereço de apresentação inválido.');
   if (typeof BroadcastChannel !== 'function') throw new Error('Este navegador não suporta a apresentação em segunda janela.');
   document.body.classList.add('presentation-window');
-  root.innerHTML = `<div id="presentation-viewport"></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><select id="presentation-quality" aria-label="Qualidade da iluminação" style="position:fixed;right:112px;bottom:18px;width:150px;z-index:10"><option value="economy">Econômica</option><option value="balanced" selected>Equilibrada</option><option value="high">Alta</option></select><button id="presentation-effects" class="presentation-fullscreen" style="right:60px" title="Névoa e efeitos nesta janela" aria-label="Névoa e efeitos nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button>`;
+  root.innerHTML = `<div id="presentation-viewport"></div><div class="letterbox" aria-hidden="true"><i></i><i></i></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><div id="title-layer" class="title-layer" aria-live="polite"></div><div class="projector-controls"><select id="presentation-quality" aria-label="Qualidade da iluminação"><option value="economy">Econômica</option><option value="balanced" selected>Equilibrada</option><option value="high">Alta</option></select><button id="presentation-effects" class="presentation-fullscreen" title="Névoa e efeitos nesta janela" aria-label="Névoa e efeitos nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button></div>`;
   const viewport = createViewport(document.getElementById('presentation-viewport'), {
     onError: (error) => { document.getElementById('presentation-message').textContent = error.message; },
     navigationEnabled: false,
@@ -2637,13 +2850,28 @@ function startPresentation(root, sessionId) {
   const request = () => channel.postMessage({ version: 1, sessionId, type: 'ready',receiverId });
   const heartbeat=setInterval(()=>channel.postMessage({version:1,sessionId,type:'heartbeat',receiverId}),5000);
   const retry = setInterval(request, 1500);
+  let lastTitle = 0;
+  const clean = (text, limit = 120) => typeof text === 'string' ? text.slice(0, limit) : '';
+  // A title card over the image: sanitized text only, in the accent of the scene.
+  function showTitleCard(data) {
+    const layer = document.getElementById('title-layer'), duration = Math.min(12, Math.max(2, Number(data.duration) || 4)), accent = /^#[0-9a-f]{6}$/i.test(data.accent ?? '') ? data.accent : '#e3b878';
+    layer.replaceChildren();
+    const card = document.createElement('div'); card.className = 'title-card is-in'; card.style.setProperty('--card-accent', accent);
+    const subtitle = clean(data.subtitle); if (subtitle) { const tag = document.createElement('span'); tag.className = 'tt-tag'; tag.textContent = subtitle; card.append(tag); }
+    const heading = document.createElement('h1'); heading.className = 'tt-display'; heading.textContent = clean(data.title); card.append(heading);
+    const rule = document.createElement('i'); rule.className = 'title-rule'; card.append(rule);
+    layer.append(card);
+    setTimeout(() => card.classList.replace('is-in', 'is-out'), duration * 1000);
+    setTimeout(() => card.remove(), duration * 1000 + 700);
+  }
   channel.onmessage = (event) => {
     const data = event.data;
+    if (data?.version === 1 && data.sessionId === sessionId && data.type === 'title') { if (Number.isFinite(data.titleSequence) && data.titleSequence > lastTitle && clean(data.title)) { lastTitle = data.titleSequence; showTitleCard(data); } return; }
     if (data?.version !== 1 || data.sessionId !== sessionId || !['snapshot','camera','view'].includes(data.type) || data.sequence <= sequence) return;
     try {
       if(data.type==='snapshot'){validateDocument(data.document);viewport.setAssets(data.assets);viewport.setDocument(trustSnapshot(data.document));document.title=`${data.document.name} — apresentação`;}
       else if(receivedCameraSequence===null){request();return;}
-      sequence=data.sequence;viewport.setCutaway(data.cutaway);
+      sequence=data.sequence;viewport.setCutaway(data.cutaway);document.body.classList.toggle('letterboxed',data.letterbox===true);
       if (data.camera && data.cameraSequence !== receivedCameraSequence) {
         const duration = receivedCameraSequence === null ? 0 : Number(data.cameraDuration) || 0;
         viewport.setCamera(data.camera, { duration }); receivedCameraSequence = data.cameraSequence;
@@ -2651,10 +2879,15 @@ function startPresentation(root, sessionId) {
       document.getElementById('presentation-message').hidden = true; clearInterval(retry);
     } catch (error) { document.getElementById('presentation-message').textContent = error.message; }
   };
+  // The controls fade away after a moment without the pointer, so nothing sits over the projected image.
+  let idleTimer;
+  const wake = () => { document.body.classList.remove('controls-idle'); clearTimeout(idleTimer); idleTimer = setTimeout(() => document.body.classList.add('controls-idle'), 2500); };
+  for (const type of ['mousemove', 'keydown', 'pointerdown', 'focusin']) window.addEventListener(type, wake);
+  wake();
   let effectsEnabled = true;
   document.getElementById('presentation-quality').onchange=e=>viewport.setLightingQuality(e.target.value);
   document.getElementById('presentation-effects').onclick = event => { effectsEnabled = !effectsEnabled; viewport.setEffectsEnabled(effectsEnabled); event.currentTarget.setAttribute('aria-pressed', String(effectsEnabled)); };
   document.getElementById('presentation-fullscreen').onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
-  window.addEventListener('pagehide', () => { clearInterval(retry);clearInterval(heartbeat);channel.postMessage({version:1,sessionId,type:'closed',receiverId});channel.close();viewport.destroy(); });
+  window.addEventListener('pagehide', () => { clearInterval(retry);clearInterval(heartbeat);clearTimeout(idleTimer);channel.postMessage({version:1,sessionId,type:'closed',receiverId});channel.close();viewport.destroy(); });
   request();
 }

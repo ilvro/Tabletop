@@ -254,3 +254,43 @@ O modelo `builtin-decal` ("Industrial / Sinalização") é uma placa fina que se
 - **Cabos:** projetam sombra só na qualidade alta. A ferramenta **Cabo** aceita clique em viga, duto, topo de objeto, parede ou no piso de cima (a ponta sobe até o teto, como antes); as pontas não ficam ancoradas, então mover a viga depois não leva o cabo.
 - **Laje de cobertura** (`builtin-industrial-ceiling-slab`, 4,2 × 4,2 m, 22 cm): a face de baixo fica na altura do objeto; emende várias no topo das paredes. "Telhados" a esconde.
 
+
+## Kit do templo gelado (19 de outubro de 2026)
+
+9 modelos em `scripts/library-frozen-temple.js`, feitos para a cena de exemplo **Templo gelado**. A biblioteca passa a ter 335 modelos; os 326 anteriores não mudaram (mesmos arquivos, contratos e resumos).
+
+| Grupo | Modelos |
+| --- | --- |
+| Arquitetura (Templo gelado) | pilar quadrado escalonado com argola (9 m), portal em arco com recesso (8 × 9 m), grade levadiça em arco, nicho de porta com pilastras, anel rúnico de pedra, grade de alçapão no piso |
+| Barreiras | barricada de estacas cruzadas |
+| Gelo | pingentes de gelo · cortina, cristais de gelo luminosos |
+
+Convenções do kit:
+
+- A pedra leva a textura de alvenaria no slot `stone` (e `trim` nos frisos): em **Material**, escolha esse slot para retingir ou cobrir de neve só a cantaria.
+- A grade levadiça encaixa no arco do fundo do portal: mesmo X do portal, 25 cm atrás do centro dele. O portal é objeto, não abre passagem em parede: substitua um trecho de parede por ele.
+- Os pingentes ficam pendurados pelo topo: a altura do objeto é a da borda menos 1,5 m vezes a escala Y.
+- O anel rúnico e os cristais brilham por emissão; dê **Iluminação própria** azul para que iluminem o entorno (no anel, com sombra, a luz projeta as barras da grade no salão).
+
+Conferência: `node scripts/review-library.js temple-square-pier temple-arched-gateway temple-portcullis temple-wall-niche temple-rune-ring temple-spike-barricade temple-floor-grate ice-icicles ice-crystal-cluster`.
+
+## Kit das profundezas nórdicas (20 de outubro de 2026)
+
+14 modelos em `scripts/library-nordic-depths.js`, época **Antiguidade**, feitos para o complexo do **Templo gelado**. A biblioteca passa a ter 349 modelos; os anteriores não mudaram.
+
+| Grupo | Modelos |
+| --- | --- |
+| Tecnologia rúnica | console rúnico, mecanismo de engrenagens de parede, coluna condutora rúnica, forja rúnica, cápsula de estase rompida |
+| Pedras rúnicas | pedra rúnica com sulcos acesos, estante de tábuas rúnicas, círculo rúnico no piso |
+| Portas e luz | porta-cofre circular aberta, lanterna rúnica de cristal |
+| Escadas | escada em espiral do abismo (uma volta) |
+| Pinturas rupestres | a caçada, o anel e os que se curvam, a descida |
+
+Convenções do kit:
+
+- Bronze e ferro sobre pedra, com luz ciano nos sulcos (slot `glow`). Para uma máquina apagada ou morrendo, em **Material** escolha o slot `glow` e baixe a emissão; a luz no entorno é a **Iluminação própria** do objeto.
+- **Escada em espiral:** uma volta tem 40 degraus presos à parede de um poço de 16,5 m de raio e desce 8 m. Empilhe voltas com o mesmo giro e o mesmo centro, 8 m abaixo uma da outra, e elas se emendam degrau a degrau. O degrau mais alto fica 1,045 m abaixo do topo do modelo.
+- **Porta-cofre:** o vão (3 m de diâmetro, com soleira) fica 0,95 m à esquerda do centro do modelo, por causa da porta rolada para o lado; ela não abre passagem na parede: ponha um **Vão** atrás.
+- **Pinturas rupestres:** figuras planas em ocre, vermelho, carvão e giz; encoste a uma parede de rocha, alguns centímetros à frente dela. Não há imagens embutidas na biblioteca, por isso são modelos e não decalques.
+
+Conferência: `node scripts/review-library.js nordic-rune-console nordic-gear-wall nordic-conduit-pillar nordic-forge-engine nordic-runestone nordic-vault-door nordic-stasis-pod nordic-rune-lantern nordic-tablet-shelf nordic-floor-sigil nordic-spiral-stair-turn cave-painting-hunt cave-painting-ring cave-painting-descent`.

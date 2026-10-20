@@ -20,7 +20,10 @@ test('scene and object disclosures retain state; libraries fade in/out and can r
   const field = async (key, value) => { const node = await reveal(page.locator(`[data-field="${key}"]`)); await node.fill(String(value)); await node.press('Tab'); };
   const snapshot = () => page.evaluate(() => window.__tabletop.snapshot());
   await action('floor-add'); await page.locator('[data-tab=scene]').click();
-  assert.deepEqual(await page.locator('#side-content .task-heading').allTextContents(), ['Atmosfera', 'Câmera e apresentação']);
+  assert.deepEqual(await page.locator('#side-content .task-heading').allTextContents(), ['Atmosfera']);
+  await page.locator('[data-tab=shots]').click();
+  assert.deepEqual(await page.locator('#side-content .task-heading').allTextContents(), ['Tomadas', 'Projetor']);
+  await page.locator('[data-tab=scene]').click();
   const original = await snapshot(), camera = await page.evaluate(() => window.__tabletop.camera());
   const sun = page.locator('[data-panel-section=sun]'), sky = page.locator('[data-panel-section=sky]');
   await sun.locator(':scope > summary').focus(); await page.keyboard.press('Enter');

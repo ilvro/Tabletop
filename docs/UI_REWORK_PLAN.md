@@ -1,5 +1,7 @@
 # Plano de reformulação da interface
 
+> **Continuação (15 de outubro):** as etapas pendentes (3, 5, 6, 7 e 8) foram absorvidas pelo [rework cinematográfico da interface](UI_CINEMATIC_PLAN.md), que alinha o Tabletop às fichas cinematográficas do projeto Ficha.
+
 Elaborado em 10 de outubro de 2026, a partir do relato de uso (dificuldade para encontrar os controles de padrão das texturas; interface "genérica e confusa" desde o início) e de capturas da interface atual (`node scripts/capture-ui.js <pasta>`; três delas em [references/ui/](references/ui/)). Não é uma reescrita: a interface é HTML gerado por funções e reconciliado no lugar, os campos são identificados por `data-field`/`data-action` e quase todos os números passam por uma única função (`numberField`). O plano troca a organização e os controles, mantendo comandos, histórico, documento e câmera publicada como estão.
 
 ## O que as capturas mostram

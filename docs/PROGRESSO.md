@@ -1,5 +1,11 @@
 # Tabletop — Relatório de Progresso e Planejamento
 
+**Templo gelado, complexo interno (20 de outubro):** atrás da grade levadiça, um complexo nórdico abandonado dentro da montanha — átrio rúnico, sala de máquinas, arquivo, alojamento, galeria de pinturas rupestres, escadaria até uma forja profunda, porta-cofre, sala isolada e corredor até um abismo de 70 m com escada em espiral; 14 modelos novos (349 no total). [Cenas de exemplo](EXAMPLE_SCENES.md#templo-gelado) · [biblioteca](ASSET_LIBRARY.md#kit-das-profundezas-nórdicas-20-de-outubro-de-2026).
+
+**Templo gelado (19 de outubro):** nova cena de exemplo — salão de pilares escavado numa caverna de neve, com grade levadiça em arco, santuário de gelo com anel rúnico azul, nichos com braseiros e acampamento de barricadas; 9 modelos novos (335 no total) no kit do templo gelado. [Cenas de exemplo](EXAMPLE_SCENES.md#templo-gelado) · [biblioteca](ASSET_LIBRARY.md#kit-do-templo-gelado-19-de-outubro-de-2026).
+
+**Rework cinematográfico da interface (15–16 de outubro):** nova linguagem visual alinhada às fichas cinematográficas (tokens `eco`/`tt`, Hanken Grotesk, serifada, etiquetas rasgadas, âmbar), tela em trilho + claquete + palco, inspetor com cabeçalho e abas (Posição/Aparência/Luz/Organização), aba Tomadas (ensaiar × cortar, miniaturas, carrossel), projetor limpo com cartela de título, cartão de personagem, Ctrl+K e atalhos, cartazes em Abrir e tela de início, links `?scene=&shot=`. [Plano](UI_CINEMATIC_PLAN.md), [guia](EDITOR_UI.md), [sistema visual](DESIGN_SYSTEM.md).
+
 **Tutoriais de iluminação e do galpão (15 de outubro):** lição Iluminação e ambientação (48 passos, capela à noite: escuro, luz principal, contraluz, acentos, zona, névoa, halo, reflexos) e Galpão abandonado em três partes encadeadas com os valores da cena de exemplo; ponto na cena marca onde clicar. Clique em tampo de mesa coloca em cima; luz de janela aponta para dentro. [Andamento](docs/TUTORIAL_PLAN.md#andamento)
 
 **Galpão industrial completo (14 de outubro):** piso molhado com reflexos de superfície, risco de lente no bloom, faíscas e gotejamento, cabos que prendem em vigas e só projetam sombra em alta, laje de cobertura, cena de exemplo **Galpão industrial** e tutorial de recriação. [Biblioteca](ASSET_LIBRARY.md) · [cenas de exemplo](EXAMPLE_SCENES.md).

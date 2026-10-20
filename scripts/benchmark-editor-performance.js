@@ -26,7 +26,7 @@ try{
         await page.locator('#document-json-file').setInputFiles({name:name+'.json',mimeType:'application/json',buffer:fixture});
       } else { await page.locator('[data-action="open"]').first().click();await page.locator(`[data-open-example="${name}"]`).click(); }
       await page.waitForFunction(()=>Object.keys(window.__tabletop.snapshot().layout.entities).length>0);await page.evaluate(()=>window.__tabletop.ready());
-      await page.locator('[data-tab="scene"]').click();
+      await page.locator('[data-tab="shots"]').click();
       for(const withProjector of [false,true]){
         let projector;
         if(withProjector){const node=page.locator('[data-action="presentation-window"]').first();await node.evaluate(el=>{for(let p=el.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;});const pending=page.waitForEvent('popup');await node.click();projector=await pending;await projector.waitForFunction(()=>document.getElementById('presentation-message')?.hidden);await page.bringToFront();}

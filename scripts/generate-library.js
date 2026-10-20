@@ -17,6 +17,8 @@ import {addBackroomsLibrary} from './library-backrooms.js';
 import {addMedievalLibrary} from './library-medieval.js';
 import {addFutureLibrary} from './library-future.js';
 import {addIndustrialLibrary} from './library-industrial.js';
+import {addFrozenTempleLibrary} from './library-frozen-temple.js';
+import {addNordicDepthsLibrary} from './library-nordic-depths.js';
 import {rasterThumbnail} from './recipe-thumbnail.js';
 import {reconstructAsset} from './library-construction.js';
 import {createHash} from 'node:crypto';
@@ -129,6 +131,8 @@ for (const id of addBackroomsLibrary({add,modern})) { alpineIds.add(id); detailI
 for (const id of addMedievalLibrary({add,medieval})) { alpineIds.add(id); detailIds.add(id); }
 for (const id of addFutureLibrary({add,future})) { alpineIds.add(id); detailIds.add(id); }
 for (const id of addIndustrialLibrary({add,modern})) { alpineIds.add(id); detailIds.add(id); }
+for (const id of addFrozenTempleLibrary({add,ancient,timeless})) { alpineIds.add(id); detailIds.add(id); }
+for (const id of addNordicDepthsLibrary({add,ancient})) { alpineIds.add(id); detailIds.add(id); }
 
 function preview(object) {
   object.updateMatrixWorld(true);

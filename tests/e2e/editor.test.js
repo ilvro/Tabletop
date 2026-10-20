@@ -136,7 +136,7 @@ test('autoria real, apresentação, assets e fidelidade após reabrir navegador/
   await page.locator('[data-tab="scene"]').click(); await (await reveal(page.locator('[data-environment="warm"]'))).click();
   const light = Object.values((await snapshot()).look.lights).find((l) => l.type === 'point');
   await select(light.id); await field('light-intensity', 65); await field('position-1', 2.4);
-  await page.locator('[data-field="light-color"]').fill('#ffcd8d'); await page.locator('[data-field="light-color"]').dispatchEvent('change');
+  const lightColor = await reveal(page.locator('[data-field="light-color"]')); await lightColor.fill('#ffcd8d'); await lightColor.dispatchEvent('change');
   assert.equal((await snapshot()).look.lights[light.id].intensity, 65);
   // Frame/publish a perspective camera. Master orbit must not change the published one.
   await action('perspective'); await select(floor.id); await action('frame');

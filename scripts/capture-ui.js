@@ -22,12 +22,23 @@ try {
   await page.locator('[data-action="open"]').first().click();await shot('02-abrir');
   await page.locator(`[data-open="${scene.id}"]`).click();await page.waitForFunction(id=>window.__tabletop.snapshot().id===id,scene.id);await page.waitForTimeout(4000);await shot('03-construir');
   await page.locator('[data-tab=elements]').click();await shot('04-elementos');await page.locator('#tree-search').fill('sof');await shot('04b-elementos-busca');await page.locator('#tree-search').fill('');
-  await page.locator('[data-tab=scene]').click();await shot('04c-ambiente');await page.locator('[data-tab=elements]').click();
+  await page.locator('[data-tab=scene]').click();await shot('04c-ambiente');await page.locator('[data-tab=shots]').click();await page.waitForTimeout(6000);await shot('04d-tomadas');await page.locator('[data-tab=elements]').click();
   const sofa=Object.values(scene.layout.entities).find(e=>e.assetRef?.id==='builtin-sofa'),floor=Object.values(scene.layout.entities).find(e=>e.kind==='floor');
   await page.locator(`[data-select="${sofa.id}"]`).first().click().catch(async()=>{await page.evaluate(id=>window.__tabletop.select?.(id),sofa.id);});await shot('05-objeto');
+  for(const [tab,name] of [['look','05b-objeto-aparencia'],['light','05c-objeto-luz'],['organize','05d-objeto-organizacao']]){const button=page.locator(`[data-inspector-tab-button="${tab}"]`);if(await button.count()){await button.click();await shot(name);}}
   await page.locator(`[data-select="${floor.id}"]`).first().click().catch(()=>{});await shot('06-piso');
+  await page.locator('[data-inspector-tab-button="look"]').click().catch(()=>{});
   const texture=page.locator('[data-field="material-texture"]');
   if(await texture.count()){await texture.first().evaluate(e=>{for(let p=e.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;});await texture.first().selectOption('tile');await page.waitForTimeout(500);
     await page.locator('[data-texture-options] > summary').first().click().catch(()=>{});await page.locator('[data-field="material-tilePattern"]').scrollIntoViewIfNeeded().catch(()=>{});await shot('07-material-azulejo');}
-  await page.locator('[data-action="assets"]').first().click().catch(()=>{});await shot('08-assets');
+  await page.locator('[data-tab="assets"]').click().catch(()=>{});await shot('08-assets');await page.keyboard.press('Escape');
+  // Find anything, the shortcut sheet and the projector with a title card.
+  await page.locator('#scene-name').focus();await page.keyboard.press('Control+k');await page.locator('#palette-input').fill('rejunte');await shot('09-paleta');await page.keyboard.press('Escape');
+  if(await page.locator('.rail [data-action="shortcuts"]').isVisible()){await page.locator('.rail [data-action="shortcuts"]').click();await shot('10-atalhos');await page.keyboard.press('Escape');}
+  await page.locator('[data-tab=shots]').click();await page.evaluate(()=>{const node=document.querySelector('[data-action="presentation-window"]');for(let p=node.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;});
+  const [popup]=await Promise.all([page.waitForEvent('popup'),page.locator('[data-action="presentation-window"]').click()]);
+  await popup.waitForFunction(()=>document.getElementById('presentation-message')?.hidden===true,null,{timeout:60000});
+  await page.evaluate(()=>{const node=document.querySelector('[data-field="title-card-title"]');for(let p=node.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;});
+  await page.locator('[data-field="title-card-title"]').fill('Casa de bairro');await page.locator('[data-field="title-card-title"]').press('Tab');await page.locator('[data-field="title-card-subtitle"]').fill('Capítulo um');await page.locator('[data-field="title-card-subtitle"]').press('Tab');
+  await page.locator('[data-action="title-card"]').click();await popup.waitForTimeout(1400);await popup.screenshot({path:`${out}/11-projetor-cartela.png`});console.log('11-projetor-cartela');await popup.close();
 }finally{await browser?.close();await new Promise(r=>server.close(r));await rm(dataDir,{recursive:true,force:true});}

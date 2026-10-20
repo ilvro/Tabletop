@@ -1,6 +1,71 @@
 # Tabletop — andamento
 
-Atualizado em 15 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 20 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+
+## Templo gelado: complexo dentro da montanha (20 de outubro) — concluído
+
+Pedido: depois do portão, algo muito maior — várias salas abandonadas, tecnologia "nórdica", pinturas rupestres nas paredes, um trecho que desce para dentro da montanha, e uma sala isolada que leva a um corredor até um abismo gigante com escada em espiral descendo para o escuro. O exterior e o salão (aprovados) não mudaram.
+
+**Feito**
+
+- Kit `scripts/library-nordic-depths.js`, 14 modelos (349 no total; anteriores idênticos): console, engrenagens de parede, coluna condutora, forja rúnica, pedra rúnica, estante de tábuas, círculo no piso, porta-cofre circular, cápsula de estase, lanterna rúnica, uma volta da escada em espiral e três pinturas rupestres (caçada, anel, descida).
+- `scripts/frozen-temple-scene.js` reescrito: o santuário de gelo deu lugar a dez cômodos (átrio rúnico com o anel, máquinas, arquivo, alojamento, corredor, galeria rupestre, descida de 6 m com escadaria, forja profunda, sala isolada, corredor do abismo) feitos com Construir → Sala, vãos nas paredes que se tocam, teto de lajes, zona de ambiente por sala; abismo de 33 × 70 m com parede de 24 trechos, sete voltas de escada (56 m), lanternas e veios de cristal cada vez mais fracos e uma luz fria vinda do alto; segundo terreno (montanha) cobrindo o complexo, que encontra a caverna no portão. 401 elementos, 16 câmeras, uma pasta por sala.
+- Desempenho: a primeira versão levava 44 s para abrir (125 combinações de textura, uma semente por objeto). Materiais passaram a uma paleta curta (27 combinações): ~12 s; quadros de 9 a 37 ms por câmera nesta máquina.
+- `capture-frozen-temple.js` captura também a planta sem a montanha. Revisão em quatro rodadas: escada posicionada pelo centro (estava dentro da forja), lanternas e castiçal afastados das câmeras, salas e abismo mais claros, galeria com as lanternas da expedição junto às pinturas. Na captura do editor o **Ver interior** esconde as paredes da galeria; a revisão final foi feita no renderizador em modo de apresentação.
+- Testes: `tests/frozen-temple-scene.test.js` (salas, vãos, escada de 6 m, sete voltas a 8 m, pinturas, luzes quentes só da expedição e da forja, até 16 zonas, paleta de materiais ≤ 32); contagem da biblioteca em `library-reconstruction` (349).
+
+**Validação:** 353 testes unitários/de integração passaram; builds local e Pages; E2E de capas de exemplo (servidor, Pages, cache) e de carregamento de exemplos passaram. Suíte E2E completa não repetida.
+
+**Pendências reais:** abrir a cena leva ~12 s nesta máquina (o dobro do Galpão); as rochas com forma própria e a neve física são o resto do custo. A planta superior exige ocultar a pasta da montanha. A luz que desce pelo centro do abismo quase não aparece nas capturas. Sem tutorial de recriação.
+
+## Templo gelado: cena de exemplo e kit (19 de outubro) — concluído
+
+Pedido: cenário do templo da imagem de referência (salão de pilares, grade levadiça, caixas e barricadas) situado numa caverna de neve, mais realista e no estilo atual. Referência em `docs/references/scenes/templo-gelado.png`.
+
+**Feito**
+
+- Kit `scripts/library-frozen-temple.js`, 9 modelos (335 no total; os 326 anteriores idênticos): pilar escalonado com argola, portal em arco com recesso, grade levadiça em arco, nicho de porta com pilastras, anel rúnico, grade de alçapão, barricada de estacas cruzadas, pingentes de gelo e cristais luminosos. Registrado em `generate-library.js`.
+- Cena `scripts/frozen-temple-scene.js` → `public/scenes/templo-gelado.json` (`generate-frozen-temple-scene.js`), 103 elementos, seis câmeras, seis pastas; entrada na galeria (`src/data/example-scenes.js`). Caverna como terreno com paredões orgânicos, salão 14 × 20 × 9 m, santuário de gelo atrás da grade, ravina de entrada; luz principal ciano do anel com sombra das barras, rebatimento frio da neve, dois braseiros quentes, fresta no teto, névoa volumétrica e neve caindo.
+- `scripts/capture-frozen-temple.js` (seis câmeras + comparação com a referência), revisado em três rodadas: salão escuro demais → preenchimento e rebatimento; câmera e pilares reposicionados para o enquadramento da referência; pingentes reduzidos; cristais e véu do anel deixaram de estourar; rochas soltas que flutuavam trocadas por paredões enterrados no terreno.
+- `tests/frozen-temple-scene.test.js` (conteúdo, luzes, reprodução pelo gerador, cópia independente); contagens de `library-reconstruction` (335) e da galeria (`house-scene`) atualizadas.
+
+**Validação:** 352 testes unitários/de integração passaram; build local e Pages (a cena vai para `dist-pages/scenes/`); E2E de capas de exemplo (servidor e Pages, cache) e de carregamento de exemplos passaram; o caso "montanha no servidor" falhou uma vez por tempo e passou nas repetições seguintes, sem relação com esta cena. Suíte E2E completa não repetida.
+
+**Pendências reais:** sem tutorial de recriação (o gerador já segue a ordem de montagem, como o do galpão). O heightmap não faz teto de caverna: o "teto" da caverna é escuro (sem céu) e o salão tem lajes de pedra. A neve cai também sob o teto (não há colisão de flocos), o que aqui funciona como poeira de gelo.
+
+## Rework cinematográfico da interface (15–16 de outubro)
+
+Plano: [docs/UI_CINEMATIC_PLAN.md](docs/UI_CINEMATIC_PLAN.md). Guia de uso: [docs/EDITOR_UI.md](docs/EDITOR_UI.md#mesa-de-direção-rework-cinematográfico). Sistema visual: [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md). Capturas em `docs/references/ui/cinematic/` (`fase-1` a `fase-4`, `final` a 1600×950 e `final-800` a 800×900).
+
+**Feito (F0–F10, todas as fases)**
+
+- **F0** `src/ui/shell.js` (HTML do editor fora de `application.js`) e `src/ui/theme.css`; `scripts/audit-css-tokens.js` trocou as 316 cores literais de `styles.css` por tokens (0 literais; o teste aceita ≤ 15); os `style=` de cor dos módulos viraram classes/variável.
+- **F1** paleta preto-azulada com âmbar, Hanken Grotesk empacotada (URLs relativas: funciona no Pages), serifada nos nomes, etiquetas rasgadas nos títulos de tarefa/abas, escala tipográfica sem nada abaixo de 11 px, foco visível. `tests/theme.test.js` (tamanhos, contraste, cores).
+- **F2** trilho + claquete (tipo, nome, TOMADA n, salvamento, copiar link, desfazer/refazer, selo) + palco com ferramentas na vertical, cantoneiras de visor, HUD único e folha de atalhos (`src/ui/shortcuts.js`, conferida contra o `keydown`); `--scene-accent` pela luz principal (`src/ui/scene-accent.js`); selo `ENSAIO` / `● AO VIVO` / `ENSAIO · projetor em outra tomada` / `PRÉVIA DO PROJETOR` (`src/app/view-state.js`); layout compacto (≤ 900 px) com trilho embaixo e folhas.
+- **F3** cabeçalho do inspetor (tipo, nome serifado, nível · pasta, ações) e abas Posição/Aparência/Luz/Organização (`src/ui/inspector-tabs.js`, títulos coletados do inspetor de cada tipo nas cenas de exemplo); `revealNode` (tutor, paleta e testes).
+- **F4** janela Abrir mais larga com cartazes (`src/ui/posters.js`), tela de início (continuar, exemplos, do zero) e corte de cena em barras.
+- **F5** aba **Tomadas**: película com miniaturas (fila ociosa, uma por vez, só com a aba visível), **Ensaiar** (só editor) × **Transição**/**Corte**, carrossel com teclado (setas, Enter, Shift+Enter, 1–9); Ambiente ficou só com Atmosfera; lições apontam para `tab: 'shots'`.
+- **F6** projetor: controles agrupados que somem em 2,5 s, cartela de título (mensagem `title` no canal, sanitizada) e barras de cinema 2,39:1; nada disso entra no documento.
+- **F7** cartão de personagem (retrato com contorno de luz, filtro SVG na cor da cena) e avatares na árvore.
+- **F8** Ctrl+K (`src/ui/command-index.js`, `command-palette.js`): ações, controles da seleção, tarefas (`src/ui/task-definitions.js`), elementos, assets, cenas, tutoriais e "onde fica"; `?` abre os atalhos.
+- **F9** barra de ações ao lado do objeto selecionado (some em arraste, ferramentas de desenho, apresentação e tutoriais).
+- **F10** `docs/DESIGN_SYSTEM.md`, links `?scene=`, `?scene=&shot=` (só ensaia), `?example=`, `?map=` com o endereço acompanhando a cena e botão de copiar link, `src/ui/ecosystem.js` (vazio).
+
+**Diferenças em relação ao plano** (todas por contrato de teste ou por conta da medição)
+
+1. Clicar na aba ativa do trilho **não** recolhe a gaveta (os testes clicam na aba ativa o tempo todo, via `reveal`): o recolhimento é por **duplo clique** na aba ativa ou pela alça na borda da cena. As alças `sidebar-toggle` e `inspector-toggle` ficam no palco, não dentro dos painéis, porque os testes as clicam com o painel recolhido.
+2. Gaveta 288 px e inspetor 320 px (plano: 320 e 340). A meta "cena ≥ 1170×898" do plano não é alcançável com trilho + painéis abertos (1600 − 64 − 288 − 320); medido: **928×898** (antes ~1000×840), e a cena ocupa a largura toda com os painéis recolhidos.
+3. Início: os cartazes usam `data-welcome-open` / `data-welcome-example` (e não `data-open*`) para não duplicar seletores que os testes clicam com a janela Abrir aberta. Nos cartazes de Abrir o atributo de abrir fica no botão que envolve imagem e texto, mantendo `[data-open] img` e `.scene-thumbnail`.
+4. Miniaturas de tomada em 480×270 (reaproveitam `createScenePreviewRenderer`; o plano dizia 320×180) e geradas só com a aba Tomadas visível, uma por vez e com pausa entre elas, para não competir com a edição (cada miniatura é uma renderização completa da cena). A tela de início não gera prévias com `?diagnostics`.
+5. Ação do cabeçalho "enquadrar" é `frame-selection` (já existe `frame` na barra da câmera); a barra de seleção usa `data-bar`, para não duplicar `object-delete`/`object-duplicate`.
+6. A animação do foco de campo (`.reveal-flash`) anima `outline-color`, não `opacity`/`transform`; o resto respeita a regra 9.
+7. `server/app.js` aceita `TABLETOP_DIST` (só para rodar os E2E contra um build à parte).
+
+**Mudanças de teste além da regra 0.6** (todas explicadas): `controls.test.js` (o ajudante `open` troca de aba do inspetor), `editor.test.js` (cor da luz via `reveal`; a aba muda quando o teste mexe na posição), `tutorials.test.js` (`.first()`: o botão Tutoriais do trilho e o "Fechar" do centro têm o mesmo `data-action`), `house-scene`/`backrooms-scene` (contagem de exemplos 4 → 5: **já falhavam antes** porque a Subida da montanha virou o quinto exemplo; confirmado no commit anterior), `panel-consistency` e `controls.js` como previsto. Lições: o passo "Rotação Y e Cor" das mesas/computadores do galpão virou dois passos (campos em abas diferentes) e os passos de várias posições/luz só avançam com todos os valores (antes avançavam no primeiro, e a aba do inspetor trocava e escondia o campo seguinte); `tutorials.test.js` abre a aba do campo antes de cada gesto; o texto de "Salvar enquadramento atual" e o da visita guiada foram atualizados.
+
+**Validação**: `npm test` 350 passam (322 antes; novos: tema, selo, destaque da cena, abas, cartazes, tomadas, miniaturas, personagem, índice de busca). Sete E2E novos (`shell`, `shots`, `actor-hero`, `command-palette`, `links`, `selection-bar`, `motion`) e a suíte E2E inteira rodada em builds à parte (`TABLETOP_DIST`); últimos resultados: tudo passa, exceto o que está listado em "Pendências". Antes do rework, `assisted-rooms`, `backrooms-scene`, `house-scene` e `church-scene` já falhavam no commit anterior (contagem de exemplos 4 × 5 e esperas); os dois primeiros de contagem foram corrigidos e passam. Testes sensíveis a carga (`repeated-placement`, os tutoriais do galpão encadeados, `material-wear`, `example-scenes`) falharam uma vez com duas suítes em paralelo e passaram isolados. Pages: build com fontes por URL relativa (`./hanken-grotesk-*.woff2`); `document.fonts.check` verificado no E2E `motion`. A barra de seleção só aparece 350 ms depois de uma seleção/clique para nunca ficar sob o próximo clique (`repeated-placement`, `cables` e os tutoriais pegaram isso).
+
+**Pendências reais**: avaliação com uma pessoa; botão `?` no HUD (os atalhos estão no trilho e no `?`); o benchmark `scripts/benchmark-editor-performance.js` não foi repetido nesta máquina (SwiftShader, sem GPU: não mede FPS real); as dicas de "onde fica" foram conferidas pelos títulos de seção, só "rejunte" tem E2E; hierarquia de seções do inspetor para luzes pontuais/spot e tokens foi deduzida do código, não de uma cena com esses tipos.
 
 ## Tutoriais: iluminação e o galpão passo a passo (15 de outubro)
 

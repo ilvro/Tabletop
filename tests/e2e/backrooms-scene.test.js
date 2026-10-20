@@ -23,7 +23,7 @@ for(const mode of ['server','pages'])test(`backrooms gallery, roof, light histor
   const action=async name=>(await reveal(page.locator(`[data-action="${name}"]`).first())).click(),snapshot=()=>page.evaluate(()=>window.__tabletop.snapshot());
   await action('open');await page.locator('[data-open-example="backrooms"]').scrollIntoViewIfNeeded();
   if(mode==='pages'){await page.setViewportSize({width:390,height:844});await page.waitForFunction(()=>{const b=document.querySelector('[data-open-example="backrooms"]').getBoundingClientRect();return b.left>=0&&b.right<=innerWidth;});const bounds=await page.locator('[data-open-example="backrooms"]').boundingBox();assert.ok(bounds.x>=0&&bounds.x+bounds.width<=390);await page.setViewportSize({width:1200,height:800});}
-  assert.equal(await page.locator('[data-open-example]').count(),4);
+  assert.equal(await page.locator('[data-open-example]').count(),5);
   assert.equal(await page.locator('[data-open-example^="lighting-"], [data-open-example="icewind-bridge"]').count(),0);
   assert.ok(await page.locator('[data-open-example="backrooms"] .scene-thumbnail').count());
   assert.equal(requests.some(url=>/\/scenes\/[^/]+\.jpg(?:$|\?)/.test(url)),false);

@@ -30,7 +30,7 @@ test('swatches, segments and sliders edit the same fields, one undo step each', 
     const folder=page.locator('[data-group-collapse]').first();await folder.click();assert.equal(await folder.getAttribute('aria-expanded'),'false');await folder.click();
     assert.equal(JSON.stringify((await page.evaluate(()=>window.__tabletop.snapshot())).layout),revision);
     await (await reveal(page.locator(`[data-select="${floor.id}"]`).first())).click();
-    const panel=page.locator('#inspector-content'),open=node=>node.evaluate(e=>{for(let p=e.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;});
+    const panel=page.locator('#inspector-content'),open=node=>node.evaluate(e=>{const pane=e.closest('[data-inspector-tab]');if(pane?.hidden)document.querySelector(`[data-inspector-tab-button="${pane.dataset.inspectorTab}"]`)?.click();for(let p=e.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;});
     const grid=panel.locator('.choice-field:has([data-field="material-texture"])');await open(grid);
 
     await grid.locator('[data-choice="tile"]').click();

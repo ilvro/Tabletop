@@ -42,7 +42,7 @@ async function validateAssetReferences(document, assets) {
 }
 
 /** Build/API share one origin in production. The slice is intentionally local. */
-export async function createApp({ dataDir = path.join(projectDir, 'data'), distDir = path.join(projectDir, 'dist'), publicDir = path.join(projectDir, 'public'), allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'], assetLimit = '25mb', backupLimit = 5, instanceId = randomUUID() } = {}) {
+export async function createApp({ dataDir = path.join(projectDir, 'data'), distDir = process.env.TABLETOP_DIST || path.join(projectDir, 'dist'), publicDir = path.join(projectDir, 'public'), allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'], assetLimit = '25mb', backupLimit = 5, instanceId = randomUUID() } = {}) {
   const app = express();
   app.disable('x-powered-by');
   const storage = new DocumentStorage(path.resolve(dataDir), { backupLimit });

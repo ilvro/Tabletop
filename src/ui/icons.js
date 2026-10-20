@@ -29,6 +29,13 @@ const paths = {
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 1v2m0 18v2M1 12h2m18 0h2M4 4l2 2m12 12 2 2M4 20l2-2M18 6l2-2"/>',
   chevron: '<path d="m9 5 7 7-7 7"/>',
   edit: '<path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',
+  layers: '<path d="m12 3 9 5-9 5-9-5zM3 13l9 5 9-5M3 17.5l9 5 9-5"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m21 21-5-5"/>',
+  cap: '<path d="m2 9 10-5 10 5-10 5zM6 11.5V17c0 1.5 3 3 6 3s6-1.5 6-3v-5.5M22 9v6"/>',
+  help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/>',
+  rec: '<circle cx="12" cy="12" r="5" fill="currentColor"/>',
+  'panel-left': '<path d="m15 6-6 6 6 6M4 4v16"/>',
+  'panel-right': '<path d="m9 6 6 6-6 6M20 4v16"/>',
   dots: '<circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="19" r="1.5"/>',
 };
 

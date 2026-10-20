@@ -322,6 +322,22 @@ Diretório de dados configurável, fora do bundle:
 
 Vite encaminha API em desenvolvimento; Express serve build/API na mesma origem em produção local. Rotas API precedem fallback HTML. UI depende do domínio; renderer observa estado; domínio não depende de renderer. Não há banco, ECS, física ou framework de plugins como requisito inicial.
 
+### Módulos da interface (rework cinematográfico)
+
+`src/app/application.js` continua sendo a ligação entre estado, renderer e DOM; o que é marcação ou regra pura saiu para módulos pequenos:
+
+| Módulo | Papel |
+|---|---|
+| `src/ui/shell.js` | HTML estático do editor (trilho, claquete, palco, inspetor, diálogos) e o helper `button` |
+| `src/ui/theme.css`, `src/ui/projector.css`, `src/ui/fonts/` | tokens `eco`/`tt`, primitivas, janela do projetor, Hanken Grotesk empacotada |
+| `src/ui/scene-accent.js` | `--scene-accent` derivado da luz principal |
+| `src/ui/inspector-tabs.js`, `src/ui/reveal.js` | abas do inspetor, rótulo do tipo e `revealNode` (tutor, paleta e testes) |
+| `src/ui/shots-panel.js`, `src/app/shot-thumbnails.js`, `src/app/view-state.js` | película e carrossel de tomadas, miniaturas em fila ociosa, selo ao vivo/ensaio |
+| `src/ui/command-index.js`, `src/ui/command-palette.js`, `src/ui/shortcuts.js`, `src/ui/task-definitions.js` | busca (Ctrl+K), folha de atalhos e as tarefas de cada aba |
+| `src/ui/posters.js`, `src/ui/stage-cut.js`, `src/ui/actor-hero.js`, `src/ui/ecosystem.js` | cartazes, corte de cena, cartão de personagem, vagas do ecossistema |
+
+Nada disso toca `documents.js`, `validation.js` ou os comandos: aba aberta, tomada ensaiada, cartela e miniaturas são estado de sessão. A cartela de título é a mensagem `title` do canal do projetor (mesma `version: 1`); `view` e `snapshot` ganharam o campo opcional `letterbox`.
+
 ## 11. Apresentação, áudio e ficha
 
 A janela de apresentação recebe snapshot filtrado da cena, sequência de alterações e enquadramento publicado. O editor conserva sua câmera. Reabrir a janela pede novo snapshot; troca de cena invalida eventos antigos pelo ID de sessão/cena e sequência.

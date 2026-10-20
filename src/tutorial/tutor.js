@@ -1,6 +1,7 @@
 import { LESSONS } from './lessons.js';
 import { met } from './conditions.js';
 import { escapeHTML as esc } from '../ui/icons.js';
+import { revealNode } from '../ui/reveal.js';
 
 const STORE = 'tabletop-tutorials-v1';
 const read = () => { try { return JSON.parse(localStorage.getItem(STORE) ?? '{}'); } catch { return {}; } };
@@ -37,7 +38,7 @@ export function createTutor(root, host) {
     const acts = Array.isArray(current.act?.[0]) ? current.act : [current.act];
     return acts.filter(act => ['click', 'fill', 'select'].includes(act?.[0]) && typeof act[1] === 'string').map(act => act[1]).filter(selector => selector !== current.target);
   }
-  const open = node => { for (let parent = node.parentElement; parent; parent = parent.parentElement) if (parent.tagName === 'DETAILS' && !parent.open) parent.querySelector(':scope > summary')?.click(); };
+  const open = node => revealNode(node, { scroll: false });
   /** Brings the target into reach: its side tab forward and the tasks around it, and around the controls that go with it, open. */
   function prepare(current) {
     if (current.tab && host.state().tab !== current.tab) host.open(current.tab);
@@ -47,7 +48,7 @@ export function createTutor(root, host) {
     for (const selector of companions(current)) { const node = root.querySelector(selector); if (node && region(node) === region(target)) open(node); }
     return target;
   }
-  const region = node => node.closest('#side-content, #inspector-content, .app-header, dialog');
+  const region = node => node.closest('#side-content, #inspector-content, .app-header, .rail, dialog');
   /**
    * What the step is about on screen: the target with its label, and the controls that go with it in the same panel.
    * The ring goes around all of it and the card keeps clear of it, so no field the step asks for is covered.

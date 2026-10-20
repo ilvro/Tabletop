@@ -12,7 +12,7 @@ Atualizado em 6 de outubro de 2026. Este guia descreve a interface implementada;
 
 **Construir** organiza tarefas em quatro contextos: **Paisagem** (terreno, água e vegetação), **Construções** (sala, superfícies/acessos, peças e mobiliário), **Personagens** e **Organização** (andares, camadas de organização e grid). As tarefas conservam sua abertura durante edições. Selecionar terreno torna Paisagem acessível. **Cena** usa o mesmo padrão de grupos e tarefas recolhíveis: **Atmosfera** (ambientes/horários, sol/lua, céu, clima, objetos noturnos e névoa/bloom/qualidade), **Câmera e apresentação** (navegação, enquadramentos e publicação), **Elementos e documento** (árvore de objetos, pastas e cópia da cena).
 
-Ao ativar um desenho, colocação ou pincel, a barra sobre a cena informa a ferramenta e permite voltar à seleção. Um pincel ativo mostra seus controles primeiro nas Propriedades. **Ferramentas** e **Propriedades**, no cabeçalho, recolhem os painéis para liberar espaço; ao entrar em telas estreitas os painéis se recolhem e podem ser abertos sobre a cena, um por vez. Selecionar um objeto abre suas propriedades nessa tela. Ao ampliar a janela, a abertura dos painéis de desktop é restaurada. O suporte da câmera continua mouse/teclado; isto não implementa navegação 3D por gestos de toque.
+Ao ativar um desenho, colocação ou pincel, a barra sobre a cena informa a ferramenta e permite voltar à seleção. Um pincel ativo mostra seus controles primeiro nas Propriedades. As abas rápidas nas bordas da cena (**‹** e **›**) recolhem a gaveta e as propriedades para liberar espaço; ao entrar em telas estreitas os painéis se recolhem e podem ser abertos sobre a cena, um por vez. Selecionar um objeto abre suas propriedades nessa tela. Ao ampliar a janela, a abertura dos painéis de desktop é restaurada. O suporte da câmera continua mouse/teclado; isto não implementa navegação 3D por gestos de toque.
 
 ## Propriedades de objetos e luzes
 
@@ -64,3 +64,16 @@ Para editar um mapa amplo sob névoa, use **Cena → Atmosfera → Névoa e efei
 ## Capas das cenas em Abrir
 
 **Abrir → Cenas** mostra uma imagem automática do cenário em cada cartão, incluindo a cena em criação antes de salvar. A capa muda após uma pausa nas edições, sem exigir upload ou captura manual; criar a partir de mapa, duplicar e importar JSON seguem esse fluxo. Mapas do acervo também têm imagens. Cenas antigas recebem capa em segundo plano; a captura não move/publica câmera, não inclui grid/seleção/gizmos e não bloqueia Salvar. [Detalhes e armazenamento](EXAMPLE_SCENES.md#imagem-automática-de-cada-cena).
+
+## Mesa de direção (rework cinematográfico)
+
+Desde o rework de 15 de outubro de 2026 a tela segue a metáfora da mesa de direção; o desenho está em [UI_CINEMATIC_PLAN.md](UI_CINEMATIC_PLAN.md) e o sistema visual em [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
+
+- **Trilho** (esquerda): Construir, Elementos, Ambiente e **Tomadas** (os lugares); Assets, Abrir e Nova (janelas); Buscar, Atalhos e Tutoriais. Um clique abre o lugar; **duplo clique no lugar ativo** recolhe a gaveta. Em telas estreitas (≤ 900 px) o trilho vira barra inferior e a gaveta e as propriedades abrem como folhas, uma por vez.
+- **Claquete** (topo): tipo (CENA/MAPA), nome editável, **TOMADA n** (a revisão salva), estado de salvamento, copiar link, desfazer/refazer, **selo de estado**, Apresentar e Salvar.
+- **Selo de estado**: `ENSAIO` sem projetor; `● AO VIVO` quando o projetor está conectado e mostra o mesmo enquadramento que o editor; `ENSAIO · projetor em outra tomada` quando você se afastou (clique para publicar a câmera atual); `PRÉVIA DO PROJETOR` ao apresentar na própria janela. Navegar nunca publica.
+- **Propriedades** têm cabeçalho com tipo, nome em serifada e ações (copiar, enquadrar, duplicar, excluir) e quatro abas — **Posição**, **Aparência**, **Luz**, **Organização** — só com o que o objeto tem. Personagens ganham o cartão com retrato; o duplo clique no nome foca o campo Nome (em Organização). Uma barra flutuante ao lado do objeto selecionado dá Mover, Girar, Aparência, Luz, Duplicar e Excluir.
+- **Tomadas**: cada enquadramento salvo é uma tomada com miniatura. **Ensaiar** move só o editor; **Transição** e **Corte** publicam. Com o projetor conectado (ou apresentando) um carrossel sobre a cena escolhe a tomada: setas, Enter (transição), Shift+Enter (corte) e 1–9 (corte direto). O grupo **Projetor** guarda lente, velocidade, segunda tela e a **cartela de título** (texto sobre a imagem do projetor, só de sessão) e as barras de cinema.
+- **Ctrl+K** busca ações, controles da seleção, tarefas, elementos, assets, cenas, tutoriais e "onde fica" (por exemplo "rejunte"); **?** abre a folha de atalhos.
+- **Início**: continuar a cena mais recente, abrir um exemplo em um clique ou começar do zero. Abrir mostra cartazes.
+- Links: `?scene=<id>`, `?scene=<id>&shot=<id>` (ensaia, não publica), `?example=<id>`, `?map=<id>`.
