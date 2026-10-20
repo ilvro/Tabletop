@@ -1,5 +1,7 @@
 # Tabletop — Progresso do Projeto
 
+**Cor do tema (20 de outubro):** Ajustes no trilho com a janela Aparência: sete paletas ou uma cor personalizada (clareada para continuar legível), opção de os destaques seguirem a luz da cena, preferência do navegador também no projetor; botão `?` de atalhos no HUD. [Uso](docs/EDITOR_UI.md#mesa-de-direção-rework-cinematográfico) · [Sistema visual](docs/DESIGN_SYSTEM.md).
+
 **Templo gelado, complexo interno (20 de outubro):** atrás da grade levadiça, um complexo nórdico abandonado dentro da montanha — átrio rúnico, sala de máquinas, arquivo, alojamento, galeria de pinturas rupestres, escadaria até uma forja profunda, porta-cofre, sala isolada e corredor até um abismo de 70 m com escada em espiral; 14 modelos novos (349 no total). [Cenas de exemplo](docs/EXAMPLE_SCENES.md#templo-gelado) · [biblioteca](docs/ASSET_LIBRARY.md#kit-das-profundezas-nórdicas-20-de-outubro-de-2026).
 
 **Templo gelado (19 de outubro):** nova cena de exemplo — salão de pilares escavado numa caverna de neve, com grade levadiça em arco, santuário de gelo com anel rúnico azul, nichos com braseiros e acampamento de barricadas; 9 modelos novos (335 no total) no kit do templo gelado. [Cenas de exemplo](docs/EXAMPLE_SCENES.md#templo-gelado) · [biblioteca](docs/ASSET_LIBRARY.md#kit-do-templo-gelado-19-de-outubro-de-2026).

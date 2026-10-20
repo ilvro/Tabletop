@@ -2,6 +2,22 @@
 
 Atualizado em 20 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Cor do tema nas configurações e `?` no HUD (20 de outubro) — concluído
+
+Pedido: ver se havia melhoria de UI pendente e permitir trocar a paleta do site, que era só âmbar.
+
+**Feito**
+
+- `src/ui/ui-theme.js`: sete paletas (Tungstênio padrão, Cobre, Rosa, Musgo, Jade, Petróleo, Céu) e cor personalizada; `paletteTokens` deriva destaque, hover e tinta, clareando cores escuras até 7:1 (tinta) e 4,5:1 (sobre os painéis). Preferência em `localStorage` (`tabletop-ui-theme`, com o escopo do diretório), aplicada no `:root` do editor e da janela do projetor e sincronizada entre abas (`storage`).
+- Trilho ganhou **Ajustes** (`data-action="settings"`, ícone `gear`) com a janela **Aparência**: amostras, seletor de cor (prévia ao arrastar, grava ao soltar), **Seguir a luz principal da cena** e Restaurar padrão. Ctrl+K encontra "Configurações" e "Cor do tema da interface".
+- `--scene-accent`, cartazes, cartela do projetor e o contorno de retrato caem na cor do tema (antes `#e3b878` fixo) e, com "Seguir a luz" desligado, usam só ela.
+- Pendência do rework: botão `?` no HUD (`.hud-help`, ao lado do resumo da cena; some no layout compacto, como o Atalhos do trilho).
+- Testes: `tests/theme.test.js` (contraste de todas as paletas e de cores extremas, Tungstênio idêntico ao CSS, normalização); E2E novo `tests/e2e/ui-theme.test.js` (troca, botão segue o tema, documento intocado, recarregar, personalizada clareada, restaurar, `?` do HUD).
+
+**Validação:** 355 testes unitários/de integração passam; builds local e Pages; E2E `ui-theme`, `shell`, `command-palette`, `motion` e `panel-consistency` passam. `pages` falha no caso do catálogo (`pages.test.js:41`, espera da contagem de assets) — falha igual no commit anterior, sem estas mudanças; não é desta alteração e não foi corrigida. Capturas conferidas com Céu e Rosa.
+
+**Pendências reais:** com "Seguir a luz" ligado (padrão), cenas de luz quente continuam com claquete e cantoneiras âmbar; a cor do tema não muda o fundo nem o 3D. Nenhuma pessoa avaliou as paletas.
+
 ## Templo gelado: complexo dentro da montanha (20 de outubro) — concluído
 
 Pedido: depois do portão, algo muito maior — várias salas abandonadas, tecnologia "nórdica", pinturas rupestres nas paredes, um trecho que desce para dentro da montanha, e uma sala isolada que leva a um corredor até um abismo gigante com escada em espiral descendo para o escuro. O exterior e o salão (aprovados) não mudaram.
@@ -65,7 +81,7 @@ Plano: [docs/UI_CINEMATIC_PLAN.md](docs/UI_CINEMATIC_PLAN.md). Guia de uso: [doc
 
 **Validação**: `npm test` 350 passam (322 antes; novos: tema, selo, destaque da cena, abas, cartazes, tomadas, miniaturas, personagem, índice de busca). Sete E2E novos (`shell`, `shots`, `actor-hero`, `command-palette`, `links`, `selection-bar`, `motion`) e a suíte E2E inteira rodada em builds à parte (`TABLETOP_DIST`); últimos resultados: tudo passa, exceto o que está listado em "Pendências". Antes do rework, `assisted-rooms`, `backrooms-scene`, `house-scene` e `church-scene` já falhavam no commit anterior (contagem de exemplos 4 × 5 e esperas); os dois primeiros de contagem foram corrigidos e passam. Testes sensíveis a carga (`repeated-placement`, os tutoriais do galpão encadeados, `material-wear`, `example-scenes`) falharam uma vez com duas suítes em paralelo e passaram isolados. Pages: build com fontes por URL relativa (`./hanken-grotesk-*.woff2`); `document.fonts.check` verificado no E2E `motion`. A barra de seleção só aparece 350 ms depois de uma seleção/clique para nunca ficar sob o próximo clique (`repeated-placement`, `cables` e os tutoriais pegaram isso).
 
-**Pendências reais**: avaliação com uma pessoa; botão `?` no HUD (os atalhos estão no trilho e no `?`); o benchmark `scripts/benchmark-editor-performance.js` não foi repetido nesta máquina (SwiftShader, sem GPU: não mede FPS real); as dicas de "onde fica" foram conferidas pelos títulos de seção, só "rejunte" tem E2E; hierarquia de seções do inspetor para luzes pontuais/spot e tokens foi deduzida do código, não de uma cena com esses tipos.
+**Pendências reais**: avaliação com uma pessoa; ~~botão `?` no HUD~~ (feito em 20 de outubro); o benchmark `scripts/benchmark-editor-performance.js` não foi repetido nesta máquina (SwiftShader, sem GPU: não mede FPS real); as dicas de "onde fica" foram conferidas pelos títulos de seção, só "rejunte" tem E2E; hierarquia de seções do inspetor para luzes pontuais/spot e tokens foi deduzida do código, não de uma cena com esses tipos.
 
 ## Tutoriais: iluminação e o galpão passo a passo (15 de outubro)
 

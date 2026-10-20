@@ -36,6 +36,7 @@ export function search(entries, query, limit = 40) {
 
 /** Controls that only exist with something selected: where to find them. Checked against the real panels. */
 export const WHERE = [
+  { label: 'Cor do tema da interface', keywords: 'paleta aparencia configuracoes ajustes amarelo', hint: 'Trilho à esquerda → Ajustes → Cor do tema' },
   { label: 'Rejunte do azulejo', keywords: 'junta azulejo ladrilho', hint: 'Selecione um piso ou parede → Aparência → textura Azulejo → Largura do rejunte' },
   { label: 'Neve e cobertura', keywords: 'inverno gelo grama', hint: 'Selecione o objeto ou o terreno → Aparência → Cobertura' },
   { label: 'Ferrugem, musgo e sujeira', keywords: 'desgaste envelhecer bordas fuligem', hint: 'Selecione o objeto → Aparência → Desgaste' },

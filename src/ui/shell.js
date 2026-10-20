@@ -34,6 +34,7 @@ export function shellMarkup({ storage, homeURL }) {
         <div class="rail-group">
           ${railAction('command-palette', 'Buscar', 'search', 'data-key="Ctrl+K"')}${railAction('shortcuts', 'Atalhos', 'help', 'data-key="?"')}
           ${railAction('tutorials', 'Tutoriais', 'cap', 'aria-expanded="false" aria-controls="tutorial-center"')}
+          ${railAction('settings', 'Ajustes', 'gear', 'aria-expanded="false" aria-controls="settings-dialog"')}
         </div>
         ${ecosystemRail()}
         <span class="storage-dot sidebar-footer" title="${storage === 'browser' ? 'Dados salvos neste navegador.' : 'Sua mesa, no seu computador.'}"><i class="local-dot"></i><span class="sr-only">${storage === 'browser' ? 'Dados salvos neste navegador.' : 'Sua mesa, no seu computador.'}</span></span>
@@ -67,7 +68,7 @@ export function shellMarkup({ storage, homeURL }) {
         <div class="stage-cut" aria-hidden="true"><i></i><i></i></div>
         <aside id="tutorial-center" class="tutorial-center" aria-label="Tutoriais" hidden></aside><div id="tool-context" class="tool-context" hidden></div><div id="proposal-bar" class="proposal-bar" hidden></div>
         <span id="gesture-hint" class="gesture-hint">WASD: câmera · Shift: rápido · Direito: órbita · Scroll: zoom</span>
-        <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}${button('roofs', 'Telhados', 'room', 'quiet active', 'aria-pressed="true" title="Mostrar ou ocultar telhados e forros enquanto edita"')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet', 'title="Capturar WASD e suas combinações em tela cheia; Esc sai" aria-pressed="false"')}</div><span id="scene-summary" class="scene-summary">Preparando sua mesa…</span></div>
+        <div class="viewport-bottom"><div class="camera-strip">${button('perspective', 'Perspectiva', 'camera', 'quiet active')}${button('top', 'Superior', 'floor', 'quiet')}${button('frame', 'Enquadrar', 'frame', 'quiet')}${button('cutaway', 'Ver interior', 'eye', 'quiet active', 'aria-pressed="true"')}${button('roofs', 'Telhados', 'room', 'quiet active', 'aria-pressed="true" title="Mostrar ou ocultar telhados e forros enquanto edita"')}${button('fullscreen', 'Tela cheia', 'frame', 'quiet', 'title="Capturar WASD e suas combinações em tela cheia; Esc sai" aria-pressed="false"')}</div><span class="hud-end"><span id="scene-summary" class="scene-summary">Preparando sua mesa…</span>${button('shortcuts', '', 'help', 'icon-button hud-help', 'data-tip="Atalhos" data-key="?" data-tip-side="top" aria-label="Atalhos de teclado"')}</span></div>
         <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
       </main>
       <aside class="inspector"><div class="panel-heading"><span class="tt-eyebrow">PROPRIEDADES</span></div><div class="tt-rule"></div><div id="inspector-content"></div></aside>
@@ -97,6 +98,7 @@ export function shellMarkup({ storage, homeURL }) {
     </dialog>
     <dialog id="command-palette" class="command-palette" aria-label="Buscar"><input id="palette-input" type="text" role="combobox" aria-expanded="false" aria-controls="palette-list" aria-autocomplete="list" placeholder="Buscar ações, controles, elementos, assets, cenas…" autocomplete="off" spellcheck="false" /><ul id="palette-list" role="listbox" aria-label="Resultados"></ul></dialog>
     <dialog id="shortcuts-sheet" class="shortcuts-sheet" aria-label="Atalhos de teclado"></dialog>
+    <dialog id="settings-dialog" class="shortcuts-sheet settings-sheet" aria-label="Configurações"></dialog>
     <dialog id="asset-metadata-dialog" aria-label="Classificar asset"></dialog>
     <dialog id="recovery-dialog"><span class="eyebrow">RECUPERAÇÃO LOCAL</span><h2>Há trabalho não salvo</h2><p id="recovery-description"></p><div class="dialog-actions">${button('discard-draft', 'Descartar rascunho', '', 'quiet')}${button('restore-draft', 'Restaurar trabalho', 'undo', 'primary')}</div></dialog>
     <div id="context-menu" class="context-menu" hidden></div>

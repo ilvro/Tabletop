@@ -25,3 +25,22 @@ test('colours live in the theme, not in the stylesheet', async () => {
   const css = await read('styles.css');
   assert.ok((css.match(/#[0-9a-fA-F]{3,8}\b/g) ?? []).length <= 15);
 });
+
+test('every interface palette keeps dark ink readable on its accent and the accent readable on panels', async () => {
+  const { UI_PALETTES, paletteTokens, contrast: ratio } = await import('../src/ui/ui-theme.js');
+  const theme = await read('theme.css'), surface = hex(theme, 'tt-surface-1');
+  const samples = [...UI_PALETTES.map(p => p.accent), '#000000', '#ffffff', '#0a1f8f', '#7a0000', '#00ff00', '#808080', '#3d2b5c'];
+  for (const color of samples) {
+    const tokens = paletteTokens(color);
+    assert.ok(ratio(tokens.ink, tokens.accent) >= 7, `ink on ${color} → ${tokens.accent}`);
+    assert.ok(ratio(tokens.accent, surface) >= 4.5, `${color} → ${tokens.accent} on panels`);
+  }
+  assert.deepEqual(paletteTokens('#e3b878'), { accent: hex(theme, 'tt-accent'), strong: hex(theme, 'tt-accent-strong'), ink: hex(theme, 'tt-accent-ink') });
+});
+
+test('a stored interface theme is normalized', async () => {
+  const { normalizeUiTheme, DEFAULT_UI_THEME } = await import('../src/ui/ui-theme.js');
+  assert.deepEqual(normalizeUiTheme(null), { ...DEFAULT_UI_THEME });
+  assert.deepEqual(normalizeUiTheme({ palette: 'nope', custom: 'red', followScene: 0 }), { ...DEFAULT_UI_THEME, followScene: true });
+  assert.deepEqual(normalizeUiTheme({ palette: 'custom', custom: '#ABCDEF', followScene: false }), { palette: 'custom', custom: '#abcdef', followScene: false });
+});

@@ -27,6 +27,8 @@ Linguagem compartilhada entre o Tabletop, as fichas cinematográficas (*Ficha te
 
 Camada `tt`: `--tt-bg`, `--tt-surface-1/2/3`, `--tt-line`, `--tt-line-strong`, `--tt-text`, `--tt-text-2`, `--tt-muted`, `--tt-accent`, `--tt-accent-strong`, `--tt-accent-ink`, `--tt-rec` (ao vivo), `--tt-gm` (só mestre), `--tt-ok/warn/danger`. `tests/theme.test.js` garante contraste (`--tt-muted` sobre `--tt-surface-1` ≥ 4,5; `--tt-text` sobre `--tt-bg` ≥ 12) e nenhuma fonte abaixo de 11 px.
 
+**Cor do tema escolhida pela pessoa** ([src/ui/ui-theme.js](../src/ui/ui-theme.js), Ajustes → Aparência): grava em `localStorage` (`tabletop-ui-theme`, por diretório publicado) e reescreve `--tt-accent`, `--tt-accent-strong` e `--tt-accent-ink` no `:root`, no editor e no projetor. `paletteTokens` clareia qualquer cor até a tinta escura ter 7:1 sobre ela e ela ter 4,5:1 sobre `--tt-surface-1` (testado em `tests/theme.test.js`); Tungstênio devolve exatamente os valores de `theme.css`. A mesma preferência decide se `--scene-accent` segue a luz da cena (padrão) ou fica na cor do tema; a luz da cena cai na cor do tema quando é cinza. Por isso nenhuma regra nova deve usar o âmbar literal: use os tokens.
+
 Botões, foco, deslizantes e abas usam sempre `--tt-accent`; só claquete, cantoneiras, regras sob títulos, película de tomadas, retrato e cartela usam `--scene-accent`.
 
 ## Primitivas

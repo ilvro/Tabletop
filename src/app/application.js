@@ -69,6 +69,7 @@ import { viewState } from './view-state.js';
 import { INSPECTOR_TABS, inspectorTabFor, kindLabel } from '../ui/inspector-tabs.js';
 import { revealNode } from '../ui/reveal.js';
 import { sceneAccent } from '../ui/scene-accent.js';
+import { readUiTheme, writeUiTheme, applyUiTheme, normalizeUiTheme, uiThemeMarkup, DEFAULT_UI_THEME } from '../ui/ui-theme.js';
 import { posterMarkup } from '../ui/posters.js';
 import { createStageCut } from '../ui/stage-cut.js';
 import { createCommandPalette } from '../ui/command-palette.js';
@@ -92,11 +93,15 @@ const lastScene = {
   read() { try { return localStorage.getItem(lastSceneKey); } catch { return null; } },
   write(value) { try { localStorage.setItem(lastSceneKey, value); } catch { /* Optional preference, independent of a confirmed disk write. */ } },
 };
+const uiThemeKey = `tabletop-ui-theme${storageScope()==='/'?'':':'+storageScope()}`;
 
 export async function startApplication() {
   const root = document.getElementById('app');
   const presentationId = new URLSearchParams(location.search).get('presentation');
+  let uiTheme = readUiTheme(uiThemeKey), brandAccent = applyUiTheme(uiTheme), uiThemeSaved = true;
   if (presentationId) return startPresentation(root, presentationId);
+  // Scene-derived colours fall back to the chosen palette, or follow it entirely when the person turns that off.
+  const accentFor = look => uiTheme.followScene ? sceneAccent(look, brandAccent) : brandAccent;
   root.innerHTML = shellMarkup({ storage: repository.storage, homeURL: applicationURL('') });
 
   let assets = [], savedScenes = [], savedMaps = [], selection = null, tool = 'select', tab = 'build';
@@ -189,7 +194,7 @@ export async function startApplication() {
     add('Ações', 'Régua', () => act('tool-measure'), { keywords: 'medir distancia ferramenta', hint: keyFor('Régua') }); add('Ações', 'Conta-gotas', () => act('material-eyedropper'), { keywords: 'copiar material ferramenta', hint: keyFor('Conta-gotas') });
     action('Esculpir terreno', 'terrain-sculpt', 'pincel relevo'); action('Enquadrar', 'frame', 'foco camera');
     action('Perspectiva', 'perspective', 'camera vista'); action('Vista superior', 'top', 'camera planta'); action('Ver interior', 'cutaway', 'paredes da frente'); action('Telhados', 'roofs', 'forro mostrar ocultar'); action('Tela cheia', 'fullscreen');
-    action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda');
+    action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda'); action('Configurações', 'settings', 'aparencia tema cor paleta destaque preferencias');
     for (const [name, label, keywords] of [['build', 'Construir', 'ferramentas sala prédio'], ['elements', 'Elementos', 'lista objetos cena'], ['scene', 'Ambiente', 'luz atmosfera clima'], ['shots', 'Tomadas', 'câmeras enquadramentos projetor']]) add('Ações', `Ir para ${label}`, () => goToTab(name), { keywords });
     for (const preset of ENVIRONMENTS) add('Ações', `Ambiente · ${preset.name}`, () => execute('environment.apply', { presetId: preset.id }), { keywords: `${preset.description} horario atmosfera`, hint: 'aplicar ambiente' });
     for (const [tabName, groups] of Object.entries(TASKS_BY_TAB)) for (const { title, tasks } of groups) for (const [, key, label, description] of tasks) add('Tarefas', label, () => openTask(tabName, key), { keywords: `${description} ${title}`, hint: `${TAB_TITLES[tabName].toLowerCase()} · ${title}` });
@@ -216,6 +221,43 @@ export async function startApplication() {
     const sheet = document.getElementById('shortcuts-sheet'), next = open ?? !sheet.open;
     if (next && !sheet.open) { sheet.innerHTML = shortcutsSheetMarkup(); sheet.show(); sheet.querySelector('button')?.focus(); }
     else if (!next && sheet.open) { sheet.close(); root.querySelector('[data-action="shortcuts"]')?.focus(); }
+  }
+  function setUiTheme(next, { persist = true } = {}) {
+    uiTheme = normalizeUiTheme(next); brandAccent = applyUiTheme(uiTheme);
+    if (persist) uiThemeSaved = writeUiTheme(uiThemeKey, uiTheme);
+    renderSettings();
+    if (!initialized) return;
+    paintSceneAccent(); renderWelcome();
+    if (document.getElementById('documents-dialog').open) renderDialogContent();
+  }
+  function renderSettings() {
+    const sheet = document.getElementById('settings-dialog'); if (!sheet.open) return;
+    const focused = document.activeElement?.closest?.('#settings-dialog') ? (document.activeElement.dataset.uiPalette ?? document.activeElement.id) : null;
+    sheet.innerHTML = uiThemeMarkup(uiTheme, { saved: uiThemeSaved });
+    if (focused) sheet.querySelector(`[data-ui-palette="${focused}"], #${CSS.escape(focused)}`)?.focus();
+  }
+  function toggleSettings(open) {
+    const sheet = document.getElementById('settings-dialog'), next = open ?? !sheet.open;
+    if (next && !sheet.open) { sheet.show(); renderSettings(); sheet.querySelector('[aria-pressed="true"], input')?.focus(); }
+    else if (!next && sheet.open) { sheet.close(); root.querySelector('.rail [data-action="settings"]')?.focus(); }
+    root.querySelector('.rail [data-action="settings"]')?.setAttribute('aria-expanded', String(sheet.open));
+  }
+  {
+    const sheet = document.getElementById('settings-dialog');
+    sheet.addEventListener('click', event => {
+      const swatch = event.target.closest('[data-ui-palette]');
+      if (swatch) setUiTheme({ ...uiTheme, palette: swatch.dataset.uiPalette });
+      else if (event.target.closest('[data-ui-theme-reset]')) setUiTheme(DEFAULT_UI_THEME);
+      else if (event.target.closest('[data-settings-close]')) toggleSettings(false);
+    });
+    // The picker previews while dragging and is stored once the person settles on a colour.
+    sheet.addEventListener('input', event => { if (event.target.id === 'ui-theme-custom') { uiTheme = normalizeUiTheme({ ...uiTheme, palette: 'custom', custom: event.target.value }); brandAccent = applyUiTheme(uiTheme); if (initialized) paintSceneAccent(); } });
+    sheet.addEventListener('change', event => {
+      if (event.target.id === 'ui-theme-custom') setUiTheme({ ...uiTheme, palette: 'custom', custom: event.target.value });
+      else if (event.target.id === 'ui-theme-follow') setUiTheme({ ...uiTheme, followScene: event.target.checked });
+    });
+    // Another tab changed the preference.
+    window.addEventListener('storage', event => { if (event.key === uiThemeKey) setUiTheme(readUiTheme(uiThemeKey), { persist: false }); });
   }
   function togglePanel(key) {
     const shell = root.querySelector('.app-shell'), closed = shell.classList.toggle(`${key}-collapsed`);
@@ -1141,6 +1183,10 @@ export async function startApplication() {
       history.replaceState(null, '', url);
     } catch { /* an address that cannot be rewritten is only a missing convenience */ }
   }
+  function paintSceneAccent(doc = store.document) {
+    const accent = accentFor(environmentPreview?.next?.look ?? doc.look ?? doc.defaultLook), shellNode = root.querySelector('.app-shell');
+    if (shellNode.dataset.accent !== accent) { shellNode.dataset.accent = accent; shellNode.style.setProperty('--scene-accent', accent); document.getElementById('tt-rim-flood')?.setAttribute('flood-color', accent); }
+  }
   function updateView(event = {}) {
     const contentChanged=event.type!=='saved'||!viewInitialized||event.changes?.name||Boolean(event.changes?.categories?.length);
     const doc = store.document;
@@ -1170,8 +1216,7 @@ export async function startApplication() {
     if (eyebrow.textContent !== (isMap ? 'MAPA' : 'CENA')) eyebrow.textContent = isMap ? 'MAPA' : 'CENA';
     if (take.textContent !== takeText) take.textContent = takeText;
     scheduleViewTag(); renderShotDock(); syncLocation(doc); scheduleSelectionBar();
-    const accent = sceneAccent(environmentPreview?.next?.look ?? doc.look ?? doc.defaultLook), shellNode = root.querySelector('.app-shell');
-    if (shellNode.dataset.accent !== accent) { shellNode.dataset.accent = accent; shellNode.style.setProperty('--scene-accent', accent); document.getElementById('tt-rim-flood')?.setAttribute('flood-color', accent); }
+    paintSceneAccent(doc);
     document.getElementById('welcome').hidden = Object.keys(doc.layout?.entities || {}).length > 0 || !!proposal || isPresentation; renderWelcome();
     document.getElementById('undo').disabled = !store.canUndo;
     document.getElementById('redo').disabled = !store.canRedo;
@@ -1200,8 +1245,8 @@ export async function startApplication() {
       const latest = [...savedScenes].filter(scene => scene.revision > 0).sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt)))[0];
       const examples = EXAMPLE_SCENES.slice(0, 4);
       html = `<span class="tt-eyebrow">UMA CENA COMEÇA COM UM ESPAÇO</span><h1 class="tt-display">Qual é a próxima cena?</h1>
-        ${latest ? `<section class="welcome-continue"><span class="tt-eyebrow">CONTINUAR</span>${posterMarkup({ tag: 'MINHA CENA', name: latest.name, image: previews.image(latest), open: `data-welcome-open="${latest.id}"`, accent: sceneAccent(latest.look ?? latest.defaultLook), meta: `Tomada ${latest.revision} · ${new Date(latest.updatedAt).toLocaleString('pt-BR')}`, cta: 'Continuar esta cena', className: 'is-large' })}</section>` : ''}
-        <section><span class="tt-eyebrow">CENAS DE EXEMPLO</span><div class="welcome-strip">${examples.map(example => posterMarkup({ tag: 'EXEMPLO', tagClass: 'is-dark', name: example.name, image: previews.exampleImage(example), open: `data-welcome-example="${example.id}"`, accent: sceneAccent(example.look ?? example.defaultLook), className: 'is-compact' })).join('')}</div>${button('open-all', 'Ver todas', 'folder', 'quiet')}</section>
+        ${latest ? `<section class="welcome-continue"><span class="tt-eyebrow">CONTINUAR</span>${posterMarkup({ tag: 'MINHA CENA', name: latest.name, image: previews.image(latest), open: `data-welcome-open="${latest.id}"`, accent: accentFor(latest.look ?? latest.defaultLook), meta: `Tomada ${latest.revision} · ${new Date(latest.updatedAt).toLocaleString('pt-BR')}`, cta: 'Continuar esta cena', className: 'is-large' })}</section>` : ''}
+        <section><span class="tt-eyebrow">CENAS DE EXEMPLO</span><div class="welcome-strip">${examples.map(example => posterMarkup({ tag: 'EXEMPLO', tagClass: 'is-dark', name: example.name, image: previews.exampleImage(example), open: `data-welcome-example="${example.id}"`, accent: accentFor(example.look ?? example.defaultLook), className: 'is-compact' })).join('')}</div>${button('open-all', 'Ver todas', 'folder', 'quiet')}</section>
         <section class="welcome-start"><span class="tt-eyebrow">COMEÇAR DO ZERO</span><div class="welcome-start-actions">${button('room-draw', 'Desenhar minha primeira sala', 'room', 'primary cta')}${button('welcome-building', 'Prédio por contorno', 'floor', 'quiet')}${button('welcome-tutorials', 'Aprender o básico', 'cap', 'quiet')}</div></section>`;
     }
     if (html !== welcomeHTML) { node.innerHTML = html; welcomeHTML = html; }
@@ -1514,7 +1559,7 @@ export async function startApplication() {
       const current = store.document.documentType === 'scene' ? store.document : null;
       const scenes = savedScenes.map(scene => scene.id === current?.id ? { ...scene, ...current } : scene);
       if (current && !scenes.some(scene => scene.id === current.id)) scenes.unshift(current);
-      const accentOf = doc => sceneAccent(doc.look ?? doc.defaultLook);
+      const accentOf = doc => accentFor(doc.look ?? doc.defaultLook);
       container.innerHTML = `
         <section class="example-scenes" aria-labelledby="example-scenes-title">
           <h3 id="example-scenes-title" class="eyebrow">CENAS DE EXEMPLO</h3>
@@ -1546,7 +1591,7 @@ export async function startApplication() {
           </div>
         </div>
         <div class="poster-grid">${savedMaps.map(map => posterMarkup({
-          tag: 'MAPA', name: map.name, image: previews.image(map), open: `data-open-map="${map.id}"`, accent: sceneAccent(map.look ?? map.defaultLook), className: 'scene-library-card',
+          tag: 'MAPA', name: map.name, image: previews.image(map), open: `data-open-map="${map.id}"`, accent: accentFor(map.look ?? map.defaultLook), className: 'scene-library-card',
           badge: map.id === store.document.id ? '<span class="item-badge is-current">Atual</span>' : '',
           meta: `Tomada ${map.revision} · ${new Date(map.updatedAt).toLocaleString('pt-BR')}`,
           actions: `<button type="button" class="primary" data-instantiate-map="${map.id}" title="Criar nova cena usando este mapa">${icon('plus', 14)} Criar cena</button><button type="button" class="quiet" data-duplicate-map-id="${map.id}" title="Duplicar mapa" aria-label="Duplicar mapa">${icon('copy', 14)}</button><button type="button" class="quiet danger" data-delete-map="${map.id}" title="Excluir mapa" aria-label="Excluir mapa">${icon('trash', 14)}</button>`,
@@ -2315,6 +2360,7 @@ export async function startApplication() {
       case 'camera-save': { const camera = { ...viewport.getCamera(), id: id(), name: `Enquadramento ${Object.keys(store.document.cameraPresets).length + 1}` }; execute('camera.save', { camera }); notify('Enquadramento salvo na cena.'); break; }
       case 'view-tag': if (document.getElementById('view-tag').dataset.state === 'offset') { viewport.stopCameraMotion(); publishCamera(viewport.getCamera()); notify('Câmera publicada na segunda tela.'); } break;
       case 'shortcuts': toggleShortcuts(); break;
+      case 'settings': toggleSettings(); break;
       case 'copy-link': {
         const doc = store.document;
         if (doc.revision === 0) { notify('Salve a cena para ter um link que a abre de novo.', true); break; }
@@ -2326,7 +2372,7 @@ export async function startApplication() {
       case 'command-palette': palette.open(); break;
       case 'title-card': {
         if (!hasPresentation()) { notify('Abra a segunda tela para mostrar a cartela.', true); break; }
-        sendPresentation('title', { titleSequence: ++titleSequence, title: titleCard.title.trim() || store.document.name, subtitle: titleCard.subtitle.trim(), accent: sceneAccent(store.document.look ?? store.document.defaultLook), duration: titleCard.duration });
+        sendPresentation('title', { titleSequence: ++titleSequence, title: titleCard.title.trim() || store.document.name, subtitle: titleCard.subtitle.trim(), accent: accentFor(store.document.look ?? store.document.defaultLook), duration: titleCard.duration });
         notify('Cartela enviada ao projetor.'); break;
       }
       case 'publish-camera': viewport.stopCameraMotion(); publishCamera(viewport.getCamera()); notify('Câmera publicada na segunda tela.'); break;
@@ -2679,6 +2725,7 @@ export async function startApplication() {
     if (event.key === 'Escape') {
       if (document.getElementById('asset-metadata-dialog').open) return;
       if (document.getElementById('shortcuts-sheet').open) { toggleShortcuts(false); return; }
+      if (document.getElementById('settings-dialog').open) { toggleSettings(false); return; }
       if (document.getElementById('assets-dialog').open) { assetsWindow.close(); return; }
       const docDialog = document.getElementById('documents-dialog');
       if (docDialog && docDialog.hasAttribute('open')) {
@@ -2835,6 +2882,8 @@ function startPresentation(root, sessionId) {
   if (!/^[a-zA-Z0-9_-]{1,120}$/.test(sessionId)) throw new Error('Endereço de apresentação inválido.');
   if (typeof BroadcastChannel !== 'function') throw new Error('Este navegador não suporta a apresentação em segunda janela.');
   document.body.classList.add('presentation-window');
+  let brandAccent = applyUiTheme(readUiTheme(uiThemeKey));
+  window.addEventListener('storage', event => { if (event.key === uiThemeKey) brandAccent = applyUiTheme(readUiTheme(uiThemeKey)); });
   root.innerHTML = `<div id="presentation-viewport"></div><div class="letterbox" aria-hidden="true"><i></i><i></i></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><div id="title-layer" class="title-layer" aria-live="polite"></div><div class="projector-controls"><select id="presentation-quality" aria-label="Qualidade da iluminação"><option value="economy">Econômica</option><option value="balanced" selected>Equilibrada</option><option value="high">Alta</option></select><button id="presentation-effects" class="presentation-fullscreen" title="Névoa e efeitos nesta janela" aria-label="Névoa e efeitos nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button></div>`;
   const viewport = createViewport(document.getElementById('presentation-viewport'), {
     onError: (error) => { document.getElementById('presentation-message').textContent = error.message; },
@@ -2854,7 +2903,7 @@ function startPresentation(root, sessionId) {
   const clean = (text, limit = 120) => typeof text === 'string' ? text.slice(0, limit) : '';
   // A title card over the image: sanitized text only, in the accent of the scene.
   function showTitleCard(data) {
-    const layer = document.getElementById('title-layer'), duration = Math.min(12, Math.max(2, Number(data.duration) || 4)), accent = /^#[0-9a-f]{6}$/i.test(data.accent ?? '') ? data.accent : '#e3b878';
+    const layer = document.getElementById('title-layer'), duration = Math.min(12, Math.max(2, Number(data.duration) || 4)), accent = /^#[0-9a-f]{6}$/i.test(data.accent ?? '') ? data.accent : brandAccent;
     layer.replaceChildren();
     const card = document.createElement('div'); card.className = 'title-card is-in'; card.style.setProperty('--card-accent', accent);
     const subtitle = clean(data.subtitle); if (subtitle) { const tag = document.createElement('span'); tag.className = 'tt-tag'; tag.textContent = subtitle; card.append(tag); }
