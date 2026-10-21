@@ -18,6 +18,22 @@ Pedido: ver se havia melhoria de UI pendente e permitir trocar a paleta do site,
 
 **Pendências reais:** com "Seguir a luz" ligado (padrão), cenas de luz quente continuam com claquete e cantoneiras âmbar; a cor do tema não muda o fundo nem o 3D. Nenhuma pessoa avaliou as paletas.
 
+## Templo gelado: salas redesenhadas e porta do abismo (20 de outubro) — concluído
+
+Pedido: salas mais desenvolvidas (estavam básicas, pequenas e lineares); o abismo fica como está, com uma porta de pedra com runa nórdica.
+
+**Feito**
+
+- Modelos novos em `library-nordic-depths.js` (352 no total; anteriores idênticos): porta de pedra rúnica (Othala no lintel, Algiz e Tiwaz nas lajes abertas), balaustrada de bronze, estátua de guardião.
+- Seção 9 de `scripts/frozen-temple-scene.js` reescrita: circuito em dois níveis (átrio → máquinas → escada de serviço → forja → salão dos ancestrais → caverna → guardiões → átrio; arquivo → alojamento → despensa → caverna), com becos (fenda de cristais, depósito de minério). Níveis dentro das salas: estrado e balcão no átrio, poço com furo no piso na sala de máquinas, mezanino no arquivo, celas com muretas no alojamento, escadaria monumental no salão dos ancestrais, canal com ponte na forja. Caverna como piso em polígono com parede por lado. O abismo ficou nas mesmas coordenadas e sem mudanças; o corredor até ele agora vira para o norte e termina na porta rúnica. 675 elementos, 23 câmeras, 15 zonas, 32 combinações de textura.
+- Desempenho: `rebuildSnow` (`src/render/renderer.js`) indexava todos os triângulos da cena para o teste de exposição ao céu sempre que havia neve física, mesmo quando nenhuma cobertura usa "só exposta" (as únicas que consultam o teste). Agora o índice é feito na primeira consulta; resultado igual em todas as cenas. Caixas dentro da montanha e o terreno da montanha ficaram sem neve com espessura. A capa do templo na janela Abrir passou de ~16 s para ~10 s nesta máquina.
+- Revisão das vistas no renderizador em modo de apresentação; câmeras que caíam dentro de escadas, estátuas e lanternas foram reposicionadas, a tina da forja trocada por pedra com água escura.
+- Testes: `frozen-temple-scene.test.js` atualizado (salas, níveis internos, furo, polígono, duas descidas de 6 m, porta rúnica, sete voltas); `library-reconstruction` (352). O contrato da porta rúnica foi recriado depois de baixar a runa do lintel, e `contracts.json` reordenado como o catálogo.
+
+**Validação:** 355 testes unitários/de integração passaram; builds local e Pages; E2E de capas (servidor, Pages, cache) passaram. O E2E "montanha no servidor" falhou uma vez e passou em duas repetições seguidas nos dois modos. Depois da mudança no renderizador: 355 testes e os 6 E2E de neve (paisagem, inverno orgânico, isolamento da neve sob telhados) passaram.
+
+**Pendências reais:** abrir a cena ainda leva 16–20 s nesta máquina (a medição oscila bastante) e as vistas externas chegam a 42 ms por quadro (o complexo é desenhado atrás das paredes, sem oclusão). O E2E "mountain example loads a private scene" oscila entre servidor e Pages; não foi confirmado se a causa é a capa mais pesada desta cena na janela Abrir.
+
 ## Templo gelado: complexo dentro da montanha (20 de outubro) — concluído
 
 Pedido: depois do portão, algo muito maior — várias salas abandonadas, tecnologia "nórdica", pinturas rupestres nas paredes, um trecho que desce para dentro da montanha, e uma sala isolada que leva a um corredor até um abismo gigante com escada em espiral descendo para o escuro. O exterior e o salão (aprovados) não mudaram.

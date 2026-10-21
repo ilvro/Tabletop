@@ -12,30 +12,33 @@ const original = JSON.parse(await readFile('public/scenes/templo-gelado.json', '
 test('the frozen temple is an ordinary scene: a hall in a snow cave and, behind the portcullis, a complex that goes down to an abyss', () => {
   validateDocument(original);
   const entities = Object.values(original.layout.entities), look = original.look ?? original.defaultLook, uses = id => entities.filter(e => e.assetRef?.id === `builtin-${id}`);
-  const folders = Object.values(original.layout.groups).map(g => g.name);
-  assert.equal(Object.keys(original.cameraPresets).length, 16); assert.ok(EXAMPLE_SCENES.some(card => card.id === 'templo-gelado'));
-  assert.equal(uses('temple-square-pier').length, 6); assert.equal(uses('temple-portcullis').length, 1); assert.equal(uses('temple-arched-gateway').length, 2); assert.equal(uses('temple-wall-niche').length, 6);
-  for (const room of ['Átrio rúnico', 'Sala de máquinas', 'Arquivo rúnico', 'Alojamento', 'Galeria rupestre', 'Descida', 'Forja profunda', 'Sala isolada', 'Corredor do abismo']) assert.ok(folders.includes(room), room);
+  const folders = Object.values(original.layout.groups).map(g => g.name), named = name => entities.find(e => e.name === name);
+  assert.equal(Object.keys(original.cameraPresets).length, 23); assert.ok(EXAMPLE_SCENES.some(card => card.id === 'templo-gelado'));
+  assert.equal(uses('temple-portcullis').length, 1); assert.equal(uses('temple-arched-gateway').length, 2);
+  for (const room of ['Átrio rúnico', 'Sala de máquinas', 'Arquivo rúnico', 'Alojamento', 'Despensa', 'Corredor dos guardiões', 'Galeria rupestre', 'Salão dos ancestrais', 'Escada de serviço', 'Forja profunda', 'Depósito de minério', 'Sala isolada', 'Corredor do abismo', 'Porta do abismo', '07 · Abismo']) assert.ok(folders.includes(room), room);
   assert.equal(entities.filter(e => e.kind === 'terrain').length, 2, 'the cave outside and the mountain over the rooms');
-  assert.ok(entities.some(e => e.kind === 'water' && e.water.state === 'ice'), 'a frozen pool');
-  assert.ok(entities.filter(e => e.kind === 'window' && e.style === 'open').length >= 16, 'passages between the rooms');
-  // The way down: a stair 6 m down from the gallery, the vault door, the sealed room and seven turns of the spiral.
-  const stairs = entities.find(e => e.kind === 'stairs'); assert.equal(stairs.height, 6);
-  assert.equal(uses('nordic-vault-door').length, 1); assert.equal(uses('nordic-stasis-pod').length, 1);
+  assert.ok(entities.filter(e => e.kind === 'window' && e.style === 'open').length >= 24, 'passages between the rooms');
+  // Levels inside the rooms: the dais and balcony of the atrium, the pit of the machine room, the archive's mezzanine.
+  assert.ok(named('Estrado do anel') && named('Balcão do átrio') && named('Mezanino do arquivo'));
+  assert.equal(entities.find(e => e.kind === 'floor' && e.holes?.length)?.name, 'Piso — Sala de máquinas');
+  assert.ok(entities.find(e => e.kind === 'floor' && e.vertices?.length >= 12), 'the cave is a polygon');
+  // Two ways down, 6 m each: the grand stair of the ancestors and the service stair from the machines.
+  assert.equal(named('Escadaria dos ancestrais').height, 6); assert.equal(entities.find(e => e.kind === 'stairs' && e.name === 'Escada de serviço').height, 6);
+  assert.equal(uses('nordic-vault-door').length, 1); assert.equal(uses('nordic-rune-door').length, 1); assert.equal(uses('nordic-stasis-pod').length, 1);
   const turns = uses('nordic-spiral-stair-turn').map(e => e.transform.position[1]).sort((a, b) => b - a);
   assert.equal(turns.length, 7); for (let k = 1; k < 7; k++) assert.ok(Math.abs(turns[k - 1] - turns[k] - 8) < 1e-6, 'turns 8 m apart join step to step');
-  assert.equal(uses('cave-painting-hunt').length + uses('cave-painting-ring').length + uses('cave-painting-descent').length, 3);
+  assert.ok(uses('cave-painting-hunt').length + uses('cave-painting-ring').length + uses('cave-painting-descent').length >= 4);
   assert.ok(entities.filter(e => e.lightingZone?.enabled).length <= 16);
   // Cold rune light everywhere; the warm lights are the expedition's and the forge's.
   const ring = uses('temple-rune-ring')[0]; assert.equal(ring.illumination.shadowPolicy, 'auto');
-  assert.deepEqual(entities.filter(e => e.illumination?.profile === 'torch').map(e => e.assetRef.id).sort(), ['builtin-medieval-brazier', 'builtin-medieval-brazier', 'builtin-nordic-forge-engine']);
+  assert.deepEqual(entities.filter(e => e.illumination?.profile === 'torch').map(e => e.assetRef?.id ?? e.name).sort(), ['Canal de metal fundido', 'builtin-medieval-brazier', 'builtin-medieval-brazier', 'builtin-nordic-forge-engine']);
   assert.equal(look.weather.type, 'snow'); assert.equal(look.volumetricFog.enabled, true); assert.equal(look.sky.enabled, false);
   for (const e of entities) { assert.equal(e.locked, false); if (e.assetRef) assert.equal(assets.find(a => a.id === e.assetRef.id)?.revision, e.assetRef.revision, e.assetRef.id); }
 });
 
 test('the temple keeps few textures to generate: a short palette of materials', () => {
   const textured = new Set(Object.values(original.layout.entities).filter(e => e.material?.texture && e.material.texture !== 'none').map(e => JSON.stringify(e.material)));
-  assert.ok(textured.size <= 32, `${textured.size} materiais com textura`);
+  assert.ok(textured.size <= 36, `${textured.size} materiais com textura`);
 });
 
 test('the temple is made again, whole, by the generator, and loads as an independent copy', async () => {

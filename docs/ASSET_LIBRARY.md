@@ -276,13 +276,14 @@ Conferência: `node scripts/review-library.js temple-square-pier temple-arched-g
 
 ## Kit das profundezas nórdicas (20 de outubro de 2026)
 
-14 modelos em `scripts/library-nordic-depths.js`, época **Antiguidade**, feitos para o complexo do **Templo gelado**. A biblioteca passa a ter 349 modelos; os anteriores não mudaram.
+17 modelos em `scripts/library-nordic-depths.js`, época **Antiguidade**, feitos para o complexo do **Templo gelado**. A biblioteca passa a ter 352 modelos; os anteriores não mudaram.
 
 | Grupo | Modelos |
 | --- | --- |
 | Tecnologia rúnica | console rúnico, mecanismo de engrenagens de parede, coluna condutora rúnica, forja rúnica, cápsula de estase rompida |
 | Pedras rúnicas | pedra rúnica com sulcos acesos, estante de tábuas rúnicas, círculo rúnico no piso |
-| Portas e luz | porta-cofre circular aberta, lanterna rúnica de cristal |
+| Portas e luz | porta-cofre circular aberta, porta de pedra rúnica, lanterna rúnica de cristal |
+| Arquitetura | balaustrada de bronze (2 m), estátua de guardião |
 | Escadas | escada em espiral do abismo (uma volta) |
 | Pinturas rupestres | a caçada, o anel e os que se curvam, a descida |
 
@@ -292,5 +293,7 @@ Convenções do kit:
 - **Escada em espiral:** uma volta tem 40 degraus presos à parede de um poço de 16,5 m de raio e desce 8 m. Empilhe voltas com o mesmo giro e o mesmo centro, 8 m abaixo uma da outra, e elas se emendam degrau a degrau. O degrau mais alto fica 1,045 m abaixo do topo do modelo.
 - **Porta-cofre:** o vão (3 m de diâmetro, com soleira) fica 0,95 m à esquerda do centro do modelo, por causa da porta rolada para o lado; ela não abre passagem na parede: ponha um **Vão** atrás.
 - **Pinturas rupestres:** figuras planas em ocre, vermelho, carvão e giz; encoste a uma parede de rocha, alguns centímetros à frente dela. Não há imagens embutidas na biblioteca, por isso são modelos e não decalques.
+- **Porta de pedra rúnica:** vão de 2,2 × 2,7 m; os batentes têm 3,9 m de largura e cabem num corredor de 2,8 m, embutindo nas paredes. As lajes abrem para trás (−Z), então a frente do modelo fica do lado de quem chega.
+- **Balaustrada:** peças de 2 m para alinhar na borda de poços, balcões e mezaninos.
 
-Conferência: `node scripts/review-library.js nordic-rune-console nordic-gear-wall nordic-conduit-pillar nordic-forge-engine nordic-runestone nordic-vault-door nordic-stasis-pod nordic-rune-lantern nordic-tablet-shelf nordic-floor-sigil nordic-spiral-stair-turn cave-painting-hunt cave-painting-ring cave-painting-descent`.
+Conferência: `node scripts/review-library.js nordic-rune-console nordic-gear-wall nordic-conduit-pillar nordic-forge-engine nordic-runestone nordic-vault-door nordic-stasis-pod nordic-rune-lantern nordic-tablet-shelf nordic-floor-sigil nordic-spiral-stair-turn nordic-rune-door nordic-railing nordic-guardian-statue cave-painting-hunt cave-painting-ring cave-painting-descent`.

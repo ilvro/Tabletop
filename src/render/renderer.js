@@ -839,7 +839,8 @@ export function createViewport(container, {
       }
     }
     if(affected.length&&[...records.values()].some(hasPhysicalSnow)){
-      const exposure=exposureForScene();
+      // Indexing every triangle of the scene is the costly part; coverings with exposedOnly off never ask.
+      let test=null;const exposure=point=>(test??=exposureForScene())(point);
       for(const [id,object] of affected){const record=records.get(id);if(record?.kind&&visibleRecord(record,true))object.userData.snowTriangles=addPhysicalSnow(object,record,surfaces,exposure).triangles;}
     }
     snowTriangles=[...objects.values()].reduce((sum,o)=>sum+(o.userData.snowTriangles??0),0);

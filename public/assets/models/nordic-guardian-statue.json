@@ -1,0 +1,558 @@
+{
+  "name": "Nórdico · estátua de guardião",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "stone": {
+      "color": "#5f6b6a",
+      "roughness": 0.93
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        1.3,
+        0.55,
+        1.3
+      ],
+      "position": [
+        0.11500000953674316,
+        0.2750000059604646,
+        0
+      ],
+      "material": "stone",
+      "bevel": 0.04,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        1.1,
+        0.18,
+        1.1
+      ],
+      "position": [
+        0.11500000953674316,
+        0.6400000059604646,
+        0
+      ],
+      "material": "stone",
+      "bevel": 0.03,
+      "round": true,
+      "surface": {
+        "texture": "stone",
+        "textureSize": 1.6,
+        "textureColor": "#5f6b6a",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.32,
+        1.2,
+        0.36
+      ],
+      "position": [
+        -0.06499999046325683,
+        1.3300000059604646,
+        0
+      ],
+      "material": "stone",
+      "rotation": [
+        0,
+        0,
+        0.04
+      ],
+      "bevel": 0.08,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.32,
+        1.2,
+        0.36
+      ],
+      "position": [
+        0.29500000953674316,
+        1.3300000059604646,
+        0
+      ],
+      "material": "stone",
+      "rotation": [
+        0,
+        0,
+        -0.04
+      ],
+      "bevel": 0.08,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.9,
+        0.55,
+        0.55
+      ],
+      "position": [
+        0.11500000953674316,
+        2.0200000059604646,
+        0
+      ],
+      "material": "stone",
+      "segments": 32,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.86,
+        0.95,
+        0.5
+      ],
+      "position": [
+        0.11500000953674316,
+        2.4500000059604647,
+        0
+      ],
+      "material": "stone",
+      "bevel": 0.12,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.98,
+        0.3,
+        0.55
+      ],
+      "position": [
+        0.11500000953674316,
+        2.9200000059604645,
+        0
+      ],
+      "material": "stone",
+      "segments": 32,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.24,
+        0.9,
+        0.26
+      ],
+      "position": [
+        -0.4349999904632569,
+        2.4200000059604645,
+        0.05
+      ],
+      "material": "stone",
+      "rotation": [
+        0,
+        0,
+        0.12
+      ],
+      "bevel": 0.08,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.24,
+        0.9,
+        0.26
+      ],
+      "position": [
+        0.6650000095367432,
+        2.4200000059604645,
+        0.1
+      ],
+      "material": "stone",
+      "rotation": [
+        -0.35,
+        0,
+        -0.1
+      ],
+      "bevel": 0.08,
+      "round": true,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "ellipsoid",
+      "size": [
+        0.36,
+        0.42,
+        0.4
+      ],
+      "position": [
+        0.11500000953674316,
+        3.3200000059604644,
+        0
+      ],
+      "material": "stone",
+      "segments": 24,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.22,
+          0
+        ],
+        [
+          0.23,
+          0.1
+        ],
+        [
+          0.15,
+          0.24
+        ],
+        [
+          0,
+          0.28
+        ]
+      ],
+      "segments": 24,
+      "position": [
+        0.11500000953674316,
+        3.4000000059604645,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          -0.2,
+          3.52,
+          0
+        ],
+        [
+          -0.36,
+          3.62,
+          0
+        ],
+        [
+          -0.38,
+          3.86,
+          0.04
+        ]
+      ],
+      "radius": 0.035,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.11500000953674316,
+        5.9604645663569045e-9,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "rope",
+      "points": [
+        [
+          0.2,
+          3.52,
+          0
+        ],
+        [
+          0.36,
+          3.62,
+          0
+        ],
+        [
+          0.38,
+          3.86,
+          0.04
+        ]
+      ],
+      "radius": 0.035,
+      "segments": 16,
+      "sides": 8,
+      "position": [
+        0.11500000953674316,
+        5.9604645663569045e-9,
+        0
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      }
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.5,
+      "radiusBottom": 0.5,
+      "height": 0.1,
+      "position": [
+        -0.5049999904632568,
+        2.3000000059604644,
+        0.32
+      ],
+      "material": "stone",
+      "segments": 32,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "profile": [
+        [
+          0,
+          -0.05
+        ],
+        [
+          0.49,
+          -0.05
+        ],
+        [
+          0.5,
+          -0.04
+        ],
+        [
+          0.5,
+          0.04
+        ],
+        [
+          0.49,
+          0.05
+        ],
+        [
+          0,
+          0.05
+        ]
+      ]
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.11,
+      "radiusBottom": 0.11,
+      "height": 0.06,
+      "position": [
+        -0.5049999904632568,
+        2.3000000059604644,
+        0.38
+      ],
+      "material": "stone",
+      "segments": 24,
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "profile": [
+        [
+          0,
+          -0.03
+        ],
+        [
+          0.104,
+          -0.03
+        ],
+        [
+          0.11,
+          -0.024
+        ],
+        [
+          0.11,
+          0.024
+        ],
+        [
+          0.104,
+          0.03
+        ],
+        [
+          0,
+          0.03
+        ]
+      ]
+    },
+    {
+      "shape": "lathe",
+      "radiusTop": 0.035,
+      "radiusBottom": 0.035,
+      "height": 1.5,
+      "position": [
+        0.7350000095367432,
+        2.4000000059604645,
+        0.5
+      ],
+      "material": "stone",
+      "segments": 16,
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "profile": [
+        [
+          0,
+          -0.75
+        ],
+        [
+          0.0308,
+          -0.75
+        ],
+        [
+          0.035,
+          -0.7458
+        ],
+        [
+          0.035,
+          0.7458
+        ],
+        [
+          0.0308,
+          0.75
+        ],
+        [
+          0,
+          0.75
+        ]
+      ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.3,
+        0.34,
+        0.06
+      ],
+      "position": [
+        0.8550000095367432,
+        3.0500000059604644,
+        0.5
+      ],
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 2.2,
+        "textureColor": "#56605f",
+        "textureColorMode": "replace",
+        "relief": 0.05
+      },
+      "bevel": 0.0051
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    2.009999990463257,
+    3.8662378787994385,
+    1.2999999523162842
+  ],
+  "design": {
+    "edition": 2,
+    "family": "architecture",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "cordas e tubos curvos",
+      "perfis torneados e bordas de chapa"
+    ],
+    "seed": 33769
+  }
+}

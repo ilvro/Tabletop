@@ -128,6 +128,54 @@ export function addNordicDepthsLibrary({ add, ancient }) {
     ...polar(6, .6, (x, z, a) => [b([.03, .006, .9], [x * .5, .015, z * .5], 'iron', [0, -a, 0])]),
   ], 'Dois anéis de ferro embutidos no piso, 3 m, com runas acesas entre eles e raios até o centro.');
 
+  // Doors, rails and statues ------------------------------------------------------------------------
+  // A stone gate for the abyss: posts, a lintel with Othala carved and lit, and two slabs swung back,
+  // Algiz on one and Tiwaz on the other. The opening is 2,2 × 2,7 m; the slabs open toward -Z.
+  const stroke2 = (x, y, z, length, angle, material = 'glow', width = .07, depth = .03) => b([width, length, depth], [x, y, z], material, [0, 0, angle]);
+  const othala = (x, y, z, s) => [
+    ...[[-1, 1], [1, 1], [-1, -1], [1, -1]].map(([u, v]) => stroke2(x + u * .14 * s, y + v * .14 * s + .14 * s, z, .4 * s, u * v * PI / 4)),
+    ...[-1, 1].map(u => stroke2(x + u * .16 * s, y - .2 * s, z, .36 * s, -u * PI / 5)),
+  ];
+  const algiz = (x, y, z, s, material) => [stroke2(x, y, z, 1 * s, 0, material), ...[-1, 1].map(u => stroke2(x + u * .14 * s, y + .3 * s, z, .42 * s, -u * PI / 5, material))];
+  const tiwaz = (x, y, z, s, material) => [stroke2(x, y, z, 1 * s, 0, material), ...[-1, 1].map(u => stroke2(x + u * .14 * s, y + .36 * s, z, .4 * s, u * PI / 4, material))];
+  /** Parts drawn in a plane at the origin, turned by `yaw` and moved to `origin`. */
+  const place = (parts, [ox, oy, oz], yaw) => parts.map(part => {
+    const [x, y, z] = part.position;
+    return { ...part, position: [ox + x * Math.cos(yaw) + z * Math.sin(yaw), oy + y, oz - x * Math.sin(yaw) + z * Math.cos(yaw)], rotation: [0, yaw, part.rotation?.[2] ?? 0] };
+  });
+  const leaf = (side, carve) => {
+    // Hinged at the post and swung 70° back, toward -Z.
+    const open = 1.22, yaw = side * -open, cx = side * 1.1 - side * Math.cos(open) * .55, cz = -Math.sin(open) * .55;
+    return [rb([1.1, 2.65, .3], [cx, 1.38, cz], 'stone', .02, [0, yaw, 0]), ...[.55, 2.2].map(y => b([1.12, .1, .32], [cx, y, cz], 'iron', [0, yaw, 0])),
+      ...place(carve(0, 0, .16, 1.1, 'glow'), [cx, 1.45, cz], yaw)];
+  };
+  model('nordic-rune-door', 'Nórdico · porta de pedra rúnica', 'Nórdico / Portas', DEPTHS, ['porta', 'pedra', 'runa', 'portal', 'abismo'], [
+    ...stone([...[-1, 1].map(s => rb([.65, 3.3, .9], [s * 1.43, 1.65, 0], 'stone', .03)), rb([3.9, .65, 1], [0, 3.02, 0], 'stone', .04), rb([2.6, .14, 1.1], [0, .07, 0], 'stone', .02)]),
+    ...othala(0, 2.92, .51, .72), ...[-1, 1].flatMap(s => along(4, .6, 2.4).flatMap((y, i) => rune(s * 1.43, y, .46, 600 + i + (s > 0 ? 10 : 0), 'oxide', .16, .012))),
+    ...leaf(-1, algiz), ...leaf(1, tiwaz),
+  ], 'Portal de pedra com Othala acesa no lintel e duas lajes abertas para trás, com Algiz e Tiwaz. Vão de 2,2 × 2,7 m; encaixe no fim de um corredor.');
+
+  // A bronze rail of 2 m: knotted posts at the ends and two rails. Line them up end to end.
+  model('nordic-railing', 'Nórdico · balaustrada de bronze', 'Nórdico / Arquitetura', DEPTHS, ['balaustrada', 'guarda-corpo', 'bronze', 'grade'], [
+    ...[-1, 1].flatMap(s => [c(.05, 1.05, [s * .97, .525, 0], 'bronze'), lathe([[0, 0], [.08, .02], [.09, .08], [.05, .14], [0, .18]], [s * .97, 1.05, 0], 'oxide')]),
+    ...[.5, .98].map(y => c(.03, 1.94, [0, y, 0], 'bronze', 'x')), c(.04, 1.94, [0, 1.06, 0], 'oxide', 'x'),
+    ...along(3, -.5, .5).map(x => ({ ...r(.17, .018, [x, .74, 0], 'bronze'), segments: 16 })),
+  ], 'Guarda-corpo de bronze de 2 m com postes de pomo e três argolas entre os corrimãos. Alinhe vários pela borda de poços e mezaninos.');
+
+  // A stone warrior on a plinth: round shield, axe, horned helm, worn smooth.
+  model('nordic-guardian-statue', 'Nórdico · estátua de guardião', 'Nórdico / Arquitetura', DEPTHS, ['estátua', 'guardião', 'guerreiro', 'pedra'], [
+    ...stone([rb([1.3, .55, 1.3], [0, .275, 0], 'stone', .04), rb([1.1, .18, 1.1], [0, .64, 0], 'stone', .03)]),
+    ...rocky([
+      rb([.32, 1.2, .36], [-.18, 1.33, 0], 'stone', .08, [0, 0, .04]), rb([.32, 1.2, .36], [.18, 1.33, 0], 'stone', .08, [0, 0, -.04]),
+      e([.9, .55, .55], [0, 2.02, 0], 'stone'), rb([.86, .95, .5], [0, 2.45, 0], 'stone', .12), e([.98, .3, .55], [0, 2.92, 0], 'stone'),
+      rb([.24, .9, .26], [-.55, 2.42, .05], 'stone', .08, [0, 0, .12]), rb([.24, .9, .26], [.55, 2.42, .1], 'stone', .08, [-.35, 0, -.1]),
+      e([.36, .42, .4], [0, 3.32, 0], 'stone'), lathe([[0, 0], [.22, 0], [.23, .1], [.15, .24], [0, .28]], [0, 3.4, 0], 'stone'),
+      ...[-1, 1].map(s => curve([[s * .2, 3.52, 0], [s * .36, 3.62, 0], [s * .38, 3.86, .04]], .035, 'stone')),
+      { ...c(.5, .1, [-.62, 2.3, .32], 'stone', 'z'), segments: 24 }, c(.11, .06, [-.62, 2.3, .38], 'stone', 'z'),
+      c(.035, 1.5, [.62, 2.4, .5], 'stone'), b([.3, .34, .06], [.74, 3.05, .5], 'stone'),
+    ]),
+  ], 'Guerreiro de pedra de 4 m sobre plinto, com escudo redondo, machado e elmo com chifres, gasto pelo tempo.');
+
   // The spiral stair of the abyss --------------------------------------------------------------------
   // One turn of 40 steps cut into the wall of a shaft of 16,5 m of radius, going down 8 m. Stack turns 8 m
   // apart with the same rotation and they join step to step. The rail runs along the open edge.

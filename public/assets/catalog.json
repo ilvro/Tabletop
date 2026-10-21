@@ -11828,6 +11828,121 @@
       "contentHash": "426ff2527b7d59d6c422fe554fe2364c664f43b36862e47d367c77a5f8984f8a"
     },
     {
+      "id": "builtin-nordic-rune-door",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · porta de pedra rúnica",
+      "category": "Nórdico / Portas",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "porta",
+        "pedra",
+        "runa",
+        "portal",
+        "abismo"
+      ],
+      "description": "Portal de pedra com Othala acesa no lintel e duas lajes abertas para trás, com Algiz e Tiwaz. Vão de 2,2 × 2,7 m; encaixe no fim de um corredor.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        3.9,
+        1.65
+      ],
+      "bounds": [
+        3.9,
+        3.345,
+        1.647
+      ],
+      "url": "/assets/models/nordic-rune-door.json",
+      "previewUrl": "/assets/previews/nordic-rune-door.svg",
+      "geometryEdition": 2,
+      "contentHash": "2bb618fbfcf49b69ad4fb17900641231e2c29b4148d05b2ba0e656d989031ad3"
+    },
+    {
+      "id": "builtin-nordic-railing",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · balaustrada de bronze",
+      "category": "Nórdico / Arquitetura",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "balaustrada",
+        "guarda-corpo",
+        "bronze",
+        "grade"
+      ],
+      "description": "Guarda-corpo de bronze de 2 m com postes de pomo e três argolas entre os corrimãos. Alinhe vários pela borda de poços e mezaninos.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.12,
+        0.18
+      ],
+      "bounds": [
+        2.12,
+        1.23,
+        0.18
+      ],
+      "url": "/assets/models/nordic-railing.json",
+      "previewUrl": "/assets/previews/nordic-railing.svg",
+      "geometryEdition": 2,
+      "contentHash": "f5d42e89c774746c848d772c9c8ce64f9e530ba0ba00cbd8e1361f305012aed1"
+    },
+    {
+      "id": "builtin-nordic-guardian-statue",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Nórdico · estátua de guardião",
+      "category": "Nórdico / Arquitetura",
+      "era": "Antiguidade",
+      "contexts": [
+        "Templo",
+        "Caverna",
+        "Masmorra",
+        "Ruína",
+        "Laboratório"
+      ],
+      "tags": [
+        "nórdico",
+        "templo gelado",
+        "estátua",
+        "guardião",
+        "guerreiro",
+        "pedra"
+      ],
+      "description": "Guerreiro de pedra de 4 m sobre plinto, com escudo redondo, machado e elmo com chifres, gasto pelo tempo.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        2.01,
+        1.3
+      ],
+      "bounds": [
+        2.01,
+        3.866,
+        1.3
+      ],
+      "url": "/assets/models/nordic-guardian-statue.json",
+      "previewUrl": "/assets/previews/nordic-guardian-statue.svg",
+      "geometryEdition": 2,
+      "contentHash": "9b87ff9353cb6354fe735f88c15da0d3cda33aa462a394e76f5354fd2cc6753a"
+    },
+    {
       "id": "builtin-nordic-spiral-stair-turn",
       "revision": 1,
       "type": "recipe",

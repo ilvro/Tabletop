@@ -4497,6 +4497,42 @@
       "batches": 2
     },
     {
+      "id": "builtin-nordic-rune-door",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas"
+      ],
+      "parts": 43,
+      "triangles": 2756,
+      "batches": 5
+    },
+    {
+      "id": "builtin-nordic-railing",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "perfis torneados e bordas de chapa",
+        "ferragens curvas com vazios reais"
+      ],
+      "parts": 10,
+      "triangles": 2256,
+      "batches": 2
+    },
+    {
+      "id": "builtin-nordic-guardian-statue",
+      "family": "architecture",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "cordas e tubos curvos",
+        "perfis torneados e bordas de chapa"
+      ],
+      "parts": 17,
+      "triangles": 6976,
+      "batches": 2
+    },
+    {
       "id": "builtin-nordic-spiral-stair-turn",
       "family": "interior",
       "reconstruction": "components",
