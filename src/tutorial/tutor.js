@@ -38,7 +38,13 @@ export function createTutor(root, host) {
     const acts = Array.isArray(current.act?.[0]) ? current.act : [current.act];
     return acts.filter(act => ['click', 'fill', 'select'].includes(act?.[0]) && typeof act[1] === 'string').map(act => act[1]).filter(selector => selector !== current.target);
   }
-  const open = node => revealNode(node, { scroll: false });
+  /** A control inside a collapsed side panel has no size: the panel is opened first (narrow screens collapse it by themselves). */
+  const open = node => {
+    const shell = root.querySelector('.app-shell');
+    if (node.closest('#inspector-content') && shell?.classList.contains('inspector-collapsed')) root.querySelector('[data-action="inspector-toggle"]')?.click();
+    if (node.closest('#side-content') && shell?.classList.contains('sidebar-collapsed')) root.querySelector('[data-action="sidebar-toggle"]')?.click();
+    revealNode(node, { scroll: false });
+  };
   /** Brings the target into reach: its side tab forward and the tasks around it, and around the controls that go with it, open. */
   function prepare(current) {
     if (current.tab && host.state().tab !== current.tab) host.open(current.tab);

@@ -37,7 +37,10 @@ for (const lesson of LESSONS) test(`tutorial "${lesson.title}" can be followed f
       }
       const act=step.act??'click';
       // A step may take more than one gesture (open a window, then type in it): a list of acts, done in order.
-      for (const one of Array.isArray(act[0])?act:[act]) {
+      const acts=Array.isArray(act[0])?act:[act];
+      for (const [order,one] of acts.entries()) {
+        // A step must not complete before everything it asks is done: its condition has to check all of it.
+        if (order>0&&await page.evaluate(i=>window.tabletopTutor.active?.step!==i,index)) assert.fail(`${where}: completed after ${order} of ${acts.length} actions; its condition does not check everything the step asks`);
         if (one==='continue') await page.locator('.tutor-card [data-tutor="next"]').click();
         else if (one==='click') await page.locator(step.target).first().click();
         else if (one[0]==='click') { await showPane(one[1]); await page.locator(one[1]).first().click(); }

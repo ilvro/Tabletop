@@ -4,10 +4,10 @@
  * result exists, by whatever path the person got there.
  *
  * `state` is `{ document, tab, sections, proposal, assetsOpen, placing, placingKind, selected, tool,
- * topView, canRedo, presenting, saved, assistant, room, copied, surface, picked }`,
+ * topView, canRedo, presenting, saved, assistant, room, copied, surface, picked, selectedId }`,
  * where `assistant` is what the room assistant currently reads and is set to, `room` the measures
  * and options of the Sala task, `copied` the name of the piece a waiting material came from and `surface` the
- * support new pieces are placed on and `picked` the model of the selected piece.
+ * support new pieces are placed on, `picked` the model of the selected piece and `selectedId` the selected piece.
  */
 const entities = state => Object.values(state.document.layout.entities);
 const count = (state, kind) => entities(state).filter(entity => entity.kind === kind).length;
@@ -19,6 +19,25 @@ const lamps = state => Object.values(look(state).lights ?? {}).filter(light => l
 const valueAt = (record, path) => path === 'yaw' ? Math.round(2 * Math.atan2(record.transform.rotation[1], record.transform.rotation[3]) * 180 / Math.PI) : path.split('.').reduce((value, key) => value?.[key], record);
 /** Numbers match to about 2 %, colours and words ignoring case, angles a full turn apart. */
 const same = (value, wanted) => typeof wanted === 'number' ? typeof value === 'number' && [0, 360, -360].some(turn => Math.abs(value + turn - wanted) <= Math.max(.011, Math.abs(wanted) * .02)) : String(value).toLowerCase() === String(wanted).toLowerCase();
+const matches = (entity, which) => entity.assetRef?.id === which || entity.kind === which;
+/** Within `tolerance` metres of `point`; an axis given as null is not checked. */
+const closeTo = (position, point, tolerance) => Math.hypot(...point.map((value, axis) => value === null ? 0 : position[axis] - value)) <= tolerance;
+const yawOf = entity => 2 * Math.atan2(entity.transform.rotation[1], entity.transform.rotation[3]) * 180 / Math.PI;
+const hsv = hex => {
+  const [r, g, b] = [1, 3, 5].map(start => parseInt(String(hex).slice(start, start + 2), 16) / 255), max = Math.max(r, g, b), range = max - Math.min(r, g, b);
+  const hue = !range ? 0 : max === r ? ((g - b) / range + 6) % 6 : max === g ? (b - r) / range + 2 : (r - g) / range + 4;
+  return { hue: hue * 60, saturation: max ? range / max : 0, value: max };
+};
+/**
+ * A colour picked by eye counts when it is the same kind of colour: greys by how light they are,
+ * the rest by hue (within 25°), saturation and lightness. Nobody hits #5a5d60 with a picker.
+ */
+export function colourNear(colour, wanted) {
+  if (!/^#[0-9a-f]{6}$/i.test(colour ?? '')) return false;
+  const a = hsv(colour), b = hsv(wanted), hue = Math.abs(a.hue - b.hue);
+  if (b.saturation < .15 || b.value < .12) return Math.abs(a.value - b.value) <= .14 && a.saturation <= Math.max(.25, b.saturation + .15);
+  return Math.min(hue, 360 - hue) <= 25 && Math.abs(a.saturation - b.saturation) <= .35 && Math.abs(a.value - b.value) <= .3;
+}
 const moon = state => Object.values(look(state).lights ?? {}).find(light => light.role === 'key' && light.type === 'directional');
 export const CONDITIONS = {
   /** Always true: an explanation the person leaves with "Continuar". */
@@ -85,6 +104,8 @@ export const CONDITIONS = {
   placingKind: (state, kind) => state.placingKind === kind,
   /** New pieces land on a support at most this high: the ground floor rather than a platform. */
   supportAt: (state, height) => (state.document.layout.entities[state.surface]?.transform.position[1] ?? Infinity) <= height,
+  /** New pieces land on a support at least this high: a platform or mezzanine. */
+  supportAbove: (state, height) => (state.document.layout.entities[state.surface]?.transform.position[1] ?? -Infinity) >= height,
   /** An object lights its surroundings with this profile ('candle', 'ritual', 'fluorescent'…). */
   glowing: (state, profile) => entities(state).some(entity => entity.illumination?.enabled !== false && entity.illumination?.profile === profile),
   decalWide: (state, metres) => entities(state).some(entity => entity.decal && entity.decal.size[0] >= metres),
@@ -105,6 +126,21 @@ export const CONDITIONS = {
   mood: (state, id) => state.assistant.mood === id,
   /** The selected piece is of this model. */
   picked: (state, id) => state.picked === id,
+  /** Some piece, by model or kind, stands near a point: what a person reaches by dragging it with Mover (G). */
+  near: (state, which, point, tolerance = .4) => entities(state).some(entity => matches(entity, which) && entity.transform && closeTo(entity.transform.position, point, tolerance)),
+  /** Turned about the vertical to roughly this angle, as with Girar (R). */
+  facing: (state, which, degrees, tolerance = 15) => entities(state).some(entity => matches(entity, which) && entity.transform && [0, 360, -360].some(turn => Math.abs(yawOf(entity) + turn - degrees) <= tolerance)),
+  /** Stretched to roughly these factors per axis (null: any), as with Escala (V). */
+  scaledTo: (state, which, factors, tolerance = .12) => entities(state).some(entity => matches(entity, which) && factors.every((factor, axis) => factor === null || Math.abs((entity.transform?.scale?.[axis] ?? 1) - factor) <= factor * tolerance)),
+  /** A colour of a piece, of the scene or of the moon, chosen close enough to the one asked (see colourNear). */
+  colorNear: (state, which, path, hex) => entities(state).some(entity => matches(entity, which) && colourNear(valueAt(entity, path), hex)),
+  lookColorNear: (state, path, hex) => colourNear(valueAt(look(state), path), hex),
+  moonColorNear: (state, hex) => colourNear(moon(state)?.color, hex),
+  /** The selected piece has this value, or stands near this point: tells copies of the same model apart. */
+  selectedHas: (state, path, value) => Boolean(state.document.layout.entities[state.selectedId]) && same(valueAt(state.document.layout.entities[state.selectedId], path), value),
+  selectedColorNear: (state, path, hex) => colourNear(valueAt(state.document.layout.entities[state.selectedId] ?? {}, path), hex),
+  selectedSet: (state, path) => valueAt(state.document.layout.entities[state.selectedId] ?? {}, path) != null,
+  selectedNear: (state, point, tolerance = .4) => Boolean(state.document.layout.entities[state.selectedId]?.transform) && closeTo(state.document.layout.entities[state.selectedId].transform.position, point, tolerance),
   gridSnapOff: state => state.document.layout.grid?.snap === false,
   /** Some piece, chosen by model ('builtin-…') or kind ('wall', 'floor'), has this value: ['has', 'wall', 'material.textureSize', 2.6]. */
   has: (state, which, path, value) => entities(state).some(entity => (entity.assetRef?.id === which || entity.kind === which) && same(valueAt(entity, path), value)),

@@ -656,7 +656,7 @@ export async function startApplication() {
       selected: store.document.layout.entities[selection]?.kind ?? (store.document.tokens?.[selection] ? 'token' : null), tool, topView, canRedo: store.canRedo, presenting: isPresentation, saved: !store.dirty && store.document.revision > 0,
       listedAssets: assetsOpen ? [...document.querySelectorAll('#asset-cards [data-asset]')].map(node => node.dataset.asset) : [],
       assistant: { inferred: tutorReading.inferred, state: stateOptions.state, mood: ambienceOptions.mood, buildingMode: buildingOptions.mode ?? (tutorReading.inBuilding ? 'extend' : 'new') },
-      room: roomOptions, copied: materialClipboard?.name ?? null, surface: activeSurfaceId ?? null, picked: store.document.layout.entities[selection]?.assetRef?.id ?? null };
+      room: roomOptions, copied: materialClipboard?.name ?? null, surface: activeSurfaceId ?? null, picked: store.document.layout.entities[selection]?.assetRef?.id ?? null, selectedId: selection ?? null };
   }
   const sceneEmpty = () => !Object.keys(store.document.layout.entities).length;
   function renderTutorials() { const panel = document.getElementById('tutorial-center'); if (!panel.hidden) panel.innerHTML = tutorialCenter(tutor, sceneEmpty()); }

@@ -116,4 +116,16 @@ A primeira versão foi rejeitada: a lição de luz misturava uma lâmpada quente
 - Toda cor tem, ao lado do seletor, uma caixa para o código hexadecimal (`hexBox` em `src/ui/controls.js`): aceita #a1b2c3, a1b2c3 ou #abc, confirma com Enter ou ao sair, e volta ao valor anterior se o código for inválido. O seletor nativo do sistema às vezes só oferece RGB. As lições digitam as cores nessa caixa.
 - O cartão do tutor cobria o segundo campo de passos com vários campos (largura e comprimento, cor e força). Agora o anel envolve todos os campos que o passo pede no mesmo painel, com seus rótulos, e o cartão fica fora dessa área; seções recolhidas desses campos são abertas.
 
+**22 de outubro — terceira revisão: gestos de verdade**
+
+Problemas apontados: um passo do galpão era uma lista de coordenadas ("parece que estou programando a sala"); passos avançavam antes de a instrução terminar (pediam X, Y e Z e conferiam só Y; pediam duas coisas e a segunda estava na explicação); "Não encontrei este controle" na rotação; a laje não cobria o galpão.
+
+- Regra para todo passo: **uma ação**, uma condição que confere **tudo** o que o passo pede, e a explicação nunca traz instrução. O E2E agora falha quando um passo se completa antes da última ação dele (condição incompleta).
+- Posicionar como numa construção real: **G** move, **R** gira, **V** muda a escala, arrastando até o ponto que pulsa na cena (`spot`). Chegar perto basta: condições `near` (40 cm), `facing` (15°), `scaledTo` (12 %). Os números exatos ficam como dica opcional em Propriedades → Posição. Ajudantes `move`, `turn`, `stretch` e `copyTo` (duplicar e arrastar).
+- Cores escolhidas no seletor, por descrição ("um cinza bem escuro"): `colorNear` aceita a mesma família de cor (matiz ±25°, ou claridade para cinzas); o código hexadecimal fica como atalho. Ajudante `tint`.
+- Peças repetidas se distinguem pela seleção: `selectedHas`, `selectedNear`, `selectedColorNear`, `selectedSet`.
+- O tutor abre o painel lateral recolhido (Ferramentas ou Propriedades) quando o controle do passo está nele; em telas estreitas eles começam recolhidos, e era isso que escondia a rotação.
+- Galpão em **quatro** partes: 1 · A casca (29 passos), 2 · Estrutura e tubulação (49: colunas esticadas com V, mezanino arrastado com G, escada girada com R, guarda-corpo, duto, feixe de tubos, eletrocalha e tubo de parede, cada um em passos próprios, sem listas de coordenadas), 3 · Objetos e efeitos (56; a cobertura é uma laje só, erguida com G e esticada com V até cobrir 16 × 12 m), 4 · Luz e atmosfera (39). Passos cujo valor já vinha certo do padrão (texto SETOR 7, BOOTING, cor do perfil) saíram: não ensinavam nada.
+- Iluminação e ambientação (53): mesma capela, cores pelo seletor e passos divididos.
+
 **Falta**: etapa 3 (oferta na primeira visita), etapa 4 (ajuda no lugar), etapa 5 (novidades); recriar as demais cenas prontas (Igreja Antiga, Backrooms, Casa de bairro); uma lição exigir cena vazia hoje é só um aviso na lista, não cria a cena nova sozinha.
