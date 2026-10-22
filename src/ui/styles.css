@@ -204,6 +204,12 @@ dialog p { font-size: var(--eco-fs-12); line-height: 1.65; color: var(--tt-text-
 .proposal-report ul { margin: 7px 0; padding-left: 18px; }
 .group-actions { gap: 2px; }
 .group-actions button { min-width: 20px; padding: 4px; }
+/* Light switch of a folder or a record: amber when on, faint when off, half when a folder is mixed. */
+.light-switch { flex: none; min-width: 20px; padding: 3px; border: 0; border-radius: var(--eco-radius-s); background: transparent; color: var(--tt-accent); cursor: pointer; line-height: 0; }
+.light-switch:hover { background: var(--tt-accent-wash); }
+.light-switch.off { color: var(--tt-muted); opacity: .55; }
+.light-switch.mixed { color: var(--tt-accent); opacity: .75; }
+.light-switch.mixed svg { stroke-dasharray: 3 2; }
 .semantic-row { margin: 12px 0; padding: 12px 0; border-top: 1px solid var(--tt-line); }
 .semantic-row .construction-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .semantic-row .construction-grid button:last-child { grid-column: 1 / -1; }

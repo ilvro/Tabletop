@@ -14,6 +14,19 @@ A [Igreja Antiga completa](IGREJA_ANTIGA_CENA.md), entregue em 7 de outubro, com
 
 Quatro estudos comuns e totalmente editáveis estão em **`tests/fixtures/scenes/`**, para importação manual ou diagnóstico; não aparecem na galeria nem nos builds: capela ritual, taverna, escritório e rua chuvosa. A capela é um recorte de estudo do kit, não a reprodução completa da Igreja Antiga e de seu vale. Cada estudo tem enquadramentos geral, superior e interno. As animações começam pausadas para facilitar a comparação; desmarque **Pausar efeitos animados** para animar cintilação/chuva.
 
+## Acender e apagar luzes (interruptores)
+
+Adicionado em 20 de outubro de 2026. Em **Elementos**, cada pasta que contém luzes tem uma **lâmpada** no cabeçalho: um clique apaga, ou acende, todas as luzes da pasta e das subpastas — as luzes próprias dos objetos e as luzes avulsas. Ela aparece âmbar quando tudo está aceso, apagada quando tudo está desligado e tracejada quando a pasta tem as duas coisas. Cada objeto com luz e cada luz avulsa tem a sua lâmpada na linha da árvore, para acender ou apagar só ele. **Luz → Fonte ligada** (objetos) e **Luz ligada** (luzes avulsas) continuam funcionando e ficam sincronizados com as lâmpadas.
+
+- Uma luz apagada leva junto o brilho do modelo e as chamas: materiais emissivos vão a zero e o slot `flame` (`fire`) some; ao acender, tudo volta como estava. O mesmo vale para uma luz fora da sua fase (dia/noite).
+- Apagar e acender guarda só o estado: cor, força, alcance e os demais ajustes ficam para quando a luz voltar.
+- Cada clique é um passo de desfazer. Como ocultar uma pasta, funciona também em pastas e objetos bloqueados: acender e apagar é uso de mesa, não edição.
+- A luz do ambiente (Sol/Lua) não pertence a nenhuma pasta; continua em **Ambiente**. Zonas de ambiente não mudam com o interruptor: uma sala apagada fica com o preenchimento da sua zona.
+- Para que um objeto que brilha (runas, cristais, telas) possa ser apagado, ele precisa ter **Luz neste objeto**; sem luz própria, o brilho é só do material.
+- Comando: `lights.switch` com `{ groupId }` (pasta e subpastas) ou `{ ids }` e `enabled`; estado e alcance em `src/domain/light-switch.js`.
+
+Limite: com muitas luzes acesas no mesmo trecho, o editor desenha as mais relevantes dentro do orçamento da qualidade (8 em Equilibrada, 16 em Alta); as demais continuam acesas no documento, mas não iluminam o entorno até entrarem no orçamento.
+
 ## Perfis, ajustes e biblioteca pessoal
 
 O perfil aplica valores iniciais. Campos editados ficam fixados; em **Ajustes avançados e parâmetros fixados**, desmarque um campo para permitir que **Reaplicar perfil aos parâmetros livres** o recalcule. Origem e direção são conservadas. Assistida/Manual registram sua intenção de autoria; nenhuma alteração automática ocorre por frame ou ao carregar o mapa. Reaplicar é uma ação explícita em ambos os modos.

@@ -4,6 +4,7 @@ import { createLatestJob } from '../data/latest-job.js';
 import { createPerformanceDiagnostics } from '../diagnostics/performance.js';
 import { illuminationDefaults, illuminationPatch, ZONE_DEFAULTS, RENDERING_DEFAULTS } from '../domain/dynamic-lighting.js';
 import { illuminationPanel, zonePanel } from '../ui/dynamic-lighting-panel.js';
+import { switchState, recordLightOn } from '../domain/light-switch.js';
 import { createLightPresetRepository } from '../data/light-presets.js';
 import { wearFieldPatch } from '../domain/wear.js';
 import { createScenePreviews } from './scene-previews.js';
@@ -944,6 +945,12 @@ export async function startApplication() {
       }
     } finally { submit.disabled = false; }
   }
+  /** The bulb of a folder or a record: 'on', 'off', 'mixed' (a folder with both), or nothing when there is no light. */
+  function lightSwitchButton(state, attributes, what) {
+    if (state === null || state === 'none') return '';
+    const key = state === true ? 'on' : state === false ? 'off' : state;
+    return `<button type="button" class="light-switch ${key}" ${attributes} data-state="${key}" aria-pressed="${key !== 'off'}" title="${key === 'off' ? `Acender ${what}` : `Apagar ${what}`}${key === 'mixed' ? ' (algumas estão apagadas)' : ''}">${icon('light', 12)}</button>`;
+  }
   function renderSceneTreeIfVisible(tree=document.getElementById('scene-tree')) {
     if (!tree) return;
     const doc = store.document;
@@ -963,7 +970,7 @@ export async function startApplication() {
       return `<div draggable="true" data-drag-id="${entry.id}" data-select="${entry.id}" class="tree-entry ${selectedIds.has(assemblyFor(doc,entry.id)?.id ?? entry.id) ? 'selected' : ''}">
         ${avatar || icon(typeGlyph, 14)}
         <span class="tree-label" title="${esc([name, doc.layout.levels?.[entry.levelId]?.name, doc.layout.layers?.[entry.layerId]?.name].filter(Boolean).join(' · '))}">${esc(name)}${filtering && entry.groupId && doc.layout.groups?.[entry.groupId] ? `<small>${esc(doc.layout.groups[entry.groupId].name)}</small>` : ''}</span>${manyLevels && entry.levelId && doc.layout.levels?.[entry.levelId] ? `<small title="Andar">${esc(doc.layout.levels[entry.levelId].name)}</small>` : ''}
-        ${entry.audience === 'gm' ? '<small>GM</small>' : ''}
+        ${entry.audience === 'gm' ? '<small>GM</small>' : ''}${lightSwitchButton(recordLightOn(entry), `data-entry-light="${entry.id}"`, 'a luz')}
         <div class="tree-entry-actions">
           <button type="button" class="tree-action-btn" data-tree-rename="${entry.id}" title="Renomear">${icon('edit', 12)}</button>
           <button type="button" class="tree-action-btn" data-tree-menu="${entry.id}" title="Mais opções">${icon('dots', 12)}</button>
@@ -986,7 +993,7 @@ export async function startApplication() {
           <div class="tree-group-header" data-group-id="${group.id}">
             <button type="button" class="tree-collapse" data-group-collapse="${group.id}" aria-expanded="${!collapsed}" title="${collapsed ? 'Abrir pasta' : 'Recolher pasta'}">${icon('chevron', 12)}</button>${icon('folder', 14)}
             ${group.anchored ? `<button class="group-title" data-action="assembly-select" data-id="${group.id}" title="Selecionar composição">${esc(group.name)} · ancorada</button>` : `<span class="group-title" title="${esc(group.name)}">${esc(group.name)}</span>`}
-            <div class="group-actions">
+            ${lightSwitchButton(switchState(doc, { groupId: group.id }), `data-group-lights="${group.id}"`, 'as luzes da pasta')}<div class="group-actions">
               <button type="button" data-group-visible="${group.id}" title="${group.visible === false ? 'Mostrar pasta' : 'Ocultar pasta'}">${icon('eye', 12)}</button>
               <button type="button" data-group-lock="${group.id}" title="${group.locked ? 'Desbloquear pasta' : 'Bloquear pasta'}">${group.locked ? '🔒' : '🔓'}</button>
               <button type="button" data-group-rename="${group.id}" title="Renomear pasta">${icon('edit', 12)}</button>
@@ -1229,7 +1236,9 @@ export async function startApplication() {
     if(contentChanged){
       const changes=event.changes, categories=changes?.categories??[];
       if(!changes||changes.full||changes.entities?.includes(selection)||changes.tokens?.includes(selection)||changes.lights?.includes(selection)||changes.actors?.includes(doc.tokens?.[selection]?.actorId)||changes.groups?.length||changes.levels?.length||changes.layers?.length||categories.some(c=>['structure','organization','look','session'].includes(c)))renderInspector();else performanceDiagnostics.count('inspectorSkipped');
-      if(!changes||changes.full||changes.name||categories.some(c=>['structure','organization','metadata','look','camera','grid'].includes(c)))renderSidebar();else performanceDiagnostics.count('sidebarSkipped');
+      if(!changes||changes.full||changes.name||categories.some(c=>['structure','organization','metadata','look','camera','grid'].includes(c)))renderSidebar();
+      // A light switched on or off only changes the bulbs of the tree.
+      else if(categories.includes('light'))renderSceneTreeIfVisible();else performanceDiagnostics.count('sidebarSkipped');
       broadcast();
     }
     if (event.type !== 'saved') previews.schedule();
@@ -2498,6 +2507,11 @@ export async function startApplication() {
       showContextMenu(rect.right + 4, rect.top, id); return;
     }
 
+    // Light switches: a folder (with its subfolders) or one record, one step in the history.
+    const groupLights = event.target.closest('[data-group-lights]');
+    if (groupLights) { const on = groupLights.dataset.state === 'off'; execute('lights.switch', { groupId: groupLights.dataset.groupLights, enabled: on }, { label: on ? 'Acender luzes da pasta' : 'Apagar luzes da pasta' }); return; }
+    const entryLight = event.target.closest('[data-entry-light]');
+    if (entryLight) { const on = entryLight.dataset.state === 'off'; execute('lights.switch', { ids: [entryLight.dataset.entryLight], enabled: on }, { label: on ? 'Acender luz' : 'Apagar luz' }); return; }
     const groupRenameBtn = event.target.closest('[data-group-rename]');
     if (groupRenameBtn) { renameTarget(groupRenameBtn.dataset.groupRename); return; }
     const groupVisibility = event.target.closest('[data-group-visible]');

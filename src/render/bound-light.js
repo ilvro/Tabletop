@@ -2,14 +2,21 @@ import * as THREE from 'three';
 import { lightPhaseActive } from '../domain/dynamic-lighting.js';
 import { createLightObject, updateLightEffects } from './lighting.js';
 const emissionBases=new WeakMap(), emissionStates=new WeakMap(), bindingStates=new WeakMap();
+// Material slots that are the flame itself: hidden while the light is off.
+const FLAMES=new Set(['flame','fire']);
 export function applyBoundEmission(object,record,look){const config=record.illumination;
   const configKey=config&&Object.isFrozen(config)?config:JSON.stringify(config),phase=config&&lightPhaseActive(config,look),screen=!!record?.screen?.enabled, prior=emissionStates.get(object);
   if(prior&&prior.configKey===configKey&&prior.phase===phase&&prior.screen===screen)return;emissionStates.set(object,{configKey,phase,screen});
-  object.traverse(mesh=>{if(!mesh.isMesh||mesh.userData.decorative)return;for(const m of Array.isArray(mesh.material)?mesh.material:[mesh.material]){
+  // A light that is off (switched off, or outside its phase) takes the glow of its model with it, and its flames.
+  const off=!!config&&!phase;
+  object.traverse(mesh=>{if(!mesh.isMesh||mesh.userData.decorative)return;
+    if(FLAMES.has(mesh.userData.materialSlot)||FLAMES.has(mesh.material?.name)){if(off){mesh.userData.flameHidden??=mesh.visible;mesh.visible=false;}else if(mesh.userData.flameHidden!==undefined){mesh.visible=mesh.userData.flameHidden;delete mesh.userData.flameHidden;}}
+    for(const m of Array.isArray(mesh.material)?mesh.material:[mesh.material]){
     if(!m?.isMeshStandardMaterial)continue;const base=emissionBases.get(m);if(base){m.emissive.copy(base.color);m.emissiveIntensity=base.intensity;}
     const slot=m.name||mesh.userData.materialSlot||'base';
     // A lit screen is drawn from its own content, not from the colour of the light.
     if(screen&&slot==='screen')continue;
+    if(off){if(m.emissiveIntensity>0&&m.emissive.getHex()!==0){if(!base)emissionBases.set(m,{color:m.emissive.clone(),intensity:m.emissiveIntensity});m.emissiveIntensity=0;}continue;}
     if(config&&lightPhaseActive(config,look)&&config.emissionSlot!=='none'&&(config.emissionSlot==='base'||config.emissionSlot===slot)){
       if(!base)emissionBases.set(m,{color:m.emissive.clone(),intensity:m.emissiveIntensity});m.emissive.set(config.color);m.emissiveIntensity=config.emissionIntensity;
     }

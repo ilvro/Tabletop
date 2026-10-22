@@ -19,7 +19,7 @@ export const EXAMPLE_SCENES = Object.freeze([
     description:'Galpão de 16 × 12 m com cabos, tela acesa, letreiros, faixas de alerta, piso molhado, faíscas e goteira. Cinco câmeras e cópia editável.',
     file:'scenes/galpao-industrial.json' }),
   Object.freeze({ id:'templo-gelado',name:'Templo gelado · caverna e grade levadiça',
-    description:'Salão de pilares numa caverna de neve e, atrás da grade levadiça, um complexo nórdico abandonado em dois níveis, com caverna pintada, forja e um abismo com escada em espiral. Vinte e três câmeras e cópia editável.',
+    description:'Salão de pilares numa caverna de neve e, atrás da grade levadiça, um complexo nórdico abandonado em dois níveis — biblioteca, salão de banquete, quartos, caverna pintada, forja — e um abismo com escada em espiral. Luzes que se acendem por sala. Trinta câmeras e cópia editável.',
     file:'scenes/templo-gelado.json' }),
 ]);
 

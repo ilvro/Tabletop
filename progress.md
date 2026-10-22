@@ -18,6 +18,28 @@ Pedido: ver se havia melhoria de UI pendente e permitir trocar a paleta do site,
 
 **Pendências reais:** com "Seguir a luz" ligado (padrão), cenas de luz quente continuam com claquete e cantoneiras âmbar; a cor do tema não muda o fundo nem o 3D. Nenhuma pessoa avaliou as paletas.
 
+## Interruptores de luz e salas de moradia do templo (20 de outubro) — concluído
+
+Pedido: o templo não tinha quartos, área de refeição nem biblioteca reconhecíveis; todas as luzes devem poder ser desligadas por sala e individualmente, com uma feature geral se necessário.
+
+**Feito — interruptores (feature geral)**
+
+- `src/domain/light-switch.js`: alcance (`switchTargets`: luzes próprias de objetos e luzes avulsas de uma pasta com subpastas, ou por ids; nunca a luz do ambiente), estado (`switchState`: none/on/off/mixed) e `recordLightOn`.
+- Comando `lights.switch` (`src/state/commands.js`): `{ groupId | ids, enabled }`, um passo de desfazer, só muda `enabled`; permitido em pastas/objetos bloqueados, como ocultar.
+- `src/render/bound-light.js`: luz apagada (ou fora da fase) zera o brilho dos materiais do modelo e esconde os slots `flame`/`fire`; ao acender, restaura. Antes, apagar a fonte deixava o modelo brilhando.
+- Árvore de Elementos (`src/app/application.js`, estilos em `styles.css`): lâmpada no cabeçalho de cada pasta com luzes (âmbar/apagada/tracejada) e em cada linha com luz; o clique não seleciona a linha. Mudanças de luz agora redesenham só a árvore, para as lâmpadas acompanharem inspetor e desfazer.
+- Testes: `tests/light-switch.test.js`, `tests/light-switch-render.test.js`, `tests/e2e/light-switch.test.js`. Docs: [DYNAMIC_LIGHTING.md](docs/DYNAMIC_LIGHTING.md#acender-e-apagar-luzes-interruptores), EDITOR_UI.md.
+
+**Feito — templo**
+
+- Alojamento virou **Dormitório dos guerreiros** (3 celas + 5 camas, mesa comum, lareira). Novas salas a leste: **Biblioteca** (18 × 16 × 10 m, corredores de estantes, galerias em dois lados ligadas ao mezanino do arquivo, mesa de leitura, púlpito, lustres), **Salão de banquete** (2 mesas longas postas, mesa alta com trono em estrado, lareira grande, lustres), **Cozinha**, **Ala dos quartos** com 3 **quartos de sacerdotes** e a **Câmara do jarl**.
+- Todo objeto cujo modelo brilha recebe luz própria (lida dos materiais do modelo no gerador): runas, consoles, engrenagens, cristais, lanternas, e luz de fogo/vela para lareiras, braseiros, caldeirões, lustres e velas. O que já queimou começa apagado (21 objetos). Salas pequenas compartilham zona (15 zonas). Tetos em lajes maiores (200 → 52).
+- 838 elementos, 30 câmeras. Revisão das novas vistas no renderizador de apresentação, inclusive banquete e biblioteca acesos × apagados.
+
+**Validação:** 361 testes unitários/de integração; builds local e Pages; 13 E2E (iluminação dinâmica e de autoria nos dois modos, painéis, capas e exemplos nos dois modos, interruptores na árvore, atmosfera) passaram.
+
+**Pendências reais:** desempenho — o editor percorre todos os objetos a cada quadro, mesmo atrás das paredes: a vista do salão leva ~52 ms por quadro (era ~24 ms antes do complexo) e a capa em Abrir ~13 s. Precisa de descarte por sala/oclusão no motor. Com muitas luzes acesas perto, só as mais relevantes iluminam (orçamento 8/16). Zonas não mudam com o interruptor.
+
 ## Templo gelado: salas redesenhadas e porta do abismo (20 de outubro) — concluído
 
 Pedido: salas mais desenvolvidas (estavam básicas, pequenas e lineares); o abismo fica como está, com uma porta de pedra com runa nórdica.

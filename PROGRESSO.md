@@ -1,5 +1,7 @@
 # Tabletop — Progresso do Projeto
 
+**Interruptores de luz e salas do templo (20 de outubro):** lâmpada por pasta e por objeto na árvore de Elementos acende ou apaga luzes (pasta com subpastas, um passo de desfazer), e uma luz apagada leva junto o brilho e as chamas do modelo; Templo gelado ganha biblioteca de dois andares, salão de banquete com cozinha, quartos dos sacerdotes, câmara do jarl e dormitório. [Interruptores](docs/DYNAMIC_LIGHTING.md#acender-e-apagar-luzes-interruptores) · [cena](docs/EXAMPLE_SCENES.md#templo-gelado).
+
 **Templo gelado, salas redesenhadas (20 de outubro):** o complexo virou um circuito em dois níveis com salas maiores e com níveis internos — átrio com colunata, estrado e balcão; sala de máquinas com poço; arquivo com mezanino; alojamento com celas; corredor dos guardiões; caverna irregular com fenda de cristais; salão dos ancestrais com escadaria monumental; forja com canal de metal fundido; depósito sem saída; escada de serviço — e uma porta de pedra rúnica na entrada do abismo. 3 modelos novos (352 no total). [Cenas de exemplo](docs/EXAMPLE_SCENES.md#templo-gelado).
 
 **Cor do tema (20 de outubro):** Ajustes no trilho com a janela Aparência: sete paletas ou uma cor personalizada (clareada para continuar legível), opção de os destaques seguirem a luz da cena, preferência do navegador também no projetor; botão `?` de atalhos no HUD. [Uso](docs/EDITOR_UI.md#mesa-de-direção-rework-cinematográfico) · [Sistema visual](docs/DESIGN_SYSTEM.md).

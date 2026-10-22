@@ -1,3 +1,4 @@
+import { readFile } from 'node:fs/promises';
 import * as THREE from 'three';
 import { createScene, createEntity, createLight, id } from '../src/domain/documents.js';
 import { quaternionFromYaw } from '../src/domain/coords.js';
@@ -169,16 +170,19 @@ export async function buildFrozenTempleScene(catalog) {
   // ancestors → up to the cave → guardians → atrium, with the archive, the quarters and the storeroom as a
   // second loop on the east, dead ends (the crystal crevice, the ore store), and one way on: the vault door.
   const ceilingOver = (name, x0, x1, z0, z1, y, tone = '#3a4546') => {
-    const nx = Math.ceil((x1 - x0) / 6), nz = Math.ceil((z1 - z0) / 6), sx = (x1 - x0) / nx, sz = (z1 - z0) / nz;
+    // As few slabs as possible: every slab is drawn on its own, and the rock texture follows the world, not the slab.
+    const nx = Math.ceil((x1 - x0) / 20), nz = Math.ceil((z1 - z0) / 20), sx = (x1 - x0) / nx, sz = (z1 - z0) / nz;
     for (let i = 0; i < nx; i++) for (let j = 0; j < nz; j++) put('industrial-ceiling-slab', x0 + sx * (i + .5), y, z0 + sz * (j + .5), 0, { name: `Teto · ${name}`, scale: [sx / 4.2, 1.8, sz / 4.2], surfaceId: null, material: { ...raw(tone), textureSlot: 'concrete' } });
   };
   const zoneOf = (w, h, l, zone) => ({ ...ZONE_DEFAULTS, position: [0, h / 2, 0], size: [w, h, l], blend: .8, priority: 20, indirect: .6, ...zone });
-  const room = ({ name, x, y = 0, z, w, l, h, wall, ground: groundMaterial, ceiling = '#3a4546', zone }) => {
+  const room = ({ name, x, y = 0, z, w, l, h, wall, ground: groundMaterial, ceiling = '#3a4546', zone, zoneBox = null }) => {
     const proposal = proposeRoom({ width: w, length: l, height: h, center: [x, y, z], thickness: T, lighting: false, door: false, name }, store.editVersion);
     store.execute('proposal.accept', { proposal });
     const made = Object.fromEntries(proposal.entities.map(e => [e.kind === 'floor' ? 'floor' : { 'Parede norte': 'north', 'Parede sul': 'south', 'Parede oeste': 'west', 'Parede leste': 'east' }[e.name], store.document.layout.entities[e.id]]));
     for (const side of ['north', 'south', 'west', 'east']) update(made[side], { material: wall });
-    update(made.floor, { material: groundMaterial, lightingZone: zoneOf(w, h, l, zone) });
+    // A zone may cover the small rooms next door too (the document takes 16 zones); `zone: null` leaves the room to its neighbour's.
+    const box = zoneBox ? { w: zoneBox[1] - zoneBox[0], l: zoneBox[3] - zoneBox[2], x: (zoneBox[0] + zoneBox[1]) / 2 - x, z: (zoneBox[2] + zoneBox[3]) / 2 - z } : { w, l, x: 0, z: 0 };
+    update(made.floor, { material: groundMaterial, ...(zone === null ? {} : { lightingZone: { ...zoneOf(box.w, h, box.l, zone), position: [box.x, h / 2, box.z] } }) });
     groupId = proposal.groups[0].id; surface = made.floor.id; surfaceY = y;
     ceilingOver(name, x - w / 2 - T, x + w / 2 + T, z - l / 2 - T, z + l / 2 + T, y + h, ceiling);
     return { ...made, x, y, z, w, l, h };
@@ -207,6 +211,8 @@ export async function buildFrozenTempleScene(catalog) {
   const rune = (name, x, y, z, a, extra = {}) => put(name, x, y, z, a, { material: { textureSlot: 'stone', ...hewn() }, ...extra });
   const statue = (x, y, z, a, extra = {}) => put('nordic-guardian-statue', x, y, z, a, { material: { textureSlot: 'stone', ...hewn() }, ...extra });
   const tall = h => [1, h / 9, 1];
+  // Things that once burned (hearths, chandeliers, candles, fallen lanterns) start switched off: light them when the players do.
+  const dark = new Set(), off = entity => { dark.add(entity.id); return entity; };
   const dim = level => ({ material: { textureSlot: 'glow', emissiveIntensity: level } });
   const DEEP = -6;
 
@@ -275,12 +281,12 @@ export async function buildFrozenTempleScene(catalog) {
   block('Mezanino do arquivo', ax + 6.5, arz, 5, 16, 4.2, 3.85); block('Patamar do mezanino', ax + 3.2, aN + 5.9, 1.6, 2.2, 4.2, 3.85);
   stairs('Escada do mezanino', ax + 3.2, 0, aN + 10, 180, 1.6, 8, 4.2);
   railLine(ax + 4.05, aS, ax + 4.05, aN + 7, 4.2); railLine(ax + 4.05, aN + 4.8, ax + 4.05, aN, 4.2);
-  for (const z of [aS - 2, aS - 5.2, aS - 8.4, aS - 11.6, aN + 1.6]) put('nordic-tablet-shelf', ax + 9 - .32, 4.2, z, -90, { material: { textureSlot: 'stone', ...hewn() } });
+  for (const z of [aS - 2, aS - 5.2, aS - 8.4, aN + 1.6]) put('nordic-tablet-shelf', ax + 9 - .32, 4.2, z, -90, { material: { textureSlot: 'stone', ...hewn() } });
   for (const x of [ax - 5.6, ax - 1.2]) for (const z of [arz + 1.4, arz - 1.4]) { put('nordic-tablet-shelf', x + .31, 0, z, 90, { material: { textureSlot: 'stone', ...hewn() } }); put('nordic-tablet-shelf', x - .31, 0, z, -90, { material: { textureSlot: 'stone', ...hewn() } }); }
   put('nordic-tablet-shelf', ax + 1.4, 0, aN + .32, 0, { material: { textureSlot: 'stone', ...hewn() } });
   const stones = [rune('nordic-runestone', ax + 1.6, 0, aN + 3.4, -20), rune('nordic-runestone', ax - 3.4, 0, aN + 3.2, 25, dim(.2))];
   put('medieval-trestle-table', ax - .6, 0, aS - 1.5, 0, { material: { color: '#8a7f70' } }); for (const s of [-1, 1]) put('medieval-bench', ax - .6, 0, aS - 1.5 + s * .85, 0, { material: { color: '#8a7f70' } });
-  put('industrial-scattered-papers', ax - 2.6, 0, aS - 3.2, 70, { material: { color: '#b9ab8a' } }); put('medieval-candle-stand', ax + 2.6, 0, aS - .6, 0, { material: { color: '#6d7272' } });
+  put('industrial-scattered-papers', ax - 2.6, 0, aS - 3.2, 70, { material: { color: '#b9ab8a' } }); off(put('medieval-candle-stand', ax + 2.6, 0, aS - .6, 0, { material: { color: '#6d7272' } }));
   // The broken corner: rock pushing through the walls, rubble, a shelf thrown down and frost.
   put('organic-rock', ax - 8.6, -.6, aN + 1.4, 40, { scale: [1.2, 1.5, 1.1], rockShape: { ...rockDefaults('builtin-organic-rock'), seed: 5203, detail: 5, irregularity: .9, erosion: .8 }, material: raw('#454c4a') });
   put('nordic-tablet-shelf', ax - 6.6, .3, aN + 3.6, turn(35, -80), { material: { textureSlot: 'stone', ...hewn() } }); rubble(ax - 6.4, 0, aN + 1.4, 20); rubble(ax - 8, 0, aN + 4, 110, .7);
@@ -289,34 +295,114 @@ export async function buildFrozenTempleScene(catalog) {
   lantern(ax - 7, 0, aN + 6.4, { intensity: 10 }); lantern(ax + 8.2, 4.2, aN + 5, { intensity: 9 });
   kerosene(ax - 1.2, .812, aS - 1.5, { intensity: 10, distance: 7 });
 
-  // 9d. North of the archive, the quarters, 18 × 16 m: four sleeping cells behind low walls on the east, a
-  // refectory with a cold hearth on the west, and stores in a corner.
-  const quarters = room({ name: 'Alojamento', x: ax, z: aN - T * 2 - 8, w: 18, l: 16, h: 6, wall: hewn(), ground: pavers('#5a6362', .1), zone: { color: '#7a8f96', intensity: .26, fogColor: '#1e3239', fogDensity: .018 } });
+  // 9d. North of the archive, the warriors' dormitory, 18 × 16 m: three cells behind low walls on the east for the
+  // captains, a row of beds along the west wall, a common table, a cold hearth and the way east to the banquet hall.
+  const quarters = room({ name: 'Dormitório dos guerreiros', x: ax, z: aN - T * 2 - 8, w: 18, l: 16, h: 6, wall: hewn(), ground: pavers('#5a6362', .1), zone: { color: '#7a8f96', intensity: .26, fogColor: '#1e3239', fogDensity: .018 }, zoneBox: [4, 30.8, -48.35, -29.8] });
   pass(archive, 'north', ax - 3.3, 2.4, 3.2); pass(quarters, 'south', ax - 3.3, 2.4, 3.2);
   const qx = quarters.x, qz = quarters.z, qS = qz + 8, cell = { ...hewn(), textureColor: '#5b6a69' };
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 3; i++) {
     const top = qS - 4 * i;
     if (i) wallLine('Parede da cela', qx + 2.2, top, qx + 9, top, 0, 2.6, .2, cell);
     wallLine('Parede da cela', qx + 2.2, top - 1.4, qx + 2.2, top - 4, 0, 2.6, .2, cell);
     put('medieval-bed', qx + 7.8, 0, top - 2.2, 90, { material: { color: '#9a8f80' } }); put('medieval-chest', qx + 4.6, 0, top - 3.3, 90, { material: { color: '#8a8478' } });
     if (i % 2) put('medieval-armor-stand', qx + 3, 0, top - 3.4, 90); else put('rug', qx + 6, 0, top - 2.2, 90, { scale: [.5, 1, .9], material: { color: '#6a5444' } });
   }
-  for (const z of [qz + 1.6, qz - 1]) put('medieval-trestle-table', qx - 4.4, 0, z, 90, { material: { color: '#8a7f70' } });
-  for (const s of [-1, 1]) for (const z of [qz + 1.6, qz - 1]) put('medieval-bench', qx - 4.4 + s * .85, 0, z, 90, { material: { color: '#8a7f70' } });
-  put('medieval-tankards', qx - 4.4, .812, qz + .9, 40); put('medieval-stool', qx - 2.4, 0, qz + 3.6, 30, { rotation: turn(30, 80) });
-  put('medieval-hearth', qx - 4.6, 0, qz - 8 + .37, 0, { material: { color: '#9b9f9a' } }); put('medieval-cauldron', qx - 2.4, 0, qz - 6.4, 0);
-  put('medieval-barrel-rack', qx - 8.4, 0, qS - 1.8, 90, { material: { color: '#8a8478' } }); put('medieval-sacks', qx - 8.2, 0, qS - 4, 70, { material: { color: '#a7a399' } }); put('old-closed-crate', qx - 6.8, 0, qS - .8, 10, { material: oldIn });
-  kerosene(qx - 4.4, .812, qz - .4, { intensity: 11 }); lantern(qx + 1.2, 0, qz - 6.8, { intensity: 8, distance: 8 });
+  wallLine('Parede da cela', qx + 2.2, qS - 12, qx + 9, qS - 12, 0, 2.6, .2, cell);
+  for (const [i, z] of [qS - 1.6, qS - 4.2, qS - 6.8, qS - 9.4, qS - 12].entries()) { put('medieval-bed', qx - 9 + 1.1, 0, z, 90, { material: { color: '#9a8f80' } }); if (i % 2 === 0) put('medieval-chest', qx - 9 + 2.6, 0, z, 90, { material: { color: '#8a8478' } }); }
+  put('medieval-trestle-table', qx - 2.4, 0, qz - 1, 90, { material: { color: '#8a7f70' } }); for (const s of [-1, 1]) put('medieval-bench', qx - 2.4 + s * .85, 0, qz - 1, 90, { material: { color: '#8a7f70' } });
+  put('medieval-tankards', qx - 2.4, .812, qz - 1.6, 40); put('medieval-stool', qx - .4, 0, qz + 2.6, 30, { rotation: turn(30, 80) });
+  off(put('medieval-hearth', qx - 4.6, 0, qz - 8 + .37, 0, { material: { color: '#9b9f9a' } })); put('medieval-weapon-rack', qx + .6, 0, qz - 8 + .3, 0);
+  put('medieval-armor-stand', qx - 1, 0, qS - .8, 180); put('old-closed-crate', qx - 6, 0, qz - 6.6, 10, { material: oldIn });
+  kerosene(qx - 2.4, .812, qz - .4, { intensity: 11 }); lantern(qx + 5.8, 0, qz - 6.4, { intensity: 8, distance: 8 });
 
   // 9e. West of the quarters, the storeroom, and north of the atrium the corridor of the guardians: both open
   // onto the painted cave.
-  const store_ = room({ name: 'Despensa', x: 8, z: -48.35 + 5.175, w: 8, l: 10.35, h: 5, wall: hewn(), ground: pavers('#555f5e', .2), zone: { color: '#6f8890', intensity: .24, fogColor: '#1b2f35', fogDensity: .02 } });
+  const store_ = room({ name: 'Despensa', x: 8, z: -48.35 + 5.175, w: 8, l: 10.35, h: 5, wall: hewn(), ground: pavers('#555f5e', .2), zone: null });
   pass(quarters, 'west', qz - 4.2, 2.2, 3); pass(store_, 'east', qz - 4.2, 2.2, 3);
   const sx_ = store_.x, sz_ = store_.z;
   put('medieval-cupboard', sx_ - 4 + .3, 0, sz_ - 2, 90, { material: { color: '#8a8478' } }); put('medieval-cupboard', sx_ - 4 + .3, 0, sz_ + 1, 90, { material: { color: '#8a8478' } });
   put('medieval-barrel-rack', sx_ + 1.6, 0, sz_ + 4.4, 0, { material: { color: '#8a8478' } }); put('church-hook-rack', sx_, 5 - 1.6, sz_ - 1, 0);
   put('medieval-sacks', sx_ + 2.6, 0, sz_ - 1.6, 20, { material: { color: '#a7a399' } }); put('old-open-crate', sx_ + 2.4, 0, sz_ - 3.6, 60, { material: oldIn }); put('crate', sx_ - 1, 0, sz_ + 3.6, 15, { material: oldIn });
   lantern(sx_ + 3.2, 0, sz_ + 1.6, { intensity: 7, distance: 7 });
+
+  // 9e2. East of the archive and the dormitory, the wing where they lived well: a library on two floors, the banquet
+  // hall with its kitchen, and a corridor of bedrooms ending in the chamber of the jarl.
+  const book = { material: { color: '#d8c8b0' } }, wood = { material: { color: '#8a7f70' } };
+  const library = room({ name: 'Biblioteca', x: 40.6, z: arz, w: 18, l: 16, h: 10, wall: hewn(), ground: pavers('#5a6564'), zone: { color: '#8a8070', intensity: .3, fogColor: '#1f2a2c', fogDensity: .012 } });
+  const lx = library.x, lz = library.z, lW = lx - 9, lE = lx + 9, lN = lz - 8, lS = lz + 8;
+  pass(archive, 'east', lS - 4, 2.4, 3.2); pass(library, 'west', lS - 4, 2.4, 3.2);
+  // The upper floor joins the archive's mezzanine through the wall, 4,2 m up.
+  pass(archive, 'east', lN + 4, 2.2, 2.6, 4.2); pass(library, 'west', lN + 4, 2.2, 2.6, 4.2);
+  block('Galeria oeste da biblioteca', lW + 2, lz, 4, 16, 4.2, 3.85); block('Galeria norte da biblioteca', lx + 2, lN + 2, 14, 4, 4.2, 3.85);
+  railLine(lW + 4.05, lS, lW + 4.05, lN + 4.05, 4.2); railLine(lW + 4.05, lN + 4.05, lE - 1.8, lN + 4.05, 4.2);
+  stairs('Escada da biblioteca', lE - .9, 0, lN + 4 + 5.4, 180, 1.6, 10.8, 4.2);
+  for (const z of [lS - 1.4, lS - 2.8, lS - 4.2, lS - 5.6, lS - 7, lS - 8.4, lS - 9.8, lN + 1.6]) put('bookshelf', lW + .2, 4.2, z + .6, 90, { scale: [1.15, 1.3, 1], ...book });
+  for (const x of [lx - 4.6, lx - 3.4, lx - 2.2, lx - 1, lx + .2, lx + 1.4, lx + 2.6, lx + 3.8, lx + 5]) put('bookshelf', x, 4.2, lN + .2, 0, { scale: [1, 1.3, 1], ...book });
+  for (const x of [lx - 2, lx - .8, lx + .4, lx + 1.6, lx + 2.8, lx + 4]) put('bookshelf', x, 0, lS - .2, 180, { scale: [1, 1.3, 1], ...book });
+  // Two double rows of shelves running north–south make the aisles of the ground floor.
+  for (const x of [lx - 4.6, lx - 1.6]) for (const z of [lz + 3, lz + 1.8, lz + .6, lz - .6, lz - 1.8]) { put('bookshelf', x - .2, 0, z, -90, { scale: [1, 1.2, 1], ...book }); put('bookshelf', x + .2, 0, z, 90, { scale: [1, 1.2, 1], ...book }); }
+  put('nordic-tablet-shelf', lx + 5.2, 0, lN + 4.6, 0, { material: { textureSlot: 'stone', ...hewn() } });
+  for (const z of [lz + 2.2, lz - 1.4]) { put('medieval-trestle-table', lx + 3.4, 0, z, 0, wood); for (const s of [-1, 1]) put('chair', lx + 3.4 + s * .7, 0, z + .75, 180, wood); }
+  put('ritual-book', lx + 3, .812, lz + 2.1, 30); off(put('candles', lx + 4.2, .812, lz + 2.2, 0)); put('globe', lx + 2.6, .812, lz - 1.3, 0); put('industrial-scattered-papers', lx + 3.6, .812, lz - 1.5, 60, { material: { color: '#c4b593' } });
+  put('lectern', lx + 2.4, 0, lN + 5, 0, wood); put('armchair', lx + 5.6, 0, lz + 3.6, -140, { material: { color: '#6d5a4a' } }); put('rug', lx + 3.4, 0, lz + .4, 0, { scale: [1.2, 1, 2.2], material: { color: '#4f3a30' } });
+  for (const z of [lz + 2, lz - 2]) off(put('chandelier', lx + 3.4, 10 - 1.02, z, 0));
+  off(put('candles', lx + 4.2, .812, lz - 1.4, 40)); off(put('medieval-candle-stand', lW + 4.6, 0, lS - 1.2, 0)); off(put('medieval-candle-stand', lx + 5.8, 4.2, lN + 1.4, 0));
+  kerosene(lx + 3.9, .812, lz + 1.8, { intensity: 10, distance: 7 }); lantern(lx - 3.1, 0, lz - 4.2, { intensity: 10, distance: 8 }); lantern(lx - .1, 0, lz - 3.4, { intensity: 9, distance: 8 }); lantern(lE - 2.6, 0, lS - 2, { intensity: 9 }); lantern(lW + 1.4, 4.2, lN + 1.4, { intensity: 8 });
+
+  const hall3 = room({ name: 'Salão de banquete', x: 41.6, z: qz, w: 20, l: 16, h: 8, wall: hewn(), ground: pavers('#5a6564', .05), zone: { color: '#857a6c', intensity: .28, fogColor: '#1f2a2c', fogDensity: .014 }, zoneBox: [31.6, 51.6, -56.6, -29.8] });
+  const bx = hall3.x, bz = hall3.z, bS = bz + 8, bN = bz - 8, bW = bx - 10, bE = bx + 10;
+  pass(library, 'north', lx - 1, 2.4, 3.2); pass(hall3, 'south', lx - 1, 2.4, 3.2);
+  pass(quarters, 'east', qz - 6, 2.2, 3); pass(hall3, 'west', qz - 6, 2.2, 3);
+  // Two long tables down the hall, the high table on a dais at the east end, the great hearth on the north wall.
+  for (const x of [bx - 5, bx + 1.4]) for (const z of [bz + 2.8, bz - 2.8]) {
+    put('church-banquet-table', x, 0, z, 0, wood);
+    for (const s of [-1, 1]) for (const u of [-1.3, 1.3]) put('medieval-bench', x + s * 1.05, 0, z + u, 90, wood);
+    for (const u of [-1.8, 0, 1.8]) for (const s of [-1, 1]) put('church-banquet-setting', x + s * .32, 1.04, z + u, s * 90);
+  }
+  block('Estrado da mesa alta', bE - 1.4, bz, 2.8, 9, .45, 0); put('church-banquet-table', bE - 2, .45, bz, 0, wood);
+  put('medieval-throne', bE - .55, .45, bz, -90); for (const z of [bz - 1.6, bz + 1.6]) put('church-pointed-chair', bE - .6, .45, z, -90, wood);
+  for (const z of [bz - 3.2, bz + 3.2]) put('medieval-banner', bE - .06, 3.4, z, -90, { scale: [1.4, 1.6, 1], material: { color: '#6a3a2e' } });
+  off(put('medieval-hearth', bx - 1.6, 0, bN + .37, 0, { scale: [1.6, 1.4, 1.2], material: { color: '#9b9f9a' } }));
+  put('medieval-barrel-rack', bW + .6, 0, bN + 4.6, 90, { material: { color: '#8a8478' } }); put('medieval-tankards', bx - 5, 1.04, bz + 1.4, 20); put('medieval-tankards', bx + 1.4, 1.04, bz - 3.6, 120);
+  put('medieval-stool', bx - 3, 0, bz + 6.4, 0, { rotation: turn(10, 85) }); put('church-banquet-setting', bx - 2.6, 0, bz + 5.2, 50);
+  for (const x of [bx - 5, bx + 1.4]) off(put('chandelier', x, 8 - 1.02, bz, 0));
+  for (const z of [bz - 4, bz + 4]) off(put('medieval-candle-stand', bE - 2, .45, z, 0));
+  put('old-closed-crate', bW + 1.2, 0, bS - 1.2, 15, { material: oldIn }); kerosene(bW + 1.2, .623, bS - 1.2, { intensity: 12, distance: 8 });
+  lantern(bx - 1.8, 0, bS - .8, { intensity: 9 }); lantern(bW + 1, 0, bN + 4.4, { intensity: 8 });
+
+  const kitchen = room({ name: 'Cozinha', x: 36.6, z: bN - 2 * T - 5, w: 10, l: 10, h: 5, wall: hewn(), ground: pavers('#555f5e', .05), zone: null });
+  pass(hall3, 'north', 36, 2.2, 3); pass(kitchen, 'south', 36, 2.2, 3);
+  const kx = kitchen.x, kz = kitchen.z;
+  off(put('medieval-hearth', kx + 1.6, 0, kz - 5 + .37, 0, { scale: [1.3, 1.2, 1.1], material: { color: '#9b9f9a' } })); off(put('medieval-cauldron', kx + 1.6, 0, kz - 3.4, 0)); off(put('medieval-cauldron', kx - 3.4, 0, kz - 3.6, 0));
+  put('medieval-trestle-table', kx - .6, 0, kz + .4, 0, wood); put('medieval-tankards', kx - 1, .812, kz + .3, 0); put('medieval-sacks', kx + 3.4, 0, kz + 3.2, 20, { material: { color: '#a7a399' } });
+  put('medieval-cupboard', kx - 5 + .3, 0, kz + 1.4, 90, { material: { color: '#8a8478' } }); put('medieval-barrel-rack', kx - 4.4, 0, kz - 2, 90, { material: { color: '#8a8478' } }); put('church-hook-rack', kx - .6, 5 - 1.6, kz + .4, 0);
+  put('wooden-expedition-barrel', kx + 3.6, 0, kz - 1.4, 0); put('medieval-wooden-tub', kx + 3, 0, kz + .6, 30, wood);
+  lantern(kx - 3.6, 0, kz + 3.6, { intensity: 6, distance: 7 });
+
+  // The bedrooms open off a corridor east of the hall: three rooms of the priests and, at the end, the jarl's chamber.
+  const wing = room({ name: 'Ala dos quartos', x: bE + 2 * T + 1.4, z: bz - 5, w: 2.8, l: 26, h: 4, wall: hewn(), ground: pavers('#5a6564'), zone: { color: '#7c8a8c', intensity: .26, fogColor: '#1b2a30', fogDensity: .02 }, zoneBox: [52.4, 66, -60.8, -29.8] });
+  const cx_ = wing.x, wS = wing.z + 13;
+  pass(hall3, 'east', bS - 1.8, 2.2, 3); pass(wing, 'west', bS - 1.8, 2.2, 3);
+  const bedroom = (name, z, l, w = 8, door = z) => { const r = room({ name, x: cx_ + 1.4 + 2 * T + w / 2, z, w, l, h: 4, wall: hewn(), ground: pavers('#5a6564'), zone: null }); pass(wing, 'east', door, 1.4, 2.6); pass(r, 'west', door, 1.4, 2.6); return r; };
+  const priests = [wS - 3, wS - 3 - 6.8, wS - 3 - 13.6].map((z, i) => bedroom(`Quarto do sacerdote ${i + 1}`, z, 6));
+  for (const [i, r] of priests.entries()) {
+    const rx = r.x, rz = r.z;
+    put('medieval-bed', rx + 2.6, 0, rz - 1.6, i === 2 ? turn(-90 + 25, 0) : -90, { material: { color: '#9a8f80' } }); put('medieval-chest', rx + 2.6, 0, rz + 1.6, -90, { material: { color: '#8a8478' } });
+    put('medieval-trestle-table', rx - 1.2, 0, rz - 2.3, 0, { scale: [.6, 1, .8], ...wood }); put('chair', rx - 1.2, 0, rz - 1.5, 180, wood); put('bookshelf', rx - 2.8, 0, rz - 2.75, 0, book);
+    put('rug', rx + .4, 0, rz + .4, 90, { scale: [.6, 1, .7], material: { color: '#4f3a30' } }); off(put('candles', rx - 1.4, .812, rz - 2.4, 0));
+    if (i === 1) { put('ritual-book', rx - .9, .812, rz - 2.2, 20); put('nordic-floor-sigil', rx + .4, 0, rz + .4, 0, { scale: [.6, 1, .6] }); }
+    if (i === 2) { put('industrial-scattered-papers', rx, 0, rz + .6, 30, { material: { color: '#c4b593' } }); put('chair', rx - .6, 0, rz + 1.6, 0, { rotation: turn(60, 88) }); }
+  }
+  const jarl = bedroom('Câmara do jarl', priests[2].z - 3 - 2 * T - 5, 10, 10, priests[2].z - 8.2);
+  const jx = jarl.x, jz = jarl.z;
+  put('medieval-bed', jx + 3.4, 0, jz - 2.6, -90, { scale: [1.4, 1.1, 1.2], material: { color: '#8a5a48' } }); put('rug', jx + 1.6, 0, jz - 2.6, 90, { scale: [.9, 1, 1.4], material: { color: '#5a4434' } });
+  put('medieval-throne', jx - 3.6, 0, jz + 2.6, 50); off(put('medieval-hearth', jx - 1, 0, jz - 5 + .37, 0, { material: { color: '#9b9f9a' } }));
+  put('medieval-weapon-rack', jx + 5 - .3, 0, jz + 2.8, -90); put('medieval-armor-stand', jx + 3.8, 0, jz + 4.2, -120); put('medieval-shield', jx - 5 + .1, 2, jz - 2.4, 90);
+  put('medieval-chest', jx + 3.4, 0, jz + .2, -90, { material: { color: '#7a5a3a' } }); put('medieval-cupboard', jx - 5 + .3, 0, jz - 3, 90, { material: { color: '#8a6a4a' } });
+  put('desk', jx - 1.4, 0, jz + 3.6, 180, wood); put('globe', jx - .8, .82, jz + 3.6, 0); put('ritual-book', jx - 1.9, .82, jz + 3.5, 10);
+  for (const z of [jz - 4, jz + 1]) put('medieval-banner', jx + 5 - .06, 2.2, z, -90, { material: { color: '#6a3a2e' } });
+  off(put('medieval-candle-stand', jx + 1.8, 0, jz - 4.2, 0)); off(put('medieval-brazier', jx - 1.4, 0, jz, 0)); lantern(jx + 4.2, 0, jz - .2, { intensity: 8, distance: 9 });
+  lantern(cx_ - .9, 0, wS - 6.4, { intensity: 7 }); lantern(cx_ + .9, 0, wS - 20, { intensity: 5, flicker: { ...illuminationDefaults('fluorescent').flicker, enabled: true, pattern: 'fluorescent', amplitude: .6, frequency: 1.4, seed: 59 } });
 
   const guards = room({ name: 'Corredor dos guardiões', x: -8, z: aBack - 2 * T - 7.2, w: 6, l: 14.4, h: 7, wall: hewn(), ground: pavers('#5a6564'), zone: { color: '#6a8f9a', intensity: .26, fogColor: '#1b343c', fogDensity: .02 } });
   pass(atrium, 'north', -8, 3, 4); pass(guards, 'south', -8, 3, 4);
@@ -380,7 +466,7 @@ export async function buildFrozenTempleScene(catalog) {
   lantern(anx + 6.4, 0, -55, { intensity: 9 }); lantern(anx - 6.6, DEEP, -49.6, { intensity: 12, distance: 11 }); lantern(anx + 6.6, DEEP, anz + 6.6, { intensity: 10, distance: 10 });
 
   // 9h. The service stair from the machine room comes down beside the forge, closing the loop.
-  const service = room({ name: 'Escada de serviço', x: mx - 9.2, y: DEEP, z: machines.z - 11 - 2 * T - 4.7, w: 4, l: 9.4, h: 9.6, wall: hewn(), ground: pavers('#4b5051'), ceiling: '#30373a', zone: { color: '#56707a', intensity: .26, fogColor: '#152329', fogDensity: .03 } });
+  const service = room({ name: 'Escada de serviço', x: mx - 9.2, y: DEEP, z: machines.z - 11 - 2 * T - 4.7, w: 4, l: 9.4, h: 9.6, wall: hewn(), ground: pavers('#4b5051'), ceiling: '#30373a', zone: null });
   pass(machines, 'north', service.x, 3, 3.4); pass(service, 'south', service.x, 3, 3.4, -DEEP);
   stairs('Escada de serviço', service.x, DEEP, service.z, 0, 3.2, 9.4, -DEEP);
   for (const s of [-1, 1]) put('industrial-pipe-riser', service.x + s * 1.75, DEEP, service.z, 90, { scale: [1, 9.6 / 3, 1], ...bronzePipe });
@@ -388,7 +474,7 @@ export async function buildFrozenTempleScene(catalog) {
 
   // 9i. The deep forge, 18 × 18 m and 10 m high: a channel of molten metal runs across it with a bridge to the
   // ore store; the forge engine, anvils, a quenching trough, and the round vault door in the north wall.
-  const forge = room({ name: 'Forja profunda', x: -39, y: DEEP, z: -55, w: 18, l: 18, h: 10, wall: raw('#454c4a'), ground: pavers('#4b5051'), ceiling: '#30373a', zone: { color: '#8a6450', intensity: .22, fogColor: '#2a1c18', fogDensity: .03 } });
+  const forge = room({ name: 'Forja profunda', x: -39, y: DEEP, z: -55, w: 18, l: 18, h: 10, wall: raw('#454c4a'), ground: pavers('#4b5051'), ceiling: '#30373a', zone: { color: '#8a6450', intensity: .22, fogColor: '#2a1c18', fogDensity: .03 }, zoneBox: [-48, -30, -64, -35.8] });
   pass(service, 'north', service.x, 3, 3.4); pass(forge, 'south', service.x, 3, 3.4);
   pass(ancestors, 'west', -48.5, 3, 4); pass(forge, 'east', -48.5, 3, 4);
   const fx = forge.x, fz = forge.z, molten = { color: '#ff8a3a', emissive: '#ff4a10', emissiveIntensity: 2.4, roughness: .35, texture: 'none' };
@@ -419,7 +505,7 @@ export async function buildFrozenTempleScene(catalog) {
   for (const [x, z, s, a, seed] of [[dx - 4, fz - .4, 1.2, 30, 5601], [dx - 3.4, fz + 1.4, .9, 160, 5609], [dx - 4.2, fz + 2.2, .7, 260, 5611]])
     put('rock-scree', x, DEEP, z, a, { scale: [s, s * .8, s], rockShape: { ...rockDefaults('builtin-rock-scree'), seed }, material: raw('#454c4a') });
   put('mountain-cart-wreck', dx + 1, DEEP, fz - 2.6, -60); put('rock-scree', dx + 2.4, DEEP, fz + 2.8, 10, { scale: [.7, .6, .7], rockShape: { ...rockDefaults('builtin-rock-scree'), seed: 5701 }, ...ore });
-  put('old-closed-crate', dx + 3.4, DEEP, fz - 3.8, 20, { material: oldIn }); put('kerosene-lantern', dx - 1.6, DEEP, fz + 3.4, 0, { rotation: turn(50, 85) });
+  put('old-closed-crate', dx + 3.4, DEEP, fz - 3.8, 20, { material: oldIn }); off(put('kerosene-lantern', dx - 1.6, DEEP, fz + 3.4, 0, { rotation: turn(50, 85) }));
   lantern(dx - 1, DEEP, fz - 3.6, { intensity: 6, distance: 7, flicker: { ...illuminationDefaults('fluorescent').flicker, enabled: true, pattern: 'fluorescent', amplitude: .5, frequency: 1.6, seed: 47 } });
 
   // 9k. Behind the vault door, the sealed room: a burst stasis pod on a rune circle, and the drawing of the descent.
@@ -434,15 +520,15 @@ export async function buildFrozenTempleScene(catalog) {
   // 9l. The way to the abyss: a corridor east from the sealed room, its only light dying, then a turn north to
   // the stone door of the abyss, Othala lit on its lintel.
   const ABYSS_X = -25.4, RIM = -76.35;
-  const hall2 = room({ name: 'Corredor do abismo', x: (slx + 4 + 2 * T + ABYSS_X + 1.4) / 2, y: DEEP, z: slz - .6, w: ABYSS_X + 1.4 - (slx + 4 + 2 * T), l: 2.8, h: 3.5, wall: raw('#30373a'), ground: raw('#454c4a'), ceiling: '#1d2224', zone: { color: '#46666f', intensity: .14, fogColor: '#0d1b21', fogDensity: .04 } });
+  const hall2 = room({ name: 'Corredor do abismo', x: (slx + 4 + 2 * T + ABYSS_X + 1.4) / 2, y: DEEP, z: slz - .6, w: ABYSS_X + 1.4 - (slx + 4 + 2 * T), l: 2.8, h: 3.5, wall: raw('#30373a'), ground: raw('#454c4a'), ceiling: '#1d2224', zone: { color: '#46666f', intensity: .14, fogColor: '#0d1b21', fogDensity: .04 }, zoneBox: [-34.2, -24, -76.35, -68] });
   pass(sealed, 'east', hall2.z, 2.2, 2.6); pass(hall2, 'west', hall2.z, 2.2, 2.6);
-  const turnZ0 = hall2.z - 1.4 - 2 * T, door2 = room({ name: 'Porta do abismo', x: ABYSS_X, y: DEEP, z: (turnZ0 + RIM) / 2, w: 2.8, l: turnZ0 - RIM, h: 3.5, wall: raw('#30373a'), ground: raw('#454c4a'), ceiling: '#1d2224', zone: { color: '#46666f', intensity: .12, fogColor: '#0d1b21', fogDensity: .04 } });
+  const turnZ0 = hall2.z - 1.4 - 2 * T, door2 = room({ name: 'Porta do abismo', x: ABYSS_X, y: DEEP, z: (turnZ0 + RIM) / 2, w: 2.8, l: turnZ0 - RIM, h: 3.5, wall: raw('#30373a'), ground: raw('#454c4a'), ceiling: '#1d2224', zone: null });
   pass(hall2, 'north', ABYSS_X, 2.2, 2.6); pass(door2, 'south', ABYSS_X, 2.2, 2.6);
   store.execute('entity.remove', { id: door2.north.id });
   const runeDoor = put('nordic-rune-door', ABYSS_X, DEEP, RIM + 2.05 - .31, 0, { material: { textureSlot: 'stone', ...hewn() } });
   lit(runeDoor, 'ritual', { color: '#7fd8ff', intensity: 8, distance: 7, position: [0, 2.9, 1.2], shadowPolicy: 'off', flicker: { ...illuminationDefaults('ritual').flicker, enabled: true, pattern: 'candle', amplitude: .08, frequency: .5, seed: 53 } });
   lantern(hall2.x - 1.6, DEEP, hall2.z + .9, { intensity: 6, distance: 6, flicker: { ...illuminationDefaults('fluorescent').flicker, enabled: true, pattern: 'fluorescent', amplitude: .7, frequency: 1.2, seed: 31 } });
-  put('kerosene-lantern', hall2.x + 2.4, DEEP, hall2.z - .7, 0, { rotation: turn(40, 85) }); rubble(hall2.x + 3.6, DEEP, hall2.z + .6, 30, .5);
+  off(put('kerosene-lantern', hall2.x + 2.4, DEEP, hall2.z - .7, 0, { rotation: turn(40, 85) })); rubble(hall2.x + 3.6, DEEP, hall2.z + .6, 30, .5);
   const sx = ABYSS_X, rim = RIM;
 
   // 9i. The abyss: a shaft 33 m across and 70 m deep, its wall a ring of 24 rock walls; the corridor comes
@@ -473,12 +559,33 @@ export async function buildFrozenTempleScene(catalog) {
   store.execute('light.add', { light: createLight({ name: 'Fenda sobre o abismo', type: 'spot', position: [center[0], 3.5, center[1]], color: '#9fc8d8', intensity: 1800, distance: 80, angle: .3, penumbra: .8, shadowPolicy: 'off', groupId }) });
   { const [x, y, z] = onStep(4, 30), fallen = put('nordic-rune-lantern', x, y, z, 0, { rotation: turn(60, 88) }); lit(fallen, 'lamp', { color: '#5fc4f0', intensity: 3, distance: 6, position: [0, .2, 0], shadowPolicy: 'off' }); }
 
+  // 9m. Every object whose model glows gets a light of its own (faint for runes and crystals, a real flame for hearths,
+  // braziers and candles), so that a switch, of the object or of its room's folder, turns its glow off too
+  // (Elementos → lâmpada da pasta, or Luz → Fonte ligada). What once burned starts switched off.
+  {
+    const glowOf = new Map(), fire = /hearth|brazier|cauldron/, small = /candle|chandelier|kerosene/;
+    for (const entity of entities()) {
+      if (entity.kind !== 'prop' || !entity.assetRef || entity.illumination || (entity.material?.textureSlot === 'glow' && entity.material.emissiveIntensity === 0)) continue;
+      const model = catalog.find(a => a.id === entity.assetRef.id);
+      if (!glowOf.has(model.id)) {
+        let best = null; for (const m of Object.values(JSON.parse(await readFile(`public${model.url}`, 'utf8')).materials ?? {})) if ((m.emissiveIntensity ?? 0) >= .5 && (!best || m.emissiveIntensity > best.emissiveIntensity)) best = m;
+        glowOf.set(model.id, best);
+      }
+      const glow = glowOf.get(model.id); if (!glow) continue;
+      const height = model.bounds[1] * (entity.transform.scale?.[1] ?? 1), name = model.id;
+      if (fire.test(name)) lit(entity, 'torch', { color: '#ff9a4a', intensity: 30, distance: 10, position: [0, Math.min(1.3, height * .5), .3], shadowPolicy: 'off' });
+      else if (small.test(name)) lit(entity, 'candle', { intensity: name.includes('chandelier') ? 18 : 8, distance: name.includes('chandelier') ? 9 : 5, position: [0, height * .7, 0], shadowPolicy: 'off' });
+      else lit(entity, 'lamp', { color: glow.emissive, intensity: 1.5, distance: 3.5, position: [0, Math.min(2, height * .6), 0], shadowPolicy: 'off' });
+    }
+    for (const key of dark) { const entity = store.document.layout.entities[key]; if (entity.illumination) update(entity, { illumination: { ...entity.illumination, enabled: false } }); }
+  }
+
   // 10. The mountain over the complex: a second terrain, high above every ceiling, that meets the cave at the gate.
   // Hide its folder to see the rooms from above.
   groupId = folder('08 · Montanha (oculte para ver a planta)'); surface = null;
-  const MW = 110, ML = 120, mountainCenter = [-14, 0, GATE - ML / 2];
+  const MW = 140, ML = 120, mountainCenter = [-4, 0, GATE - ML / 2];
   terrain('Montanha sobre o complexo', MW, ML, mountainCenter, (x, z) => {
-    const behind = GATE - z, high = 13.5 + 9 * smooth(0, 45, behind) + 6 * smooth(24, 54, Math.abs(x + 14)) + fbm(x * .07, z * .07, 41) * 5 + fbm(x * .3, z * .3, 43) * .8;
+    const behind = GATE - z, high = 13.5 + 9 * smooth(0, 45, behind) + 6 * smooth(30, 70, Math.abs(x + 4)) + fbm(x * .07, z * .07, 41) * 5 + fbm(x * .3, z * .3, 43) * .8;
     return mix(Math.max(heightAt(x, GATE), 12.8), Math.max(high, 13.5), smooth(0, 6, behind));
   }, { ...caveRock(41, .95), coverage: { ...snow(.95, 0, 41), slopeAngle: 36, slopeFade: 12 } });
 
@@ -511,7 +618,14 @@ export async function buildFrozenTempleScene(catalog) {
     machines: camera('Sala de máquinas', [mx + 9.4, 2.6, mz + 9.6], [mx - 2, -2.2, mz - 3], 66),
     pit: camera('Poço das máquinas', [mx + 4.6, -1.3, mz + 3.9], [mx - 3.4, -.6, mz - 3.2], 72),
     archive: camera('Arquivo rúnico', [ax - 7.4, 1.8, aS - 1.6], [ax + 5.4, 3.2, aN + 3], 68),
-    quarters: camera('Alojamento', [qx - 7.6, 1.8, qS - 1.4], [qx + 6, 1.2, qz - 5], 68),
+    quarters: camera('Dormitório dos guerreiros', [qx - 2.6, 1.8, qS - 1.4], [qx - 6, 1, qz - 6], 70),
+    library: camera('Biblioteca', [lx - 3.1, 1.7, lS - .9], [lx - 2.6, 2.6, lN + 2], 70),
+    libraryGallery: camera('Biblioteca · galeria', [lx + 4.6, 5.9, lN + 1.6], [lx - 3, .8, lS - 3], 70),
+    banquet: camera('Salão de banquete', [bW + 1.6, 2.1, bS - 1.6], [bE - 1, 1.2, bN + 4], 70),
+    kitchen: camera('Cozinha', [kx - 2.4, 1.7, kz + 4], [kx + 2.4, .8, kz - 4], 70),
+    wing: camera('Ala dos quartos', [cx_, 1.7, wS - .8], [cx_, 1.3, wS - 24], 60),
+    priest: camera('Quarto do sacerdote', [priests[1].x - 3, 1.7, priests[1].z + 2.4], [priests[1].x + 3, .6, priests[1].z - 2], 72),
+    jarl: camera('Câmara do jarl', [jx - 4.2, 1.8, jz + .4], [jx + 4, 1, jz - 2.4], 72),
     guards: camera('Corredor dos guardiões', [-8, 1.7, guards.z + 6.6], [-8, 2.6, guards.z - 8], 60),
     gallery: camera('Galeria rupestre', [-6.4, 1.8, -50.8], [7, 2, -64], 68),
     crevice: camera('Fenda dos cristais', [-7.6, 1.7, -62.6], [-15.4, 1.1, -66.4], 64),
@@ -525,7 +639,7 @@ export async function buildFrozenTempleScene(catalog) {
     rim: camera('Borda do abismo', [sx + .6, DEEP + 1.7, rim - 1.4], [center[0] + 5, LEDGE - 15, center[1] - 6], 76),
     spiral: camera('Abismo · meio da descida', [center[0] - 14.3, LEDGE - 16.3, center[1] + .6], [center[0] + 10, LEDGE - 30, center[1] - 4], 74),
     overview: camera('Visão geral', [24, 30, 26], [0, 0, -2], 40),
-    top: camera('Planta superior', [-16, 90, -48.0001], [-16, 0, -48], 40, { projection: 'orthographic', orthographicHeight: 105 }),
+    top: camera('Planta superior', [3, 100, -50.0001], [3, 0, -50], 40, { projection: 'orthographic', orthographicHeight: 110 }),
   };
-  return { store, document: store.document, cameras, gate, rooms: { atrium, machines, archive, quarters, store: store_, guards, ancestors, service, forge, depot, sealed, hall2, door: door2 }, abyss: { center, turns, BOTTOM }, W, L, H };
+  return { store, document: store.document, cameras, gate, rooms: { atrium, machines, archive, quarters, library, banquet: hall3, kitchen, wing, priests, jarl, store: store_, guards, ancestors, service, forge, depot, sealed, hall2, door: door2 }, abyss: { center, turns, BOTTOM }, W, L, H };
 }

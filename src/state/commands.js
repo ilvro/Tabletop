@@ -4,6 +4,7 @@ import { assemblyMembers, assemblyClosure, assemblyFor, objectById, objectTransf
 import { Vector3 } from 'three';
 import { yawFromQuaternion, rotateXZ, snapPosition, multiplyQuaternions } from '../domain/coords.js';
 import { kelvinToColor } from '../domain/lighting.js';
+import { switchTargets } from '../domain/light-switch.js';
 import { applyEnvironment, primaryLight } from '../domain/environments.js';
 import { ValidationError, validateDocument } from '../domain/validation.js';
 import { groupChain, isAccess, supportHeightAt, worldPoint, localPoint } from '../domain/geometry.js';
@@ -465,6 +466,15 @@ export function applyCommand(document, command, diagnostics) {
       else if (payload.patch.color !== undefined) after.temperature = null;
       semanticPlacement(next, after, payload.patch); editable({ ...after, locked: false }, undefined, next); look.lights[payload.id] = after; break; }
     case 'light.remove': editable(requireRecord(look.lights, payload.id, 'Luz'), undefined, next); delete look.lights[payload.id]; if (look.environmentBindings) delete look.environmentBindings[payload.id]; break;
+    case 'lights.switch': {
+      // Turning lights on and off is part of running the table, like hiding a folder: locked records allow it.
+      if (typeof payload.enabled !== 'boolean') throw new ValidationError('Informe se as luzes ficam ligadas ou desligadas.');
+      const { entities, lights } = switchTargets(next, { groupId: payload.groupId ?? null, ids: payload.ids ?? null });
+      if (!entities.length && !lights.length) throw new ValidationError('Não há luzes para ligar ou desligar aqui.');
+      for (const key of entities) next.layout.entities[key].illumination.enabled = payload.enabled;
+      for (const key of lights) look.lights[key].enabled = payload.enabled;
+      break;
+    }
     case 'light.duplicate': {
       const light = clone(requireRecord(look.lights, payload.id, 'Luz')); editable(light, undefined, next); light.id = id(); light.name += ' — cópia'; delete light.role;
       light.position = light.position.map((v, i) => v + (payload.offset ?? [1, 0, 1])[i]); put(look.lights, light); if (look.environmentBindings?.[payload.id]) look.environmentBindings[light.id] = clone(look.environmentBindings[payload.id]); break;
@@ -622,7 +632,7 @@ export function applyCommand(document, command, diagnostics) {
     }
     default: throw new ValidationError(`Comando desconhecido: ${command.type}.`);
   }
-  const placementUnchanged=command.type==='scene.rename'||command.type==='entity.update'&&Object.keys(payload.patch??{}).every(key=>['name','tags','locked','illumination','lightingZone','audience','visible','screen'].includes(key));
+  const placementUnchanged=command.type==='scene.rename'||command.type==='lights.switch'||command.type==='entity.update'&&Object.keys(payload.patch??{}).every(key=>['name','tags','locked','illumination','lightingZone','audience','visible','screen'].includes(key));
   if(!placementUnchanged)refreshAnchors(next);
   next=diagnostics?diagnostics.measure('snapshotFinalization',()=>finishDraft(next)):finishDraft(next);
   return diagnostics?diagnostics.measure('validation',()=>validateDocument(next)):validateDocument(next);
