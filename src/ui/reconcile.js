@@ -8,6 +8,9 @@ export function reconcileElement(current, desired) {
   const value=desired.value, checked=desired.checked;
   if (current.isEqualNode(desired) && current.value===value && current.checked===checked && !current.querySelector?.('input,select,textarea')) return current;
   if (current.nodeType !== 1) { if(current.nodeValue!==desired.nodeValue)current.nodeValue=desired.nodeValue; return current; }
+  // A field being typed in (focused, changed since it was drawn) keeps what was typed: a re-render from elsewhere
+  // (a thumbnail arriving, a camera moving) must not take the text from under the cursor before it is committed.
+  const typing=(current instanceof HTMLInputElement||current instanceof HTMLTextAreaElement)&&current===current.ownerDocument.activeElement&&current.value!==current.defaultValue;
   for (const attr of [...current.attributes]) if (!desired.hasAttribute(attr.name)) current.removeAttribute(attr.name);
   for (const attr of [...desired.attributes]) if(current.getAttribute(attr.name)!==attr.value)current.setAttribute(attr.name,attr.value);
   const old=[...current.childNodes], keyed=new Map(old.map(n=>[identity(n),n]).filter(([key])=>key)),used=new Set();
@@ -21,6 +24,7 @@ export function reconcileElement(current, desired) {
     cursor=node.nextSibling;
   }
   for(const node of old)if(!used.has(node)&&node.parentNode===current)node.remove();
+  if(typing)return current;
   if(current instanceof HTMLInputElement){if(current.value!==value)current.value=value;current.checked=checked;}
   if(current instanceof HTMLSelectElement&&current.value!==value)current.value=value;
   if(current instanceof HTMLTextAreaElement&&current.value!==value)current.value=value;

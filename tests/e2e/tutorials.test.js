@@ -42,8 +42,10 @@ for (const lesson of LESSONS) test(`tutorial "${lesson.title}" can be followed f
         // A step must not complete before everything it asks is done: its condition has to check all of it.
         if (order>0&&await page.evaluate(i=>window.tabletopTutor.active?.step!==i,index)) assert.fail(`${where}: completed after ${order} of ${acts.length} actions; its condition does not check everything the step asks`);
         if (one==='continue') await page.locator('.tutor-card [data-tutor="next"]').click();
-        else if (one==='click') await page.locator(step.target).first().click();
-        else if (one[0]==='click') { await showPane(one[1]); await page.locator(one[1]).first().click(); }
+        // A large example scene draws a frame every few seconds under the software renderer, too slowly for the
+        // "stable" check: there, a visible control is clicked without waiting for animation frames.
+        else if (one==='click') await page.locator(step.target).first().click({force:Boolean(current.heavy)});
+        else if (one[0]==='click') { await showPane(one[1]); await page.locator(one[1]).first().click({force:Boolean(current.heavy)}); }
         else if (one[0]==='fill') { await showPane(one[1]); await page.locator(one[1]).first().fill(one[2]);await page.keyboard.press('Tab'); }
         else if (one[0]==='select') { await showPane(one[1]); await page.locator(one[1]).first().selectOption(one[2]); }
         // A slider dragged and released: the value while dragging, then the release that commits it.
