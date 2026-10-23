@@ -39,7 +39,10 @@ for (const mode of ['server', 'pages']) test(`repeated asset placement: support,
   };
   const clickAt = async (position, alt = false) => {
     const point = await page.evaluate(p => window.__tabletop.project(p), position);
-    assert.ok(point.visible); if (alt) await page.keyboard.down('Alt');
+    assert.ok(point.visible);
+    // The point must be free: a panel still sliding away on a narrow screen would take the click (and its Duplicar button).
+    await page.waitForFunction(({ x, y }) => Boolean(document.elementFromPoint(x, y)?.closest('#viewport')), point);
+    if (alt) await page.keyboard.down('Alt');
     await page.mouse.click(point.x, point.y); if (alt) await page.keyboard.up('Alt');
   };
   const key = async value => { await page.locator('#viewport canvas').focus(); await page.keyboard.press(value); };

@@ -1,17 +1,33 @@
 import {box as b,cylinder as c,ellipsoid as e,ring as r,turned as t,curve,profile as p,frame} from './library-craft-parts.js';
 
+// Darker weathered stone in the `dark` slot of rock piles, with the same mineral texture as `stone`.
+const PI=Math.PI;
+const darkStone={texture:'rock',textureSize:1.4,relief:.006,rockPattern:'granite',rockCracks:.08,textureColor:'#55534d',textureColorMode:'replace'};
+
 export function craftSpecial(id,recipe,[w,h,d]) {
   if(id==='blood-pool') {
     const contour=Array.from({length:40},(_,i)=>{const a=i*Math.PI/20,k=.7+.1*Math.sin(a*3)+.08*Math.cos(a*7);return [Math.cos(a)*w*.48*k,Math.sin(a)*d*.48*k];});
     return {parts:[p(contour,.005,[0,.0025,0],'red',[Math.PI/2,0,0]),p(contour.map(([x,z])=>[x*.73,z*.78]),.005,[0,.004,0],'rust',[Math.PI/2,0,0]),...Array.from({length:5},(_,i)=>c(.012+i*.004,.005,[(i-2)*w*.12,.0025,d*.43+(i%2)*d*.04],'red'))],method:'contorno orgânico de líquido com borda irregular e gotas separadas'};
   }
-  if(id==='rock'||id==='broken-wall') {
-    const parts=[];
-    for(let i=0;i<(id==='rock'?4:11);i++) {
-      const x=id==='rock'?Math.sin(i*2.4)*w*.27:(i%4-1.5)*w*.24,y=id==='rock'?0:Math.floor(i/4)*h*.29;
-      parts.push({shape:'rock',form:'fractured',size:[w*(id==='rock'?.48:.255),h*(id==='rock'?.7-i*.1:.32),d*(.65+(i%2)*.15)],position:[x,y,Math.cos(i*2.4)*d*.15],seed:182+i*11,detail:4,irregularity:.8,material:'stone'});
-    }
-    return {parts,method:'pedras fraturadas com volume irregular e encaixe de alvenaria'};
+  if(id==='rock') {
+    const stone=(size,position,seed,material='stone',yaw=0)=>({shape:'rock',form:'fractured',size,position,seed,detail:4,irregularity:.75,material,rotation:[0,yaw,0],...(material==='dark'?{surface:darkStone}:{})});
+    // A dominant boulder, a leaning companion and smaller stones, with darker weathered pebbles.
+    const parts=[stone([w*.5,h,d*.6],[-w*.15,0,-d*.08],182,'stone',.4),stone([w*.34,h*.66,d*.48],[w*.24,0,d*.02],193,'stone',-.6),
+      stone([w*.28,h*.36,d*.32],[-w*.02,0,d*.3],204,'stone',1.1),stone([w*.16,h*.26,d*.2],[w*.4,0,-d*.3],215,'stone',.3),stone([w*.14,h*.2,d*.16],[-w*.41,0,d*.3],226,'stone',2)];
+    for(const [i,[x,z,r]] of [[.14,.4,.07],[-.3,-.38,.06],[.35,.32,.05],[-.06,-.42,.045]].entries())parts.push(stone([w*r,h*r*1.1,d*r*1.3],[x*w,0,z*d],237+i*11,'dark',i));
+    return {parts,method:'afloramento com blocos fraturados de alturas diferentes e cascalho escuro'};
+  }
+  if(id==='broken-wall') {
+    const block=(size,position,seed,material='stone',rotation)=>({shape:'rock',form:'cliff',terraces:1,overhang:.08,erosion:.4,irregularity:.5,detail:2,fixedRock:true,size,position,seed,material,...(rotation?{rotation}:{}),...(material==='dark'?{surface:darkStone}:{})});
+    const parts=[],z=-d*.2,course=.255;
+    // Dry-stone courses that step down to the right where the wall gave way.
+    for(const [row,xs] of [[-.79,-.46,-.13,.2,.53],[-.8,-.47,-.14,.18],[-.79,-.47]].entries())
+      for(const [i,x] of xs.entries())parts.push(block([.31+(i%2)*.02,.24,.36],[x,row*course,z+Math.sin(row*5+i*3)*.015],301+row*13+i));
+    parts.push(block([.26,.2,.3],[-.17,2*course,z-.02],344,'stone',[0,.15,-.22]));
+    // Fallen stones in front of the gap.
+    parts.push(block([.3,.22,.3],[.78,0,.04],351,'stone',[0,.5,0]),block([.28,.2,.26],[.36,0,.24],362,'stone',[.18,.9,.08]),block([.24,.17,.22],[-.2,0,.27],373,'dark',[0,-.4,.1]));
+    for(const [i,[x,zz,s]] of [[.62,.3,.13],[.05,.33,.1],[.9,-.2,.11],[-.55,.3,.09]].entries())parts.push({shape:'rock',form:'fractured',size:[s,s*.7,s*1.1],position:[x,0,zz],seed:381+i*7,detail:3,irregularity:.8,material:i%2?'dark':'stone',...(i%2?{surface:darkStone}:{})});
+    return {parts,method:'mureta de pedra seca em fiadas, desmoronada para um lado, com blocos caídos e cascalho'};
   }
   if(id==='tent') {
     const parts=[b([w,.016,d],[0,.008,0],'dark')];
@@ -62,10 +78,12 @@ export function craftSpecial(id,recipe,[w,h,d]) {
   }
   if(id==='body-bag')return {parts:[e([w,h,d],[0,h/2,0],'black'),e([w*.61,h*.87,d*.18],[0,h*.47,-d*.34],'black'),curve([[0,h*.91,-d*.39],[0,h*.995,-d*.2],[0,h*.995,d*.15],[0,h*.87,d*.4]],.005,'metal'),...[-1,1].flatMap(s=>[-.3,0,.3].map(z=>curve([[s*w*.42,h*.4,z*d-.04],[s*w*.55,h*.32,z*d],[s*w*.42,h*.4,z*d+.04]],.009,'black')))],method:'saco com volume orgânico fechado, zíper contínuo e alças'};
   if(id==='ritual-mask') {
-    const parts=[p([[-w*.35,-d*.3],[-w*.46,0],[-w*.32,d*.4],[0,d*.5],[w*.32,d*.4],[w*.46,0],[w*.35,-d*.3],[0,-d*.5]],h*.48,[0,h*.4,0],'wood',[Math.PI/2,0,0])];
-    for(const s of [-1,1])parts.push(e([w*.22,h*.11,d*.12],[s*w*.21,h*.68,d*.02],'black'),p([[0,0],[s*w*.2,d*.12],[s*w*.29,d*.1]],h*.2,[s*w*.08,h*.68,d*.02],'wood',[Math.PI/2,0,0]));
-    parts.push(p([[-w*.07,0],[0,d*.18],[w*.07,0]],h*.35,[0,h*.72,-d*.06],'wood',[Math.PI/2,0,0]),b([w*.26,h*.04,d*.024],[0,h*.665,-d*.25],'dark'));
-    return {parts,method:'máscara deitada com contorno facial, sobrancelhas, nariz e aberturas escuras'};
+    // Carved face lying on its back: forehead towards -Z, chin towards +Z, the face looking up.
+    const parts=[e([w*.84,h*.7,d*.96],[0,h*.35,0],'wood'),e([w*.1,h*.36,d*.28],[0,h*.64,d*.03],'wood'),e([w*.24,h*.14,d*.06],[0,h*.64,d*.25],'black'),
+      p([[0,-d*.05],[w*.04,0],[0,d*.05],[-w*.04,0]],h*.12,[0,h*.66,-d*.32],'paper',[PI/2,0,0])];
+    for(const s of [-1,1])parts.push(e([w*.22,h*.3,d*.12],[s*w*.19,h*.58,-d*.1],'black',[0,s*.3,0]),e([w*.3,h*.26,d*.08],[s*w*.18,h*.7,-d*.2],'wood',[0,s*.28,0]),
+      e([w*.04,h*.1,d*.24],[s*w*.2,h*.66,d*.08],'red'),e([w*.04,h*.1,d*.18],[s*w*.3,h*.62,d*.05],'red'),curve([[s*w*.4,h*.3,-d*.06],[s*w*.48,h*.14,d*.05],[s*w*.44,h*.05,d*.2]],.005,'dark'));
+    return {parts,method:'máscara entalhada deitada: rosto abaulado, sobrancelhas, nariz, olhos e boca vazados, pintura ritual e amarras'};
   }
   return null;
 }

@@ -16,6 +16,14 @@ export function craftModel(id,recipe,size) {
   const [w,h,d]=size;
   if(['tree','pine','dead-tree','bushes','stump'].includes(id)) {
     const parts=[],branch=(points,radius,tipRadius=.006)=>({shape:'branch',points,radius,tipRadius,segments:14,sides:8,seed:713+parts.length,forks:0,material:'wood',position:[0,0,0]});
+    if(id==='bushes') {
+      // Low, wide shrub: several stems fan out from the ground into overlapping leaf clumps.
+      for(const [i,[x,z,y,sw,sh,sd]] of [[0,0,.1,.5,.9,.8],[-.28,.05,.04,.42,.68,.7],[.28,-.04,.03,.44,.72,.72],[-.12,-.24,.02,.36,.56,.5],[.13,.24,.02,.36,.52,.5],[-.36,.2,0,.28,.42,.45],[.37,.16,0,.26,.44,.45]].entries()) {
+        parts.push(branch([[x*w*.15,0,z*d*.15],[x*w*.55,h*(y+sh*.25),z*d*.55],[x*w*.9,h*(y+sh*.5),z*d*.9]],Math.min(.035,w*.02),.006));
+        parts.push({shape:'foliage',style:'broadleaf',size:[w*sw,h*sh,d*sd],position:[x*w,h*y,z*d],rotation:[0,i*1.3,0],count:110,seed:911+i*7,material:'green'});
+      }
+      return {parts,method:'arbusto baixo com hastes desde o chão e tufos de folhas sobrepostos'};
+    }
     if(id==='stump') {
       parts.push(t([[0,0],[w*.28,0],[w*.33,h*.12],[w*.25,h*.33],[w*.22,h],[0,h]],[0,0,0],'wood'),c(w*.205,.007,[0,h-.002,0],'paper'));
       for(let i=1;i<6;i++)parts.push(r(w*.032*i,.003,[0,h+.002,0],'wood',[Math.PI/2,0,0]));
@@ -179,13 +187,16 @@ export function craftModel(id,recipe,size) {
     for(let i=-3;i<=3;i++)for(let j=-2;j<=2;j++)parts.push(p([[0,.10],[.065,0],[0,-.10],[-.065,0]],.005,[i*w*.105,.012,j*d*.13],'border',[Math.PI/2,0,0]));
     return {parts,method:'tapete com bordadura tripla e motivos geométricos em relevo baixo'};
   }
-  if(id==='ritual-mask'||id==='skull-display') {
-    const skull=id==='skull-display',m=skull?'paper':'wood',parts=[e([w*.76,h*.68,d*.76],[0,h*.59,0],m),e([w*.57,h*.34,d*.6],[0,h*.24,d*.1],m)];
-    for(const s of [-1,1])parts.push(e([w*.25,h*.2,d*.13],[s*w*.21,h*.6,d*.355],'black'),e([w*.34,h*.12,d*.18],[s*w*.2,h*.75,d*.3],m,[0,0,s*-.18]),e([w*.25,h*.19,d*.23],[s*w*.3,h*.37,d*.25],m));
-    parts.push(p([[-w*.07,0],[0,h*.15],[w*.07,0]],.025,[0,h*.34,d*.43],'black'));
-    for(let i=0;i<8;i++)parts.push(b([w*.048,h*.08,d*.08],[(i-3.5)*w*.06,h*.16,d*.37],skull?'white':m,null,.005));
-    if(skull)parts.push(b([w,.045,d],[0,.0225,0],'dark'));
-    return {parts,method:'escultura de crânio/máscara: órbitas, maçãs, mandíbula e dentes'};
+  if(id==='skull-display') {
+    // Life-size skull on a plinth. Each orbit is a dark hollow framed by a bony rim,
+    // set back behind the brow and cheekbones; the jaw stays inside the cranium width.
+    const y=.065,bone=(size,position,rotation)=>e(size,[position[0],y+position[1],position[2]],'paper',rotation);
+    const parts=[b([w,.05,d],[0,.025,0],'dark',null,.01),b([w*.8,.015,d*.8],[0,.0575,0],'dark',null,.005),b([w*.34,.024,.004],[0,.026,d*.5],'paper')];
+    parts.push(bone([.145,.145,.18],[0,.14,-.012]),bone([.125,.1,.09],[0,.145,.035]),bone([.11,.095,.085],[0,.072,.045]),bone([.115,.02,.026],[0,.124,.07]),bone([.1,.03,.085],[0,.015,.045]));
+    for(const s of [-1,1])parts.push(e([.034,.03,.02],[s*.03,y+.104,.072],'black'),{...r(.018,.0032,[s*.03,y+.104,.077],'paper'),segments:16,sides:6},bone([.02,.018,.07],[s*.05,.083,.025]));
+    parts.push(p([[-.011,0],[-.006,.022],[0,.028],[.006,.022],[.011,0]],.01,[0,y+.06,.084],'black'));
+    for(let i=0;i<10;i++){const a=(i-4.5)*.22;parts.push(b([.01,.018,.008],[Math.sin(a)*.04,y+.05,.048+Math.cos(a)*.04],'white',[0,a,0],.003),b([.009,.014,.007],[Math.sin(a)*.037,y+.035,.048+Math.cos(a)*.037],'white',[0,a,0],.003));}
+    return {parts,method:'crânio em escala natural: calota, arcada, órbitas com borda óssea, cavidade nasal, maçãs, mandíbula e dentes sobre plinto'};
   }
   return null;
 }

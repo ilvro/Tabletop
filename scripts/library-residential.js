@@ -5,7 +5,9 @@ export function addResidentialLibrary({add,modern}) {
   const b=(size,position,material='ivory',rotation)=>({shape:'box',size,position,material,...(rotation?{rotation}:{})});
   const c=(radius,height,position,material='metal',radiusTop=radius,rotation)=>({shape:'cylinder',radiusTop,radiusBottom:radius,height,position,material,segments:16,...(rotation?{rotation}:{})});
   const profile=(contour,depth,position,material)=>({shape:'profile',contour,depth,position,material});
-  const model=(id,name,parts,description,supportHeight)=>{const a=add('house-'+id,name,'Casa / Complementos',modern,['Casa','Vila'],['casa de bairro','residencial',id],parts,description,supportHeight);a.materials=materials;ids.add(a.id);};
+  // Filed by function beside the other furniture; the kit stays together through its tag.
+  const categories={roof:'Casa / Estrutura','tile-floor':'Casa / Estrutura',range:'Mobiliário / Cozinha',counter:'Mobiliário / Cozinha','place-setting':'Mobiliário / Cozinha',washer:'Mobiliário / Cozinha',plant:'Mobiliário / Decoração',curtain:'Mobiliário / Decoração','ceiling-lamp':'Mobiliário / Iluminação'};
+  const model=(id,name,parts,description,supportHeight)=>{const a=add('house-'+id,name,categories[id]??'Casa / Estrutura',modern,['Casa','Vila'],['casa de bairro','residencial',id],parts,description,supportHeight);a.materials=materials;ids.add(a.id);};
   const roofContour=[[-6.5,0],[0,2.3],[6.5,0],[6.5,.14],[0,2.44],[-6.5,.14]];
   model('roof','Casa · telhado de duas águas',[
     profile(roofContour,16,[0,0,0],'clay'),

@@ -112,7 +112,7 @@ export function addMountainKit({add,timeless,ancient}) {
     roots.push(rope([[cos*.18,.25,sin*.18],[cos*.55,.14,sin*.55],[cos*length,.07,sin*length]],.065,'wood',bark));
     roots.push(box([.05,.35+(i%3)*.09,.08],[cos*.22,.85,sin*.22],'wood',wood,[.15*cos,a,.2*sin]));
   }
-  model('mountain-uprooted-stump','Toco quebrado · raízes expostas',roots,'Exterior / Vegetação alpina','Tronco partido, lascas e raízes curvas para bordas de ruínas, trilhas e paredões.');
+  model('mountain-uprooted-stump','Toco quebrado · raízes expostas',roots,'Exterior / Vegetação','Tronco partido, lascas e raízes curvas para bordas de ruínas, trilhas e paredões.');
   const wreck=[];
   for(let i=0;i<8;i++)wreck.push(box([.22,.07,1.4+(i%3)*.2],[(i-3.5)*.22,.09+(i%2)*.08,(i%3)*.13],'wood',wood,[0,(i-4)*.08,(i%3-.8)*.1]));
   for(const x of [-.83,.83]) {

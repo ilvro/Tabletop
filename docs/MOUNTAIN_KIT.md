@@ -21,7 +21,7 @@ Escultura manual diretamente em faces, topos e saliências com pincel **T**: [RO
 
 ## Usar no editor
 
-Em **Assets**, busque **paredão natural**, **pináculo** ou **kit de montanha**. As quatro formações estão em Exterior / Montanha; os complementos em Arquitetura / Ruínas, Arquitetura / Madeira e Exterior / Vegetação alpina.
+Em **Assets**, busque **paredão natural**, **pináculo** ou **kit de montanha**. As quatro formações estão em Exterior / Montanha; os complementos em Arquitetura / Ruínas, Arquitetura / Madeira e Exterior / Vegetação.
 
 | Peça | Uso |
 | --- | --- |

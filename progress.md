@@ -2,6 +2,19 @@
 
 Atualizado em 22 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Tutoriais: pastas e "Dirigir a cena ao vivo" (22 de outubro) — em andamento
+
+Pedido: adaptar os tutoriais às novidades de câmera e cinematografia e organizá-los em pastas (por exemplo, o galpão numa pasta).
+
+**Feito**
+
+- Pastas na lista de tutoriais (`LESSON_FOLDERS` em `src/tutorial/tutor.js`, `folder` em cada lição): Fundamentos, Luz e câmera, Galpão abandonado. Dentro da pasta o título perde o prefixo ("1 · A casca"); pasta toda concluída fecha.
+- Lição nova **Dirigir a cena ao vivo** (pasta Luz e câmera, 25 passos) na Casa de bairro: Ambientação com transição Tarde → Noite, sol baixo, névoa fina escura, névoa iluminada; personagem com lanterna no jardim; Close com desfoque, tomada com foco, Seguir. Condições novas em `conditions.js` e estado novo em `tutorialState()` (janela de documentos e de ambientação, câmera de trabalho, seguir).
+- Primeiros passos, Iluminação e ambientação e Galpão 4: textos de explicação apontam para a Ambientação, Close/Lanterna e a lição nova (passos e valores iguais).
+- Testes: `tests/tutorials.test.js` (condições novas, pastas; regra de alvos aceita `data-open-example` e `data-ambience*`); `tests/e2e/tutorials.test.js` com o gesto `set` para sliders.
+
+**Andamento:** conferindo o resultado final da lição renderizado (a primeira versão com névoa 0,04 clara deixou a cena leitosa; trocada por 0,025 azul-escura) e rodando a lição no E2E.
+
 ## Câmera e cinematografia ao vivo (22 de outubro) — concluído
 
 Pedido: chegar perto do tabletop de Ordem Paranormal (Hexatombe) em câmera e cinematografia — um painel de ambientação com sliders como o "Variáveis da Sessão" mostrado no Revelando Hexatombe, câmera mais fluida e cinematográfica, desfoque de fundo com foco no token, câmera que segue o token e lanterna. Dados 3D ficam para a integração futura com a Ficha. Análise anterior e plano geral: [docs/PLANO_MESA_AO_VIVO.md](docs/PLANO_MESA_AO_VIVO.md).
@@ -1075,3 +1088,18 @@ Revisão adicional: isolamento visual de andares não altera abrigo/exposição 
 Validação final: builds local e Pages aprovados; 144 testes unitários/de integração e 23 roteiros E2E aprovados por suíte e repetições. A suíte de 22 concluiu com uma falha de expectativa antiga (dez versus treze materiais), corrigida; sete casos afetados foram repetidos na versão final e passaram (paisagem/UI, paisagem/pixels, materiais/UI, materiais/pixels, Pages/UI, Pages/IndexedDB e isolamento/seleção da neve). O novo teste de isolamento amplia a suíte para 23. Pages verificou gelo com neve e abeto com seed personalizados, salvamento/reabertura e assets dentro do caminho do repositório. Catálogo preserva exatamente os 165 registros anteriores; 176 IDs únicos, e receitas/prévias anteriores sem alteração. Links locais e git diff --check aprovados. Captura final revisada: test-results/alpine-landscape.png. WebGL por software não representa benchmark presencial.
 
 Pendências remanescentes deste objetivo: expansão de espécies/decoração/conteúdo autoral, pincel regional/entulho, texturas fotográficas/decals, acúmulo temporal/derretimento da neve, suporte à camada de neve nos apoios anotados de props/pisos/gelo, reflexos/refração da cena na água e desempenho/LOD/instanciamento para mapas densos. Máscara de exposição do terreno deve ser recalculada após alterar abrigos/tamanho/posição; a geometria conserva a resolução do heightmap. Guias e três relatórios de progresso sincronizados; uso em [docs/LANDSCAPE.md](docs/LANDSCAPE.md). Ficha/Jukebox continuam adiados.
+
+## Revisão de qualidade e consistência dos assets — concluída
+
+Pedido de 22 de outubro: melhorar a qualidade dos assets e corrigir inconsistências. Revisadas as 18 pranchas de `node scripts/review-library.js` (352 modelos) e auditado o catálogo (campos, arquivos, pegadas × envelopes, apoios, tags, nomes, categorias, procedência).
+
+Entregue:
+- Nove modelos refeitos nos ateliês, mantendo IDs, envelopes contratados, apoios e slots: máscara cerimonial, crânio sobre pedestal, moita, afloramento rochoso, mureta desmoronada, relicário e muro/arco/contraforte de ruína (blocos talhados no lugar de seixos empilhados com vãos). Antes e depois conferidos na mesma prancha.
+- Cruz dupla renomeada de "de ferro" para "rubra" (o modelo e a fachada da Igreja Antiga são vermelhos e emissivos); nomes das duas instâncias na cena atualizados.
+- Categorias: casa de bairro por função (Mobiliário / Cozinha, Decoração, Iluminação; Casa / Estrutura para telhado e piso); vegetação alpina/detalhada unidas em Exterior / Vegetação; mureta e coluna quebrada em Arquitetura / Ruínas. As novas categorias preservam a família do reconstrutor; a lavadora foi para Cozinha porque "Equipamentos" a mudaria para a família de instrumentos.
+- Kit inicial com descrições próprias e a procedência comum; slot `dark` do afloramento/mureta como pedra escura com textura de rocha.
+- Documentação: README e ASSET_LIBRARY com a contagem atual (352), seção da revisão em ASSET_LIBRARY, categorias em WINTER_DETAIL/MOUNTAIN_KIT, resumos PROGRESSO.md e docs/PROGRESSO.md.
+
+Validação: regeneração comparada ao HEAD — só os dez arquivos de modelo previstos mudaram (nove refeitos + nome da cruz), envelopes iguais aos contratos e nenhuma geometria com NaN; 374 testes unitários aprovados; E2E asset-library, landscape, example-previews e winter-detail aprovados (7/7); example-scenes, mountain-kit, church-kit e Igreja no modo Pages aprovados. Falhas anteriores a esta revisão, não relacionadas: house-scene (server e Pages) espera 5 cenas na galeria, mas são 6 desde o Templo gelado (20/10); church-scene no modo servidor estoura o tempo também numa cópia limpa do HEAD.
+
+Pendências desta frente: o pinheiro e a árvore frondosa antigos continuam ralos e o toco de árvore, liso; padronizar o formato dos nomes ("Kit · peça" só nos kits recentes) exigiria renomear dezenas de assets e foi deixado como decisão do usuário.

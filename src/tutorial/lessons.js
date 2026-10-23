@@ -11,8 +11,11 @@
  *   spot    optional point of the scene to mark; a step that clicks the scene marks its point anyway
  *   act     how a test performs the step: 'click' (default), 'continue', ['fill', selector, text],
  *           ['select', selector, value], ['world', [x, y, z]] to click a point of the scene,
- *           ['key', name], ['click', selector], or a list of these done in order
+ *           ['key', name], ['click', selector], ['set', selector, value] to drag a slider and release it,
+ *           or a list of these done in order
  *
+ * `folder` names the folder of the tutorial list it is shown in (see LESSON_FOLDERS in tutor.js). `heavy` marks a lesson
+ * on a large example scene, which the browser test gives more time.
  * A lesson with `continues` picks up the scene another lesson left. Nothing here is interface
  * code: adding a lesson is adding an entry. Every
  * lesson is run by tests/e2e/tutorials.test.js, which fails when a target
@@ -42,11 +45,11 @@ const copyTo = (id, number, say, point, why) => ({ say, ...(why ? { why } : {}),
 const HOW = 'Neste tutorial você posiciona como numa construção de verdade: <b>G</b> move, <b>R</b> gira e <b>V</b> muda a escala, arrastando as alças do objeto até o ponto que pulsa na cena. Chegar perto basta. Quem quiser o número exato encontra em Propriedades → <b>Posição</b>.'
 export const LESSONS = [
   {
-    id: 'basics', title: 'Primeiros passos', minutes: 6, summary: 'Conheça a tela inteira: criar uma sala, mover a câmera, colocar e ajustar objetos, mudar o ambiente, pôr um token, apresentar e salvar.',
+    id: 'basics', folder: 'start', title: 'Primeiros passos', minutes: 6, summary: 'Conheça a tela inteira: criar uma sala, mover a câmera, colocar e ajustar objetos, mudar o ambiente, pôr um token, apresentar e salvar.',
     needs: 'empty',
     steps: [
       { say: 'Vamos passar por tudo o que o Tabletop faz, montando uma cena pequena.', why: 'Você opera a tela de verdade; o tutorial só aponta. Cada passo avança sozinho quando o resultado aparece, e dá para sair e continuar depois.', done: ['read'], act: 'continue' },
-      { say: 'À esquerda, no trilho, ficam os lugares de trabalho.', why: '<b>Construir</b> cria salas, prédios, terreno e personagens. <b>Elementos</b> lista tudo o que está na cena. <b>Ambiente</b> cuida de luz, céu e clima. <b>Tomadas</b> guarda os enquadramentos e o projetor. Ctrl+K busca qualquer coisa.', target: '.tabs', done: ['read'], act: 'continue' },
+      { say: 'À esquerda, no trilho, ficam os lugares de trabalho.', why: '<b>Construir</b> cria salas, prédios, terreno e personagens. <b>Elementos</b> lista tudo o que está na cena. <b>Ambiente</b> cuida de luz, céu e clima. <b>Tomadas</b> guarda os enquadramentos e o projetor. <b>Ambientação</b> é a mesa de luz da sessão. Ctrl+K busca qualquer coisa.', target: '.tabs', done: ['read'], act: 'continue' },
       { say: 'À direita ficam as <b>Propriedades</b> do que estiver selecionado.', why: 'Posição, aparência, luz própria e organização: tudo o que pertence a um objeto se ajusta aqui, em quatro abas.', target: '.inspector', done: ['read'], act: 'continue' },
       { say: 'Toda construção começa por uma prévia. Clique em <b>Ver prévia</b>.', why: 'As medidas acima definem a sala. “Desenhar sala” faz o mesmo arrastando no chão.', target: '#quick-form button[type="submit"]', tab: 'build', done: [['previewOpen'], ['taskOpen', 'room']] },
       { say: 'A prévia aparece em verde. Clique em <b>Criar sala</b> para aplicar.', why: 'É assim com tudo o que constrói: primeiro a prévia, depois você confirma ou cancela. Nada entra na cena sem a sua confirmação.', target: '[data-action="accept-proposal"]', done: [['atLeast', 'wall', 4], ['previewClosed']] },
@@ -66,18 +69,18 @@ export const LESSONS = [
       { say: 'Abra a aba <b>Elementos</b>.', target: '.tabs [data-tab="elements"]', done: ['tab', 'elements'] },
       { say: 'Aqui está tudo o que existe na cena.', why: 'Clique para selecionar, use a busca e os filtros, crie pastas, e esconda ou trave o que não quer mexer. É o jeito mais fácil de achar uma peça numa cena grande.', target: '#scene-tree', tab: 'elements', done: ['read'], act: 'continue' },
       { say: 'Abra a aba <b>Ambiente</b>.', target: '.tabs [data-tab="scene"]', done: ['tab', 'scene'] },
-      { say: 'Escolha o ambiente <b>Noite</b>.', why: 'Um ambiente troca sol ou lua, céu, névoa e clima de uma vez. Cada parte tem depois os seus ajustes finos nas tarefas abaixo.', target: '[data-environment="moonlight"]', tab: 'scene', done: ['environment', 'moonlight'] },
+      { say: 'Escolha o ambiente <b>Noite</b>.', why: 'Um ambiente troca sol ou lua, céu, névoa e clima de uma vez. Cada parte tem depois os seus ajustes finos nas tarefas abaixo. Durante a sessão, a janela <b>Ambientação</b>, no trilho, faz o mesmo com transição de alguns segundos e sliders.', target: '[data-environment="moonlight"]', tab: 'scene', done: ['environment', 'moonlight'] },
       { say: 'Falta alguém na cena. Clique em <b>Colocar token</b>.', why: 'Tokens são os personagens da mesa: têm nome, cor, retrato e uma base em metros.', target: '[data-action="token-place"]', tab: 'build', done: ['placingToken'] },
-      { say: 'Clique no piso para pôr o token.', target: '#viewport', done: ['tokens', 1], act: ['world', [1.8, 0, 1.2]] },
+      { say: 'Clique no piso para pôr o token.', why: 'Selecionado, o cartão do token oferece <b>Close</b> (o rosto dele com o fundo desfocado), <b>Seguir</b> com a câmera e <b>Lanterna</b>.', target: '#viewport', done: ['tokens', 1], act: ['world', [1.8, 0, 1.2]] },
       { say: 'Guarde este ângulo: clique em <b>Salvar enquadramento atual</b>.', why: 'Enquadramentos salvos são as tomadas que você mostra aos jogadores durante a sessão.', target: '[data-action="camera-save"]', tab: 'shots', done: ['cameras', 1], before: ['key', 'Escape'] },
       { say: 'Clique em <b>Apresentar</b>.', why: 'É a visão dos jogadores, sem painéis. A câmera de trabalho e a câmera publicada são separadas: você navega à vontade sem mudar o que o projetor mostra.', target: '.app-header [data-action="present"]', done: ['presenting'] },
       { say: 'Clique em <b>Voltar à edição</b>.', target: '#presentation-controls [data-action="present"]', done: ['presenting', false] },
       { say: 'Por fim, clique em <b>Salvar</b>.', why: 'A cena fica na sua biblioteca e reabre em <b>Abrir</b>. Enquanto isso, um rascunho automático protege o que ainda não foi salvo.', target: '#save-scene', done: ['saved'] },
-      { say: 'Você já sabe se virar: construir, colocar, ajustar, ambientar, apresentar e salvar.', why: 'O próximo tutorial, <b>Construção assistida</b>, mostra como deixar o assistente mobiliar, iluminar e levantar prédios inteiros.', done: ['read'], act: 'continue' },
+      { say: 'Você já sabe se virar: construir, colocar, ajustar, ambientar, apresentar e salvar.', why: 'O próximo tutorial, <b>Construção assistida</b>, mostra como deixar o assistente mobiliar, iluminar e levantar prédios inteiros. Em <b>Luz e câmera</b>, <b>Dirigir a cena ao vivo</b> ensina a ambientação, o close e a lanterna.', done: ['read'], act: 'continue' },
     ],
   },
   {
-    id: 'assistant', title: 'Construção assistida', minutes: 5, summary: 'Monte uma casa mobiliada, mude o estado de um cômodo, ilumine e crie o entorno, deixando o assistente fazer o trabalho repetitivo.',
+    id: 'assistant', folder: 'start', title: 'Construção assistida', minutes: 5, summary: 'Monte uma casa mobiliada, mude o estado de um cômodo, ilumine e crie o entorno, deixando o assistente fazer o trabalho repetitivo.',
     needs: 'empty',
     steps: [
       { say: 'Vamos montar um lugar inteiro em poucos minutos.', why: 'O assistente lê o que já existe na cena e propõe o passo seguinte. Você decide; ele faz o trabalho repetitivo. Cada passo deste tutorial avança sozinho quando você faz o que ele pede.', done: ['read'], act: 'continue' },
@@ -109,7 +112,7 @@ export const LESSONS = [
     ],
   },
   {
-    id: 'lighting', title: 'Iluminação e ambientação', minutes: 15, summary: 'Ilumine uma capela à noite como um diretor de fotografia: escuro como base, uma luz principal quente, a contraluz fria de um vitral, acentos, zona, névoa iluminada, halo e reflexos.',
+    id: 'lighting', folder: 'light', title: 'Iluminação e ambientação', minutes: 15, summary: 'Ilumine uma capela à noite como um diretor de fotografia: escuro como base, uma luz principal quente, a contraluz fria de um vitral, acentos, zona, névoa iluminada, halo e reflexos.',
     needs: 'empty',
     steps: [
       { say: 'Vamos iluminar uma capela à noite, do escuro até o quadro final, com o método que ilumina as cenas de exemplo.', why: 'A receita tem cinco camadas, sempre nesta ordem: <b>escuro</b> como base; uma <b>luz principal</b> que vem de algo visível; uma <b>contraluz</b> de cor oposta; poucos <b>acentos</b>; e por último o <b>ar</b>: névoa, halo e reflexos. Duas famílias de cor, nunca mais: aqui, chama âmbar contra luar azul.', done: ['read'], act: 'continue' },
@@ -164,11 +167,41 @@ export const LESSONS = [
       { say: 'Guarde o ângulo: <b>Salvar enquadramento atual</b>.', target: '[data-action="camera-save"]', tab: 'shots', done: ['cameras', 1] },
       { say: 'Escuro demais para trabalhar? Existe a <b>revisão de legibilidade</b>.', why: 'Clareia só esta janela, sem mudar a cena nem o projetor. Logo acima, <b>Qualidade nesta janela</b>: Econômica para computadores modestos, Alta para apresentar.', target: '[data-action="lighting-legibility"]', tab: 'scene', done: ['read'], act: 'continue' },
       { say: 'A atmosfera pode virar um ambiente seu, para outras cenas.', why: '<b>Salvar atmosfera como novo ambiente</b> guarda lua, luz ambiente, céu, névoa e halo. Objetos, luzes e zonas ficam na cena.', target: '[data-action="environment-save"]', tab: 'scene', done: ['read'], act: 'continue' },
-      { say: 'A mesma receita, com outros números, ilumina as cenas de exemplo.', why: 'No <b>Galpão</b>, um fluorescente frio sobre a bancada contra a luz vermelha do portão, quase sem luz ambiente. Na <b>Igreja Antiga</b>, vitrais e candelabros vermelhos na nave e névoa violeta lá fora. Abra uma delas, selecione qualquer luz e veja como foi ajustada em Propriedades → <b>Luz</b>.', done: ['read'], act: 'continue' },
+      { say: 'A mesma receita, com outros números, ilumina as cenas de exemplo.', why: 'No <b>Galpão</b>, um fluorescente frio sobre a bancada contra a luz vermelha do portão, quase sem luz ambiente. Na <b>Igreja Antiga</b>, vitrais e candelabros vermelhos na nave e névoa violeta lá fora. Abra uma delas, selecione qualquer luz e veja como foi ajustada em Propriedades → <b>Luz</b>. Para levar essa luz para a sessão, com hora do dia, close e lanterna, siga <b>Dirigir a cena ao vivo</b>.', done: ['read'], act: 'continue' },
     ],
   },
   {
-    id: 'industrial-1', title: 'Galpão abandonado · 1 · A casca', minutes: 10, summary: 'Primeira de quatro partes da cena de exemplo do galpão: medidas, paredes de concreto sujo e o piso de pedra molhado.',
+    id: 'cinema', folder: 'light', heavy: true, title: 'Dirigir a cena ao vivo', minutes: 10, summary: 'Na Casa de bairro: leve a tarde até a noite com a Ambientação, ponha uma personagem com lanterna no jardim e faça um close com o fundo desfocado, que a câmera segue.',
+    steps: [
+      { say: 'Agora você dirige uma cena pronta, como numa sessão: hora do dia, personagem, luz e câmera.', why: 'Tudo o que este tutorial usa também funciona com a segunda tela aberta: o projetor acompanha a ambientação enquanto você arrasta, e as tomadas levam o foco junto.', done: ['read'], act: 'continue' },
+      { say: 'Clique em <b>Abrir</b>, no trilho.', target: '.rail [data-action="open"]', done: ['documentsOpen'] },
+      { say: 'Em <b>Cenas de exemplo</b>, abra a <b>Casa de bairro</b>.', why: 'O exemplo abre como uma cópia sua: nada do original muda.', target: '[data-open-example="casa-de-bairro"]', done: ['sceneNamed', 'Casa de bairro'] },
+      { stage: 'A hora do dia', say: 'Abra a <b>Ambientação</b>, no trilho.', why: 'É a mesa de luz da sessão: hora do dia e sliders de céu, nuvens, névoa e clima, sempre à mão.', target: '.rail [data-action="ambience"]', done: ['ambienceOpen'] },
+      { say: 'Em <b>Transição</b>, escolha <b>10 s</b>.', why: 'É o tempo que a cena leva para viajar até a hora escolhida, no editor e no projetor.', target: '[data-ambience-duration="10"]', done: ['ambienceDuration', 10] },
+      { say: 'Clique em <b>Tarde</b> e veja a luz virar.', why: 'Cores, sol e céu se misturam aos poucos. Ao chegar, a troca vira um único passo de desfazer.', target: '[data-ambience-time="warm"]', done: ['environment', 'warm'] },
+      { say: 'Arraste a <b>Altura</b> do sol até uns <b>8°</b>.', why: 'Sol rasante: sombras compridas e luz dourada atravessando o jardim. Arrastar mostra na hora; soltar grava.', target: '[data-ambience="altitude"]', done: ['sunBelow', 10], act: ['set', '[data-ambience="altitude"]', '8'] },
+      { say: 'Agora clique em <b>Noite</b>.', why: 'A tarde escurece até a lua; as janelas da casa acendem ao chegar.', target: '[data-ambience-time="moonlight"]', done: ['environment', 'moonlight'] },
+      { say: 'Arraste a <b>Névoa baixa</b> até <b>0,025</b>.', why: 'Uma névoa fina rente ao chão: é nela que o facho da lanterna vai aparecer. Mais que isso, a casa some.', target: '[data-ambience="volumeDensity"]', done: ['lookIs', 'volumetricFog.density', .025], act: ['set', '[data-ambience="volumeDensity"]', '0.025'] },
+      { say: 'Em <b>Cor da névoa</b>, arraste o <b>V</b> até uns <b>22</b>.', why: 'A Noite traz uma névoa clara, que deixaria tudo leitoso. Escura e azulada, ela some no escuro e só aparece onde uma luz a atravessa.', target: '[data-ambience="fogColor"][data-channel="v"]', done: ['lookColorNear', 'volumetricFog.color', '#1e2838'], act: ['set', '[data-ambience="fogColor"][data-channel="v"]', '0.22'] },
+      { say: 'Feche a <b>Ambientação</b>.', target: '[data-action="ambience-close"]', done: ['ambienceOpen', false] },
+      { say: 'Na aba <b>Ambiente</b>, marque <b>Iluminar a névoa com fontes locais</b>.', why: 'Sem isso a névoa só escurece o fundo; com isso, as luzes acendem o ar em volta delas.', target: '[data-field="rendering-volumetricLights"]', tab: 'scene', done: ['rendering', 'volumetricLights'] },
+      { stage: 'A personagem', say: 'Em <b>Construir → Tokens</b>, dê o nome <b>Lia</b> e clique em <b>Colocar token</b>.', target: '[data-action="token-place"]', tab: 'build', done: ['placingToken'], act: [['fill', '#token-name', 'Lia'], ['click', '[data-action="token-place"]']] },
+      { say: 'Clique no ponto marcado, no caminho do jardim.', why: 'Ela fica de frente para a rua, com a casa às costas.', target: '#viewport', done: ['tokens', 1], act: ['world', [-1.2, .04, 11.6]] },
+      { say: 'Aperte <b>Esc</b> e clique na <b>Lia</b> para selecioná-la.', target: '#viewport', before: ['key', 'Escape'], done: ['selected', 'token'], act: ['world', [-1.2, .1, 11.6]] },
+      { say: 'No cartão dela, clique em <b>Lanterna</b>.', why: 'A lanterna sai da mão e aponta para onde o token olha. Para mirar, gire o token com <b>R</b>.', target: '[data-action="token-flashlight"]', done: ['flashlightOn'] },
+      { say: 'Na seção <b>Lanterna</b>, ponha a <b>Força</b> em 120 e a <b>Inclinação para baixo</b> em 25°.', why: 'Forte e apontada para o chão à frente dela: o facho desenha um círculo no caminho em vez de ofuscar a câmera.', target: '[data-field="flashlight-intensity"]', done: [['tokenHas', 'flashlight.intensity', 120], ['tokenHas', 'flashlight.pitch', 25]], act: fills([['flashlight-intensity', 120], ['flashlight-pitch', 25]]) },
+      { say: 'Feche um pouco o facho: <b>Abertura</b> em 24°.', why: 'Um cone estreito tem borda; é o que separa uma lanterna de uma lâmpada.', target: '[data-field="flashlight-angle"]', done: ['tokenHas', 'flashlight.angle', 24 * Math.PI / 180], act: ['fill', '[data-field="flashlight-angle"]', '24'] },
+      { stage: 'O close', say: 'Agora clique em <b>Close</b>, no cartão da Lia.', why: 'A câmera vai até o rosto dela em três-quartos, com lente longa, e o foco fica nela. Se algo estiver no caminho, ela procura outro lado.', target: '[data-action="token-closeup"]', done: ['cameraFocused'] },
+      { say: 'Em <b>Tomadas → Foco, seguir e movimento</b>, ponha o <b>Desfoque</b> em 70%.', why: 'A casa e as janelas viram manchas de luz atrás dela: o olho vai direto para a personagem.', target: '[data-field="camera-focus-aperture"]', tab: 'shots', done: ['cameraFocused', .7], act: ['fill', '[data-field="camera-focus-aperture"]', '70'] },
+      { say: 'Guarde o quadro: <b>Salvar enquadramento atual</b>.', why: 'A tomada guarda também o foco: ao cortar para ela, o projetor desfoca igual.', target: '[data-action="camera-save"]', tab: 'shots', done: ['shotFocused'] },
+      { say: 'No cartão da Lia, clique em <b>Seguir</b>.', why: 'Agora, quando ela andar (Mover, <b>G</b>), a câmera vai junto, suave. <b>W A S D</b> solta a câmera.', target: '[data-action="token-follow"]', done: ['following'] },
+      { say: 'Com a segunda tela aberta, ligue <b>Tomadas → Câmera ao vivo</b> para o projetor acompanhar a sua câmera.', why: 'Desligada, só tomadas e Publicar mudam o projetor. Ligada, cada movimento seu vira um travelling suave para os jogadores.', done: ['read'], act: 'continue' },
+      { say: 'Clique em <b>Salvar</b>.', target: '#save-scene', done: ['saved'] },
+      { say: 'Pronto: a tarde virou noite, a Lia ilumina o caminho na névoa e o close a separa da casa desfocada.', why: 'Experimente na Ambientação a <b>Chuva</b> e a <b>Neblina</b> com 20 s de transição, e as tomadas com <b>Movimento automático</b> (órbita lenta, câmera na mão).', done: ['read'], act: 'continue' },
+    ],
+  },
+  {
+    id: 'industrial-1', folder: 'industrial', title: 'Galpão abandonado · 1 · A casca', minutes: 10, summary: 'Primeira de quatro partes da cena de exemplo do galpão: medidas, paredes de concreto sujo e o piso de pedra molhado.',
     needs: 'empty',
     steps: [
       { say: 'Vamos recriar o <b>Galpão industrial abandonado</b>, a cena de exemplo, em quatro partes.', why: 'Esta parte faz a sala e os acabamentos; a segunda, a estrutura e a tubulação; a terceira, os objetos e efeitos; a quarta, a luz. Cada parte termina salvando, e a seguinte continua dali. Quando um passo pede um clique na cena, um ponto pulsa no lugar certo.', done: ['read'], act: 'continue' },
@@ -203,7 +236,7 @@ export const LESSONS = [
     ],
   },
   {
-    id: 'industrial-2', title: 'Galpão abandonado · 2 · Estrutura e tubulação', minutes: 15, summary: 'Segunda parte: colunas até o teto, o mezanino com escada e guarda-corpo, e dutos, tubos e eletrocalhas no alto, posicionados com Mover, Girar e Escala.',
+    id: 'industrial-2', folder: 'industrial', title: 'Galpão abandonado · 2 · Estrutura e tubulação', minutes: 15, summary: 'Segunda parte: colunas até o teto, o mezanino com escada e guarda-corpo, e dutos, tubos e eletrocalhas no alto, posicionados com Mover, Girar e Escala.',
     continues: 'industrial-1',
     steps: [
       { say: 'Continuamos o galpão da parte 1. Agora você vai mover, girar e esticar objetos com as alças.', why: HOW, done: ['read'], act: 'continue' },
@@ -258,7 +291,7 @@ export const LESSONS = [
     ],
   },
   {
-    id: 'industrial-3', title: 'Galpão abandonado · 3 · Objetos e efeitos', minutes: 15, summary: 'Terceira parte: portão e luz de aviso, faixas e letreiro, bancada com o terminal BOOTING, entulho, cabos, faíscas, goteira, a luminária e a cobertura.',
+    id: 'industrial-3', folder: 'industrial', title: 'Galpão abandonado · 3 · Objetos e efeitos', minutes: 15, summary: 'Terceira parte: portão e luz de aviso, faixas e letreiro, bancada com o terminal BOOTING, entulho, cabos, faíscas, goteira, a luminária e a cobertura.',
     continues: 'industrial-2',
     steps: [
       { say: 'Continuamos o galpão da parte 2: agora os objetos que contam a história do lugar.', why: HOW, done: ['read'], act: 'continue' },
@@ -320,7 +353,7 @@ export const LESSONS = [
     ],
   },
   {
-    id: 'industrial-4', title: 'Galpão abandonado · 4 · Luz e atmosfera', minutes: 15, summary: 'Última parte: vermelho do portão contra fluorescente frio, a luz da tela, a noite quase sem preenchimento, névoa, reflexos nas poças, halo e o enquadramento.',
+    id: 'industrial-4', folder: 'industrial', title: 'Galpão abandonado · 4 · Luz e atmosfera', minutes: 15, summary: 'Última parte: vermelho do portão contra fluorescente frio, a luz da tela, a noite quase sem preenchimento, névoa, reflexos nas poças, halo e o enquadramento.',
     continues: 'industrial-3',
     steps: [
       { say: 'Agora a luz, que é o que dá a cara do galpão.', why: 'A receita do tutorial de iluminação: <b>escuro</b> como base, uma luz principal fria (o fluorescente sobre a bancada), uma <b>contraluz</b> de cor oposta (o vermelho do portão), a tela como acento e por último o ar.', done: ['read'], act: 'continue' },
@@ -361,7 +394,7 @@ export const LESSONS = [
       { say: 'Leve a câmera para trás da bancada, na altura dos olhos, olhando o portão.', why: '<b>W A S D</b> anda, <b>botão direito</b> gira. O enquadramento do exemplo põe o terminal no canto esquerdo e a luz vermelha ao fundo.', target: '.camera-strip', done: ['read'], act: 'continue' },
       { say: 'Guarde o ângulo: <b>Salvar enquadramento atual</b>.', target: '[data-action="camera-save"]', tab: 'shots', done: ['cameras', 1] },
       { say: 'Clique em <b>Salvar</b>.', target: '#save-scene', done: ['saved'] },
-      { say: 'O galpão está aceso como o exemplo: vermelho no fundo, frio na bancada, névoa fina e poças refletindo.', why: 'Para comparar peça por peça, abra o original em <b>Abrir → Cenas de exemplo</b> e selecione qualquer objeto ou luz.', done: ['read'], act: 'continue' },
+      { say: 'O galpão está aceso como o exemplo: vermelho no fundo, frio na bancada, névoa fina e poças refletindo.', why: 'Para comparar peça por peça, abra o original em <b>Abrir → Cenas de exemplo</b> e selecione qualquer objeto ou luz. Na sessão, a <b>Ambientação</b> no trilho ajusta névoa e exposição ao vivo, e um token com <b>Lanterna</b> atravessa a névoa fina deste galpão.', done: ['read'], act: 'continue' },
     ],
   },
 ];

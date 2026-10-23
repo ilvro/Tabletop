@@ -12,12 +12,10 @@ export function retainCraftSlots(id,parts,[w,h,d]) {
   if(id==='barrel')parts.push(cylinder(w*.465,.008,[0,.004,0],'dark'));
   if(id==='gurney')parts.find(p=>p.cushion&&p.size[2]<d*.4).material='cloth';
   if(id==='coffin')parts[0].material='dark';
-  if(id==='rock'||id==='broken-wall')parts.at(-1).material='dark';
   if(id==='toilet')parts.push(cylinder(.017,.006,[0,h*.32,d*.12],'dark'));
   if(id==='typewriter'){parts.find(p=>p.shape==='cylinder').material='metal';parts.find(p=>p.shape==='box'&&p.rotation).material='paper';}
   if(id==='laptop')parts.find(p=>p.shape==='box'&&p.size[2]>d*.35).material='metal';
   if(id==='dead-tree')parts[0].material='dark';
-  if(id==='ritual-mask')parts.push(box([w*.22,h*.035,d*.025],[0,h*.665,d*.23],'red'),box([w*.06,h*.035,d*.08],[0,h*.665,d*.3],'paper'));
   if(id==='stone-sarcophagus'){parts.at(-1).material='dark';parts.push(box([w*.25,.005,d*.08],[0,h*.967,d*.19],'paper'));}
   if(id==='delivery-van')parts[0].material='cloth';
   if(id==='body-bag')parts.push(box([w*.22,.002,d*.038],[w*.18,h*.89,-d*.24],'white'));

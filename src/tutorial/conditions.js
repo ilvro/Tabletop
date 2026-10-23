@@ -147,6 +147,21 @@ export const CONDITIONS = {
   /** The look of the scene has this value: ['lookIs', 'bloom.threshold', 1.6]. */
   lookIs: (state, path, value) => same(valueAt(look(state), path), value),
   moonIs: (state, path, value) => same(valueAt(moon(state) ?? {}, path), value),
+
+  /** Cinematography: the scene opened from the gallery, the live atmosphere window, the camera's focus and following. */
+  sceneNamed: (state, prefix) => state.document.name.startsWith(prefix),
+  documentsOpen: state => state.documentsOpen,
+  ambienceOpen: (state, open = true) => state.ambience.open === open,
+  ambienceDuration: (state, seconds) => state.ambience.duration === seconds,
+  /** The sun or moon stands at most this many degrees above the horizon. */
+  sunBelow: (state, degrees) => { const q = moon(state)?.rotation; if (!q) return false; const pitch = Math.asin(Math.max(-1, Math.min(1, 2 * (q[3] * q[0] - q[1] * q[2])))); return 90 - pitch * 180 / Math.PI <= degrees; },
+  flashlightOn: state => Object.values(state.document.tokens ?? {}).some(token => token.flashlight?.enabled),
+  /** Some token has this value: ['tokenHas', 'flashlight.pitch', 30]. */
+  tokenHas: (state, path, value) => Object.values(state.document.tokens ?? {}).some(token => same(valueAt(token, path), value)),
+  /** The working camera focuses on a token, with this much blur when a value is given. */
+  cameraFocused: (state, aperture) => Boolean(state.camera?.focus?.enabled && state.camera.focus.targetId) && (aperture === undefined || same(state.camera.focus.aperture, aperture)),
+  shotFocused: state => Object.values(state.document.cameraPresets ?? {}).some(camera => camera.focus?.enabled && camera.focus.targetId),
+  following: state => Boolean(state.following),
 };
 /** A step's `done` is `['name', ...args]`, or a list of them that must all hold. */
 export function met(done, state) {

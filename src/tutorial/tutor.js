@@ -141,15 +141,27 @@ export function createTutor(root, host) {
   };
 }
 
-/** The list of lessons, with what was done and where one stopped. */
+/** The folders of the tutorial list, in order; a lesson names its folder with `folder`. */
+export const LESSON_FOLDERS = [
+  { id: 'start', name: 'Fundamentos', about: 'A tela inteira e o assistente de construção.' },
+  { id: 'light', name: 'Luz e câmera', about: 'Iluminar como um diretor de fotografia e dirigir a cena ao vivo.' },
+  { id: 'industrial', name: 'Galpão abandonado', about: 'A cena de exemplo do galpão, refeita em quatro partes.' },
+];
+
+/** The list of lessons, in folders, with what was done and where one stopped. */
 export function tutorialCenter(tutor, sceneEmpty) {
   const progress = tutor.progress();
-  return `<header><div><span class="eyebrow">APRENDER</span><h2>Tutoriais</h2></div><button type="button" class="quiet" data-action="tutorials" aria-label="Fechar tutoriais">Fechar</button></header>
-    <p class="microcopy">Cada tutorial acontece na própria cena: ele aponta, você faz, e o passo avança quando o resultado aparece. Dá para sair e voltar depois.</p>
-    ${tutor.lessons.map(lesson => { const state = progress[lesson.id] ?? {}, resume = !state.done && state.step > 0; return `<article class="lesson ${state.done ? 'done' : ''}">
-      <h3>${esc(lesson.title)}<small>${lesson.minutes} min · ${lesson.steps.length} passos${state.done ? ' · concluído' : resume ? ` · parou no passo ${state.step + 1}` : ''}</small></h3><p>${esc(lesson.summary)}</p>
+  const card = (lesson, folder) => { const state = progress[lesson.id] ?? {}, resume = !state.done && state.step > 0, title = folder && lesson.title.startsWith(`${folder.name} · `) ? lesson.title.slice(folder.name.length + 3) : lesson.title; return `<article class="lesson ${state.done ? 'done' : ''}">
+      <h3>${esc(title)}<small>${lesson.minutes} min · ${lesson.steps.length} passos${state.done ? ' · concluído' : resume ? ` · parou no passo ${state.step + 1}` : ''}</small></h3><p>${esc(lesson.summary)}</p>
       ${lesson.continues ? `<p class="lesson-note">Continua a cena de <b>${esc(tutor.lessons.find(entry => entry.id === lesson.continues)?.title ?? '')}</b>: com ela aberta, comece por aqui.</p>` : ''}
       ${lesson.needs === 'empty' && !sceneEmpty ? '<p class="lesson-note">Este tutorial constrói do zero. A cena aberta já tem objetos: crie uma cena nova antes (botão <b>Nova</b>, no topo) para os passos não se confundirem com o que já existe.</p>' : ''}
-      <div class="lesson-actions"><button type="button" class="primary" data-action="tutorial-start" data-id="${lesson.id}">${state.done ? 'Refazer' : 'Começar'}</button>${resume ? `<button type="button" data-action="tutorial-start" data-id="${lesson.id}" data-from="${state.step}">Continuar do passo ${state.step + 1}</button>` : ''}</div></article>`; }).join('')}
+      <div class="lesson-actions"><button type="button" class="primary" data-action="tutorial-start" data-id="${lesson.id}">${state.done ? 'Refazer' : 'Começar'}</button>${resume ? `<button type="button" data-action="tutorial-start" data-id="${lesson.id}" data-from="${state.step}">Continuar do passo ${state.step + 1}</button>` : ''}</div></article>`; };
+  // A folder whose lessons are all done closes, so what is left to learn comes first.
+  const folders = [...LESSON_FOLDERS, { id: null, name: 'Outros' }].map(folder => ({ folder, lessons: tutor.lessons.filter(lesson => (lesson.folder ?? null) === folder.id) })).filter(entry => entry.lessons.length);
+  return `<header><div><span class="eyebrow">APRENDER</span><h2>Tutoriais</h2></div><button type="button" class="quiet" data-action="tutorials" aria-label="Fechar tutoriais">Fechar</button></header>
+    <p class="microcopy">Cada tutorial acontece na própria cena: ele aponta, você faz, e o passo avança quando o resultado aparece. Dá para sair e voltar depois.</p>
+    ${folders.map(({ folder, lessons }) => { const done = lessons.filter(lesson => progress[lesson.id]?.done).length; return `<details class="lesson-folder" data-lesson-folder="${folder.id ?? 'other'}" ${done < lessons.length ? 'open' : ''}>
+      <summary><span>${esc(folder.name)}</span><small>${done} de ${lessons.length} concluídos${folder.about ? ` · ${esc(folder.about)}` : ''}</small></summary>
+      ${lessons.map(lesson => card(lesson, folder)).join('')}</details>`; }).join('')}
     <p class="microcopy">Mais tutoriais virão, incluindo a reconstrução de outras cenas prontas.</p>`;
 }

@@ -100,7 +100,7 @@ export function createCinema({ effects, objects, records, reducedMotion }) {
   function attachFlashlight(id, object, settings) {
     const scale = object.scale.y || 1, wrapper = new THREE.Object3D();
     // Held in the right hand, in front of the figure: the beam leaves from beside the body, not from the face.
-    wrapper.position.set(-.24, settings.height / scale, .16);
+    wrapper.position.set(-.14, settings.height / scale, .16);
     // The budget aims a spot along the wrapper's -Y: turn -Y to +Z, then tilt down by the pitch.
     wrapper.rotation.x = THREE.MathUtils.degToRad(settings.pitch) - Math.PI / 2;
     const lens = new THREE.Mesh(new THREE.CircleGeometry(.014, 12), new THREE.MeshBasicMaterial({ color: settings.color }));

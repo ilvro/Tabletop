@@ -773,3 +773,10 @@ dialog.floating-window.library-dialog, .floating-window { background: var(--tt-s
 .hero-actions.hero-camera { margin-top: 2px; }
 .hero-actions.hero-camera button { flex: 1; min-height: 32px; font-size: 12px; }
 .hero-actions.hero-camera .active { color: var(--tt-accent-strong); border-color: var(--tt-accent); background: var(--tt-accent-wash); }
+.lesson-folder { margin-top: 10px; border-top: 1px solid var(--tt-line); padding-top: 8px; }
+.lesson-folder > summary { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; cursor: pointer; list-style: none; padding: 4px 0; }
+.lesson-folder > summary::-webkit-details-marker { display: none; }
+.lesson-folder > summary span { font-weight: 600; font-size: var(--eco-fs-14); }
+.lesson-folder > summary span::before { content: '▸'; display: inline-block; width: 14px; color: var(--tt-muted); transition: transform .15s; }
+.lesson-folder[open] > summary span::before { transform: rotate(90deg); }
+.lesson-folder > summary small { grid-column: 1 / -1; padding-left: 14px; font-size: var(--eco-fs-12); color: var(--tt-muted); }

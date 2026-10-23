@@ -4,7 +4,7 @@ export function addWinterDetail({add,timeless,ancient}) {
   const branch=(points,radius,seed,forks=0)=>({shape:'branch',points,radius,tipRadius:Math.max(.002,radius*.09),segments:16,sides:7,seed,forks,material:'wood',surface:bark,position:[0,0,0]});
   const board=(size,position,seed,rotation,damage=.28)=>({shape:'timber',size,position,seed,damage,material:'wood',surface:wood,...(rotation?{rotation}:{})});
   const metal=(size,position,rotation)=>({shape:'box',size,position,material:'metal',surface:iron,...(rotation?{rotation}:{})});
-  const model=(id,name,parts,vegetation=false,description='')=>{add(id,name,vegetation?'Exterior / Vegetação detalhada':'Exterior / Expedição',vegetation?timeless:ancient,['Montanha','Floresta','Acampamento','Ruínas'],vegetation?['vegetação','natureza','inverno','detalhada']:['madeira','expedição','inverno','detalhado'],parts,description);ids.add(`builtin-${id}`);};
+  const model=(id,name,parts,vegetation=false,description='')=>{add(id,name,vegetation?'Exterior / Vegetação':'Exterior / Expedição',vegetation?timeless:ancient,['Montanha','Floresta','Acampamento','Ruínas'],vegetation?['vegetação','natureza','inverno','detalhada']:['madeira','expedição','inverno','detalhado'],parts,description);ids.add(`builtin-${id}`);};
   function tree(id,name,height,width,seed,pine=false) {
     let state=seed;const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
     const parts=[branch([[0,0,0],[.05,height*.3,-.04],[-.07,height*.66,.05],[.03,height,0]],.17,seed)];

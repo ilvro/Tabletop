@@ -4,7 +4,7 @@ Implementado em 5 de outubro de 2026. Nove peças originais elevam o catálogo a
 
 ## Encontrar e usar
 
-Em **Assets**, procure os nomes abaixo. As plantas ficam em **Exterior / Vegetação detalhada**; os objetos, em **Exterior / Expedição**. Todos têm escala métrica, pivot na base, materiais separados e arquivos locais compatíveis com Pages.
+Em **Assets**, procure os nomes abaixo. As plantas ficam em **Exterior / Vegetação** (tag **detalhada**); os objetos, em **Exterior / Expedição**. Todos têm escala métrica, pivot na base, materiais separados e arquivos locais compatíveis com Pages.
 
 | Peça | Detalhes |
 | --- | --- |

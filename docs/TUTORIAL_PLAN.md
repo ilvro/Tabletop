@@ -129,3 +129,9 @@ Problemas apontados: um passo do galpão era uma lista de coordenadas ("parece q
 - Iluminação e ambientação (53): mesma capela, cores pelo seletor e passos divididos.
 
 **Falta**: etapa 3 (oferta na primeira visita), etapa 4 (ajuda no lugar), etapa 5 (novidades); recriar as demais cenas prontas (Igreja Antiga, Backrooms, Casa de bairro); uma lição exigir cena vazia hoje é só um aviso na lista, não cria a cena nova sozinha.
+
+**22 de outubro — pastas e a lição de cinematografia**
+
+- A lista de tutoriais agrupa as lições em pastas (`folder` na lição, `LESSON_FOLDERS` em `tutor.js`): **Fundamentos** (Primeiros passos, Construção assistida), **Luz e câmera** (Iluminação e ambientação, Dirigir a cena ao vivo) e **Galpão abandonado** (as quatro partes, com o nome da pasta tirado do título). Uma pasta com tudo concluído fecha sozinha.
+- Lição **Dirigir a cena ao vivo** (25 passos, na Casa de bairro): abrir o exemplo pela galeria; na Ambientação, transição de 10 s para a Tarde, sol a 8°, Noite, névoa baixa 0,025 escurecida (V ≈ 22); névoa iluminada; a token Lia no caminho do jardim, de frente para a rua; lanterna com força 120, inclinação 25° e abertura 24°; Close, desfoque 70%, tomada salva com foco, Seguir; a câmera ao vivo explicada. Condições novas: `sceneNamed`, `documentsOpen`, `ambienceOpen`, `ambienceDuration`, `sunBelow`, `flashlightOn`, `tokenHas`, `cameraFocused`, `shotFocused`, `following`. O teste E2E ganhou o gesto `['set', seletor, valor]` para arrastar e soltar um slider.
+- Primeiros passos, Iluminação e o Galpão 4 apontam para a Ambientação, o Close/Lanterna e a lição nova nos textos de explicação; os passos e os valores não mudaram.

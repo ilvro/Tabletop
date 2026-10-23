@@ -117,6 +117,8 @@ add('suitcase', 'Mala de viagem antiga', 'Investigação / Equipamentos', histor
 
 addLibraryExpansion({ add, b, c, s, legs, table, wheels, shelf, ring, modern, retro, historic, colonial, ancient, timeless });
 addLibraryExpansion3({ add, b, c, s, legs, table, wheels, modern, retro, historic, colonial, timeless });
+// Weathered dark stone rather than near-black paint in the loose stones of rock piles.
+for (const id of ['rock', 'broken-wall']) assets.find(a => a.id === `builtin-${id}`).materials = { ...materials, dark: { color: '#55534d', roughness: .97 } };
 addMountainLibrary({add,timeless});
 const alpineIds=addAlpineLibrary({add,timeless,ancient});
 for(const id of addMountainKit({add,timeless,ancient}))alpineIds.add(id);
@@ -160,11 +162,14 @@ function preview(object) {
 
 const catalog = JSON.parse(await readFile('scripts/library-source/contracts.json', 'utf8'));
 const originals = catalog.assets.filter(asset => ['desk', 'chair', 'cabinet', 'crate', 'lamp', 'rug'].some(id => asset.id === `builtin-${id}`));
+const starterDescriptions = ['Mesa de escritório com gaveta, saia e pernas torneadas; tampo como apoio para pistas e documentos.', 'Cadeira de madeira com assento e encosto estofados e travessas torneadas.',
+  'Arquivo de aço com quatro gavetas, puxadores e porta-etiquetas.', 'Caixa de tábuas com cantoneiras e pregos para depósitos, docas e fazendas.',
+  'Luminária de pé com cúpula de tecido e haste de latão; adicione uma luz da cena para iluminar.', 'Tapete retangular com bordadura tripla e motivos geométricos.'];
 const categories = ['Mobiliário / Mesas', 'Mobiliário / Assentos', 'Mobiliário / Armazenamento', 'Industrial / Armazenamento', 'Mobiliário / Iluminação', 'Mobiliário / Decoração'];
 for (const [i, asset] of originals.entries()) {
   asset.category = categories[i]; asset.era = [modern, colonial, retro, timeless, modern, timeless][i];
   asset.contexts = [['Escritório', 'Delegacia'], ['Casa', 'Escritório'], ['Arquivo', 'Delegacia', 'Escritório'], ['Depósito', 'Fazenda'], ['Casa', 'Escritório'], ['Casa', 'Hotel']][i];
-  asset.description = 'Modelo original do kit inicial Tabletop, disponível localmente.';
+  asset.description = starterDescriptions[i]; asset.provenance = assets[0].provenance;
   const initialRecipe=JSON.parse(await readFile(`scripts/library-source/${asset.id.slice(8)}.json`,'utf8'));
   asset.parts=initialRecipe.parts;asset.materials=initialRecipe.materials;
   const object = recipeInstance(initialRecipe);

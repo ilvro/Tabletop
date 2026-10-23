@@ -122,11 +122,13 @@ export function craftOccult(id,recipe,[w,h,d]) {
   }
   case 'reliquary': {
     const z=.095;
-    P.push(...[-1,1].flatMap(s=>[-1,1].map(q=>e([.04,.04,.04],[s*.15,.02,q*.1],'metal'))),rb([w,.035,d],[0,.045,0],'metal',.008),b([.29,.18,.19],[0,.15,0],'dark'),...[-1,1].flatMap(s=>[-1,1].map(q=>c(.014,.18,[s*.145,.15,q*z],'paper'))));
-    P.push(rb([.35,.02,.25],[0,.249,0],'metal',.006),p([[-.125,0],[.125,0],[0,.052]],.34,[0,.258,0],'metal',[0,PI/2,0]),b([.04,.13,.012],[0,.16,z+.003],'paper'),b([.13,.04,.012],[0,.175,z+.003],'paper'),b([.28,.005,.185],[0,.2415,0],'violet'));
+    P.push(...[-1,1].flatMap(s=>[-1,1].map(q=>e([.04,.04,.04],[s*.15,.02,q*.1],'metal'))),rb([w,.035,d],[0,.045,0],'metal',.008),b([.29,.18,.19],[0,.15,0],'dark'),...[-1,1].flatMap(s=>[-1,1].map(q=>lathe([[0,0],[.016,0],[.016,.012],[.011,.02],[.011,.16],[.016,.168],[.016,.18],[0,.18]],[s*.145,.06,q*z],'brass'))));
+    // Small gilded cross above the lock, on a raised brass plate.
+    P.push(rb([.35,.02,.25],[0,.249,0],'metal',.006),p([[-.125,0],[.125,0],[0,.052]],.34,[0,.258,0],'metal',[0,PI/2,0]),rb([.075,.1,.005],[0,.18,z+.003],'brass',.004),
+      b([.016,.075,.008],[0,.18,z+.008],'brass',null,.002),b([.05,.016,.008],[0,.195,z+.008],'brass',null,.002),b([.28,.005,.185],[0,.2415,0],'violet'));
     // Sealed: iron bands, padlock and wax seals.
-    P.push(...[-.09,.09].map(x=>b([.014,.2,.2],[x,.155,0],'metal')),rb([.04,.045,.018],[0,.09,z+.012],'metal',.006),{...r(.014,.004,[0,.118,z+.012],'metal'),segments:10},...[-.09,.09].map((x,i)=>c(.02,.006,[x,.2-i*.07,z+.006],'red','z')));
-    return done('relicário com tampa em duas águas, pilastras, cruz frontal, cintas de ferro, cadeado, lacres de cera e fresta luminosa');
+    P.push(...[-.09,.09].map(x=>b([.014,.2,.2],[x,.155,0],'metal')),rb([.04,.045,.018],[0,.09,z+.012],'metal',.006),{...r(.014,.004,[0,.118,z+.012],'metal'),segments:10},...[-.09,.09].map((x,i)=>c(.02,.006,[x,.2-i*.07,z+.006],'red','z')),b([.012,.07,.003],[.09,.165,z+.004],'paper',[0,0,.2]));
+    return done('relicário com tampa em duas águas, colunetas e cruz douradas, cintas de ferro, cadeado, lacres de cera e fresta luminosa','brass');
   }
   case 'effigy': {
     const straw=surf(recipe,'paper','grass',{textureSize:.3,relief:.02});

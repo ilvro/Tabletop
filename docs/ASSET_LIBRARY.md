@@ -1,6 +1,6 @@
 # Catálogo de assets e classificação
 
-Implementado em 3 de outubro de 2026. A aba **Assets** oferece **224 modelos 3D locais**, incluindo os seis objetos do kit inicial e **218 novos assets originais**, com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
+Implementado em 3 de outubro de 2026. A aba **Assets** oferece **352 modelos 3D locais** (224 na primeira entrega: os seis objetos do kit inicial e 218 assets originais), com prévias, escala em metros e pivot na base. O foco é investigação e horror paranormal para mesas de Ordem Paranormal. Os modelos e símbolos são originais do Tabletop. A segunda ampliação acrescentou 66 objetos, incluindo veículos e novos kits de interiores, comércio, laboratório, indústria e ruínas. A terceira ampliação (4 de outubro) acrescentou 34 objetos: casarão/sótão, asilo e necrotério, cemitério, rua, rural e equipamentos de investigação.
 
 O kit da Igreja Antiga acrescenta **18 peças arquitetônicas e rituais**: arcos vazados, pilar, balcão curvo, balaustrada, vitral, cobertura/nervuras, contraforte, pináculo, torre e peças características do banquete/ritual. Procure **igreja antiga**; uso, apoios e avaliação do desgaste localizado em [CHURCH_KIT.md](CHURCH_KIT.md).
 
@@ -63,7 +63,7 @@ A projeção dos jogadores recebe os dados necessários à renderização dos as
 
 ## Modelos e limites
 
-Os modelos são receitas estáticas de primitivas e malhas geológicas procedurais, com materiais próprios e prévias SVG geradas da mesma geometria. Execute `node scripts/generate-library.js` na raiz para regenerar os 244 modelos, suas prévias e o catálogo (ver [Reconstrução da biblioteca](#reconstrução-da-biblioteca)). Os IDs do kit inicial permanecem iguais; footprints antigos foram corrigidos para abranger a geometria.
+Os modelos são receitas estáticas de primitivas e malhas geológicas procedurais, com materiais próprios e prévias SVG geradas da mesma geometria. Execute `node scripts/generate-library.js` na raiz para regenerar os 352 modelos, suas prévias e o catálogo (ver [Reconstrução da biblioteca](#reconstrução-da-biblioteca)). Os IDs do kit inicial permanecem iguais; footprints antigos foram corrigidos para abranger a geometria.
 
 Mesas, bancos, cama, pia, bancada, maca, carrinhos, altar e outros móveis têm altura de apoio anotada. A segunda ampliação inclui apoios na mesa de centro, criado-mudo, cômoda, balcão, vitrine, carteira escolar, mesa de autópsia, palete e toco. Veículos, dispositivos, móveis fechados e túmulos são estáticos e cenográficos; portas e mecanismos não possuem interação automática. Props de parede/teto usam a fixação manual do inspetor. A terceira ampliação anota apoio no fichário de biblioteca. Velas, cristais, fogueira, poste, lareira, lustre, candelabro, lampião, fliperama e luz da filmadora têm emissive estático na receita. Novas fogueiras colocadas pelo editor recebem chamas animadas e luz própria; outros objetos podem receber fogo/fumaça pelo inspetor. Instâncias antigas conservam sua aparência até edição explícita. Texturas locais também podem substituir um material nomeado do objeto: [MATERIALS.md](MATERIALS.md).
 
@@ -109,7 +109,7 @@ As oito peças geológicas também recebem edição manual diretamente na superf
 
 ## Asset do piloto de montanha
 
-A cena de exemplo acrescenta **Ruína alta de montanha · torre partida**, em Arquitetura / Ruínas: 22 fiadas, janela vertical vazada, laterais/fundo aberto e geometria agrupada. Evita esticar a torre pequena para simular uma construção alta. Catálogo atual: 191 assets, incluindo também a lanterna arredondada com corrente conectada e a entrada de caverna com vão real. A composição pode ser aberta em Abrir; guia em [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).
+A cena de exemplo acrescenta **Ruína alta de montanha · torre partida**, em Arquitetura / Ruínas: 22 fiadas, janela vertical vazada, laterais/fundo aberto e geometria agrupada. Evita esticar a torre pequena para simular uma construção alta. Catálogo naquela data: 191 assets, incluindo também a lanterna arredondada com corrente conectada e a entrada de caverna com vão real. A composição pode ser aberta em Abrir; guia em [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).
 
 ## Vegetação e objetos próximos de inverno
 
@@ -297,3 +297,32 @@ Convenções do kit:
 - **Balaustrada:** peças de 2 m para alinhar na borda de poços, balcões e mezaninos.
 
 Conferência: `node scripts/review-library.js nordic-rune-console nordic-gear-wall nordic-conduit-pillar nordic-forge-engine nordic-runestone nordic-vault-door nordic-stasis-pod nordic-rune-lantern nordic-tablet-shelf nordic-floor-sigil nordic-spiral-stair-turn nordic-rune-door nordic-railing nordic-guardian-statue cave-painting-hunt cave-painting-ring cave-painting-descent`.
+
+## Revisão de qualidade e consistência (23 de outubro de 2026)
+
+Revisão visual dos 352 modelos (`node scripts/review-library.js`) e do catálogo. IDs, pegadas, envelopes, alturas de apoio e slots públicos continuam iguais, então cenas salvas não mudam de lugar nem de escala.
+
+**Modelos refeitos** (nove; além deles, só o arquivo da cruz dupla mudou, pelo nome):
+
+| Modelo | Antes | Agora |
+| --- | --- | --- |
+| Máscara cerimonial | placa octogonal plana | rosto entalhado abaulado, sobrancelhas, nariz, olhos e boca vazados, pintura vermelha e amarras |
+| Crânio sobre pedestal | esferas com "olhos" saltados | calota, osso frontal, órbitas com borda óssea, cavidade nasal, maçãs, mandíbula e dentes, sobre plinto com placa |
+| Moita de arbustos | arvorezinha com tronco | arbusto baixo e largo, hastes desde o chão e tufos sobrepostos |
+| Afloramento rochoso | bolha baixa com laje preta | blocos fraturados de alturas diferentes e cascalho escuro com textura de rocha |
+| Mureta desmoronada | pedras soltas espalhadas | fiadas de pedra seca que descem para um lado, com blocos caídos |
+| Relicário selado | cruz e colunas creme (lembrava um armário de primeiros socorros) | colunetas torneadas e cruz pequena de latão sobre placa |
+| Muro de ruína, Arco de pedra, Contraforte de ruína | seixos arredondados empilhados, com vãos | blocos talhados em fiadas (o mesmo acabamento da Torre arruinada); o arco ganhou impostas e o contraforte recua para −Z |
+
+Nas cenas de exemplo, a montanha (muros) e o Templo gelado (arco) passam a mostrar a alvenaria nova automaticamente.
+
+**Consistência do catálogo:**
+
+- **Igreja · cruz dupla de ferro** passou a **Igreja · cruz dupla rubra**: o modelo sempre foi vermelho e brilhante, e a fachada da Igreja Antiga conta com isso. O slot continua `iron`; para ferro escuro, troque a cor e zere a emissão nele.
+- Categorias por função, e não por kit: as peças da casa de bairro (antes em *Casa / Complementos*) estão em **Mobiliário / Cozinha**, **Decoração** e **Iluminação**, e o telhado e o piso em **Casa / Estrutura**. A tag **casa de bairro** continua reunindo o kit.
+- **Exterior / Vegetação** reúne as antigas *Vegetação alpina* e *Vegetação detalhada*. As tags **montanha**, **inverno** e **detalhada** continuam separando os grupos.
+- **Mureta desmoronada** e **Coluna quebrada** saíram de *Exterior / Ruínas* para **Arquitetura / Ruínas**, com as demais ruínas.
+- Os seis modelos do kit inicial ganharam descrições próprias no lugar do texto genérico, e a mesma procedência dos demais.
+
+Classificações editadas pelo usuário (`data/asset-metadata/`) continuam valendo sobre esses padrões.
+

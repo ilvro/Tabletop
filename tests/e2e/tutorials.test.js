@@ -10,7 +10,7 @@ import {LESSONS} from '../../src/tutorial/lessons.js';
 
 const chainLength=lesson=>lesson.steps.length+(lesson.continues?chainLength(LESSONS.find(entry=>entry.id===lesson.continues)):0);
 // Every lesson is run as written: each target must be on screen and each step must complete by its own condition.
-for (const lesson of LESSONS) test(`tutorial "${lesson.title}" can be followed from the first step to the last`, {timeout:Math.max(420_000,chainLength(lesson)*25_000)}, async () => {
+for (const lesson of LESSONS) test(`tutorial "${lesson.title}" can be followed from the first step to the last`, {timeout:Math.max(420_000,chainLength(lesson)*(lesson.heavy?60_000:25_000))}, async () => {
   const dataDir=await mkdtemp(path.join(os.tmpdir(),'tabletop-tutor-')),server=(await createApp({dataDir})).listen(0,'127.0.0.1');await once(server,'listening');let browser;
   try {
     browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
@@ -46,6 +46,8 @@ for (const lesson of LESSONS) test(`tutorial "${lesson.title}" can be followed f
         else if (one[0]==='click') { await showPane(one[1]); await page.locator(one[1]).first().click(); }
         else if (one[0]==='fill') { await showPane(one[1]); await page.locator(one[1]).first().fill(one[2]);await page.keyboard.press('Tab'); }
         else if (one[0]==='select') { await showPane(one[1]); await page.locator(one[1]).first().selectOption(one[2]); }
+        // A slider dragged and released: the value while dragging, then the release that commits it.
+        else if (one[0]==='set') await page.locator(one[1]).first().evaluate((node,value)=>{node.value=value;node.dispatchEvent(new Event('input',{bubbles:true}));node.dispatchEvent(new Event('change',{bubbles:true}));},one[2]);
         else if (one[0]==='key') await key(one);
         else if (one[0]==='world') { const p=await page.evaluate(v=>window.__tabletop.project(v),one[1]);
           // The point must be free: a window still closing, or the tutor's own card over it, would take the click.
