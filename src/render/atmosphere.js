@@ -79,6 +79,77 @@ export function createWeatherGeometry(config) {
   geometry.setAttribute('along', new THREE.BufferAttribute(along, 1));
   return geometry;
 }
+/**
+ * Rain as ribbons: four corners per drop, all carrying the drop's seed, plus a third as many
+ * splash quads on the floor of the region. `along` runs tail (0) to head (1), `side` across.
+ */
+export function createRainGeometry(config) {
+  const splashes = Math.round(config.count * .35), quads = config.count + splashes, random = seededRandom(config.seed);
+  const position = new Float32Array(quads * 12), along = new Float32Array(quads * 4), side = new Float32Array(quads * 4), splash = new Float32Array(quads * 4), index = new Uint32Array(quads * 6);
+  for (let q = 0; q < quads; q++) {
+    const p = [random(), random(), random()];
+    for (let corner = 0; corner < 4; corner++) { const v = q * 4 + corner; position.set(p, v * 3); along[v] = corner >> 1; side[v] = corner & 1 ? 1 : -1; splash[v] = q >= config.count ? 1 : 0; }
+    index.set([q * 4, q * 4 + 1, q * 4 + 2, q * 4 + 2, q * 4 + 1, q * 4 + 3], q * 6);
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));
+  for (const [name, values] of [['along', along], ['side', side], ['splash', splash]]) geometry.setAttribute(name, new THREE.BufferAttribute(values, 1));
+  geometry.setIndex(new THREE.BufferAttribute(index, 1));
+  return geometry;
+}
+const rainVertex = `attribute float along, side, splash;
+  uniform float time, speed, particleSize, viewportHeight, perspective;
+  uniform vec3 regionSize, regionCenter;
+  uniform vec2 wind;
+  varying float life, across, lengthwise, ring, thin;
+  float hash(float n) { return fract(sin(n) * 43758.5453); }
+  void main() {
+    across = side; lengthwise = along; thin = 1.0;
+    float fall = max(.01, speed) * (.85 + position.x * .3);
+    if (splash > .5) {
+      // A ring that widens and fades where a drop lands; each slot lands once per fall of the region, somewhere new.
+      float period = regionSize.y / fall, cycle = time / period + position.y, local = fract(cycle) * period;
+      float n = floor(cycle) + position.z * 97.0;
+      vec3 center = regionCenter + vec3((hash(n) - .5) * regionSize.x, .012, (hash(n + 17.0) - .5) * regionSize.z);
+      float radius = .025 + local * .45;
+      ring = 1.0; life = 1.0 - smoothstep(.0, .26, local);
+      if (local > .26) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(center + vec3(side * radius, 0.0, (along * 2.0 - 1.0) * radius), 1.0);
+      return;
+    }
+    ring = 0.0;
+    float age = fract(position.y - time * fall / regionSize.y);
+    vec2 displacement = time * wind;
+    vec3 head = vec3((fract(position.x + displacement.x / regionSize.x) - .5) * regionSize.x, age * regionSize.y, (fract(position.z + displacement.y / regionSize.z) - .5) * regionSize.z) + regionCenter;
+    // The streak is the path of the last few hundredths of a second: it leans with the wind.
+    vec3 velocity = vec3(wind.x, -fall, wind.y);
+    float streak = clamp(length(velocity) * .04, .12, 1.1) * (.7 + .6 * position.z) * (.6 + particleSize * 16.0);
+    vec3 tail = head - normalize(velocity) * streak;
+    tail.y = max(tail.y, regionCenter.y); head.y = max(head.y, regionCenter.y);
+    life = sin(age * 3.14159265);
+    vec4 mvHead = modelViewMatrix * vec4(head, 1.0), mvTail = modelViewMatrix * vec4(tail, 1.0), mv = mix(mvTail, mvHead, along);
+    vec2 direction = mvHead.xy - mvTail.xy; direction = length(direction) > 1e-5 ? normalize(direction) : vec2(0.0, 1.0);
+    // At least a pixel wide; past that, distant drops get fainter instead of thicker.
+    float pixel = 2.0 * mix(1.0, max(.05, -mv.z), perspective) / (projectionMatrix[1][1] * max(1.0, viewportHeight));
+    float width = max(particleSize * .25, pixel * 1.2);
+    thin = clamp(particleSize * .25 / width, .55, 1.0);
+    mv.xy += vec2(-direction.y, direction.x) * side * width * .5;
+    gl_Position = projectionMatrix * mv;
+  }`;
+const rainFragment = `uniform vec3 particleColor;
+  uniform float opacity;
+  varying float life, across, lengthwise, ring, thin;
+  void main() {
+    float alpha;
+    if (ring > .5) {
+      float d = length(vec2(across, lengthwise * 2.0 - 1.0));
+      alpha = opacity * .7 * life * smoothstep(.55, .85, d) * (1.0 - smoothstep(.85, 1.0, d));
+    } else alpha = min(1.0, opacity * 1.5 * (.35 + .65 * life) * (1.0 - across * across * .7) * mix(.3, 1.0, lengthwise) * thin);
+    if (alpha < .004) discard;
+    gl_FragColor = vec4(particleColor, alpha);
+    #include <tonemapping_fragment>
+    #include <colorspace_fragment>
+  }`;
 const particleVertex = `attribute float along;
   uniform float time, speed, particleSize, viewportHeight, perspective, rain, snow, falling;
   uniform vec3 regionSize, regionCenter;
@@ -106,11 +177,9 @@ const particleFragment = `uniform vec3 particleColor;
   varying float life;
   void main() {
     float alpha = opacity * (.3 + .7 * life);
-    #ifndef RAIN
-      float radius = length(gl_PointCoord - .5) * 2.0;
-      if (radius > 1.0) discard;
-      alpha *= pow(1.0 - radius, mix(.6, 1.8, smoke));
-    #endif
+    float radius = length(gl_PointCoord - .5) * 2.0;
+    if (radius > 1.0) discard;
+    alpha *= pow(1.0 - radius, mix(.6, 1.8, smoke));
     gl_FragColor = vec4(particleColor, alpha);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
@@ -136,13 +205,13 @@ export function createAtmosphere(scene) {
     const w = look.weather;
     if (w && w.type !== 'none' && w.count > 0) {
       const rain = w.type === 'rain';
-      const material = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, vertexShader: particleVertex, fragmentShader: particleFragment, defines: rain ? { RAIN: '' } : {},
+      const material = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, vertexShader: rain ? rainVertex : particleVertex, fragmentShader: rain ? rainFragment : particleFragment, side: THREE.DoubleSide,
         blending: w.type === 'embers' ? THREE.AdditiveBlending : THREE.NormalBlending,
         uniforms: { time: { value: 0 }, speed: { value: w.speed }, particleSize: { value: w.particleSize }, viewportHeight: { value: 1 }, perspective: { value: 1 },
           rain: { value: rain ? 1 : 0 }, snow:{value:w.type==='snow'?1:0},falling:{value:rain||w.type==='snow'?1:0}, smoke: { value: w.type === 'smoke' ? 1 : 0 }, regionSize: { value: new THREE.Vector3(...w.size) }, regionCenter: { value: new THREE.Vector3(...w.center) },
           wind: { value: new THREE.Vector2(...w.wind) }, pointClamp:{value:new THREE.Vector2(1,64)}, particleColor: { value: new THREE.Color(w.color) }, opacity: { value: w.opacity } } });
-      const geometry = createWeatherGeometry(w);
-      particles = rain ? new THREE.LineSegments(geometry, material) : new THREE.Points(geometry, material);
+      const geometry = rain ? createRainGeometry(w) : createWeatherGeometry(w);
+      particles = rain ? new THREE.Mesh(geometry, material) : new THREE.Points(geometry, material);
       particles.frustumCulled = false; particles.visible = localEnabled; scene.add(particles);
     }
   }

@@ -6,7 +6,7 @@ import { ENVIRONMENTS, applyEnvironment, createEnvironmentFromLook, primaryLight
 import { BINDING_DEFAULTS, WEATHER_DEFAULTS, colorToHSV, hsvToColor, environmentBindingActive } from '../src/domain/lighting.js';
 import { createSceneStore } from '../src/state/scene-store.js';
 import { projectPresentation } from '../src/app/presentation.js';
-import { createWeatherGeometry, applyEnvironmentMaterials, materialSlots, createAtmosphere } from '../src/render/atmosphere.js';
+import { createWeatherGeometry, createRainGeometry, applyEnvironmentMaterials, materialSlots, createAtmosphere } from '../src/render/atmosphere.js';
 import { createWall, createWindow, applyMaterialOverrides } from '../src/render/scene-objects.js';
 import { disposeObject } from '../src/render/asset-cache.js';
 
@@ -84,13 +84,20 @@ test('automatic night windows emit from glass only, and individual disabling tak
   } finally { disposeObject(object); }
 });
 
-test('weather geometry is bounded, deterministic, paired for rain and disposed with the atmosphere', () => {
-  const config={...WEATHER_DEFAULTS,type:'rain',count:12,seed:42}, a=createWeatherGeometry(config), b=createWeatherGeometry(config), c=createWeatherGeometry({...config,seed:3});
+test('weather geometry is bounded, deterministic, one ribbon per raindrop plus splashes, and disposed with the atmosphere', () => {
+  const config={...WEATHER_DEFAULTS,type:'rain',count:12,seed:42}, a=createRainGeometry(config), b=createRainGeometry(config), c=createRainGeometry({...config,seed:3}), dust=createWeatherGeometry({...config,type:'dust'});
   try {
     assert.deepEqual(a.attributes.position.array,b.attributes.position.array); assert.notDeepEqual(a.attributes.position.array,c.attributes.position.array);
-    assert.equal(a.attributes.position.count,24); assert.ok([...a.attributes.position.array].every(v=>v>=0 && v<1));
-    for(let i=0;i<24;i+=2) assert.deepEqual([...a.attributes.position.array.slice(i*3,i*3+3)],[...a.attributes.position.array.slice((i+1)*3,(i+1)*3+3)]);
-  } finally { a.dispose();b.dispose();c.dispose(); }
+    // 12 drops and round(12 × .35) = 4 splashes, four corners each, two triangles each.
+    assert.equal(a.attributes.position.count,64); assert.equal(a.index.count,96); assert.ok([...a.attributes.position.array].every(v=>v>=0 && v<1));
+    for(let q=0;q<16;q++) {
+      // The four corners of a quad carry the same seed; along/side name the corner; splashes come after the drops.
+      for(let k=1;k<4;k++) assert.deepEqual([...a.attributes.position.array.slice((q*4+k)*3,(q*4+k)*3+3)],[...a.attributes.position.array.slice(q*12,q*12+3)]);
+      assert.deepEqual([0,1,2,3].map(k=>[a.attributes.along.array[q*4+k],a.attributes.side.array[q*4+k]]),[[0,-1],[0,1],[1,-1],[1,1]]);
+      assert.ok([0,1,2,3].every(k=>a.attributes.splash.array[q*4+k]===(q>=12?1:0)));
+    }
+    assert.equal(dust.attributes.position.count,12);
+  } finally { a.dispose();b.dispose();c.dispose();dust.dispose(); }
   const runtime=new THREE.Scene(), atmosphere=createAtmosphere(runtime), look=applyEnvironment(createScene(),'rain').look;
   atmosphere.configure(look,primaryLight(look)); assert.equal(runtime.children.length,2);
   assert.equal(atmosphere.update(new THREE.PerspectiveCamera(),3,false,600),true);

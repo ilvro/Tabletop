@@ -20,6 +20,7 @@ const volumeShader = zones => ({
     baseHeight: { value: 0 }, height: { value: 3 }, maxDistance: { value: 80 },
     ...zones.uniforms,
     localFog: {value:false}, scattering: {value:false}, steps: {value:12}, volumeStrength:{value:.5},
+    sunDirection:{value:new THREE.Vector3(0,1,0)},sunColor:{value:new THREE.Vector3()},
     lightCount:{value:0},lightPosition:{value:Array.from({length:4},()=>new THREE.Vector3())},
     lightDirection:{value:Array.from({length:4},()=>new THREE.Vector3())},
     lightColor:{value:Array.from({length:4},()=>new THREE.Vector3())},
@@ -42,6 +43,31 @@ const volumeShader = zones => ({
     uniform vec3 lightPosition[4],lightDirection[4],lightColor[4];
     uniform vec4 lightParams[4];
     uniform float volumeStrength;
+    uniform vec3 sunDirection,sunColor;
+    // Full density up to the middle of the layer, then an exponential fall with no hard top.
+    const float FALL=2.5;
+    float layerDensity(float y){float middle=baseHeight+height*.5,scale=max(height*.5,.001);return y<baseHeight?0.0:y<=middle?1.0:exp(-FALL*(y-middle)/scale);}
+    vec2 heightSpan(float y0,float dy,float lo,float hi,float limit){
+      if(abs(dy)<.00001)return y0>=lo&&y0<=hi?vec2(0.0,limit):vec2(0.0);
+      float a=(lo-y0)/dy,b=(hi-y0)/dy;return vec2(max(0.0,min(a,b)),min(limit,max(a,b)));
+    }
+    // Exact integral of layerDensity along the ray from 0 to limit.
+    float opticalDepth(vec3 start,vec3 direction,float limit){
+      float middle=baseHeight+height*.5,scale=max(height*.5,.001),dy=direction.y;
+      vec2 lower=heightSpan(start.y,dy,baseHeight,middle,limit),upper=heightSpan(start.y,dy,middle,1e6,limit);
+      float depth=max(0.0,lower.y-lower.x);
+      if(upper.y>upper.x){
+        float e0=exp(-FALL*(start.y+dy*upper.x-middle)/scale),e1=exp(-FALL*(start.y+dy*upper.y-middle)/scale);
+        depth+=abs(dy)<.00001?e0*(upper.y-upper.x):scale/(FALL*dy)*(e0-e1);
+      }
+      return depth;
+    }
+    float valueHash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+    float valueNoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);return mix(mix(valueHash(i),valueHash(i+vec2(1,0)),f.x),mix(valueHash(i+vec2(0,1)),valueHash(i+1.0),f.x),f.y);}
+    // Thicker and thinner banks fixed in the world, so the layer never reads as one flat sheet.
+    float banks(vec2 xz){return mix(.35,1.65,valueNoise(xz/13.0)*.65+valueNoise(xz/5.0+7.3)*.35);}
+    // Light from the sun scattered forward: the fog glows on the side of the sky the sun is on.
+    vec3 sunGlow(vec3 direction){float c=max(0.0,dot(direction,sunDirection));return sunColor*(.08+.5*pow(c,6.0)+.6*pow(c,32.0));}
     uniform sampler2DShadow volumeShadow0,volumeShadow1;
     uniform mat4 volumeShadowMatrix[2];
     float visibility(vec3 p,int index){
@@ -76,16 +102,12 @@ const volumeShader = zones => ({
       float distanceToSurface = length(ray);
       vec3 direction = ray / max(distanceToSurface, 0.00001);
       float limit = min(distanceToSurface, maxDistance);
-      float entry = 0.0, exit = limit;
-      if (abs(direction.y) < 0.00001) {
-        if (start.y < baseHeight || start.y > baseHeight + height) exit = 0.0;
-      } else {
-        float a = (baseHeight - start.y) / direction.y;
-        float b = (baseHeight + height - start.y) / direction.y;
-        entry = max(0.0, min(a, b)); exit = min(limit, max(a, b));
-      }
-      float opacity = 1.0 - exp(-density * max(0.0, exit - entry));
-      if(!localFog&&!scattering){gl_FragColor=vec4(mix(original.rgb,fogColor,opacity),original.a);return;}
+      // Where the layer is: up to where its density has fallen to a few percent.
+      vec2 span = heightSpan(start.y, direction.y, baseHeight, baseHeight + height * 1.6, limit);
+      float entry = span.x, exit = span.y;
+      vec3 far = start + direction * limit, middle = start + direction * mix(entry, exit, .5);
+      float opacity = 1.0 - exp(-density * opticalDepth(start, direction, limit) * .5 * (banks(far.xz) + banks(middle.xz)));
+      if(!localFog&&!scattering){gl_FragColor=vec4(mix(original.rgb,fogColor+sunGlow(direction),opacity),original.a);return;}
       // Spend bounded samples on the actual fog interval, rather than empty space in a large map.
       float first=density>0.0&&exit>entry?entry:limit,last=density>0.0?max(0.0,exit):0.0;
       if(localFog)for(int zi=0;zi<16;zi++){if(zi>=zoneCount)break;if(zoneFog[zi].a<=0.0)continue;vec2 span=regionInterval(start,direction,zi,limit);if(span.y>span.x){first=min(first,span.x);last=max(last,span.y);}}
@@ -95,7 +117,7 @@ const volumeShader = zones => ({
       float jitter=fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453);
       for(int sampleIndex=0;sampleIndex<20;sampleIndex++){if(sampleIndex>=steps)break;
         vec3 p=start+direction*(first+(float(sampleIndex)+jitter)*stepLength);
-        float localDensity=(p.y>=baseHeight&&p.y<=baseHeight+height)?density:0.0;vec3 tint=fogColor;
+        float localDensity=density*layerDensity(p.y)*banks(p.xz);vec3 tint=fogColor+sunGlow(direction);
         if(localFog)for(int zi=0;zi<16;zi++){if(zi>=zoneCount)break;float w=zoneWeight(p,zi);localDensity=mix(localDensity,zoneFog[zi].a,w);tint=mix(tint,zoneFog[zi].rgb,w);}
         float alpha=1.0-exp(-localDensity*stepLength);vec3 light=scattering?illumination(p):vec3(0.0);
         accumulated+=transmittance*alpha*(tint+light);transmittance*=1.0-alpha;
@@ -109,6 +131,11 @@ class HeightFogPass extends ShaderPass {
   render(renderer, writeBuffer, readBuffer, ...rest) {
     this.uniforms.tDepth.value = readBuffer.depthTexture;
     const u=this.uniforms;let shadows=0;
+    const sun=this.sun?.();
+    if(sun){sun.getWorldPosition(u.sunDirection.value);u.sunDirection.value.sub(sun.target.getWorldPosition(new THREE.Vector3())).normalize();
+      // Scattered sunlight, kept below the fog colour itself so a bright sun tints rather than whitens.
+      u.sunColor.value.set(sun.color.r,sun.color.g,sun.color.b).multiplyScalar(Math.min(1.5,sun.intensity)*.55);}
+    else u.sunColor.value.set(0,0,0);
     for(let i=0;i<this.sources.length;i++){
       const light=this.sources[i];u.lightPosition.value[i].copy(light.position);u.lightColor.value[i].set(light.color.r,light.color.g,light.color.b).multiplyScalar(light.intensity);
       u.lightDirection.value[i].set(0,-1,0);let cone=-1,penumbra=0;
@@ -128,6 +155,9 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
   // Depth of field belongs to the camera of this viewport, not to the look of the scene.
   let focus={enabled:false,distance:6,aperture:.45};
   let currentLook = {}, enabled = true, width = 1, height = 1,hadLocalFog=false;
+  // The sun lights the fog. Look it up again now and then: lights come and go with the scene.
+  let sun=null,sunFrames=0;
+  const findSun=()=>{if(!sun||!sun.parent||++sunFrames>60){sunFrames=0;sun=null;scene.traverseVisible(o=>{if(!sun&&o.isDirectionalLight&&o.intensity>0)sun=o;});}return sun;};
   // Effects draw into an offscreen target, which bypasses the canvas antialiasing
   // and used to be capped at one physical pixel per CSS pixel: switching AO or
   // bloom on softened the whole image. Outside the economy tier the target is
@@ -162,7 +192,7 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
       renderPass = new RenderPass(scene, null);
       // The composer alternates its two targets; remember which one holds this frame's depth.
       const drawScene=renderPass.render.bind(renderPass);renderPass.render=(r,writeBuffer,readBuffer,...rest)=>{sceneDepth=readBuffer.depthTexture;drawScene(r,writeBuffer,readBuffer,...rest);};
-      volumePass = new HeightFogPass(activeZones);
+      volumePass = new HeightFogPass(activeZones);volumePass.sun=findSun;
       fallbackDepth=new THREE.DepthTexture(1,1,THREE.UnsignedIntType);fallbackDepth.compareFunction=THREE.LessEqualCompare;fallbackDepth.needsUpdate=true;
       volumePass.uniforms.volumeShadow0.value=fallbackDepth;volumePass.uniforms.volumeShadow1.value=fallbackDepth;
       outputPass = new OutputPass();

@@ -1104,7 +1104,7 @@ Validação: regeneração comparada ao HEAD — só os dez arquivos de modelo p
 
 Pendências desta frente: o pinheiro e a árvore frondosa antigos continuam ralos e o toco de árvore, liso; padronizar o formato dos nomes ("Kit · peça" só nos kits recentes) exigiria renomear dezenas de assets e foi deixado como decisão do usuário.
 
-## Árvores refeitas e padronização dos nomes — em validação
+## Árvores refeitas e padronização dos nomes — concluída
 
 Pedido de 23 de outubro: refazer pinheiro, árvore frondosa e toco e padronizar os nomes, verificando tutoriais e cenas de preset.
 
@@ -1115,4 +1115,18 @@ Entregue:
 - Novo `tests/asset-names.test.js`: nomes únicos, sem prefixo de kit, tags em português, cenas sem rótulos antigos do catálogo e todos os passos de busca/clique dos tutoriais coerentes com o catálogo.
 - Convenção documentada em docs/ASSET_LIBRARY.md (Nomes dos assets); resumos PROGRESSO sincronizados.
 
-Validação: 377 testes unitários aprovados (incluindo o novo). E2E em andamento.
+Validação: 377 testes unitários aprovados (incluindo o novo); E2E asset-library, church-kit, example-previews, dynamic-lighting, winter-detail, landscape e os tutoriais com assets aprovados. Falhas não relacionadas: backrooms-scene espera 5 cenas na galeria (são 6) e o tutorial "Dirigir a cena ao vivo" (passo de câmera, área em depuração em outra sessão).
+
+## Fogo, chuva e neblina mais realistas — concluído
+
+Pedido de 23 de outubro: o fogo e a chuva não pareciam realistas. Nova bancada `scripts/review-effects.js` (fogueira à noite, chuva com vento, vale com neblina, pelos módulos reais) usada para comparar antes e depois.
+
+Entregue:
+- Fogo: línguas que nascem num disco, sobem com flutuação, convergem e oscilam com a altura; contorno em lágrima recortado por ruído ascendente; cor por temperatura derivada da cor do efeito; mistura aditiva com brilho normalizado pela quantidade; ~7% de brasas; luz com cintilação irregular e leve balanço. Antes: coluna única branca e estourada.
+- Chuva: fitas voltadas para a câmera na direção da velocidade (queda + vento), comprimento por borrão de movimento e variação por gota, cabeça mais clara, espessura mínima de 1 px com gotas distantes mais tênues, respingos em anel no chão da região. Antes: segmentos verticais de 1 px que ignoravam o vento.
+- Neblina volumétrica: densidade cheia até metade da altura e queda exponencial acima (integral analítica, mesmo custo), bancos de densidade presos ao mundo e brilho na direção da luz direcional; o mesmo perfil nas zonas locais e na luz volumétrica. Antes: placa uniforme com topo reto.
+- Documentação em ENVIRONMENTS.md e MATERIALS.md.
+
+Validação: 381 testes unitários (teste de geometria da chuva atualizado para as fitas e respingos); E2E environments (inclui pixels de chuva e céu), materials-effects (fogo/fumaça locais), wet-effects, effects-sharpness, organic-winter e dynamic-lighting aprovados (12/12; o teste de UI de ambientes estourou o tempo uma vez com outra suíte rodando em paralelo e passou sozinho).
+
+Limites: respingos na altura base da região (não seguem terreno nem telhados); bancos de névoa estáticos.

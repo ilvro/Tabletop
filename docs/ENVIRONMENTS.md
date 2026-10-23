@@ -22,11 +22,11 @@ Em **Céu e nuvens**, ajuste gradiente de céu/horizonte, disco de sol/lua, estr
 
 Em **Clima e partículas**, escolha chuva, poeira, brasas ou fumaça suave. Ajuste quantidade, cor, opacidade, tamanho e velocidade. **Região, vento e seed** define centro X/Z, altura base Y, largura/altura/profundidade e vento horizontal.
 
-Cada janela usa um emissor com até 3.000 partículas, em uma única geometria: segmentos para chuva e pontos suaves para os demais efeitos. O padrão inicial é determinístico pela seed e o movimento é calculado pelo tempo; não grava frames no histórico. A região permanece nas coordenadas da cena e não segue a câmera.
+Cada janela usa um emissor com até 3.000 partículas, em uma única geometria: fitas para chuva e pontos suaves para os demais efeitos. Cada gota de chuva é desenhada na direção em que cai, somando queda e vento, então a chuva inclina com o vento; o comprimento acompanha a velocidade (borrão de movimento) e varia de gota para gota, e a cabeça é mais clara que a cauda. A espessura nunca fica abaixo de um pixel: gotas distantes ficam mais tênues em vez de mais grossas. Cerca de um terço das gotas abre um respingo em anel no chão da região (a altura base Y). **Tamanho** engrossa e alonga as gotas. O padrão inicial é determinístico pela seed e o movimento é calculado pelo tempo; não grava frames no histórico. A região permanece nas coordenadas da cena e não segue a câmera.
 
 **Pausar efeitos animados**, movimento reduzido do navegador e abas ocultas pausam nuvens, clima e flicker. **Névoa e efeitos nesta janela** reduz o custo e revela o mapa sem névoa de distância/clima/efeitos; conserva luzes, geometria e o ambiente salvo. O projetor tem seu próprio botão de qualidade. Recursos do emissor/céu são descartados ao trocar a configuração ou fechar a janela.
 
-Chuva não colide com telhados e paredes: configure a região nas áreas externas. Fumaça é um efeito de pontos suaves, sem fluidos, colisão ou sombras volumétricas. Há um emissor global de clima por cena e emissores locais de fogo/fumaça vinculados a objetos ([MATERIALS.md](MATERIALS.md)); múltiplas regiões de chuva/poeira/brasas e colisão continuam como extensão. Benchmark no notebook/projetor real permanece pendente.
+Chuva não colide com telhados e paredes: configure a região nas áreas externas. Os respingos ficam na altura base da região, então em terreno irregular ou sobre telhados eles não acompanham a superfície. Fumaça é um efeito de pontos suaves, sem fluidos, colisão ou sombras volumétricas. Há um emissor global de clima por cena e emissores locais de fogo/fumaça vinculados a objetos ([MATERIALS.md](MATERIALS.md)); múltiplas regiões de chuva/poeira/brasas e colisão continuam como extensão. Benchmark no notebook/projetor real permanece pendente.
 
 ## Objetos que acendem à noite
 
@@ -58,3 +58,14 @@ Texturas de madeira/pedra/grama/metal/areia e outras superfícies, pintura de te
 ## Iluminação dinâmica por objeto e região
 
 Há também os presets **Interior acolhedor**, **Horror ritual** e **Interior fluorescente**. O acabamento global (reflexos, AO e névoa iluminada) acompanha snapshots novos de ambiente; presets antigos continuam válidos. Perfis por objeto, biblioteca pessoal, zonas simultâneas e qualidade independente por janela estão em [DYNAMIC_LIGHTING.md](DYNAMIC_LIGHTING.md).
+
+## Névoa volumétrica: perfil, manchas e sol
+
+A névoa volumétrica (Ambiente → Névoa, bloom e qualidade) não é mais uma faixa de densidade uniforme com topo reto. Da **altura base** até a metade da **altura**, a densidade é a escolhida; acima disso, cai de forma exponencial e chega a uns 8% no topo, sem borda visível. Objetos altos saem da névoa aos poucos, e o horizonte não ganha mais uma linha clara. O cálculo continua exato e barato: uma integral por pixel, sem amostras extras, quando não há zonas locais nem luz volumétrica.
+
+A densidade varia por bancos mais grossos e mais ralos, presos ao mundo (não à câmera), entre 35% e 165% do valor escolhido, na escala de 5 a 13 m. A névoa clareia do lado do céu onde está a luz direcional (sol ou lua), na cor dessa luz e sem passar da cor da própria névoa; sem luz direcional, ela não recebe esse brilho. Zonas locais de névoa e a luz volumétrica usam o mesmo perfil, os mesmos bancos e o mesmo brilho.
+
+Limite: os bancos não se movem com o tempo. Névoa à deriva pediria redesenhar a cena continuamente.
+
+Conferência visual: `node scripts/review-effects.js [pasta]` grava fogueira, chuva e neblina desenhadas pelos módulos reais (padrão `test-results/effects-review/`).
+
