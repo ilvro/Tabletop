@@ -18,7 +18,7 @@ export function createCinema({ effects, objects, records, reducedMotion }) {
     const object = objects.get(id), record = records.get(id);
     if (!object || !object.visible) return null;
     object.updateWorldMatrix(true, false);
-    if (record?.actorId) return out.setFromMatrixPosition(object.matrixWorld).addScaledVector(up, FOLLOW_HEIGHT * object.getWorldScale(scratch).y);
+    if (record?.actorId) return out.setFromMatrixPosition(object.matrixWorld).addScaledVector(up, (object.userData.focusHeight ?? FOLLOW_HEIGHT) * object.getWorldScale(scratch).y);
     box.setFromObject(object); return box.isEmpty() ? null : box.getCenter(out);
   }
   function setExtras(camera = {}) {

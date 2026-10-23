@@ -293,6 +293,10 @@ export function createToken(entity, actor) {
   direction.rotation.x = Math.PI / 2;
   direction.position.set(0, 0.12, width * 0.31);
   group.add(direction);
+  // A figure chooses its base: the coloured ring (as always), a dark plinth, or nothing at all.
+  const baseStyle = entity.figure?.base ?? 'ring';
+  if (baseStyle === 'plinth') { base.material.color.set('#1c1c21'); ring.visible = false; direction.visible = false; }
+  else if (baseStyle === 'none') { base.visible = false; ring.visible = false; direction.visible = false; }
   const label = createLabel(appearance.name ?? 'Token', color);
   label.position.y = 0.47;
   group.add(label);

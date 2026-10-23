@@ -46,6 +46,18 @@ Foco e seguir que apontam para algo "só mestre" não são enviados ao projetor.
 
 Na aba **Luz** do token, seção **LANTERNA**: acesa, cor, força, alcance, abertura do facho, borda suave, inclinação, altura da mão e sombras. O facho sai da mão do personagem e aponta para a frente dele (gire o token com R para mirar). Com **névoa iluminada** ligada em Ambiente, o facho aparece no ar. A lanterna entra no orçamento de luzes com prioridade alta e sombra preferencial.
 
+## Personagens 2D (figuras recortadas)
+
+Um token com retrato pode ficar de pé na cena como uma figura de papel recortado: **Propriedades → Aparência → FIGURA**. Tokens novos com retrato já nascem como figura; os antigos ganham a opção com um clique.
+
+- **Recorte automático:** as margens transparentes do retrato são ignoradas, então os pés ficam na base, sem flutuar.
+- **Girar para a câmera:** a figura gira só em volta do eixo vertical para cada janela; o editor e o projetor a veem de frente ao mesmo tempo, e o documento não muda. Desligado, ela fica na rotação do token.
+- **Altura** em metros, **base** (anel colorido, pedestal escuro ou nenhuma), **contorno** (cor e espessura) e **luz na borda** (um brilho onde a silhueta termina, que descola a figura do fundo).
+- **Estado:** ferido (avermelha), morrendo (pulsa em vermelho e perde cor), inconsciente (deita), morto (deita, sem cor e mais escuro), enlouquecendo (o desenho ondula). Com movimento reduzido, nada pulsa nem ondula.
+- A figura recebe a luz da cena e projeta sombra com a forma da silhueta.
+
+Contrato: `token.figure = { facing: camera | fixed, height, outline, outlineColor, outlineWidth, rim, rimColor, base: ring | plinth | none, state: normal | hurt | dying | unconscious | dead | maddened }` (`src/domain/figures.js`). Sem `figure`, o retrato fica como antes.
+
 ## Retratos iluminados
 
 Retratos de tokens agora recebem a luz da cena (inclusive a de lanternas) e projetam sombra no formato da silhueta. Para continuarem legíveis no escuro, nunca ficam abaixo de cerca de 20% das próprias cores.

@@ -38,6 +38,7 @@ import { createRuler } from './ruler.js';
 import { createMaterialSharing } from './material-sharing.js';
 import { createZoneProbes } from './zone-probes.js';
 import { createCinema } from './cinema.js';
+import { createFigure } from './figures.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
@@ -244,6 +245,8 @@ export function createViewport(container, {
   const objects = new Map();
   const records = new Map();
   const cinema = createCinema({ effects, objects, records, reducedMotion });
+  // Figures whose state moves on its own (dying, maddened), keyed by token.
+  const figures = new Map(); let animatedFigures = false;
   const cache = createAssetCache();
   const pendingAssets = new Set();
   function trackAsset(promise) {
@@ -314,6 +317,8 @@ export function createViewport(container, {
     if (transition?.follow) { const point = cinema.pointOf(transition.follow); if (point) transition.to.target = point.toArray(); }
     moving = cinema.step(camera, controls, seconds, { transition: Boolean(transition) }) || moving;
     const gliding = cinema.stepGlides(now);
+    animatedFigures = false;
+    for (const [id, figure] of figures) { if (objects.get(id)?.children.includes(figure.pivot)) animatedFigures = figure.tick(reducedMotion.matches ? 0 : effectTime) && !reducedMotion.matches || animatedFigures; else figures.delete(id); }
     if (gliding) { renderer.shadowMap.needsUpdate = true; lightManager.invalidate(); }
     controls.dampingFactor = 1 - Math.exp(-THREE.MathUtils.lerp(12, 2.5, navigationSmoothing) * Math.max(seconds, 1 / 240));
     // Ambient animation must not keep consuming sub-threshold orbit damping.
@@ -373,7 +378,7 @@ export function createViewport(container, {
     cinema.fadeLabels(camera); cinema.beforeRender(camera, now / 1000);
     try { diagnostics.measure('render', () => effects.render(camera, seconds)); } finally { cinema.afterRender(camera);materialSharing.end();gpuTimer.end();releaseRetired(); }
     sample('render',started);
-    if ((moving || gliding || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
+    if ((moving || gliding || animatedFigures || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
     // A screen changes ten times a second at most: come back for it without drawing in a loop. The clock must keep running, so it is not reset.
     else if (animatedScreens && !document.hidden) { screenTimer ??= setTimeout(() => { screenTimer = null; invalidate(); }, 100); }
     else lastFrameTime = null;
@@ -608,6 +613,15 @@ export function createViewport(container, {
       trackAsset(cache.texture(record).then((texture) => {
         if (!stillCurrent()) return;
         const aspect = (texture.image?.width ?? 1) / (texture.image?.height ?? 1);
+        const label = parent.children.find((child) => child.isSprite);
+        if (entity.figure) {
+          const figure = createFigure(texture, entity.figure, { baseTop: entity.figure.base === 'none' ? 0 : .11 });
+          parent.add(figure.pivot); figures.set(entity.id, figure); parent.userData.focusHeight = figure.focusHeight;
+          if (label) label.position.y = figure.pivot.position.y + figure.height + .2;
+          tagEntity(parent, entity.id);
+          assetsDirty=true;diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();invalidate();
+          return;
+        }
         // A portrait stands in the scene like a cut-out figure: lit by the lamps and flashlights around it, never darker
         // than a fifth of its own colours so it still reads in a dark room, and casting a shadow with its outline.
         const material = new THREE.MeshStandardMaterial({ map: texture, emissiveMap: texture, emissive: 0xffffff, emissiveIntensity: .22, roughness: .85, metalness: 0, alphaTest: .5, alphaToCoverage: true, side: THREE.DoubleSide });
@@ -617,7 +631,6 @@ export function createViewport(container, {
         image.customDistanceMaterial = new THREE.MeshDistanceMaterial({ map: texture, alphaTest: .5 });
         image.position.y = 0.84;
         parent.add(image);
-        const label = parent.children.find((child) => child.isSprite);
         if (label) label.position.y = 1.7;
         tagEntity(parent, entity.id);
         assetsDirty=true;diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();

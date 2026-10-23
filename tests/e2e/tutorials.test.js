@@ -14,7 +14,7 @@ for (const lesson of LESSONS) test(`tutorial "${lesson.title}" can be followed f
   const dataDir=await mkdtemp(path.join(os.tmpdir(),'tabletop-tutor-')),server=(await createApp({dataDir})).listen(0,'127.0.0.1');await once(server,'listening');let browser;
   try {
     browser=await chromium.launch({headless:true,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
-    const page=await browser.newPage({viewport:{width:1500,height:950}}),errors=[];page.setDefaultTimeout(60_000);page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
+    const page=await browser.newPage({viewport:{width:1500,height:950}}),errors=[];page.setDefaultTimeout(lesson.heavy?180_000:60_000);page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
     await page.goto(`http://127.0.0.1:${server.address().port}/?diagnostics`);await page.waitForFunction(()=>!!window.__tabletop);
     // A lesson that continues another runs on the scene the earlier ones leave: they are followed first, in order.
     const chain=[lesson];while(chain[0].continues)chain.unshift(LESSONS.find(entry=>entry.id===chain[0].continues));

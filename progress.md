@@ -2,7 +2,22 @@
 
 Atualizado em 22 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
-## Tutoriais: pastas e "Dirigir a cena ao vivo" (22 de outubro) — em andamento
+## Personagens 2D e planos (23 de outubro) — concluído
+
+Pedido: commit do que foi feito; personagens 2D de verdade; descrever os recursos inspirados no BG3 com plano; plano da integração Ficha ↔ Tabletop; plano de documentos interagíveis (estilo Resident Evil / Enigma do Medo).
+
+**Feito**
+
+- Commit `46e7021` (o restante já estava em `5c6258f` e `2f3312e`): reconciliação que preserva o campo sendo digitado (miniaturas de tomadas apagavam o Desfoque digitado), teste de tutoriais com mais tempo para lições `heavy`, remoção da cópia de diagnóstico.
+- **Figuras recortadas** (`src/domain/figures.js`, `src/render/figures.js`, `src/ui/figure-panel.js`): `token.figure` com recorte automático das margens transparentes, giro para a câmera de cada janela, altura, base anel/pedestal/nenhuma, contorno por dilatação da silhueta, luz na borda, estados (ferido, morrendo, inconsciente, morto, enlouquecendo) por shader; material próprio por figura (o compartilhamento de materiais não mistura estados). Tokens novos com retrato nascem como figura. Testes: `tests/figures.test.js`.
+- Planos: [PLANO_TATICO_BG3.md](docs/PLANO_TATICO_BG3.md), [PLANO_INTEGRACAO_FICHA.md](docs/PLANO_INTEGRACAO_FICHA.md), [PLANO_DOCUMENTOS_INTERATIVOS.md](docs/PLANO_DOCUMENTOS_INTERATIVOS.md).
+- E2E: `repeated-placement` estava instável também antes desta entrega (o clique caía no botão Duplicar do painel ainda fechando na tela estreita); o teste agora espera o ponto ficar livre — 6 de 6 execuções passaram, inclusive o modo Pages, que falhava antes. `panel-consistency` atualizado para o grupo "Câmera".
+
+**Validação:** 381 testes unitários/de integração; builds local e Pages; E2E `actor-hero`, `repeated-placement` (servidor e Pages), `cinematics` e a lição "Dirigir a cena ao vivo" passam. Conferido em capturas: três figuras numa cena de dia (contorno, sombra recortada, morrendo avermelhado, morto deitado, enlouquecendo ondulando) e no Galpão à noite (luz vermelha na figura, luz de borda), e Close enquadrando o rosto com o fundo desfocado. Uma primeira versão tinha um segundo plano de contorno na frente do retrato, que deixava a figura preta; corrigido (o contorno é só o anel, atrás).
+
+**Pendências reais:** remoção de fundo para retratos sem transparência (só o recorte de margens transparentes existe); ícone de condição acima do token (plano BG3, fase 5); nenhuma pessoa avaliou o visual; desempenho das figuras com muitas personagens no hardware real não medido.
+
+## Tutoriais: pastas e "Dirigir a cena ao vivo" (22 de outubro) — concluído
 
 Pedido: adaptar os tutoriais às novidades de câmera e cinematografia e organizá-los em pastas (por exemplo, o galpão numa pasta).
 
@@ -13,7 +28,7 @@ Pedido: adaptar os tutoriais às novidades de câmera e cinematografia e organiz
 - Primeiros passos, Iluminação e ambientação e Galpão 4: textos de explicação apontam para a Ambientação, Close/Lanterna e a lição nova (passos e valores iguais).
 - Testes: `tests/tutorials.test.js` (condições novas, pastas; regra de alvos aceita `data-open-example` e `data-ambience*`); `tests/e2e/tutorials.test.js` com o gesto `set` para sliders.
 
-**Andamento:** conferindo o resultado final da lição renderizado (a primeira versão com névoa 0,04 clara deixou a cena leitosa; trocada por 0,025 azul-escura) e rodando a lição no E2E.
+**Validação:** resultado final renderizado e conferido (a primeira versão com névoa 0,04 clara deixava a cena leitosa; trocada por 0,025 azul-escura); a lição passa no E2E do primeiro ao último passo. Para isso, o teste ganhou mais tempo e cliques sem esperar quadros em lições `heavy` (a Casa de bairro à noite leva segundos por quadro no SwiftShader), e a reconciliação dos painéis passou a preservar o campo sendo digitado (as miniaturas das tomadas apagavam o Desfoque digitado: bug real).
 
 ## Câmera e cinematografia ao vivo (22 de outubro) — concluído
 

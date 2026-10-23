@@ -87,6 +87,8 @@ import { createAmbience } from './live/ambience.js';
 import { FLASHLIGHT_DEFAULTS, MOTION_DEFAULTS, closeUpSpots } from '../domain/cinematics.js';
 import { cinemaPanel } from '../ui/cinema-panel.js';
 import { flashlightPanel } from '../ui/flashlight-panel.js';
+import { figurePanel } from '../ui/figure-panel.js';
+import { FIGURE_DEFAULTS } from '../domain/figures.js';
 import { splitLabels } from '../domain/asset-library.js';
 import { assetLibraryPanel, assetCards, metadataEditor } from '../ui/asset-library-panel.js';
 
@@ -772,6 +774,8 @@ export async function startApplication() {
     let newId;
     if (placing.type === 'token') {
       const pair = createToken({ name: placing.name, color: placing.color, assetRef: placing.assetRef ?? null, position, surfaceId, ...constructionSemantics() });
+      // A portrait placed from now on stands as a cut-out figure; older tokens keep their look until the person turns it on.
+      if (placing.assetRef) pair.token.figure = { ...FIGURE_DEFAULTS };
       if (store.document.layout.entities[surfaceId]?.levelId) pair.token.levelId = store.document.layout.entities[surfaceId].levelId;
       if (execute('token.add', { ...pair, snap })) newId = pair.token.id;
     } else if (placing.type === 'light') {
@@ -1193,6 +1197,7 @@ export async function startApplication() {
     if(record.material && !record.decal){fields+=illuminationPanel(record,viewport.getMaterialSlots(record.id),lightPresets,selectedLightPreset,{numberField,colorField,checkField});fields+=zonePanel(record,{numberField,colorField,checkField});}
     if (type === 'light') fields += lightPanel(record, { numberField, colorField, checkField });
     if (type === 'token') fields += flashlightPanel(record.flashlight, { numberField, colorField, checkField });
+    if (type === 'token' && (record.visualOverride?.assetRef ?? actor?.assetRef)) fields += figurePanel(record.figure, { numberField, colorField, checkField, choiceField });
     if (type === 'light' || ['prop','window'].includes(record.kind) && !record.decal) fields += bindingPanel(record, doc.look ?? doc.defaultLook, viewport.getMaterialSlots(record.id), openAtmosphereSections, { numberField, colorField, checkField });
     fields += `<section><span class="eyebrow">APRESENTAÇÃO</span>${checkField('object-secret', 'Somente para o mestre', record.audience === 'gm')}${record.locked === undefined ? '' : checkField('object-locked', 'Bloquear edição', record.locked)}</section>${record.kind === 'terrain' ? '</details>' : ''}`;
     if (record.kind !== 'terrain') fields += `<details class="object-adjustments" ${adjustmentsOpen ? 'open' : ''}><summary>Alinhar e ajustar objetos</summary>${polishPanel(1, polishOptions, doc)}</details>`;
@@ -1972,6 +1977,11 @@ export async function startApplication() {
     }
     const found = locate(); if (!found) return;
     const { type, record } = found;
+    if (type === 'token' && field.startsWith('figure-')) {
+      const key = field.slice(7), current = { ...FIGURE_DEFAULTS, ...record.figure };
+      const figure = key === 'enabled' ? (value ? { ...FIGURE_DEFAULTS } : null) : { ...current, [key]: key === 'facing' ? (value ? 'camera' : 'fixed') : key === 'outlineWidth' ? value / 100 : key === 'rim' ? value / 100 : value };
+      execute('token.update', { id: record.id, patch: { figure } }, { label: key === 'state' ? 'Estado do personagem' : 'Figura' }); return;
+    }
     if (type === 'token' && field.startsWith('flashlight-')) {
       const key = field.slice(11), current = { ...FLASHLIGHT_DEFAULTS, ...record.flashlight }, amount = key === 'angle' ? value * Math.PI / 180 : key === 'penumbra' ? value / 100 : value;
       execute('token.update', { id: record.id, patch: { flashlight: { ...current, ...(record.flashlight ? {} : { enabled: false }), [key]: amount } } }, { label: 'Lanterna' }); return;

@@ -15,6 +15,7 @@ import { WEAR_STYLES, WEAR_RANGES, WEAR_PLACEMENTS } from './wear.js';
 /** Validated JSON is the boundary between editor, disk and future network adapters. */
 import { kelvinToColor } from './lighting.js';
 import { validateFlashlight, validateCameraExtras } from './cinematics.js';
+import { validateFigure } from './figures.js';
 import { polygonIsSimple, polygonSize, floorContour, validHoles, pointInPolygon } from './geometry.js';
 export class ValidationError extends Error {
   constructor(message, path = '') {
@@ -558,7 +559,8 @@ export function validateDocument(document) {
     color(actor.color, `${actorPath}.color`); assetRef(actor.assetRef, `${actorPath}.assetRef`, true);
   });
   dictionary(document.tokens, 'tokens', seen, (token, tokenPath) => {
-    keys(token, ['id', 'actorId', 'transform', 'surfaceId', 'footprint', 'locked', 'audience', 'visualOverride', 'groupId', 'flashlight', ...semantics], tokenPath);
+    keys(token, ['id', 'actorId', 'transform', 'surfaceId', 'footprint', 'locked', 'audience', 'visualOverride', 'groupId', 'flashlight', 'figure', ...semantics], tokenPath);
+    if (token.figure !== undefined && token.figure !== null) validateFigure(token.figure, `${tokenPath}.figure`);
     if (token.flashlight !== undefined && token.flashlight !== null) validateFlashlight(token.flashlight, `${tokenPath}.flashlight`);
     semanticReferences(token, document, tokenPath);
     reference(token.actorId, document.actors, `${tokenPath}.actorId`, false); transform(token.transform, `${tokenPath}.transform`);
