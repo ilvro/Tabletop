@@ -43,7 +43,7 @@ import { FOG_DEFAULTS, VOLUME_DEFAULTS, BLOOM_DEFAULTS, FLICKER_DEFAULTS, SKY_DE
 import { createScene, createMap, createSceneFromMap, createMapFromScene, createEntity, createToken, createLight, createLevel, createLayer, clone, id, validateDocument, duplicateDocument, migrateDocument } from '../domain/documents.js';
 import { polygonSize, groupChain, isSupport, isAccess, supportHeightAt, constrainOpening, localPoint, isLocked } from '../domain/geometry.js';
 import { quaternionFromYaw, yawFromQuaternion } from '../domain/coords.js';
-import { ENVIRONMENTS, primaryLight, createEnvironmentFromLook, applyEnvironment, environmentDiff } from '../domain/environments.js';
+import { ENVIRONMENTS, ENVIRONMENT_FIELDS, primaryLight, createEnvironmentFromLook, applyEnvironment, environmentDiff } from '../domain/environments.js';
 import { createSceneStore } from '../state/scene-store.js';
 import { proposeRoom } from '../authoring/quick-build.js';
 import { proposeFurnishing } from '../authoring/furnishing.js';
@@ -83,6 +83,10 @@ import { shotsPanel, shotDockMarkup } from '../ui/shots-panel.js';
 import { createShotThumbnails } from './shot-thumbnails.js';
 import { shortcutsSheetMarkup } from '../ui/shortcuts.js';
 import { projectPresentation, presentationAssets } from './presentation.js';
+import { createAmbience } from './live/ambience.js';
+import { FLASHLIGHT_DEFAULTS, MOTION_DEFAULTS, closeUpSpots } from '../domain/cinematics.js';
+import { cinemaPanel } from '../ui/cinema-panel.js';
+import { flashlightPanel } from '../ui/flashlight-panel.js';
 import { splitLabels } from '../domain/asset-library.js';
 import { assetLibraryPanel, assetCards, metadataEditor } from '../ui/asset-library-panel.js';
 
@@ -195,7 +199,7 @@ export async function startApplication() {
     add('Ações', 'Régua', () => act('tool-measure'), { keywords: 'medir distancia ferramenta', hint: keyFor('Régua') }); add('Ações', 'Conta-gotas', () => act('material-eyedropper'), { keywords: 'copiar material ferramenta', hint: keyFor('Conta-gotas') });
     action('Esculpir terreno', 'terrain-sculpt', 'pincel relevo'); action('Enquadrar', 'frame', 'foco camera');
     action('Perspectiva', 'perspective', 'camera vista'); action('Vista superior', 'top', 'camera planta'); action('Ver interior', 'cutaway', 'paredes da frente'); action('Telhados', 'roofs', 'forro mostrar ocultar'); action('Tela cheia', 'fullscreen');
-    action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda'); action('Configurações', 'settings', 'aparencia tema cor paleta destaque preferencias');
+    action('Ambientação ao vivo', 'ambience', 'variaveis da sessao hora do dia horario ceu nuvens nevoa clima chuva sliders transicao'); action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda'); action('Configurações', 'settings', 'aparencia tema cor paleta destaque preferencias');
     for (const [name, label, keywords] of [['build', 'Construir', 'ferramentas sala prédio'], ['elements', 'Elementos', 'lista objetos cena'], ['scene', 'Ambiente', 'luz atmosfera clima'], ['shots', 'Tomadas', 'câmeras enquadramentos projetor']]) add('Ações', `Ir para ${label}`, () => goToTab(name), { keywords });
     for (const preset of ENVIRONMENTS) add('Ações', `Ambiente · ${preset.name}`, () => execute('environment.apply', { presetId: preset.id }), { keywords: `${preset.description} horario atmosfera`, hint: 'aplicar ambiente' });
     for (const [tabName, groups] of Object.entries(TASKS_BY_TAB)) for (const { title, tasks } of groups) for (const [, key, label, description] of tasks) add('Tarefas', label, () => openTask(tabName, key), { keywords: `${description} ${title}`, hint: `${TAB_TITLES[tabName].toLowerCase()} · ${title}` });
@@ -277,6 +281,9 @@ export async function startApplication() {
   const stageCut = createStageCut(root.querySelector('.stage-cut'));
   const assetsWindow = floatingWindow(document.getElementById('assets-dialog'), { trigger: root.querySelector('[data-tab=assets]'), position: [280,96] });
   const documentsWindow = floatingWindow(document.getElementById('documents-dialog'), { trigger: root.querySelector('[data-action=open]'), position: [110,48] });
+  const ambienceWindow = floatingWindow(document.getElementById('ambience-window'), { trigger: root.querySelector('.rail [data-action="ambience"]'), position: [Math.max(16, window.innerWidth - 420), 72] });
+  // Session-only camera settings: none of them is saved with the scene except through a saved shot.
+  let ambience = null, navigationSmoothing = 0, liveCamera = { enabled: false, smoothing: .6 }, liveCameraFrame = 0;
   animateDisclosures(root);
   let polishOptions = { mode: 'align', axis: 'x', alignment: 'center', angle: 5, seed: 1, palette: 'natural', clearance: .8, referenceId: '' };
   let activeLevelId = null, activeLayerId = null, isolatedLevel = false, polygonHoleHost = null, polygonKind='floor', terrainCell = 0;
@@ -486,8 +493,10 @@ export async function startApplication() {
         hideContextMenu();
       }
     },
+    onCinemaChange: () => { renderInspector(); if (tab === 'shots') renderSidebar(); },
     onCameraChange: preset => {
       hideContextMenu(); scheduleViewTag(); scheduleSelectionBar();
+      if (liveCamera.enabled && !isPresentation) sendLiveCamera();
       root.querySelector('[data-action="perspective"]')?.classList.toggle('active', preset.projection === 'perspective');
       root.querySelector('[data-action="top"]')?.classList.toggle('active', preset.projection === 'orthographic');
       const field = root.querySelector('[data-field="camera-fov"]');
@@ -844,8 +853,36 @@ export async function startApplication() {
     if (node.dataset.state !== state.key) { node.dataset.state = state.key; node.title = state.title; node.disabled = state.key !== 'offset'; }
     const label = node.querySelector('span'); if (label.textContent !== state.text) label.textContent = state.text;
   }
+  // A focus or follow target the players cannot see stays out of what the projector receives.
+  function publicCamera(camera) {
+    const doc = projectPresentation(store.document), seen = key => Boolean(doc.tokens?.[key] ?? doc.layout.entities[key]), next = clone(camera);
+    if (next.focus?.targetId && !seen(next.focus.targetId)) next.focus.targetId = null;
+    if (next.follow && !seen(next.follow.targetId)) delete next.follow;
+    return next;
+  }
+  /** Explicitly switched on: the projector approaches the working camera, smoothed, at most once a frame. */
+  function sendLiveCamera() {
+    if (liveCameraFrame) return;
+    liveCameraFrame = requestAnimationFrame(() => {
+      liveCameraFrame = 0; if (!liveCamera.enabled || isPresentation) return;
+      publishedCamera = publicCamera(viewport.getCamera()); publishedDuration = 0; publishedPresetId = null; cameraSequence++; scheduleViewTag();
+      if (hasPresentation()) sendPresentation('live-camera', { camera: publishedCamera, cameraSequence, smoothing: liveCamera.smoothing, cutaway });
+    });
+  }
+  /** A look being dragged or travelled to: global settings and the key light, which the projector lays over its scene. */
+  function sendLiveLook(look) {
+    if (!hasPresentation()) return;
+    const key = primaryLight(look);
+    sendPresentation('look', { look: Object.fromEntries(ENVIRONMENT_FIELDS.filter(field => look[field] !== undefined).map(field => [field, look[field]])), key: key && key.audience !== 'gm' ? key : null });
+  }
+  function toggleAmbience(open = !document.getElementById('ambience-window').open) {
+    if (!open) { ambience?.finish(); ambienceWindow.close(); return; }
+    ambience ??= createAmbience({ dialog: document.getElementById('ambience-window'), content: document.getElementById('ambience-content'), store, viewport, execute: (type, payload, options) => execute(type, payload, options),
+      environments: () => savedEnvironments, sendLook: sendLiveLook, notify });
+    ambienceWindow.open(); ambience.render();
+  }
   function publishCamera(preset, duration = cameraDuration, presetId = null) {
-    publishedCamera=clone(preset);publishedDuration=duration;publishedPresetId=presetId;cameraSequence++;scheduleViewTag();
+    publishedCamera=publicCamera(preset);publishedDuration=duration;publishedPresetId=presetId;cameraSequence++;scheduleViewTag();
     if(hasPresentation())sendPresentation('camera',{camera:publishedCamera,cameraSequence,cameraDuration:duration,cutaway});
   }
   function cameraPanel() {
@@ -853,11 +890,19 @@ export async function startApplication() {
     return `<section><span class="eyebrow">CÂMERA CINEMATOGRÁFICA</span>
       <p class="microcopy">Clique na mesa e use WASD para viajar e Shift para acelerar. Na perspectiva, Espaço sobe e Ctrl desce; Ctrl+WASD navega com foco na mesa. Para Ctrl+S/D salvar/duplicar, dê foco a outro controle ou use os botões. Page Up/Down também alteram a altura. Arraste com o botão direito para orbitar; solte sem arrastar para selecionar. Roda aproxima.</p>
       ${numberField('camera-speed', 'Velocidade · m/s', cameraSpeed, { min: .2, max: 40, step: .2 })}
+      ${numberField('camera-smoothing', 'Suavidade do movimento · %', Math.round(navigationSmoothing * 100), { min: 0, max: 100, step: 5 })}
       ${numberField('camera-fov', 'Lente · campo de visão em graus', current.fov, { min: 20, max: 90, step: 1 })}
       <label class="field"><span>Troca de enquadramento</span><select data-field="camera-duration">${[[0,'Corte imediato'],[.6,'Rápida · 0,6 s'],[1.2,'Suave · 1,2 s'],[2.5,'Dramática · 2,5 s'],[4,'Contemplativa · 4 s']].map(([duration,label]) => `<option value="${duration}" ${cameraDuration === duration ? 'selected' : ''}>${label}</option>`).join('')}</select></label>
       <div class="field-grid">${button('camera-stop', 'Parar transição', 'close', 'quiet')}${button('camera-cut', 'Cortar agora', 'camera', 'quiet')}</div>
       <p class="microcopy">Enquadramentos salvos e publicação usam a duração escolhida. Parar conserva o ponto atual e publica; Cortar chega ao destino imediatamente. A navegação livre conserva a câmera do projetor.</p>
-    </section>`;
+    </section>${cinemaPanel(current, cinemaTargets(current))}`;
+  }
+  // What the camera can focus on or follow: the characters, then the selected object.
+  function cinemaTargets(camera) {
+    const doc = store.document, picked = locate(), targets = Object.values(doc.tokens ?? {}).map(token => [token.id, doc.actors[token.actorId]?.name ?? 'Token']);
+    if (picked?.type === 'entity') targets.push([picked.record.id, picked.record.name]);
+    const names = Object.fromEntries([camera.focus?.targetId, camera.follow?.targetId].filter(Boolean).map(key => [key, doc.layout.entities[key]?.name ?? 'Objeto']));
+    return { targets, names, live: liveCamera };
   }
   function renderSidebar() { const live=document.getElementById('side-content'),desired=live.cloneNode(true);desired.scrollTop=live.scrollTop;performanceDiagnostics.measure('sidebar',()=>{buildSidebar(desired);reconcileElement(live,desired);}); }
   function buildSidebar(panel) {
@@ -1031,10 +1076,27 @@ export async function startApplication() {
     tree.innerHTML = html;
   }
   const heroActions = () => `<div class="hero-actions">${button('object-copy', '', 'copy', 'icon-button', 'data-tip="Copiar" data-tip-side="top" data-key="Ctrl+C" aria-label="Copiar"')}${button('frame-selection', '', 'frame', 'icon-button', 'data-tip="Enquadrar" data-tip-side="top" data-key="F" aria-label="Enquadrar"')}${button('object-duplicate', '', 'layers', 'icon-button', 'data-tip="Duplicar" data-tip-side="top" data-key="Ctrl+D" aria-label="Duplicar"')}${button('object-delete', '', 'trash', 'icon-button danger', 'data-tip="Excluir" data-tip-side="top" data-key="Delete" aria-label="Excluir"')}</div>`;
+  // What a director does with a character: a close-up, keeping the camera on it, its flashlight.
+  const tokenCameraActions = token => {
+    const following = viewport.cinemaInfo().follow === token.id, lit = Boolean(token.flashlight?.enabled);
+    return `<div class="hero-actions hero-camera">${button('token-closeup', 'Close', 'camera', 'quiet', 'data-tip="Close no personagem com o fundo desfocado" data-tip-side="top"')}${button('token-follow', following ? 'Seguindo' : 'Seguir', 'eye', `quiet${following ? ' active' : ''}`, `aria-pressed="${following}" data-tip="A câmera acompanha o personagem" data-tip-side="top"`)}${button('token-flashlight', 'Lanterna', 'light', `quiet${lit ? ' active' : ''}`, `aria-pressed="${lit}" data-tip="Acender ou apagar a lanterna do personagem" data-tip-side="top"`)}</div>`;
+  };
+  /** Frame a character from the front at chest height, three-quarters, long lens, background out of focus. Rehearsed: publish to show it. */
+  function closeUp(tokenId) {
+    const token = store.document.tokens?.[tokenId], point = token && viewport.pointOf(tokenId);
+    if (!point) { notify('O personagem não está visível nesta vista.', true); return; }
+    // Three-quarters from the front first; a wall or a pillar in the way sends the camera round to the next free side.
+    const chest = new Vector3(...point), sides = closeUpSpots(point, yawFromQuaternion(token.transform.rotation) * Math.PI / 180).map(spot => ({ spot: new Vector3(...spot), free: viewport.clearance(point, spot, tokenId) }));
+    const best = sides.find(side => side.free > .97) ?? sides.reduce((a, b) => b.free > a.free ? b : a);
+    const position = best.free > .97 ? best.spot : chest.clone().lerp(best.spot, Math.max(.35, best.free * .85));
+    viewport.setCamera({ projection: 'perspective', position: position.toArray(), target: chest.toArray(), fov: 30, focus: { enabled: true, targetId: tokenId, distance: position.distanceTo(chest), aperture: .6 } }, { duration: cameraDuration || 1.2 });
+    notify(liveCamera.enabled ? 'Close no personagem, ao vivo no projetor.' : 'Close no personagem. Publique a câmera ou salve como tomada para mostrar no projetor.');
+    if (tab === 'shots') renderSidebar();
+  }
   // The portrait of an actor is the image asset it points to, if any.
   const portraitOf = actor => { const asset = actor?.assetRef ? assets.find(item => item.id === actor.assetRef.id) : null; return asset && (asset.type === 'image' || asset.previewUrl) ? asset.previewUrl ?? asset.url : null; };
   function inspectorHero(found, name, doc) {
-    if (found.type === 'token') return actorHero(doc.actors[found.record.actorId], found.record, portraitOf(doc.actors[found.record.actorId]), heroActions());
+    if (found.type === 'token') return actorHero(doc.actors[found.record.actorId], found.record, portraitOf(doc.actors[found.record.actorId]), heroActions() + tokenCameraActions(found.record));
     const { record } = found, meta = [doc.layout.levels?.[record.levelId]?.name, doc.layout.groups?.[record.groupId]?.name].filter(Boolean).join(' · ');
     return `<div class="object-title inspector-hero"><span class="hero-tags"><span class="tt-tag is-small">${kindLabel(found)}</span>${record.audience === 'gm' ? '<span class="tt-tag is-small is-gm">SÓ MESTRE</span>' : ''}</span><strong class="tt-display">${esc(name)}</strong>${meta ? `<small class="hero-meta">${esc(meta)}</small>` : ''}${heroActions()}</div>`;
   }
@@ -1128,6 +1190,7 @@ export async function startApplication() {
     if (record.kind === 'prop' && !record.decal) fields += localEffectPanel(record, { numberField, colorField, checkField });
     if(record.material && !record.decal){fields+=illuminationPanel(record,viewport.getMaterialSlots(record.id),lightPresets,selectedLightPreset,{numberField,colorField,checkField});fields+=zonePanel(record,{numberField,colorField,checkField});}
     if (type === 'light') fields += lightPanel(record, { numberField, colorField, checkField });
+    if (type === 'token') fields += flashlightPanel(record.flashlight, { numberField, colorField, checkField });
     if (type === 'light' || ['prop','window'].includes(record.kind) && !record.decal) fields += bindingPanel(record, doc.look ?? doc.defaultLook, viewport.getMaterialSlots(record.id), openAtmosphereSections, { numberField, colorField, checkField });
     fields += `<section><span class="eyebrow">APRESENTAÇÃO</span>${checkField('object-secret', 'Somente para o mestre', record.audience === 'gm')}${record.locked === undefined ? '' : checkField('object-locked', 'Bloquear edição', record.locked)}</section>${record.kind === 'terrain' ? '</details>' : ''}`;
     if (record.kind !== 'terrain') fields += `<details class="object-adjustments" ${adjustmentsOpen ? 'open' : ''}><summary>Alinhar e ajustar objetos</summary>${polishPanel(1, polishOptions, doc)}</details>`;
@@ -1201,7 +1264,7 @@ export async function startApplication() {
     if (selection && !locate()) selection = null;
     selectedIds = new Set([...selectedIds].filter(key => locate(key)));
     if (!selection) selection = [...selectedIds].at(-1) ?? null;
-    if (event.type === 'replace') { shotThumbnails.cancel(); rehearsedId = null; dockIndex = 0; skyReturnCamera = null; selectedIds.clear(); selection = null; activeSurfaceId = undefined; smartFloorId = null; activeLevelId = null; activeLayerId = null; isolatedLevel = false; }
+    if (event.type === 'replace') { liveCamera.enabled = false; viewport.setFollow(null); shotThumbnails.cancel(); rehearsedId = null; dockIndex = 0; skyReturnCamera = null; selectedIds.clear(); selection = null; activeSurfaceId = undefined; smartFloorId = null; activeLevelId = null; activeLayerId = null; isolatedLevel = false; }
     if (!doc.layout.levels?.[activeLevelId]) { activeLevelId = null; isolatedLevel = false; }
     if (!doc.layout.layers?.[activeLayerId]) activeLayerId = null;
     const floors = Object.values(doc.layout.entities).filter(e => e.kind === 'floor');
@@ -1240,6 +1303,7 @@ export async function startApplication() {
       // A light switched on or off only changes the bulbs of the tree.
       else if(categories.includes('light'))renderSceneTreeIfVisible();else performanceDiagnostics.count('sidebarSkipped');
       broadcast();
+      ambience?.render();
     }
     if (event.type !== 'saved') previews.schedule();
     viewInitialized=true;
@@ -1739,6 +1803,24 @@ export async function startApplication() {
     if (field === 'camera-speed') { if (Number.isFinite(Number(value))) { cameraSpeed = Math.max(.2, Math.min(40, Number(value))); viewport.setNavigationSpeed(cameraSpeed); } renderSidebar(); return; }
     if (field === 'camera-fov') { viewport.setFov(Number(value)); renderSidebar(); return; }
     if (field === 'camera-duration') { cameraDuration = Number(value); return; }
+    if (field === 'camera-smoothing') { navigationSmoothing = Math.max(0, Math.min(1, Number(value) / 100)); viewport.setNavigationSmoothing(navigationSmoothing); return; }
+    if (field.startsWith('camera-focus-')) {
+      const key = field.slice(13), camera = viewport.getCamera();
+      // Turned on with nothing chosen, focus lands on what the camera looks at.
+      const patch = key === 'enabled' ? { enabled: value, ...(value && !camera.focus ? { distance: Math.max(.2, new Vector3(...camera.position).distanceTo(new Vector3(...camera.target))) } : {}) }
+        : key === 'target' ? { targetId: value || null } : key === 'aperture' ? { aperture: Math.max(0, Math.min(1, value / 100)) } : { distance: Math.max(.2, value) };
+      viewport.setFocus(patch); if (key === 'enabled' || key === 'target') renderSidebar(); return;
+    }
+    if (field === 'camera-follow') { viewport.setFollow(value || null); renderSidebar(); renderInspector(); return; }
+    if (field === 'camera-motion') { viewport.setCameraMotion({ ...MOTION_DEFAULTS, ...viewport.getCamera().motion, type: value }); renderSidebar(); return; }
+    if (field === 'camera-motion-speed') { viewport.setCameraMotion({ ...viewport.getCamera().motion, speed: Math.max(0, Math.min(4, value)) }); return; }
+    if (field === 'camera-live') {
+      liveCamera.enabled = Boolean(value);
+      if (liveCamera.enabled) { sendLiveCamera(); notify(hasPresentation() ? 'Câmera ao vivo: o projetor acompanha sua câmera.' : 'Câmera ao vivo ligada. Abra a segunda tela para ver.'); }
+      else notify('Câmera ao vivo desligada: o projetor fica onde está.');
+      renderSidebar(); return;
+    }
+    if (field === 'camera-live-smoothing') { liveCamera.smoothing = Math.max(.1, Math.min(2, value)); sendLiveCamera(); return; }
     if (field === 'title-card-title') { titleCard.title = String(value).slice(0, 120); return; }
     if (field === 'title-card-subtitle') { titleCard.subtitle = String(value).slice(0, 120); return; }
     if (field === 'title-card-duration') { titleCard.duration = Math.min(12, Math.max(2, Number(value) || 4)); return; }
@@ -1888,6 +1970,10 @@ export async function startApplication() {
     }
     const found = locate(); if (!found) return;
     const { type, record } = found;
+    if (type === 'token' && field.startsWith('flashlight-')) {
+      const key = field.slice(11), current = { ...FLASHLIGHT_DEFAULTS, ...record.flashlight }, amount = key === 'angle' ? value * Math.PI / 180 : key === 'penumbra' ? value / 100 : value;
+      execute('token.update', { id: record.id, patch: { flashlight: { ...current, ...(record.flashlight ? {} : { enabled: false }), [key]: amount } } }, { label: 'Lanterna' }); return;
+    }
     if (field.startsWith('binding-')) {
       const look = store.document.look ?? store.document.defaultLook;
       execute('environment.binding.update', { id: record.id, binding: { ...BINDING_DEFAULTS, ...look.environmentBindings?.[record.id], [field.slice(8)]: value } }); return;
@@ -2370,6 +2456,11 @@ export async function startApplication() {
       case 'view-tag': if (document.getElementById('view-tag').dataset.state === 'offset') { viewport.stopCameraMotion(); publishCamera(viewport.getCamera()); notify('Câmera publicada na segunda tela.'); } break;
       case 'shortcuts': toggleShortcuts(); break;
       case 'settings': toggleSettings(); break;
+      case 'ambience': toggleAmbience(); break;
+      case 'ambience-close': toggleAmbience(false); break;
+      case 'token-closeup': closeUp(selection); break;
+      case 'token-follow': { const following = viewport.cinemaInfo().follow === selection; viewport.setFollow(following ? null : selection); notify(following ? 'A câmera parou de seguir o personagem.' : 'A câmera segue o personagem. WASD solta a câmera.'); renderInspector(); if (tab === 'shots') renderSidebar(); break; }
+      case 'token-flashlight': { const token = store.document.tokens?.[selection]; if (!token) break; execute('token.update', { id: token.id, patch: { flashlight: { ...FLASHLIGHT_DEFAULTS, ...token.flashlight, enabled: !token.flashlight?.enabled } } }, { label: token.flashlight?.enabled ? 'Apagar lanterna' : 'Acender lanterna' }); break; }
       case 'copy-link': {
         const doc = store.document;
         if (doc.revision === 0) { notify('Salve a cena para ter um link que a abre de novo.', true); break; }
@@ -2721,6 +2812,8 @@ export async function startApplication() {
   root.addEventListener('input', (event) => {
     if (event.target.id === 'tree-search') { treeFilter.search = event.target.value; renderSceneTreeIfVisible(); return; }
     if (event.target.dataset.field === 'preset-name') changeField(event.target);
+    // Camera sliders act while dragging: the blur and the smoothing are judged by eye.
+    if (/^camera-(focus-aperture|focus-distance|smoothing|motion-speed|live-smoothing)$/.test(event.target.dataset.range ?? '')) { const number = event.target.closest('.range-field')?.querySelector('[data-field]'); if (number) { number.value = event.target.value; changeField(number); } }
     if (event.target.id === 'asset-search') { libraryFilters.search = event.target.value; libraryLimit = 24; renderAssetCards(); }
   });
   root.addEventListener('submit', (event) => {
@@ -2908,7 +3001,7 @@ function startPresentation(root, sessionId) {
     Object.defineProperty(window, '__tabletop', { value: Object.freeze({ camera: () => viewport.getCamera(), stats: () => viewport.getInfo() }), configurable: true });
   }
   const channel = new BroadcastChannel(`tabletop-presentation-${sessionId}`);
-  let sequence = 0, receivedCameraSequence = null;
+  let sequence = 0, receivedCameraSequence = null, shown = null;
   const receiverId=id();
   const request = () => channel.postMessage({ version: 1, sessionId, type: 'ready',receiverId });
   const heartbeat=setInterval(()=>channel.postMessage({version:1,sessionId,type:'heartbeat',receiverId}),5000);
@@ -2930,9 +3023,23 @@ function startPresentation(root, sessionId) {
   channel.onmessage = (event) => {
     const data = event.data;
     if (data?.version === 1 && data.sessionId === sessionId && data.type === 'title') { if (Number.isFinite(data.titleSequence) && data.titleSequence > lastTitle && clean(data.title)) { lastTitle = data.titleSequence; showTitleCard(data); } return; }
+    // Live look: laid over the last scene received, until the committed snapshot replaces it.
+    if (data?.version === 1 && data.sessionId === sessionId && data.type === 'look') {
+      if (!shown || data.sequence <= sequence || !data.look || typeof data.look !== 'object') return;
+      const look = shown.look ?? shown.defaultLook, next = { ...look };
+      for (const field of ENVIRONMENT_FIELDS) if (data.look[field] !== undefined) next[field] = data.look[field];
+      if (data.key?.id && look.lights[data.key.id]) next.lights = { ...look.lights, [data.key.id]: { ...look.lights[data.key.id], color: data.key.color, intensity: data.key.intensity, enabled: data.key.enabled, rotation: data.key.rotation } };
+      try { viewport.setLiveLook(next); } catch (error) { console.warn(error); }
+      return;
+    }
+    // Live camera: approach the master's camera, smoothed, instead of cutting.
+    if (data?.version === 1 && data.sessionId === sessionId && data.type === 'live-camera') {
+      if (receivedCameraSequence === null || data.sequence <= sequence || !data.camera) return;
+      viewport.setCutaway(data.cutaway); viewport.setCameraGoal(data.camera, Math.min(2, Math.max(.1, Number(data.smoothing) || .6))); receivedCameraSequence = data.cameraSequence; return;
+    }
     if (data?.version !== 1 || data.sessionId !== sessionId || !['snapshot','camera','view'].includes(data.type) || data.sequence <= sequence) return;
     try {
-      if(data.type==='snapshot'){validateDocument(data.document);viewport.setAssets(data.assets);viewport.setDocument(trustSnapshot(data.document));document.title=`${data.document.name} — apresentação`;}
+      if(data.type==='snapshot'){validateDocument(data.document);viewport.setAssets(data.assets);shown=trustSnapshot(data.document);viewport.setDocument(shown);document.title=`${data.document.name} — apresentação`;}
       else if(receivedCameraSequence===null){request();return;}
       sequence=data.sequence;viewport.setCutaway(data.cutaway);document.body.classList.toggle('letterboxed',data.letterbox===true);
       if (data.camera && data.cameraSequence !== receivedCameraSequence) {

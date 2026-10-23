@@ -17,7 +17,8 @@ export const SCENE_TASKS = [
 
 export const SHOTS_TASKS = [
   { title: 'Tomadas', tasks: [[0, 'film', 'Película', 'Enquadramentos salvos: ensaie ou corte', true]] },
-  { title: 'Projetor', tasks: [[1, 'navigation', 'Câmera cinematográfica', 'Velocidade, lente e transições'], [2, 'projector', 'Segunda tela', 'Abrir o projetor e publicar a câmera'], [3, 'title-card', 'Cartela de título', 'Título sobre a imagem do projetor']] },
+  { title: 'Câmera', tasks: [[1, 'navigation', 'Câmera cinematográfica', 'Velocidade, suavidade, lente e transições'], [2, 'focus', 'Foco, seguir e movimento', 'Desfocar o fundo, acompanhar um token, órbita e câmera na mão'], [3, 'live-camera', 'Câmera ao vivo', 'O projetor acompanha sua câmera, suavizado']] },
+  { title: 'Projetor', tasks: [[4, 'projector', 'Segunda tela', 'Abrir o projetor e publicar a câmera'], [5, 'title-card', 'Cartela de título', 'Título sobre a imagem do projetor']] },
 ];
 
 export const TASKS_BY_TAB = { build: BUILD_TASKS, scene: SCENE_TASKS, shots: SHOTS_TASKS };

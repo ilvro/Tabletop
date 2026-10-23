@@ -146,8 +146,27 @@ export function createAtmosphere(scene) {
       particles.frustumCulled = false; particles.visible = localEnabled; scene.add(particles);
     }
   }
+  // Same sky and the same emitter with other numbers: change uniforms, not resources. Live sliders call this every frame.
+  function tune(next, light) {
+    const s = next.sky, w = next.weather, emitter = value => value && value.type !== 'none' && value.count > 0 ? [value.type, value.count, value.seed].join() : null;
+    if (Boolean(sky) !== Boolean(s?.enabled) || emitter(look.weather) !== emitter(w)) { configure(next, light); return; }
+    look = next;
+    if (sky) {
+      const u = sky.material.uniforms, night = next.daylight?.phase === 'night';
+      u.topColor.value.set(s.topColor); u.horizonColor.value.set(s.horizonColor); u.cloudColor.value.set(s.cloudColor);
+      u.sunDirection.value.set(0, 1, 0).applyQuaternion(new THREE.Quaternion(...(light?.rotation ?? [0, 0, 0, 1])));
+      u.discColor.value.set(night ? '#dce8ff' : light?.color ?? '#ffe9ae'); u.coverage.value = s.cloudCoverage;
+      u.opacity.value = localEnabled && s.clouds ? s.cloudOpacity : 0; u.speed.value = s.cloudSpeed; u.scale.value = s.cloudScale; u.seed.value = s.seed;
+      u.night.value = night ? 1 : 0; u.discSize.value = s.discSize; u.celestial.value = s.celestialEnabled ? 1 : 0; u.stars.value = s.stars ? 1 : 0;
+    }
+    if (particles) {
+      const u = particles.material.uniforms;
+      u.speed.value = w.speed; u.particleSize.value = w.particleSize; u.regionSize.value.set(...w.size); u.regionCenter.value.set(...w.center);
+      u.wind.value.set(...w.wind); u.particleColor.value.set(w.color); u.opacity.value = w.opacity;
+    }
+  }
   return {
-    configure,
+    configure, tune,
     update(camera, seconds, paused, viewportHeight, pixelScale=1) {
       if (sky) { sky.position.copy(camera.position); sky.material.uniforms.time.value = seconds; }
       if (particles) { particles.material.uniforms.time.value = seconds; particles.material.uniforms.viewportHeight.value = viewportHeight; particles.material.uniforms.perspective.value = camera.isPerspectiveCamera ? 1 : 0;particles.material.uniforms.pointClamp.value.set(pixelScale,64*pixelScale); }

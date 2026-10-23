@@ -25,7 +25,7 @@ test('shots: rehearse without publishing, cut to the projector, thumbnails and t
   };
   await action('floor-add');
   await page.locator('[data-tab="shots"]').click();
-  assert.deepEqual(await page.locator('#side-content .task-heading').allTextContents(), ['Tomadas', 'Projetor']);
+  assert.deepEqual(await page.locator('#side-content .task-heading').allTextContents(), ['Tomadas', 'Câmera', 'Projetor']);
 
   // Two shots: the saved framing, then an orbited one.
   await action('camera-save'); await orbit(); await action('camera-save');

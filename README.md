@@ -21,6 +21,8 @@ Dados do servidor local ficam em `data/`, ignorados pelo Git. Jukebox e Ficha co
 
 **GitHub Pages:** `npm run build:pages` gera `dist-pages/`, com assets e persistência no navegador, sem API Node. `npm run preview:pages` permite conferir. O workflow `.github/workflows/pages.yml` publica o build; escolha **Settings → Pages → Source → GitHub Actions** no repositório. Uso, armazenamento e limites em [GITHUB_PAGES.md](docs/GITHUB_PAGES.md).
 
+Cinematografia ao vivo: janela **Ambientação** com hora do dia em transição e sliders de luz, céu, nuvens, névoa e clima (editor e projetor ao vivo, um desfazer ao soltar); Close com fundo desfocado, câmera que segue o token, órbita/câmera na mão, câmera ao vivo opcional no projetor e lanterna nos personagens: [CINEMATOGRAFIA.md](docs/CINEMATOGRAFIA.md). Integração futura com a Ficha: [análise](docs/INTEGRACAO_FICHA.md).
+
 Ambientes: **Cena** oferece presets de dia/tarde/noite, neblina, chuva, pântano e calor, com sol/lua, Kelvin/HSV, céu/nuvens, partículas e biblioteca própria. Objetos podem acender por horário: [controles e limites](docs/ENVIRONMENTS.md).
 
 Paisagem de montanha: kit modular de ruínas/plantas ramificadas, distribuição com prévia, rios/lagos editáveis, gelo com apoio e neve com espessura. Controles e limites: [docs/LANDSCAPE.md](docs/LANDSCAPE.md).

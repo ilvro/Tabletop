@@ -28,7 +28,7 @@ export function shellMarkup({ storage, homeURL }) {
         <i class="rail-sep"></i>
         <div class="rail-group">
           <button type="button" data-tab="assets" class="rail-btn" aria-controls="assets-dialog" aria-expanded="false" data-tip="Assets" aria-label="Assets: modelos, texturas e retratos">${icon('frame', 22)}<span>Assets</span></button>
-          ${railAction('open', 'Abrir', 'folder')}${railAction('new', 'Nova', 'plus')}
+          ${railAction('ambience', 'Ambientação', 'sun', 'aria-expanded="false" aria-controls="ambience-window"')}${railAction('open', 'Abrir', 'folder')}${railAction('new', 'Nova', 'plus')}
         </div>
         <span class="rail-spacer"></span>
         <div class="rail-group">
@@ -95,6 +95,10 @@ export function shellMarkup({ storage, homeURL }) {
     <dialog id="assets-dialog" class="floating-window assets-window" aria-labelledby="assets-title">
       <div class="dialog-header"><div data-window-handle class="dialog-title-group" tabindex="0" role="group" aria-label="Mover janela Assets: arraste ou use as setas"><span class="eyebrow">BIBLIOTECA · ARRASTE PARA MOVER</span><h2 id="assets-title">Assets</h2></div><button type="button" data-window-reset class="quiet" aria-label="Reposicionar janela Assets">↺</button><button type="button" data-action="assets-close" class="icon-button" aria-label="Fechar Assets">${icon('close',18)}</button></div>
       <div id="assets-content" class="window-content"></div>
+    </dialog>
+    <dialog id="ambience-window" class="floating-window ambience-window" aria-labelledby="ambience-title">
+      <div class="dialog-header"><div data-window-handle class="dialog-title-group" tabindex="0" role="group" aria-label="Mover janela Ambientação: arraste ou use as setas"><span class="eyebrow">VARIÁVEIS DA SESSÃO</span><h2 id="ambience-title">Ambientação ao vivo</h2></div><button type="button" data-window-reset class="quiet" aria-label="Reposicionar janela Ambientação">↺</button><button type="button" data-action="ambience-close" class="icon-button" aria-label="Fechar Ambientação">${icon('close',18)}</button></div>
+      <div id="ambience-content" class="window-content ambience-content"></div>
     </dialog>
     <dialog id="command-palette" class="command-palette" aria-label="Buscar"><input id="palette-input" type="text" role="combobox" aria-expanded="false" aria-controls="palette-list" aria-autocomplete="list" placeholder="Buscar ações, controles, elementos, assets, cenas…" autocomplete="off" spellcheck="false" /><ul id="palette-list" role="listbox" aria-label="Resultados"></ul></dialog>
     <dialog id="shortcuts-sheet" class="shortcuts-sheet" aria-label="Atalhos de teclado"></dialog>

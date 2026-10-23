@@ -8,6 +8,7 @@ import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
 import { createLightingZones } from './lighting-zones.js';
 import { ScreenReflectionPass } from './screen-reflections.js';
 import { AnamorphicStreakPass } from './anamorphic.js';
+import { DepthOfFieldPass } from './depth-of-field.js';
 
 // Keep the analytical legacy slab; opt into bounded ray samples for local regions/scattering.
 const volumeShader = zones => ({
@@ -123,7 +124,9 @@ class HeightFogPass extends ShaderPass {
 /** Lazy optional GPU pipeline. Each viewport owns and can suppress its effects. */
 export function createEffectsPipeline(renderer, scene, { offscreen = false, sharp: allowSharp = true } = {}) {
   const zones=createLightingZones();let activeZones=zones,sources=[],quality={steps:12},tier='balanced',fallbackDepth,sceneDepth=null;
-  let composer, renderPass, volumePass, bloomPass, outputPass,aoPass,ssrPass=null,streakPass=null,wetSource=()=>[];
+  let composer, renderPass, volumePass, bloomPass, outputPass,aoPass,ssrPass=null,streakPass=null,dofPass=null,wetSource=()=>[];
+  // Depth of field belongs to the camera of this viewport, not to the look of the scene.
+  let focus={enabled:false,distance:6,aperture:.45};
   let currentLook = {}, enabled = true, width = 1, height = 1,hadLocalFog=false;
   // Effects draw into an offscreen target, which bypasses the canvas antialiasing
   // and used to be capped at one physical pixel per CSS pixel: switching AO or
@@ -135,11 +138,11 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
   let sharpTarget=true,appliedRatio=0;
   const sharp=()=>allowSharp&&tier!=='economy',effectsRatio=()=>Math.min(renderer.getPixelRatio(),!sharp()?1:tier==='high'?Infinity:1.25);
   const aoSize=()=>[Math.max(1,width*effectsRatio()/2|0),Math.max(1,height*effectsRatio()/2|0)];
-  function sizePasses(){const ratio=effectsRatio(),w=Math.max(1,Math.floor(width*ratio)),h=Math.max(1,Math.floor(height*ratio));ssrPass?.setSize(w,h);streakPass?.setSize(w,h);}
+  function sizePasses(){const ratio=effectsRatio(),w=Math.max(1,Math.floor(width*ratio)),h=Math.max(1,Math.floor(height*ratio));ssrPass?.setSize(w,h);streakPass?.setSize(w,h);dofPass?.setSize(w,h);}
   function dispose() {
     if (!composer) return;
     for (const pass of composer.passes) pass.dispose();
-    composer.dispose(); composer = null; bloomPass = null;aoPass=null;ssrPass=null;streakPass=null;appliedRatio=0;
+    composer.dispose(); composer = null; bloomPass = null;aoPass=null;ssrPass=null;streakPass=null;dofPass=null;appliedRatio=0;
     fallbackDepth?.dispose();fallbackDepth=null;
   }
   function configure(look = currentLook) {
@@ -149,7 +152,8 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
     const ao=enabled&&look.rendering?.ao&&tier!=='economy';
     // Reflections of the frame on wet surfaces: balanced and high quality only.
     const ssr=enabled&&!!look.rendering?.surfaceReflections&&['balanced','high'].includes(tier);
-    if (!offscreen && (!enabled || !(look.volumetricFog?.enabled || look.bloom?.enabled||localFog||ao||ssr))) { dispose(); return; }
+    const dof=enabled&&focus.enabled&&focus.aperture>0;
+    if (!offscreen && (!enabled || !(look.volumetricFog?.enabled || look.bloom?.enabled||localFog||ao||ssr||dof))) { dispose(); return; }
     if (composer && sharpTarget !== sharp()) dispose();
     if (!composer) {
       sharpTarget = sharp();
@@ -186,6 +190,10 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
     else if(!ssr&&ssrPass){composer.removePass(ssrPass);ssrPass.dispose();ssrPass=null;}
     if(ssrPass)ssrPass.intensity=look.rendering.surfaceReflectionIntensity??1;
     if(aoPass){aoPass.blendIntensity=look.rendering.aoIntensity??.35;aoPass.updateGtaoMaterial({radius:look.rendering.aoRadius??.6});aoPass.setSize(...aoSize());}
+    // Before the bloom: highlights of a blurred background bloom as soft discs, like a lens.
+    if(dof&&!dofPass){dofPass=new DepthOfFieldPass();dofPass.depth=()=>sceneDepth;composer.insertPass(dofPass,composer.passes.indexOf(bloomPass??outputPass));sizePasses();}
+    else if(!dof&&dofPass){composer.removePass(dofPass);dofPass.dispose();dofPass=null;}
+    if(dofPass){dofPass.setSamples(tier==='economy'?16:tier==='high'?48:32);dofPass.focusDistance=focus.distance;dofPass.aperture=focus.aperture;}
     if (enabled && look.bloom?.enabled && !bloomPass) {
       bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height));
       composer.insertPass(bloomPass, composer.passes.length - 1);
@@ -208,13 +216,16 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
       if(volumePass&&composer){Object.assign(volumePass.uniforms,value.uniforms);volumePass.uniforms.localFog.value=value.uniforms.zoneCount.value>0;volumePass.uniforms.steps.value=q.steps;volumePass.sources=sources;}
     },
     setEnabled(value) { enabled = value; configure(); },
+    /** Focus of this viewport's camera. Distance changes every frame while focus racks: only the uniform moves then. */
+    setFocus(next){const was=focus.enabled&&focus.aperture>0;focus={...focus,...next};const now=focus.enabled&&focus.aperture>0;
+      if(was!==now)configure();else if(dofPass){dofPass.focusDistance=focus.distance;dofPass.aperture=focus.aperture;}},
     /** The wet meshes the reflections are cast on: a function, asked once a frame. */
     setWetSource(source){wetSource=source;},
     resize(w, h) { if (width === w && height === h) return; width = w; height = h; composer?.setSize(w, h);aoPass?.setSize(...aoSize());sizePasses(); },
     render(camera, seconds, target = null) {
       if (!composer) { renderer.render(scene, camera); return; }
       camera.updateMatrixWorld();
-      renderPass.camera = camera;if(ssrPass)ssrPass.camera=camera;
+      renderPass.camera = camera;if(ssrPass)ssrPass.camera=camera;if(dofPass)dofPass.camera=camera;
       if(aoPass){aoPass.camera=camera;const perspective=camera.isPerspectiveCamera?1:0;if(aoPass.gtaoMaterial.defines.PERSPECTIVE_CAMERA!==perspective){aoPass.gtaoMaterial.defines.PERSPECTIVE_CAMERA=perspective;aoPass.gtaoMaterial.needsUpdate=true;}}
       volumePass.uniforms.inverseProjection.value.copy(camera.projectionMatrixInverse);
       volumePass.uniforms.cameraWorld.value.copy(camera.matrixWorld);
@@ -223,7 +234,7 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
       scene.updateMatrixWorld();scene.matrixWorldAutoUpdate=false;
       try{composer.render(seconds);if(target){composer.copyPass.renderToScreen=false;composer.copyPass.render(renderer,target,composer.readBuffer);}}finally{scene.matrixWorldAutoUpdate=true;renderer.setRenderTarget(previous);}
     },
-    info() { return { enabled, surfaceReflections: !!ssrPass, reflectedMeshes: ssrPass?.drawn ?? 0, streak: !!streakPass, bloom: Boolean(composer && bloomPass), volumetricFog: Boolean(composer && volumePass.enabled), ao:!!aoPass,scattering:!!composer&&volumePass.uniforms.scattering.value,steps:quality.steps,pixelRatio: effectsRatio(),samples:composer&&sharpTarget?4:0 }; },
+    info() { return { enabled, surfaceReflections: !!ssrPass, reflectedMeshes: ssrPass?.drawn ?? 0, streak: !!streakPass, depthOfField: dofPass ? { distance: dofPass.focusDistance, aperture: dofPass.aperture } : null, bloom: Boolean(composer && bloomPass), volumetricFog: Boolean(composer && volumePass.enabled), ao:!!aoPass,scattering:!!composer&&volumePass.uniforms.scattering.value,steps:quality.steps,pixelRatio: effectsRatio(),samples:composer&&sharpTarget?4:0 }; },
     dispose,
   };
 }

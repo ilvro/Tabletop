@@ -1,6 +1,33 @@
 # Tabletop — andamento
 
-Atualizado em 20 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 22 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+
+## Câmera e cinematografia ao vivo (22 de outubro) — concluído
+
+Pedido: chegar perto do tabletop de Ordem Paranormal (Hexatombe) em câmera e cinematografia — um painel de ambientação com sliders como o "Variáveis da Sessão" mostrado no Revelando Hexatombe, câmera mais fluida e cinematográfica, desfoque de fundo com foco no token, câmera que segue o token e lanterna. Dados 3D ficam para a integração futura com a Ficha. Análise anterior e plano geral: [docs/PLANO_MESA_AO_VIVO.md](docs/PLANO_MESA_AO_VIVO.md).
+
+**Plano desta entrega**
+
+1. **Ambientação ao vivo** — janela flutuante com horários (Dia, Tarde, Noite e ambientes salvos) aplicados com transição de N segundos, e sliders de luz, céu, nuvens, névoa, clima e brilho com trilhos H/S/V. Arrastar mostra a mudança no editor e no projetor sem reconstruir a cena (caminho leve no renderer); soltar grava um passo de desfazer.
+2. **Câmera fluida** — curva de transição mais suave, suavidade de navegação ajustável e "Câmera ao vivo": opção explícita, desligada por padrão, em que o projetor acompanha a câmera de trabalho amortecida. Movimentos automáticos na tomada: órbita lenta, aproximação e câmera na mão.
+3. **Foco / profundidade de campo** — passe de desfoque que usa a profundidade já desenhada; foco num token ou objeto, com troca de foco suave; guardado na tomada.
+4. **Seguir token** — a câmera (de trabalho ou publicada) acompanha um token com suavização; no projetor, o token desliza até a nova posição em vez de pular.
+5. **Lanterna** — `token.flashlight`: spot com sombra preso ao personagem, apontando para a frente dele, dentro do orçamento de luzes; liga e desliga pelo cartão do personagem.
+
+**Feito**
+
+- `src/domain/cinematics.js`: contratos opcionais `token.flashlight` e `cameraPresets[].focus/follow/motion` (validados em `validation.js`), `mixLook` (transição entre atmosferas: cores em luz linear, névoa/bloom entram do zero, clima troca com fade, luz principal por slerp), `smootherstep`, `approach` e `closeUpSpots`. Tomadas esquecem alvo de foco/seguir removido (`releaseShotTargets` em `commands.js`).
+- `src/render/cinema.js`: foco com troca suave, seguir token, órbita lenta / aproximação / câmera na mão, meta suavizada para a câmera ao vivo do projetor, token que desliza com pequeno pulo no projetor, lanterna como spot no orçamento de luzes (prioridade 30, sombra preferencial), nome do token que some perto da lente.
+- `src/render/depth-of-field.js` + `effects.js`: desfoque por profundidade que lê a profundidade já desenhada (sem segundo desenho da cena), 16/32/48 amostras por qualidade. Desenha num alvo próprio e copia: escrever no alvo cuja profundidade é amostrada é um laço de realimentação que o WebGL recusa (quadro preto conforme a paridade dos passes — visto na Casa de bairro).
+- `renderer.js`: `setLiveLook` (sliders e transições sem reconstruir a cena; `atmosphere.tune` muda só uniforms), `setFocus/setFollow/setCameraMotion/setCameraGoal/setNavigationSmoothing/pointOf/clearance`; transições com curva quíntica. Retrato do token passou de `MeshBasicMaterial` para material com luz (emissão mínima de 22% para ler no escuro), sombra recortada (`customDepthMaterial`) e alpha-to-coverage.
+- Janela **Ambientação ao vivo** (trilho → Ambientação; `src/app/live/ambience.js`, `src/ui/ambience-panel.js`): horários e ambientes salvos com transição de 0–20 s, sliders de luz, céu, nuvens, névoa, clima e halo com trilhos H/S/V; arrastar mostra no editor e no projetor (mensagem `look`), soltar grava um passo de desfazer.
+- Tomadas → **Foco, seguir e movimento** e **Câmera ao vivo** (`src/ui/cinema-panel.js`; mensagem `live-camera`, opt-in, desliga ao trocar de cena; foco/seguir de algo "só mestre" não sai para o projetor); suavidade do movimento; cartão do personagem com **Close** (procura um lado com visão livre por raio), **Seguir** e **Lanterna**; seção LANTERNA na aba Luz.
+- Docs: [CINEMATOGRAFIA.md](docs/CINEMATOGRAFIA.md) (uso, contratos, limites), [INTEGRACAO_FICHA.md](docs/INTEGRACAO_FICHA.md) (análise da integração com a Ficha, sem implementação), README, CAMERA.md, PLANO_MESA_AO_VIVO.md.
+- Testes: `tests/cinematics.test.js` (11) e `tests/e2e/cinematics.test.js` (look ao vivo chega ao projetor antes de gravar, transição com um desfazer, lanterna no orçamento, Close com foco publicado, seguir e soltar com WASD, câmera ao vivo liga/desliga). `shots.test.js` atualizado para o novo grupo "Câmera".
+
+**Validação:** 372 testes unitários/de integração passam (`npm test` + `tests/cinematics.test.js`); builds local e Pages; E2E `cinematics`, `camera`, `shots` e `actor-hero` passam. Conferido em capturas no Galpão e na Casa de bairro (Close com fundo desfocado, lanterna, painel, transição para Noite). Rodada de regressão E2E de 16 arquivos interrompida a pedido: dos 26 casos, 15 passaram e 11 falharam (command-palette, controls, dynamic-lighting pixels, lighting pages, editor, effects-sharpness, céu procedural, névoa/bloom, panel-consistency, repeated-placement pages, tutorial de iluminação). O `dist` foi reconstruído no meio dessa rodada, o que pode ter causado parte das falhas; ainda não foram reexecutadas isoladamente para separar as causadas por esta entrega.
+
+**Pendências reais:** reexecutar isoladamente os 11 E2E que falharam e corrigir os que forem desta entrega (suspeitos: mudança do material do retrato e efeitos/composer); desempenho do desfoque e da câmera ao vivo no notebook/projetor reais não medido (só SwiftShader); durante o arraste/transição a luz refletida das zonas e as janelas noturnas só mudam ao gravar; dados 3D adiados para a integração com a Ficha; retratos ainda são planos fixos (sem girar para a câmera, contorno nem estados — fase 1 do plano geral); nenhuma pessoa avaliou o visual.
 
 ## Cor do tema nas configurações e `?` no HUD (20 de outubro) — concluído
 

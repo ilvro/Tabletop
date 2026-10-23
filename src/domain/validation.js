@@ -14,6 +14,7 @@ import {SNOW_SHAPE_DEFAULTS,SNOW_SHAPE_RANGES} from './snow.js';
 import { WEAR_STYLES, WEAR_RANGES, WEAR_PLACEMENTS } from './wear.js';
 /** Validated JSON is the boundary between editor, disk and future network adapters. */
 import { kelvinToColor } from './lighting.js';
+import { validateFlashlight, validateCameraExtras } from './cinematics.js';
 import { polygonIsSimple, polygonSize, floorContour, validHoles, pointInPolygon } from './geometry.js';
 export class ValidationError extends Error {
   constructor(message, path = '') {
@@ -557,7 +558,8 @@ export function validateDocument(document) {
     color(actor.color, `${actorPath}.color`); assetRef(actor.assetRef, `${actorPath}.assetRef`, true);
   });
   dictionary(document.tokens, 'tokens', seen, (token, tokenPath) => {
-    keys(token, ['id', 'actorId', 'transform', 'surfaceId', 'footprint', 'locked', 'audience', 'visualOverride', 'groupId', ...semantics], tokenPath);
+    keys(token, ['id', 'actorId', 'transform', 'surfaceId', 'footprint', 'locked', 'audience', 'visualOverride', 'groupId', 'flashlight', ...semantics], tokenPath);
+    if (token.flashlight !== undefined && token.flashlight !== null) validateFlashlight(token.flashlight, `${tokenPath}.flashlight`);
     semanticReferences(token, document, tokenPath);
     reference(token.actorId, document.actors, `${tokenPath}.actorId`, false); transform(token.transform, `${tokenPath}.transform`);
     supportReference(token.surfaceId, document, `${tokenPath}.surfaceId`);
@@ -571,7 +573,8 @@ export function validateDocument(document) {
     }
   });
   dictionary(document.cameraPresets, 'cameraPresets', seen, (camera, cameraPath) => {
-    keys(camera, ['id', 'name', 'projection', 'position', 'target', 'fov', 'orthographicHeight'], cameraPath);
+    keys(camera, ['id', 'name', 'projection', 'position', 'target', 'fov', 'orthographicHeight', 'focus', 'follow', 'motion'], cameraPath);
+    validateCameraExtras(camera, cameraPath, key => typeof key === 'string' && Boolean(document.tokens?.[key] ?? document.layout.entities[key]));
     text(camera.name, `${cameraPath}.name`); choice(camera.projection, ['perspective', 'orthographic'], `${cameraPath}.projection`);
     vector(camera.position, 3, `${cameraPath}.position`); vector(camera.target, 3, `${cameraPath}.target`);
     fail(camera.position.some((v, i) => Math.abs(v - camera.target[i]) > 1e-8), 'Posição e alvo da câmera devem ser diferentes.', cameraPath);

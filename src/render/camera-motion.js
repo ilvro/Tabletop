@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { smootherstep } from '../domain/cinematics.js';
 
 // Integrate exponential acceleration exactly so speed does not depend on refresh rate.
 export function advanceVelocity(velocity, desired, seconds, response = 10) {
@@ -26,7 +27,8 @@ export function navigationDirection(camera, keys) {
 export function interpolateCamera(from, to, progress) {
   if (progress <= 0) return structuredClone(from);
   if (progress >= 1) return structuredClone(to);
-  const t = progress * progress * (3 - 2 * progress);
+  // Quintic ease: the move starts and lands with no jolt, like a camera on a dolly.
+  const t = smootherstep(progress);
   const target = new THREE.Vector3().fromArray(from.target).lerp(new THREE.Vector3().fromArray(to.target), t);
   const a = new THREE.Spherical().setFromVector3(new THREE.Vector3().fromArray(from.position).sub(new THREE.Vector3().fromArray(from.target)));
   const b = new THREE.Spherical().setFromVector3(new THREE.Vector3().fromArray(to.position).sub(new THREE.Vector3().fromArray(to.target)));

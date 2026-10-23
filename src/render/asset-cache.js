@@ -27,7 +27,7 @@ export function disposeObject(object, { includeSharedTextures = false } = {}) {
     const owned = child.userData?.wearSourceGeometry ?? child.geometry;
     if (owned !== child.geometry) child.geometry.dispose();
     if (owned) geometries.set(owned,(geometries.get(owned)??0)+1);
-    const list = child.material ? (Array.isArray(child.material) ? child.material : [child.material]) : [];
+    const list = [...(child.material ? (Array.isArray(child.material) ? child.material : [child.material]) : []), child.customDepthMaterial, child.customDistanceMaterial].filter(Boolean);
     for (const material of list) {
       materials.add(material);
       for (const value of Object.values(material)) {

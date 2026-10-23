@@ -126,6 +126,18 @@ function removeEntity(document, entityId) {
   for (const composition of Object.values(document.layout.compositions ?? {})) if (!document.layout.areas[composition.areaId]) delete document.layout.compositions[composition.id];
   for (const token of Object.values(document.tokens ?? {})) if (ids.has(token.surfaceId)) removeToken(document, token.id);
 }
+// A shot that focused on or followed something removed keeps its framing and forgets the target.
+function releaseShotTargets(document) {
+  const exists = key => Boolean(document.tokens?.[key] ?? document.layout.entities[key]);
+  for (const [key, camera] of Object.entries(document.cameraPresets ?? {})) {
+    const lostFocus = camera.focus?.targetId && !exists(camera.focus.targetId), lostFollow = camera.follow && !exists(camera.follow.targetId);
+    if (!lostFocus && !lostFollow) continue;
+    const next = clone(camera);
+    if (lostFocus) next.focus.targetId = null;
+    if (lostFollow) delete next.follow;
+    document.cameraPresets[key] = next;
+  }
+}
 function removeToken(document, tokenId) {
   const token = requireRecord(document.tokens, tokenId, 'Token'); editable(token, undefined, document);
   delete document.tokens[tokenId];
@@ -634,6 +646,7 @@ export function applyCommand(document, command, diagnostics) {
   }
   const placementUnchanged=command.type==='scene.rename'||command.type==='lights.switch'||command.type==='entity.update'&&Object.keys(payload.patch??{}).every(key=>['name','tags','locked','illumination','lightingZone','audience','visible','screen'].includes(key));
   if(!placementUnchanged)refreshAnchors(next);
+  releaseShotTargets(next);
   next=diagnostics?diagnostics.measure('snapshotFinalization',()=>finishDraft(next)):finishDraft(next);
   return diagnostics?diagnostics.measure('validation',()=>validateDocument(next)):validateDocument(next);
 }
