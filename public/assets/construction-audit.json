@@ -637,10 +637,10 @@
       "family": "botanical",
       "reconstruction": "model",
       "methods": [
-        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais"
+        "árvore com tronco bifurcado em quatro pernadas, ramos secundários, copa larga de tufos de folhas, casca e raízes"
       ],
-      "parts": 38,
-      "triangles": 10080,
+      "parts": 32,
+      "triangles": 12900,
       "batches": 2
     },
     {
@@ -648,10 +648,10 @@
       "family": "botanical",
       "reconstruction": "model",
       "methods": [
-        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais"
+        "conífera em andares cônicos: galhos pendentes com tufos de agulhas, broto apical, casca e raízes"
       ],
-      "parts": 54,
-      "triangles": 30000,
+      "parts": 95,
+      "triangles": 72474,
       "batches": 2
     },
     {
@@ -1532,12 +1532,13 @@
       "family": "botanical",
       "reconstruction": "model",
       "methods": [
-        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais",
+        "toco com casca, corte claro com anéis, lascas quebradas na borda e raízes que entram no chão",
         "curvas de contorno refinadas",
-        "ferragens curvas com vazios reais"
+        "ferragens curvas com vazios reais",
+        "arestas chanfradas"
       ],
-      "parts": 13,
-      "triangles": 4336,
+      "parts": 18,
+      "triangles": 5424,
       "batches": 2
     },
     {

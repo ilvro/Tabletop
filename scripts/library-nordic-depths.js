@@ -45,7 +45,7 @@ export function addNordicDepthsLibrary({ add, ancient }) {
   const DEPTHS = ['Templo', 'Caverna', 'Masmorra', 'Ruína', 'Laboratório'];
 
   // Machinery -------------------------------------------------------------------------------------
-  model('nordic-rune-console', 'Nórdico · console rúnico', 'Nórdico / Tecnologia rúnica', DEPTHS, ['console', 'runa', 'tecnologia', 'painel'], [
+  model('nordic-rune-console', 'Console rúnico', 'Nórdico / Tecnologia rúnica', DEPTHS, ['console', 'runa', 'tecnologia', 'painel'], [
     ...stone([rb([1.05, .16, .85], [0, .08, 0], 'stone', .03), rb([.62, .82, .5], [0, .57, 0], 'stone', .02)]),
     ...[.3, .78].map(y => rb([.68, .06, .56], [0, y, 0], 'bronze', .01)),
     rb([1.06, .1, .7], [0, 1.02, .04], 'bronze', .02, [.45, 0, 0]), b([.78, .02, .46], [0, 1.072, .065], 'glow', [.45, 0, 0]),
@@ -53,13 +53,13 @@ export function addNordicDepthsLibrary({ add, ancient }) {
     c(.022, .42, [.5, 1.05, -.1], 'iron'), lathe([[0, 0], [.045, .01], [.05, .05], [0, .08]], [.5, 1.26, -.1], 'bronze'),
   ], 'Pedestal de pedra com painel de bronze inclinado e runas acesas sob o vidro, e uma alavanca ao lado.');
 
-  model('nordic-gear-wall', 'Nórdico · mecanismo de engrenagens de parede', 'Nórdico / Tecnologia rúnica', DEPTHS, ['engrenagem', 'mecanismo', 'máquina', 'parede'], [
+  model('nordic-gear-wall', 'Mecanismo de engrenagens de parede', 'Nórdico / Tecnologia rúnica', DEPTHS, ['engrenagem', 'mecanismo', 'máquina', 'parede'], [
     ...stone([rb([3.3, 3.1, .22], [0, 1.55, -.14], 'stone', .03)]), ...[-1, 1].map(s => rb([.16, 3.1, .16], [s * 1.6, 1.55, -.02], 'bronze', .02)), rb([3.3, .16, .16], [0, 3.05, -.02], 'bronze', .02),
     ...gear(1, 18, [-.55, 1.75, .05]), ...gear(.6, 12, [.95, 2.25, .1], .2), ...gear(.4, 9, [.72, .78, .1], .1),
     curve([[1.4, 2.6, 0], [1.45, 2.95, .05], [1.2, 3.1, .1]], .05, 'oxide'), curve([[-1.5, .3, 0], [-1.4, .9, .05], [-1.55, 1.2, .05]], .05, 'oxide'),
   ], 'Três engrenagens de bronze com aros de luz sobre placa de pedra, 3,3 × 3,1 m. Encoste a uma parede.');
 
-  model('nordic-conduit-pillar', 'Nórdico · coluna condutora rúnica', 'Nórdico / Tecnologia rúnica', DEPTHS, ['coluna', 'energia', 'cristal', 'luz'], [
+  model('nordic-conduit-pillar', 'Coluna condutora rúnica', 'Nórdico / Tecnologia rúnica', DEPTHS, ['coluna', 'energia', 'cristal', 'luz'], [
     ...stone([rb([1, .4, 1], [0, .2, 0], 'stone', .03), rb([.9, .35, .9], [0, 3.95, 0], 'stone', .03)]),
     { ...c(.16, 3.4, [0, 2.1, 0], 'crystal'), segments: 6 }, ...polar(4, .3, (x, z, a) => [rb([.1, 3.4, .1], [x, 2.1, z], 'iron', .01, [0, -a, 0])], PI / 4),
     ...[.65, 1.6, 2.6, 3.55].flatMap(y => [{ ...lathe([[.26, -.07], [.36, -.06], [.38, 0], [.36, .06], [.26, .07]], [0, y, 0], 'bronze'), segments: 16 }, ...polar(4, .38, (x, z, a) => rune(x, y, z, Math.round(y * 10), 'glow', .1, .012, -a + PI / 2), PI / 4)]),
@@ -77,12 +77,12 @@ export function addNordicDepthsLibrary({ add, ancient }) {
     e([.7, .45, .9], [1.65, .95, .1], 'leather'), rb([.75, .06, .95], [1.65, 1.2, .1], 'wood', .01), curve([[1.3, 1.1, .1], [1.15, 1.4, .2], [.98, 1.6, .3]], .06, 'bronze'),
     curve([[-1, 2.4, .3], [-1.5, 2.9, .4], [-1.6, 3.8, .2], [-1.2, 4.6, 0]], .09, 'oxide'),
   ];
-  model('nordic-forge-engine', 'Nórdico · forja rúnica', 'Nórdico / Tecnologia rúnica', DEPTHS, ['forja', 'fornalha', 'máquina', 'fogo'], engine,
+  model('nordic-forge-engine', 'Forja rúnica', 'Nórdico / Tecnologia rúnica', DEPTHS, ['forja', 'fornalha', 'máquina', 'fogo'], engine,
     'Fornalha de bronze sobre base de pedra, com boca de brasas atrás de grade, runas, fole e chaminé. Dê luz própria quente na boca.');
 
   // Stones and doors ------------------------------------------------------------------------------
   const top = along(9, PI, 0).map(a => [Math.cos(a) * .62, 1.85 + Math.sin(a) * .55]);
-  model('nordic-runestone', 'Nórdico · pedra rúnica com sulcos acesos', 'Nórdico / Pedras rúnicas', DEPTHS, ['pedra rúnica', 'runa', 'monumento', 'luz'], [
+  model('nordic-runestone', 'Pedra rúnica com sulcos acesos', 'Nórdico / Pedras rúnicas', DEPTHS, ['pedra rúnica', 'runa', 'monumento', 'luz'], [
     ...rocky([p([[-.6, 0], [.6, 0], [.64, 1.85], ...top.slice(1, -1).reverse(), [-.64, 1.85]], .36, [0, 0, 0], 'stone')]), ...rocky([rb([1.5, .2, .7], [0, .1, 0], 'stone', .04)]),
     stroke([[-.45, .35], [-.5, 1.2], [-.42, 1.9], [-.2, 2.25], [.15, 2.3], [.4, 2.05], [.48, 1.4], [.44, .55], [.2, .3], [-.05, .45]], .022, 'glow', .185),
     ...along(5, .7, 1.95).flatMap((y, i) => rune(0, y, .19, 70 + i, 'glow', .2, .012)),
@@ -91,7 +91,7 @@ export function addNordicDepthsLibrary({ add, ancient }) {
   // The frame of a round vault door, its opening reaching the floor through a threshold notch, and the door rolled aside.
   const cy = 1.9, R = 1.5, from = Math.atan2(.525 - cy, -.6) + TAU, to = Math.atan2(.525 - cy, .6);
   const opening = along(26, from, to).map(a => [Math.cos(a) * R, cy + Math.sin(a) * R]);
-  model('nordic-vault-door', 'Nórdico · porta-cofre circular aberta', 'Nórdico / Portas', DEPTHS, ['porta', 'cofre', 'selada', 'runa'], [
+  model('nordic-vault-door', 'Porta-cofre circular aberta', 'Nórdico / Portas', DEPTHS, ['porta', 'cofre', 'selada', 'runa'], [
     ...stone([p([[-2.2, 0], [-.6, 0], ...opening, [.6, 0], [2.2, 0], [2.2, 4], [-2.2, 4]], .6, [0, 0, 0], 'stone')]),
     ...polar(16, R + .22, (x, y, a) => [b([.24, .1, .04], [x, cy + y, .32], a > PI * 1.25 && a < PI * 1.75 ? 'iron' : 'glow', [0, 0, a + PI / 2])]),
     // The door, rolled aside on its track in front of the frame.
@@ -103,7 +103,7 @@ export function addNordicDepthsLibrary({ add, ancient }) {
 
   // An upright pod with frosted panes, two of them burst outward, and the broken chains of whatever was kept inside.
   const pane = (x, z, a, i) => i === 1 || i === 2 ? [] : [rb([.6, 1.9, .03], [Math.cos(a) * .55, 1.35, Math.sin(a) * .55], 'frost', .01, [0, -a + PI / 2, 0])];
-  model('nordic-stasis-pod', 'Nórdico · cápsula de estase rompida', 'Nórdico / Tecnologia rúnica', DEPTHS, ['cápsula', 'estase', 'contenção', 'medo'], [
+  model('nordic-stasis-pod', 'Cápsula de estase rompida', 'Nórdico / Tecnologia rúnica', DEPTHS, ['cápsula', 'estase', 'contenção', 'medo'], [
     ...stone([{ ...lathe([[0, 0], [.95, 0], [.95, .2], [.8, .32], [0, .32]], [0, 0, 0], 'stone'), segments: 6 }]), { ...r(.7, .025, [0, .33, 0], 'glow', [PI / 2, 0, 0]), segments: 24 },
     ...polar(6, .64, (x, z) => [b([.08, 2.1, .08], [x, 1.37, z], 'iron')], PI / 6), ...polar(6, .55, pane, 0),
     { ...lathe([[0, 0], [.85, 0], [.8, .18], [.4, .4], [0, .45]], [0, 2.4, 0], 'bronze'), segments: 6 }, c(.18, .3, [0, 2.95, 0], 'oxide'),
@@ -111,18 +111,18 @@ export function addNordicDepthsLibrary({ add, ancient }) {
     ...along(7, 0, 1).map((t, i) => { const next = random(300 + i), a = .3 + t * .9; return rb([.12 + next() * .2, .02, .1 + next() * .18], [Math.cos(a) * (1.1 + next() * .8), .02, Math.sin(a) * (1.1 + next() * .8)], 'frost', .005, [0, next() * PI, 0]); }),
   ], 'Cápsula de 3 m sobre base rúnica: vidro fosco com dois painéis estourados para fora, cacos no chão e correntes partidas.');
 
-  model('nordic-rune-lantern', 'Nórdico · lanterna rúnica de cristal', 'Nórdico / Iluminação', DEPTHS, ['lanterna', 'luz', 'cristal', 'iluminação'], [
+  model('nordic-rune-lantern', 'Lanterna rúnica de cristal', 'Nórdico / Iluminação', DEPTHS, ['lanterna', 'luz', 'cristal', 'iluminação'], [
     ...polar(3, .28, (x, z) => [curve([[x, 0, z], [x * .4, .3, z * .4], [0, .45, 0]], .018, 'iron')]), c(.03, 1.25, [0, 1.05, 0], 'iron'),
     { ...lathe([[0, 0], [.16, 0], [.18, .04], [0, .06]], [0, 1.66, 0], 'bronze'), segments: 8 }, ...polar(4, .15, (x, z) => [b([.025, .42, .025], [x, 1.9, z], 'iron')], PI / 4),
     lathe([[0, 0], [.07, .05], [.07, .26], [0, .36]], [0, 1.72, 0], 'crystal', undefined, { segments: 6 }), { ...lathe([[0, 0], [.2, 0], [.12, .1], [0, .14]], [0, 2.11, 0], 'bronze'), segments: 8 }, r(.05, .012, [0, 2.3, 0], 'iron'),
   ], 'Lanterna de pé de 2,3 m: tripé de ferro e gaiola com cristal aceso. Dê luz própria fria.');
 
   const tablets = (() => { const next = random(77), parts = []; for (const y of [.42, 1.12, 1.82]) for (let i = 0; i < 5; i++) { if (next() < .25) continue; const x = -.85 + i * .42 + (next() - .5) * .06, lean = (next() - .5) * .35; parts.push(rb([.3, .5, .07], [x, y + .25, -.05], 'stone', .02, [lean * .3, 0, lean]), ...rune(x, y + .28, -.012, 500 + i + y * 10, next() < .4 ? 'glow' : 'void', .14, .008)); } return parts; })();
-  model('nordic-tablet-shelf', 'Nórdico · estante de tábuas rúnicas', 'Nórdico / Pedras rúnicas', DEPTHS, ['estante', 'tábua', 'runa', 'arquivo'], [
+  model('nordic-tablet-shelf', 'Estante de tábuas rúnicas', 'Nórdico / Pedras rúnicas', DEPTHS, ['estante', 'tábua', 'runa', 'arquivo'], [
     ...stone([...[-1, 1].map(s => rb([.16, 2.4, .6], [s * 1.12, 1.2, 0], 'stone', .02)), ...[.36, 1.06, 1.76, 2.4].map(y => rb([2.4, .1, .6], [0, y, 0], 'stone', .02))]), ...withSurface(tablets, STONE),
   ], 'Estante de pedra com tábuas rúnicas encostadas, algumas ainda acesas. Para arquivos e bibliotecas.');
 
-  model('nordic-floor-sigil', 'Nórdico · círculo rúnico no piso', 'Nórdico / Pedras rúnicas', DEPTHS, ['círculo', 'runa', 'ritual', 'piso'], [
+  model('nordic-floor-sigil', 'Círculo rúnico no piso', 'Nórdico / Pedras rúnicas', DEPTHS, ['círculo', 'runa', 'ritual', 'piso'], [
     ...[1.5, 1.15].map(radius => ({ ...r(radius, .022, [0, .012, 0], 'iron', [PI / 2, 0, 0]), segments: 48 })),
     ...polar(16, 1.33, (x, z, a, i) => [b([.04, .006, .2], [x, .02, z], i % 3 ? 'glow' : 'iron', [0, -a, 0]), b([.04, .006, .1], [x + Math.cos(a + .3) * .05, .02, z + Math.sin(a + .3) * .05], i % 3 ? 'glow' : 'iron', [0, -a + .7, 0])]),
     ...polar(6, .6, (x, z, a) => [b([.03, .006, .9], [x * .5, .015, z * .5], 'iron', [0, -a, 0])]),
@@ -149,21 +149,21 @@ export function addNordicDepthsLibrary({ add, ancient }) {
     return [rb([1.1, 2.65, .3], [cx, 1.38, cz], 'stone', .02, [0, yaw, 0]), ...[.55, 2.2].map(y => b([1.12, .1, .32], [cx, y, cz], 'iron', [0, yaw, 0])),
       ...place(carve(0, 0, .16, 1.1, 'glow'), [cx, 1.45, cz], yaw)];
   };
-  model('nordic-rune-door', 'Nórdico · porta de pedra rúnica', 'Nórdico / Portas', DEPTHS, ['porta', 'pedra', 'runa', 'portal', 'abismo'], [
+  model('nordic-rune-door', 'Porta de pedra rúnica', 'Nórdico / Portas', DEPTHS, ['porta', 'pedra', 'runa', 'portal', 'abismo'], [
     ...stone([...[-1, 1].map(s => rb([.65, 3.3, .9], [s * 1.43, 1.65, 0], 'stone', .03)), rb([3.9, .65, 1], [0, 3.02, 0], 'stone', .04), rb([2.6, .14, 1.1], [0, .07, 0], 'stone', .02)]),
     ...othala(0, 2.92, .51, .72), ...[-1, 1].flatMap(s => along(4, .6, 2.4).flatMap((y, i) => rune(s * 1.43, y, .46, 600 + i + (s > 0 ? 10 : 0), 'oxide', .16, .012))),
     ...leaf(-1, algiz), ...leaf(1, tiwaz),
   ], 'Portal de pedra com Othala acesa no lintel e duas lajes abertas para trás, com Algiz e Tiwaz. Vão de 2,2 × 2,7 m; encaixe no fim de um corredor.');
 
   // A bronze rail of 2 m: knotted posts at the ends and two rails. Line them up end to end.
-  model('nordic-railing', 'Nórdico · balaustrada de bronze', 'Nórdico / Arquitetura', DEPTHS, ['balaustrada', 'guarda-corpo', 'bronze', 'grade'], [
+  model('nordic-railing', 'Balaustrada de bronze', 'Nórdico / Arquitetura', DEPTHS, ['balaustrada', 'guarda-corpo', 'bronze', 'grade'], [
     ...[-1, 1].flatMap(s => [c(.05, 1.05, [s * .97, .525, 0], 'bronze'), lathe([[0, 0], [.08, .02], [.09, .08], [.05, .14], [0, .18]], [s * .97, 1.05, 0], 'oxide')]),
     ...[.5, .98].map(y => c(.03, 1.94, [0, y, 0], 'bronze', 'x')), c(.04, 1.94, [0, 1.06, 0], 'oxide', 'x'),
     ...along(3, -.5, .5).map(x => ({ ...r(.17, .018, [x, .74, 0], 'bronze'), segments: 16 })),
   ], 'Guarda-corpo de bronze de 2 m com postes de pomo e três argolas entre os corrimãos. Alinhe vários pela borda de poços e mezaninos.');
 
   // A stone warrior on a plinth: round shield, axe, horned helm, worn smooth.
-  model('nordic-guardian-statue', 'Nórdico · estátua de guardião', 'Nórdico / Arquitetura', DEPTHS, ['estátua', 'guardião', 'guerreiro', 'pedra'], [
+  model('nordic-guardian-statue', 'Estátua de guardião', 'Nórdico / Arquitetura', DEPTHS, ['estátua', 'guardião', 'guerreiro', 'pedra'], [
     ...stone([rb([1.3, .55, 1.3], [0, .275, 0], 'stone', .04), rb([1.1, .18, 1.1], [0, .64, 0], 'stone', .03)]),
     ...rocky([
       rb([.32, 1.2, .36], [-.18, 1.33, 0], 'stone', .08, [0, 0, .04]), rb([.32, 1.2, .36], [.18, 1.33, 0], 'stone', .08, [0, 0, -.04]),
@@ -190,7 +190,7 @@ export function addNordicDepthsLibrary({ add, ancient }) {
     const [x, y, z] = post(i), [x2, y2, z2] = post(i + 4); stair.push(c(.035, 1.05, [x, y + .52, z], 'iron'));
     stair.push(curve([[x, y + 1, z], [(x + x2) / 2, (y + y2) / 2 + .78, (z + z2) / 2], [x2, y2 + 1, z2]], .02, 'iron'));
   }
-  model('nordic-spiral-stair-turn', 'Nórdico · escada em espiral do abismo (uma volta)', 'Nórdico / Escadas', ['Abismo', 'Caverna', 'Masmorra', 'Torre'], ['escada', 'espiral', 'abismo', 'descida'],
+  model('nordic-spiral-stair-turn', 'Escada em espiral do abismo · uma volta', 'Nórdico / Escadas', ['Abismo', 'Caverna', 'Masmorra', 'Torre'], ['escada', 'espiral', 'abismo', 'descida'],
     [...withSurface(stair.filter(part => part.material === 'stone'), STONE), ...stair.filter(part => part.material !== 'stone')],
     'Uma volta de 40 degraus presos à parede de um poço de 16,5 m de raio, descendo 8 m, com corrimão de ferro na borda aberta. Empilhe voltas a cada 8 m, com o mesmo giro, para descer mais.');
 

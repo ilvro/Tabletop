@@ -1540,7 +1540,7 @@
       "url": "/assets/models/tree.json",
       "previewUrl": "/assets/previews/tree.svg",
       "geometryEdition": 2,
-      "contentHash": "7f25ee155701524a7303ed49f1da6c07cb80f3c4b23a7ae9b8c488a57439a5b0"
+      "contentHash": "7b342fb8f9f101f42123b8f4b3f00d821c583910f4903d9f22ca89916b037f36"
     },
     {
       "id": "builtin-pine",
@@ -1573,7 +1573,7 @@
       "url": "/assets/models/pine.json",
       "previewUrl": "/assets/previews/pine.svg",
       "geometryEdition": 2,
-      "contentHash": "2bfb48f5474aba175ae3369196fecde1c8a3078a2d7b3ebbdff577c9e42d0850"
+      "contentHash": "45211a03551b1be0960f7e547135962ecf7dd08778ed1bdb797a6ef2f75c5ba2"
     },
     {
       "id": "builtin-rock",
@@ -3665,7 +3665,7 @@
       "url": "/assets/models/stump.json",
       "previewUrl": "/assets/previews/stump.svg",
       "geometryEdition": 2,
-      "contentHash": "d35d52e7a337b7dadb786f1f0c65c4b3b1a787bcc8d172ab40da2257db89cf2d"
+      "contentHash": "e403159ebbc823ab4e5cd3231539b20e539d9e5db3c6bab7bdf69441f74fd5f7"
     },
     {
       "id": "builtin-bushes",
@@ -6831,7 +6831,7 @@
       "id": "builtin-church-clustered-pier",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · pilar fasciculado com capitel",
+      "name": "Pilar fasciculado com capitel",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -6858,13 +6858,13 @@
       "url": "/assets/models/church-clustered-pier.json",
       "previewUrl": "/assets/previews/church-clustered-pier.svg",
       "geometryEdition": 2,
-      "contentHash": "04539fd0e3e6b9205ab19389cacc03f14c5d4d658a97b660c554da80ae18ef17"
+      "contentHash": "5511f675005bf3be1ee98c290a2b6467aaa4d010c1dd8fba0b6fab24c9169fd7"
     },
     {
       "id": "builtin-church-round-arcade",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · arcada semicircular vazada",
+      "name": "Arcada semicircular vazada",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -6891,13 +6891,13 @@
       "url": "/assets/models/church-round-arcade.json",
       "previewUrl": "/assets/previews/church-round-arcade.svg",
       "geometryEdition": 2,
-      "contentHash": "e77c2ed475f8ed5df5abfaf8590bcbb99c16e999eeabcc6492f6ff4fd97b4be2"
+      "contentHash": "6850a72664cba562a76e049d3681f9124aa94eb818e9d2495f293bedc1d2ca65"
     },
     {
       "id": "builtin-church-pointed-arch",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · arco ogival vazado",
+      "name": "Arco ogival vazado",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -6924,13 +6924,13 @@
       "url": "/assets/models/church-pointed-arch.json",
       "previewUrl": "/assets/previews/church-pointed-arch.svg",
       "geometryEdition": 2,
-      "contentHash": "046500d795cf02184082130d58ec975fb4fb45705d308b23d4192c1f33d11f94"
+      "contentHash": "e9dc45a1b53f74ff817a1fce2a8fb4abc7fbb692b270d22445d4134cfb0c76bc"
     },
     {
       "id": "builtin-church-curved-balcony",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · balcão semicircular com balaústres",
+      "name": "Balcão semicircular com balaústres",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -6957,13 +6957,13 @@
       "url": "/assets/models/church-curved-balcony.json",
       "previewUrl": "/assets/previews/church-curved-balcony.svg",
       "geometryEdition": 2,
-      "contentHash": "9f046631a1cffbf6e7367bd0ca20b33ab1fd9524beeda16e4f3f19e5386861ff"
+      "contentHash": "4fa3a993094797c7c8819793476e9392f9b1913b904514204f7be9611c57b3fe"
     },
     {
       "id": "builtin-church-balustrade",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · balaustrada reta de pedra",
+      "name": "Balaustrada reta de pedra",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -6990,13 +6990,13 @@
       "url": "/assets/models/church-balustrade.json",
       "previewUrl": "/assets/previews/church-balustrade.svg",
       "geometryEdition": 2,
-      "contentHash": "3ca35ae227f3b6785890620d706712aac5a51a2f597fc15bbc92cde81f2f9a5a"
+      "contentHash": "8439069516a7c7a783e8529ee81364771ee27ffbc0a7ba08b6e12bf446947bf9"
     },
     {
       "id": "builtin-church-stained-window",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · vitral ogival vermelho com traceria",
+      "name": "Vitral ogival vermelho com traceria",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7023,13 +7023,13 @@
       "url": "/assets/models/church-stained-window.json",
       "previewUrl": "/assets/previews/church-stained-window.svg",
       "geometryEdition": 2,
-      "contentHash": "047c51525363187d4301e6863e208f31962f89b89a1319fe4b85c07d857cf8dc"
+      "contentHash": "e85fadd40b96f7ebdd7309e4ff57eeea7e17a85a82581b5212fcc79ac6ea1779"
     },
     {
       "id": "builtin-church-vault-ribs",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · nervuras de abóbada cruzada",
+      "name": "Nervuras de abóbada cruzada",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7056,13 +7056,13 @@
       "url": "/assets/models/church-vault-ribs.json",
       "previewUrl": "/assets/previews/church-vault-ribs.svg",
       "geometryEdition": 2,
-      "contentHash": "611a566ed3a5db233897913e282927bcba90c6f4f6463e48e250fc05d743ac34"
+      "contentHash": "28b308918dffb7dfd027b0fbdd2eadbc863acadb46d3b2360e46d5e06b575058"
     },
     {
       "id": "builtin-church-roof-shell",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · cobertura ogival modular",
+      "name": "Cobertura ogival modular",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7089,13 +7089,13 @@
       "url": "/assets/models/church-roof-shell.json",
       "previewUrl": "/assets/previews/church-roof-shell.svg",
       "geometryEdition": 2,
-      "contentHash": "450bff150173cd1547f352b2add0e88b0eeca1555b43a390e14f4e8552db41bf"
+      "contentHash": "76a0c74a154cd8fc81160aad547389db6f4180580ea021583da048b72b3aeb18"
     },
     {
       "id": "builtin-church-buttress",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · contraforte escalonado",
+      "name": "Contraforte escalonado",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7122,13 +7122,13 @@
       "url": "/assets/models/church-buttress.json",
       "previewUrl": "/assets/previews/church-buttress.svg",
       "geometryEdition": 2,
-      "contentHash": "42fe2cfa3fc93fc02ba931920f4f01d5fec0da0c263d8c5f6f78d40069e5de92"
+      "contentHash": "c99abee77f4ce06b4f95ff52062460bd2551955e0580bf67743c26c7a7641dbd"
     },
     {
       "id": "builtin-church-pinnacle",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · pináculo com florões",
+      "name": "Pináculo com florões",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7155,13 +7155,13 @@
       "url": "/assets/models/church-pinnacle.json",
       "previewUrl": "/assets/previews/church-pinnacle.svg",
       "geometryEdition": 2,
-      "contentHash": "110c5db94cc64cd16cdcbf9e42a3f93629db0dc29d28b1af1b9d8bc9aac3f2a6"
+      "contentHash": "8ca45e5ea416bf12a2466ed32ce9d41497d45caac9664161bee4318f1db79d45"
     },
     {
       "id": "builtin-church-bell-tower",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · torre sineira com vãos abertos",
+      "name": "Torre sineira com vãos abertos",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7188,13 +7188,13 @@
       "url": "/assets/models/church-bell-tower.json",
       "previewUrl": "/assets/previews/church-bell-tower.svg",
       "geometryEdition": 2,
-      "contentHash": "c08e644b72ccf26c95d486a1ed808ad65dce6e84cd629bd2c18bfb850f3c5f3e"
+      "contentHash": "af4125d3523080121c8b9d0669af0cc142132828ed0044cf8ec8b9ae7075ffc2"
     },
     {
       "id": "builtin-church-iron-maiden",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · Dama de Ferro com portas abertas",
+      "name": "Dama de Ferro com portas abertas",
       "category": "Ritual / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7222,13 +7222,13 @@
       "url": "/assets/models/church-iron-maiden.json",
       "previewUrl": "/assets/previews/church-iron-maiden.svg",
       "geometryEdition": 2,
-      "contentHash": "0609dd27c02453a1dd37df0974d8387c608a81a8b5b49afdbae82d0500c164de"
+      "contentHash": "d28f6b3014ff5ff1077dd442eb3815af0f327cf9ecf5eb5fffaf168f89c59512"
     },
     {
       "id": "builtin-church-headless-seraph",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · Serafim decapitado de pedra",
+      "name": "Serafim decapitado de pedra",
       "category": "Ritual / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7256,13 +7256,13 @@
       "url": "/assets/models/church-headless-seraph.json",
       "previewUrl": "/assets/previews/church-headless-seraph.svg",
       "geometryEdition": 2,
-      "contentHash": "99defe0308f27d655db1e959535054ac5a8216e8d25e4c1ad54d3754dd412dfd"
+      "contentHash": "faa4b1cfb4c6d6f1a529dbe2d899dae3972d501068de882df73d778ca0b53cd1"
     },
     {
       "id": "builtin-church-pointed-chair",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · cadeira de espaldar pontiagudo",
+      "name": "Cadeira de espaldar pontiagudo",
       "category": "Ritual / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7290,13 +7290,13 @@
       "url": "/assets/models/church-pointed-chair.json",
       "previewUrl": "/assets/previews/church-pointed-chair.svg",
       "geometryEdition": 2,
-      "contentHash": "599c89e77dfc99dcfe1e718db23e06a2ca28d308e64d0d443613331bbbb84fc7"
+      "contentHash": "5bdbe2b9ff2199722cd1c2305f33772c249b4eceec37f2410d71be6b63219922"
     },
     {
       "id": "builtin-church-ritual-banner",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · pendão ritual de tecido rasgado",
+      "name": "Pendão ritual de tecido rasgado",
       "category": "Ritual / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7324,13 +7324,13 @@
       "url": "/assets/models/church-ritual-banner.json",
       "previewUrl": "/assets/previews/church-ritual-banner.svg",
       "geometryEdition": 2,
-      "contentHash": "c0d5c26b6da65ef198c6274cc46fff535a873f90f09d242e4e37f0bc5a26664e"
+      "contentHash": "5698e5d5ccfe8c70f46dc0ac4b2b57e3b9b9fe613a2c1920ae68071c2982671f"
     },
     {
       "id": "builtin-church-hook-rack",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · correntes e ganchos suspensos",
+      "name": "Correntes e ganchos suspensos",
       "category": "Ritual / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7358,13 +7358,13 @@
       "url": "/assets/models/church-hook-rack.json",
       "previewUrl": "/assets/previews/church-hook-rack.svg",
       "geometryEdition": 2,
-      "contentHash": "7f3043f291d53577ec7d19097ee9af3ea1186574463923f859307efd050a72a2"
+      "contentHash": "300001805ca1f8aaf2c465b3a76d04aab3797df3a51b856190f22fc461c71b68"
     },
     {
       "id": "builtin-church-banquet-table",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · mesa longa de banquete",
+      "name": "Mesa longa de banquete",
       "category": "Ritual / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7393,13 +7393,13 @@
       "url": "/assets/models/church-banquet-table.json",
       "previewUrl": "/assets/previews/church-banquet-table.svg",
       "geometryEdition": 2,
-      "contentHash": "790d5700064caf550df6f03189c3ce5fd93f8c9472f88ada3176d076bd2bd0ff"
+      "contentHash": "6b65dba840724b17c85d47ff4241f67d6b3e83de22ff6d4c4f91f6ee59ee9396"
     },
     {
       "id": "builtin-church-candelabra",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · candelabro de cinco velas",
+      "name": "Candelabro de cinco velas",
       "category": "Ritual / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7427,13 +7427,13 @@
       "url": "/assets/models/church-candelabra.json",
       "previewUrl": "/assets/previews/church-candelabra.svg",
       "geometryEdition": 2,
-      "contentHash": "38a199f16cf1a8da6326bdabbccec5ca953032637bb5e1be11dcde1069ace062"
+      "contentHash": "dc8ddd579dbb49a216eae6b06f34f954c74660069c6281e2f08bb1afdc18309e"
     },
     {
       "id": "builtin-church-ogival-gable",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · empena ogival maciça",
+      "name": "Empena ogival maciça",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7459,13 +7459,13 @@
       "url": "/assets/models/church-ogival-gable.json",
       "previewUrl": "/assets/previews/church-ogival-gable.svg",
       "geometryEdition": 2,
-      "contentHash": "30f41cb363834306941d64d7971762c9eaf36940acecd72b186dffade05e6ac4"
+      "contentHash": "ab6540d4aef41fadf81eedbcb99b8e625957b323dd428645ffc723a28cc9bd42"
     },
     {
       "id": "builtin-church-window-spandrel",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · alvenaria com vão ogival",
+      "name": "Alvenaria com vão ogival",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7491,13 +7491,13 @@
       "url": "/assets/models/church-window-spandrel.json",
       "previewUrl": "/assets/previews/church-window-spandrel.svg",
       "geometryEdition": 2,
-      "contentHash": "0840863044f3b482891301bb43ac4c5d9f834325f5f4fa7c99fcf4a71a747720"
+      "contentHash": "c7c32beb7781aae766534fdcdc561e6f5328ef81a5d8b49d36c8dc306920732f"
     },
     {
       "id": "builtin-church-double-cross",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · cruz dupla rubra",
+      "name": "Cruz dupla rubra",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7523,13 +7523,13 @@
       "url": "/assets/models/church-double-cross.json",
       "previewUrl": "/assets/previews/church-double-cross.svg",
       "geometryEdition": 2,
-      "contentHash": "4fc69abbf70987f75e7b904a34f34c5d2e4a03ad007dedd104ad8f5baa93a45b"
+      "contentHash": "f62ee551bbe6e87d84b7f7ba739f46fb02bd9e4d51b1d0f1b9eb2f94a5c7e81d"
     },
     {
       "id": "builtin-church-banquet-setting",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · prato e cálice de banquete",
+      "name": "Prato e cálice de banquete",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7555,13 +7555,13 @@
       "url": "/assets/models/church-banquet-setting.json",
       "previewUrl": "/assets/previews/church-banquet-setting.svg",
       "geometryEdition": 2,
-      "contentHash": "3d60ad40a02f14148e05a76fd6e0768a87586fb58351cd81336b7d147be77a82"
+      "contentHash": "eee5592c12f72a97a3755e083cd0771edbe771d7e11d462f571255b81089ec2e"
     },
     {
       "id": "builtin-church-pitched-roof",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · cobertura de duas águas",
+      "name": "Cobertura da nave · duas águas",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7587,13 +7587,13 @@
       "url": "/assets/models/church-pitched-roof.json",
       "previewUrl": "/assets/previews/church-pitched-roof.svg",
       "geometryEdition": 2,
-      "contentHash": "ca875790fb163bafd5db8b2f715198fd33b7981a18340e63d4639a5450ed401d"
+      "contentHash": "4b1b62d0f4db7b89ec0428e98e78240607cb13d2e85938e615cda9f843b4432b"
     },
     {
       "id": "builtin-church-timber-truss",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · tesoura e mísulas da nave",
+      "name": "Tesoura e mísulas da nave",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7619,13 +7619,13 @@
       "url": "/assets/models/church-timber-truss.json",
       "previewUrl": "/assets/previews/church-timber-truss.svg",
       "geometryEdition": 2,
-      "contentHash": "20cf12d9bbba1c3c6a4fa5a6dfd4cefb80006c6262b82cf1d35b2ffd27a5172b"
+      "contentHash": "97c94cfb8432589395adf5c353493785f23357543f8237ed7f52c12b846eebee"
     },
     {
       "id": "builtin-church-pitched-gable",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · empena triangular do templo",
+      "name": "Empena triangular do templo",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7651,13 +7651,13 @@
       "url": "/assets/models/church-pitched-gable.json",
       "previewUrl": "/assets/previews/church-pitched-gable.svg",
       "geometryEdition": 2,
-      "contentHash": "a4c1de8a3b1803a50955ee68c7ab33c0b5898c5f79c56e058c2ebc9907d93483"
+      "contentHash": "1a4f17731dd39f789c838f62306881f42c8bfe3847632223641248dec77fd94c"
     },
     {
       "id": "builtin-church-tracery-window",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · vitral rubro de losangos e rosáceas",
+      "name": "Vitral rubro de losangos e rosáceas",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7683,13 +7683,13 @@
       "url": "/assets/models/church-tracery-window.json",
       "previewUrl": "/assets/previews/church-tracery-window.svg",
       "geometryEdition": 2,
-      "contentHash": "86ba26248acecb6906b96bcc0bf5e2afcdd2175470b701f8d88c766e5f16c519"
+      "contentHash": "3e4614ab21b1d7c71db564cd2ff24ac6d12639f229cad3531155b74f5a39afeb"
     },
     {
       "id": "builtin-church-altar-retable",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · retábulo monumental vazio",
+      "name": "Retábulo monumental vazio",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7715,13 +7715,13 @@
       "url": "/assets/models/church-altar-retable.json",
       "previewUrl": "/assets/previews/church-altar-retable.svg",
       "geometryEdition": 2,
-      "contentHash": "dfa943a012a94e1231b4275d17bfbe714327823b7ba4d28f0b932b2e0ae04dea"
+      "contentHash": "a544e2ac94e154571d41363b92d3227fed1a70a1c5e50602bfb891858bd370e0"
     },
     {
       "id": "builtin-church-ravine-tree",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · árvore retorcida do desfiladeiro",
+      "name": "Árvore retorcida do desfiladeiro",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7747,13 +7747,13 @@
       "url": "/assets/models/church-ravine-tree.json",
       "previewUrl": "/assets/previews/church-ravine-tree.svg",
       "geometryEdition": 2,
-      "contentHash": "38d42a6fa3c2c9ae61765b397eb7214e3d45ca985febed46a568f6e917d1e510"
+      "contentHash": "d93bab4c3e3f4f77ee8eaafeab7cf8250d52a1c97ec98485b106e10211bd3807"
     },
     {
       "id": "builtin-church-seraph-effigy",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · efígie decapitada do altar",
+      "name": "Efígie decapitada do altar",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7779,13 +7779,13 @@
       "url": "/assets/models/church-seraph-effigy.json",
       "previewUrl": "/assets/previews/church-seraph-effigy.svg",
       "geometryEdition": 2,
-      "contentHash": "9d8172c80af17bf0e1a84b80b513ba83942fbf438fa1f5053d2d8331b2fc70d0"
+      "contentHash": "7d1416890e460296d3c183f76cb248c3d819987a2477de7b1adc71f8a84e3281"
     },
     {
       "id": "builtin-church-spiked-reliquary",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · Dama de Ferro com aros espinhados",
+      "name": "Dama de Ferro com aros espinhados",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7811,13 +7811,13 @@
       "url": "/assets/models/church-spiked-reliquary.json",
       "previewUrl": "/assets/previews/church-spiked-reliquary.svg",
       "geometryEdition": 2,
-      "contentHash": "bb78f3d209a49c2de747b41585054ef4ec8803eecdc7680b40f46fbc1e945f5d"
+      "contentHash": "340d29967b33010e50feba0f1a3a219d502ed9da333e36ee9f6fdd29804e3b55"
     },
     {
       "id": "builtin-house-roof",
       "revision": 1,
       "type": "recipe",
-      "name": "Casa · telhado de duas águas",
+      "name": "Telhado cerâmico · duas águas",
       "category": "Casa / Estrutura",
       "era": "Contemporânea",
       "contexts": [
@@ -7827,7 +7827,7 @@
       "tags": [
         "casa de bairro",
         "residencial",
-        "roof"
+        "telhado"
       ],
       "description": "Cobertura de 13 × 16 m, cumeeira, fiadas e empenas. Ocultar a camada Coberturas para jogar em planta.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
@@ -7843,7 +7843,7 @@
       "url": "/assets/models/house-roof.json",
       "previewUrl": "/assets/previews/house-roof.svg",
       "geometryEdition": 2,
-      "contentHash": "12e27f4b7568dbfd964fc06263d20dcca0f285c11c54a563547fedfa6d48b6a7"
+      "contentHash": "901718897bb5d16f38f3159b3157bad2c426595cc221b5efff3fdd79b3461869"
     },
     {
       "id": "builtin-house-range",
@@ -7859,7 +7859,7 @@
       "tags": [
         "casa de bairro",
         "residencial",
-        "range"
+        "fogão"
       ],
       "description": "Fogão esmaltado com forno, grelhas e quatro queimadores.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
@@ -7891,7 +7891,7 @@
       "tags": [
         "casa de bairro",
         "residencial",
-        "washer"
+        "lavanderia"
       ],
       "description": "Lavadora com escotilha e painel, tampo utilizável.",
       "supportHeight": 0.9100000023841858,
@@ -7924,7 +7924,7 @@
       "tags": [
         "casa de bairro",
         "residencial",
-        "counter"
+        "balcão"
       ],
       "description": "Armário baixo verde com bancada de pedra clara.",
       "supportHeight": 0.8799999991059304,
@@ -7957,7 +7957,7 @@
       "tags": [
         "casa de bairro",
         "residencial",
-        "plant"
+        "planta"
       ],
       "description": "Vaso de barro com folhas alongadas; decoração de interiores e jardins.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
@@ -7989,7 +7989,7 @@
       "tags": [
         "casa de bairro",
         "residencial",
-        "ceiling-lamp"
+        "luminária"
       ],
       "description": "Plafon baixo. Associe uma fonte abaixo da lente para iluminar o cômodo.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
@@ -8021,7 +8021,7 @@
       "tags": [
         "casa de bairro",
         "residencial",
-        "curtain"
+        "cortina"
       ],
       "description": "Par de cortinas abertas com pregas e varão; vão central livre.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
@@ -8053,7 +8053,7 @@
       "tags": [
         "casa de bairro",
         "residencial",
-        "place-setting"
+        "louça"
       ],
       "description": "Louça cotidiana sem conteúdo narrativo, para mesas e bancadas.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
@@ -8085,7 +8085,7 @@
       "tags": [
         "casa de bairro",
         "residencial",
-        "tile-floor"
+        "piso"
       ],
       "description": "Placas quadradas com juntas reais; escale o módulo ao tamanho do cômodo.",
       "supportHeight": 0.014999999944120646,
@@ -8108,7 +8108,7 @@
       "id": "builtin-backrooms-wallpaper",
       "revision": 1,
       "type": "recipe",
-      "name": "Backrooms · papel de parede e rodapé",
+      "name": "Papel de parede amarelo e rodapé",
       "category": "Arquitetura / Backrooms",
       "era": "Contemporânea",
       "contexts": [
@@ -8118,7 +8118,7 @@
       "tags": [
         "backrooms",
         "liminal",
-        "wallpaper"
+        "papel de parede"
       ],
       "description": "Padrão de losangos nas duas faces de uma parede de 3 × 2,8 m e espessura de 20 cm. Não fecha vãos por conta própria.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
@@ -8134,13 +8134,13 @@
       "url": "/assets/models/backrooms-wallpaper.json",
       "previewUrl": "/assets/previews/backrooms-wallpaper.svg",
       "geometryEdition": 2,
-      "contentHash": "30f1978aa0cfc13da0d87274703db3570f955626cd23b1f8268bc5cefce6ed1f"
+      "contentHash": "eeb02b719fa2ee242d34d80813a11b1bea56b15bbc3f20f621dc6784fb3c747f"
     },
     {
       "id": "builtin-backrooms-ceiling",
       "revision": 1,
       "type": "recipe",
-      "name": "Backrooms · forro modular de 3 m",
+      "name": "Forro modular · 3 m",
       "category": "Arquitetura / Backrooms",
       "era": "Contemporânea",
       "contexts": [
@@ -8150,7 +8150,7 @@
       "tags": [
         "backrooms",
         "liminal",
-        "ceiling"
+        "forro"
       ],
       "description": "Placas acústicas com juntas reais, formando um forro baixo. Ocultar com a camada Coberturas.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
@@ -8166,13 +8166,13 @@
       "url": "/assets/models/backrooms-ceiling.json",
       "previewUrl": "/assets/previews/backrooms-ceiling.svg",
       "geometryEdition": 2,
-      "contentHash": "15f53494756127c390c423e1e74586e9ac5c638f4a22445cfadb0edbd95d093a"
+      "contentHash": "3a76bbd961053f18d9331e76151401433157980543dbdcbcad3484c81e75c6e4"
     },
     {
       "id": "builtin-backrooms-fluorescent",
       "revision": 1,
       "type": "recipe",
-      "name": "Backrooms · luminária fluorescente dupla",
+      "name": "Luminária fluorescente dupla",
       "category": "Arquitetura / Backrooms",
       "era": "Contemporânea",
       "contexts": [
@@ -8182,7 +8182,7 @@
       "tags": [
         "backrooms",
         "liminal",
-        "fluorescent"
+        "fluorescente"
       ],
       "description": "Calha com dois tubos luminosos. Fonte real vinculável abaixo das lâmpadas.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
@@ -8198,7 +8198,7 @@
       "url": "/assets/models/backrooms-fluorescent.json",
       "previewUrl": "/assets/previews/backrooms-fluorescent.svg",
       "geometryEdition": 2,
-      "contentHash": "274e62ed54b0c1b5180a7ec850ceb0ea9d5f39b90da0efdc9232d8497721604f"
+      "contentHash": "0a28cc2813e8444f8236cdc21f90ff3b0fdf7694006b1acb44a7bdac9e745884"
     },
     {
       "id": "builtin-medieval-throne",
@@ -11108,7 +11108,7 @@
       "id": "builtin-temple-square-pier",
       "revision": 1,
       "type": "recipe",
-      "name": "Templo · pilar quadrado escalonado com argola",
+      "name": "Pilar quadrado escalonado com argola",
       "category": "Arquitetura / Templo gelado",
       "era": "Antiguidade",
       "contexts": [
@@ -11140,13 +11140,13 @@
       "url": "/assets/models/temple-square-pier.json",
       "previewUrl": "/assets/previews/temple-square-pier.svg",
       "geometryEdition": 2,
-      "contentHash": "c22d26bc5dfaa818aeb9877a51063b7746e8aef09d3e859b94d55fb59756b764"
+      "contentHash": "a0976030967aaaf66dce305b15e151845401693aa34f1276b607f3f1243b3532"
     },
     {
       "id": "builtin-temple-arched-gateway",
       "revision": 1,
       "type": "recipe",
-      "name": "Templo · portal em arco com recesso",
+      "name": "Portal em arco com recesso",
       "category": "Arquitetura / Templo gelado",
       "era": "Antiguidade",
       "contexts": [
@@ -11179,13 +11179,13 @@
       "url": "/assets/models/temple-arched-gateway.json",
       "previewUrl": "/assets/previews/temple-arched-gateway.svg",
       "geometryEdition": 2,
-      "contentHash": "c0e8ee575aee3fb5ebe3aa5ea14951e73e049b3bd5f80cfe8974e96fdab27639"
+      "contentHash": "646ad31cb319fa2745b92060c4185ca9a630f8c1b29447fd79329ab63f42ecf3"
     },
     {
       "id": "builtin-temple-portcullis",
       "revision": 1,
       "type": "recipe",
-      "name": "Templo · grade levadiça em arco",
+      "name": "Grade levadiça em arco",
       "category": "Arquitetura / Templo gelado",
       "era": "Antiguidade",
       "contexts": [
@@ -11218,13 +11218,13 @@
       "url": "/assets/models/temple-portcullis.json",
       "previewUrl": "/assets/previews/temple-portcullis.svg",
       "geometryEdition": 2,
-      "contentHash": "901a0b2e8021232e7eedce253a788b2d6bd2ab902d8a1a45d9c4ae590323074c"
+      "contentHash": "2bec394ceb49c823cb28e096ce9faf35a427ec7155bc46bf54cbb244a05de817"
     },
     {
       "id": "builtin-temple-wall-niche",
       "revision": 1,
       "type": "recipe",
-      "name": "Templo · nicho de porta com pilastras",
+      "name": "Nicho de porta com pilastras",
       "category": "Arquitetura / Templo gelado",
       "era": "Antiguidade",
       "contexts": [
@@ -11257,13 +11257,13 @@
       "url": "/assets/models/temple-wall-niche.json",
       "previewUrl": "/assets/previews/temple-wall-niche.svg",
       "geometryEdition": 2,
-      "contentHash": "55edd0702c7d2cf01a7285f067adbe22ed05428abeaca33b42851578afcdd762"
+      "contentHash": "1d7d6055434b454384e0e6fb8f556adcb3f5cdd9000bcadc0ae6f871007156b0"
     },
     {
       "id": "builtin-temple-rune-ring",
       "revision": 1,
       "type": "recipe",
-      "name": "Templo · anel rúnico de pedra",
+      "name": "Anel rúnico de pedra",
       "category": "Arquitetura / Templo gelado",
       "era": "Antiguidade",
       "contexts": [
@@ -11297,7 +11297,7 @@
       "url": "/assets/models/temple-rune-ring.json",
       "previewUrl": "/assets/previews/temple-rune-ring.svg",
       "geometryEdition": 2,
-      "contentHash": "f3744cf45ee7672fbe9d933f07ff0fde454d7869886c146fbe76cfb954286ba7"
+      "contentHash": "f22244ed2650961934a675a8bf04f3c96c5a4e6d741a24cdcd101a49ba568334"
     },
     {
       "id": "builtin-temple-spike-barricade",
@@ -11339,7 +11339,7 @@
       "id": "builtin-temple-floor-grate",
       "revision": 1,
       "type": "recipe",
-      "name": "Templo · grade de alçapão no piso",
+      "name": "Grade de alçapão no piso",
       "category": "Arquitetura / Templo gelado",
       "era": "Antiguidade",
       "contexts": [
@@ -11372,7 +11372,7 @@
       "url": "/assets/models/temple-floor-grate.json",
       "previewUrl": "/assets/previews/temple-floor-grate.svg",
       "geometryEdition": 2,
-      "contentHash": "de4fc6c7b3abffe6c91556ad677e004a7ce04d6023038ca624443e47362dea51"
+      "contentHash": "a356d53a8bdf1dc4ac026ab6397a9938e348c8a26233c3c403a784437ffd6513"
     },
     {
       "id": "builtin-ice-icicles",
@@ -11451,7 +11451,7 @@
       "id": "builtin-nordic-rune-console",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · console rúnico",
+      "name": "Console rúnico",
       "category": "Nórdico / Tecnologia rúnica",
       "era": "Antiguidade",
       "contexts": [
@@ -11483,13 +11483,13 @@
       "url": "/assets/models/nordic-rune-console.json",
       "previewUrl": "/assets/previews/nordic-rune-console.svg",
       "geometryEdition": 2,
-      "contentHash": "094c711a481a5a69b649cc57340a6d88f78e8f320c331031411616c279216820"
+      "contentHash": "3282b27f2c5bba200fa0a5327d90a984d81f8ec0c108f73a758cc7c6e70e2e04"
     },
     {
       "id": "builtin-nordic-gear-wall",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · mecanismo de engrenagens de parede",
+      "name": "Mecanismo de engrenagens de parede",
       "category": "Nórdico / Tecnologia rúnica",
       "era": "Antiguidade",
       "contexts": [
@@ -11521,13 +11521,13 @@
       "url": "/assets/models/nordic-gear-wall.json",
       "previewUrl": "/assets/previews/nordic-gear-wall.svg",
       "geometryEdition": 2,
-      "contentHash": "9cac6e3494414235e860fbb30500907da033abaaa4f53bfe5b970e37e06a0c8a"
+      "contentHash": "7e8cd7c6f844853574798800f2f4df5ac1a7b2e4841c7b5f3af605005324986e"
     },
     {
       "id": "builtin-nordic-conduit-pillar",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · coluna condutora rúnica",
+      "name": "Coluna condutora rúnica",
       "category": "Nórdico / Tecnologia rúnica",
       "era": "Antiguidade",
       "contexts": [
@@ -11559,13 +11559,13 @@
       "url": "/assets/models/nordic-conduit-pillar.json",
       "previewUrl": "/assets/previews/nordic-conduit-pillar.svg",
       "geometryEdition": 2,
-      "contentHash": "837e134d6161aafbfe03d83d1fa0302adb9482265911b8f980e4edaeef83ef9f"
+      "contentHash": "35bff3e996f7179a47113a1b94c59fe33bbd7bfaf39c2fff97022505735892e5"
     },
     {
       "id": "builtin-nordic-forge-engine",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · forja rúnica",
+      "name": "Forja rúnica",
       "category": "Nórdico / Tecnologia rúnica",
       "era": "Antiguidade",
       "contexts": [
@@ -11597,13 +11597,13 @@
       "url": "/assets/models/nordic-forge-engine.json",
       "previewUrl": "/assets/previews/nordic-forge-engine.svg",
       "geometryEdition": 2,
-      "contentHash": "784ea1763774fda8ed3432e3f6eae8f00a28a66270330550b9c83d198df3116e"
+      "contentHash": "06b30f5adaebbd7966c0638a0502955d6969ff80480adb0ef585b1cdba03f907"
     },
     {
       "id": "builtin-nordic-runestone",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · pedra rúnica com sulcos acesos",
+      "name": "Pedra rúnica com sulcos acesos",
       "category": "Nórdico / Pedras rúnicas",
       "era": "Antiguidade",
       "contexts": [
@@ -11635,13 +11635,13 @@
       "url": "/assets/models/nordic-runestone.json",
       "previewUrl": "/assets/previews/nordic-runestone.svg",
       "geometryEdition": 2,
-      "contentHash": "61791826086770bdd1b2f2ea1e40114e27b28f81d80e214df65422c075ab7545"
+      "contentHash": "b34c7a9f1171ba2432c8e4bf3e1fe78dc31cad67005a4a3e8f1c3593e15d39e3"
     },
     {
       "id": "builtin-nordic-vault-door",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · porta-cofre circular aberta",
+      "name": "Porta-cofre circular aberta",
       "category": "Nórdico / Portas",
       "era": "Antiguidade",
       "contexts": [
@@ -11673,13 +11673,13 @@
       "url": "/assets/models/nordic-vault-door.json",
       "previewUrl": "/assets/previews/nordic-vault-door.svg",
       "geometryEdition": 2,
-      "contentHash": "24d9e955ed4b61f16f57733f1e0b63af15a065a473bec3e42eef20c05b4714ba"
+      "contentHash": "fe065d7caa592a23eba8b40d60eb52947edddd0d57f76f1d6a5608ff0880cf99"
     },
     {
       "id": "builtin-nordic-stasis-pod",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · cápsula de estase rompida",
+      "name": "Cápsula de estase rompida",
       "category": "Nórdico / Tecnologia rúnica",
       "era": "Antiguidade",
       "contexts": [
@@ -11711,13 +11711,13 @@
       "url": "/assets/models/nordic-stasis-pod.json",
       "previewUrl": "/assets/previews/nordic-stasis-pod.svg",
       "geometryEdition": 2,
-      "contentHash": "3d669e0e963c5f61fe6e69bfe15bd6630d303ec61ae744124bfb66193201ec09"
+      "contentHash": "f0166b52f0144c97a6978f4454ef7af7b302e1cdab6f66824e2a7ca3dcfeb6b6"
     },
     {
       "id": "builtin-nordic-rune-lantern",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · lanterna rúnica de cristal",
+      "name": "Lanterna rúnica de cristal",
       "category": "Nórdico / Iluminação",
       "era": "Antiguidade",
       "contexts": [
@@ -11749,13 +11749,13 @@
       "url": "/assets/models/nordic-rune-lantern.json",
       "previewUrl": "/assets/previews/nordic-rune-lantern.svg",
       "geometryEdition": 2,
-      "contentHash": "e0e26aa1d7ede4ecbdca6acbc026033f7fc9422505356ec4d84b3232c63e0d15"
+      "contentHash": "b969bf5b843c5dff9a6aa0d01c267c07acffe2f71ee5ec3f7cc5423b12590506"
     },
     {
       "id": "builtin-nordic-tablet-shelf",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · estante de tábuas rúnicas",
+      "name": "Estante de tábuas rúnicas",
       "category": "Nórdico / Pedras rúnicas",
       "era": "Antiguidade",
       "contexts": [
@@ -11787,13 +11787,13 @@
       "url": "/assets/models/nordic-tablet-shelf.json",
       "previewUrl": "/assets/previews/nordic-tablet-shelf.svg",
       "geometryEdition": 2,
-      "contentHash": "1991fee17410daee85496d8b7ad13a4ad955b108ec07ec68f260564a4876cf86"
+      "contentHash": "33bc17cab17399960f47204eb9a2ffbd7418bd4758d17d12988ee3228d3f1007"
     },
     {
       "id": "builtin-nordic-floor-sigil",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · círculo rúnico no piso",
+      "name": "Círculo rúnico no piso",
       "category": "Nórdico / Pedras rúnicas",
       "era": "Antiguidade",
       "contexts": [
@@ -11825,13 +11825,13 @@
       "url": "/assets/models/nordic-floor-sigil.json",
       "previewUrl": "/assets/previews/nordic-floor-sigil.svg",
       "geometryEdition": 2,
-      "contentHash": "426ff2527b7d59d6c422fe554fe2364c664f43b36862e47d367c77a5f8984f8a"
+      "contentHash": "e7401a82629f5c274d4f69c08f8a9da5af15660428cba6c4ca09bd8cab5c1e36"
     },
     {
       "id": "builtin-nordic-rune-door",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · porta de pedra rúnica",
+      "name": "Porta de pedra rúnica",
       "category": "Nórdico / Portas",
       "era": "Antiguidade",
       "contexts": [
@@ -11864,13 +11864,13 @@
       "url": "/assets/models/nordic-rune-door.json",
       "previewUrl": "/assets/previews/nordic-rune-door.svg",
       "geometryEdition": 2,
-      "contentHash": "2bb618fbfcf49b69ad4fb17900641231e2c29b4148d05b2ba0e656d989031ad3"
+      "contentHash": "3d7d47c8841b998d050eb5d9b020045fadc47ad1231243f1aba9a324620ae7b5"
     },
     {
       "id": "builtin-nordic-railing",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · balaustrada de bronze",
+      "name": "Balaustrada de bronze",
       "category": "Nórdico / Arquitetura",
       "era": "Antiguidade",
       "contexts": [
@@ -11902,13 +11902,13 @@
       "url": "/assets/models/nordic-railing.json",
       "previewUrl": "/assets/previews/nordic-railing.svg",
       "geometryEdition": 2,
-      "contentHash": "f5d42e89c774746c848d772c9c8ce64f9e530ba0ba00cbd8e1361f305012aed1"
+      "contentHash": "e6f62b39443d90d85496b9a2be7544c7c0d53db880175361cb8bf6513281bfd5"
     },
     {
       "id": "builtin-nordic-guardian-statue",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · estátua de guardião",
+      "name": "Estátua de guardião",
       "category": "Nórdico / Arquitetura",
       "era": "Antiguidade",
       "contexts": [
@@ -11940,13 +11940,13 @@
       "url": "/assets/models/nordic-guardian-statue.json",
       "previewUrl": "/assets/previews/nordic-guardian-statue.svg",
       "geometryEdition": 2,
-      "contentHash": "9b87ff9353cb6354fe735f88c15da0d3cda33aa462a394e76f5354fd2cc6753a"
+      "contentHash": "d4e39da7147c4af135f5e41a0115fce51c0934e4423b5ba3772f6c93b27046ee"
     },
     {
       "id": "builtin-nordic-spiral-stair-turn",
       "revision": 1,
       "type": "recipe",
-      "name": "Nórdico · escada em espiral do abismo (uma volta)",
+      "name": "Escada em espiral do abismo · uma volta",
       "category": "Nórdico / Escadas",
       "era": "Antiguidade",
       "contexts": [
@@ -11977,7 +11977,7 @@
       "url": "/assets/models/nordic-spiral-stair-turn.json",
       "previewUrl": "/assets/previews/nordic-spiral-stair-turn.svg",
       "geometryEdition": 2,
-      "contentHash": "3b3ea1d38bc6897deb9ff1627c1a028c2bbb7cd2f2ad2233debad4217474a255"
+      "contentHash": "332029a934dce504c8398be0f9a679483e144e2482c313167cb8b63d8a699f8f"
     },
     {
       "id": "builtin-cave-painting-hunt",

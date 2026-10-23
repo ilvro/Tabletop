@@ -50,7 +50,7 @@ export function addFrozenTempleLibrary({ add, ancient, timeless }) {
     return [strip(0, y + .82, 1.78, .14), strip(0, y - .82, 1.78, .14), strip(-.82, y, .14, 1.5), strip(.82, y, .14, 1.5), pyramid(out, at(0, y, half + .08))];
   };
   const ring = z => { const s = Math.sign(z); return [b([.34, .42, .05], [0, 7.78, z], 'iron'), c(.035, .14, [0, 7.86, z + s * .07], 'iron', 'z'), r(.16, .03, [0, 7.62, z + s * .14], 'iron')]; };
-  model('temple-square-pier', 'Templo · pilar quadrado escalonado com argola', 'Arquitetura / Templo gelado', ancient, TEMPLE, [...tags, 'pilar', 'coluna', 'argola'], [
+  model('temple-square-pier', 'Pilar quadrado escalonado com argola', 'Arquitetura / Templo gelado', ancient, TEMPLE, [...tags, 'pilar', 'coluna', 'argola'], [
     ...trim([rb([2.9, .28, 2.9], [0, .14, 0], 'trim', .03), rb([2.65, .28, 2.65], [0, .42, 0], 'trim', .03), rb([2.45, .3, 2.45], [0, .71, 0], 'trim', .03)]),
     ...stone([rb([2.2, 2.3, 2.2], [0, 2.01, 0], 'stone', .025)]), ...trim(['+z', '-z', '+x', '-x'].flatMap(out => face(out, 2.01, 1.1))),
     ...trim([rb([2.5, .22, 2.5], [0, 3.27, 0], 'trim', .03), rb([2.3, .2, 2.3], [0, 3.48, 0], 'trim', .03)]),
@@ -59,9 +59,9 @@ export function addFrozenTempleLibrary({ add, ancient, timeless }) {
   ], 'Pilar de cantaria de 9 m: base em degraus, pedestal com almofadas e pirâmides, cornija e fuste até o teto, com argola de ferro na frente e atrás.');
 
   // A gateway 8 m wide and 9 m tall: a deep faceted recess in front, and in its back the round arch
-  // of 4,4 m where the portcullis sits (Templo · grade levadiça, at the back face).
+  // of 4,4 m where the portcullis sits (Grade levadiça em arco, at the back face).
   const voussoirs = along(11, PI, 0).map(a => rb([.5, .34, .2], [Math.cos(a) * 2.42, 3.6 + Math.sin(a) * 2.42, .2], 'trim', .02, [0, 0, a - PI / 2]));
-  model('temple-arched-gateway', 'Templo · portal em arco com recesso', 'Arquitetura / Templo gelado', ancient, TEMPLE, [...tags, 'portal', 'arco', 'parede', 'passagem'], [
+  model('temple-arched-gateway', 'Portal em arco com recesso', 'Arquitetura / Templo gelado', ancient, TEMPLE, [...tags, 'portal', 'arco', 'parede', 'passagem'], [
     ...stone([archWall(8, 9, 6.6, 4.1, .5, .35, 'stone', 6)]), ...withSurface([archWall(8, 9, 4.4, 3.6, .7, -.25, 'recess')], RECESS), ...trim(voussoirs),
     ...trim([rb([8.2, .3, 1.32], [0, 8.85, 0], 'trim', .03), ...[-1, 1].map(s => rb([.5, .3, .9], [s * 2.45, .15, .3], 'trim', .03))]),
   ], 'Parede de cantaria com um recesso facetado e, ao fundo, o arco redondo de 4,4 × 5,8 m onde se encaixa a grade levadiça.');
@@ -70,13 +70,13 @@ export function addFrozenTempleLibrary({ add, ancient, timeless }) {
   const span = 2.2, spring = 3.6, top = x => spring + Math.sqrt(Math.max(0, span * span - x * x)), half = y => y <= spring ? span : Math.sqrt(Math.max(0, span * span - (y - spring) ** 2));
   const verticals = along(11, -2, 2).flatMap(x => { const h = top(x) - .12; return [b([.09, h - .1, .09], [x, .1 + (h - .1) / 2, .05], 'iron'), { ...cylinder(.065, .12, [x, .06, .05], 'iron', 0, [PI, 0, 0]), segments: 4 }]; });
   const crossbars = along(12, .5, 5.45).filter(y => half(y) > .4).map(y => b([half(y) * 2 - .16, .08, .08], [0, y, -.04], 'iron'));
-  model('temple-portcullis', 'Templo · grade levadiça em arco', 'Arquitetura / Templo gelado', ancient, TEMPLE, [...tags, 'grade', 'portão', 'ferro', 'levadiça'], [
+  model('temple-portcullis', 'Grade levadiça em arco', 'Arquitetura / Templo gelado', ancient, TEMPLE, [...tags, 'grade', 'portão', 'ferro', 'levadiça'], [
     ...verticals, ...crossbars, curve(along(15, PI, 0).map(a => [Math.cos(a) * (span - .04), spring + Math.sin(a) * (span - .04), 0]), .055, 'iron'),
     ...[-1, 1].map(s => b([.12, spring, .16], [s * (span - .04), spring / 2, 0], 'iron')),
   ], 'Grade de barras quadradas com topo em arco de 4,4 × 5,8 m e pontas no pé. Encaixa no portal em arco do templo.');
 
   // A doorway between pilasters, with steps, a lintel and the dark of the passage behind.
-  model('temple-wall-niche', 'Templo · nicho de porta com pilastras', 'Arquitetura / Templo gelado', ancient, TEMPLE, [...tags, 'nicho', 'porta', 'pilastra', 'parede'], [
+  model('temple-wall-niche', 'Nicho de porta com pilastras', 'Arquitetura / Templo gelado', ancient, TEMPLE, [...tags, 'nicho', 'porta', 'pilastra', 'parede'], [
     b([2.1, 3.9, .04], [0, 2.05, -.2], 'void'), ...stone([...[-1, 1].flatMap(s => [rb([.5, 4.7, .62], [s * 1.32, 2.35, 0], 'stone', .02), rb([.16, 3.9, .4], [s * 1.0, 2.05, -.05], 'stone', .015)])]),
     ...trim([rb([3.3, .42, .74], [0, 4.91, .04], 'trim', .03), rb([3.5, .18, .84], [0, 5.21, .06], 'trim', .03), rb([2.2, .16, .4], [0, 4.02, -.05], 'trim', .02),
       rb([3.2, .2, 1.1], [0, .1, .38], 'trim', .02), rb([2.4, .18, .6], [0, .29, .2], 'trim', .02)]),
@@ -84,7 +84,7 @@ export function addFrozenTempleLibrary({ add, ancient, timeless }) {
 
   // A ring of stone blocks on a stepped base, with a dashed ring of light and a faint veil inside.
   const R = 1.7, cy = 2.3;
-  model('temple-rune-ring', 'Templo · anel rúnico de pedra', 'Arquitetura / Templo gelado', ancient, [...TEMPLE, 'Ritual'], [...tags, 'portal', 'runa', 'ritual', 'anomalia'], [
+  model('temple-rune-ring', 'Anel rúnico de pedra', 'Arquitetura / Templo gelado', ancient, [...TEMPLE, 'Ritual'], [...tags, 'portal', 'runa', 'ritual', 'anomalia'], [
     ...trim([rb([4.2, .25, 1.7], [0, .125, 0], 'trim', .03), rb([3.5, .25, 1.3], [0, .375, 0], 'trim', .03)]),
     ...stone(along(20, 0, PI * 2 * 19 / 20).map(a => rb([.6, .42, .5], [Math.cos(a) * R, cy + Math.sin(a) * R, 0], 'stone', .03, [0, 0, a + PI / 2]))),
     ...[-1, 1].flatMap(z => along(12, 0, PI * 2 * 11 / 12).map(a => b([.24, .1, .03], [Math.cos(a) * R, cy + Math.sin(a) * R, z * .26], 'glow', [0, 0, a + PI / 2]))),
@@ -99,7 +99,7 @@ export function addFrozenTempleLibrary({ add, ancient, timeless }) {
     ...[-1, 0, 1].map(i => ({ ...r(.09, .02, [i * .95 + .03, .55, 0], 'rope', [0, PI / 2, 0]), segments: 16 })),
   ], 'Viga sobre três pares de estacas afiadas, amarradas em X. Barreira de acampamento ou de cerco.');
 
-  model('temple-floor-grate', 'Templo · grade de alçapão no piso', 'Arquitetura / Templo gelado', ancient, TEMPLE, [...tags, 'grade', 'alçapão', 'piso', 'ferro'], [
+  model('temple-floor-grate', 'Grade de alçapão no piso', 'Arquitetura / Templo gelado', ancient, TEMPLE, [...tags, 'grade', 'alçapão', 'piso', 'ferro'], [
     b([2.3, .01, 1.5], [0, .005, 0], 'void'), ...[-1, 1].flatMap(s => [b([2.5, .07, .1], [0, .035, s * .8], 'iron'), b([.1, .07, 1.7], [s * 1.2, .035, 0], 'iron')]),
     ...along(9, -1, 1).map(x => b([.05, .06, 1.5], [x, .03, 0], 'iron')), ...along(5, -.6, .6).map(z => b([2.3, .045, .05], [0, .03, z], 'iron')),
   ], 'Grade de ferro de 2,5 × 1,7 m sobre um poço escuro. Fica rente ao piso.');

@@ -7,6 +7,10 @@ import {craftIndustrial} from './library-atelier-industrial.js';
 import {craftOccult} from './library-atelier-occult.js';
 import {craftHouse} from './library-atelier-house.js';
 
+import {spin} from './library-atelier-kit.js';
+
+const TAU=Math.PI*2;
+
 // Dedicated replacements for silhouettes that cannot be repaired by detailing a
 // primitive. Remaining kits are rebuilt component-by-component in construction.
 export function craftModel(id,recipe,size) {
@@ -24,11 +28,49 @@ export function craftModel(id,recipe,size) {
       }
       return {parts,method:'arbusto baixo com hastes desde o chão e tufos de folhas sobrepostos'};
     }
+    // Bark on trunks and roots, needle/leaf texture on crowns: the wood slot would otherwise get sawn grain.
+    const bark={texture:'bark',textureSize:.65,textureBrightness:.72,relief:.025},rand=(seed=>()=>(seed=(Math.imul(seed,1664525)+1013904223)>>>0)/4294967296)(id.length*977);
+    const limb=(points,radius,tipRadius,forks=0)=>({...branch(points,radius,tipRadius),forks,sides:7,surface:bark});
+    const roots=(count,reach,rise,radius)=>{for(let i=0;i<count;i++){const a=i*TAU/count+rand()*.4;parts.push(limb([[0,rise,0],[Math.cos(a)*reach*.45,rise*.35,Math.sin(a)*reach*.45],[Math.cos(a)*reach,0,Math.sin(a)*reach]],radius,radius*.3,1));}};
     if(id==='stump') {
-      parts.push(t([[0,0],[w*.28,0],[w*.33,h*.12],[w*.25,h*.33],[w*.22,h],[0,h]],[0,0,0],'wood'),c(w*.205,.007,[0,h-.002,0],'paper'));
-      for(let i=1;i<6;i++)parts.push(r(w*.032*i,.003,[0,h+.002,0],'wood',[Math.PI/2,0,0]));
-      for(let i=0;i<6;i++){let a=i*Math.PI/3;parts.push(branch([[Math.cos(a)*w*.45,0,Math.sin(a)*d*.45],[Math.cos(a)*w*.22,h*.12,Math.sin(a)*d*.22],[0,h*.35,0]],.04,.015));}
-    } else {
+      // Felled trunk with bark, a pale broken cut with rings, splinters standing from the rim and flared roots.
+      parts.push({...t([[0,0],[w*.3,0],[w*.31,h*.1],[w*.25,h*.3],[w*.23,h*.72],[0,h*.72]],[0,0,0],'wood'),surface:bark},c(w*.215,.012,[0,h*.72,0],'paper'));
+      for(let i=1;i<6;i++)parts.push({...r(w*.036*i,.0025,[0,h*.727,0],'wood',[Math.PI/2,0,0]),surface:bark});
+      for(const [i,k] of [.9,.35,.6,.25].entries()){const a=i*1.7+rand()*.4,x=Math.cos(a)*w*.17,z=Math.sin(a)*w*.17;parts.push({...b([w*(.09+k*.05),h*.28*k,w*.05],[x,h*.72+h*.13*k,z],'paper',spin(['z',.12*(i%2?1:-1)],['y',-a]),.004),taper:[.3,.5]});}
+      for(let i=0;i<7;i++){const a=i*TAU/7+rand()*.4,reach=w*(.36+rand()*.08);parts.push(limb([[0,h*.2,0],[Math.cos(a)*w*.25,h*.08,Math.sin(a)*w*.25],[Math.cos(a)*reach,h*.015,Math.sin(a)*reach],[Math.cos(a)*reach*1.12,0,Math.sin(a)*reach*1.12]],w*.1,w*.03,1));}
+      return {parts,method:'toco com casca, corte claro com anéis, lascas quebradas na borda e raízes que entram no chão'};
+    }
+    if(id==='pine') {
+      // Conical tiers of drooping limbs, each dressed with a needle clump, from wide at the base to a leader at the top.
+      const leaves={texture:'foliage',textureSize:.28,textureBrightness:.7,textureColorMode:'replace',textureColor:'#2f4f37',relief:.003};
+      parts.push(limb([[0,0,0],[.02,h*.35,-.01],[-.02,h*.7,.02],[0,h,0]],Math.min(.11,w*.065),.012));roots(5,w*.22,h*.05,.04);
+      for(let tier=0;tier<10;tier++) {
+        const q=tier/9,y=h*(.16+q*.72),spread=w*.42*(1-q*.82)+.08,count=tier<7?5:3;
+        for(let j=0;j<count;j++) {
+          const a=j*TAU/count+tier*2.399+(rand()-.5)*.5,length=spread*(.85+rand()*.2),droop=.05+rand()*.08;
+          parts.push({...limb([[0,0,0],[length*.5,-droop*h*.25,0],[length,-droop*h*.12+.03,.02]],.03*(1-q*.7),.004,1),position:[0,y,0],rotation:[0,-a,0]});
+          parts.push({shape:'conifer',size:[length*1.1,h*.07+spread*.18,spread*.75],count:50,seed:821+tier*31+j*7,position:[Math.cos(a)*length*.6,y-h*.05,Math.sin(a)*length*.6],rotation:[0,-a,(rand()-.5)*.1],material:'green',surface:leaves});
+        }
+      }
+      parts.push({shape:'conifer',size:[w*.2,h*.14,w*.2],count:32,seed:991,position:[0,h*.86,0],material:'green',surface:leaves});
+      return {parts,method:'conífera em andares cônicos: galhos pendentes com tufos de agulhas, broto apical, casca e raízes'};
+    }
+    if(id==='tree') {
+      // Trunk forks into four limbs, each splitting again; leaf clumps build a broad, uneven crown.
+      const leaves={texture:'foliage',textureSize:.35,textureBrightness:.8,textureColorMode:'replace',textureColor:'#4a6a3c',relief:.004},fork=h*.34;
+      parts.push(limb([[0,0,0],[w*.01,fork*.5,0],[-w*.01,fork,d*.01]],Math.min(.15,w*.06),.08));roots(6,w*.16,h*.07,.06);
+      for(let i=0;i<4;i++) {
+        const a=i*TAU/4+.4+rand()*.3,mid=[Math.cos(a)*w*.16,fork+h*.18,Math.sin(a)*d*.16],top=[Math.cos(a)*w*.3,fork+h*.36,Math.sin(a)*d*.28];
+        parts.push(limb([[0,fork*.95,0],mid,top],.075,.025,2));
+        for(const s of [-1,1]){const b2=a+s*.55,tip=[Math.cos(b2)*w*.36,top[1]+h*(.06+rand()*.08),Math.sin(b2)*d*.34];
+          parts.push(limb([mid,[(mid[0]+tip[0])/2,(mid[1]+tip[1])/2+h*.04,(mid[2]+tip[2])/2],tip],.035,.008,2));
+          parts.push({shape:'foliage',style:'broadleaf',size:[w*.36,h*.36,d*.44],position:[tip[0]*.9,tip[1]-h*.24,tip[2]*.9],rotation:[0,rand()*TAU,0],count:130,seed:841+i*13+s,material:'green',surface:leaves});}
+        parts.push({shape:'foliage',style:'broadleaf',size:[w*.38,h*.36,d*.46],position:[top[0]*.75,top[1]-h*.2,top[2]*.75],rotation:[0,rand()*TAU,0],count:130,seed:871+i*7,material:'green',surface:leaves});
+      }
+      parts.push({shape:'foliage',style:'broadleaf',size:[w*.46,h*.36,d*.52],position:[0,fork+h*.2,0],count:150,seed:899,material:'green',surface:leaves});
+      return {parts,method:'árvore com tronco bifurcado em quatro pernadas, ramos secundários, copa larga de tufos de folhas, casca e raízes'};
+    }
+    {
       parts.push(branch([[0,0,0],[-w*.03,h*.3,0],[w*.04,h*.63,d*.02],[0,h*.97,0]],Math.min(.23,w*.1),.018));
       const n=id==='pine'?24:id==='dead-tree'?10:16;
       for(let i=0;i<n;i++) {

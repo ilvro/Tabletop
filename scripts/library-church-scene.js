@@ -8,19 +8,19 @@ export function addChurchSceneComplements({add,historic}) {
     const a=add(id,name,'Arquitetura / Igreja antiga',historic,['Igreja','Horror gótico'],['igreja antiga','kit gótico','complemento arquitetônico'],parts,description);
     a.materials=materials;ids.add(a.id);
   };
-  model('church-ogival-gable','Igreja · empena ogival maciça',[
+  model('church-ogival-gable','Empena ogival maciça',[
     profile([[-5.14,0],...crown(5.14,.1),[5.14,0]],.44),
   ],'Fecha as extremidades da cobertura ogival de 10,28 m. Base na linha de arranque; espessura de 44 cm.');
   const r=.95,spring=2.4,w=1.2,h=4.5;
-  model('church-window-spandrel','Igreja · alvenaria com vão ogival',[
+  model('church-window-spandrel','Alvenaria com vão ogival',[
     profile([[-w,0],[-w,h],[w,h],[w,0],[r,0],...crown(r,spring).reverse(),[-r,0]],.46),
   ],'Preenche os cantos acima de um vitral ogival mantendo a abertura real. Combine com o vitral existente, sem sobrepor uma parede sólida.');
-  model('church-double-cross','Igreja · cruz dupla rubra',[
+  model('church-double-cross','Cruz dupla rubra',[
     {shape:'box',size:[.15,2.4,.12],position:[0,1.2,0],material:'iron'},
     {shape:'box',size:[1.15,.15,.12],position:[0,1.65,0],material:'iron'},
     {shape:'box',size:[.85,.13,.12],position:[0,1.25,0],material:'iron'},
   ],'Cruz dupla original em ferro esmaltado vermelho, com brilho próprio, para fachada e conjunto ritual; emissão editável no slot iron, sem símbolo oficial extraído.',{iron:{color:'#8e3336',metalness:.55,roughness:.55,emissive:'#ee2737',emissiveIntensity:.8}});
-  model('church-banquet-setting','Igreja · prato e cálice de banquete',[
+  model('church-banquet-setting','Prato e cálice de banquete',[
     {shape:'cylinder',radiusBottom:.18,radiusTop:.2,height:.025,segments:20,position:[-.08,.0125,0],material:'metal'},
     {shape:'ring',radius:.18,tube:.014,segments:20,sides:6,position:[-.08,.03,0],rotation:[Math.PI/2,0,0],material:'metal'},
     {shape:'sphere',radius:.075,position:[-.08,.1,0],material:'food'},

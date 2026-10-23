@@ -13,18 +13,18 @@ export function addChurchReconstruction({add, historic, assets}) {
     return {...box([width,delta.length(),width],start.add(end).multiplyScalar(.5).toArray(),material),rotation:new THREE.Euler().setFromQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0),delta.normalize())).toArray().slice(0,3)};
   };
   const model=(id,name,parts,description,mats=materials)=>{
-    const record=add('church-'+id,'Igreja · '+name,'Arquitetura / Igreja antiga',historic,['Igreja','Horror gótico'],['igreja antiga','kit gótico','reconstrução'],parts,description);
+    const record=add('church-'+id,name,'Arquitetura / Igreja antiga',historic,['Igreja','Horror gótico'],['igreja antiga','kit gótico','reconstrução'],parts,description);
     record.materials=mats;ids.add(record.id);
   };
-  model('pitched-roof','cobertura de duas águas',[
+  model('pitched-roof','Cobertura da nave · duas águas',[
     profile([[-9.8,0],[0,4.5],[9.8,0],[9.8,.3],[0,4.84],[-9.8,.3]],5),
   ],'Módulo de 5 m com intradorso inclinado, vão de 19,6 m e cumeeira a 4,84 m. Ocultar com a camada Coberturas.');
-  model('timber-truss','tesoura e mísulas da nave',[
+  model('timber-truss','Tesoura e mísulas da nave',[
     beam([-9.4,.25,0],[0,4.55,0],.3),beam([0,4.55,0],[9.4,.25,0],.3),
     ...[-1,1].flatMap(s=>[beam([s*9.1,0,0],[s*9.1,2.4,0],.3),beam([s*9.1,.15,0],[s*6.1,1.8,0],.23),box([.7,.32,.85],[s*9.1,.16,0])]),
     beam([0,4.45,-2.5],[0,4.45,2.5],.25),
   ],'Tesoura aparente de madeira com escoras laterais; mantém o centro da nave aberto.');
-  model('pitched-gable','empena triangular do templo',[
+  model('pitched-gable','Empena triangular do templo',[
     profile([[-9.8,0],[9.8,0],[0,4.84]],.5),
     beam([-9.8,.12,.12],[0,4.66,.12],.23,'stone'),beam([0,4.66,.12],[9.8,.12,.12],.23,'stone'),
   ],'Fechamento triangular para a cobertura de duas águas, com moldura inclinada.');
@@ -47,7 +47,7 @@ export function addChurchReconstruction({add, historic, assets}) {
   const glassMaterials=structuredClone(original.materials);
   glassMaterials.glass={color:'#a90b10',emissive:'#ff2014',emissiveIntensity:.9,roughness:.45,opacity:.82};
   glassMaterials.iron={color:'#100b0d',metalness:.25,roughness:.9};
-  model('tracery-window','vitral rubro de losangos e rosáceas',parts,'Vitral ogival com rede de chumbo, lancetas, losangos e rosáceas em geometria; escala do vão do kit original.',glassMaterials);
+  model('tracery-window','Vitral rubro de losangos e rosáceas',parts,'Vitral ogival com rede de chumbo, lancetas, losangos e rosáceas em geometria; escala do vão do kit original.',glassMaterials);
 
   const retable=[box([10.2,.4,1],[0,.2,0]),box([8.8,.25,.8],[0,.52,0])];
   for(const sign of [-1,1]){
@@ -56,7 +56,7 @@ export function addChurchReconstruction({add, historic, assets}) {
   }
   const contour=[[-4.5,8.3],[-3.7,9.25],[-2.5,9.65],[-1.3,10.2],[0,10.55],[1.3,10.2],[2.5,9.65],[3.7,9.25],[4.5,8.3],[3.7,8.6],[2.5,9.1],[1.3,9.65],[0,10],[ -1.3,9.65],[-2.5,9.1],[-3.7,8.6]];
   retable.push(profile(contour,.4));
-  model('altar-retable','retábulo monumental vazio',retable,'Moldura de pedra envelhecida para a estátua e cruz, aberta ao centro, com 10,55 m de altura.');
+  model('altar-retable','Retábulo monumental vazio',retable,'Moldura de pedra envelhecida para a estátua e cruz, aberta ao centro, com 10,55 m de altura.');
 
   const tree=[];
   const branch=(points,radius,seed)=>({shape:'branch',points,radius,tipRadius:radius*.055,segments:12,sides:7,seed,forks:0,position:[0,0,0],material:'wood',surface:{texture:'bark',textureSize:1.2,textureColorMode:'replace',textureColor:'#302a30',relief:.035}});
@@ -71,7 +71,7 @@ export function addChurchReconstruction({add, historic, assets}) {
       tree.push(branch([start,[(start[0]+tip[0])*.5,tip[1]-.8,(start[2]+tip[2])*.5],tip],.045,100+i*3+j));
     }
   }
-  model('ravine-tree','árvore retorcida do desfiladeiro',tree,'Árvore seca de 8 m, tronco tortuoso e ramificação assimétrica, sem folhagem.');
+  model('ravine-tree','Árvore retorcida do desfiladeiro',tree,'Árvore seca de 8 m, tronco tortuoso e ramificação assimétrica, sem folhagem.');
 
   const effigy=[box([2.5,.35,1.5],[0,.175,0]),box([2,.25,1.2],[0,.475,0])];
   const robe=[[-1.55,.6],[-.92,1.9],[-.65,3.6],[-.42,4.4],[-1.05,5.6],[-.6,5.9],[-.26,5.55],[.26,5.55],[.6,5.9],[1.05,5.6],[.42,4.4],[.65,3.6],[.92,1.9],[1.55,.6],[.3,.8],[0,.6],[-.3,.8]];
@@ -90,7 +90,7 @@ export function addChurchReconstruction({add, historic, assets}) {
       effigy.push(profile([[x,y],[x+.22,y+.7],[x+1.15,y+1.2],[x+.75,y+.45]].map(([x,y])=>[sign*x,y]),.075,[0,0,-.2]));
     }
   }
-  model('seraph-effigy','efígie decapitada do altar',effigy,'Figura monumental de 7,7 m com vestes em pregas, braços estendidos, asas fragmentadas e pescoço sem cabeça. Interpretação da silhueta das referências.');
+  model('seraph-effigy','Efígie decapitada do altar',effigy,'Figura monumental de 7,7 m com vestes em pregas, braços estendidos, asas fragmentadas e pescoço sem cabeça. Interpretação da silhueta das referências.');
 
   const maidenOriginal=assets.find(a=>a.id==='builtin-church-iron-maiden'),maiden=structuredClone(maidenOriginal.parts);
   for(const y of [.7,1.1,1.55,2]){

@@ -22,25 +22,25 @@
           0
         ],
         [
-          -0.049799998998641966,
-          1.0200000071525572,
-          0
+          0.02,
+          1.19000000834465,
+          -0.01
         ],
         [
-          0.06639999866485596,
-          2.14200001502037,
-          0.03319999933242798
+          -0.02,
+          2.3800000166893,
+          0.02
         ],
         [
           0,
-          3.298000023126602,
+          3.4000000238418577,
           0
         ]
       ],
-      "radius": 0.1659999966621399,
-      "tipRadius": 0.018,
+      "radius": 0.10789999783039093,
+      "tipRadius": 0.012,
       "segments": 14,
-      "sides": 8,
+      "sides": 7,
       "seed": 713,
       "forks": 0,
       "material": "wood",
@@ -50,15 +50,10 @@
         0
       ],
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
       }
     },
     {
@@ -66,26 +61,26 @@
       "points": [
         [
           0,
-          0.9520000066757203,
+          0.1700000011920929,
           0
         ],
         [
-          0.37349999248981475,
-          1.1560000081062318,
-          0
+          0.1569878907560029,
+          0.05950000041723252,
+          0.04860490376355387
         ],
         [
-          0.7469999849796295,
-          1.1900000083446503,
-          0
+          0.3488619794577842,
+          0,
+          0.10801089725234193
         ]
       ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
+      "radius": 0.04,
+      "tipRadius": 0.012,
       "segments": 14,
-      "sides": 8,
+      "sides": 7,
       "seed": 714,
-      "forks": 0,
+      "forks": 1,
       "material": "wood",
       "position": [
         0,
@@ -93,64 +88,75 @@
         0
       ],
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
       }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        0.634949987232685,
-        0.9520000066757202,
-        0
-      ],
-      "rotation": [
-        0,
-        0,
-        0
-      ],
-      "count": 38,
-      "seed": 821,
-      "material": "green"
     },
     {
       "shape": "branch",
       "points": [
         [
           0,
-          1.0370000072717667,
+          0.1700000011920929,
           0
         ],
         [
-          -0.26748245892767253,
-          1.2410000087022781,
-          0.24551012802331015
+          0.002400395910984365,
+          0.05950000041723252,
+          0.16432246533372594
         ],
         [
-          -0.5349649178553451,
-          1.2750000089406968,
-          0.4910202560466203
+          0.005334213135520811,
+          0,
+          0.3651610340749465
         ]
       ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
+      "radius": 0.04,
+      "tipRadius": 0.012,
       "segments": 14,
-      "sides": 8,
+      "sides": 7,
+      "seed": 715,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0.1700000011920929,
+          0
+        ],
+        [
+          -0.15354123247360632,
+          0.05950000041723252,
+          0.05858945676799721
+        ],
+        [
+          -0.3412027388302363,
+          0,
+          0.13019879281777158
+        ]
+      ],
+      "radius": 0.04,
+      "tipRadius": 0.012,
+      "segments": 14,
+      "sides": 7,
       "seed": 716,
-      "forks": 0,
+      "forks": 1,
       "material": "wood",
       "position": [
         0,
@@ -158,64 +164,75 @@
         0
       ],
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
       }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        -0.4547201801770433,
-        1.0370000072717667,
-        0.41736721763962725
-      ],
-      "rotation": [
-        0,
-        2.399,
-        0
-      ],
-      "count": 38,
-      "seed": 822,
-      "material": "green"
     },
     {
       "shape": "branch",
       "points": [
         [
           0,
-          1.1220000078678132,
+          0.1700000011920929,
           0
         ],
         [
-          0.030153539111075874,
-          1.3260000092983246,
-          -0.35135471637222176
+          -0.119181971092834,
+          0.05950000041723252,
+          -0.11315163401520066
         ],
         [
-          0.06030707822215175,
-          1.3600000095367433,
-          -0.7027094327444435
+          -0.2648488246507422,
+          0,
+          -0.2514480755893348
         ]
       ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
+      "radius": 0.04,
+      "tipRadius": 0.012,
       "segments": 14,
-      "sides": 8,
+      "sides": 7,
+      "seed": 717,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0.1700000011920929,
+          0
+        ],
+        [
+          0.10433505514160991,
+          0.05950000041723252,
+          -0.1269717715969981
+        ],
+        [
+          0.23185567809246646,
+          0,
+          -0.28215949243777355
+        ]
+      ],
+      "radius": 0.04,
+      "tipRadius": 0.012,
+      "segments": 14,
+      "sides": 7,
       "seed": 718,
-      "forks": 0,
+      "forks": 1,
       "material": "wood",
       "position": [
         0,
@@ -223,1617 +240,3202 @@
         0
       ],
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
       }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        0.051261016488828984,
-        1.1220000078678132,
-        -0.597303017832777
-      ],
-      "rotation": [
-        0,
-        4.798,
-        0
-      ],
-      "count": 38,
-      "seed": 823,
-      "material": "green"
     },
     {
       "shape": "branch",
       "points": [
         [
           0,
-          1.2070000084638597,
+          0,
           0
         ],
         [
-          0.20900348992330692,
-          1.4110000098943711,
-          0.27098272475474144
+          0.3953187371510467,
+          -0.10817509874188792,
+          0
         ],
         [
-          0.41800697984661384,
-          1.4450000101327898,
-          0.5419654495094829
+          0.7906374743020934,
+          -0.021924047396106205,
+          0.02
         ]
       ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
+      "radius": 0.03,
+      "tipRadius": 0.004,
       "segments": 14,
-      "sides": 8,
-      "seed": 720,
-      "forks": 0,
+      "sides": 7,
+      "seed": 719,
+      "forks": 1,
       "material": "wood",
       "position": [
         0,
-        0,
+        0.5440000038146973,
         0
       ],
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -0.08793803048320115,
+        0
+      ]
     },
     {
       "shape": "conifer",
-      "style": "broadleaf",
       "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
+        0.8697012217323028,
+        0.3778959991455078,
+        0.5828999894857406
       ],
+      "count": 50,
+      "seed": 821,
       "position": [
-        0.35530593286962175,
-        1.2070000084638597,
-        0.4606706320830604
+        0.4725494433624247,
+        0.37400000262260436,
+        0.04166251619079372
       ],
       "rotation": [
         0,
-        7.197,
-        0
+        -0.08793803048320115,
+        0.006651949021033943
       ],
-      "count": 38,
-      "seed": 824,
-      "material": "green"
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
     },
     {
       "shape": "branch",
       "points": [
         [
           0,
-          1.292000009059906,
-          0
-        ],
-        [
-          -0.3269407857839757,
-          1.4960000104904174,
-          -0.05653301000360284
-        ],
-        [
-          -0.6538815715679513,
-          1.530000010728836,
-          -0.11306602000720568
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 722,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        -0.5557993358327586,
-        1.292000009059906,
-        -0.09610611700612483
-      ],
-      "rotation": [
-        0,
-        9.596,
-        0
-      ],
-      "count": 38,
-      "seed": 825,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
           0,
-          1.3770000096559525,
           0
         ],
         [
-          0.27032008274434005,
-          1.581000011086464,
-          -0.1737898548347289
-        ],
-        [
-          0.5406401654886801,
-          1.6150000113248826,
-          -0.3475797096694578
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 724,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        0.4595441406653781,
-        1.3770000096559525,
-        -0.2954427532190391
-      ],
-      "rotation": [
-        0,
-        11.995000000000001,
-        0
-      ],
-      "count": 38,
-      "seed": 826,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          1.462000010251999,
+          0.40465377582965467,
+          -0.10937970080186128,
           0
         ],
         [
-          -0.07898427649202507,
-          1.6660000116825104,
-          0.3007397320449581
-        ],
-        [
-          -0.15796855298405013,
-          1.700000011920929,
-          0.6014794640899161
+          0.8093075516593093,
+          -0.022502256384893414,
+          0.02
         ]
       ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
+      "radius": 0.03,
+      "tipRadius": 0.004,
       "segments": 14,
-      "sides": 8,
-      "seed": 726,
-      "forks": 0,
+      "sides": 7,
+      "seed": 721,
+      "forks": 1,
       "material": "wood",
       "position": [
         0,
-        0,
+        0.5440000038146973,
         0
       ],
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -1.0518922304755094,
+        0
+      ]
     },
     {
       "shape": "conifer",
-      "style": "broadleaf",
       "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
+        0.8902383068252403,
+        0.3778959991455078,
+        0.5828999894857406
       ],
-      "position": [
-        -0.1342732700364426,
-        1.462000010251999,
-        0.5112575444764287
-      ],
-      "rotation": [
-        0,
-        14.394,
-        0
-      ],
-      "count": 38,
-      "seed": 827,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          1.5470000108480455,
-          0
-        ],
-        [
-          -0.14030304728951373,
-          1.751000012278557,
-          -0.26574882559583235
-        ],
-        [
-          -0.28060609457902747,
-          1.7850000125169756,
-          -0.5314976511916647
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 728,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        -0.23851518039217334,
-        1.5470000108480455,
-        -0.451773003512915
-      ],
-      "rotation": [
-        0,
-        16.793,
-        0
-      ],
-      "count": 38,
+      "count": 50,
       "seed": 828,
-      "material": "green"
+      "position": [
+        0.24081535056165276,
+        0.37400000262260436,
+        0.42166373293902226
+      ],
+      "rotation": [
+        0,
+        -1.0518922304755094,
+        -0.031245379173196853
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
     },
     {
       "shape": "branch",
       "points": [
         [
           0,
-          1.6320000114440916,
-          0
-        ],
-        [
-          0.2732417258949813,
-          1.836000012874603,
-          0.09740771566386416
-        ],
-        [
-          0.5464834517899626,
-          1.8700000131130217,
-          0.19481543132772833
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 730,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        0.4645109340214682,
-        1.6320000114440916,
-        0.16559311662856907
-      ],
-      "rotation": [
-        0,
-        19.192,
-        0
-      ],
-      "count": 38,
-      "seed": 829,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
           0,
-          1.717000012040138,
           0
         ],
         [
-          -0.2575660021451903,
-          1.9210000134706495,
-          0.10894227036501346
-        ],
-        [
-          -0.5151320042903806,
-          1.9550000137090682,
-          0.21788454073002692
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 732,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        -0.43786220364682354,
-        1.717000012040138,
-        0.18520185962052288
-      ],
-      "rotation": [
-        0,
-        21.591,
-        0
-      ],
-      "count": 38,
-      "seed": 830,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          1.8020000126361846,
+          0.3542020925159455,
+          -0.04351232507417185,
           0
         ],
         [
-          0.11175847274830723,
-          2.006000014066696,
-          -0.24493980246279326
-        ],
-        [
-          0.22351694549661447,
-          2.0400000143051145,
-          -0.4898796049255865
+          0.708404185031891,
+          0.009114083964397512,
+          0.02
         ]
       ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
+      "radius": 0.03,
+      "tipRadius": 0.004,
       "segments": 14,
-      "sides": 8,
-      "seed": 734,
-      "forks": 0,
+      "sides": 7,
+      "seed": 723,
+      "forks": 1,
       "material": "wood",
       "position": [
         0,
-        0,
+        0.5440000038146973,
         0
       ],
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -2.557466781841967,
+        0
+      ]
     },
     {
       "shape": "conifer",
-      "style": "broadleaf",
       "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
+        0.7792446035350801,
+        0.3778959991455078,
+        0.5828999894857406
       ],
-      "position": [
-        0.1899894036721223,
-        1.8020000126361844,
-        -0.4163976641867485
-      ],
-      "rotation": [
-        0,
-        23.990000000000002,
-        0
-      ],
-      "count": 38,
-      "seed": 831,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          1.8870000132322309,
-          0
-        ],
-        [
-          0.08006805418491095,
-          2.0910000146627423,
-          0.2461073109937651
-        ],
-        [
-          0.1601361083698219,
-          2.1250000149011607,
-          0.4922146219875302
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 736,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        0.1361156921143486,
-        1.8870000132322307,
-        0.4183824286894007
-      ],
-      "rotation": [
-        0,
-        26.389,
-        0
-      ],
-      "count": 38,
-      "seed": 832,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          1.9720000138282778,
-          0
-        ],
-        [
-          -0.216324113857542,
-          2.176000015258789,
-          -0.1220461297586657
-        ],
-        [
-          -0.432648227715084,
-          2.210000015497208,
-          -0.2440922595173314
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 738,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        -0.36775099355782137,
-        1.9720000138282778,
-        -0.20747842058973168
-      ],
-      "rotation": [
-        0,
-        28.788,
-        0
-      ],
-      "count": 38,
-      "seed": 833,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          2.057000014424324,
-          0
-        ],
-        [
-          0.23174262170442822,
-          2.2610000158548353,
-          -0.05399865689482666
-        ],
-        [
-          0.46348524340885644,
-          2.2950000160932538,
-          -0.10799731378965333
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 740,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        0.39396245689752796,
-        2.057000014424324,
-        -0.09179771672120532
-      ],
-      "rotation": [
-        0,
-        31.187,
-        0
-      ],
-      "count": 38,
-      "seed": 834,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          2.1420000150203706,
-          0
-        ],
-        [
-          -0.1283337951695108,
-          2.346000016450882,
-          0.1878762671271466
-        ],
-        [
-          -0.2566675903390216,
-          2.3800000166893005,
-          0.3757525342542932
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 742,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        -0.21816745178816835,
-        2.1420000150203706,
-        0.3193896541161492
-      ],
-      "rotation": [
-        0,
-        33.586,
-        0
-      ],
-      "count": 38,
+      "count": 50,
       "seed": 835,
-      "material": "green"
+      "position": [
+        -0.35456810812102696,
+        0.37400000262260436,
+        0.23439836363961
+      ],
+      "rotation": [
+        0,
+        -2.557466781841967,
+        -0.02656055160332471
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
     },
     {
       "shape": "branch",
       "points": [
         [
           0,
-          2.227000015616417,
-          0
-        ],
-        [
-          -0.03100695149344204,
-          2.4310000170469284,
-          -0.21487117116650412
-        ],
-        [
-          -0.06201390298688408,
-          2.465000017285347,
-          -0.42974234233300823
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 744,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        -0.052711817538851465,
-        2.227000015616417,
-        -0.365280990983057
-      ],
-      "rotation": [
-        0,
-        35.985,
-        0
-      ],
-      "count": 38,
-      "seed": 836,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
           0,
-          2.312000016212463,
           0
         ],
         [
-          0.16006380423212435,
-          2.5160000176429747,
-          0.1307366274501896
-        ],
-        [
-          0.3201276084642487,
-          2.550000017881393,
-          0.2614732549003792
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 746,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        0.2721084671946114,
-        2.312000016212463,
-        0.22225226666532233
-      ],
-      "rotation": [
-        0,
-        38.384,
-        0
-      ],
-      "count": 38,
-      "seed": 837,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          2.39700001680851,
+          0.34982720022918745,
+          -0.05499588230819128,
           0
         ],
         [
-          -0.19591648565621717,
-          2.6010000182390214,
-          0.011317827050338684
-        ],
-        [
-          -0.39183297131243433,
-          2.63500001847744,
-          0.022635654100677367
+          0.6996544004583749,
+          0.0036019764920681846,
+          0.02
         ]
       ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
+      "radius": 0.03,
+      "tipRadius": 0.004,
       "segments": 14,
-      "sides": 8,
-      "seed": 748,
-      "forks": 0,
+      "sides": 7,
+      "seed": 725,
+      "forks": 1,
       "material": "wood",
       "position": [
         0,
-        0,
+        0.5440000038146973,
         0
       ],
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -3.8771575504044122,
+        0
+      ]
     },
     {
       "shape": "conifer",
-      "style": "broadleaf",
       "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
+        0.7696198405042125,
+        0.3778959991455078,
+        0.5828999894857406
       ],
-      "position": [
-        -0.3330580256155692,
-        2.39700001680851,
-        0.019240305985575763
-      ],
-      "rotation": [
-        0,
-        40.783,
-        0
-      ],
-      "count": 38,
-      "seed": 838,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          2.4820000174045562,
-          0
-        ],
-        [
-          0.1294198106983751,
-          2.6860000188350677,
-          -0.13333487906141575
-        ],
-        [
-          0.2588396213967502,
-          2.720000019073486,
-          -0.2666697581228315
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 750,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        0.22001367818723766,
-        2.4820000174045562,
-        -0.22666929440440678
-      ],
-      "rotation": [
-        0,
-        43.182,
-        0
-      ],
-      "count": 38,
-      "seed": 839,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          2.5670000180006025,
-          0
-        ],
-        [
-          -0.004893872258707718,
-          2.771000019431114,
-          0.17532108156217116
-        ],
-        [
-          -0.009787744517415436,
-          2.8050000196695324,
-          0.3506421631243423
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 752,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        -0.00831958283980312,
-        2.5670000180006025,
-        0.29804583865569095
-      ],
-      "rotation": [
-        0,
-        45.581,
-        0
-      ],
-      "count": 38,
-      "seed": 840,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          2.6520000185966492,
-          0
-        ],
-        [
-          -0.10811318438479992,
-          2.8560000200271607,
-          -0.12459600585118105
-        ],
-        [
-          -0.21622636876959983,
-          2.890000020265579,
-          -0.2491920117023621
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 754,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        -0.18379241345415986,
-        2.6520000185966492,
-        -0.21181320994700778
-      ],
-      "rotation": [
-        0,
-        47.980000000000004,
-        0
-      ],
-      "count": 38,
-      "seed": 841,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          2.7370000191926955,
-          0
-        ],
-        [
-          0.15354099968466467,
-          2.941000020623207,
-          0.01750485217261884
-        ],
-        [
-          0.30708199936932934,
-          2.9750000208616254,
-          0.03500970434523768
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 756,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        0.26101969946392994,
-        2.7370000191926955,
-        0.02975824869345203
-      ],
-      "rotation": [
-        0,
-        50.379,
-        0
-      ],
-      "count": 38,
+      "count": 50,
       "seed": 842,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0,
-          2.822000019788742,
-          0
-        ],
-        [
-          -0.11652230594992266,
-          3.0260000212192533,
-          0.08479317901525511
-        ],
-        [
-          -0.23304461189984532,
-          3.0600000214576717,
-          0.16958635803051023
-        ]
-      ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
-      "segments": 14,
-      "sides": 8,
-      "seed": 758,
-      "forks": 0,
-      "material": "wood",
       "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "conifer",
-      "style": "broadleaf",
-      "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
-      ],
-      "position": [
-        -0.19808792011486853,
-        2.822000019788742,
-        0.14414840432593368
+        -0.31125601820909105,
+        0.37400000262260436,
+        -0.2816834250673946
       ],
       "rotation": [
         0,
-        52.778,
-        0
+        -3.8771575504044122,
+        -0.020720965997315946
       ],
-      "count": 38,
-      "seed": 843,
-      "material": "green"
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
     },
     {
       "shape": "branch",
       "points": [
         [
           0,
-          2.907000020384788,
+          0,
           0
         ],
         [
-          0.02644430475500423,
-          3.1110000218152996,
-          -0.1310402294368445
+          0.3823569693798058,
+          -0.07565496938455608,
+          0
         ],
         [
-          0.05288860951000846,
-          3.145000022053718,
-          -0.262080458873689
+          0.7647139387596116,
+          -0.006314385304586917,
+          0.02
         ]
       ],
-      "radius": 0.02987999939918518,
-      "tipRadius": 0.006,
+      "radius": 0.03,
+      "tipRadius": 0.004,
       "segments": 14,
-      "sides": 8,
-      "seed": 760,
-      "forks": 0,
+      "sides": 7,
+      "seed": 727,
+      "forks": 1,
       "material": "wood",
       "position": [
         0,
-        0,
+        0.5440000038146973,
         0
       ],
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -4.814948820563785,
+        0
+      ]
     },
     {
       "shape": "conifer",
-      "style": "broadleaf",
       "size": [
-        1.0955999779701233,
-        0.6800000047683716,
-        0.5311999893188477
+        0.8411853326355728,
+        0.3778959991455078,
+        0.5828999894857406
       ],
+      "count": 50,
+      "seed": 849,
       "position": [
-        0.04495531808350719,
-        2.907000020384788,
-        -0.22276839004263566
+        0.046974911337773394,
+        0.37400000262260436,
+        -0.45641737985398234
       ],
       "rotation": [
         0,
-        55.177,
-        0
+        -4.814948820563785,
+        0.03027116607408971
       ],
-      "count": 38,
-      "seed": 844,
-      "material": "green"
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          0.2987999939918518,
-          0,
-          0
-        ],
-        [
-          0.13279999732971193,
-          0.11900000083446503,
-          0
-        ],
-        [
-          0,
-          0.47600000333786013,
-          0
-        ]
-      ],
-      "radius": 0.05809999883174897,
-      "tipRadius": 0.018,
-      "segments": 14,
-      "sides": 8,
-      "seed": 762,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
+      "material": "green",
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
         "textureColorMode": "replace",
-        "textureBrightness": 1
+        "textureColor": "#2f4f37",
+        "relief": 0.003
       }
     },
     {
       "shape": "branch",
       "points": [
         [
-          0.0923342760626144,
           0,
-          0.2841756813549034
-        ],
-        [
-          0.04103745602782863,
-          0.11900000083446503,
-          0.12630030282440152
-        ],
-        [
           0,
-          0.47600000333786013,
           0
+        ],
+        [
+          0.31426482905057845,
+          -0.0657581073335557,
+          0
+        ],
+        [
+          0.6285296581011569,
+          -0.0015638915201067333,
+          0.02
         ]
       ],
-      "radius": 0.05809999883174897,
-      "tipRadius": 0.018,
+      "radius": 0.027666666666666666,
+      "tipRadius": 0.004,
       "segments": 14,
-      "sides": 8,
+      "sides": 7,
+      "seed": 729,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        0.8160000057220458,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -2.580581357261166,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.6913826239112727,
+        0.3664619193754196,
+        0.5352579904437065
+      ],
+      "count": 50,
+      "seed": 852,
+      "position": [
+        -0.319312233151609,
+        0.6460000045299529,
+        0.20064278945510364
+      ],
+      "rotation": [
+        0,
+        -2.580581357261166,
+        -0.014125780411995949
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.35317082360113145,
+          -0.058829509227491535,
+          0
+        ],
+        [
+          0.7063416472022629,
+          0.0017618355708040635,
+          0.02
+        ]
+      ],
+      "radius": 0.027666666666666666,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 731,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        0.8160000057220458,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -3.7004696600867453,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.7769758119224892,
+        0.3664619193754196,
+        0.5352579904437065
+      ],
+      "count": 50,
+      "seed": 859,
+      "position": [
+        -0.35932352353951585,
+        0.6460000045299529,
+        -0.2247159842049807
+      ],
+      "rotation": [
+        0,
+        -3.7004696600867453,
+        0.04957771271001548
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.36959362290084835,
+          -0.09204287852070175,
+          0
+        ],
+        [
+          0.7391872458016967,
+          -0.014180581689936841,
+          0.02
+        ]
+      ],
+      "radius": 0.027666666666666666,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 733,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        0.8160000057220458,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -4.741551301842931,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.8131059703818664,
+        0.3664619193754196,
+        0.5352579904437065
+      ],
+      "count": 50,
+      "seed": 866,
+      "position": [
+        0.012932016479903271,
+        0.6460000045299529,
+        -0.44332377030550346
+      ],
+      "rotation": [
+        0,
+        -4.741551301842931,
+        -0.03992948031518609
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.3109251871722298,
+          -0.053009738053318246,
+          0
+        ],
+        [
+          0.6218503743444596,
+          0.004555325734407242,
+          0.02
+        ]
+      ],
+      "radius": 0.027666666666666666,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 735,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        0.8160000057220458,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -6.1958369951533205,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.6840354117789056,
+        0.3664619193754196,
+        0.5352579904437065
+      ],
+      "count": 50,
+      "seed": 873,
+      "position": [
+        0.3716877646751105,
+        0.6460000045299529,
+        -0.03254912129172916
+      ],
+      "rotation": [
+        0,
+        -6.1958369951533205,
+        0.03406923997681588
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.33557040515090825,
+          -0.10277479434556676,
+          0
+        ],
+        [
+          0.6711408103018165,
+          -0.01933190128587204,
+          0.02
+        ]
+      ],
+      "radius": 0.027666666666666666,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 737,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        0.8160000057220458,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -7.5519442794237355,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.7382548913319982,
+        0.3664619193754196,
+        0.5352579904437065
+      ],
+      "count": 50,
+      "seed": 880,
+      "position": [
+        0.11978492368877619,
+        0.6460000045299529,
+        0.3844559369652164
+      ],
+      "rotation": [
+        0,
+        -7.5519442794237355,
+        -0.02513077633921057
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.31075406245679177,
+          -0.10783082619300362,
+          0
+        ],
+        [
+          0.6215081249135835,
+          -0.021758796572641736,
+          0.02
+        ]
+      ],
+      "radius": 0.025333333333333333,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 739,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.0880000076293943,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -4.888603864053264,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.683658937404942,
+        0.35502783960533146,
+        0.48761599140167233
+      ],
+      "count": 50,
+      "seed": 883,
+      "position": [
+        0.06537184186784865,
+        0.9180000064373014,
+        -0.36713017861638736
+      ],
+      "rotation": [
+        0,
+        -4.888603864053264,
+        -0.014319246937520803
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.3235069171181851,
+          -0.06696561148782415,
+          0
+        ],
+        [
+          0.6470138342363702,
+          -0.0021434935141555894,
+          0.02
+        ]
+      ],
+      "radius": 0.025333333333333333,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 741,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.0880000076293943,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -5.95012766379323,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.7117152176600072,
+        0.35502783960533146,
+        0.48761599140167233
+      ],
+      "count": 50,
+      "seed": 890,
+      "position": [
+        0.36687513432634156,
+        0.9180000064373014,
+        -0.12691855822770168
+      ],
+      "rotation": [
+        0,
+        -5.95012766379323,
+        -0.04818711935076863
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.2812425782056258,
+          -0.06775338199189222,
+          0
+        ],
+        [
+          0.5624851564112516,
+          -0.0025216233561082685,
+          0.02
+        ]
+      ],
+      "radius": 0.025333333333333333,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 743,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.0880000076293943,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -7.1051214185603,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.6187336720523768,
+        0.35502783960533146,
+        0.48761599140167233
+      ],
+      "count": 50,
+      "seed": 897,
+      "position": [
+        0.22976540469211384,
+        0.9180000064373014,
+        0.24720052029181816
+      ],
+      "rotation": [
+        0,
+        -7.1051214185603,
+        -0.019232576829381287
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.338759694167466,
+          -0.09250330830411566,
+          0
+        ],
+        [
+          0.677519388334932,
+          -0.014401587985975517,
+          0.02
+        ]
+      ],
+      "radius": 0.025333333333333333,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 745,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.0880000076293943,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -8.661210541295452,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.7452713271684253,
+        0.35502783960533146,
+        0.48761599140167233
+      ],
+      "count": 50,
+      "seed": 904,
+      "position": [
+        -0.29365332538081396,
+        0.9180000064373014,
+        0.2811039527610672
+      ],
+      "rotation": [
+        0,
+        -8.661210541295452,
+        0.014305612049065532
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.3046986167890782,
+          -0.07847751786083872,
+          0
+        ],
+        [
+          0.6093972335781564,
+          -0.007669208573202586,
+          0.02
+        ]
+      ],
+      "radius": 0.025333333333333333,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 747,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.0880000076293943,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -9.687062086175017,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.6703369569359722,
+        0.35502783960533146,
+        0.48761599140167233
+      ],
+      "count": 50,
+      "seed": 911,
+      "position": [
+        -0.35313360159861423,
+        0.9180000064373014,
+        -0.0948053543180281
+      ],
+      "rotation": [
+        0,
+        -9.687062086175017,
+        -0.048450099979527296
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.26199673174182386,
+          -0.11019114511243486,
+          0
+        ],
+        [
+          0.5239934634836477,
+          -0.02289174965396873,
+          0.02
+        ]
+      ],
+      "radius": 0.023,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 749,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.3600000095367433,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -7.301691873071715,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.5763928098320126,
+        0.3435937598352432,
+        0.4399739923596382
+      ],
+      "count": 50,
+      "seed": 914,
+      "position": [
+        0.16494410896718562,
+        1.1900000083446503,
+        0.2676533856231099
+      ],
+      "rotation": [
+        0,
+        -7.301691873071715,
+        0.047183424024842685
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.2822313289663082,
+          -0.09460690932379512,
+          0
+        ],
+        [
+          0.5644626579326164,
+          -0.015411316475421655,
+          0.02
+        ]
+      ],
+      "radius": 0.023,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 751,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.3600000095367433,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -8.516045804163628,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.6209089237258781,
+        0.3435937598352432,
+        0.4399739923596382
+      ],
+      "count": 50,
+      "seed": 921,
+      "position": [
+        -0.20820077220878633,
+        1.1900000083446503,
+        0.26712347639957157
+      ],
+      "rotation": [
+        0,
+        -8.516045804163628,
+        -0.026190375653095545
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.2850099181337413,
+          -0.05503672796338255,
+          0
+        ],
+        [
+          0.5700198362674826,
+          0.003582370577576377,
+          0.02
+        ]
+      ],
+      "radius": 0.023,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 753,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.3600000095367433,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -9.653138264997306,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.627021819894231,
+        0.3435937598352432,
+        0.4399739923596382
+      ],
+      "count": 50,
+      "seed": 928,
+      "position": [
+        -0.3331328964815259,
+        1.1900000083446503,
+        -0.07742489410813393
+      ],
+      "rotation": [
+        0,
+        -9.653138264997306,
+        -0.0374654799932614
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.30164525781920515,
+          -0.08856285898278116,
+          0
+        ],
+        [
+          0.6032905156384103,
+          -0.012510172311734957,
+          0.02
+        ]
+      ],
+      "radius": 0.023,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 755,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.3600000095367433,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -10.944516253596735,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.6636195672022513,
+        0.3435937598352432,
+        0.4399739923596382
+      ],
+      "count": 50,
+      "seed": 935,
+      "position": [
+        -0.018473667571010873,
+        1.1900000083446503,
+        -0.36150259232792364
+      ],
+      "rotation": [
+        0,
+        -10.944516253596735,
+        -0.03916585959959776
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.2537593860203141,
+          -0.06879107256043358,
+          0
+        ],
+        [
+          0.5075187720406282,
+          -0.003019714829008119,
+          0.02
+        ]
+      ],
+      "radius": 0.023,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 757,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.3600000095367433,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -12.079332129924378,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.558270649244691,
+        0.3435937598352432,
+        0.4399739923596382
+      ],
+      "count": 50,
+      "seed": 942,
+      "position": [
+        0.2691035319127301,
+        1.1900000083446503,
+        -0.14251455554644235
+      ],
+      "rotation": [
+        0,
+        -12.079332129924378,
+        -0.02823038680944592
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.2309344335926621,
+          -0.0767483592013549,
+          0
+        ],
+        [
+          0.4618688671853242,
+          -0.00683921241665035,
+          0.02
+        ]
+      ],
+      "radius": 0.020666666666666667,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 759,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.6320000114440916,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -9.791014021592215,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.5080557539038567,
+        0.33215968006515506,
+        0.3923319933176041
+      ],
+      "count": 50,
+      "seed": 945,
+      "position": [
+        -0.25874314332016907,
+        1.4620000102519985,
+        -0.09923815776110574
+      ],
+      "rotation": [
+        0,
+        -9.791014021592215,
+        -0.036387591552920644
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.2594229422450237,
+          -0.04373766356084391,
+          0
+        ],
+        [
+          0.5188458844900474,
+          0.009005921490794922,
+          0.02
+        ]
+      ],
+      "radius": 0.020666666666666667,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 761,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.6320000114440916,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -10.691522921720708,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.5707304729390522,
+        0.33215968006515506,
+        0.3923319933176041
+      ],
+      "count": 50,
+      "seed": 952,
+      "position": [
+        -0.09320179765843001,
+        1.4620000102519985,
+        -0.29702828750819427
+      ],
+      "rotation": [
+        0,
+        -10.691522921720708,
+        -0.0360577609622851
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.26250607659225955,
+          -0.09896215446025768,
+          0
+        ],
+        [
+          0.5250121531845191,
+          -0.017501834140923683,
+          0.02
+        ]
+      ],
+      "radius": 0.020666666666666667,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
       "seed": 763,
-      "forks": 0,
+      "forks": 1,
       "material": "wood",
       "position": [
         0,
-        0,
+        1.6320000114440916,
         0
       ],
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -12.004479371251914,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.5775133685029711,
+        0.33215968006515506,
+        0.3923319933176041
+      ],
+      "count": 50,
+      "seed": 959,
+      "position": [
+        0.26657460392809734,
+        1.4620000102519985,
+        -0.16783198293977888
+      ],
+      "rotation": [
+        0,
+        -12.004479371251914,
+        -0.022719882731325927
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
         "textureColorMode": "replace",
-        "textureBrightness": 1
+        "textureColor": "#2f4f37",
+        "relief": 0.003
       }
     },
     {
       "shape": "branch",
       "points": [
         [
-          -0.24173427305854026,
           0,
-          0.1756302298534901
-        ],
-        [
-          -0.10743745469268456,
-          0.11900000083446503,
-          0.0780578799348845
-        ],
-        [
           0,
-          0.47600000333786013,
           0
+        ],
+        [
+          0.25610357859992616,
+          -0.07173152022445216,
+          0
+        ],
+        [
+          0.5122071571998523,
+          -0.004431129707737035,
+          0.02
         ]
       ],
-      "radius": 0.05809999883174897,
-      "tipRadius": 0.018,
+      "radius": 0.020666666666666667,
+      "tipRadius": 0.004,
       "segments": 14,
-      "sides": 8,
-      "seed": 764,
-      "forks": 0,
-      "material": "wood",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
-        "textureColorMode": "replace",
-        "textureBrightness": 1
-      }
-    },
-    {
-      "shape": "branch",
-      "points": [
-        [
-          -0.24173427305854028,
-          0,
-          -0.17563022985349003
-        ],
-        [
-          -0.10743745469268458,
-          0.11900000083446503,
-          -0.07805787993488446
-        ],
-        [
-          0,
-          0.47600000333786013,
-          0
-        ]
-      ],
-      "radius": 0.05809999883174897,
-      "tipRadius": 0.018,
-      "segments": 14,
-      "sides": 8,
+      "sides": 7,
       "seed": 765,
-      "forks": 0,
+      "forks": 1,
       "material": "wood",
       "position": [
         0,
-        0,
+        1.6320000114440916,
         0
       ],
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -13.419928369308455,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.5634278729198376,
+        0.33215968006515506,
+        0.3923319933176041
+      ],
+      "count": 50,
+      "seed": 966,
+      "position": [
+        0.20200613426905314,
+        1.4620000102519985,
+        0.23160687294833196
+      ],
+      "rotation": [
+        0,
+        -13.419928369308455,
+        -0.009680932224728168
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
         "textureColorMode": "replace",
-        "textureBrightness": 1
+        "textureColor": "#2f4f37",
+        "relief": 0.003
       }
     },
     {
       "shape": "branch",
       "points": [
         [
-          0.09233427606261432,
           0,
-          -0.2841756813549034
-        ],
-        [
-          0.041037456027828594,
-          0.11900000083446503,
-          -0.12630030282440152
-        ],
-        [
           0,
-          0.47600000333786013,
           0
+        ],
+        [
+          0.2573406740244898,
+          -0.08306280290839639,
+          0
+        ],
+        [
+          0.5146813480489796,
+          -0.009870145396030268,
+          0.02
         ]
       ],
-      "radius": 0.05809999883174897,
-      "tipRadius": 0.018,
+      "radius": 0.020666666666666667,
+      "tipRadius": 0.004,
       "segments": 14,
-      "sides": 8,
-      "seed": 766,
-      "forks": 0,
+      "sides": 7,
+      "seed": 767,
+      "forks": 1,
       "material": "wood",
       "position": [
         0,
-        0,
+        1.6320000114440916,
         0
       ],
       "surface": {
-        "texture": "wood",
-        "textureSize": 1.8,
-        "relief": 0.004,
-        "woodPattern": "grain",
-        "woodGrain": 0.4,
-        "woodGap": 0,
-        "textureColor": "#79553e",
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -14.47202540390455,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.5661494828538776,
+        0.33215968006515506,
+        0.3923319933176041
+      ],
+      "count": 50,
+      "seed": 973,
+      "position": [
+        -0.10148553647373765,
+        1.4620000102519985,
+        0.2916565896688484
+      ],
+      "rotation": [
+        0,
+        -14.47202540390455,
+        -0.04618500333745033
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
         "textureColorMode": "replace",
-        "textureBrightness": 1
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.21934331796833603,
+          -0.09848825648944697,
+          0
+        ],
+        [
+          0.43868663593667206,
+          -0.017274363114934542,
+          0.02
+        ]
+      ],
+      "radius": 0.018333333333333333,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 769,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.9040000133514405,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -12.149632638907061,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.4825552995303393,
+        0.32072560029506686,
+        0.34468999427556996
+      ],
+      "count": 50,
+      "seed": 976,
+      "position": [
+        0.24068477475197816,
+        1.7340000121593477,
+        -0.10654288545175539
+      ],
+      "rotation": [
+        0,
+        -12.149632638907061,
+        -0.044799783104099336
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.23665437433812386,
+          -0.07088274044702327,
+          0
+        ],
+        [
+          0.4733087486762477,
+          -0.004023715414571166,
+          0.02
+        ]
+      ],
+      "radius": 0.018333333333333333,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 771,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.9040000133514405,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -13.07481429314446,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.5206396235438725,
+        0.32072560029506686,
+        0.34468999427556996
+      ],
+      "count": 50,
+      "seed": 983,
+      "position": [
+        0.24806202705566907,
+        1.7340000121593477,
+        0.1382492405023755
+      ],
+      "rotation": [
+        0,
+        -13.07481429314446,
+        0.02098212994169444
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.21808042362228272,
+          -0.0751231445350061,
+          0
+        ],
+        [
+          0.43616084724456544,
+          -0.006059109376802929,
+          0.02
+        ]
+      ],
+      "radius": 0.018333333333333333,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 773,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.9040000133514405,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -14.525514103969936,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.47977693196902205,
+        0.32072560029506686,
+        0.34468999427556996
+      ],
+      "count": 50,
+      "seed": 990,
+      "position": [
+        -0.09909378327589628,
+        1.7340000121593477,
+        0.2422095881606355
+      ],
+      "rotation": [
+        0,
+        -14.525514103969936,
+        0.012989563657902181
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.2229658776226892,
+          -0.05739234210190417,
+          0
+        ],
+        [
+          0.4459317552453784,
+          0.002451675791085999,
+          0.02
+        ]
+      ],
+      "radius": 0.018333333333333333,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 775,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.9040000133514405,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -15.650183518870367,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.4905249307699163,
+        0.32072560029506686,
+        0.34468999427556996
+      ],
+      "count": 50,
+      "seed": 997,
+      "position": [
+        -0.26711255451790444,
+        1.7340000121593477,
+        0.015450894471200995
+      ],
+      "rotation": [
+        0,
+        -15.650183518870367,
+        0.007529266434721649
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.23287145955772579,
+          -0.06294017801610988,
+          0
+        ],
+        [
+          0.46574291911545157,
+          -0.0002112854477327418,
+          0.02
+        ]
+      ],
+      "radius": 0.018333333333333333,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 777,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        1.9040000133514405,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -16.900643507427358,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.5123172110269968,
+        0.32072560029506686,
+        0.34468999427556996
+      ],
+      "count": 50,
+      "seed": 1004,
+      "position": [
+        -0.10316306886898255,
+        1.7340000121593477,
+        -0.25970619791556593
+      ],
+      "rotation": [
+        0,
+        -16.900643507427358,
+        -0.028484942414797845
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.19382655278799274,
+          -0.05511398497501005,
+          0
+        ],
+        [
+          0.3876531055759855,
+          0.003545287211995176,
+          0.02
+        ]
+      ],
+      "radius": 0.016000000000000004,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 779,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.176000015258789,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -14.518169029528275,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.42641841613358406,
+        0.30929152052497866,
+        0.2970479952335358
+      ],
+      "count": 50,
+      "seed": 1007,
+      "position": [
+        -0.08648949070716652,
+        2.006000014066696,
+        0.2159132763212794
+      ],
+      "rotation": [
+        0,
+        -14.518169029528275,
+        -0.025367866014130415
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.20724142723735578,
+          -0.0874711335400177,
+          0
+        ],
+        [
+          0.41448285447471156,
+          -0.0119861440992085,
+          0.02
+        ]
+      ],
+      "radius": 0.016000000000000004,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 781,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.176000015258789,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -15.532785195725227,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.45593113992218276,
+        0.30929152052497866,
+        0.2970479952335358
+      ],
+      "count": 50,
+      "seed": 1014,
+      "position": [
+        -0.24488364581882308,
+        2.006000014066696,
+        0.04334251037656898
+      ],
+      "rotation": [
+        0,
+        -15.532785195725227,
+        0.0015990329673513772
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.19970855211597496,
+          -0.043786110391545716,
+          0
+        ],
+        [
+          0.3994171042319499,
+          0.008982667012058056,
+          0.02
+        ]
+      ],
+      "radius": 0.016000000000000004,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 783,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.176000015258789,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -16.677058012048157,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.439358814655145,
+        0.30929152052497866,
+        0.2970479952335358
+      ],
+      "count": 50,
+      "seed": 1021,
+      "position": [
+        -0.13565308019955508,
+        2.006000014066696,
+        -0.19756135798142857
+      ],
+      "rotation": [
+        0,
+        -16.677058012048157,
+        -0.04641024854499847
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.18543912584770186,
+          -0.08176463276859333,
+          0
+        ],
+        [
+          0.3708782516954037,
+          -0.009247023728924796,
+          0.02
+        ]
+      ],
+      "radius": 0.016000000000000004,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 785,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.176000015258789,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -18.18714835286383,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.4079660768649441,
+        0.30929152052497866,
+        0.2970479952335358
+      ],
+      "count": 50,
+      "seed": 1028,
+      "position": [
+        0.17546557674414767,
+        2.006000014066696,
+        -0.1368578653453054
+      ],
+      "rotation": [
+        0,
+        -18.18714835286383,
+        -0.04712147864047438
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.1860404805389784,
+          -0.07727728714966449,
+          0
+        ],
+        [
+          0.3720809610779568,
+          -0.0070930978318389515,
+          0.02
+        ]
+      ],
+      "radius": 0.016000000000000004,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 787,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.176000015258789,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -19.642412054086854,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.4092890571857525,
+        0.30929152052497866,
+        0.2970479952335358
+      ],
+      "count": 50,
+      "seed": 1035,
+      "position": [
+        0.15667888381187303,
+        2.006000014066696,
+        0.15903350069176037
+      ],
+      "rotation": [
+        0,
+        -19.642412054086854,
+        -0.010230258782394232
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.16857374937525507,
+          -0.05492520610015326,
+          0
+        ],
+        [
+          0.33714749875051014,
+          0.0036359010719264374,
+          0.02
+        ]
+      ],
+      "radius": 0.013666666666666667,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 789,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.4480000171661374,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -16.803535162640735,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.37086224862556116,
+        0.29785744075489046,
+        0.2494059961915016
+      ],
+      "count": 50,
+      "seed": 1038,
+      "position": [
+        -0.09255467971819288,
+        2.2780000159740443,
+        -0.17987292234020055
+      ],
+      "rotation": [
+        0,
+        -16.803535162640735,
+        -0.024124435917474332
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.1726537323985688,
+          -0.0717502725350087,
+          0
+        ],
+        [
+          0.3453074647971376,
+          -0.004440130816804173,
+          0.02
+        ]
+      ],
+      "radius": 0.013666666666666667,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 791,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.4480000171661374,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -18.87195141902411,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.37983821127685136,
+        0.29785744075489046,
+        0.2494059961915016
+      ],
+      "count": 50,
+      "seed": 1045,
+      "position": [
+        0.20713252350159594,
+        2.2780000159740443,
+        0.004639611613735216
+      ],
+      "rotation": [
+        0,
+        -18.87195141902411,
+        -0.007196358335204423
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.16930903201808556,
+          -0.07790235506981509,
+          0
+        ],
+        [
+          0.3386180640361711,
+          -0.0073931304335112455,
+          0.02
+        ]
+      ],
+      "radius": 0.013666666666666667,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 793,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.4480000171661374,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -21.00803466050203,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.37247987043978825,
+        0.29785744075489046,
+        0.2494059961915016
+      ],
+      "count": 50,
+      "seed": 1052,
+      "position": [
+        -0.11264477033737089,
+        2.2780000159740443,
+        0.16908443246088206
+      ],
+      "rotation": [
+        0,
+        -21.00803466050203,
+        -0.04968247527722269
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.1252118455243655,
+          -0.09107607682212189,
+          0
+        ],
+        [
+          0.250423691048731,
+          -0.013716516874618508,
+          0.02
+        ]
+      ],
+      "radius": 0.011333333333333336,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 795,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.720000019073486,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -19.199229890907183,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.27546606015360414,
+        0.28642336098480226,
+        0.2017639971494675
+      ],
+      "count": 50,
+      "seed": 1069,
+      "position": [
+        0.14116149940944767,
+        2.550000017881393,
+        0.05147582052115157
+      ],
+      "rotation": [
+        0,
+        -19.199229890907183,
+        -0.006967780296690762
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.13132685631095276,
+          -0.08652961346834626,
+          0
+        ],
+        [
+          0.2626537126219055,
+          -0.011534214464806201,
+          0.02
+        ]
+      ],
+      "radius": 0.011333333333333336,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 797,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.720000019073486,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -21.181937342861982,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.2889190838840961,
+        0.28642336098480226,
+        0.2017639971494675
+      ],
+      "count": 50,
+      "seed": 1076,
+      "position": [
+        -0.10874959169586416,
+        2.550000017881393,
+        0.11405628653190591
+      ],
+      "rotation": [
+        0,
+        -21.181937342861982,
+        0.01970740163233131
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.11919692860676301,
+          -0.10949802411017541,
+          0
+        ],
+        [
+          0.23839385721352602,
+          -0.022559051572884195,
+          0.02
+        ]
+      ],
+      "radius": 0.011333333333333336,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 799,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.720000019073486,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -23.312334472591683,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.26223324293487865,
+        0.28642336098480226,
+        0.2017639971494675
+      ],
+      "count": 50,
+      "seed": 1083,
+      "position": [
+        -0.03533375733087759,
+        2.550000017881393,
+        -0.13860343722092228
+      ],
+      "rotation": [
+        0,
+        -23.312334472591683,
+        0.004200783255510032
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.10202355829700877,
+          -0.04581361099421004,
+          0
+        ],
+        [
+          0.20404711659401753,
+          0.00800946672277918,
+          0.02
+        ]
+      ],
+      "radius": 0.009000000000000001,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 801,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.992000020980835,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -21.75277587560378,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.2244518282534193,
+        0.27498928121471405,
+        0.15412199810743338
+      ],
+      "count": 50,
+      "seed": 1100,
+      "position": [
+        -0.11896642724729095,
+        2.822000019788742,
+        0.028907965555098412
+      ],
+      "rotation": [
+        0,
+        -21.75277587560378,
+        0.03214414042886347
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.1042291326570157,
+          -0.06754581521505514,
+          0
+        ],
+        [
+          0.2084582653140314,
+          -0.002421991303226463,
+          0.02
+        ]
+      ],
+      "radius": 0.009000000000000001,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 803,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.992000020980835,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -23.930165858617368,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.22930409184543454,
+        0.27498928121471405,
+        0.15412199810743338
+      ],
+      "count": 50,
+      "seed": 1107,
+      "position": [
+        0.04502150825801255,
+        2.822000019788742,
+        -0.11669108453587336
+      ],
+      "rotation": [
+        0,
+        -23.930165858617368,
+        -0.007595506240613759
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "branch",
+      "points": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.09809867849197873,
+          -0.06747313657778596,
+          0
+        ],
+        [
+          0.19619735698395746,
+          -0.00238710555733726,
+          0.02
+        ]
+      ],
+      "radius": 0.009000000000000001,
+      "tipRadius": 0.004,
+      "segments": 14,
+      "sides": 7,
+      "seed": 805,
+      "forks": 1,
+      "material": "wood",
+      "position": [
+        0,
+        2.992000020980835,
+        0
+      ],
+      "surface": {
+        "texture": "bark",
+        "textureSize": 0.65,
+        "textureBrightness": 0.72,
+        "relief": 0.025
+      },
+      "rotation": [
+        0,
+        -25.847698403126255,
+        0
+      ]
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.21581709268235322,
+        0.27498928121471405,
+        0.15412199810743338
+      ],
+      "count": 50,
+      "seed": 1114,
+      "position": [
+        0.08889168404371713,
+        2.822000019788742,
+        0.07717443584094752
+      ],
+      "rotation": [
+        0,
+        -25.847698403126255,
+        -0.01260705350432545
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
+      }
+    },
+    {
+      "shape": "conifer",
+      "size": [
+        0.3319999933242798,
+        0.47600000333786013,
+        0.3319999933242798
+      ],
+      "count": 32,
+      "seed": 991,
+      "position": [
+        0,
+        2.9240000205039975,
+        0
+      ],
+      "material": "green",
+      "surface": {
+        "texture": "foliage",
+        "textureSize": 0.28,
+        "textureBrightness": 0.7,
+        "textureColorMode": "replace",
+        "textureColor": "#2f4f37",
+        "relief": 0.003
       }
     }
   ],
@@ -1848,7 +3450,7 @@
     "family": "botanical",
     "reconstruction": "model",
     "methods": [
-      "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais"
+      "conífera em andares cônicos: galhos pendentes com tufos de agulhas, broto apical, casca e raízes"
     ],
     "seed": 63417
   }

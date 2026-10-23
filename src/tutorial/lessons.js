@@ -124,7 +124,7 @@ export const LESSONS = [
       pick('builtin-ritual-altar', 'Altar de pedra'),
       drop('builtin-ritual-altar', 'Clique no <b>ponto marcado</b>, perto da parede do fundo.', [0, 0, -2.2]),
       search('cinco velas', 'builtin-church-candelabra'),
-      pick('builtin-church-candelabra', 'Igreja · candelabro de cinco velas'),
+      pick('builtin-church-candelabra', 'Candelabro de cinco velas'),
       drop('builtin-church-candelabra', 'Clique em cima do altar, no ponto marcado.', [0, 1.005, -2.2], 'Um clique no tampo de uma mesa ou de um altar põe o objeto em cima dele.'),
       search('banco de igreja', 'builtin-church-pew'),
       pick('builtin-church-pew', 'Banco de igreja'),
@@ -296,7 +296,7 @@ export const LESSONS = [
     steps: [
       { say: 'Continuamos o galpão da parte 2: agora os objetos que contam a história do lugar.', why: HOW, done: ['read'], act: 'continue' },
       { stage: 'Portão e luz de aviso', ...search('portão', 'builtin-industrial-blast-door') },
-      pick('builtin-industrial-blast-door', 'Portão industrial'),
+      pick('builtin-industrial-blast-door', 'Portão industrial de duas folhas'),
       drop('builtin-industrial-blast-door', 'Clique no ponto marcado, junto à parede do fundo.', [2.5, 0, -5.8]),
       search('luz de aviso', 'builtin-industrial-warning-light'),
       pick('builtin-industrial-warning-light', 'Luz de aviso de parede'),

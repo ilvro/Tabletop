@@ -48,7 +48,7 @@ test('one switch turns a whole room off, glow included, and back on', () => {
   assert.equal(switchState(store.document, { groupId: hall.id }), 'mixed');
   store.execute('lights.switch', { groupId: hall.id, enabled: true }); assert.equal(switchState(store.document, { groupId: hall.id }), 'on');
   store.execute('lights.switch', { groupId: hall.id, enabled: false }); assert.equal(switchState(store.document, { groupId: hall.id }), 'off');
-  const others = Object.values(store.document.layout.entities).filter(e => e.illumination && e.groupId !== hall.id && e.name === 'Nórdico · lanterna rúnica de cristal');
+  const others = Object.values(store.document.layout.entities).filter(e => e.illumination && e.groupId !== hall.id && e.assetRef?.id === 'builtin-nordic-rune-lantern');
   assert.ok(others.length && others.every(e => store.document.layout.entities[e.id].illumination.enabled === original.layout.entities[e.id].illumination.enabled), 'other rooms keep theirs');
 });
 
