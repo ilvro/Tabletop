@@ -1103,3 +1103,16 @@ Entregue:
 Validação: regeneração comparada ao HEAD — só os dez arquivos de modelo previstos mudaram (nove refeitos + nome da cruz), envelopes iguais aos contratos e nenhuma geometria com NaN; 374 testes unitários aprovados; E2E asset-library, landscape, example-previews e winter-detail aprovados (7/7); example-scenes, mountain-kit, church-kit e Igreja no modo Pages aprovados. Falhas anteriores a esta revisão, não relacionadas: house-scene (server e Pages) espera 5 cenas na galeria, mas são 6 desde o Templo gelado (20/10); church-scene no modo servidor estoura o tempo também numa cópia limpa do HEAD.
 
 Pendências desta frente: o pinheiro e a árvore frondosa antigos continuam ralos e o toco de árvore, liso; padronizar o formato dos nomes ("Kit · peça" só nos kits recentes) exigiria renomear dezenas de assets e foi deixado como decisão do usuário.
+
+## Árvores refeitas e padronização dos nomes — em validação
+
+Pedido de 23 de outubro: refazer pinheiro, árvore frondosa e toco e padronizar os nomes, verificando tutoriais e cenas de preset.
+
+Entregue:
+- Pinheiro (dez andares cônicos de galhos pendentes com tufos de agulhas, 52 mil triângulos, dentro do limite de 65 mil), árvore frondosa (tronco que se divide em quatro pernadas, copa larga e baixa) e toco (casca, corte com anéis, lascas e raízes abertas). Troncos e raízes com textura de casca no lugar do veio de tábua; copas com textura de folhagem. Envelopes e slots preservados.
+- Convenção "Objeto · detalhe", sem prefixo de kit: 54 nomes renomeados (Igreja, Nórdico, Templo, Backrooms, Casa), quatro reescritos para evitar colisão; tags inglesas dos kits casa/Backrooms traduzidas. IDs inalterados.
+- Dependências atualizadas: nomes das entidades nas cenas de exemplo (backrooms 158, casa 1, igreja 175, templo gelado 201), fixture do estudo de iluminação, texto do passo do candelabro no tutorial, teste do templo gelado (agora por ID do asset). Corrigido também um texto antigo de tutorial ("Portão industrial" → nome real do card).
+- Novo `tests/asset-names.test.js`: nomes únicos, sem prefixo de kit, tags em português, cenas sem rótulos antigos do catálogo e todos os passos de busca/clique dos tutoriais coerentes com o catálogo.
+- Convenção documentada em docs/ASSET_LIBRARY.md (Nomes dos assets); resumos PROGRESSO sincronizados.
+
+Validação: 377 testes unitários aprovados (incluindo o novo). E2E em andamento.

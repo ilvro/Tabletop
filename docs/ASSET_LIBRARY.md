@@ -302,7 +302,7 @@ Conferência: `node scripts/review-library.js nordic-rune-console nordic-gear-wa
 
 Revisão visual dos 352 modelos (`node scripts/review-library.js`) e do catálogo. IDs, pegadas, envelopes, alturas de apoio e slots públicos continuam iguais, então cenas salvas não mudam de lugar nem de escala.
 
-**Modelos refeitos** (nove; além deles, só o arquivo da cruz dupla mudou, pelo nome):
+**Modelos refeitos** (doze, em duas etapas):
 
 | Modelo | Antes | Agora |
 | --- | --- | --- |
@@ -312,17 +312,31 @@ Revisão visual dos 352 modelos (`node scripts/review-library.js`) e do catálog
 | Afloramento rochoso | bolha baixa com laje preta | blocos fraturados de alturas diferentes e cascalho escuro com textura de rocha |
 | Mureta desmoronada | pedras soltas espalhadas | fiadas de pedra seca que descem para um lado, com blocos caídos |
 | Relicário selado | cruz e colunas creme (lembrava um armário de primeiros socorros) | colunetas torneadas e cruz pequena de latão sobre placa |
+| Pinheiro | tronco com tufos ralos | conífera em dez andares cônicos de galhos pendentes, tufos de agulhas, broto apical, casca e raízes |
+| Árvore frondosa | copa alta em forma de pirulito | tronco que se divide em quatro pernadas e ramos secundários, copa larga e baixa, casca e raízes |
+| Toco de árvore | cilindro liso com veio de tábua | casca, corte claro com anéis, lascas quebradas na borda e raízes que se abrem no chão |
 | Muro de ruína, Arco de pedra, Contraforte de ruína | seixos arredondados empilhados, com vãos | blocos talhados em fiadas (o mesmo acabamento da Torre arruinada); o arco ganhou impostas e o contraforte recua para −Z |
 
 Nas cenas de exemplo, a montanha (muros) e o Templo gelado (arco) passam a mostrar a alvenaria nova automaticamente.
 
 **Consistência do catálogo:**
 
-- **Igreja · cruz dupla de ferro** passou a **Igreja · cruz dupla rubra**: o modelo sempre foi vermelho e brilhante, e a fachada da Igreja Antiga conta com isso. O slot continua `iron`; para ferro escuro, troque a cor e zere a emissão nele.
+- **Igreja · cruz dupla de ferro** passou a **Cruz dupla rubra**: o modelo sempre foi vermelho e brilhante, e a fachada da Igreja Antiga conta com isso. O slot continua `iron`; para ferro escuro, troque a cor e zere a emissão nele.
 - Categorias por função, e não por kit: as peças da casa de bairro (antes em *Casa / Complementos*) estão em **Mobiliário / Cozinha**, **Decoração** e **Iluminação**, e o telhado e o piso em **Casa / Estrutura**. A tag **casa de bairro** continua reunindo o kit.
 - **Exterior / Vegetação** reúne as antigas *Vegetação alpina* e *Vegetação detalhada*. As tags **montanha**, **inverno** e **detalhada** continuam separando os grupos.
 - **Mureta desmoronada** e **Coluna quebrada** saíram de *Exterior / Ruínas* para **Arquitetura / Ruínas**, com as demais ruínas.
 - Os seis modelos do kit inicial ganharam descrições próprias no lugar do texto genérico, e a mesma procedência dos demais.
 
 Classificações editadas pelo usuário (`data/asset-metadata/`) continuam valendo sobre esses padrões.
+
+### Nomes dos assets
+
+O nome diz **o que é o objeto**; kit, tema e época ficam em categoria, época e tags. Assim a lista continua legível quando entram kits novos, e a mesma peça pode servir a vários cenários.
+
+- Formato: **Objeto** ou **Objeto · detalhe**. O detalhe distingue variantes, medidas ou estados (`Tubo reto · 2 m`, `Escada em espiral do abismo · uma volta`, `Caixa antiga aberta · tábuas e interior`). Primeira letra maiúscula, o resto em minúsculas, exceto nomes próprios (`Dama de Ferro`).
+- Sem prefixo de kit: nada de `Igreja ·`, `Nórdico ·`, `Templo ·`, `Backrooms ·` ou `Casa ·`. Para reunir um kit, use a tag dele (**igreja antiga**, **nórdico**, **templo gelado**, **backrooms**, **casa de bairro**), que a busca encontra.
+- Nomes únicos, sem contar acentos e maiúsculas. Tags em português.
+- `tests/asset-names.test.js` confere essas regras, que as cenas de exemplo não guardam rótulos antigos do catálogo e que cada passo de tutorial encontra o asset na busca (na primeira página de 24) e mostra o nome que aparece no card.
+
+Em 23 de outubro de 2026, 54 nomes perderam o prefixo de kit, por exemplo `Igreja · arco ogival vazado` → `Arco ogival vazado` e `Nórdico · console rúnico` → `Console rúnico`. Quatro foram reescritos para não colidir ou para dizer melhor o que são: `Igreja · cobertura de duas águas` → `Cobertura da nave · duas águas`, `Casa · telhado de duas águas` → `Telhado cerâmico · duas águas`, `Backrooms · papel de parede e rodapé` → `Papel de parede amarelo e rodapé` e `Backrooms · forro modular de 3 m` → `Forro modular · 3 m`. IDs não mudaram, então cenas salvas continuam abrindo. Nelas, objetos já colocados guardam o rótulo da época (o nome é editável por objeto). As cenas de exemplo, a fixture do estudo de iluminação e o tutorial do candelabro já usam os nomes novos.
 

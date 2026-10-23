@@ -49,7 +49,7 @@ export function craftModel(id,recipe,size) {
         for(let j=0;j<count;j++) {
           const a=j*TAU/count+tier*2.399+(rand()-.5)*.5,length=spread*(.85+rand()*.2),droop=.05+rand()*.08;
           parts.push({...limb([[0,0,0],[length*.5,-droop*h*.25,0],[length,-droop*h*.12+.03,.02]],.03*(1-q*.7),.004,1),position:[0,y,0],rotation:[0,-a,0]});
-          parts.push({shape:'conifer',size:[length*1.1,h*.07+spread*.18,spread*.75],count:50,seed:821+tier*31+j*7,position:[Math.cos(a)*length*.6,y-h*.05,Math.sin(a)*length*.6],rotation:[0,-a,(rand()-.5)*.1],material:'green',surface:leaves});
+          parts.push({shape:'conifer',size:[length*1.1,h*.07+spread*.18,spread*.75],count:36,seed:821+tier*31+j*7,position:[Math.cos(a)*length*.6,y-h*.05,Math.sin(a)*length*.6],rotation:[0,-a,(rand()-.5)*.1],material:'green',surface:leaves});
         }
       }
       parts.push({shape:'conifer',size:[w*.2,h*.14,w*.2],count:32,seed:991,position:[0,h*.86,0],material:'green',surface:leaves});
