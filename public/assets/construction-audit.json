@@ -659,10 +659,10 @@
       "family": "geological",
       "reconstruction": "model",
       "methods": [
-        "pedras fraturadas com volume irregular e encaixe de alvenaria"
+        "afloramento com blocos fraturados de alturas diferentes e cascalho escuro"
       ],
-      "parts": 4,
-      "triangles": 2000,
+      "parts": 9,
+      "triangles": 4500,
       "batches": 2
     },
     {
@@ -1545,10 +1545,10 @@
       "family": "botanical",
       "reconstruction": "model",
       "methods": [
-        "botânica reconstruída: raízes, bifurcações e folhas/agulhas individuais"
+        "arbusto baixo com hastes desde o chão e tufos de folhas sobrepostos"
       ],
-      "parts": 38,
-      "triangles": 10080,
+      "parts": 14,
+      "triangles": 3990,
       "batches": 2
     },
     {
@@ -1599,11 +1599,11 @@
       "family": "architecture",
       "reconstruction": "model",
       "methods": [
-        "pedras fraturadas com volume irregular e encaixe de alvenaria"
+        "mureta de pedra seca em fiadas, desmoronada para um lado, com blocos caídos e cascalho"
       ],
-      "parts": 11,
-      "triangles": 5500,
-      "batches": 2
+      "parts": 19,
+      "triangles": 3320,
+      "batches": 4
     },
     {
       "id": "builtin-sewer-grate",
@@ -1622,10 +1622,11 @@
       "family": "ritual",
       "reconstruction": "model",
       "methods": [
-        "máscara deitada com contorno facial, sobrancelhas, nariz e aberturas escuras"
+        "máscara entalhada deitada: rosto abaulado, sobrancelhas, nariz, olhos e boca vazados, pintura ritual e amarras",
+        "cordas e tubos curvos"
       ],
-      "parts": 9,
-      "triangles": 424,
+      "parts": 14,
+      "triangles": 3836,
       "batches": 5
     },
     {
@@ -1633,14 +1634,14 @@
       "family": "ritual",
       "reconstruction": "model",
       "methods": [
-        "relicário com tampa em duas águas, pilastras, cruz frontal, cintas de ferro, cadeado, lacres de cera e fresta luminosa",
+        "relicário com tampa em duas águas, colunetas e cruz douradas, cintas de ferro, cadeado, lacres de cera e fresta luminosa",
         "arestas chanfradas",
-        "curvas de contorno refinadas",
-        "ferragens curvas com vazios reais"
+        "ferragens curvas com vazios reais",
+        "curvas de contorno refinadas"
       ],
-      "parts": 21,
-      "triangles": 2196,
-      "batches": 5
+      "parts": 23,
+      "triangles": 3052,
+      "batches": 6
     },
     {
       "id": "builtin-stone-sarcophagus",
@@ -1659,11 +1660,12 @@
       "family": "ritual",
       "reconstruction": "model",
       "methods": [
-        "escultura de crânio/máscara: órbitas, maçãs, mandíbula e dentes",
-        "arestas chanfradas"
+        "crânio em escala natural: calota, arcada, órbitas com borda óssea, cavidade nasal, maçãs, mandíbula e dentes sobre plinto",
+        "arestas chanfradas",
+        "ferragens curvas com vazios reais"
       ],
-      "parts": 18,
-      "triangles": 3764,
+      "parts": 35,
+      "triangles": 4356,
       "batches": 4
     },
     {
@@ -2322,8 +2324,8 @@
       "methods": [
         "fonte detalhada preservada"
       ],
-      "parts": 32,
-      "triangles": 5760,
+      "parts": 31,
+      "triangles": 4216,
       "batches": 1
     },
     {
@@ -2331,11 +2333,12 @@
       "family": "architecture",
       "reconstruction": "components",
       "methods": [
+        "arestas chanfradas",
         "arcos com curva refinada"
       ],
-      "parts": 21,
-      "triangles": 2900,
-      "batches": 1
+      "parts": 23,
+      "triangles": 2548,
+      "batches": 2
     },
     {
       "id": "builtin-ruin-buttress",
@@ -2344,9 +2347,9 @@
       "methods": [
         "arestas chanfradas"
       ],
-      "parts": 8,
-      "triangles": 1304,
-      "batches": 1
+      "parts": 15,
+      "triangles": 1948,
+      "batches": 2
     },
     {
       "id": "builtin-mountain-timber-bridge",

@@ -24,6 +24,11 @@
       "color": "#77529b",
       "emissive": "#64408d",
       "emissiveIntensity": 0.5
+    },
+    "brass": {
+      "color": "#a28a54",
+      "roughness": 0.39,
+      "metalness": 0.5
     }
   },
   "parts": [
@@ -119,56 +124,180 @@
       "bevel": 0.009
     },
     {
-      "shape": "cylinder",
-      "radiusTop": 0.014,
-      "radiusBottom": 0.014,
-      "height": 0.18,
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.016,
+          0
+        ],
+        [
+          0.016,
+          0.012
+        ],
+        [
+          0.011,
+          0.02
+        ],
+        [
+          0.011,
+          0.16
+        ],
+        [
+          0.016,
+          0.168
+        ],
+        [
+          0.016,
+          0.18
+        ],
+        [
+          0,
+          0.18
+        ]
+      ],
+      "segments": 12,
       "position": [
         -0.145,
-        0.15,
+        0.06,
         -0.095
       ],
-      "material": "paper",
-      "segments": 12
+      "material": "brass"
     },
     {
-      "shape": "cylinder",
-      "radiusTop": 0.014,
-      "radiusBottom": 0.014,
-      "height": 0.18,
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.016,
+          0
+        ],
+        [
+          0.016,
+          0.012
+        ],
+        [
+          0.011,
+          0.02
+        ],
+        [
+          0.011,
+          0.16
+        ],
+        [
+          0.016,
+          0.168
+        ],
+        [
+          0.016,
+          0.18
+        ],
+        [
+          0,
+          0.18
+        ]
+      ],
+      "segments": 12,
       "position": [
         -0.145,
-        0.15,
+        0.06,
         0.095
       ],
-      "material": "paper",
-      "segments": 12
+      "material": "brass"
     },
     {
-      "shape": "cylinder",
-      "radiusTop": 0.014,
-      "radiusBottom": 0.014,
-      "height": 0.18,
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.016,
+          0
+        ],
+        [
+          0.016,
+          0.012
+        ],
+        [
+          0.011,
+          0.02
+        ],
+        [
+          0.011,
+          0.16
+        ],
+        [
+          0.016,
+          0.168
+        ],
+        [
+          0.016,
+          0.18
+        ],
+        [
+          0,
+          0.18
+        ]
+      ],
+      "segments": 12,
       "position": [
         0.145,
-        0.15,
+        0.06,
         -0.095
       ],
-      "material": "paper",
-      "segments": 12
+      "material": "brass"
     },
     {
-      "shape": "cylinder",
-      "radiusTop": 0.014,
-      "radiusBottom": 0.014,
-      "height": 0.18,
+      "shape": "lathe",
+      "profile": [
+        [
+          0,
+          0
+        ],
+        [
+          0.016,
+          0
+        ],
+        [
+          0.016,
+          0.012
+        ],
+        [
+          0.011,
+          0.02
+        ],
+        [
+          0.011,
+          0.16
+        ],
+        [
+          0.016,
+          0.168
+        ],
+        [
+          0.016,
+          0.18
+        ],
+        [
+          0,
+          0.18
+        ]
+      ],
+      "segments": 12,
       "position": [
         0.145,
-        0.15,
+        0.06,
         0.095
       ],
-      "material": "paper",
-      "segments": 12
+      "material": "brass"
     },
     {
       "shape": "box",
@@ -218,32 +347,48 @@
     {
       "shape": "box",
       "size": [
-        0.04,
-        0.13,
-        0.012
+        0.075,
+        0.1,
+        0.005
       ],
       "position": [
         0,
-        0.16,
+        0.18,
         0.098
       ],
-      "material": "paper",
-      "bevel": 0
+      "material": "brass",
+      "bevel": 0.00245,
+      "round": true
     },
     {
       "shape": "box",
       "size": [
-        0.13,
-        0.04,
-        0.012
+        0.016,
+        0.075,
+        0.008
       ],
       "position": [
         0,
-        0.175,
-        0.098
+        0.18,
+        0.10300000000000001
       ],
-      "material": "paper",
-      "bevel": 0
+      "material": "brass",
+      "bevel": 0.002
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.05,
+        0.016,
+        0.008
+      ],
+      "position": [
+        0,
+        0.195,
+        0.10300000000000001
+      ],
+      "material": "brass",
+      "bevel": 0.002
     },
     {
       "shape": "box",
@@ -354,6 +499,26 @@
         0,
         0
       ]
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.012,
+        0.07,
+        0.003
+      ],
+      "position": [
+        0.09,
+        0.165,
+        0.099
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        0,
+        0.2
+      ],
+      "bevel": 0
     }
   ],
   "mergeParts": true,
@@ -367,10 +532,10 @@
     "family": "ritual",
     "reconstruction": "model",
     "methods": [
-      "relicário com tampa em duas águas, pilastras, cruz frontal, cintas de ferro, cadeado, lacres de cera e fresta luminosa",
+      "relicário com tampa em duas águas, colunetas e cruz douradas, cintas de ferro, cadeado, lacres de cera e fresta luminosa",
       "arestas chanfradas",
-      "curvas de contorno refinadas",
-      "ferragens curvas com vazios reais"
+      "ferragens curvas com vazios reais",
+      "curvas de contorno refinadas"
     ],
     "seed": 5163
   }

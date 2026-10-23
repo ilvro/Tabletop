@@ -4,8 +4,8 @@
   "pivot": "base-center",
   "materials": {
     "dark": {
-      "color": "#292b30",
-      "roughness": 0.8
+      "color": "#55534d",
+      "roughness": 0.97
     },
     "stone": {
       "color": "#777873",
@@ -15,20 +15,24 @@
   "parts": [
     {
       "shape": "rock",
-      "form": "fractured",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
       "size": [
-        0.5025871744565555,
-        0.24721707651767336,
-        0.4965729747774025
+        0.31,
+        0.24,
+        0.36
       ],
       "position": [
-        -0.709534834526902,
+        -0.79,
         0,
-        0.1145937634101698
+        -0.15279168454689307
       ],
-      "seed": 182,
-      "detail": 4,
-      "irregularity": 0.8,
+      "seed": 301,
       "material": "stone",
       "surface": {
         "texture": "rock",
@@ -42,20 +46,24 @@
     },
     {
       "shape": "rock",
-      "form": "fractured",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
       "size": [
-        0.5025871744565555,
-        0.24721707651767336,
-        0.6111667381875723
+        0.33,
+        0.24,
+        0.36
       ],
       "position": [
-        -0.23651161150896732,
+        -0.46,
         0,
-        -0.08450072097887953
+        -0.15067488442599505
       ],
-      "seed": 193,
-      "detail": 4,
-      "irregularity": 0.8,
+      "seed": 302,
       "material": "stone",
       "surface": {
         "texture": "rock",
@@ -69,20 +77,24 @@
     },
     {
       "shape": "rock",
-      "form": "fractured",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
       "size": [
-        0.5025871744565555,
-        0.24721707651767336,
-        0.4965729747774025
+        0.31,
+        0.24,
+        0.36
       ],
       "position": [
-        0.23651161150896732,
+        -0.13,
         0,
-        0.010026837806890286
+        -0.15698291701987696
       ],
-      "seed": 204,
-      "detail": 4,
-      "irregularity": 0.8,
+      "seed": 303,
       "material": "stone",
       "surface": {
         "texture": "rock",
@@ -96,19 +108,411 @@
     },
     {
       "shape": "rock",
-      "form": "fractured",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
       "size": [
-        0.5025871744565555,
-        0.24721707651767336,
-        0.6111667381875723
+        0.33,
+        0.24,
+        0.36
       ],
       "position": [
-        0.709534834526902,
+        0.2,
         0,
-        0.06971326660777505
+        -0.14660990726826673
       ],
-      "seed": 215,
-      "detail": 4,
+      "seed": 304,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
+      "size": [
+        0.31,
+        0.24,
+        0.36
+      ],
+      "position": [
+        0.53,
+        0,
+        -0.1608402783168996
+      ],
+      "seed": 305,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
+      "size": [
+        0.31,
+        0.24,
+        0.36
+      ],
+      "position": [
+        -0.8,
+        0.255,
+        -0.16717554866684015
+      ],
+      "seed": 314,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
+      "size": [
+        0.33,
+        0.24,
+        0.36
+      ],
+      "position": [
+        -0.47,
+        0.255,
+        -0.13795131084754234
+      ],
+      "seed": 315,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
+      "size": [
+        0.31,
+        0.24,
+        0.36
+      ],
+      "position": [
+        -0.14,
+        0.255,
+        -0.16779153764515362
+      ],
+      "seed": 316,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
+      "size": [
+        0.33,
+        0.24,
+        0.36
+      ],
+      "position": [
+        0.18,
+        0.255,
+        -0.13793257421147
+      ],
+      "seed": 317,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
+      "size": [
+        0.31,
+        0.24,
+        0.36
+      ],
+      "position": [
+        -0.79,
+        0.51,
+        -0.16095200121023362
+      ],
+      "seed": 327,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
+      "size": [
+        0.33,
+        0.24,
+        0.36
+      ],
+      "position": [
+        -0.47,
+        0.51,
+        -0.14648917899449346
+      ],
+      "seed": 328,
+      "material": "stone",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
+      "size": [
+        0.26,
+        0.2,
+        0.3
+      ],
+      "position": [
+        -0.17,
+        0.51,
+        -0.17279168454689306
+      ],
+      "seed": 344,
+      "material": "stone",
+      "rotation": [
+        0,
+        0.15,
+        -0.22
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
+      "size": [
+        0.3,
+        0.22,
+        0.3
+      ],
+      "position": [
+        0.78,
+        0,
+        0.04
+      ],
+      "seed": 351,
+      "material": "stone",
+      "rotation": [
+        0,
+        0.5,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
+      "size": [
+        0.28,
+        0.2,
+        0.26
+      ],
+      "position": [
+        0.36,
+        0,
+        0.24
+      ],
+      "seed": 362,
+      "material": "stone",
+      "rotation": [
+        0.18,
+        0.9,
+        0.08
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "cliff",
+      "terraces": 1,
+      "overhang": 0.08,
+      "erosion": 0.4,
+      "irregularity": 0.5,
+      "detail": 2,
+      "fixedRock": true,
+      "size": [
+        0.24,
+        0.17,
+        0.22
+      ],
+      "position": [
+        -0.2,
+        0,
+        0.27
+      ],
+      "seed": 373,
+      "material": "dark",
+      "rotation": [
+        0,
+        -0.4,
+        0.1
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#55534d",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.13,
+        0.091,
+        0.14300000000000002
+      ],
+      "position": [
+        0.62,
+        0,
+        0.3
+      ],
+      "seed": 381,
+      "detail": 3,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -125,17 +529,44 @@
       "shape": "rock",
       "form": "fractured",
       "size": [
-        0.5025871744565555,
-        0.24721707651767336,
-        0.4965729747774025
+        0.1,
+        0.06999999999999999,
+        0.11000000000000001
       ],
       "position": [
-        -0.709534834526902,
-        0.22404047559414147,
-        -0.11283908717973958
+        0.05,
+        0,
+        0.33
       ],
-      "seed": 226,
-      "detail": 4,
+      "seed": 388,
+      "detail": 3,
+      "irregularity": 0.8,
+      "material": "dark",
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#55534d",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.11,
+        0.077,
+        0.12100000000000001
+      ],
+      "position": [
+        0.9,
+        0,
+        -0.2
+      ],
+      "seed": 395,
+      "detail": 3,
       "irregularity": 0.8,
       "material": "stone",
       "surface": {
@@ -152,154 +583,28 @@
       "shape": "rock",
       "form": "fractured",
       "size": [
-        0.5025871744565555,
-        0.24721707651767336,
-        0.6111667381875723
+        0.09,
+        0.063,
+        0.099
       ],
       "position": [
-        -0.23651161150896732,
-        0.22404047559414147,
-        0.09670040089972638
+        -0.55,
+        0,
+        0.3
       ],
-      "seed": 237,
-      "detail": 4,
+      "seed": 402,
+      "detail": 3,
       "irregularity": 0.8,
-      "material": "stone",
+      "material": "dark",
       "surface": {
         "texture": "rock",
         "textureSize": 1.4,
         "relief": 0.006,
         "rockPattern": "granite",
         "rockCracks": 0.08,
-        "textureColor": "#777873",
+        "textureColor": "#55534d",
         "textureColorMode": "replace"
       }
-    },
-    {
-      "shape": "rock",
-      "form": "fractured",
-      "size": [
-        0.5025871744565555,
-        0.24721707651767336,
-        0.4965729747774025
-      ],
-      "position": [
-        0.23651161150896732,
-        0.22404047559414147,
-        -0.029773448647814747
-      ],
-      "seed": 248,
-      "detail": 4,
-      "irregularity": 0.8,
-      "material": "stone",
-      "surface": {
-        "texture": "rock",
-        "textureSize": 1.4,
-        "relief": 0.006,
-        "rockPattern": "granite",
-        "rockCracks": 0.08,
-        "textureColor": "#777873",
-        "textureColorMode": "replace"
-      }
-    },
-    {
-      "shape": "rock",
-      "form": "fractured",
-      "size": [
-        0.5025871744565555,
-        0.24721707651767336,
-        0.6111667381875723
-      ],
-      "position": [
-        0.709534834526902,
-        0.22404047559414147,
-        -0.052790893053948906
-      ],
-      "seed": 259,
-      "detail": 4,
-      "irregularity": 0.8,
-      "material": "stone",
-      "surface": {
-        "texture": "rock",
-        "textureSize": 1.4,
-        "relief": 0.006,
-        "rockPattern": "granite",
-        "rockCracks": 0.08,
-        "textureColor": "#777873",
-        "textureColorMode": "replace"
-      }
-    },
-    {
-      "shape": "rock",
-      "form": "fractured",
-      "size": [
-        0.5025871744565555,
-        0.24721707651767336,
-        0.4965729747774025
-      ],
-      "position": [
-        -0.709534834526902,
-        0.44808095118828295,
-        0.10762879419939887
-      ],
-      "seed": 270,
-      "detail": 4,
-      "irregularity": 0.8,
-      "material": "stone",
-      "surface": {
-        "texture": "rock",
-        "textureSize": 1.4,
-        "relief": 0.006,
-        "rockPattern": "granite",
-        "rockCracks": 0.08,
-        "textureColor": "#777873",
-        "textureColorMode": "replace"
-      }
-    },
-    {
-      "shape": "rock",
-      "form": "fractured",
-      "size": [
-        0.5025871744565555,
-        0.24721707651767336,
-        0.6111667381875723
-      ],
-      "position": [
-        -0.23651161150896732,
-        0.44808095118828295,
-        -0.10593869985388844
-      ],
-      "seed": 281,
-      "detail": 4,
-      "irregularity": 0.8,
-      "material": "stone",
-      "surface": {
-        "texture": "rock",
-        "textureSize": 1.4,
-        "relief": 0.006,
-        "rockPattern": "granite",
-        "rockCracks": 0.08,
-        "textureColor": "#777873",
-        "textureColorMode": "replace"
-      }
-    },
-    {
-      "shape": "rock",
-      "form": "fractured",
-      "size": [
-        0.5025871744565555,
-        0.24721707651767336,
-        0.4965729747774025
-      ],
-      "position": [
-        0.23651161150896732,
-        0.44808095118828295,
-        0.04860826881033651
-      ],
-      "seed": 292,
-      "detail": 4,
-      "irregularity": 0.8,
-      "material": "dark"
     }
   ],
   "mergeParts": true,
@@ -313,7 +618,7 @@
     "family": "architecture",
     "reconstruction": "model",
     "methods": [
-      "pedras fraturadas com volume irregular e encaixe de alvenaria"
+      "mureta de pedra seca em fiadas, desmoronada para um lado, com blocos caídos e cascalho"
     ],
     "seed": 28249
   }

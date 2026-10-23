@@ -18,13 +18,13 @@
       "supportHeight": 0.82,
       "url": "/assets/models/desk.json",
       "previewUrl": "/assets/previews/desk.svg",
-      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "era": "Contemporânea",
       "contexts": [
         "Escritório",
         "Delegacia"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "description": "Mesa de escritório com gaveta, saia e pernas torneadas; tampo como apoio para pistas e documentos.",
       "bounds": [
         1.8,
         0.82,
@@ -50,13 +50,13 @@
       ],
       "url": "/assets/models/chair.json",
       "previewUrl": "/assets/previews/chair.svg",
-      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "era": "Colonial / século XIX",
       "contexts": [
         "Casa",
         "Escritório"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "description": "Cadeira de madeira com assento e encosto estofados e travessas torneadas.",
       "bounds": [
         0.52,
         0.9,
@@ -82,14 +82,14 @@
       ],
       "url": "/assets/models/cabinet.json",
       "previewUrl": "/assets/previews/cabinet.svg",
-      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "era": "Décadas de 1970–1990",
       "contexts": [
         "Arquivo",
         "Delegacia",
         "Escritório"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "description": "Arquivo de aço com quatro gavetas, puxadores e porta-etiquetas.",
       "bounds": [
         0.9,
         1.4,
@@ -115,13 +115,13 @@
       ],
       "url": "/assets/models/crate.json",
       "previewUrl": "/assets/previews/crate.svg",
-      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "era": "Atemporal",
       "contexts": [
         "Depósito",
         "Fazenda"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "description": "Caixa de tábuas com cantoneiras e pregos para depósitos, docas e fazendas.",
       "bounds": [
         0.82,
         0.78,
@@ -147,13 +147,13 @@
       ],
       "url": "/assets/models/lamp.json",
       "previewUrl": "/assets/previews/lamp.svg",
-      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "era": "Contemporânea",
       "contexts": [
         "Casa",
         "Escritório"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "description": "Luminária de pé com cúpula de tecido e haste de latão; adicione uma luz da cena para iluminar.",
       "bounds": [
         0.62,
         1.67,
@@ -179,13 +179,13 @@
       ],
       "url": "/assets/models/rug.json",
       "previewUrl": "/assets/previews/rug.svg",
-      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "era": "Atemporal",
       "contexts": [
         "Casa",
         "Hotel"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "description": "Tapete retangular com bordadura tripla e motivos geométricos.",
       "bounds": [
         2.4,
         0.02,
@@ -1607,7 +1607,7 @@
       "url": "/assets/models/rock.json",
       "previewUrl": "/assets/previews/rock.svg",
       "geometryEdition": 2,
-      "contentHash": "de1e8ee0f95de6907e1821f86031519b2365cbb94c64d6a81c55b6ba456a28ab"
+      "contentHash": "fc72e82bbc8ee0c5d3154dd50de45f20a18d3f57c4804aee43259632cf700f0c"
     },
     {
       "id": "builtin-well",
@@ -3699,7 +3699,7 @@
       "url": "/assets/models/bushes.json",
       "previewUrl": "/assets/previews/bushes.svg",
       "geometryEdition": 2,
-      "contentHash": "fb00c6aa0874374107d8ef61a0dbecfc78bda3b49a3072cd25b5a310c787acf5"
+      "contentHash": "b9dce2e407841d7dab510fee44d33683aeca3ff8516c472472ef689ce7d781d5"
     },
     {
       "id": "builtin-iron-fence",
@@ -3773,7 +3773,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Coluna quebrada",
-      "category": "Exterior / Ruínas",
+      "category": "Arquitetura / Ruínas",
       "era": "Antiguidade",
       "contexts": [
         "Ruínas",
@@ -3807,7 +3807,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Mureta desmoronada",
-      "category": "Exterior / Ruínas",
+      "category": "Arquitetura / Ruínas",
       "era": "Atemporal",
       "contexts": [
         "Ruínas",
@@ -3834,7 +3834,7 @@
       "url": "/assets/models/broken-wall.json",
       "previewUrl": "/assets/previews/broken-wall.svg",
       "geometryEdition": 2,
-      "contentHash": "710b119f7e2e44e9892de13cf9ffcf62d2a4dcce3d1c75fc5c5e00d860758cef"
+      "contentHash": "fab1e2396d4809f916ae8fecbc49d7886d8ed6a929569b78a6586bc4cd6a5a2c"
     },
     {
       "id": "builtin-sewer-grate",
@@ -3902,7 +3902,7 @@
       "url": "/assets/models/ritual-mask.json",
       "previewUrl": "/assets/previews/ritual-mask.svg",
       "geometryEdition": 2,
-      "contentHash": "21e698914ee740ab682af0659fe78ad61a09b0da987db43bd52be0fc983c33b4"
+      "contentHash": "e8634056d938df86823104d58df7d5ad9c5062868812cb3d7cf17d1bf05026bf"
     },
     {
       "id": "builtin-reliquary",
@@ -3936,7 +3936,7 @@
       "url": "/assets/models/reliquary.json",
       "previewUrl": "/assets/previews/reliquary.svg",
       "geometryEdition": 2,
-      "contentHash": "8d6be748449db8d2068581047c0a2927e68de36df5485aafc45b83976aa969e7"
+      "contentHash": "398edfe9b5fa2b49909e2d7b73000fbbabf1f165d662c17476dc26c16d24c6ce"
     },
     {
       "id": "builtin-stone-sarcophagus",
@@ -4004,7 +4004,7 @@
       "url": "/assets/models/skull-display.json",
       "previewUrl": "/assets/previews/skull-display.svg",
       "geometryEdition": 2,
-      "contentHash": "82c116bc386f8cca91a5c2407243a31e455a9a1c6b2304a8f62136aca78386bb"
+      "contentHash": "7f5b61401f86454f22fd8ed11f456f7bff377ee37e30220bf6008c2872bb4b78"
     },
     {
       "id": "builtin-effigy",
@@ -5591,7 +5591,7 @@
         "alvenaria",
         "montanha"
       ],
-      "description": "Blocos irregulares separados com juntas e topo quebrado. Material de rocha original; combine módulos por rotação/escala.",
+      "description": "Blocos talhados e gastos em fiadas, com juntas estreitas e topo quebrado. Material de rocha original; combine módulos por rotação/escala.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "footprint": [
         3.97,
@@ -5605,7 +5605,7 @@
       "url": "/assets/models/ruin-masonry-wall.json",
       "previewUrl": "/assets/previews/ruin-masonry-wall.svg",
       "geometryEdition": 2,
-      "contentHash": "0cd5604604663eefcababc783e9471dd2961f3334b9294ad17d62daea37af1f0"
+      "contentHash": "3514c02f2ab7f00a0853622ec937040c0df2b53e7c3514a31fd51b1025095dad"
     },
     {
       "id": "builtin-ruin-stone-arch",
@@ -5625,7 +5625,7 @@
         "alvenaria",
         "montanha"
       ],
-      "description": "Aduelas curvas com vão real e pilares de blocos. Cenográfico: não substitui paredes/portas estruturais.",
+      "description": "Aduelas curvas com vão real sobre impostas e pilares de blocos talhados. Cenográfico: não substitui paredes/portas estruturais.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "footprint": [
         3.08,
@@ -5639,7 +5639,7 @@
       "url": "/assets/models/ruin-stone-arch.json",
       "previewUrl": "/assets/previews/ruin-stone-arch.svg",
       "geometryEdition": 2,
-      "contentHash": "14f23da96c6bd43fd0a6958018d07c6f4879408f354b2d292de3ca29343b4530"
+      "contentHash": "61e33158312af09365e7ba72a0900485229eb147feed759998561a71191adbc0"
     },
     {
       "id": "builtin-ruin-buttress",
@@ -5659,7 +5659,7 @@
         "alvenaria",
         "montanha"
       ],
-      "description": "Pilar escalonado em blocos irregulares para torres, corredores e fachadas.",
+      "description": "Pilar escalonado em fiadas de blocos talhados, recuando para trás (−Z), para torres, corredores e fachadas.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "footprint": [
         1,
@@ -5673,7 +5673,7 @@
       "url": "/assets/models/ruin-buttress.json",
       "previewUrl": "/assets/previews/ruin-buttress.svg",
       "geometryEdition": 2,
-      "contentHash": "d5eb5005726c8486ec67a23ca228d2f36f182f4ded4d9d8c31f0b1e6d8c71108"
+      "contentHash": "7e6e7def274d0992507d7738d9afcd53aa85a6e0f6eebff1f75c7b5c87eaf3bd"
     },
     {
       "id": "builtin-mountain-timber-bridge",
@@ -5782,7 +5782,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Abeto alpino · ramificado",
-      "category": "Exterior / Vegetação alpina",
+      "category": "Exterior / Vegetação",
       "era": "Atemporal",
       "contexts": [
         "Montanha",
@@ -5815,7 +5815,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Pinheiro de montanha · ramificado",
-      "category": "Exterior / Vegetação alpina",
+      "category": "Exterior / Vegetação",
       "era": "Atemporal",
       "contexts": [
         "Montanha",
@@ -5848,7 +5848,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Árvore seca de montanha",
-      "category": "Exterior / Vegetação alpina",
+      "category": "Exterior / Vegetação",
       "era": "Atemporal",
       "contexts": [
         "Montanha",
@@ -5881,7 +5881,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Samambaia alpina",
-      "category": "Exterior / Vegetação alpina",
+      "category": "Exterior / Vegetação",
       "era": "Atemporal",
       "contexts": [
         "Montanha",
@@ -5914,7 +5914,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Tufo de capim seco",
-      "category": "Exterior / Vegetação alpina",
+      "category": "Exterior / Vegetação",
       "era": "Atemporal",
       "contexts": [
         "Montanha",
@@ -6348,7 +6348,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Toco quebrado · raízes expostas",
-      "category": "Exterior / Vegetação alpina",
+      "category": "Exterior / Vegetação",
       "era": "Antiguidade",
       "contexts": [
         "Montanha",
@@ -6517,7 +6517,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Abeto denso · galhos e agulhas volumosos",
-      "category": "Exterior / Vegetação detalhada",
+      "category": "Exterior / Vegetação",
       "era": "Atemporal",
       "contexts": [
         "Montanha",
@@ -6552,7 +6552,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Pinheiro denso · copa irregular",
-      "category": "Exterior / Vegetação detalhada",
+      "category": "Exterior / Vegetação",
       "era": "Atemporal",
       "contexts": [
         "Montanha",
@@ -6587,7 +6587,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Galho seco · curvo e bifurcado",
-      "category": "Exterior / Vegetação detalhada",
+      "category": "Exterior / Vegetação",
       "era": "Atemporal",
       "contexts": [
         "Montanha",
@@ -6622,7 +6622,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Raízes torcidas · ramificações naturais",
-      "category": "Exterior / Vegetação detalhada",
+      "category": "Exterior / Vegetação",
       "era": "Atemporal",
       "contexts": [
         "Montanha",
@@ -6657,7 +6657,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Arbusto seco · ramos emergindo da neve",
-      "category": "Exterior / Vegetação detalhada",
+      "category": "Exterior / Vegetação",
       "era": "Atemporal",
       "contexts": [
         "Montanha",
@@ -7497,7 +7497,7 @@
       "id": "builtin-church-double-cross",
       "revision": 1,
       "type": "recipe",
-      "name": "Igreja · cruz dupla de ferro",
+      "name": "Igreja · cruz dupla rubra",
       "category": "Arquitetura / Igreja antiga",
       "era": "Início do século XX",
       "contexts": [
@@ -7509,7 +7509,7 @@
         "kit gótico",
         "complemento arquitetônico"
       ],
-      "description": "Cruz dupla original para fachada e conjunto ritual; emissão editável no material, sem símbolo oficial extraído.",
+      "description": "Cruz dupla original em ferro esmaltado vermelho, com brilho próprio, para fachada e conjunto ritual; emissão editável no slot iron, sem símbolo oficial extraído.",
       "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "footprint": [
         1.15,
@@ -7523,7 +7523,7 @@
       "url": "/assets/models/church-double-cross.json",
       "previewUrl": "/assets/previews/church-double-cross.svg",
       "geometryEdition": 2,
-      "contentHash": "115ad29fa19e1cedb6f33f871fd0adb3e6aa691e51b587493566ca0c26c5586f"
+      "contentHash": "4fc69abbf70987f75e7b904a34f34c5d2e4a03ad007dedd104ad8f5baa93a45b"
     },
     {
       "id": "builtin-church-banquet-setting",
@@ -7818,7 +7818,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Casa · telhado de duas águas",
-      "category": "Casa / Complementos",
+      "category": "Casa / Estrutura",
       "era": "Contemporânea",
       "contexts": [
         "Casa",
@@ -7850,7 +7850,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Fogão doméstico de quatro bocas",
-      "category": "Casa / Complementos",
+      "category": "Mobiliário / Cozinha",
       "era": "Contemporânea",
       "contexts": [
         "Casa",
@@ -7882,7 +7882,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Máquina de lavar frontal",
-      "category": "Casa / Complementos",
+      "category": "Mobiliário / Cozinha",
       "era": "Contemporânea",
       "contexts": [
         "Casa",
@@ -7915,7 +7915,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Balcão de cozinha com armário",
-      "category": "Casa / Complementos",
+      "category": "Mobiliário / Cozinha",
       "era": "Contemporânea",
       "contexts": [
         "Casa",
@@ -7948,7 +7948,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Vaso de folhagem",
-      "category": "Casa / Complementos",
+      "category": "Mobiliário / Decoração",
       "era": "Contemporânea",
       "contexts": [
         "Casa",
@@ -7980,7 +7980,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Plafon de vidro leitoso",
-      "category": "Casa / Complementos",
+      "category": "Mobiliário / Iluminação",
       "era": "Contemporânea",
       "contexts": [
         "Casa",
@@ -8012,7 +8012,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Cortinas abertas de algodão",
-      "category": "Casa / Complementos",
+      "category": "Mobiliário / Decoração",
       "era": "Contemporânea",
       "contexts": [
         "Casa",
@@ -8044,7 +8044,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Prato, copo e talheres",
-      "category": "Casa / Complementos",
+      "category": "Mobiliário / Cozinha",
       "era": "Contemporânea",
       "contexts": [
         "Casa",
@@ -8076,7 +8076,7 @@
       "revision": 1,
       "type": "recipe",
       "name": "Piso cerâmico · módulo de 5 m",
-      "category": "Casa / Complementos",
+      "category": "Casa / Estrutura",
       "era": "Contemporânea",
       "contexts": [
         "Casa",

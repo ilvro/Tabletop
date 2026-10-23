@@ -4,8 +4,8 @@
   "pivot": "base-center",
   "materials": {
     "dark": {
-      "color": "#292b30",
-      "roughness": 0.8
+      "color": "#55534d",
+      "roughness": 0.97
     },
     "stone": {
       "color": "#777873",
@@ -17,19 +17,24 @@
       "shape": "rock",
       "form": "fractured",
       "size": [
-        0.9839999999999999,
-        0.48999999332427974,
-        0.9750000000000001
+        1.025,
+        0.6999999904632568,
+        0.8999999999999999
       ],
       "position": [
+        -0.30749999999999994,
         0,
-        0,
-        0.22499999999999998
+        -0.12
       ],
       "seed": 182,
       "detail": 4,
-      "irregularity": 0.8,
+      "irregularity": 0.75,
       "material": "stone",
+      "rotation": [
+        0,
+        0.4,
+        0
+      ],
       "surface": {
         "texture": "rock",
         "textureSize": 1.4,
@@ -44,19 +49,24 @@
       "shape": "rock",
       "form": "fractured",
       "size": [
-        0.9839999999999999,
-        0.41999999427795404,
-        1.2000000000000002
+        0.697,
+        0.4619999937057495,
+        0.72
       ],
       "position": [
-        0.37386887043506206,
+        0.49199999999999994,
         0,
-        -0.16591358599678022
+        0.03
       ],
       "seed": 193,
       "detail": 4,
-      "irregularity": 0.8,
+      "irregularity": 0.75,
       "material": "stone",
+      "rotation": [
+        0,
+        -0.6,
+        0
+      ],
       "surface": {
         "texture": "rock",
         "textureSize": 1.4,
@@ -71,19 +81,24 @@
       "shape": "rock",
       "form": "fractured",
       "size": [
-        0.9839999999999999,
-        0.34999999523162834,
-        0.9750000000000001
+        0.574,
+        0.2519999965667724,
+        0.48
       ],
       "position": [
-        -0.5513771109906378,
+        -0.040999999999999995,
         0,
-        0.01968727127387544
+        0.44999999999999996
       ],
       "seed": 204,
       "detail": 4,
-      "irregularity": 0.8,
+      "irregularity": 0.75,
       "material": "stone",
+      "rotation": [
+        0,
+        1.1,
+        0
+      ],
       "surface": {
         "texture": "rock",
         "textureSize": 1.4,
@@ -98,19 +113,193 @@
       "shape": "rock",
       "form": "fractured",
       "size": [
-        0.9839999999999999,
-        0.27999999618530264,
-        1.2000000000000002
+        0.32799999999999996,
+        0.18199999752044677,
+        0.30000000000000004
       ],
       "position": [
-        0.43929516264050594,
+        0.82,
         0,
-        0.13687904576975743
+        -0.44999999999999996
       ],
       "seed": 215,
       "detail": 4,
-      "irregularity": 0.8,
-      "material": "dark"
+      "irregularity": 0.75,
+      "material": "stone",
+      "rotation": [
+        0,
+        0.3,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.287,
+        0.13999999809265137,
+        0.24
+      ],
+      "position": [
+        -0.8404999999999999,
+        0,
+        0.44999999999999996
+      ],
+      "seed": 226,
+      "detail": 4,
+      "irregularity": 0.75,
+      "material": "stone",
+      "rotation": [
+        0,
+        2,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#777873",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.1435,
+        0.05389999926567078,
+        0.1365
+      ],
+      "position": [
+        0.287,
+        0,
+        0.6000000000000001
+      ],
+      "seed": 237,
+      "detail": 4,
+      "irregularity": 0.75,
+      "material": "dark",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#55534d",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.12299999999999998,
+        0.04619999937057495,
+        0.11699999999999999
+      ],
+      "position": [
+        -0.6149999999999999,
+        0,
+        -0.5700000000000001
+      ],
+      "seed": 248,
+      "detail": 4,
+      "irregularity": 0.75,
+      "material": "dark",
+      "rotation": [
+        0,
+        1,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#55534d",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.1025,
+        0.03849999947547913,
+        0.09750000000000002
+      ],
+      "position": [
+        0.7174999999999999,
+        0,
+        0.48
+      ],
+      "seed": 259,
+      "detail": 4,
+      "irregularity": 0.75,
+      "material": "dark",
+      "rotation": [
+        0,
+        2,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#55534d",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "rock",
+      "form": "fractured",
+      "size": [
+        0.09224999999999998,
+        0.034649999527931206,
+        0.08775000000000001
+      ],
+      "position": [
+        -0.12299999999999998,
+        0,
+        -0.63
+      ],
+      "seed": 270,
+      "detail": 4,
+      "irregularity": 0.75,
+      "material": "dark",
+      "rotation": [
+        0,
+        3,
+        0
+      ],
+      "surface": {
+        "texture": "rock",
+        "textureSize": 1.4,
+        "relief": 0.006,
+        "rockPattern": "granite",
+        "rockCracks": 0.08,
+        "textureColor": "#55534d",
+        "textureColorMode": "replace"
+      }
     }
   ],
   "mergeParts": true,
@@ -124,7 +313,7 @@
     "family": "geological",
     "reconstruction": "model",
     "methods": [
-      "pedras fraturadas com volume irregular e encaixe de alvenaria"
+      "afloramento com blocos fraturados de alturas diferentes e cascalho escuro"
     ],
     "seed": 62894
   }
