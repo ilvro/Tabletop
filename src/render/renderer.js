@@ -316,7 +316,40 @@ export function createViewport(container, {
 
   function report(message) { if (!destroyed) onError(message instanceof Error ? message : new Error(message)); }
   let pickBounds = new WeakMap(), assetsDirty = false, pendingTerrain, suspended=false;
-  let wallProfilesKey, wallProfiles = new Map();
+  let wallProfilesKey, wallRecords = [], wallProfiles = new Map();
+  const yieldToMain = () => globalThis.scheduler?.yield ? globalThis.scheduler.yield() : new Promise(resolve => {
+    if (typeof MessageChannel === 'function') { const ch = new MessageChannel(); ch.port1.onmessage = () => resolve(); ch.port2.postMessage(null); }
+    else setTimeout(resolve, 0);
+  });
+  const installQueue = []; let installRunning = false;
+  async function pumpInstallQueue() {
+    if (installRunning) return;
+    installRunning = true;
+    try {
+      let sliceStart = performance.now();
+      while (installQueue.length && !destroyed) {
+        const item = installQueue.shift();
+        if (item.version !== generation) { item.resolve(); continue; }
+        try { await item.run(); } finally { item.resolve(); }
+        if (performance.now() - sliceStart >= 8 && installQueue.length) {
+          await yieldToMain();
+          sliceStart = performance.now();
+        }
+      }
+      if (!destroyed) invalidate();
+    } finally {
+      installRunning = false;
+    }
+  }
+  function scheduleInstallTask(version, preloaded, fn) {
+    return new Promise((resolve) => {
+      preloaded.then(() => {
+        if (destroyed || version !== generation) { resolve(); return; }
+        installQueue.push({ version, resolve, run: fn });
+        void pumpInstallQueue();
+      });
+    });
+  }
   const retiredObjects=new Map();
   function releaseRetired(){for(const object of retiredObjects.values())disposeObject(object);retiredObjects.clear();}
   let lightObjects=[],waterObjects=[],warmupTimer,warmupRequested=false,warmupPromise;
@@ -401,7 +434,7 @@ export function createViewport(container, {
     const orbitChanged = Boolean(controls.enabled && (orbitMoving || moving || transition) && controls.update(seconds));
     orbitMoving = Boolean(orbitChanged);
     if(pendingTerrain){const next=pendingTerrain;pendingTerrain=null;replaceTerrain(next);}
-    if (assetsDirty) { assetsDirty = false; occludersDirty = true; diagnostics.measure('assetBounds', () => {updateShadowBounds();updateSelection();}); snowDirty = true;invalidate(true); }
+    if (assetsDirty && !pendingAssets.size) { assetsDirty = false; occludersDirty = true; diagnostics.measure('assetBounds', () => {updateShadowBounds();updateSelection();}); snowDirty = true;invalidate(true); }
     diagnostics.measure('updateCutaway', updateCutaway);
     if (selectionBox.visible) selectionBox.update();
     const effectsPaused = sceneDocument?.look?.effectsPaused ?? sceneDocument?.defaultLook?.effectsPaused;
@@ -457,7 +490,7 @@ export function createViewport(container, {
     if(probes.captured)invalidate();
     else if(probes.waiting&&!probeTimer)probeTimer=setTimeout(()=>{probeTimer=null;if(!destroyed)invalidate();},400);
     onLightingDiagnostics(lightManager.info());
-    if(snowDirty) diagnostics.measure('snow', rebuildSnow);
+    if(snowDirty && !pendingAssets.size) diagnostics.measure('snow', rebuildSnow);
     animatedWater=false;for(const object of waterObjects)animatedWater=updateWater(object,effectTime,paused)||animatedWater;
     ruler.project(camera, width, height); trail.project(camera, width, height);
     effects.setLighting?.(zones,lightManager.volumeLights(),lightManager.quality);
@@ -833,7 +866,9 @@ export function createViewport(container, {
       }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } }));
       return;
     }
-    trackAsset(instanceOf(record,entity).then((instance) => {
+    const preloaded = !entity.cable && !entity.decal && (record.type === 'recipe' || record.type === 'glb' || record.type === 'model')
+      ? cache.preload(record).catch(() => {}) : Promise.resolve();
+    trackAsset(scheduleInstallTask(version, preloaded, () => instanceOf(record,entity).then((instance) => {
       if (!stillCurrent()) { disposeObject(instance); return; }
       parent.add(instance);wetStale = true;
       if (entity.cable) cableShadows(instance, qualityTier === 'high');
@@ -846,10 +881,10 @@ export function createViewport(container, {
       applyBoundEmission(instance,records.get(entity.id)??entity,sceneDocument.look??sceneDocument.defaultLook);zones.apply(instance);
       tagEntity(parent, entity.id);
       onMaterialSlots(entity.id);
-      parent.updateWorldMatrix(true,true);if(snowRegions!==null)snowRegions.push(new THREE.Box3().setFromObject(parent));
+      if(snowRegions!==null){parent.updateWorldMatrix(true,true);snowRegions.push(new THREE.Box3().setFromObject(parent));}
       assetsDirty = true; diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();
-      invalidate();
-    }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } }));
+      if (!installQueue.length) invalidate();
+    }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } })));
   }
 
   function createLight(record, parent, helper = true) {
@@ -969,8 +1004,12 @@ export function createViewport(container, {
     const wallShape=({id,transform,length,height,thickness,floorIds})=>({id,transform,length,height,thickness,floorIds});
     const openingShape=({id,kind,wallId,offset,width,height,sill})=>({id,kind,wallId,offset,width,height,sill});
     const walls=Object.values(next.layout.entities).filter(e=>e.kind==='wall');
-    const wallKey=JSON.stringify(walls.map(wallShape));
-    if(wallProfilesKey!==wallKey){wallProfilesKey=wallKey;wallProfiles=new Map(walls.map(w=>[w.id,wallJoinProfile(w,walls)]));}
+    const sameWallRefs=isTrustedSnapshot(next)&&walls.length===wallRecords.length&&walls.every((w,i)=>w===wallRecords[i]);
+    if(!sameWallRefs){
+      wallRecords=walls;
+      const wallKey=JSON.stringify(walls.map(wallShape));
+      if(wallProfilesKey!==wallKey){wallProfilesKey=wallKey;wallProfiles=new Map(walls.map(w=>[w.id,wallJoinProfile(w,walls)]));}
+    }
     const openings=new Map(); for(const e of Object.values(next.layout.entities))if(e.wallId){const list=openings.get(e.wallId)??[];list.push(e);openings.set(e.wallId,list);}
     const oldLook=old?.look??old?.defaultLook;
     const sameVisualContext=oldLook&&oldLook.materialAdjustments===look.materialAdjustments&&oldLook.environmentBindings===look.environmentBindings&&oldLook.daylight?.phase===look.daylight?.phase&&oldLook.nightWindows===look.nightWindows;
@@ -992,7 +1031,6 @@ export function createViewport(container, {
     }if(object)remove(record.id,{retire:true});signatures.set(record.id,key);return null;};
     const entities = values(next.layout.entities);
     ground.position.y = Math.min(-.025, ...entities.filter(e => e.kind === 'terrain').map(e => e.transform.position[1] + Math.min(...e.heights) - .05), ...slabBottoms(entities));
-    const doors = entities.filter((record) => ['door', 'window'].includes(record.kind));
     const usedAssets = [];
     for (const entity of entities) {
       if(entity.assetRef){const asset=assetRecord(entity.assetRef);if(asset)usedAssets.push(asset);}
@@ -1004,7 +1042,7 @@ export function createViewport(container, {
       else if (entity.kind === 'floor') object = createFloor(entity);
       else if (entity.kind === 'terrain') object = createTerrain(entity);
       else if (isAccess(entity)) object = createAccess(entity);
-      else if (entity.kind === 'wall') object = createWall(entity, doors.filter((door) => door.wallId === entity.id), entities.filter(e => e.kind === 'wall'));
+      else if (entity.kind === 'wall') object = createWall(entity, openings.get(entity.id) ?? [], walls, wallProfiles.get(entity.id));
       else if (entity.kind === 'door') {
         const wall = next.layout.entities[entity.wallId];
         if (!wall) continue;
@@ -1076,10 +1114,12 @@ export function createViewport(container, {
     lightObjects=[...objects.values()].filter(o=>o.userData.source);waterObjects=[...objects.values()].filter(o=>o.userData.waterRecord);
     if(runtimeStats.created)scheduleWarmup();
     content.updateMatrixWorld(true);
-    spatial ||= force||old?.id!==next.id||runtimeStats.created>0;
+    const fullSceneLoad=Boolean(force||old?.id!==next.id);
+    spatial ||= fullSceneLoad||runtimeStats.created>0;
     if(spatial){updateShadowBounds();snowDirty=true;for(const o of objects.values())if(o.userData.source?.isDirectionalLight)o.userData.source.shadow.needsUpdate=true;
-      if(runtimeStats.created)for(const id of createdIds)changedBounds.push(new THREE.Box3().setFromObject(objects.get(id)));
-      if(snowRegions!==null)snowRegions.push(...changedBounds);lightManager.invalidate(changedBounds);renderer.shadowMap.needsUpdate=true;}
+      if(fullSceneLoad)lightManager.invalidate(null);
+      else{if(runtimeStats.created)for(const id of createdIds)changedBounds.push(new THREE.Box3().setFromObject(objects.get(id)));if(snowRegions!==null)snowRegions.push(...changedBounds);lightManager.invalidate(changedBounds);}
+      renderer.shadowMap.needsUpdate=true;}
     pickBounds = new WeakMap();
     zones.update(next,objects);zones.apply(ground);for(const o of objects.values())zones.apply(o);
     occludersDirty = true; syncAreas();

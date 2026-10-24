@@ -20,15 +20,25 @@ Plano: [docs/PLANO_DESEMPENHO_2026-10-24.md](docs/PLANO_DESEMPENHO_2026-10-24.md
   - `surface-pixels.js` usa tabela `SRGB_TO_LINEAR[256]`, LRU em memória de 64 tiles, `ensureTile(settings, { priority, cache })` com deduplicação e promoção de prioridade (viewport ativo antes de prévias).
   - `createSurfaceLibrary({ async, priority, onUpdate })` preenche placeholder enquanto os tiles chegam dos workers ou do IndexedDB e coalesça `needsUpdate` por frame; investigado `DataTexture.updateRanges` no Three.js 0.186 (`WebGLTextures.js:840-895` emite 1 `texSubImage2D` por linha e regenera mipmaps inteiros; mantido `needsUpdate = true` coalescido).
   - **Medido na RX 580:** carga fria da **Igreja Antiga** caiu de **5,24 s → 4,12 s** (-21%, quente **2,39 s → 2,04 s**); carga fria do **Templo gelado** caiu de **16,90 s → 10,07 s** (**-40,4%**, quente **7,93 s → 7,32 s**). E2E `material-sharing.test.js` idêntico em pixels.
-- **Em andamento:** Fase 1.5 (`setDocument` fatiado e paredes sem O(W²)), Fase 2 (CPU por frame), Fase 3.1 (portal culling), Fase 1.4 (geometria das receitas em worker), Fase 1.6 (variante de shader da oclusão), Fase 3.2 (`FrontSide`) e Fase 4 (bundle e segunda janela).
+- **Fase 1.5 — `setDocument` fatiado e paredes sem O(W²) (concluída):**
+  - Índice espacial de 2 m `createWallIndex(walls)` em `src/authoring/structures.js` elimina a varredura O(W²) de extremidades em `wallJoinProfile`; `createWall` recebe `openings.get(entity.id)`, `walls` e o perfil pré-calculado `wallProfiles.get(entity.id)` sem refiltrar todas as entidades por parede.
+  - Em snapshots confiáveis (`isTrustedSnapshot`), `setDocument` compara identidade dos records de parede antes de serializar `wallShape`; em cargas completas de cena, invalida o orçamento de luz em O(1) sem calcular `Box3.setFromObject` individual para cada grupo recém-criado.
+  - Fila `pumpInstallQueue` fatia a instanciação pós-fetch de modelos em fatias de 8 ms com `scheduler.yield()` / `MessageChannel`, protegida por `generation`, e coalesça `assetsDirty`/`snowDirty` até o fim de `pendingAssets`.
+- **Em andamento:** Fase 2 (CPU por frame), Fase 3.1 (portal culling), Fase 1.4 (geometria das receitas em worker), Fase 1.6 (variante de shader da oclusão), Fase 3.2 (`FrontSide`) e Fase 4 (bundle e segunda janela).
 
 ## Plano de desempenho (24 de outubro) — plano escrito, nada implementado
 
 Pedido: analisar o projeto e planejar melhorias de desempenho, para outro agente implementar. Plano em [docs/PLANO_DESEMPENHO_2026-10-24.md](docs/PLANO_DESEMPENHO_2026-10-24.md): baseline dos recursos recentes na GPU; carregamento (tiles procedurais e geometria das receitas em workers com cache IndexedDB, upload parcial do atlas, `setDocument` fatiado, paredes sem O(W²), variante de shader da oclusão); CPU por frame (matrizes, cutaway, alocações); descarte por cômodo com portais; `DoubleSide` padrão; divisão do bundle e do projetor. Medido em Node: tiles de 130–237 ms cada (~4,5 s no templo), receitas de árvores de 170–365 ms. Nada medido na GPU nesta análise.
 
-## Plano dos tutoriais (24 de outubro) — plano escrito, nada implementado
+## Tutoriais intuitivos (24 de outubro) — etapas 1 a 3 implementadas
 
-Pedido: ver quais recursos precisam de tutorial e planejar tutoriais intuitivos, fáceis e úteis. Plano em [docs/PLANO_TUTORIAIS.md](docs/PLANO_TUTORIAIS.md): só 34 das 129 ações da interface aparecem em alguma lição, e a leitura tática inteira, o projetor, o terreno, a paisagem e os andares não têm lição. Propõe três formatos (dica, lição, projeto), cena de treino automática, retorno "quase lá", ajuda em degraus, passos "agora sozinho", "?" nas tarefas, prévia do resultado e sete etapas.
+Pedido: ver quais recursos precisam de tutorial, planejar e implementar. Plano e andamento: [docs/PLANO_TUTORIAIS.md](docs/PLANO_TUTORIAIS.md).
+
+**Feito**: cena de treino que guarda a cena da pessoa; "quase lá" com distância e direção; ajuda em degraus (Mostrar onde / Mostrar o valor); passos "agora sozinho"; vários pontos numerados na cena; cartão final com o que se aprendeu e o próximo; "?" em cada tarefa com tutorial; trilhas *Vou mestrar* e *Quero construir*; aviso de novidade; relatório local exportável. Oito dicas rápidas e duas lições novas em **Na mesa** (Conduzir a sessão, Combate na mesa).
+
+**Validação**: testes unitários (inclusive formato, cobertura das tarefas e medidas); E2E das oito dicas, de Conduzir a sessão, de Combate na mesa, de Primeiros passos e da ida e volta da cena de treino. Suíte completa de tutoriais: ver abaixo.
+
+**Pendências reais**: tarefas Tokens, Céu e nuvens e Objetos que acendem à noite sem tutorial; lições da etapa 4 e projetos da etapa 6; prévia do resultado na lista; teste com uma pessoa nova. Outra sessão tem mudanças não commitadas em `renderer.js`, `asset-cache.js`, `surface-pixels.js` e scripts de desempenho; não foram tocadas.
 
 ## Câmera ao vivo, sliders e leitura tática (23 de outubro) — concluído
 

@@ -162,12 +162,12 @@ export function createAccess(entity) {
 }
 
 /** A semantic opening creates physical segments, never a door in front of an intact wall. */
-export function createWall(entity, doors, walls = []) {
+export function createWall(entity, doors, walls = [], precomputedProfile = null) {
   const group = new THREE.Group();
   const material = standardMaterial(entity.material);
   const skirting = standardMaterial({ color: '#434b43', roughness: 0.9 });
   skirting.polygonOffset = true; skirting.polygonOffsetFactor = -1; skirting.polygonOffsetUnits = -1;
-  const profile = wallJoinProfile(entity, walls);
+  const profile = precomputedProfile ?? wallJoinProfile(entity, walls);
   const prism = (polygon, bottom, height, mat, slot) => {
     if (polygon.length < 3) return;
     const shape = new THREE.Shape(polygon.map(([x, z]) => new THREE.Vector2(x, -z)));

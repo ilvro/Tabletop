@@ -40,12 +40,38 @@ export function proposeContourWalls(document, { floorId, height = 2.6, thickness
   return proposal;
 }
 
+const wallIndexCache = new WeakMap();
+
+/** 2m spatial grid over wall segments so endpoint join queries avoid O(W²) scans. */
+export function createWallIndex(walls) {
+  if (walls?.near) return walls;
+  if (Array.isArray(walls) && wallIndexCache.has(walls)) return wallIndexCache.get(walls);
+  const cells = new Map(), cellKey = (cx, cz) => `${cx},${cz}`;
+  for (const wall of walls ?? []) {
+    const a = wall.transform.position, b = worldPoint(wall, [wall.length, 0, 0]);
+    const minX = Math.floor((Math.min(a[0], b[0]) - .01) / 2), maxX = Math.floor((Math.max(a[0], b[0]) + .01) / 2);
+    const minZ = Math.floor((Math.min(a[2], b[2]) - .01) / 2), maxZ = Math.floor((Math.max(a[2], b[2]) + .01) / 2);
+    for (let cx = minX; cx <= maxX; cx++) for (let cz = minZ; cz <= maxZ; cz++) {
+      const key = cellKey(cx, cz);
+      let list = cells.get(key);
+      if (!list) { list = []; cells.set(key, list); }
+      list.push(wall);
+    }
+  }
+  const index = {
+    near(point) { return cells.get(cellKey(Math.floor(point[0] / 2), Math.floor(point[2] / 2))) ?? []; },
+  };
+  if (Array.isArray(walls)) wallIndexCache.set(walls, index);
+  return index;
+}
+
 /** Local wall footprint with bounded mitres and butt joints at T intersections. */
 export function wallJoinProfile(wall, walls) {
   const half = wall.thickness / 2, profile = [[0, -half], [wall.length, -half], [wall.length, half], [0, half]];
+  const index = createWallIndex(walls);
   for (const end of [0, 1]) {
     const point = worldPoint(wall, [end ? wall.length : 0, 0, 0]);
-    const neighbors = walls.filter(other => other.id !== wall.id && Math.abs(other.transform.position[1] - point[1]) < 1e-6).map(other => ({ other, p: localPoint(other, point) })).filter(({ other, p }) => Math.abs(p[2]) < 1e-6 && p[0] >= -1e-6 && p[0] <= other.length + 1e-6);
+    const neighbors = index.near(point).filter(other => other.id !== wall.id && Math.abs(other.transform.position[1] - point[1]) < 1e-6).map(other => ({ other, p: localPoint(other, point) })).filter(({ other, p }) => Math.abs(p[2]) < 1e-6 && p[0] >= -1e-6 && p[0] <= other.length + 1e-6);
     if (!neighbors.length) continue;
     const { other, p } = neighbors.sort((a, b) => a.other.id.localeCompare(b.other.id))[0];
     const o = localPoint(wall, other.transform.position), q = localPoint(wall, worldPoint(other, [other.length, 0, 0]));

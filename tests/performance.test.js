@@ -15,6 +15,8 @@ import { createAssetCache, disposeObject, recipeInstance } from '../src/render/a
 import { SURFACE_GENERATOR_VERSION, clearSurfaceTileMemoryCache, ensureTile, generateSurfaceTile } from '../src/render/surface-pixels.js';
 import { createSurfaceLibrary } from '../src/render/surface-materials.js';
 import { createDerivedCache } from '../src/data/derived-cache.js';
+import { createWallIndex, wallJoinProfile } from '../src/authoring/structures.js';
+import { quaternionFromYaw } from '../src/domain/coords.js';
 import { paintTerrain, sculptTerrain } from '../src/authoring/terrain.js';
 import { DocumentStorage, atomicWrite } from '../server/storage.js';
 import { applyBoundEmission } from '../src/render/bound-light.js';
@@ -210,4 +212,19 @@ test('ensureTile deduplicates concurrent requests, persists to derived cache and
   assert.deepEqual([...entryA.albedo.image.data], [...entryB.albedo.image.data]);
   assert.deepEqual([...entryA.details.image.data], [...entryB.details.image.data]);
   matA.dispose(); matB.dispose(); asyncLib.dispose(); syncLib.dispose();
+});
+
+test('createWallIndex matches full wallJoinProfile results across a 120-wall grid',()=>{
+  const walls = [];
+  for (let row = 0; row < 6; row++) {
+    for (let col = 0; col < 10; col++) {
+      walls.push(createEntity('wall', { position: [col * 4, 0, row * 4], rotation: quaternionFromYaw(0), length: 4, thickness: .2 }));
+      walls.push(createEntity('wall', { position: [col * 4, 0, row * 4], rotation: quaternionFromYaw(90), length: 4, thickness: .2 }));
+    }
+  }
+  const index = createWallIndex(walls);
+  const fullIndex = { near: () => walls };
+  for (const wall of walls) {
+    assert.deepEqual(wallJoinProfile(wall, index), wallJoinProfile(wall, fullIndex));
+  }
 });

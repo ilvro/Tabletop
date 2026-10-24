@@ -242,6 +242,7 @@ export function createAssetCache() {
       if (record.type === 'glb' || record.type === 'model') return modelInstance(resource, record);
       throw new Error('Uma imagem precisa da representação de token.');
     },
+    preload: load,
     texture: load,
     prune(records) {
       const used = new Set(records.map(keyOf));
