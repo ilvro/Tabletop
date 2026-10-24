@@ -289,7 +289,7 @@ export async function startApplication() {
   const ambienceWindow = floatingWindow(document.getElementById('ambience-window'), { trigger: root.querySelector('.rail [data-action="ambience"]'), position: [Math.max(16, window.innerWidth - 420), 72] });
   // Session-only camera settings: none of them is saved with the scene except through a saved shot.
   // Whether passing the turn also glides the camera to whoever has it (a session preference).
-  let initiativeCamera = false;
+  let initiativeCamera = false, tacticalZoom = false;
   // The next area of effect to draw: shape, colour, width and label (session preferences).
   let areaTool = { shape: 'circle', color: '#ff6a3d', width: 1.5, label: '' };
   let ambience = null, navigationSmoothing = 0, liveCamera = { enabled: false, smoothing: .6 }, liveCameraFrame = 0;
@@ -919,6 +919,7 @@ export async function startApplication() {
       <p class="microcopy">Clique na mesa e use WASD para viajar e Shift para acelerar. Na perspectiva, Espaço sobe e Ctrl desce; Ctrl+WASD navega com foco na mesa. Para Ctrl+S/D salvar/duplicar, dê foco a outro controle ou use os botões. Page Up/Down também alteram a altura. Arraste com o botão direito para orbitar; solte sem arrastar para selecionar. Roda aproxima.</p>
       ${numberField('camera-speed', 'Velocidade · m/s', cameraSpeed, { min: .2, max: 40, step: .2 })}
       ${numberField('camera-smoothing', 'Suavidade do movimento · %', Math.round(navigationSmoothing * 100), { min: 0, max: 100, step: 5 })}
+      ${checkField('camera-tactical', 'Inclinar com o zoom · tático', tacticalZoom)}
       ${numberField('camera-fov', 'Lente · campo de visão em graus', current.fov, { min: 20, max: 90, step: 1 })}
       <label class="field"><span>Troca de enquadramento</span><select data-field="camera-duration">${[[0,'Corte imediato'],[.6,'Rápida · 0,6 s'],[1.2,'Suave · 1,2 s'],[2.5,'Dramática · 2,5 s'],[4,'Contemplativa · 4 s']].map(([duration,label]) => `<option value="${duration}" ${cameraDuration === duration ? 'selected' : ''}>${label}</option>`).join('')}</select></label>
       <div class="field-grid">${button('camera-stop', 'Parar transição', 'close', 'quiet')}${button('camera-cut', 'Cortar agora', 'camera', 'quiet')}</div>
@@ -1863,6 +1864,7 @@ export async function startApplication() {
     if (field === 'camera-motion-speed') { viewport.setCameraMotion({ ...viewport.getCamera().motion, speed: Math.max(0, Math.min(4, value)) }); return; }
     if (field === 'camera-live') { setLiveCamera(Boolean(value)); return; }
     if (field === 'initiative-camera') { initiativeCamera = Boolean(value); return; }
+    if (field === 'camera-tactical') { tacticalZoom = Boolean(value); viewport.setTacticalZoom(tacticalZoom); notify(tacticalZoom ? 'Zoom tático: afastar olha de cima, aproximar desce à altura dos olhos.' : 'Zoom tático desligado.'); return; }
     if (field.startsWith('area-')) { const key = field.slice(5); areaTool = { ...areaTool, [key]: key === 'width' ? Math.max(.5, Math.min(10, Number(value) || 1.5)) : value }; viewport.setAreaTool(areaTool); if (key === 'shape') renderSidebar(); return; }
     if (field === 'camera-live-smoothing') { liveCamera.smoothing = Math.max(.1, Math.min(2, value)); sendLiveCamera(); return; }
     if (field === 'title-card-title') { titleCard.title = String(value).slice(0, 120); return; }

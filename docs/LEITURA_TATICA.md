@@ -52,3 +52,7 @@ Contrato: `sessionState.areas = [{ id, shape, origin, yaw, size, width, color, l
 
 - **H** (ou **Tomadas → Combate → Destacar interativos**) contorna por 3 segundos, em dourado, as portas, os objetos marcados como interativos e os documentos inspecionáveis, no editor e no projetor. Para marcar um objeto: **Propriedades → Organização → INTERAÇÃO → Interativo**. O campo `interactive` é opcional e não reconstrói o objeto ao mudar.
 - Um personagem com estado diferente de normal (Propriedades → Aparência → FIGURA → Estado) ganha um selo sobre o nome: FERIDO, MORRENDO, INCONSCIENTE, MORTO ou ENLOUQUECENDO, cada um com sua cor. O selo some junto com o nome quando a câmera chega perto (close).
+
+## Zoom tático
+
+**Tomadas → Câmera cinematográfica → Inclinar com o zoom · tático.** Com a opção ligada, a roda também inclina a câmera: de longe (30 m) ela olha quase de cima (65°); de perto (3 m) desce à altura dos olhos (15°), como em BG3. A órbita e o WASD continuam livres. É uma preferência da sessão, não fica na cena.

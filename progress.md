@@ -2,6 +2,26 @@
 
 Atualizado em 22 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Câmera ao vivo, sliders e leitura tática (23 de outubro) — concluído
+
+Pedido: os sliders voltavam à posição original durante o tutorial de iluminação; câmera cinematográfica ao vivo (não só tomadas gravadas); implementar o PLANO_TATICO_BG3, cada parte num commit.
+
+**Feito (commits separados)**
+
+- `3aae02a` **Sliders da Ambientação:** com um arraste de mouse real, o navegador solta o ponteiro antes de o slider avisar a mudança; a janela redesenhava no soltar e punha o valor antigo de volta (o novo era gravado, mas a tela e o projetor mostravam o antigo). Agora redesenha depois de gravar. A aba Ambiente (38 sliders) estava correta. Teste com arraste real em `tests/e2e/live-camera.test.js`.
+- `781430e` **Câmera ao vivo:** botão **Ao vivo** na barra de câmera e tecla **L**; ligada, a câmera de trabalho ganha peso de cinema (suavidade ≥ 55%) e o projetor a acompanha. Roda com inércia (dolly), **Z/C** orbitam, clique duplo olha um ponto. Ctrl+Z/C continuam de edição.
+- `0973e30` **Paredes que se abrem e silhuetas** (`look.rendering.occlusion/silhouettes`, opcionais fora de `RENDERING_DEFAULTS` para não mudar as cenas geradas).
+- `59ccead` **Iniciativa** (`sessionState.initiative`): Tomadas → Sessão → Combate, N passa o turno, faixa de retratos no editor e no projetor, anel pulsante, câmera até a vez.
+- `5129407` **Trilha de movimento** (`actor.speed`, `layout.grid.diagonal`): metros, quadrados e alcance; corrigido também o deslize de tokens no projetor separado, que nunca acontecia (pastas comparadas por identidade forçavam reconstrução).
+- `d605389` **Áreas de efeito** (`sessionState.areas`): círculo, cone, linha e quadrado arrastados no chão, anel em quem tocam.
+- `0d6c01a` **Destacar interativos (H)** e **selos de estado** sobre o nome.
+- (este commit) **Zoom tático:** Tomadas → Câmera cinematográfica → Inclinar com o zoom.
+- Uso: [docs/LEITURA_TATICA.md](docs/LEITURA_TATICA.md), [docs/CINEMATOGRAFIA.md](docs/CINEMATOGRAFIA.md).
+
+**Validação:** 387 testes unitários/de integração na árvore de cada commit (índice extraído e testado isolado, sem as mudanças das outras sessões); E2E novos passam: `live-camera` (3), `occlusion` (pixels), `initiative`, `movement-trail`, `effect-areas`, `highlight`; `camera`, `cinematics` e `shots` repetidos depois da câmera ao vivo. Capturas conferidas: parede aberta e silhueta, área no projetor, contorno dourado e selo FERIDO.
+
+**Pendências reais:** a trilha no editor (arraste com o gizmo) não tem teste automatizado, só o projetor; o contorno de interativos atravessa paredes de propósito, mas modelos muito detalhados geram muitas arestas (limite de 400 linhas); nada foi medido no hardware real. Outras sessões editavam ao mesmo tempo `application.js`, `renderer.js`, `validation.js`, `commands.js` e `styles.css`; cada commit levou só os trechos desta sessão.
+
 ## Personagens 2D e planos (23 de outubro) — concluído
 
 Pedido: commit do que foi feito; personagens 2D de verdade; descrever os recursos inspirados no BG3 com plano; plano da integração Ficha ↔ Tabletop; plano de documentos interagíveis (estilo Resident Evil / Enigma do Medo).

@@ -243,6 +243,9 @@ export function createViewport(container, {
   let navigationSmoothing = 0;
   // Wheel zoom and Z/C orbit carry momentum: the camera eases into and out of them like a dolly and a slider.
   let zoomVelocity = 0, orbitVelocity = 0;
+  // Tactical zoom: the wheel also tilts the camera, from nearly overhead far away to eye level up close (BG3-style).
+  let tacticalZoom = false;
+  const tacticalElevation = distance => THREE.MathUtils.degToRad(THREE.MathUtils.lerp(15, 65, THREE.MathUtils.smoothstep(distance, 3, 30)));
   let transition = null, lastFrameTime = null, orbitMoving = false;
   let pointer = null;
   let contextPointer = null;
@@ -342,7 +345,8 @@ export function createViewport(container, {
     if (zoomVelocity && !transition) {
       const offset = camera.position.clone().sub(controls.target), distance = offset.length();
       const next = THREE.MathUtils.clamp(distance * Math.exp(-zoomVelocity * seconds), controls.minDistance, controls.maxDistance);
-      camera.position.copy(controls.target).addScaledVector(offset.normalize(), next);
+      if (tacticalZoom) { const angles = new THREE.Spherical().setFromVector3(offset); angles.radius = next; angles.phi = Math.PI / 2 - tacticalElevation(next); camera.position.copy(controls.target).add(new THREE.Vector3().setFromSpherical(angles)); }
+      else camera.position.copy(controls.target).addScaledVector(offset.normalize(), next);
       zoomVelocity *= Math.exp(-THREE.MathUtils.lerp(9, 3, navigationSmoothing) * seconds);
       if (Math.abs(zoomVelocity) < 1e-3 || next === controls.minDistance || next === controls.maxDistance) zoomVelocity = 0;
       moving = true;
@@ -1667,6 +1671,7 @@ export function createViewport(container, {
       else cinema.setGoal(preset, smoothing);
       cinema.setExtras(preset); invalidate();
     },
+    setTacticalZoom(value) { tacticalZoom = Boolean(value); },
     setNavigationSmoothing(value) { if (Number.isFinite(value)) navigationSmoothing = Math.max(0, Math.min(1, value)); },
     /** The point the camera would look at for a token or object, or null when it is not in view of this viewport's document. */
     pointOf(id) { return cinema.pointOf(id)?.toArray() ?? null; },

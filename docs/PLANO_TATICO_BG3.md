@@ -1,6 +1,6 @@
 # Leitura tática inspirada em Baldur's Gate 3 — plano de implementação
 
-Data: 23 de outubro de 2026. Plano para implementar depois; nada aqui está feito. Contexto: [PLANO_MESA_AO_VIVO.md](PLANO_MESA_AO_VIVO.md) (fases 5 e 6) e [CINEMATOGRAFIA.md](CINEMATOGRAFIA.md) (câmera, foco, seguir e figuras, já entregues).
+Data: 23 de outubro de 2026. **Situação: as seis fases foram implementadas no mesmo dia** (commits `0973e30`, `59ccead`, `5129407`, `d605389`, `0d6c01a` e o do zoom tático). Uso: [LEITURA_TATICA.md](LEITURA_TATICA.md). Contexto: [PLANO_MESA_AO_VIVO.md](PLANO_MESA_AO_VIVO.md) (fases 5 e 6) e [CINEMATOGRAFIA.md](CINEMATOGRAFIA.md) (câmera, foco, seguir e figuras, já entregues).
 
 ## O que o BG3 faz bem e serve à mesa
 

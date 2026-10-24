@@ -75,3 +75,25 @@ test('a slider of the live atmosphere dragged with the mouse stays where it was 
   assert.equal(shown, saved);
   assert.deepEqual(errors, []);
 });
+
+// Tactical zoom: far away looks down from above, up close comes down to eye level.
+test('with tactical zoom on, the wheel also tilts the camera: lower up close, higher far away', { timeout: 180_000 }, async t => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'tabletop-tactical-')), server = (await createApp({ dataDir: directory })).listen(0, '127.0.0.1'); await once(server, 'listening');
+  const browser = await chromium.launch({ headless: true, args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
+  t.after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); await rm(directory, { recursive: true, force: true }); });
+  const page = await browser.newPage({ viewport: { width: 1400, height: 900 } }), errors = [];
+  page.setDefaultTimeout(60_000); page.on('pageerror', e => errors.push(e.message));
+  await page.goto(`http://127.0.0.1:${server.address().port}/?diagnostics`); await page.waitForFunction(() => !!window.__tabletop);
+  await page.locator('[data-action="floor-add"]').first().evaluate(node => node.click());
+  await page.locator('.tabs [data-tab="shots"]').click();
+  await page.locator('[data-field="camera-tactical"]').evaluate(node => { for (let p = node.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS' && !p.open) p.open = true; });
+  await page.locator('[data-field="camera-tactical"]').check();
+  const elevation = async () => { const c = await page.evaluate(() => window.__tabletop.camera()); return Math.asin((c.position[1] - c.target[1]) / distance(c)) * 180 / Math.PI; };
+  const box = await page.locator('#viewport [data-testid="viewport-canvas"]').boundingBox(), still = () => page.waitForFunction(() => !window.__tabletop.stats().cameraMoving);
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.wheel(0, -900); await still(); const near = await elevation();
+  await page.mouse.wheel(0, 1600); await still(); const far = await elevation();
+  assert.ok(near < 35, `up close, near eye level (${near.toFixed(1)}°)`);
+  assert.ok(far > near + 15, `far away, from above (${far.toFixed(1)}° > ${near.toFixed(1)}°)`);
+  assert.deepEqual(errors, []);
+});
