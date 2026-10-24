@@ -32,9 +32,11 @@ Pedido: analisar o projeto e planejar melhorias de desempenho, para outro agente
 
 ## Plano do Ateliê de documentos (24 de outubro) — plano escrito, nada implementado
 
-Pedido: plano técnico e detalhado de uma engine de documentos (estilo Photoshop para *handouts*) que use o acervo do *Arquivos Confidenciais* e os documentos do usuário, para outro modelo implementar em etapas.
+Pedido: plano técnico e detalhado de uma engine de documentos (estilo Photoshop para *handouts*) que use o acervo do *Arquivos Confidenciais* e os documentos do usuário, para outro modelo implementar em etapas. Depois, a pedido do usuário, o Ateliê passou a ser **um projeto separado** com integração por contrato.
 
-Plano em [docs/atelie-documentos/](docs/atelie-documentos/00-LEIA-PRIMEIRO.md): um arquivo de entrada e 17 etapas pequenas, cada uma com contratos, arquivos, testes e "pronto quando". Baseado em medições reais: estrutura de 3 PSDs com `ag-psd` 30.2.0 (texto dentro de objetos inteligentes, mesclagens, ajustes, variações, grupo UV, composição salva em todos), categorias das 2 500 imagens de `Assets/`, e amostras dos documentos de Vaesen. O acervo fica numa pasta privada fora do git (`data-private/`).
+- Plano: `../Atelie/docs/plano/` (entrada `00-LEIA-PRIMEIRO.md`, contrato `CONTRATO-TABLETOP.md`, etapas 1–17 no Ateliê, etapa 18 no Tabletop). Ponteiro aqui: [docs/ATELIE.md](docs/ATELIE.md).
+- Baseado em medições reais: estrutura de 3 PSDs com `ag-psd` 30.2.0 (texto dentro de objetos inteligentes, mesclagens, ajustes, variações, grupo UV, composição salva em todos), categorias das 2 500 imagens de `Assets/`, e amostras dos documentos de Vaesen. O acervo fica numa pasta privada fora do git.
+- Comunicação entre os apps: HTTP com CORS e `window.postMessage` (origens diferentes, então `BroadcastChannel` não serve), mais checagem de revisão pela API.
 
 Também: "Iluminação e ambientação", passo 48, pedia a força do halo que a Noite já traz; passou a pedir só o limiar (commit `319241b`). A suíte completa dos tutoriais passou (20 de 20) num build isolado.
 
