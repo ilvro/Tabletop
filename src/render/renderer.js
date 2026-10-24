@@ -922,7 +922,7 @@ export function createViewport(container, {
       return;
     }
     const preloaded = !entity.cable && !entity.decal && (record.type === 'recipe' || record.type === 'glb' || record.type === 'model')
-      ? cache.preload(record).catch(() => {}) : Promise.resolve();
+      ? cache.preload(record, entity.rockShape, entity.vegetationSeed).catch(() => {}) : Promise.resolve();
     trackAsset(scheduleInstallTask(version, preloaded, () => instanceOf(record,entity).then((instance) => {
       if (!stillCurrent()) { disposeObject(instance); return; }
       parent.add(instance);wetStale = true;matricesDirty = true;cutawayDirty = true;

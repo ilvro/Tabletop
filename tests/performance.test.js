@@ -11,7 +11,7 @@ import { projectPresentation } from '../src/app/presentation.js';
 import { createLatestJob } from '../src/data/latest-job.js';
 import { createScenePreviews } from '../src/app/scene-previews.js';
 import { createTerrain, updateTerrain, syncTerrainPicking } from '../src/render/scene-objects.js';
-import { createAssetCache, disposeObject, recipeInstance } from '../src/render/asset-cache.js';
+import { GEOMETRY_VERSION, assembleRecipeGroup, buildRecipeGeometryPayload, createAssetCache, disposeObject, ensureRecipePayload, recipeInstance } from '../src/render/asset-cache.js';
 import { SURFACE_GENERATOR_VERSION, clearSurfaceTileMemoryCache, ensureTile, generateSurfaceTile } from '../src/render/surface-pixels.js';
 import { createSurfaceLibrary } from '../src/render/surface-materials.js';
 import { createDerivedCache } from '../src/data/derived-cache.js';
@@ -316,4 +316,43 @@ test('createPortalCulling builds cells and portals, culls unseen rooms and resto
   assert.equal([...objects.values()].filter(o => !o.visible).length, culled);
   culling.end();
   assert.equal([...objects.values()].filter(o => !o.visible).length, 0);
+});
+
+test('buildRecipeGeometryPayload and ensureRecipePayload preserve attributes byte-for-byte across all 359 catalog recipes', async () => {
+  assert.equal(GEOMETRY_VERSION, 1);
+  const { assets } = JSON.parse(await readFile(path.resolve('public/assets/catalog.json'), 'utf8'));
+  const recipes = assets.filter(a => a.type === 'recipe');
+  assert.ok(recipes.length >= 359, `expected >= 359 recipes, got ${recipes.length}`);
+  const store = new Map();
+  const fakeCache = {
+    async read(s, k) { return store.get(`${s}:${k}`) ?? null; },
+    async write(s, k, v) { store.set(`${s}:${k}`, structuredClone(v)); return true; },
+  };
+  for (const record of recipes) {
+    const recipe = JSON.parse(await readFile(path.resolve('public' + record.url), 'utf8'));
+    const syncGroup = recipeInstance(recipe, null, record.bounds, null);
+    const payload = await ensureRecipePayload(recipe, { assetKey: record.id, metricBounds: record.bounds, cache: fakeCache });
+    const cachedPayload = await ensureRecipePayload(recipe, { assetKey: record.id, metricBounds: record.bounds, cache: fakeCache });
+    const asyncGroup = assembleRecipeGroup(recipe, cachedPayload);
+    assert.equal(asyncGroup.children.length, syncGroup.children.length, `children mismatch on ${record.id}`);
+    assert.deepEqual(asyncGroup.scale.toArray(), syncGroup.scale.toArray(), `scale mismatch on ${record.id}`);
+    assert.deepEqual(asyncGroup.position.toArray(), syncGroup.position.toArray(), `position mismatch on ${record.id}`);
+    for (let i = 0; i < syncGroup.children.length; i++) {
+      const a = asyncGroup.children[i].geometry;
+      const b = syncGroup.children[i].geometry;
+      for (const name of Object.keys(b.attributes)) {
+        assert.ok(a.attributes[name], `missing attribute ${name} on ${record.id}`);
+        assert.equal(a.attributes[name].array.byteLength, b.attributes[name].array.byteLength);
+        assert.equal(Buffer.compare(Buffer.from(a.attributes[name].array.buffer), Buffer.from(b.attributes[name].array.buffer)), 0, `attribute ${name} bytes differ on ${record.id}`);
+      }
+      if (b.index) {
+        assert.ok(a.index, `missing index on ${record.id}`);
+        assert.equal(Buffer.compare(Buffer.from(a.index.array.buffer), Buffer.from(b.index.array.buffer)), 0, `index bytes differ on ${record.id}`);
+      }
+      assert.deepEqual(a.userData, b.userData, `userData mismatch on ${record.id}`);
+    }
+    disposeObject(syncGroup);
+    disposeObject(asyncGroup);
+    void payload;
+  }
 });
