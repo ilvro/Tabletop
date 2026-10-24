@@ -12,7 +12,9 @@ import { createLatestJob } from '../src/data/latest-job.js';
 import { createScenePreviews } from '../src/app/scene-previews.js';
 import { createTerrain, updateTerrain, syncTerrainPicking } from '../src/render/scene-objects.js';
 import { createAssetCache, disposeObject, recipeInstance } from '../src/render/asset-cache.js';
-import { generateSurfaceTile } from '../src/render/surface-pixels.js';
+import { SURFACE_GENERATOR_VERSION, clearSurfaceTileMemoryCache, ensureTile, generateSurfaceTile } from '../src/render/surface-pixels.js';
+import { createSurfaceLibrary } from '../src/render/surface-materials.js';
+import { createDerivedCache } from '../src/data/derived-cache.js';
 import { paintTerrain, sculptTerrain } from '../src/authoring/terrain.js';
 import { DocumentStorage, atomicWrite } from '../server/storage.js';
 import { applyBoundEmission } from '../src/render/bound-light.js';
@@ -162,4 +164,50 @@ test('diagnostics marks decompose tile and recipe generation',()=>{
     const names=performance.getEntriesByType('measure').map(e=>e.name);
     assert.ok(names.includes('tabletop:tile'));assert.ok(names.includes('tabletop:recipe'));
   }finally{globalThis.location=prev;performance.clearMarks();performance.clearMeasures();}
+});
+
+test('ensureTile deduplicates concurrent requests, persists to derived cache and async surface library resolves identical pixels',async()=>{
+  clearSurfaceTileMemoryCache();
+  assert.ok(Number.isInteger(SURFACE_GENERATOR_VERSION) && SURFACE_GENERATOR_VERSION >= 1);
+  // Fake IndexedDB backed by an in-memory map to verify persistence + LRU eviction.
+  const stores = new Map([['surface-tiles', new Map()], ['recipe-geometries', new Map()]]);
+  let reads = 0, writes = 0;
+  const fakeCache = {
+    async read(store, key) { reads++; return stores.get(store)?.get(key) ?? null; },
+    async write(store, key, value) { writes++; stores.get(store)?.set(key, value); return true; },
+  };
+  const settings = { texture: 'stone', textureSeed: 17, patternDensity: 1.2 };
+  const [p1, p2] = [ensureTile(settings, { priority: 1, cache: fakeCache }), ensureTile(settings, { priority: 0, cache: fakeCache })];
+  const [t1, t2] = await Promise.all([p1, p2]);
+  assert.equal(t1, t2);
+  assert.equal(reads, 1);
+  assert.equal(writes, 1);
+  const direct = generateSurfaceTile(settings);
+  assert.deepEqual([...t1.albedo], [...direct.albedo]);
+  assert.deepEqual([...t1.details], [...direct.details]);
+  assert.equal(t1.luma, direct.luma);
+  // Evict in-memory LRU and verify second call hits persistent cache without regenerating.
+  clearSurfaceTileMemoryCache();
+  const fromDisk = await ensureTile(settings, { cache: fakeCache });
+  assert.equal(reads, 2);
+  assert.equal(writes, 1);
+  assert.deepEqual([...fromDisk.albedo], [...direct.albedo]);
+  // Verify createDerivedCache gracefully degrades when indexedDB is missing.
+  const noIdb = createDerivedCache({ indexedDB: null });
+  assert.equal(await noIdb.read('surface-tiles', 'k'), null);
+  assert.equal(await noIdb.write('surface-tiles', 'k', { a: 1 }), false);
+  // Verify async surface library fills placeholder then resolves to exact sync pixels.
+  clearSurfaceTileMemoryCache();
+  let updates = 0;
+  const asyncLib = createSurfaceLibrary({ async: true, cache: fakeCache, onUpdate: () => updates++ });
+  const syncLib = createSurfaceLibrary({ async: false });
+  const matA = new THREE.MeshStandardMaterial(), matB = new THREE.MeshStandardMaterial();
+  const custom = [{ texture: 'brick', textureSeed: 9 }];
+  const entryA = asyncLib.acquire(custom, matA);
+  await asyncLib.ready();
+  const entryB = syncLib.acquire(custom, matB);
+  assert.ok(updates >= 1);
+  assert.deepEqual([...entryA.albedo.image.data], [...entryB.albedo.image.data]);
+  assert.deepEqual([...entryA.details.image.data], [...entryB.details.image.data]);
+  matA.dispose(); matB.dispose(); asyncLib.dispose(); syncLib.dispose();
 });

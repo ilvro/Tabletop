@@ -3,15 +3,44 @@ import { applyMaterialWear, wearCoordinates } from './material-wear.js';
 import { wearEdgeGeometry, supportsWearEdges } from './wear-edges.js';
 import { SURFACE_MATERIALS, surfacePreset, textureOptions, distributionOptions } from '../domain/materials.js';
 
-export { generateSurfaceAtlas, generateSurfaceTile } from './surface-pixels.js';
+export { generateSurfaceAtlas, generateSurfaceTile, SURFACE_GENERATOR_VERSION, ensureTile, clearSurfaceTileMemoryCache } from './surface-pixels.js';
 import { applyWetness } from './wetness.js';
-import { createLazySurfaceAtlas, packSurfaceTiles, surfaceStyleKey, surfaceReferenceLuma } from './surface-pixels.js';
+import { cachedTile, createLazySurfaceAtlas, ensureTile, fillPlaceholderTile, packSurfaceTiles, peekTile, surfaceReferenceLuma, surfaceStyleKey, writePackedTile } from './surface-pixels.js';
 
 let pixels;
 /** Custom atlases are reference counted by material, never retained after their last mesh. */
-export function createSurfaceLibrary() {
-  let atlas;
-  const variants=new Map();
+export function createSurfaceLibrary({ async = false, priority = 0, onUpdate = () => {}, cache } = {}) {
+  let atlas, disposed = false, updateScheduled = false;
+  const variants = new Map(), pendingPromises = new Set(), pendingSync = new Map();
+  const scheduleUpdate = () => {
+    if (disposed || updateScheduled) return;
+    updateScheduled = true;
+    queueMicrotask(() => {
+      if (!updateScheduled || disposed) return;
+      updateScheduled = false;
+      onUpdate();
+    });
+  };
+  const flushUpdate = () => {
+    if (!updateScheduled || disposed) return;
+    updateScheduled = false;
+    onUpdate();
+  };
+  const loadTile = (settings, apply) => {
+    const syncId = Symbol();
+    pendingSync.set(syncId, () => apply(cachedTile(settings)));
+    const promise = ensureTile(settings, { priority, cache }).then(tile => {
+      if (disposed || !pendingSync.has(syncId)) return tile;
+      pendingSync.delete(syncId);
+      apply(tile);
+      scheduleUpdate();
+      return tile;
+    }).finally(() => {
+      pendingPromises.delete(promise);
+    });
+    pendingPromises.add(promise);
+    return promise;
+  };
   const upload = data => {
     const texture = (bytes, colorSpace) => {
       const result = new THREE.DataTexture(bytes, data.width, data.height); result.colorSpace = colorSpace;
@@ -26,27 +55,79 @@ export function createSurfaceLibrary() {
   const sent=new Set();
   const get = (indices=SURFACE_MATERIALS.map((_,i)=>i)) => {
     pixels ??= createLazySurfaceAtlas();
-    for(const index of indices)pixels.ensure(index);
+    for(const index of indices) {
+      if (index < 0 || pixels.filled.has(index)) continue;
+      const s = { texture: SURFACE_MATERIALS[index].id }, mem = peekTile(s);
+      if (mem) pixels.fill(index, mem);
+      else if (!async) pixels.ensure(index);
+      else {
+        fillPlaceholderTile(pixels, index);
+        loadTile(s, tile => {
+          pixels.fill(index, tile);
+          if (atlas) { sent.add(index); atlas.albedo.needsUpdate = atlas.details.needsUpdate = true; }
+        });
+      }
+    }
     if(!atlas) { atlas=upload(pixels); for(const index of pixels.filled)sent.add(index); }
-    else if(indices.some(index=>index>=0&&!sent.has(index))) { for(const index of pixels.filled)sent.add(index); atlas.albedo.needsUpdate=atlas.details.needsUpdate=true; }
+    else if(indices.some(index=>index>=0&&pixels.filled.has(index)&&!sent.has(index))) { for(const index of pixels.filled)sent.add(index); atlas.albedo.needsUpdate=atlas.details.needsUpdate=true; }
     return atlas;
   };
   return {
+    async,
     get,
+    whenTile(settings, callback) {
+      const mem = peekTile(settings);
+      if (mem) { callback(mem); return; }
+      loadTile(settings, callback);
+    },
     acquire(settings, material) {
       const unique=[...new Map(settings.map(s=>[surfaceStyleKey(s),s])).entries()].sort(([a],[b])=>a.localeCompare(b));
       const original=unique.every(([,s])=>surfaceStyleKey(s)===surfaceStyleKey({texture:s.texture}));
       if(original) return {...get(unique.map(([,s])=>SURFACE_MATERIALS.findIndex(p=>p.id===s.texture))),index:s=>SURFACE_MATERIALS.findIndex(p=>p.id===s?.texture)};
       const key=JSON.stringify(unique.map(([k])=>k));
       let entry=variants.get(key);
-      if(!entry) {entry={...upload(packSurfaceTiles(unique.map(([,s])=>s),Math.ceil(Math.sqrt(unique.length)))),refs:0};variants.set(key,entry);}
+      if(!entry) {
+        const columns = Math.ceil(Math.sqrt(unique.length));
+        if (!async || unique.every(([, s]) => peekTile(s))) {
+          entry={...upload(packSurfaceTiles(unique.map(([,s])=>s),columns)),refs:0};
+          variants.set(key,entry);
+        } else {
+          const rows = Math.ceil(unique.length / columns), width = 256 * columns, height = 256 * rows;
+          const data = { albedo: new Uint8Array(width * height * 4), details: new Uint8Array(width * height * 4), width, height, columns, rows };
+          unique.forEach(([, s], i) => {
+            const mem = peekTile(s);
+            if (mem) writePackedTile(data, mem, i);
+            else fillPlaceholderTile(data, i);
+          });
+          entry = { ...upload(data), data, refs: 0 };
+          variants.set(key, entry);
+          unique.forEach(([, s], i) => {
+            if (!peekTile(s)) loadTile(s, tile => {
+              if (variants.get(key) !== entry) return;
+              writePackedTile(data, tile, i);
+              entry.albedo.needsUpdate = entry.details.needsUpdate = true;
+            });
+          });
+        }
+      }
       entry.refs++;
       const release=()=>{material.removeEventListener('dispose',release); if(variants.get(key)!==entry)return; if(--entry.refs===0) {dispose(entry);variants.delete(key);} };
       material.addEventListener('dispose',release);
       return {...entry,index:s=>unique.findIndex(([k])=>k===surfaceStyleKey(s))};
     },
+    get pendingCount() { return pendingPromises.size; },
+    async ready() {
+      while (pendingPromises.size && !disposed) await Promise.allSettled([...pendingPromises]);
+      flushUpdate();
+    },
+    flushSync() {
+      if (!pendingSync.size) return;
+      for (const apply of pendingSync.values()) apply();
+      pendingSync.clear();
+      flushUpdate();
+    },
     get variantCount() {return variants.size;},
-    dispose() {if(atlas) {dispose(atlas);atlas=null;sent.clear();} for(const entry of variants.values())dispose(entry);variants.clear();},
+    dispose() {disposed = true; pendingSync.clear(); pendingPromises.clear(); if(atlas) {dispose(atlas);atlas=null;sent.clear();} for(const entry of variants.values())dispose(entry);variants.clear();},
   };
 }
 const sampleFunctions = `
@@ -116,14 +197,17 @@ function distribution(shader, prefix, settings) {
   shader.fragmentShader=`uniform vec3 ${prefix}Slope; uniform vec4 ${prefix}Height; uniform vec2 ${prefix}Variation;\n`+shader.fragmentShader;
   return `surfaceDistribution(${prefix}Slope,${prefix}Height,${prefix}Variation)`;
 }
-function customization(shader, prefix, settings) {
+function customization(shader, prefix, settings, library) {
   const o=textureOptions(settings), mode=['original','tint','replace'].indexOf(o.textureColorMode);
   const angle=(o.textureRotation+(settings.texture==='wood' && o.woodDirection==='vertical'?90:0)+(settings.texture==='hazard'?o.hazardAngle:0))*Math.PI/180;
+  const hasPreset = Boolean(surfacePreset(settings.texture)), mem = hasPreset ? peekTile(settings) : null;
+  const refUniform = { value: !hasPreset ? 1 : mem ? mem.luma : library?.async ? 1 : surfaceReferenceLuma(settings) };
+  if (hasPreset && !mem && library?.whenTile) library.whenTile(settings, tile => { refUniform.value = tile.luma; });
   Object.assign(shader.uniforms,{
     [`${prefix}Tint`]:{value:new THREE.Color(o.textureColor)},
     [`${prefix}Adjust`]:{value:new THREE.Vector4(o.textureBrightness,o.textureContrast,o.textureSaturation,0)},
     [`${prefix}Mode`]:{value:mode},[`${prefix}Rotation`]:{value:angle},
-    [`${prefix}Reference`]:{value:surfacePreset(settings.texture)?surfaceReferenceLuma(settings):1},
+    [`${prefix}Reference`]:refUniform,
   });
   shader.fragmentShader=`uniform vec3 ${prefix}Tint; uniform vec4 ${prefix}Adjust; uniform float ${prefix}Mode, ${prefix}Rotation, ${prefix}Reference;\n`+shader.fragmentShader;
   return c=>`customizeSurface(${c},${prefix}Tint,${prefix}Adjust,${prefix}Mode,${prefix}Reference)`;
@@ -151,7 +235,7 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
     shader.vertexShader = shader.vertexShader.replace('#include <defaultnormal_vertex>', '#include <defaultnormal_vertex>\nsurfaceNormal = inverseTransformDirection(transformedNormal,viewMatrix);');
     shader.vertexShader = shader.vertexShader.replace('#include <project_vertex>', '#include <project_vertex>\nsurfacePosition = (modelMatrix * vec4(transformed,1.0)).xyz;');
     shader.fragmentShader = sampleFunctions+'\nuniform float surfaceIndex, surfaceSize, surfaceRelief;\n'+shader.fragmentShader;
-    const customize=customization(shader,'baseSurface',settings);
+    const customize=customization(shader,'baseSurface',settings,library);
     const baseSample=channel=>`surfaceSample(${channel},surfaceIndex,surfaceSize,baseSurfaceRotation)`;
     let compose = `vec3 surfaceColor = vec3(1.0); float surfaceHeight = .5, surfaceRoughness = 1.0, surfaceMetalness = 1.0;
       if(surfaceIndex >= 0.0) { surfaceColor = ${customize(baseSample('surfaceAlbedo'))}; vec4 d = ${baseSample('surfaceDetails')}; surfaceHeight=d.r; surfaceRoughness=d.g; surfaceMetalness=d.b; }`;
@@ -175,7 +259,7 @@ export function applySurfaceMaterial(material, settings, library, terrain = null
         const weight=`${automatic?distribution(shader,`distribution${i}`,layer.distribution):`${i<4?'maskA':'maskB'}[${i%4}]`} * layerOpacity${i}`;
         compose += `{ float w = clamp(${weight},0.0,1.0); vec3 c=layerColor${i}; float h=.5, r=1.0, m=1.0;`;
         if(p) {
-          const custom=customization(shader,`paint${i}`,layer);
+          const custom=customization(shader,`paint${i}`,layer,library);
           const sample=channel=>`surfaceSample(${channel},layerIndex${i},layerSize${i},paint${i}Rotation)`;
           compose += `c *= ${custom(sample('surfaceAlbedo'))}; vec4 d=${sample('surfaceDetails')}; h=d.r; r=d.g; m=d.b;`;
           compose+=organic(layer,'c','h',`layer${i}`);

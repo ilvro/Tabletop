@@ -168,7 +168,16 @@ export function createViewport(container, {
   let wetList = [], wetStale = true;
   effects.setWetSource(() => { if (wetStale) { wetList = []; content.traverse(child => { if (child.isMesh && child.userData.wet && !child.userData.decorative) wetList.push(child); }); wetStale = false; } return wetList; });
   const atmosphere = createAtmosphere(scene);
-  const surfaces = createSurfaceLibrary(), localEffects = new Map();
+  const surfaces = createSurfaceLibrary({
+    async: Boolean(globalThis.Worker),
+    priority: navigationEnabled ? 0 : 1,
+    onUpdate: () => {
+      if (destroyed) return;
+      materialSharing.invalidate();
+      zoneProbes.invalidate();
+      invalidate();
+    },
+  }), localEffects = new Map();
   const lightManager=createLightManager(scene),zones=createLightingZones(),reflections=createReflectionEnvironment(renderer,scene),boundLights=new Map(),signatures=new Map();
   const cutawayCasters=createCutawayShadows(scene),lightingHelpers=createLightingHelpers(scene),timings={render:[],update:[]};
   const sample=(key,start)=>{timings[key].push(performance.now()-start);if(timings[key].length>120)timings[key].shift();};
@@ -326,7 +335,7 @@ export function createViewport(container, {
     warmupRequested=true;clearTimeout(warmupTimer);
     warmupTimer=setTimeout(async()=>{
       if(destroyed||!warmupRequested||!sceneDocument)return;
-      if(pendingAssets.size||pointer||transform.dragging||transition){scheduleWarmup();return;}
+      if(pendingAssets.size||surfaces.pendingCount||pointer||transform.dragging||transition){scheduleWarmup();return;}
       try{await warmShaders();}catch(error){report(error);}
     },100);
   }
@@ -1676,6 +1685,7 @@ export function createViewport(container, {
   }
   function capturePixels(asynchronous) {
     if(destroyed||pointer||transform.dragging)return null;
+    if(!asynchronous)surfaces.flushSync();
     if(snowDirty)rebuildSnow();
     camera.updateMatrixWorld();const thumbnailFrustum=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse)),thumbnailSphere=new THREE.Sphere();
     // Covers are taken from viewports that never draw a frame of their own: bring the
@@ -1703,7 +1713,9 @@ export function createViewport(container, {
   return {
     setDocument, computeSnowExposure,
     async ready() {
-      while (pendingAssets.size && !destroyed) await Promise.allSettled([...pendingAssets]);
+      while ((pendingAssets.size || surfaces.pendingCount) && !destroyed) {
+        await Promise.allSettled([...pendingAssets, surfaces.ready()]);
+      }
       if (destroyed) throw new Error('Renderizador encerrado.');
       if(renderer.compileAsync)await warmShaders();
     },
@@ -1715,6 +1727,7 @@ export function createViewport(container, {
     },
     captureThumbnail() {const bytes=capturePixels(false);return bytes?thumbnailCanvas(bytes).toDataURL('image/jpeg',.78):null;},
     async captureThumbnailAsync() {
+      await surfaces.ready();
       const bytes=await capturePixels(true);if(!bytes||destroyed)return null;const image=thumbnailCanvas(bytes);
       const blob=await new Promise(resolve=>image.toBlob(resolve,'image/jpeg',.78));if(!blob)return null;
       return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error);reader.readAsDataURL(blob);});

@@ -1,8 +1,12 @@
-import * as THREE from 'three';
 import { SURFACE_MATERIALS, TEXTURE_PATTERN_FIELDS, surfacePreset, textureOptions } from '../domain/materials.js';
+import { defaultDerivedCache } from '../data/derived-cache.js';
 
 export const TILE_SIZE = 256;
+export const SURFACE_GENERATOR_VERSION = 1;
 const SIZE = TILE_SIZE;
+const lerp = (x, y, t) => (1 - t) * x + t * y;
+const smoothstep = (x, min, max) => { if (x <= min) return 0; if (x >= max) return 1; x = (x - min) / (max - min); return x * x * (3 - 2 * x); };
+const SRGB_TO_LINEAR = Array.from({ length: 256 }, (_, i) => { const c = i / 255; return c <= .04045 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); });
 const fract = x => x - Math.floor(x);
 const hash = (x, y, seed = 1) => fract(Math.sin(x * 127.1 + y * 311.7 + seed * 71.3) * 43758.5453);
 const smooth = x => x * x * (3 - 2 * x);
@@ -65,9 +69,9 @@ export function generateSurfaceTile(settings, size = SIZE) {
         rgb = [164*value,108*value,60*value]; height = joint ? .05 : .6 + fibers * .036 * options.woodGrain + fine * .025; rough = .65 + fine*.25;
         if (options.woodAge > 0 && !joint) {
           // Weathering: checks along the grain, grey sun-bleached patches and a drier surface.
-          const check = Math.max(0, 1 - Math.abs(noise(a * .35, b, frequency(48), 301 + seed) - .5) / .02) * THREE.MathUtils.smoothstep(noise(a, b, frequency(5), 307 + seed), .45, .7);
-          const bleach = THREE.MathUtils.smoothstep(noise(u, v, frequency(4), 311 + seed), .3, .8) * options.woodAge, gray = (rgb[0] + rgb[1] + rgb[2]) / 3 * 1.05;
-          rgb = rgb.map((c, i) => THREE.MathUtils.lerp(c, gray * [1.06, 1, .9][i], bleach * .7) * (1 - check * options.woodAge * .55)); height -= check * options.woodAge * .3; rough = Math.min(1, rough + options.woodAge * .25);
+          const check = Math.max(0, 1 - Math.abs(noise(a * .35, b, frequency(48), 301 + seed) - .5) / .02) * smoothstep(noise(a, b, frequency(5), 307 + seed), .45, .7);
+          const bleach = smoothstep(noise(u, v, frequency(4), 311 + seed), .3, .8) * options.woodAge, gray = (rgb[0] + rgb[1] + rgb[2]) / 3 * 1.05;
+          rgb = rgb.map((c, i) => lerp(c, gray * [1.06, 1, .9][i], bleach * .7) * (1 - check * options.woodAge * .55)); height -= check * options.woodAge * .3; rough = Math.min(1, rough + options.woodAge * .25);
         }
         break;
       }
@@ -79,7 +83,7 @@ export function generateSurfaceTile(settings, size = SIZE) {
       }
       case 'grass': {
         // Blades in two directions over small tufts; broad patches stay faint so the tile does not read as a pattern when repeated.
-        const tuft = noise(u,v,frequency(24),layer+31+seed), dry = THREE.MathUtils.smoothstep(noise(u,v,frequency(48),layer+37+seed),.74,.95);
+        const tuft = noise(u,v,frequency(24),layer+31+seed), dry = smoothstep(noise(u,v,frequency(48),layer+37+seed),.74,.95);
         const blade = Math.pow(Math.max(0, Math.sin((u*frequency(96)+v*frequency(40))*2*Math.PI + tuft*9)),6)*.6 + Math.pow(Math.max(0, Math.sin((u*frequency(72)-v*frequency(56))*2*Math.PI + fine*7)),6)*.4;
         const shade = .8 + n*.1 + tuft*.16 + grain*.06;
         rgb = [(46+blade*36+dry*44)*shade,(80+blade*44+dry*20)*shade,(28+blade*14+dry*4)*shade]; height = .2 + blade*.4 + tuft*.25 + fine*.15; rough = .85 + fine*.15; break;
@@ -98,7 +102,7 @@ export function generateSurfaceTile(settings, size = SIZE) {
         if (options.metalPattern==='corrugated') { const ridge=Math.sin(u*Math.PI*2*frequency(12)); height=.5+ridge*.4; rgb=rgb.map(c=>c*(.9+ridge*.08)); }
         if (options.metalPattern==='rusted') {
           const rust=Math.min(1,Math.max(0,(n+options.metalWear-.45)*2));
-          rgb=rgb.map((c,i)=>THREE.MathUtils.lerp(c,[135+fine*35,53+fine*24,22+fine*15][i],rust)); height=.4+rust*.25+fine*.1; rough=.35+rust*.55; metal=1-rust*.9;
+          rgb=rgb.map((c,i)=>lerp(c,[135+fine*35,53+fine*24,22+fine*15][i],rust)); height=.4+rust*.25+fine*.1; rough=.35+rust*.55; metal=1-rust*.9;
         }
         break;
       }
@@ -134,7 +138,7 @@ export function generateSurfaceTile(settings, size = SIZE) {
           const mass=noise(a,b,frequency(3),211+seed),weathering=noise(a,b,frequency(11),223+seed),mineral=noise(a,b,frequency(43),227+seed);
           // Sparse fissures cut a continuous mineral surface, without closed cell outlines.
           const joint=Math.abs(noise(a,b,frequency(7),239+seed)-.5);
-          crack=Math.max(0,1-joint/.025)*options.rockCracks*THREE.MathUtils.smoothstep(weathering,.42,.7);
+          crack=Math.max(0,1-joint/.025)*options.rockCracks*smoothstep(weathering,.42,.7);
           structure=mass*.24+weathering*.2+mineral*.075;
           value=.38+mass*.26+weathering*.15+mineral*.08-crack*.16;
         }
@@ -157,7 +161,7 @@ export function generateSurfaceTile(settings, size = SIZE) {
       }
       case 'leather': {
         // Short use creases: contour lines of one field, kept only where a second field allows.
-        const crease = Math.max(0, 1 - Math.abs(noise(u, v, frequency(9), 421 + seed) - .5) / .012) * THREE.MathUtils.smoothstep(noise(u, v, frequency(5), 423 + seed), .5, .75) * options.leatherCreases;
+        const crease = Math.max(0, 1 - Math.abs(noise(u, v, frequency(9), 421 + seed) - .5) / .012) * smoothstep(noise(u, v, frequency(5), 423 + seed), .5, .75) * options.leatherCreases;
         let cell = fracture(u + fine * .01, v + fine * .01, frequency(28), 431 + seed) * options.leatherGrain, bulge = 0, button = 0;
         if (options.leatherPattern === 'smooth') cell *= .15;
         if (options.leatherPattern === 'tufted') {
@@ -169,16 +173,16 @@ export function generateSurfaceTile(settings, size = SIZE) {
         rgb = [128 * value, 78 * value, 52 * value]; height = .45 - cell * .22 - crease * .35 + bulge * .5 - button * .3 + fine * .03; rough = .45 + cell * .3 + fine * .15 - bulge * .08; break;
       }
       case 'plaster': {
-        const crack = fracture(u + n * .03, v + n * .03, frequency(4), 441 + seed) * THREE.MathUtils.smoothstep(noise(u, v, frequency(3), 443 + seed), .55 - options.plasterDamage * .4, .9) * options.plasterDamage;
-        const stain = THREE.MathUtils.smoothstep(noise(u, v, frequency(3), 449 + seed) + (1 - v) * .0, .5, .95) * options.plasterDamage;
+        const crack = fracture(u + n * .03, v + n * .03, frequency(4), 441 + seed) * smoothstep(noise(u, v, frequency(3), 443 + seed), .55 - options.plasterDamage * .4, .9) * options.plasterDamage;
+        const stain = smoothstep(noise(u, v, frequency(3), 449 + seed) + (1 - v) * .0, .5, .95) * options.plasterDamage;
         let value = .9 + n * .05 + fine * .03 - stain * .16 - crack * .4; height = .5 + fine * .05 - crack * .35; rough = .8 + fine * .2;
         if (options.plasterFinish === 'stucco') { const bump = noise(u, v, frequency(24), 457 + seed) * .6 + noise(u, v, frequency(72), 459 + seed) * .4; height = .35 + bump * .4 + fine * .2 - crack * .3; value += (bump - .5) * .12; }
         if (options.plasterFinish === 'troweled') { const sweep = Math.sin(Math.PI * 2 * (v * frequency(5) + noise(u, v, frequency(3), 461 + seed) * 1.6)); height = .5 + sweep * .12 + fine * .04 - crack * .3; value += sweep * .035; }
         rgb = [214 * value, 207 * value, 192 * value];
         if (options.plasterFinish === 'peeling') {
           // Paint lifts in patches and shows the render underneath, which keeps its own colour.
-          const patch = THREE.MathUtils.smoothstep(noise(u, v, frequency(5), 463 + seed) * .7 + noise(u, v, frequency(22), 467 + seed) * .3, .78 - options.plasterDamage * .5, .8 - options.plasterDamage * .5);
-          const under = .62 + fine * .12 + grain * .08; rgb = rgb.map((c, i) => THREE.MathUtils.lerp(c, [176, 168, 150][i] * under, patch)); height -= patch * .25; rough = Math.min(1, rough + patch * .1); tintable = 1 - patch;
+          const patch = smoothstep(noise(u, v, frequency(5), 463 + seed) * .7 + noise(u, v, frequency(22), 467 + seed) * .3, .78 - options.plasterDamage * .5, .8 - options.plasterDamage * .5);
+          const under = .62 + fine * .12 + grain * .08; rgb = rgb.map((c, i) => lerp(c, [176, 168, 150][i] * under, patch)); height -= patch * .25; rough = Math.min(1, rough + patch * .1); tintable = 1 - patch;
         }
         break;
       }
@@ -212,25 +216,25 @@ export function generateSurfaceTile(settings, size = SIZE) {
       case 'paint': {
         // Chips follow broad wear with a ragged edge; the exposed substrate keeps its own colour and finish.
         const wear = noise(u, v, frequency(5), 487 + seed) * .62 + noise(u, v, frequency(21), 491 + seed) * .28 + fine * .1, limit = 1 - options.paintChips * .75;
-        const chip = THREE.MathUtils.smoothstep(wear, limit - .015, limit + .015), rim = Math.max(0, 1 - Math.abs(wear - limit) / .03) * (1 - chip);
+        const chip = smoothstep(wear, limit - .015, limit + .015), rim = Math.max(0, 1 - Math.abs(wear - limit) / .03) * (1 - chip);
         let value = .9 + n * .03 + fine * .02; height = .55 + fine * .02; rough = .45 + fine * .12;
         if (options.paintFinish === 'brushstrokes') { const stroke = Math.sin(Math.PI * 2 * (v * frequency(70) + noise(u, v, frequency(4), 499 + seed) * 2)); height += stroke * .1; value += stroke * .02; rough += .1; }
         if (options.paintFinish === 'hammered') { const dimple = noise(u, v, frequency(18), 503 + seed) * .65 + noise(u, v, frequency(44), 505 + seed) * .35; height += (dimple - .5) * .35; value += (dimple - .5) * .08; rough -= .12; }
         const base = { metal: [128 + fine * 22, 130 + fine * 22, 132 + fine * 22], rust: [128 + fine * 34, 58 + fine * 22, 26 + fine * 14], wood: [150 + fine * 24, 104 + fine * 18, 62 + fine * 12], primer: [186 + fine * 14, 184 + fine * 14, 178 + fine * 14] }[options.paintBase];
-        rgb = [226 * value, 222 * value, 212 * value].map((c, i) => THREE.MathUtils.lerp(c * (1 - rim * .12), base[i], chip));
-        height = height + rim * .08 - chip * .22; rough = THREE.MathUtils.lerp(rough, options.paintBase === 'metal' ? .38 : .9, chip); metal = options.paintBase === 'metal' ? chip : 0; tintable = 1 - chip; break;
+        rgb = [226 * value, 222 * value, 212 * value].map((c, i) => lerp(c * (1 - rim * .12), base[i], chip));
+        height = height + rim * .08 - chip * .22; rough = lerp(rough, options.paintBase === 'metal' ? .38 : .9, chip); metal = options.paintBase === 'metal' ? chip : 0; tintable = 1 - chip; break;
       }
       case 'hazard': {
         // Stripes run across u, one period (two stripes) to the tile, so the tile repeats without a seam; angle and width are shader uniforms.
         const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
         const A = hex(options.hazardColorA), B = hex(options.hazardColorB), band = u < .5 ? A : B;
-        const edge = Math.min(Math.abs(u - .5), u, 1 - u) * SIZE, soft = THREE.MathUtils.smoothstep(edge, 0, 1.5);
+        const edge = Math.min(Math.abs(u - .5), u, 1 - u) * SIZE, soft = smoothstep(edge, 0, 1.5);
         // Worn paint shows the concrete under it, in blotches and flecks.
         const worn = noise(u, v, frequency(4), 701 + seed) * .6 + noise(u, v, frequency(19), 709 + seed) * .3 + fine * .1, limit = 1 - options.hazardWear * .8;
-        const chip = THREE.MathUtils.smoothstep(worn, limit - .02, limit + .02);
+        const chip = smoothstep(worn, limit - .02, limit + .02);
         const substrate = [118 + fine * 20, 116 + fine * 20, 110 + fine * 20], dirt = 1 - n * .12 * options.hazardWear;
-        rgb = band.map((c, i) => THREE.MathUtils.lerp(THREE.MathUtils.lerp((A[i] + B[i]) / 2, c, soft) * dirt, substrate[i], chip));
-        height = .55 + fine * .03 - chip * .2; rough = THREE.MathUtils.lerp(.5 + fine * .1, .92, chip); metal = 0; tintable = 0; break;
+        rgb = band.map((c, i) => lerp(lerp((A[i] + B[i]) / 2, c, soft) * dirt, substrate[i], chip));
+        height = .55 + fine * .03 - chip * .2; rough = lerp(.5 + fine * .1, .92, chip); metal = 0; tintable = 0; break;
       }
       case 'snow': {
         const drift=noise(u,v,frequency(3),83+seed), powder=noise(u,v,frequency(32),15+seed);
@@ -243,8 +247,18 @@ export function generateSurfaceTile(settings, size = SIZE) {
     for(let c=0;c<3;c++) albedo[index+c]=Math.max(0,Math.min(255,Math.round(rgb[c])));
     albedo[index+3]=Math.round(Math.max(0,Math.min(1,tintable))*255); details[index]=Math.max(0,Math.min(255,height*255)); details[index+1]=Math.max(0,Math.min(255,rough*255)); details[index+2]=Math.max(0,Math.min(255,metal*255)); details[index+3]=255;
   }
+  const luma = computeTileLuma(albedo);
   if (mark) performance.measure('tabletop:tile', 'tabletop:tile:start');
-  return { albedo, details, width: size, height: size };
+  return { albedo, details, width: size, height: size, luma };
+}
+
+function computeTileLuma(albedo) {
+  let sum = 0, weight = 0;
+  for (let i = 0; i < albedo.length; i += 4) {
+    const share = albedo[i + 3] / 255; weight += share;
+    sum += share * (.2126 * SRGB_TO_LINEAR[albedo[i]] + .7152 * SRGB_TO_LINEAR[albedo[i + 1]] + .0722 * SRGB_TO_LINEAR[albedo[i + 2]]);
+  }
+  return Math.max(.001, sum / Math.max(1, weight));
 }
 
 /** Only parameters that change pixels participate; color/orientation are shader uniforms. */
@@ -253,26 +267,140 @@ export function surfaceStyleKey(settings) {
   for(const field of TEXTURE_PATTERN_FIELDS[settings.texture]??[]) key.push(o[field]);
   return JSON.stringify(key);
 }
-const tiles=new Map();
-function cachedTile(settings) {
-  const key=surfaceStyleKey(settings);
-  const tile=tiles.get(key) ?? generateSurfaceTile(settings);
-  tiles.delete(key); tiles.set(key,tile);
-  if(tiles.size>32) tiles.delete(tiles.keys().next().value);
+const tiles=new Map(), pendingTiles=new Map();
+function rememberTile(key, tile) {
+  if (tile.luma === undefined) tile.luma = computeTileLuma(tile.albedo);
+  tiles.delete(key); tiles.set(key, tile);
+  if (tiles.size > 64) tiles.delete(tiles.keys().next().value);
   return tile;
 }
+export function peekTile(settings) {
+  const key = surfaceStyleKey(settings), tile = tiles.get(key);
+  if (tile) { tiles.delete(key); tiles.set(key, tile); }
+  return tile ?? null;
+}
+export function clearSurfaceTileMemoryCache() { tiles.clear(); }
+function cachedTile(settings) {
+  const key=surfaceStyleKey(settings);
+  return tiles.get(key) ? peekTile(settings) : rememberTile(key, generateSurfaceTile(settings));
+}
+
+// Worker pool for off-thread procedural tile generation (up to 4 module workers).
+let workerPool = null, nextTaskId = 1;
+const workerQueue = [];
+function getWorkerPool() {
+  if (workerPool !== null) return workerPool;
+  if (typeof globalThis.Worker !== 'function') { workerPool = []; return workerPool; }
+  const count = Math.min(4, Math.max(1, (globalThis.navigator?.hardwareConcurrency || 4) - 1));
+  workerPool = [];
+  for (let i = 0; i < count; i++) {
+    try {
+      const worker = new Worker(new URL('./surface-worker.js', import.meta.url), { type: 'module' });
+      const slot = { worker, busy: null };
+      worker.onmessage = ({ data }) => {
+        const task = slot.busy; slot.busy = null; pumpWorkers();
+        if (!task) return;
+        if (data.error) task.reject(new Error(data.error));
+        else task.resolve(data.tile);
+      };
+      worker.onerror = error => {
+        const task = slot.busy; slot.busy = null; pumpWorkers();
+        task?.reject(error instanceof Error ? error : new Error('Falha no worker de superfície.'));
+      };
+      workerPool.push(slot);
+    } catch { break; }
+  }
+  return workerPool;
+}
+function pumpWorkers() {
+  const pool = getWorkerPool();
+  if (!pool.length || !workerQueue.length) return;
+  workerQueue.sort((a, b) => a.priority - b.priority || a.id - b.id);
+  for (const slot of pool) {
+    if (slot.busy || !workerQueue.length) continue;
+    const task = workerQueue.shift();
+    slot.busy = task;
+    slot.worker.postMessage({ id: task.id, settings: task.settings, size: SIZE });
+  }
+}
+function generateInWorker(settings, priority, key) {
+  const pool = getWorkerPool();
+  if (!pool.length) return Promise.resolve().then(() => generateSurfaceTile(settings));
+  return new Promise((resolve, reject) => {
+    const mark = globalThis.location?.search?.includes('diagnostics') && globalThis.performance?.mark;
+    if (mark) performance.mark('tabletop:tile:start');
+    workerQueue.push({
+      id: nextTaskId++, key, settings, priority,
+      resolve: tile => { if (mark) performance.measure('tabletop:tile', 'tabletop:tile:start'); resolve(tile); },
+      reject,
+    });
+    pumpWorkers();
+  });
+}
+
+/** Asynchronous tile acquisition with in-memory LRU, IndexedDB persistence and worker pool generation. */
+export function ensureTile(settings, { priority = 0, cache = defaultDerivedCache } = {}) {
+  const key = surfaceStyleKey(settings), mem = peekTile(settings);
+  if (mem) return Promise.resolve(mem);
+  const inflight = pendingTiles.get(key);
+  if (inflight) {
+    if (priority < inflight.priority) {
+      inflight.priority = priority;
+      const queued = workerQueue.find(t => t.key === key);
+      if (queued) queued.priority = priority;
+    }
+    return inflight.promise;
+  }
+  const cacheKey = `${SURFACE_GENERATOR_VERSION}:${key}`;
+  const entry = { priority, promise: null };
+  entry.promise = (async () => {
+    try {
+      const stored = await cache?.read('surface-tiles', cacheKey);
+      if (stored?.albedo?.byteLength === SIZE * SIZE * 4 && stored?.details?.byteLength === SIZE * SIZE * 4) {
+        return tiles.get(key) ?? rememberTile(key, {
+          albedo: stored.albedo instanceof Uint8Array ? stored.albedo : new Uint8Array(stored.albedo),
+          details: stored.details instanceof Uint8Array ? stored.details : new Uint8Array(stored.details),
+          width: SIZE, height: SIZE, luma: stored.luma,
+        });
+      }
+      if (tiles.has(key)) return peekTile(settings);
+      const generated = await generateInWorker(settings, entry.priority, key);
+      const finalTile = tiles.get(key) ?? rememberTile(key, generated);
+      void cache?.write('surface-tiles', cacheKey, finalTile, 64);
+      return finalTile;
+    } finally {
+      pendingTiles.delete(key);
+    }
+  })();
+  pendingTiles.set(key, entry);
+  return entry.promise;
+}
+
+export function writePackedTile(target, tile, index) {
+  const tx = index % target.columns, ty = Math.floor(index / target.columns);
+  for (let y = 0; y < SIZE; y++) {
+    const offset = ((ty * SIZE + y) * target.width + tx * SIZE) * 4, start = y * SIZE * 4;
+    target.albedo.set(tile.albedo.subarray(start, start + SIZE * 4), offset);
+    target.details.set(tile.details.subarray(start, start + SIZE * 4), offset);
+  }
+}
+export function fillPlaceholderTile(target, index) {
+  const tx = index % target.columns, ty = Math.floor(index / target.columns);
+  for (let y = 0; y < SIZE; y++) {
+    const offset = ((ty * SIZE + y) * target.width + tx * SIZE) * 4;
+    for (let x = 0; x < SIZE; x++) {
+      const p = offset + x * 4;
+      target.albedo[p] = 255; target.albedo[p + 1] = 255; target.albedo[p + 2] = 255; target.albedo[p + 3] = 255;
+      target.details[p] = 128; target.details[p + 1] = 255; target.details[p + 2] = 255; target.details[p + 3] = 255;
+    }
+  }
+}
+
 export function packSurfaceTiles(settings, columns=1) {
   const rows=Math.ceil(settings.length/columns), width=SIZE*columns, height=SIZE*rows;
-  const albedo=new Uint8Array(width*height*4), details=new Uint8Array(albedo.length);
-  settings.forEach((s,i)=>{
-    const tile=cachedTile(s), tx=i%columns, ty=Math.floor(i/columns);
-    for(let y=0;y<SIZE;y++) {
-      const offset=((ty*SIZE+y)*width+tx*SIZE)*4, start=y*SIZE*4;
-      albedo.set(tile.albedo.subarray(start,start+SIZE*4),offset);
-      details.set(tile.details.subarray(start,start+SIZE*4),offset);
-    }
-  });
-  return {albedo,details,width,height,columns,rows};
+  const target={albedo:new Uint8Array(width*height*4), details:new Uint8Array(width*height*4), width, height, columns, rows};
+  settings.forEach((s,i)=>writePackedTile(target,cachedTile(s),i));
+  return target;
 }
 export function generateSurfaceAtlas() { return packSurfaceTiles(SURFACE_MATERIALS.map(p=>({texture:p.id}))); }
 /** The default atlas, one tile per preset, filled as presets are first used: generating
@@ -280,26 +408,21 @@ export function generateSurfaceAtlas() { return packSurfaceTiles(SURFACE_MATERIA
 export function createLazySurfaceAtlas() {
   const rows=SURFACE_MATERIALS.length,albedo=new Uint8Array(SIZE*SIZE*rows*4),details=new Uint8Array(albedo.length),filled=new Set();
   return {albedo,details,width:SIZE,height:SIZE*rows,columns:1,rows,filled,
+    fill(index, tile) {
+      if(index<0)return false;
+      const offset=index*SIZE*SIZE*4;
+      albedo.set(tile.albedo,offset);details.set(tile.details,offset);filled.add(index);return true;
+    },
     /** Returns true when a tile had to be generated, so textures need uploading again. */
     ensure(index) {
       if(filled.has(index)||index<0)return false;
-      const tile=cachedTile({texture:SURFACE_MATERIALS[index].id}),offset=index*SIZE*SIZE*4;
-      albedo.set(tile.albedo,offset);details.set(tile.details,offset);filled.add(index);return true;
+      return this.fill(index,cachedTile({texture:SURFACE_MATERIALS[index].id}));
     }};
 }
 
+export { cachedTile };
 export function surfaceReferenceLuma(settings) {
   const tile=cachedTile(settings);
-  if(tile.luma===undefined) {
-    let sum=0;
-    const linear=c=>(c/255<=.04045 ? c/255/12.92 : Math.pow((c/255+.055)/1.055,2.4));
-    // Only the pixels that take the user's colour define its reference brightness.
-    let weight=0;
-    for(let i=0;i<tile.albedo.length;i+=4) {
-      const share=tile.albedo[i+3]/255; weight+=share;
-      sum+=share*(.2126*linear(tile.albedo[i])+.7152*linear(tile.albedo[i+1])+.0722*linear(tile.albedo[i+2]));
-    }
-    tile.luma=Math.max(.001,sum/Math.max(1,weight));
-  }
+  if(tile.luma===undefined) tile.luma = computeTileLuma(tile.albedo);
   return tile.luma;
 }
