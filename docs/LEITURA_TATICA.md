@@ -12,3 +12,16 @@ Em **Ambiente → Iluminação dinâmica e qualidade**:
 As duas opções ficam na cena (`look.rendering.occlusion`, `look.rendering.silhouettes`) e valem em cada janela, inclusive no projetor, com a câmera daquela janela. No editor, convivem com **Ver interior**, que continua tirando as paredes voltadas para a câmera.
 
 Limites: até 8 personagens por quadro; o círculo tem 1,2 m de raio em volta do meio do corpo.
+
+## Iniciativa
+
+**Tomadas → Sessão → Iniciativa → Começar combate** cria a ordem com todos os personagens da cena. Digite o valor de cada um e a lista se ordena sozinha, do maior para o menor (empates ficam na ordem em que entraram). Antes de alguém jogar, quem fica no topo começa.
+
+- **N** (ou **Próximo turno**) passa a vez; depois do último, começa uma nova rodada. **Anterior** volta.
+- Uma faixa de retratos aparece no topo da mesa e do projetor: quem tem a vez fica maior, seguido dos próximos.
+- Um anel dourado pulsa sob o token da vez (fixo com movimento reduzido).
+- **Câmera vai até quem tem a vez:** ao passar o turno, a câmera desliza até olhar o personagem (com a câmera ao vivo ligada, o projetor vai junto).
+- **Incluir** quem entrou depois, **tirar** alguém (×) e **Encerrar combate**. Cada ação é um passo de desfazer.
+- Personagens "só do mestre" ficam na ordem do mestre, mas não aparecem no projetor.
+
+Contrato: `sessionState.initiative = { order: [{ tokenId, value }], current, round }` (`src/domain/initiative.js`). Um token removido sai da ordem e a vez fica com quem a tinha.

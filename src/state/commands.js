@@ -5,6 +5,7 @@ import { Vector3 } from 'three';
 import { yawFromQuaternion, rotateXZ, snapPosition, multiplyQuaternions } from '../domain/coords.js';
 import { kelvinToColor } from '../domain/lighting.js';
 import { switchTargets } from '../domain/light-switch.js';
+import { pruneInitiative } from '../domain/initiative.js';
 import { applyEnvironment, primaryLight } from '../domain/environments.js';
 import { ValidationError, validateDocument } from '../domain/validation.js';
 import { groupChain, isAccess, supportHeightAt, worldPoint, localPoint } from '../domain/geometry.js';
@@ -129,6 +130,9 @@ function removeEntity(document, entityId) {
 // A shot that focused on or followed something removed keeps its framing and forgets the target.
 function releaseShotTargets(document) {
   const exists = key => Boolean(document.tokens?.[key] ?? document.layout.entities[key]);
+  // A token removed during a combat leaves the turn order; the turn stays with whoever had it.
+  const initiative = document.sessionState?.initiative;
+  if (initiative) { const pruned = pruneInitiative(initiative, key => Boolean(document.tokens?.[key])); if (pruned !== initiative) { if (pruned.order.length) document.sessionState.initiative = pruned; else delete document.sessionState.initiative; } }
   for (const [key, camera] of Object.entries(document.cameraPresets ?? {})) {
     const lostFocus = camera.focus?.targetId && !exists(camera.focus.targetId), lostFollow = camera.follow && !exists(camera.follow.targetId);
     if (!lostFocus && !lostFollow) continue;
@@ -610,6 +614,12 @@ export function applyCommand(document, command, diagnostics) {
       if (door.kind !== 'door' || !next.sessionState) throw new ValidationError('Porta de sessão inválida.');
       editable(door, undefined, next);
       next.sessionState.doors[door.id] = payload.angle; break;
+    }
+    // The turn order is session state: set whole, or cleared with null when the combat ends.
+    case 'initiative.update': {
+      if (!next.sessionState) throw new ValidationError('Iniciativa pertence a cenas.');
+      if (payload.initiative === null) delete next.sessionState.initiative; else next.sessionState.initiative = clone(payload.initiative);
+      break;
     }
     case 'proposal.accept': {
       const proposal = payload.proposal;

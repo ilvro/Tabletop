@@ -1,4 +1,5 @@
 import { freezeSnapshot, isTrustedSnapshot } from '../state/immutable.js';
+import { pruneInitiative } from '../domain/initiative.js';
 const projectionCache=new WeakMap();
 /** Filter before sending. A clean viewport is separate from the master document. */
 export function projectPresentation(document) {
@@ -56,6 +57,8 @@ export function projectPresentation(document) {
   for (const entity of Object.values(entities)) for (const field of ['fromLevelId', 'toLevelId']) if (entity[field] && !copy.layout.levels?.[entity[field]]) entity[field] = null;
   if (copy.documentType === 'scene') {
     copy.sessionState.doors = Object.fromEntries(Object.entries(copy.sessionState.doors).filter(([id]) => entities[id]));
+    // A token only the master sees takes no turn on the projector.
+    if (copy.sessionState.initiative) { const order = pruneInitiative(copy.sessionState.initiative, key => Boolean(copy.tokens?.[key])); if (order.order.length) copy.sessionState.initiative = order; else delete copy.sessionState.initiative; }
     copy.cameraPresets = {}; copy.audioCue = null; copy.sourceMap = null; copy.sourceEnvironment = null;
   }
   if(isTrustedSnapshot(document))projectionCache.set(document,freezeSnapshot(copy));

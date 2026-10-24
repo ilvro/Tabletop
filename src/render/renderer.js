@@ -254,6 +254,9 @@ export function createViewport(container, {
   const figures = new Map(); let animatedFigures = false;
   // Scenery that opens around characters, found again when the scene or its models change; silhouettes by token.
   let occludersDirty = true; const silhouettes = new Map();
+  // Whose turn it is: a ring under that token, breathing slowly (fixed with reduced motion).
+  const turnRing = new THREE.Mesh(new THREE.RingGeometry(.52, .6, 48), new THREE.MeshBasicMaterial({ color: '#ffd36b', transparent: true, opacity: .9, depthWrite: false, side: THREE.DoubleSide, toneMapped: false }));
+  turnRing.rotation.x = -Math.PI / 2; turnRing.position.y = .02; turnRing.renderOrder = 8; turnRing.userData.decorative = true; turnRing.visible = false;
   const cache = createAssetCache();
   const pendingAssets = new Set();
   function trackAsset(promise) {
@@ -398,9 +401,10 @@ export function createViewport(container, {
     if (shareMaterials && materialSharing.changed()) zoneProbes.invalidate();
     cinema.fadeLabels(camera); cinema.beforeRender(camera, now / 1000);
     prepareOcclusion();
+    const turning = placeTurnRing(effectTime);
     try { diagnostics.measure('render', () => effects.render(camera, seconds)); } finally { clearOcclusion(); cinema.afterRender(camera);materialSharing.end();gpuTimer.end();releaseRetired(); }
     sample('render',started);
-    if ((moving || gliding || animatedFigures || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
+    if ((moving || gliding || animatedFigures || turning || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
     // A screen changes ten times a second at most: come back for it without drawing in a loop. The clock must keep running, so it is not reset.
     else if (animatedScreens && !document.hidden) { screenTimer ??= setTimeout(() => { screenTimer = null; invalidate(); }, 100); }
     else lastFrameTime = null;
@@ -424,6 +428,14 @@ export function createViewport(container, {
     updateOcclusion(camera, points, Math.floor(width * scale), Math.floor(height * scale));
   }
   const presentationHidden = id => !objects.get(id)?.visible;
+  function placeTurnRing(time) {
+    const turn = sceneDocument?.sessionState?.initiative, tokenId = turn?.order[turn.current]?.tokenId, object = tokenId && objects.get(tokenId), record = records.get(tokenId);
+    if (!object?.visible) { if (turnRing.parent) turnRing.removeFromParent(); turnRing.visible = false; return false; }
+    if (turnRing.parent !== object) object.add(turnRing);
+    const size = Math.min(...(record?.footprint ?? [1, 1])), still = reducedMotion.matches, beat = still ? 0 : (Math.sin(time * 3) + 1) / 2;
+    turnRing.visible = true; turnRing.scale.setScalar(size * (1 + beat * .12)); turnRing.material.opacity = .55 + beat * .4;
+    return !still;
+  }
   function attachOrbit(target) {
     controls?.dispose();
     controls = new OrbitControls(camera, canvas);
@@ -1467,14 +1479,18 @@ export function createViewport(container, {
   }, { passive: false });
   // Double-click on the scene: the camera glides to look at that point, keeping its distance and angle.
   canvas.addEventListener('dblclick', event => {
-    if (!navigationEnabled || !['select', 'move', 'rotate', 'scale'].includes(tool) || pointer || transform.dragging) return;
+    // Something else claimed the double-click (inspecting an object): the camera stays.
+    if (event.defaultPrevented || !navigationEnabled || !['select', 'move', 'rotate', 'scale'].includes(tool) || pointer || transform.dragging) return;
     const hit = pick(event), point = hit?.point ?? (rayFromEvent(event), raycaster.ray.intersectPlane(plane, new THREE.Vector3()));
-    if (!point) return;
+    if (point) glideTo(point);
+  });
+  /** The camera glides to look at a point, keeping its distance and angle. */
+  function glideTo(point) {
     const from = getCamera(), offset = camera.position.clone().sub(controls.target);
     cinema.setGoal(null); zoomVelocity = 0; orbitVelocity = 0;
     transition = { from, to: { ...from, target: point.toArray(), position: point.clone().add(offset).toArray() }, start: performance.now(), duration: THREE.MathUtils.lerp(.7, 1.6, navigationSmoothing) };
     invalidate();
-  });
+  }
   canvas.addEventListener('pointerdown', onPointerDown);
   canvas.addEventListener('pointermove', onPointerMove);
   canvas.addEventListener('pointerup', onPointerUp);
@@ -1584,6 +1600,7 @@ export function createViewport(container, {
       invalidate();
     },
     getCamera, setCamera, setTopView, frameSelection, frameScene, framePreview, stopCameraMotion, setLiveLook,
+    glideTo(point) { glideTo(new THREE.Vector3(...point)); },
     /** Focus of the current camera: `{enabled, targetId, distance, aperture}`, any subset. */
     setFocus(next) { cinema.setFocus(next); invalidate(); onCameraChange(getCamera()); },
     setFollow(targetId) { cinema.setFollow(targetId); invalidate(); onCameraChange(getCamera()); },

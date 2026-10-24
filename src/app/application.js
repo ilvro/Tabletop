@@ -88,6 +88,8 @@ import { FLASHLIGHT_DEFAULTS, MOTION_DEFAULTS, closeUpSpots } from '../domain/ci
 import { cinemaPanel } from '../ui/cinema-panel.js';
 import { flashlightPanel } from '../ui/flashlight-panel.js';
 import { figurePanel } from '../ui/figure-panel.js';
+import { initiativePanel, initiativeStrip } from '../ui/initiative-panel.js';
+import { startInitiative, stepInitiative, setInitiativeValue } from '../domain/initiative.js';
 import { FIGURE_DEFAULTS } from '../domain/figures.js';
 import { splitLabels } from '../domain/asset-library.js';
 import { assetLibraryPanel, assetCards, metadataEditor } from '../ui/asset-library-panel.js';
@@ -201,7 +203,7 @@ export async function startApplication() {
     add('Ações', 'Régua', () => act('tool-measure'), { keywords: 'medir distancia ferramenta', hint: keyFor('Régua') }); add('Ações', 'Conta-gotas', () => act('material-eyedropper'), { keywords: 'copiar material ferramenta', hint: keyFor('Conta-gotas') });
     action('Esculpir terreno', 'terrain-sculpt', 'pincel relevo'); action('Enquadrar', 'frame', 'foco camera');
     action('Perspectiva', 'perspective', 'camera vista'); action('Vista superior', 'top', 'camera planta'); action('Ver interior', 'cutaway', 'paredes da frente'); action('Telhados', 'roofs', 'forro mostrar ocultar'); action('Tela cheia', 'fullscreen');
-    action('Câmera ao vivo', 'live-camera', 'projetor acompanha camera travelling cinematografica'); action('Ambientação ao vivo', 'ambience', 'variaveis da sessao hora do dia horario ceu nuvens nevoa clima chuva sliders transicao'); action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda'); action('Configurações', 'settings', 'aparencia tema cor paleta destaque preferencias');
+    action('Próximo turno', 'initiative-next', 'iniciativa combate vez rodada'); action('Câmera ao vivo', 'live-camera', 'projetor acompanha camera travelling cinematografica'); action('Ambientação ao vivo', 'ambience', 'variaveis da sessao hora do dia horario ceu nuvens nevoa clima chuva sliders transicao'); action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda'); action('Configurações', 'settings', 'aparencia tema cor paleta destaque preferencias');
     for (const [name, label, keywords] of [['build', 'Construir', 'ferramentas sala prédio'], ['elements', 'Elementos', 'lista objetos cena'], ['scene', 'Ambiente', 'luz atmosfera clima'], ['shots', 'Tomadas', 'câmeras enquadramentos projetor']]) add('Ações', `Ir para ${label}`, () => goToTab(name), { keywords });
     for (const preset of ENVIRONMENTS) add('Ações', `Ambiente · ${preset.name}`, () => execute('environment.apply', { presetId: preset.id }), { keywords: `${preset.description} horario atmosfera`, hint: 'aplicar ambiente' });
     for (const [tabName, groups] of Object.entries(TASKS_BY_TAB)) for (const { title, tasks } of groups) for (const [, key, label, description] of tasks) add('Tarefas', label, () => openTask(tabName, key), { keywords: `${description} ${title}`, hint: `${TAB_TITLES[tabName].toLowerCase()} · ${title}` });
@@ -285,6 +287,8 @@ export async function startApplication() {
   const documentsWindow = floatingWindow(document.getElementById('documents-dialog'), { trigger: root.querySelector('[data-action=open]'), position: [110,48] });
   const ambienceWindow = floatingWindow(document.getElementById('ambience-window'), { trigger: root.querySelector('.rail [data-action="ambience"]'), position: [Math.max(16, window.innerWidth - 420), 72] });
   // Session-only camera settings: none of them is saved with the scene except through a saved shot.
+  // Whether passing the turn also glides the camera to whoever has it (a session preference).
+  let initiativeCamera = false;
   let ambience = null, navigationSmoothing = 0, liveCamera = { enabled: false, smoothing: .6 }, liveCameraFrame = 0;
   animateDisclosures(root);
   let polishOptions = { mode: 'align', axis: 'x', alignment: 'center', angle: 5, seed: 1, palette: 'natural', clearance: .8, referenceId: '' };
@@ -964,6 +968,7 @@ export async function startApplication() {
     } else if (tab === 'shots') {
       const doc = store.document, connected = hasPresentation() || isPresentation;
       panel.innerHTML = `${shotsPanel(doc, { publishedId: publishedPresetId, rehearsedId, live: connected, thumbnails: camera => shotThumbnails.image(doc, camera, store.editVersion) })}${cameraPanel()}<section><span class="eyebrow">SEGUNDA TELA</span><p class="microcopy">O projetor é a janela que os jogadores veem. Ensaiar mexe só no seu editor; Transição e Corte publicam a tomada para o projetor.</p>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">CARTELA DE TÍTULO</span><label class="field"><span>Título</span><input type="text" data-field="title-card-title" value="${esc(titleCard.title)}" placeholder="${esc(doc.name)}" maxlength="120" autocomplete="off" /></label><label class="field"><span>Subtítulo</span><input type="text" data-field="title-card-subtitle" value="${esc(titleCard.subtitle)}" maxlength="120" autocomplete="off" /></label>${numberField('title-card-duration', 'Duração · s', titleCard.duration, { min: 2, max: 12, step: 1 })}${button('title-card', 'Mostrar no projetor', 'display', 'wide primary', connected && !isPresentation ? '' : 'disabled')}${checkField('projector-letterbox', 'Barras de cinema · 2,39:1', letterbox)}<p class="microcopy">A cartela aparece sobre a imagem do projetor e some sozinha. Nada disso é salvo na cena.</p></section>`;
+      panel.innerHTML += initiativePanel(doc, { camera: initiativeCamera });
       taskList(panel, SHOTS_TASKS);
       restoreDisclosures(panel, sceneDisclosures);
       shotThumbnails.request(doc, store.editVersion);
@@ -1112,6 +1117,20 @@ export async function startApplication() {
     viewport.setCamera({ projection: 'perspective', position: position.toArray(), target: chest.toArray(), fov: 30, focus: { enabled: true, targetId: tokenId, distance: position.distanceTo(chest), aperture: .6 } }, { duration: cameraDuration || 1.2 });
     notify(liveCamera.enabled ? 'Close no personagem, ao vivo no projetor.' : 'Close no personagem. Publique a câmera ou salve como tomada para mostrar no projetor.');
     if (tab === 'shots') renderSidebar();
+  }
+  /** The strip of turns over the stage, while a combat is on. */
+  function renderInitiativeStrip(doc) {
+    const node = document.getElementById('initiative-strip'), html = isPresentation ? initiativeStrip(projectPresentation(doc), tokenPortrait) : initiativeStrip(doc, tokenPortrait);
+    if (node.innerHTML !== html) node.innerHTML = html; node.hidden = !html;
+  }
+  const tokenPortrait = tokenId => { const token = store.document.tokens?.[tokenId]; return token ? portraitOf({ assetRef: token.visualOverride?.assetRef ?? store.document.actors?.[token.actorId]?.assetRef }) : null; };
+  /** Pass the turn; with the option on, the camera glides to look at whoever has it. */
+  function passTurn(step) {
+    const initiative = store.document.sessionState?.initiative; if (!initiative) return;
+    const next = stepInitiative(initiative, step);
+    if (!execute('initiative.update', { initiative: next }, { label: step > 0 ? 'Próximo turno' : 'Turno anterior' })) return;
+    const tokenId = next.order[next.current]?.tokenId, point = tokenId && initiativeCamera ? viewport.pointOf(tokenId) : null;
+    if (point) viewport.glideTo(point);
   }
   // The portrait of an actor is the image asset it points to, if any.
   const portraitOf = actor => { const asset = actor?.assetRef ? assets.find(item => item.id === actor.assetRef.id) : null; return asset && (asset.type === 'image' || asset.previewUrl) ? asset.previewUrl ?? asset.url : null; };
@@ -1308,6 +1327,7 @@ export async function startApplication() {
     if (take.textContent !== takeText) take.textContent = takeText;
     scheduleViewTag(); renderShotDock(); syncLocation(doc); scheduleSelectionBar();
     paintSceneAccent(doc);
+    renderInitiativeStrip(doc);
     document.getElementById('welcome').hidden = Object.keys(doc.layout?.entities || {}).length > 0 || !!proposal || isPresentation; renderWelcome();
     document.getElementById('undo').disabled = !store.canUndo;
     document.getElementById('redo').disabled = !store.canRedo;
@@ -1320,7 +1340,7 @@ export async function startApplication() {
     if(contentChanged){
       const changes=event.changes, categories=changes?.categories??[];
       if(!changes||changes.full||changes.entities?.includes(selection)||changes.tokens?.includes(selection)||changes.lights?.includes(selection)||changes.actors?.includes(doc.tokens?.[selection]?.actorId)||changes.groups?.length||changes.levels?.length||changes.layers?.length||categories.some(c=>['structure','organization','look','session'].includes(c)))renderInspector();else performanceDiagnostics.count('inspectorSkipped');
-      if(!changes||changes.full||changes.name||categories.some(c=>['structure','organization','metadata','look','camera','grid'].includes(c)))renderSidebar();
+      if(!changes||changes.full||changes.name||categories.some(c=>['structure','organization','metadata','look','camera','grid'].includes(c))||categories.includes('session')&&tab==='shots')renderSidebar();
       // A light switched on or off only changes the bulbs of the tree.
       else if(categories.includes('light'))renderSceneTreeIfVisible();else performanceDiagnostics.count('sidebarSkipped');
       broadcast();
@@ -1836,6 +1856,7 @@ export async function startApplication() {
     if (field === 'camera-motion') { viewport.setCameraMotion({ ...MOTION_DEFAULTS, ...viewport.getCamera().motion, type: value }); renderSidebar(); return; }
     if (field === 'camera-motion-speed') { viewport.setCameraMotion({ ...viewport.getCamera().motion, speed: Math.max(0, Math.min(4, value)) }); return; }
     if (field === 'camera-live') { setLiveCamera(Boolean(value)); return; }
+    if (field === 'initiative-camera') { initiativeCamera = Boolean(value); return; }
     if (field === 'camera-live-smoothing') { liveCamera.smoothing = Math.max(.1, Math.min(2, value)); sendLiveCamera(); return; }
     if (field === 'title-card-title') { titleCard.title = String(value).slice(0, 120); return; }
     if (field === 'title-card-subtitle') { titleCard.subtitle = String(value).slice(0, 120); return; }
@@ -2478,6 +2499,11 @@ export async function startApplication() {
       case 'shortcuts': toggleShortcuts(); break;
       case 'settings': toggleSettings(); break;
       case 'ambience': toggleAmbience(); break;
+      case 'initiative-start': { const ids = Object.keys(store.document.tokens ?? {}); if (ids.length) execute('initiative.update', { initiative: startInitiative(ids.map(tokenId => ({ tokenId, value: 0 }))) }, { label: 'Começar combate' }); break; }
+      case 'initiative-next': passTurn(1); break;
+      case 'initiative-prev': passTurn(-1); break;
+      case 'initiative-add': { const initiative = store.document.sessionState?.initiative; if (!initiative) break; const turn = initiative.order[initiative.current]?.tokenId, missing = Object.keys(store.document.tokens ?? {}).filter(id => !initiative.order.some(entry => entry.tokenId === id)); const next = startInitiative([...initiative.order, ...missing.map(tokenId => ({ tokenId, value: 0 }))]); execute('initiative.update', { initiative: { ...next, round: initiative.round, current: Math.max(0, next.order.findIndex(entry => entry.tokenId === turn)) } }, { label: 'Incluir no combate' }); break; }
+      case 'initiative-end': if (store.document.sessionState?.initiative) execute('initiative.update', { initiative: null }, { label: 'Encerrar combate' }); break;
       case 'live-camera': setLiveCamera(!liveCamera.enabled); break;
       case 'ambience-close': toggleAmbience(false); break;
       case 'token-closeup': closeUp(selection); break;
@@ -2679,6 +2705,7 @@ export async function startApplication() {
       }
       return;
     }
+    if (node.dataset.initiativeRemove) { const initiative = store.document.sessionState?.initiative; if (initiative) { const turn = initiative.order[initiative.current]?.tokenId, order = initiative.order.filter(entry => entry.tokenId !== node.dataset.initiativeRemove); execute('initiative.update', { initiative: order.length ? { ...initiative, order, current: Math.max(0, Math.min(order.length - 1, order.findIndex(entry => entry.tokenId === turn) >= 0 ? order.findIndex(entry => entry.tokenId === turn) : initiative.current)) } : null }, { label: 'Tirar do combate' }); } return; }
     if (node.dataset.dialogTab) { dialogTab = node.dataset.dialogTab; renderDialogContent(); observeGalleryCards(); return; }
     if (node.dataset.select) { selectObject(node.dataset.select, event.shiftKey); return; }
     if (node.dataset.asset) {
@@ -2830,6 +2857,7 @@ export async function startApplication() {
     else if (event.target.id === 'document-json-file') { importJson(event.target.files[0]); event.target.value = ''; }
     else if (event.target.dataset.field) changeField(event.target);
     else if (event.target.id === 'scene-name') execute('scene.rename', { name: event.target.value });
+    else if (event.target.dataset.initiativeValue) { const initiative = store.document.sessionState?.initiative; if (initiative) execute('initiative.update', { initiative: setInitiativeValue(initiative, event.target.dataset.initiativeValue, Number(event.target.value)) }, { label: 'Iniciativa' }); }
   });
   root.addEventListener('input', (event) => {
     if (event.target.id === 'tree-search') { treeFilter.search = event.target.value; renderSceneTreeIfVisible(); return; }
@@ -2891,6 +2919,7 @@ export async function startApplication() {
     if (event.altKey || event.repeat) return;
     if (event.key.toLowerCase() === 'i') { event.preventDefault(); act('material-eyedropper'); return; }
     if (event.key.toLowerCase() === 'l' && !isPresentation) { event.preventDefault(); act('live-camera'); return; }
+    if (event.key.toLowerCase() === 'n' && store.document.sessionState?.initiative) { event.preventDefault(); act('initiative-next'); return; }
     const keys = { q: 'select', g: 'move', r: 'rotate', v: 'scale', m: 'measure' };
     if (keys[event.key.toLowerCase()]) { if (keys[event.key.toLowerCase()] === 'measure') act('tool-measure'); else setTool(keys[event.key.toLowerCase()]); }
     if (event.key.toLowerCase() === 'f') act('frame');
@@ -3014,7 +3043,7 @@ function startPresentation(root, sessionId) {
   document.body.classList.add('presentation-window');
   let brandAccent = applyUiTheme(readUiTheme(uiThemeKey));
   window.addEventListener('storage', event => { if (event.key === uiThemeKey) brandAccent = applyUiTheme(readUiTheme(uiThemeKey)); });
-  root.innerHTML = `<div id="presentation-viewport"></div><div class="letterbox" aria-hidden="true"><i></i><i></i></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><div id="title-layer" class="title-layer" aria-live="polite"></div><div class="projector-controls"><select id="presentation-quality" aria-label="Qualidade da iluminação"><option value="economy">Econômica</option><option value="balanced" selected>Equilibrada</option><option value="high">Alta</option></select><button id="presentation-effects" class="presentation-fullscreen" title="Névoa e efeitos nesta janela" aria-label="Névoa e efeitos nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button></div>`;
+  root.innerHTML = `<div id="presentation-viewport"></div><div class="letterbox" aria-hidden="true"><i></i><i></i></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><div id="title-layer" class="title-layer" aria-live="polite"></div><div id="initiative-layer" class="initiative-strip is-projector" hidden></div><div class="projector-controls"><select id="presentation-quality" aria-label="Qualidade da iluminação"><option value="economy">Econômica</option><option value="balanced" selected>Equilibrada</option><option value="high">Alta</option></select><button id="presentation-effects" class="presentation-fullscreen" title="Névoa e efeitos nesta janela" aria-label="Névoa e efeitos nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button></div>`;
   const viewport = createViewport(document.getElementById('presentation-viewport'), {
     onError: (error) => { document.getElementById('presentation-message').textContent = error.message; },
     navigationEnabled: false,
@@ -3030,6 +3059,12 @@ function startPresentation(root, sessionId) {
   const heartbeat=setInterval(()=>channel.postMessage({version:1,sessionId,type:'heartbeat',receiverId}),5000);
   const retry = setInterval(request, 1500);
   let lastTitle = 0;
+  // The turn order over the image, with the portraits the master's scene uses.
+  function showInitiative(data) {
+    const layer = document.getElementById('initiative-layer'), urls = new Map((data.assets ?? []).map(asset => [`${asset.id}@${asset.revision}`, asset.previewUrl ?? asset.url]));
+    const doc = data.document, portrait = tokenId => { const token = doc.tokens?.[tokenId], ref = token?.visualOverride?.assetRef ?? doc.actors?.[token?.actorId]?.assetRef; return ref ? urls.get(`${ref.id}@${ref.revision}`) ?? null : null; };
+    const html = initiativeStrip(doc, portrait); if (layer.innerHTML !== html) layer.innerHTML = html; layer.hidden = !html;
+  }
   const clean = (text, limit = 120) => typeof text === 'string' ? text.slice(0, limit) : '';
   // A title card over the image: sanitized text only, in the accent of the scene.
   function showTitleCard(data) {
@@ -3062,7 +3097,7 @@ function startPresentation(root, sessionId) {
     }
     if (data?.version !== 1 || data.sessionId !== sessionId || !['snapshot','camera','view'].includes(data.type) || data.sequence <= sequence) return;
     try {
-      if(data.type==='snapshot'){validateDocument(data.document);viewport.setAssets(data.assets);shown=trustSnapshot(data.document);viewport.setDocument(shown);document.title=`${data.document.name} — apresentação`;}
+      if(data.type==='snapshot'){validateDocument(data.document);viewport.setAssets(data.assets);shown=trustSnapshot(data.document);viewport.setDocument(shown);showInitiative(data);document.title=`${data.document.name} — apresentação`;}
       else if(receivedCameraSequence===null){request();return;}
       sequence=data.sequence;viewport.setCutaway(data.cutaway);document.body.classList.toggle('letterboxed',data.letterbox===true);
       if (data.camera && data.cameraSequence !== receivedCameraSequence) {

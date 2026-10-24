@@ -784,3 +784,23 @@ dialog.floating-window.library-dialog, .floating-window { background: var(--tt-s
 .camera-strip .live-camera-toggle.active svg { animation: live-pulse 1.4s ease-in-out infinite; }
 @keyframes live-pulse { 50% { opacity: .45; } }
 @media (prefers-reduced-motion: reduce) { .camera-strip .live-camera-toggle.active svg { animation: none; } }
+/* Turn order: a strip of portraits at the top of the stage and of the projector. */
+.initiative-strip { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; align-items: flex-end; gap: 8px; padding: 8px 12px; border-radius: 12px; background: color-mix(in srgb, var(--tt-surface-1) 78%, transparent); border: 1px solid var(--tt-line); pointer-events: none; }
+.initiative-strip[hidden] { display: none; }
+.initiative-strip.is-projector { position: fixed; top: 24px; z-index: 30; padding: 10px 16px; }
+.initiative-round { align-self: center; margin-right: 4px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--tt-text-2); }
+.initiative-card { display: grid; justify-items: center; gap: 3px; width: 46px; opacity: .78; }
+.initiative-card img, .initiative-initial { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: top; border: 2px solid var(--token-color); background: var(--tt-surface-2); display: grid; place-items: center; font-weight: 700; color: var(--token-color); }
+.initiative-card small { max-width: 64px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; color: var(--tt-text-2); }
+.initiative-card.is-turn { width: 64px; opacity: 1; }
+.initiative-card.is-turn img, .initiative-card.is-turn .initiative-initial { width: 58px; height: 58px; border-width: 3px; box-shadow: 0 0 14px color-mix(in srgb, var(--token-color) 60%, transparent); }
+.initiative-card.is-turn small { font-size: 12px; font-weight: 650; color: var(--tt-text); }
+.is-projector .initiative-card { width: 60px; } .is-projector .initiative-card img, .is-projector .initiative-initial { width: 52px; height: 52px; }
+.is-projector .initiative-card.is-turn { width: 84px; } .is-projector .initiative-card.is-turn img, .is-projector .initiative-card.is-turn .initiative-initial { width: 76px; height: 76px; }
+.is-projector .initiative-card small { font-size: 13px; } .is-projector .initiative-round { font-size: 13px; }
+.initiative-list { list-style: none; margin: 4px 0 10px; padding: 0; display: grid; gap: 4px; }
+.initiative-list li { display: grid; grid-template-columns: 6px 1fr 62px 28px; align-items: center; gap: 8px; padding: 4px 6px; border-radius: 7px; background: var(--tt-surface-2); border: 1px solid transparent; }
+.initiative-list li i { width: 6px; height: 22px; border-radius: 3px; background: var(--token-color); }
+.initiative-list li.is-turn { border-color: var(--tt-accent); background: var(--tt-accent-wash); }
+.initiative-list li.is-turn span { font-weight: 650; color: var(--tt-accent-strong); }
+.initiative-list input { width: 100%; }
