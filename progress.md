@@ -30,6 +30,14 @@ Plano: [docs/PLANO_DESEMPENHO_2026-10-24.md](docs/PLANO_DESEMPENHO_2026-10-24.md
 
 Pedido: analisar o projeto e planejar melhorias de desempenho, para outro agente implementar. Plano em [docs/PLANO_DESEMPENHO_2026-10-24.md](docs/PLANO_DESEMPENHO_2026-10-24.md): baseline dos recursos recentes na GPU; carregamento (tiles procedurais e geometria das receitas em workers com cache IndexedDB, upload parcial do atlas, `setDocument` fatiado, paredes sem O(W²), variante de shader da oclusão); CPU por frame (matrizes, cutaway, alocações); descarte por cômodo com portais; `DoubleSide` padrão; divisão do bundle e do projetor. Medido em Node: tiles de 130–237 ms cada (~4,5 s no templo), receitas de árvores de 170–365 ms. Nada medido na GPU nesta análise.
 
+## Plano do Ateliê de documentos (24 de outubro) — plano escrito, nada implementado
+
+Pedido: plano técnico e detalhado de uma engine de documentos (estilo Photoshop para *handouts*) que use o acervo do *Arquivos Confidenciais* e os documentos do usuário, para outro modelo implementar em etapas.
+
+Plano em [docs/atelie-documentos/](docs/atelie-documentos/00-LEIA-PRIMEIRO.md): um arquivo de entrada e 17 etapas pequenas, cada uma com contratos, arquivos, testes e "pronto quando". Baseado em medições reais: estrutura de 3 PSDs com `ag-psd` 30.2.0 (texto dentro de objetos inteligentes, mesclagens, ajustes, variações, grupo UV, composição salva em todos), categorias das 2 500 imagens de `Assets/`, e amostras dos documentos de Vaesen. O acervo fica numa pasta privada fora do git (`data-private/`).
+
+Também: "Iluminação e ambientação", passo 48, pedia a força do halo que a Noite já traz; passou a pedir só o limiar (commit `319241b`). A suíte completa dos tutoriais passou (20 de 20) num build isolado.
+
 ## E para documentos e iniciativa no visual das fichas (24 de outubro) — feito
 
 - **E** também pega um documento inspecionável para ler (sob o mouse ou selecionado); commit `06ca3ba`.
