@@ -511,14 +511,27 @@ export async function startApplication() {
     },
     onCinemaChange: () => { renderInspector(); if (tab === 'shots') renderSidebar(); },
     onAreaDraw: area => { if (execute('area.add', { area: { ...area, id: id() } }, { label: 'Área de efeito' })) { setTool('select'); if (tab === 'shots') renderSidebar(); } },
-    onCameraChange: preset => {
-      hideContextMenu(); scheduleViewTag(); scheduleSelectionBar();
-      if (liveCamera.enabled && !isPresentation) sendLiveCamera();
-      root.querySelector('[data-action="perspective"]')?.classList.toggle('active', preset.projection === 'perspective');
-      root.querySelector('[data-action="top"]')?.classList.toggle('active', preset.projection === 'orthographic');
-      const field = root.querySelector('[data-field="camera-fov"]');
-      if (field && document.activeElement !== field) field.value = String(Math.round(preset.fov * 10) / 10);
-    },
+    onCameraChange: (() => {
+      const perspectiveBtn = root.querySelector('[data-action="perspective"]');
+      const topBtn = root.querySelector('[data-action="top"]');
+      let lastProjection = null, lastFov = null;
+      return preset => {
+        hideContextMenu(); scheduleViewTag(); scheduleSelectionBar();
+        if (liveCamera.enabled && !isPresentation) sendLiveCamera();
+        if (lastProjection !== preset.projection) {
+          lastProjection = preset.projection;
+          perspectiveBtn?.classList.toggle('active', preset.projection === 'perspective');
+          topBtn?.classList.toggle('active', preset.projection === 'orthographic');
+        }
+        if (tab === 'shots') {
+          const rounded = String(Math.round(preset.fov * 10) / 10);
+          if (lastFov !== rounded) {
+            const field = root.querySelector('[data-field="camera-fov"]');
+            if (field && document.activeElement !== field) { field.value = rounded; lastFov = rounded; }
+          }
+        } else lastFov = null;
+      };
+    })(),
   });
   let previewWarningShown = false;
   const previews = createScenePreviews({

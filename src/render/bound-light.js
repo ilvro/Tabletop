@@ -22,15 +22,19 @@ export function applyBoundEmission(object,record,look){const config=record.illum
     }
   }});
 }
-export function updateBoundLights(document,objects,bindings,seconds,paused,isVisible=r=>objects.get(r.id)?.visible,generation=0,screenLight=()=>null){const descriptors=[],look=document.look??document.defaultLook;
+export function updateBoundLights(document,objects,bindings,seconds,paused,isVisible=r=>objects.get(r.id)?.visible,generation=0,screenLight=()=>null,matricesDirty=true){const descriptors=[],look=document.look??document.defaultLook;
   for(const [id,b]of bindings)if(!document.layout.entities[id]?.illumination||!objects.has(id)){const host=objects.get(id);if(host)applyBoundEmission(host,document.layout.entities[id],look);b.wrapper.clear();bindings.delete(id);}
   let state=bindingStates.get(bindings);if(!state||state.entities!==document.layout.entities||state.generation!==generation||!Object.isFrozen(document.layout.entities)){state={entities:document.layout.entities,generation,records:Object.values(document.layout.entities).filter(r=>r.illumination)};bindingStates.set(bindings,state);}
   for(const record of state.records){
     const config=record.illumination,host=objects.get(record.id);if(!host||!config)continue;applyBoundEmission(host,record,look);
     let b=bindings.get(record.id);const enabled=lightPhaseActive(config,look),configKey=Object.isFrozen(config)?config:JSON.stringify(config);const lightRecord=b?.configKey===configKey&&b.enabled===enabled&&b.generation===generation?b.record:{...config,id:record.id+':source',enabled,shadowEnabled:config.shadowPolicy!=='off'};
-    if(!b||b.wrapper.userData.lightRecord.type!==config.type){b?.wrapper.clear();const wrapper=createLightObject({...lightRecord,position:config.position},{helper:false});wrapper.userData.source.removeFromParent();b={wrapper};bindings.set(record.id,b);}
-    b.generation=generation;b.configKey=configKey;b.enabled=enabled;b.record=lightRecord;
-    const wrapper=b.wrapper,source=wrapper.userData.source;wrapper.userData.lightRecord=lightRecord;wrapper.position.fromArray(config.position);wrapper.quaternion.fromArray(config.rotation);wrapper.updateMatrix();host.updateWorldMatrix(true,false);wrapper.matrixWorld.multiplyMatrices(host.matrixWorld,wrapper.matrix);wrapper.matrixAutoUpdate=false;wrapper.matrixWorldAutoUpdate=false;wrapper.visible=isVisible(record);for(let p=host.parent;p;p=p.parent)if(!p.visible)wrapper.visible=false;
+    const created=!b||b.wrapper.userData.lightRecord.type!==config.type;
+    if(created){b?.wrapper.clear();const wrapper=createLightObject({...lightRecord,position:config.position},{helper:false});wrapper.userData.source.removeFromParent();wrapper.matrixAutoUpdate=false;wrapper.matrixWorldAutoUpdate=false;b={wrapper};bindings.set(record.id,b);}
+    const transformDirty=created||matricesDirty||b.generation!==generation||b.configKey!==configKey||b.host!==host;
+    b.generation=generation;b.configKey=configKey;b.enabled=enabled;b.record=lightRecord;b.host=host;
+    const wrapper=b.wrapper,source=wrapper.userData.source;wrapper.userData.lightRecord=lightRecord;
+    if(transformDirty){wrapper.position.fromArray(config.position);wrapper.quaternion.fromArray(config.rotation);wrapper.updateMatrix();host.updateWorldMatrix(true,false);wrapper.matrixWorld.multiplyMatrices(host.matrixWorld,wrapper.matrix);}
+    wrapper.visible=isVisible(record);if(wrapper.visible)for(let p=host.parent;p;p=p.parent)if(!p.visible){wrapper.visible=false;break;}
     // The light of a lit screen takes the average colour of what it shows, and dims with how bright that is.
     const tint=record.screen?.enabled&&config.profile==='screen'?screenLight(record.id):null;
     if(tint?.color)source.color.copy(tint.color);else source.color.set(config.color);

@@ -51,6 +51,10 @@ import { areaFromDrag } from '../domain/areas.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
+const Y_AXIS = new THREE.Vector3(0, 1, 0);
+const tempVec3 = new THREE.Vector3(), tempVec3B = new THREE.Vector3(), tempSpherical = new THREE.Spherical();
+const cutawayViewDir = new THREE.Vector3(), cutawayCenter = new THREE.Vector3(), cutawayNormal = new THREE.Vector3();
+const tempFrustum = new THREE.Frustum(), tempProjScreenMatrix = new THREE.Matrix4(), tempSphere = new THREE.Sphere();
 
 /** Configures a dedicated 4th diagonal axis/arrow on TransformControls for uniform/proportional XYZ scale. */
 export function setupUniformScaleGizmo(transform) {
@@ -193,9 +197,11 @@ export function createViewport(container, {
   let effectTime = 0, animatedLights = false, animatedAtmosphere = false;
   scene.background = new THREE.Color('#25373a');
   const content = new THREE.Group();
+  content.matrixWorldAutoUpdate = false;
   const materialSharing = createMaterialSharing(); let shareMaterials = true;
   const zoneProbes = createZoneProbes(renderer, scene, zones, { slow: softwareRenderer }); let probesUrgent = false, probeTimer = null;
   const lighting = new THREE.Group();
+  lighting.matrixWorldAutoUpdate = false;
   const preview = new THREE.Group();
   scene.add(content, lighting, preview);
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(1000, 1000), standardMaterial({ color: '#253633', roughness: 1 }));
@@ -290,6 +296,7 @@ export function createViewport(container, {
     onClosed: id => {
       pages.read(id, null); thaw();
       const object = objects.get(id); if (object) object.visible = visibleRecord(records.get(id));
+      cutawayDirty = true;
       if (!cinema.info().focus) effects.setFocus({ enabled: false });
       invalidate(true); onInspection({ type: 'closed', entityId: id });
     } });
@@ -316,6 +323,31 @@ export function createViewport(container, {
 
   function report(message) { if (!destroyed) onError(message instanceof Error ? message : new Error(message)); }
   let pickBounds = new WeakMap(), assetsDirty = false, pendingTerrain, suspended=false;
+  let matricesDirty = true, cutawayDirty = true;
+  const lastCutawayViewDir = new THREE.Vector3(), lastCutawayTarget = new THREE.Vector3(NaN, NaN, NaN);
+  let cutawayLists = { walls: [], ceilingHung: [], decals: [], openings: [] };
+  let tokenRecords = [], staticLightDescriptors = [];
+  const litSources = [];
+  let visibilityCacheGen = -1, visibilityCacheLevel = null, visibilityCacheRoofs = false, visibilityCachePres = false;
+  const visibilityCache = new Map(), visibilityIgnoreIsoCache = new Map();
+  function rebuildSceneLists() {
+    const walls = [], ceilingHung = [], decals = [], openings = [], tokens = [];
+    for (const [id, object] of objects) {
+      const record = records.get(id);
+      if (!record) continue;
+      if (record.kind === 'wall') walls.push({ id, object, record });
+      else if (record.kind === 'door' || record.kind === 'window') openings.push({ id, object, record });
+      if (hangsFromCeiling(record) && !ROOF.test(record.assetRef?.id ?? '')) ceilingHung.push({ id, object, record });
+      if (record.decal) decals.push({ id, object, record });
+      if (record.actorId) tokens.push(record);
+    }
+    cutawayLists = { walls, ceilingHung, decals, openings };
+    tokenRecords = tokens;
+    staticLightDescriptors = lightObjects
+      .filter(o => !o.userData.source.isDirectionalLight)
+      .map(wrapper => ({ id: wrapper.userData.lightRecord.id, wrapper, source: wrapper.userData.source, record: wrapper.userData.lightRecord }));
+    cutawayDirty = true;
+  }
   let wallProfilesKey, wallRecords = [], wallProfiles = new Map();
   const yieldToMain = () => globalThis.scheduler?.yield ? globalThis.scheduler.yield() : new Promise(resolve => {
     if (typeof MessageChannel === 'function') { const ch = new MessageChannel(); ch.port1.onmessage = () => resolve(); ch.port2.postMessage(null); }
@@ -404,20 +436,20 @@ export function createViewport(container, {
       const step = advanceVelocity(velocity, desired, seconds, THREE.MathUtils.lerp(10, 2.2, navigationSmoothing));
       velocity = step.velocity;
       if (Math.hypot(...velocity) < .001 && !navigationKeys.size) velocity = [0, 0, 0];
-      const displacement = new THREE.Vector3(...step.displacement);
+      const displacement = tempVec3.fromArray(step.displacement);
       camera.position.add(displacement); controls.target.add(displacement);
       moving = navigationKeys.size > 0 || Math.hypot(...velocity) > 0;
       if (camera.isPerspectiveCamera) {
         const wanted = (Number(navigationKeys.has('KeyC')) - Number(navigationKeys.has('KeyZ'))) * THREE.MathUtils.degToRad(fastNavigation ? 70 : 24);
         orbitVelocity = wanted + (orbitVelocity - wanted) * Math.exp(-THREE.MathUtils.lerp(9, 2.4, navigationSmoothing) * seconds);
         if (Math.abs(orbitVelocity) < 1e-4 && !wanted) orbitVelocity = 0;
-        if (orbitVelocity) { camera.position.sub(controls.target).applyAxisAngle(new THREE.Vector3(0, 1, 0), orbitVelocity * seconds).add(controls.target); moving = true; }
+        if (orbitVelocity) { camera.position.sub(controls.target).applyAxisAngle(Y_AXIS, orbitVelocity * seconds).add(controls.target); moving = true; }
       }
     }
     if (zoomVelocity && !transition) {
-      const offset = camera.position.clone().sub(controls.target), distance = offset.length();
+      const offset = tempVec3.subVectors(camera.position, controls.target), distance = offset.length();
       const next = THREE.MathUtils.clamp(distance * Math.exp(-zoomVelocity * seconds), controls.minDistance, controls.maxDistance);
-      if (tacticalZoom) { const angles = new THREE.Spherical().setFromVector3(offset); angles.radius = next; angles.phi = Math.PI / 2 - tacticalElevation(next); camera.position.copy(controls.target).add(new THREE.Vector3().setFromSpherical(angles)); }
+      if (tacticalZoom) { const angles = tempSpherical.setFromVector3(offset); angles.radius = next; angles.phi = Math.PI / 2 - tacticalElevation(next); camera.position.copy(controls.target).add(tempVec3B.setFromSpherical(angles)); }
       else camera.position.copy(controls.target).addScaledVector(offset.normalize(), next);
       zoomVelocity *= Math.exp(-THREE.MathUtils.lerp(9, 3, navigationSmoothing) * seconds);
       if (Math.abs(zoomVelocity) < 1e-3 || next === controls.minDistance || next === controls.maxDistance) zoomVelocity = 0;
@@ -434,7 +466,11 @@ export function createViewport(container, {
     const orbitChanged = Boolean(controls.enabled && (orbitMoving || moving || transition) && controls.update(seconds));
     orbitMoving = Boolean(orbitChanged);
     if(pendingTerrain){const next=pendingTerrain;pendingTerrain=null;replaceTerrain(next);}
-    if (assetsDirty && !pendingAssets.size) { assetsDirty = false; occludersDirty = true; diagnostics.measure('assetBounds', () => {updateShadowBounds();updateSelection();}); snowDirty = true;invalidate(true); }
+    if (assetsDirty && !pendingAssets.size) { assetsDirty = false; occludersDirty = true; matricesDirty = true; cutawayDirty = true; diagnostics.measure('assetBounds', () => {updateShadowBounds();updateSelection();}); snowDirty = true;invalidate(true); }
+    const frameMatricesDirty = matricesDirty || gliding;
+    if (frameMatricesDirty) cutawayDirty = true;
+    diagnostics.measure('matrixWorld',()=>{if(frameMatricesDirty){content.updateMatrixWorld(true);lighting.updateMatrixWorld(true);}camera.updateMatrixWorld();});
+    matricesDirty = false;
     diagnostics.measure('updateCutaway', updateCutaway);
     if (selectionBox.visible) selectionBox.update();
     const effectsPaused = sceneDocument?.look?.effectsPaused ?? sceneDocument?.defaultLook?.effectsPaused;
@@ -460,16 +496,15 @@ export function createViewport(container, {
     animatedLocalEffects = false;
     for (const effect of localEffects.values()) animatedLocalEffects = updateLocalEffect(effect,effectTime,localEffectsEnabled,paused) || animatedLocalEffects;
     const descriptors=diagnostics.measure('descriptors',()=>{
-      const list=lightObjects.filter(o=>!o.userData.source.isDirectionalLight).map(wrapper=>({id:wrapper.userData.lightRecord.id,wrapper,source:wrapper.userData.source,record:wrapper.userData.lightRecord}));
-      list.push(...cinema.flashlightDescriptors());
-      if(sceneDocument)list.push(...diagnostics.measure('boundLights',()=>updateBoundLights(sceneDocument,objects,boundLights,effectTime,paused,visibleRecord,generation,screens.lightFor)));
+      const list=staticLightDescriptors.slice();
+      const flashlights=cinema.flashlightDescriptors();for(let i=0;i<flashlights.length;i++)list.push(flashlights[i]);
+      if(sceneDocument){const bound=diagnostics.measure('boundLights',()=>updateBoundLights(sceneDocument,objects,boundLights,effectTime,paused,visibleRecord,generation,screens.lightFor,frameMatricesDirty));for(let i=0;i<bound.length;i++)list.push(bound[i]);}
       for(const [id,effect]of localEffects){const data=effect.userData.localEffect;if(data.light && !sceneDocument.layout.entities[id]?.illumination)list.push({id:id+':fire',wrapper:effect,source:data.light,record:{type:'point',distance:data.light.distance,priority:10,shadowEnabled:false}});}
-      animatedLights ||= [...boundLights.values()].some(b=>b.wrapper.visible&&b.wrapper.userData.lightRecord.enabled&&!paused&&b.wrapper.userData.lightRecord.flicker?.enabled);
+      if(!animatedLights&&!paused)for(const b of boundLights.values())if(b.wrapper.visible&&b.wrapper.userData.lightRecord.enabled&&b.wrapper.userData.lightRecord.flicker?.enabled){animatedLights=true;break;}
       return list;
     });
-    diagnostics.measure('matrixWorld',()=>{content.updateMatrixWorld(true);lighting.updateMatrixWorld(true);camera.updateMatrixWorld();});
     updateShadowBounds(false);
-    if(diagnostics.measure('cutawayCasters',()=>cutawayCasters.update(objects,records,Boolean((sceneDocument?.look??sceneDocument?.defaultLook)?.rendering?.cutawayShadows),visibleRecord)))invalidate(true);
+    if(diagnostics.measure('cutawayCasters',()=>cutawayCasters.update(objects,records,Boolean((sceneDocument?.look??sceneDocument?.defaultLook)?.rendering?.cutawayShadows),visibleRecord,cutawayLists.walls,frameMatricesDirty)))invalidate(true);
     diagnostics.measure('zones',()=>zones.update(sceneDocument,objects));
     lightingHelpers.update(records.get(selectedId),objects.get(selectedId),!presentation);
     diagnostics.measure('lightBudget',()=>lightManager.update(descriptors,camera,controls.target));if(lightManager.needsShadowUpdate())renderer.shadowMap.needsUpdate=true;
@@ -478,10 +513,12 @@ export function createViewport(container, {
     // recompiles every material program when that count changes. Instead a zone is
     // captured again when a source that reaches it lights up for the first time. Only
     // zones in view are captured: the first capture of a room draws everything around it.
-    const lit=new Set(lightManager.info().sources),reach=new THREE.Vector3();
-    const sources=region=>descriptors.filter(d=>lit.has(d.id)&&d.source.intensity>0&&reach.setFromMatrixPosition(d.wrapper.matrixWorld).distanceTo(region.probe)<(d.record.distance||30)+region.radius).map(d=>d.id);
-    const viewFrustum=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse)),zoneSphere=new THREE.Sphere();
-    const visible=region=>viewFrustum.intersectsSphere(zoneSphere.set(region.probe,region.radius*1.75));
+    const litIds=lightManager.info().sources;
+    litSources.length=0;
+    for(let i=0;i<descriptors.length;i++){const d=descriptors[i];if(d.source.intensity>0&&litIds.includes(d.id)){const e=d.wrapper.matrixWorld.elements;litSources.push({id:d.id,x:e[12],y:e[13],z:e[14],distance:d.record.distance||30});}}
+    const sources=region=>{const res=[],p=region.probe,r=region.radius;for(let i=0;i<litSources.length;i++){const s=litSources[i],dx=s.x-p.x,dy=s.y-p.y,dz=s.z-p.z,maxD=s.distance+r;if(dx*dx+dy*dy+dz*dz<maxD*maxD)res.push(s.id);}return res;};
+    const viewFrustum=tempFrustum.setFromProjectionMatrix(tempProjScreenMatrix.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse));
+    const visible=region=>viewFrustum.intersectsSphere(tempSphere.set(region.probe,region.radius*1.75));
     let probes;
     do probes=diagnostics.measure('zoneProbes',()=>zoneProbes.update(performance.now(),draw=>{materialSharing.begin(content);try{draw();}finally{materialSharing.end();}},{urgent:probesUrgent,enabled:lightManager.info().tier!=='economy',sources,visible})); while(probesUrgent&&probes.captured);
     probesUrgent=false;
@@ -529,16 +566,19 @@ export function createViewport(container, {
    */
   function prepareOcclusion() {
     const rendering = (sceneDocument?.look ?? sceneDocument?.defaultLook)?.rendering ?? {};
-    const tokens = [...records.values()].filter(record => record?.actorId && objects.get(record.id)?.visible);
     for (const [id, shadow] of silhouettes) { if (!objects.has(id)) { silhouettes.delete(id); continue; } shadow.visible = Boolean(rendering.silhouettes) && !presentationHidden(id); }
-    if (!rendering.occlusion || !tokens.length) { clearOcclusion(); return; }
+    if (!rendering.occlusion || !tokenRecords.length) { clearOcclusion(); return; }
+    const tokens = [];
+    for (let i = 0; i < tokenRecords.length; i++) { const r = tokenRecords[i]; if (objects.get(r.id)?.visible) tokens.push(r); }
+    if (!tokens.length) { clearOcclusion(); return; }
     if (occludersDirty) {
       occludersDirty = false;
-      const lowest = Math.min(...tokens.map(record => record.transform.position[1]));
+      let lowest = Infinity;
+      for (let i = 0; i < tokens.length; i++) if (tokens[i].transform.position[1] < lowest) lowest = tokens[i].transform.position[1];
       for (const [id, object] of objects) if (isOccluder(records.get(id), object, lowest)) object.traverse(child => { if (child.isMesh && !child.userData.decorative) for (const material of Array.isArray(child.material) ? child.material : [child.material]) makeOccluder(material); });
     }
     // The hole is centred on the middle of the body, so it uncovers the figure from its base to its head.
-    const scale = effects.renderScale(), points = tokens.map(record => { const object = objects.get(record.id); return new THREE.Vector3().setFromMatrixPosition(object.matrixWorld).add(new THREE.Vector3(0, (object.userData.bodyHeight ?? .45) * object.getWorldScale(new THREE.Vector3()).y, 0)); });
+    const scale = effects.renderScale(), points = tokens.map(record => { const object = objects.get(record.id); const pt = new THREE.Vector3().setFromMatrixPosition(object.matrixWorld); pt.y += (object.userData.bodyHeight ?? .45) * object.getWorldScale(tempVec3).y; return pt; });
     updateOcclusion(camera, points, Math.floor(width * scale), Math.floor(height * scale));
   }
   const presentationHidden = id => !objects.get(id)?.visible;
@@ -552,7 +592,7 @@ export function createViewport(container, {
       object.traverse(mesh => {
         if (!mesh.isMesh || mesh.userData.decorative || lines.length > 400) return;
         let edges = edgeCache.get(mesh.geometry); if (!edges) { edges = new THREE.EdgesGeometry(mesh.geometry, 35); edgeCache.set(mesh.geometry, edges); }
-        const line = new THREE.LineSegments(edges, material); line.renderOrder = 30; line.userData.decorative = true; mesh.add(line); lines.push(line); marked.add(id);
+        const line = new THREE.LineSegments(edges, material); line.renderOrder = 30; line.userData.decorative = true; mesh.add(line); line.updateWorldMatrix(false, false); lines.push(line); marked.add(id);
       });
     }
     highlight = { lines, objects: marked.size, material, start: performance.now(), seconds }; invalidate();
@@ -571,6 +611,7 @@ export function createViewport(container, {
     if (turnRing.parent !== object) object.add(turnRing);
     const size = Math.min(...(record?.footprint ?? [1, 1])), still = reducedMotion.matches, beat = still ? 0 : (Math.sin(time * 3) + 1) / 2;
     turnRing.visible = true; turnRing.scale.setScalar(size * (1 + beat * .12)); turnRing.material.opacity = .55 + beat * .4;
+    turnRing.updateWorldMatrix(false, false);
     return !still;
   }
   function attachOrbit(target) {
@@ -627,15 +668,18 @@ export function createViewport(container, {
     if (remote) inspection.setRemote(remote);
     invalidate(true); return true;
   }
+  function updateProjection() {
+    if (camera.isPerspectiveCamera) camera.aspect = width / height;
+    else { camera.left = -orthoHeight * width / height / 2; camera.right = orthoHeight * width / height / 2; camera.top = orthoHeight / 2; camera.bottom = -orthoHeight / 2; }
+    camera.updateProjectionMatrix();
+  }
   function resize() {
     width = Math.max(1, container.clientWidth);
     height = Math.max(1, container.clientHeight);
     // A transition changes the lens/frustum every frame, not the drawing buffer size.
     const ratio = renderer.getPixelRatio();
     if (canvas.width !== Math.floor(width * ratio) || canvas.height !== Math.floor(height * ratio)) renderer.setSize(width, height, false);
-    if (camera.isPerspectiveCamera) camera.aspect = width / height;
-    else { camera.left = -orthoHeight * width / height / 2; camera.right = orthoHeight * width / height / 2; camera.top = orthoHeight / 2; camera.bottom = -orthoHeight / 2; }
-    camera.updateProjectionMatrix();
+    updateProjection();
     effects.resize(width, height);
     invalidate();
   }
@@ -656,7 +700,7 @@ export function createViewport(container, {
     if (camera.isPerspectiveCamera) camera.fov = next.fov;
     else orthoHeight = next.orthographicHeight;
     camera.lookAt(controls.target);
-    resize();
+    updateProjection();
     controls.update();
     onCameraChange(getCamera());
     invalidate();
@@ -711,7 +755,7 @@ export function createViewport(container, {
       camera.position.copy(center).addScaledVector(direction, distance);
     }
     controls.target.copy(center);
-    resize();
+    updateProjection();
     controls.update();
     onCameraChange(getCamera());
   }
@@ -800,6 +844,7 @@ export function createViewport(container, {
       }
       snapObject(transform.object);
       if (trailStart) trail.show(trailStart, transform.object.getWorldPosition(new THREE.Vector3()).toArray(), trailOptions(selectedId));
+      matricesDirty = true; cutawayDirty = true;
     }
     invalidate(true);
   });
@@ -847,7 +892,7 @@ export function createViewport(container, {
           if (label) label.position.y = figure.pivot.position.y + figure.height + .2;
           const badge = parent.children.find(child => child.userData.badge); if (badge && label) badge.position.y = label.position.y + .3;
           tagEntity(parent, entity.id);
-          assetsDirty=true;diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();invalidate();
+          assetsDirty=true;matricesDirty=true;cutawayDirty=true;diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();invalidate();
           return;
         }
         // A portrait stands in the scene like a cut-out figure: lit by the lamps and flashlights around it, never darker
@@ -861,16 +906,16 @@ export function createViewport(container, {
         parent.add(image);
         if (label) label.position.y = 1.7;
         tagEntity(parent, entity.id);
-        assetsDirty=true;diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();
+        assetsDirty=true;matricesDirty=true;cutawayDirty=true;diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();
         invalidate();
-      }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } }));
+      }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); matricesDirty=true; report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } }));
       return;
     }
     const preloaded = !entity.cable && !entity.decal && (record.type === 'recipe' || record.type === 'glb' || record.type === 'model')
       ? cache.preload(record).catch(() => {}) : Promise.resolve();
     trackAsset(scheduleInstallTask(version, preloaded, () => instanceOf(record,entity).then((instance) => {
       if (!stillCurrent()) { disposeObject(instance); return; }
-      parent.add(instance);wetStale = true;
+      parent.add(instance);wetStale = true;matricesDirty = true;cutawayDirty = true;
       if (entity.cable) cableShadows(instance, qualityTier === 'high');
       if(entity.localEffect?.enabled && entity.localEffect.type==='fire') instance.traverse(child=>{if(child.userData.materialSlot==='flame') child.visible=false;});
       applyMaterialOverrides(instance, entity.material, sceneDocument.look?.materialAdjustments?.[entity.id] ?? sceneDocument.defaultLook?.materialAdjustments?.[entity.id], true);
@@ -884,7 +929,7 @@ export function createViewport(container, {
       if(snowRegions!==null){parent.updateWorldMatrix(true,true);snowRegions.push(new THREE.Box3().setFromObject(parent));}
       assetsDirty = true; diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();
       if (!installQueue.length) invalidate();
-    }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } })));
+    }).catch((error) => { if (stillCurrent()) { fallback(parent, error.message); tagEntity(parent, entity.id); matricesDirty=true; report(`Não foi possível abrir ${record.name}: ${error.message}`); invalidate(); } })));
   }
 
   function createLight(record, parent, helper = true) {
@@ -900,32 +945,55 @@ export function createViewport(container, {
     for(const wrapper of objects.values())if(focusDirectionalShadow(wrapper,shadowBounds,camera,controls.target,lightManager.quality.mapSize))renderer.shadowMap.needsUpdate=true;
   }
   function updateCutaway() {
-    const viewDirection = camera.position.clone().sub(controls.target);
-    viewDirection.y = 0;
-    viewDirection.normalize();
-    for (const [id, object] of objects) {
-      const record = records.get(id);
-      if (record?.kind !== 'wall') continue;
-      const center = new THREE.Vector3(record.length / 2, record.height / 2, 0).applyMatrix4(object.matrixWorld);
-      const normal = new THREE.Vector3(0, 0, 1).applyQuaternion(object.quaternion);
-      const inFront = center.clone().sub(controls.target).dot(viewDirection) > 0.2;
-      const facing = Math.abs(normal.dot(viewDirection)) > 0.45;
+    cutawayViewDir.subVectors(camera.position, controls.target);
+    cutawayViewDir.y = 0;
+    cutawayViewDir.normalize();
+    if (!cutawayDirty) {
+      if (!cutaway || tool === 'window') return;
+      if (lastCutawayViewDir.dot(cutawayViewDir) >= 0.99995 && lastCutawayTarget.distanceToSquared(controls.target) <= 1e-4) return;
+    }
+    const fullSync = cutawayDirty;
+    cutawayDirty = false;
+    lastCutawayViewDir.copy(cutawayViewDir);
+    lastCutawayTarget.copy(controls.target);
+    let wallChanged = false;
+    const walls = cutawayLists.walls;
+    for (let i = 0; i < walls.length; i++) {
+      const { id, object, record } = walls[i];
+      cutawayCenter.set(record.length / 2, record.height / 2, 0).applyMatrix4(object.matrixWorld);
+      cutawayNormal.set(0, 0, 1).applyQuaternion(object.quaternion);
+      const inFront = cutawayCenter.sub(controls.target).dot(cutawayViewDir) > 0.2;
+      const facing = Math.abs(cutawayNormal.dot(cutawayViewDir)) > 0.45;
       const visible = visibleRecord(record) && !(cutaway && tool !== 'window' && inFront && facing && !(!presentation && (selectedId === id || records.get(selectedId)?.wallId === id)));
-      if (object.visible !== visible) { object.visible = visible; invalidate(true); }
+      if (object.visible !== visible) { object.visible = visible; wallChanged = true; invalidate(true); }
     }
     // With the roofs lifted, ceiling fixtures are lifted too. Only the object is hidden: its light is
     // a separate source that follows the record, so the room stays lit as it will be for the players.
-    for (const [id, object] of objects) { const record = records.get(id); if (!hangsFromCeiling(record) || ROOF.test(record.assetRef?.id ?? '')) continue; const visible = visibleRecord(record) && !(roofsHidden && !presentation); if (object.visible !== visible) { object.visible = visible; invalidate(true); } }
-    // A sign glued to a wall that is lifted away goes with it.
-    for (const [id, object] of objects) {
-      const record = records.get(id); if (!record?.decal) continue;
-      const host = objects.get(record.anchor?.hostId), visible = visibleRecord(record) && (!host || host.visible);
-      if (object.visible !== visible) { object.visible = visible; invalidate(true); }
+    if (fullSync) {
+      const ceilingHung = cutawayLists.ceilingHung;
+      for (let i = 0; i < ceilingHung.length; i++) {
+        const { object, record } = ceilingHung[i];
+        const visible = visibleRecord(record) && !(roofsHidden && !presentation);
+        if (object.visible !== visible) { object.visible = visible; invalidate(true); }
+      }
     }
-    for (const [id, object] of objects) if (['door', 'window'].includes(records.get(id)?.kind)) {
-      // Cutaway removes the tall wall, retaining the door as a readable room entrance.
-      const visible = visibleRecord(records.get(id));
-      if (object.visible !== visible) { object.visible = visible; invalidate(true); }
+    // A sign glued to a wall that is lifted away goes with it.
+    if (fullSync || wallChanged) {
+      const decals = cutawayLists.decals;
+      for (let i = 0; i < decals.length; i++) {
+        const { object, record } = decals[i];
+        const host = objects.get(record.anchor?.hostId), visible = visibleRecord(record) && (!host || host.visible);
+        if (object.visible !== visible) { object.visible = visible; invalidate(true); }
+      }
+    }
+    if (fullSync) {
+      const openings = cutawayLists.openings;
+      for (let i = 0; i < openings.length; i++) {
+        // Cutaway removes the tall wall, retaining the door as a readable room entrance.
+        const { object, record } = openings[i];
+        const visible = visibleRecord(record);
+        if (object.visible !== visible) { object.visible = visible; invalidate(true); }
+      }
     }
   }
 
@@ -988,9 +1056,9 @@ export function createViewport(container, {
     if(reparent) for(const [id,o]of [...objects])if(records.get(id)?.kind==='assembly') {o.removeFromParent();objects.delete(id);records.delete(id);}
     if(!next||force||old?.id!==next.id){for(const id of [...objects.keys()])remove(id);clearGroup(lighting);hemisphere=null;}
     sceneDocument=next;
-    if(!next){lightObjects=[];waterObjects=[];warmupRequested=false;clearTimeout(warmupTimer);}
+    if(!next){lightObjects=[];waterObjects=[];rebuildSceneLists();warmupRequested=false;clearTimeout(warmupTimer);}
     if(JSON.stringify(old?.layout?.grid)!==JSON.stringify(next?.layout?.grid)||force||!gridObject)createGrid(next?.layout?.grid);
-    if(!next){thumbnailEffects?.dispose();thumbnailEffects=undefined;thumbnailTarget?.dispose();thumbnailTarget=undefined;cache.prune([]);scene.fog=null;effects.configure({});atmosphere.configure({},null);reflections.configure({});zones.update(null,objects);lightManager.dispose();boundLights.clear();cutawayCasters.dispose();sample('update',started);invalidate(true);return;}
+    if(!next){matricesDirty=true;thumbnailEffects?.dispose();thumbnailEffects=undefined;thumbnailTarget?.dispose();thumbnailTarget=undefined;cache.prune([]);scene.fog=null;effects.configure({});atmosphere.configure({},null);reflections.configure({});zones.update(null,objects);lightManager.dispose();boundLights.clear();cutawayCasters.dispose();sample('update',started);invalidate(true);return;}
     const look=next.look??next.defaultLook;
     scene.background.set(look.background);configureDistanceFog(look);effects.configure(look);reflections.configure(look,localEffectsEnabled);
     renderer.toneMappingExposure=look.daylight?.exposure??1.1;
@@ -1112,8 +1180,9 @@ export function createViewport(container, {
     if(!reparent)for(const [id,object] of objects){const record=records.get(id);if(record?.kind==='assembly')continue;const parent=groupChain(next,record?.groupId).find(g=>g.anchored);if(parent&&objects.has(parent.id)&&object.parent!==objects.get(parent.id))objects.get(parent.id).attach(object);}
     cache.prune(usedAssets);
     lightObjects=[...objects.values()].filter(o=>o.userData.source);waterObjects=[...objects.values()].filter(o=>o.userData.waterRecord);
+    rebuildSceneLists();
     if(runtimeStats.created)scheduleWarmup();
-    content.updateMatrixWorld(true);
+    content.updateMatrixWorld(true);lighting.updateMatrixWorld(true);matricesDirty=true;
     const fullSceneLoad=Boolean(force||old?.id!==next.id);
     spatial ||= fullSceneLoad||runtimeStats.created>0;
     if(spatial){updateShadowBounds();snowDirty=true;for(const o of objects.values())if(o.userData.source?.isDirectionalLight)o.userData.source.shadow.needsUpdate=true;
@@ -1146,7 +1215,7 @@ export function createViewport(container, {
       for(const [id,object] of affected){const record=records.get(id);if(record?.kind&&visibleRecord(record,true))object.userData.snowTriangles=addPhysicalSnow(object,record,surfaces,exposure).triangles;}
     }
     snowTriangles=[...objects.values()].reduce((sum,o)=>sum+(o.userData.snowTriangles??0),0);
-    diagnostics.count('snowObjectsRebuilt',affected.length);content.updateMatrixWorld(true);if(snowTriangles)invalidate(true);
+    diagnostics.count('snowObjectsRebuilt',affected.length);content.updateMatrixWorld(true);matricesDirty=true;if(snowTriangles)invalidate(true);
   }
   function computeSnowExposure(terrainId) {
     const terrain=records.get(terrainId);if(terrain?.kind!=='terrain')throw new Error('Selecione um terreno.');
@@ -1212,13 +1281,29 @@ export function createViewport(container, {
   function visibleInHierarchy(object) { for (let current = object; current; current = current.parent) if (!current.visible) return false; return true; }
   function visibleRecord(record, ignoreIsolation = false, inDocument=sceneDocument) {
     if(!record||!inDocument)return false;
-    if(record.kind==='assembly') return record.visible!==false && isVisible(inDocument,record) && assemblyMembers(inDocument,record.id).some(member => visibleRecord(member,ignoreIsolation,inDocument));
-    if (!isVisible(inDocument, record)) return false;
+    const useCache = inDocument === sceneDocument && Boolean(record.id);
+    let cacheMap;
+    if (useCache) {
+      if (visibilityCacheGen !== generation || visibilityCacheLevel !== isolatedLevel || visibilityCacheRoofs !== roofsHidden || visibilityCachePres !== presentation) {
+        visibilityCache.clear(); visibilityIgnoreIsoCache.clear();
+        visibilityCacheGen = generation; visibilityCacheLevel = isolatedLevel; visibilityCacheRoofs = roofsHidden; visibilityCachePres = presentation;
+      }
+      cacheMap = ignoreIsolation ? visibilityIgnoreIsoCache : visibilityCache;
+      const cached = cacheMap.get(record.id);
+      if (cached !== undefined) return cached;
+    }
+    let result;
+    if(record.kind==='assembly') result = record.visible!==false && isVisible(inDocument,record) && assemblyMembers(inDocument,record.id).some(member => visibleRecord(member,ignoreIsolation,inDocument));
+    else if (!isVisible(inDocument, record)) result = false;
     // Roofs and ceilings can be lifted off while editing; the projector always shows them.
-    if (roofsHidden && !presentation && ROOF.test(record.assetRef?.id ?? '')) return false;
-    if (!ignoreIsolation && !presentation && isolatedLevel && record.levelId && record.levelId !== isolatedLevel && record.fromLevelId !== isolatedLevel && record.toLevelId !== isolatedLevel) return false;
-    const host = record.wallId ?? record.anchor?.hostId ?? record.surfaceId;
-    return !host || !inDocument.layout.entities[host] || visibleRecord(inDocument.layout.entities[host], ignoreIsolation || isAccess(record) && (record.fromLevelId === isolatedLevel || record.toLevelId === isolatedLevel),inDocument);
+    else if (roofsHidden && !presentation && ROOF.test(record.assetRef?.id ?? '')) result = false;
+    else if (!ignoreIsolation && !presentation && isolatedLevel && record.levelId && record.levelId !== isolatedLevel && record.fromLevelId !== isolatedLevel && record.toLevelId !== isolatedLevel) result = false;
+    else {
+      const host = record.wallId ?? record.anchor?.hostId ?? record.surfaceId;
+      result = !host || !inDocument.layout.entities[host] || visibleRecord(inDocument.layout.entities[host], ignoreIsolation || isAccess(record) && (record.fromLevelId === isolatedLevel || record.toLevelId === isolatedLevel),inDocument);
+    }
+    if (useCache) cacheMap.set(record.id, result);
+    return result;
   }
   function pickCandidates() {
     const all=new Set(objects.values()), roots=[];
@@ -1292,7 +1377,7 @@ export function createViewport(container, {
       disposeObject(objects.get(record.id)); content.add(object); objects.set(record.id, object);
       object.visible = visibleRecord(record); applySurfaceTextures(object,record,surfaces); applyEnvironmentMaterials(object, record, sceneDocument.look ?? sceneDocument.defaultLook); applyMaterialOverrides(object, undefined, (sceneDocument.look ?? sceneDocument.defaultLook).materialAdjustments?.[record.id]);
     }
-    content.updateMatrixWorld(true); updateSelection(); invalidate(true);
+    content.updateMatrixWorld(true); matricesDirty = true; rebuildSceneLists(); updateSelection(); invalidate(true);
   }
   function onPointerDown(event) {
     if (event.button !== 0 || presentation || transform.dragging) return;
@@ -1444,6 +1529,7 @@ export function createViewport(container, {
       if (isAccess(host) || host?.kind === 'terrain') pointer.object.position.y = supportHeightAt(host, pointer.object.position.toArray());
       hint.textContent = `X ${pointer.object.position.x.toFixed(2)} · Z ${pointer.object.position.z.toFixed(2)} m${altHeld ? ' · livre' : ''}`;
       hint.style.display = '';
+      matricesDirty = true; cutawayDirty = true;
       invalidate(true);
     }
   }
@@ -1519,7 +1605,7 @@ export function createViewport(container, {
     if (pointer?.ruler) ruler.set(pointer.ruler.before);
     if(pointer?.rockBefore) {for(let i=0;i<pointer.rockMeshes.length;i++){const g=pointer.rockMeshes[i].geometry;g.attributes.position.array.set(pointer.rockBefore[i]);g.attributes.position.needsUpdate=true;g.computeVertexNormals();g.computeBoundingBox();g.computeBoundingSphere();}for(const [snow,visible] of pointer.snow)snow.visible=visible;updateSelection();}
     if (pointer?.terrainBefore) replaceTerrain(pointer.terrainBefore);
-    if (pointer?.object && pointer.initial) applyTransform(pointer.object, pointer.initial);
+    if (pointer?.object && pointer.initial) { applyTransform(pointer.object, pointer.initial); matricesDirty = true; cutawayDirty = true; }
     if (pointer?.opening) previewOpening(pointer.opening);
     const id = pointer?.id;
     pointer = null;
@@ -1533,7 +1619,7 @@ export function createViewport(container, {
     if(updated){if(previous.children[0].geometry.attributes.surfaceMaskA.version!==maskVersion)diagnostics.count('terrainBufferUpdates');pickBounds=new WeakMap();invalidate(updated.spatial);return;}
     diagnostics.count('terrainRebuilds');
     if (previous) { previous.removeFromParent(); disposeObject(previous); }
-    const object = createTerrain(record); applySurfaceTextures(object,record,surfaces); content.add(object); objects.set(record.id, object); object.visible = visibleRecord(record); content.updateMatrixWorld(true); invalidate(true);
+    const object = createTerrain(record); applySurfaceTextures(object,record,surfaces); content.add(object); objects.set(record.id, object); object.visible = visibleRecord(record); content.updateMatrixWorld(true); matricesDirty = true; invalidate(true);
   }
   function surfaceNormal(hit) {return hit.face.normal.clone().applyMatrix3(new THREE.Matrix3().getNormalMatrix(hit.object.matrixWorld)).normalize().toArray();}
   function surfaceBrushHit(event,id=null) {
@@ -1787,18 +1873,19 @@ export function createViewport(container, {
         queueMicrotask(() => { if (!destroyed && version === generation) setDocument(sceneDocument,{force:true}); });
       }
     },
-    setSelection(id, ids = id ? [id] : []) { if(id===selectedId&&ids.length===selectedIds.length&&ids.every((key,i)=>key===selectedIds[i])){diagnostics.count('selectionUpdatesSkipped');return;}selectedId = id; selectedIds = ids; updateSelection(); },
-    setTool(mode) { cancelGesture(); ruler.clear(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['area', 'place', 'room', 'polygon', 'window', 'terrain', 'material-sample', 'measure', 'illumination-origin', 'decal', 'cable'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
+    setSelection(id, ids = id ? [id] : []) { if(id===selectedId&&ids.length===selectedIds.length&&ids.every((key,i)=>key===selectedIds[i])){diagnostics.count('selectionUpdatesSkipped');return;}selectedId = id; selectedIds = ids; cutawayDirty = true; updateSelection(); },
+    setTool(mode) { cancelGesture(); ruler.clear(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; cutawayDirty = true; canvas.style.cursor = ['area', 'place', 'room', 'polygon', 'window', 'terrain', 'material-sample', 'measure', 'illumination-origin', 'decal', 'cable'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
     setRulerSnap(value) { rulerSnap = Boolean(value); },
     clearMeasurement() { if (pointer?.ruler) cancelPointer(); ruler.clear(); invalidate(); },
     setTerrainBrush(options) { terrainBrush = { ...terrainBrush, ...options }; },
-    setIsolatedLevel(levelId) { if(levelId===isolatedLevel){diagnostics.count('isolationUpdatesSkipped');return;}ruler.clear(); isolatedLevel = levelId; for (const [key, object] of objects) object.visible = visibleRecord(records.get(key)); updateSelection(); invalidate(true); },
+    setIsolatedLevel(levelId) { if(levelId===isolatedLevel){diagnostics.count('isolationUpdatesSkipped');return;}ruler.clear(); isolatedLevel = levelId; cutawayDirty = true; for (const [key, object] of objects) object.visible = visibleRecord(records.get(key)); updateSelection(); invalidate(true); },
     setSupportSurface(id) { if(id===supportSurface)return;supportSurface = id; const host = records.get(id); if (gridObject) gridObject.position.y = (host?.transform?.position[1] ?? workplaneHeight) + (host?.supportHeight ?? 0) * (host?.transform?.scale[1] ?? 1) + .009; invalidate(); },
     setWorkplaneHeight(value) { if(value===workplaneHeight)return;workplaneHeight = value; if (gridObject && !supportSurface) gridObject.position.y = value + .009; invalidate(); },
     finishPolygon,
     setPreview,
     setPresentation(enabled) {
       presentation = enabled;
+      cutawayDirty = true;
       cancelGesture();
       ruler.clear();
       preview.visible = !enabled;
@@ -1866,8 +1953,8 @@ export function createViewport(container, {
     cinemaInfo() { return cinema.info(); },
     setNavigationSpeed(value) { if (Number.isFinite(value)) navigationSpeed = Math.max(.2, Math.min(40, value)); },
     setFov(value) { if (!Number.isFinite(value)) return; const next = Math.max(20, Math.min(90, value)); stopCameraMotion(); if (camera.isPerspectiveCamera) { camera.fov = next; camera.updateProjectionMatrix(); onCameraChange(getCamera()); invalidate(); } else lastPerspective = { ...lastPerspective, fov: next }; },
-    setRoofsHidden(hidden) { if (hidden === roofsHidden) return; roofsHidden = hidden; for (const [key, object] of objects) if (ROOF.test(records.get(key)?.assetRef?.id ?? '')) object.visible = visibleRecord(records.get(key)); invalidate(true); },
-    setCutaway(enabled) { if(enabled===cutaway)return;cutaway = enabled; invalidate(true); },
+    setRoofsHidden(hidden) { if (hidden === roofsHidden) return; roofsHidden = hidden; cutawayDirty = true; for (const [key, object] of objects) if (ROOF.test(records.get(key)?.assetRef?.id ?? '')) object.visible = visibleRecord(records.get(key)); invalidate(true); },
+    setCutaway(enabled) { if(enabled===cutaway)return;cutaway = enabled; cutawayDirty = true; invalidate(true); },
     setExposure(exposure) { renderer.toneMappingExposure = Math.max(0.2, Math.min(4, exposure)); invalidate(); },
     project(position) {
       camera.updateMatrixWorld(true);

@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { QUALITY, selectLightBudget } from '../domain/dynamic-lighting.js';
 import { createProjectionLibrary } from './light-projections.js';
 
+const lmFrustum = new THREE.Frustum(), lmProjMatrix = new THREE.Matrix4(), lmSphere = new THREE.Sphere(), lmEnd = new THREE.Vector3();
+
 /** Fixed local-light cardinality per quality; authored sources remain lightweight descriptors. */
 export function createLightManager(scene) {
   let quality={...QUALITY.balanced},tier='balanced',pool=[],previous=new Set(),diagnostics={tier:'balanced',quality:{...QUALITY.balanced},authored:0,active:0,omitted:0,shadowViews:0,shadowed:[],sources:[],projectionTextures:0,pool:0};const projections=createProjectionLibrary();let dirty=null;
@@ -16,15 +18,15 @@ export function createLightManager(scene) {
   return {
     setQuality(value,custom={}) {if(!QUALITY[value])throw new Error('Qualidade inválida.');const q={...QUALITY[value],...(value==='custom'?custom:{})};if(!Number.isInteger(q.locals)||q.locals<1||q.locals>24||!Number.isInteger(q.shadowViews)||q.shadowViews<0||q.shadowViews>24||![512,1024,2048].includes(q.mapSize))throw new Error('Orçamento de iluminação inválido.');tier=value;quality=q;reset();},
     invalidate(bounds=null){if(bounds===null)dirty=null;else if(dirty!==null)dirty.push(...bounds);},
-    update(descriptors,camera,target){if(descriptors.length)allocate();const positions=new Map(),frustum=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse));
+    update(descriptors,camera,target){if(descriptors.length)allocate();const positions=new Map(),frustum=lmFrustum.setFromProjectionMatrix(lmProjMatrix.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse));
       const candidates=descriptors.map(d=>{const r=d.record,position=d.source.position.clone().applyMatrix4(d.wrapper.matrixWorld);positions.set(d.id,position);const radius=r.distance||200;
-        return {...d,type:r.type,priority:r.priority??10,shadowPolicy:r.shadowPolicy??(r.shadowEnabled?'auto':'off'),shadowEnabled:r.shadowEnabled,active:active(d.wrapper)&&d.source.intensity>0,score:frustum.intersectsSphere(new THREE.Sphere(position,radius))?d.source.intensity/(1+position.distanceToSquared(target)):0};});
+        return {...d,type:r.type,priority:r.priority??10,shadowPolicy:r.shadowPolicy??(r.shadowEnabled?'auto':'off'),shadowEnabled:r.shadowEnabled,active:active(d.wrapper)&&d.source.intensity>0,score:frustum.intersectsSphere(lmSphere.set(position,radius))?d.source.intensity/(1+position.distanceToSquared(target)):0};});
       const result=selectLightBudget(candidates,quality,previous),wanted=new Set(result.selected.map(c=>c.id));
       // Keep assignments to avoid swapping shadow caches as camera contribution changes.
       for(const s of pool)if(!wanted.has(s.id)||result.selected.find(d=>d.id===s.id)?.type!==s.type){s.id=null;s.key=null;s.light.intensity=0;s.light.castShadow=false;projections.release(s.cookie);s.cookie=null;s.light.map=null;}
       for(const d of result.selected){let s=pool.find(s=>s.id===d.id)??pool.find(s=>!s.id&&s.type===d.type);if(!s)continue;s.id=d.id;const l=s.light,r=d.record,p=positions.get(d.id),shadow=result.shadows.has(d.id),resolution=Math.min(r.mapSize??quality.mapSize,quality.mapSize);
-        const end=d.wrapper.localToWorld(new THREE.Vector3(0,-1,0));const key=JSON.stringify([d.id,p.toArray(),end.toArray(),r.distance,r.angle,resolution,shadow]);
-        const moved=s.key!==key;const affected=dirty===null||dirty.some(b=>b.intersectsSphere(new THREE.Sphere(p,r.distance||200)));
+        const end=d.wrapper.localToWorld(lmEnd.set(0,-1,0));const key=`${d.id}|${p.x},${p.y},${p.z}|${end.x},${end.y},${end.z}|${r.distance}|${r.angle}|${resolution}|${shadow}`;
+        const moved=s.key!==key;const affected=dirty===null||dirty.some(b=>b.intersectsSphere(lmSphere.set(p,r.distance||200)));
         if(l.shadow.mapSize.x!==resolution){l.shadow.map?.dispose();l.shadow.map=null;l.shadow.mapSize.set(resolution,resolution);}
         l.position.copy(p);l.color.copy(d.source.color);l.intensity=d.source.intensity;l.distance=r.distance;l.decay=2;l.castShadow=shadow;l.shadow.camera.near=.1;l.shadow.camera.far=Math.max(.2,r.distance||30);l.shadow.needsUpdate=shadow&&(moved||affected||!l.shadow.map);
         if(s.target){s.target.position.copy(end);l.angle=r.angle??Math.PI/4;l.penumbra=r.penumbra??.5;const pattern=shadow?r.projection??'none':'none',cookieKey=[pattern,r.projectionSeed??42,r.projectionRotation??0].join(':');

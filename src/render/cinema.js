@@ -92,6 +92,7 @@ export function createCinema({ effects, objects, records, reducedMotion }) {
       const t = Math.min(1, (now - item.start) / item.duration), e = smootherstep(t);
       item.object.position.lerpVectors(item.from, item.to, e).y += Math.sin(Math.PI * t) * item.hop;
       if (t === 1 || objects.get(id) !== item.object) { item.object.position.copy(item.to); glides.delete(id); }
+      item.object.updateWorldMatrix(false, true);
     }
     return glides.size > 0;
   }

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { FIGURE_DEFAULTS, LYING_STATES, ANIMATED_STATES, stateLook, opaqueBounds } from '../domain/figures.js';
 
-const bounds = new WeakMap(), up = new THREE.Vector3(), euler = new THREE.Euler(0, 0, 0, 'YXZ'), quaternion = new THREE.Quaternion();
+const bounds = new WeakMap(), up = new THREE.Vector3(), pivotPos = new THREE.Vector3(), euler = new THREE.Euler(0, 0, 0, 'YXZ'), quaternion = new THREE.Quaternion();
 /** Where the opaque part of an image is, read once per image from a small copy of its alpha. */
 function imageBounds(image) {
   if (!image) return { x0: 0, x1: 1, y0: 0, y1: 1 };
@@ -108,7 +108,7 @@ export function createFigure(texture, settings, { baseTop = .11 } = {}) {
   // Facing the camera that draws it: each window turns the figure to its own camera, and the document never changes.
   if (figure.facing === 'camera') {
     const face = (renderer, scene, camera) => {
-      if (camera.isOrthographicCamera && !LYING_STATES.has(figure.state)) camera.getWorldDirection(up).negate(); else up.setFromMatrixPosition(camera.matrixWorld).sub(pivot.getWorldPosition(new THREE.Vector3()));
+      if (camera.isOrthographicCamera && !LYING_STATES.has(figure.state)) camera.getWorldDirection(up).negate(); else up.setFromMatrixPosition(camera.matrixWorld).sub(pivot.getWorldPosition(pivotPos));
       if (up.x * up.x + up.z * up.z < 1e-8) return;
       pivot.parent?.getWorldQuaternion(quaternion); euler.setFromQuaternion(quaternion);
       const yaw = Math.atan2(up.x, up.z) - euler.y;

@@ -2,12 +2,17 @@
 export function createCutawayShadows(scene) {
   const proxies=new Map();
   return {
-    update(objects,records,enabled,isVisible){let changed=false;
+    update(objects,records,enabled,isVisible,walls=null,matricesDirty=true){let changed=false;
       for(const [id,entry]of proxies)if(!enabled||objects.get(id)!==entry.original){entry.proxy.removeFromParent();proxies.delete(id);changed=true;}
-      if(enabled)for(const [id,original]of objects){const record=records.get(id);if(record?.kind!=='wall')continue;
-        let entry=proxies.get(id);if(!entry){const proxy=original.clone(true);proxy.traverse(o=>o.layers.set(31));proxy.matrixAutoUpdate=false;scene.add(proxy);entry={original,proxy};proxies.set(id,entry);changed=true;}
-        original.updateWorldMatrix(true,true);entry.proxy.matrix.copy(original.matrixWorld);
-        const visible=isVisible(record)&&!original.visible;if(entry.proxy.visible!==visible)changed=true;entry.proxy.visible=visible;entry.proxy.updateMatrixWorld(true);
+      if(enabled){
+        const list=walls??[...objects].filter(([id])=>records.get(id)?.kind==='wall').map(([id,object])=>({id,object,record:records.get(id)}));
+        for(let i=0;i<list.length;i++){
+          const {id,object:original,record}=list[i];
+          let entry=proxies.get(id);const created=!entry;
+          if(created){const proxy=original.clone(true);proxy.traverse(o=>o.layers.set(31));proxy.matrixAutoUpdate=false;proxy.matrixWorldAutoUpdate=false;scene.add(proxy);entry={original,proxy};proxies.set(id,entry);changed=true;}
+          if(created||matricesDirty){original.updateWorldMatrix(true,true);entry.proxy.matrix.copy(original.matrixWorld);entry.proxy.updateMatrixWorld(true);}
+          const visible=isVisible(record)&&!original.visible;if(entry.proxy.visible!==visible){entry.proxy.visible=visible;changed=true;}
+        }
       }
       return changed;
     },

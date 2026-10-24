@@ -186,7 +186,7 @@ const RESOLUTION = { scene: 1024, reading: 2048, small: 512 };
 
 /** Draws pages and lays them over the `page` slot of the documents in the scene. */
 export function createPageRuntime({ loadImage = async () => null, small = false, anisotropy = 1, onChange = () => {}, onError = () => {} } = {}) {
-  const pool = new Map(), bound = new Map(), images = new Map();
+  const pool = new Map(), bound = new Map(), images = new Map(), failedChildren = new WeakMap();
   let destroyed = false, lastEntities = null, documents = [];
   const reading = new Map();
 
@@ -226,9 +226,12 @@ export function createPageRuntime({ loadImage = async () => null, small = false,
   /** What one model shows: page `page`, side `side`, at `resolution`. */
   function show(id, object, record, page, side, resolution) {
     let binding = bound.get(id);
-    if (!binding || binding.object !== object) {
+    if (!binding || binding.object !== object || binding.children !== object.children.length) {
       if (binding) unbind(id);
-      const frame = screenSlotFrame(object, PAGE_SLOT); if (!frame) return false;
+      if (failedChildren.get(object) === object.children.length) return false;
+      const frame = screenSlotFrame(object, PAGE_SLOT);
+      if (!frame) { failedChildren.set(object, object.children.length); return false; }
+      failedChildren.delete(object);
       const axes = pageAxes(frame); preparePageUv(object, axes);
       const items = screenMeshes(object, PAGE_SLOT).map(([mesh, material]) => ({ mesh, material, saved: { map: material.map, color: material.color.clone(), roughness: material.roughness, metalness: material.metalness, alphaTest: material.alphaTest } }));
       binding = { object, axes, items, aspect: axes.width / (axes.height || 1), entry: null, signature: null, children: object.children.length };
@@ -253,12 +256,17 @@ export function createPageRuntime({ loadImage = async () => null, small = false,
   function sync(sceneDocument, objects) {
     const entities = sceneDocument?.layout?.entities;
     if (entities !== lastEntities || !Object.isFrozen(entities ?? {})) { lastEntities = entities; documents = entities ? Object.values(entities).filter(record => record.inspectable?.kind === 'document') : []; }
-    const live = new Set(documents.filter(record => objects.has(record.id)).map(record => record.id));
-    for (const id of [...bound.keys()]) if (!live.has(id) || bound.get(id).object !== objects.get(id)) unbind(id);
-    for (const record of documents) {
-      if (!live.has(record.id)) continue;
+    if (!documents.length && !bound.size) return;
+    if (bound.size) {
+      for (const [id, binding] of bound) {
+        if (binding.object !== objects.get(id) || !documents.some(record => record.id === id)) unbind(id);
+      }
+    }
+    for (let i = 0; i < documents.length; i++) {
+      const record = documents[i], object = objects.get(record.id);
+      if (!object) continue;
       const view = reading.get(record.id), pages = record.inspectable.pages.length;
-      show(record.id, objects.get(record.id), record, view ? Math.min(view.page, pages - 1) : 0, view?.side ?? 'front', view ? (small ? RESOLUTION.scene : RESOLUTION.reading) : small ? RESOLUTION.small : RESOLUTION.scene);
+      show(record.id, object, record, view ? Math.min(view.page, pages - 1) : 0, view?.side ?? 'front', view ? (small ? RESOLUTION.scene : RESOLUTION.reading) : small ? RESOLUTION.small : RESOLUTION.scene);
     }
   }
 

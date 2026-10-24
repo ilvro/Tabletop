@@ -19,7 +19,8 @@ import { createWallIndex, wallJoinProfile } from '../src/authoring/structures.js
 import { quaternionFromYaw } from '../src/domain/coords.js';
 import { paintTerrain, sculptTerrain } from '../src/authoring/terrain.js';
 import { DocumentStorage, atomicWrite } from '../server/storage.js';
-import { applyBoundEmission } from '../src/render/bound-light.js';
+import { applyBoundEmission, updateBoundLights } from '../src/render/bound-light.js';
+import { createCutawayShadows } from '../src/render/cutaway-shadows.js';
 import * as THREE from 'three';
 
 test('150 immutable history entries share terrain data and remain reversible and atomic',()=>{
@@ -227,4 +228,46 @@ test('createWallIndex matches full wallJoinProfile results across a 120-wall gri
   for (const wall of walls) {
     assert.deepEqual(wallJoinProfile(wall, index), wallJoinProfile(wall, fullIndex));
   }
+});
+
+test('createCutawayShadows and updateBoundLights skip world matrix recomputation when matricesDirty is false',()=>{
+  const scene = new THREE.Scene();
+  const cutaway = createCutawayShadows(scene);
+  const wallRecord = createEntity('wall', { position: [2, 0, 3], length: 4 });
+  const wallObj = new THREE.Group();
+  wallObj.position.set(2, 0, 3);
+  wallObj.add(new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1)));
+  const objects = new Map([[wallRecord.id, wallObj]]);
+  const records = new Map([[wallRecord.id, wallRecord]]);
+  const wallsList = [{ id: wallRecord.id, object: wallObj, record: wallRecord }];
+  let worldUpdates = 0;
+  const origUpdate = wallObj.updateWorldMatrix.bind(wallObj);
+  wallObj.updateWorldMatrix = (...args) => { worldUpdates++; return origUpdate(...args); };
+  wallObj.visible = false;
+  assert.equal(cutaway.update(objects, records, true, () => true, wallsList, true), true);
+  assert.equal(worldUpdates, 1);
+  // Steady frame with matricesDirty = false: no matrix recomputation, only visibility check.
+  assert.equal(cutaway.update(objects, records, true, () => true, wallsList, false), false);
+  assert.equal(worldUpdates, 1);
+  wallObj.visible = true;
+  assert.equal(cutaway.update(objects, records, true, () => true, wallsList, false), true);
+  assert.equal(worldUpdates, 1);
+  cutaway.dispose();
+
+  // Verify updateBoundLights skips host.updateWorldMatrix when matricesDirty is false and generation/config match.
+  const doc = createScene('Luzes');
+  const prop = createEntity('prop', { position: [1, 2, 3], illumination: { enabled: true, type: 'point', color: '#ffcc88', intensity: 2, distance: 8, position: [0, 0.5, 0], rotation: [0, 0, 0, 1], phase: 'always', emissionSlot: 'none', emissionIntensity: 1, shadowPolicy: 'off' } });
+  doc.layout.entities[prop.id] = prop;
+  Object.freeze(prop.illumination);
+  Object.freeze(doc.layout.entities);
+  const hostObj = new THREE.Group();
+  let hostMatrixUpdates = 0;
+  const origHostUpdate = hostObj.updateWorldMatrix.bind(hostObj);
+  hostObj.updateWorldMatrix = (...args) => { hostMatrixUpdates++; return origHostUpdate(...args); };
+  const propObjects = new Map([[prop.id, hostObj]]);
+  const bindings = new Map();
+  updateBoundLights(doc, propObjects, bindings, 0, false, () => true, 1, () => null, true);
+  assert.equal(hostMatrixUpdates, 1);
+  updateBoundLights(doc, propObjects, bindings, 0.1, false, () => true, 1, () => null, false);
+  assert.equal(hostMatrixUpdates, 1);
 });
