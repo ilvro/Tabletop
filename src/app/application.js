@@ -209,7 +209,7 @@ export async function startApplication() {
     add('Ações', 'Régua', () => act('tool-measure'), { keywords: 'medir distancia ferramenta', hint: keyFor('Régua') }); add('Ações', 'Conta-gotas', () => act('material-eyedropper'), { keywords: 'copiar material ferramenta', hint: keyFor('Conta-gotas') });
     action('Esculpir terreno', 'terrain-sculpt', 'pincel relevo'); action('Enquadrar', 'frame', 'foco camera');
     action('Perspectiva', 'perspective', 'camera vista'); action('Vista superior', 'top', 'camera planta'); action('Ver interior', 'cutaway', 'paredes da frente'); action('Telhados', 'roofs', 'forro mostrar ocultar'); action('Tela cheia', 'fullscreen');
-    action('Destacar interativos', 'highlight-interactives', 'portas objetos pistas contorno'); add('Ações', 'Abrir porta / acender luz', () => interact(), { keywords: 'interagir porta abrir fechar luz lampada acender apagar ligar desligar', hint: 'E' }); action('Próximo turno', 'initiative-next', 'iniciativa combate vez rodada'); action('Câmera ao vivo', 'live-camera', 'projetor acompanha camera travelling cinematografica'); action('Ambientação ao vivo', 'ambience', 'variaveis da sessao hora do dia horario ceu nuvens nevoa clima chuva sliders transicao'); action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda'); action('Configurações', 'settings', 'aparencia tema cor paleta destaque preferencias');
+    action('Destacar interativos', 'highlight-interactives', 'portas objetos pistas contorno'); add('Ações', 'Interagir: porta, luz ou documento', () => interact(), { keywords: 'interagir porta abrir fechar luz lampada acender apagar ligar desligar documento carta pista ler pegar', hint: 'E' }); action('Próximo turno', 'initiative-next', 'iniciativa combate vez rodada'); action('Câmera ao vivo', 'live-camera', 'projetor acompanha camera travelling cinematografica'); action('Ambientação ao vivo', 'ambience', 'variaveis da sessao hora do dia horario ceu nuvens nevoa clima chuva sliders transicao'); action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda'); action('Configurações', 'settings', 'aparencia tema cor paleta destaque preferencias');
     for (const [name, label, keywords] of [['build', 'Construir', 'ferramentas sala prédio'], ['elements', 'Elementos', 'lista objetos cena'], ['scene', 'Ambiente', 'luz atmosfera clima'], ['shots', 'Tomadas', 'câmeras enquadramentos projetor']]) add('Ações', `Ir para ${label}`, () => goToTab(name), { keywords });
     for (const preset of ENVIRONMENTS) add('Ações', `Ambiente · ${preset.name}`, () => execute('environment.apply', { presetId: preset.id }), { keywords: `${preset.description} horario atmosfera`, hint: 'aplicar ambiente' });
     for (const [tabName, groups] of Object.entries(TASKS_BY_TAB)) for (const { title, tasks } of groups) for (const [, key, label, description] of tasks) add('Tarefas', label, () => openTask(tabName, key), { keywords: `${description} ${title}`, hint: `${TAB_TITLES[tabName].toLowerCase()} · ${title}` });
@@ -2994,14 +2994,17 @@ export async function startApplication() {
     return execute('door.setAngle', { id, angle: next }, { label: next ? 'Abrir porta' : 'Fechar porta' });
   }
   /**
-   * E, as at a table: open or close a door, light or put out a lamp. What is under the pointer comes first, so pointing
-   * and pressing is enough; otherwise the selection. Several lights go together: all on if any is off.
+   * E, as at a table: open or close a door, light or put out a lamp, pick up a document to read it. What is under the
+   * pointer comes first, so pointing and pressing is enough; otherwise the selection. Several lights go together: all
+   * on if any is off. A document is read alone: it wins over doors and lights in the same gesture.
    */
   function interact() {
     const doc = store.document, lights = doc.look ?? doc.defaultLook, recordOf = id => doc.layout.entities[id] ?? lights.lights?.[id];
-    const usable = id => doc.layout.entities[id]?.kind === 'door' || recordLightOn(recordOf(id)) !== null;
+    const readable = id => Boolean(doc.layout.entities[id]?.inspectable);
+    const usable = id => doc.layout.entities[id]?.kind === 'door' || recordLightOn(recordOf(id)) !== null || readable(id);
     const hovered = viewport.entityAtPointer?.(), ids = hovered && usable(hovered) ? [hovered] : [...(selectedIds.size ? selectedIds : selection ? [selection] : [])].filter(usable);
-    if (!ids.length) { notify('Aponte para uma porta ou um objeto que acende e aperte E (ou selecione e aperte E).'); return; }
+    if (!ids.length) { notify('Aponte para uma porta, um objeto que acende ou um documento e aperte E (ou selecione e aperte E).'); return; }
+    const paper = ids.find(readable); if (paper) { hideContextMenu(); inspectionControl.open(paper); return; }
     for (const id of ids.filter(id => doc.layout.entities[id]?.kind === 'door')) toggleDoor(id);
     const lamps = ids.filter(id => recordLightOn(recordOf(id)) !== null);
     if (lamps.length) { const on = lamps.some(id => !recordLightOn(recordOf(id))); execute('lights.switch', { ids: lamps, enabled: on }, { label: on ? 'Acender luz' : 'Apagar luz' }); }

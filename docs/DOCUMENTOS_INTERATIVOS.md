@@ -18,7 +18,7 @@ Qualquer modelo pode ser um documento: sem o slot `page`, ele gira na inspeção
 
 ## Na sessão
 
-- **Abrir**: clique duplo no objeto (documentos e qualquer objeto com até 60 cm; nos maiores, o clique duplo continua olhando para o ponto), o botão de lupa no cartão do objeto ou **Inspecionar** no menu do botão direito.
+- **Abrir**: **E** com o mouse sobre o documento (ou com ele selecionado), ou clique duplo no objeto (documentos e qualquer objeto com até 60 cm; nos maiores, o clique duplo continua olhando para o ponto), o botão de lupa no cartão do objeto ou **Inspecionar** no menu do botão direito.
 - **Arrastar** gira (com inércia), **roda** aproxima mantendo o ponto sob o cursor, **Shift + arrastar** ou o botão direito desloca, **clique duplo** volta ao enquadramento.
 - **← / →** trocam a página, **F** vira a folha (o verso aparece quando ele fica de frente para a câmera), **Enter** ou **Ler** mostra a página nítida em tela cheia, **Esc** fecha a leitura e depois devolve o objeto.
 - Durante a inspeção os outros atalhos ficam suspensos (G/R/V, Delete, WASD); Ctrl+Z continua funcionando.

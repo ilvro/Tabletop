@@ -9,7 +9,7 @@ import { createApp } from '../../server/app.js';
 import { reveal } from './controls.js';
 
 // E, as at a table: the door under the pointer swings open or shut, the selected light goes out and comes back.
-test('E opens the door under the pointer with a swing and switches the selected light', { timeout: 240_000 }, async t => {
+test('E opens the door under the pointer with a swing, switches the selected light and picks up a document to read', { timeout: 240_000 }, async t => {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'tabletop-interact-')), server = (await createApp({ dataDir: directory })).listen(0, '127.0.0.1'); await once(server, 'listening');
   const browser = await chromium.launch({ headless: true, args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
   t.after(async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); await rm(directory, { recursive: true, force: true }); });
@@ -42,5 +42,20 @@ test('E opens the door under the pointer with a swing and switches the selected 
   await page.waitForFunction(id => window.__tabletop.snapshot().look.lights[id].enabled === false, light.id);
   await page.locator('#undo').click();
   await page.waitForFunction(id => window.__tabletop.snapshot().look.lights[id].enabled !== false, light.id);
+  // A document marked as a clue: E with the pointer on it picks it up to read, Esc puts it back.
+  await page.locator('[data-tab="assets"]').click(); await page.locator('#asset-search').fill('envelope');
+  await page.locator('[data-asset="builtin-document-envelope"]').click();
+  const table = await page.evaluate(() => window.__tabletop.project([-1.5, 0, -1])); await page.mouse.click(table.x, table.y); await page.keyboard.press('Escape');
+  await (await reveal(page.locator('[data-field="inspect-enabled"]'))).check();
+  const paper = Object.values((await snapshot()).layout.entities).find(entity => entity.inspectable);
+  assert.ok(paper, 'the envelope is a clue');
+  await page.keyboard.press('Escape');
+  const over = await page.evaluate(p => window.__tabletop.project(p), [paper.transform.position[0], paper.transform.position[1] + .02, paper.transform.position[2]]);
+  // The checkbox just ticked keeps the keyboard; a person would have moved on to the scene.
+  await page.evaluate(() => document.activeElement?.blur());
+  await page.mouse.move(over.x, over.y); await page.keyboard.press('e');
+  await page.waitForFunction(id => window.__tabletop.stats().inspection?.entityId === id, paper.id);
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => window.__tabletop.stats().inspection?.phase !== 'open');
   assert.deepEqual(errors, []);
 });
