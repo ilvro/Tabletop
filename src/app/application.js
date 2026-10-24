@@ -204,7 +204,7 @@ export async function startApplication() {
     add('Ações', 'Régua', () => act('tool-measure'), { keywords: 'medir distancia ferramenta', hint: keyFor('Régua') }); add('Ações', 'Conta-gotas', () => act('material-eyedropper'), { keywords: 'copiar material ferramenta', hint: keyFor('Conta-gotas') });
     action('Esculpir terreno', 'terrain-sculpt', 'pincel relevo'); action('Enquadrar', 'frame', 'foco camera');
     action('Perspectiva', 'perspective', 'camera vista'); action('Vista superior', 'top', 'camera planta'); action('Ver interior', 'cutaway', 'paredes da frente'); action('Telhados', 'roofs', 'forro mostrar ocultar'); action('Tela cheia', 'fullscreen');
-    action('Próximo turno', 'initiative-next', 'iniciativa combate vez rodada'); action('Câmera ao vivo', 'live-camera', 'projetor acompanha camera travelling cinematografica'); action('Ambientação ao vivo', 'ambience', 'variaveis da sessao hora do dia horario ceu nuvens nevoa clima chuva sliders transicao'); action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda'); action('Configurações', 'settings', 'aparencia tema cor paleta destaque preferencias');
+    action('Destacar interativos', 'highlight-interactives', 'portas objetos pistas contorno'); action('Próximo turno', 'initiative-next', 'iniciativa combate vez rodada'); action('Câmera ao vivo', 'live-camera', 'projetor acompanha camera travelling cinematografica'); action('Ambientação ao vivo', 'ambience', 'variaveis da sessao hora do dia horario ceu nuvens nevoa clima chuva sliders transicao'); action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda'); action('Configurações', 'settings', 'aparencia tema cor paleta destaque preferencias');
     for (const [name, label, keywords] of [['build', 'Construir', 'ferramentas sala prédio'], ['elements', 'Elementos', 'lista objetos cena'], ['scene', 'Ambiente', 'luz atmosfera clima'], ['shots', 'Tomadas', 'câmeras enquadramentos projetor']]) add('Ações', `Ir para ${label}`, () => goToTab(name), { keywords });
     for (const preset of ENVIRONMENTS) add('Ações', `Ambiente · ${preset.name}`, () => execute('environment.apply', { presetId: preset.id }), { keywords: `${preset.description} horario atmosfera`, hint: 'aplicar ambiente' });
     for (const [tabName, groups] of Object.entries(TASKS_BY_TAB)) for (const { title, tasks } of groups) for (const [, key, label, description] of tasks) add('Tarefas', label, () => openTask(tabName, key), { keywords: `${description} ${title}`, hint: `${TAB_TITLES[tabName].toLowerCase()} · ${title}` });
@@ -972,7 +972,7 @@ export async function startApplication() {
     } else if (tab === 'shots') {
       const doc = store.document, connected = hasPresentation() || isPresentation;
       panel.innerHTML = `${shotsPanel(doc, { publishedId: publishedPresetId, rehearsedId, live: connected, thumbnails: camera => shotThumbnails.image(doc, camera, store.editVersion) })}${cameraPanel()}<section><span class="eyebrow">SEGUNDA TELA</span><p class="microcopy">O projetor é a janela que os jogadores veem. Ensaiar mexe só no seu editor; Transição e Corte publicam a tomada para o projetor.</p>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">CARTELA DE TÍTULO</span><label class="field"><span>Título</span><input type="text" data-field="title-card-title" value="${esc(titleCard.title)}" placeholder="${esc(doc.name)}" maxlength="120" autocomplete="off" /></label><label class="field"><span>Subtítulo</span><input type="text" data-field="title-card-subtitle" value="${esc(titleCard.subtitle)}" maxlength="120" autocomplete="off" /></label>${numberField('title-card-duration', 'Duração · s', titleCard.duration, { min: 2, max: 12, step: 1 })}${button('title-card', 'Mostrar no projetor', 'display', 'wide primary', connected && !isPresentation ? '' : 'disabled')}${checkField('projector-letterbox', 'Barras de cinema · 2,39:1', letterbox)}<p class="microcopy">A cartela aparece sobre a imagem do projetor e some sozinha. Nada disso é salvo na cena.</p></section>`;
-      panel.innerHTML += initiativePanel(doc, { camera: initiativeCamera, extra: areasPanel(doc, areaTool, tool === 'area') });
+      panel.innerHTML += initiativePanel(doc, { camera: initiativeCamera, extra: areasPanel(doc, areaTool, tool === 'area') + `<div class="combat-areas"><span class="eyebrow">INTERATIVOS</span>${button('highlight-interactives', 'Destacar interativos (H)', 'eye', 'wide quiet')}<p class="microcopy">Contorna por 3 segundos portas e objetos marcados como interativos, no editor e no projetor.</p></div>` });
       taskList(panel, SHOTS_TASKS);
       restoreDisclosures(panel, sceneDisclosures);
       shotThumbnails.request(doc, store.editVersion);
@@ -1232,6 +1232,7 @@ export async function startApplication() {
     if (record.kind === 'prop') fields += rockPanel(record,{numberField}) + cablePanel(record) + screenPanel(record, viewport.getMaterialSlots(record.id), imageAssets, { numberField, colorField, checkField, choiceField }) + decalPanel(record, doc.layout.entities[record.anchor?.hostId], imageAssets, { numberField, colorField, checkField, choiceField });
     if (record.kind === 'prop' && !record.decal) fields += localEffectPanel(record, { numberField, colorField, checkField });
     if(record.material && !record.decal){fields+=illuminationPanel(record,viewport.getMaterialSlots(record.id),lightPresets,selectedLightPreset,{numberField,colorField,checkField});fields+=zonePanel(record,{numberField,colorField,checkField});}
+    if (type === 'entity' && ['prop', 'window'].includes(record.kind) && !record.decal) fields += `<section><span class="eyebrow">INTERAÇÃO</span>${checkField('entity-interactive', 'Interativo · aparece ao destacar (H)', Boolean(record.interactive))}</section>`;
     if (type === 'light') fields += lightPanel(record, { numberField, colorField, checkField });
     if (type === 'token') fields += `<section><span class="eyebrow">MOVIMENTO</span>${numberField('actor-speed', 'Deslocamento por turno · m', actor?.speed ?? 0, { min: 0, max: 60, step: .5 })}<p class="microcopy">Ao arrastar o token, a trilha fica verde até esse deslocamento, amarela até o dobro (correndo) e vermelha além. Zero: só a distância.</p></section>`;
     if (type === 'token') fields += flashlightPanel(record.flashlight, { numberField, colorField, checkField });
@@ -2013,6 +2014,7 @@ export async function startApplication() {
     }
     const found = locate(); if (!found) return;
     const { type, record } = found;
+    if (field === 'entity-interactive' && type === 'entity') { execute('entity.update', { id: record.id, patch: { interactive: Boolean(value) } }, { label: 'Interativo' }); return; }
     if (type === 'token' && field === 'actor-speed') { const speed = Math.max(0, Math.min(60, Number(value) || 0)); execute('actor.update', { id: record.actorId, patch: { speed } }, { label: 'Deslocamento' }); return; }
     if (type === 'token' && field.startsWith('figure-')) {
       const key = field.slice(7), current = { ...FIGURE_DEFAULTS, ...record.figure };
@@ -2509,6 +2511,7 @@ export async function startApplication() {
       case 'initiative-start': { const ids = Object.keys(store.document.tokens ?? {}); if (ids.length) execute('initiative.update', { initiative: startInitiative(ids.map(tokenId => ({ tokenId, value: 0 }))) }, { label: 'Começar combate' }); break; }
       case 'initiative-next': passTurn(1); break;
       case 'area-draw': if (tool === 'area') setTool('select'); else { viewport.setAreaTool(areaTool); setTool('area'); notify('Arraste no chão a partir do centro ou da origem da área. Esc cancela.'); } renderSidebar(); break;
+      case 'highlight-interactives': { const count = viewport.highlightInteractives(3); if (hasPresentation()) sendPresentation('highlight', { seconds: 3 }); if (!count) notify('Nada interativo à vista: portas aparecem sempre; marque objetos em Propriedades → Organização → Interativo.'); break; }
       case 'areas-clear': if (store.document.sessionState?.areas) execute('areas.clear', {}, { label: 'Apagar áreas' }); break;
       case 'initiative-prev': passTurn(-1); break;
       case 'initiative-add': { const initiative = store.document.sessionState?.initiative; if (!initiative) break; const turn = initiative.order[initiative.current]?.tokenId, missing = Object.keys(store.document.tokens ?? {}).filter(id => !initiative.order.some(entry => entry.tokenId === id)); const next = startInitiative([...initiative.order, ...missing.map(tokenId => ({ tokenId, value: 0 }))]); execute('initiative.update', { initiative: { ...next, round: initiative.round, current: Math.max(0, next.order.findIndex(entry => entry.tokenId === turn)) } }, { label: 'Incluir no combate' }); break; }
@@ -2931,6 +2934,7 @@ export async function startApplication() {
     if (event.key.toLowerCase() === 'i') { event.preventDefault(); act('material-eyedropper'); return; }
     if (event.key.toLowerCase() === 'l' && !isPresentation) { event.preventDefault(); act('live-camera'); return; }
     if (event.key.toLowerCase() === 'n' && store.document.sessionState?.initiative) { event.preventDefault(); act('initiative-next'); return; }
+    if (event.key.toLowerCase() === 'h') { event.preventDefault(); act('highlight-interactives'); return; }
     const keys = { q: 'select', g: 'move', r: 'rotate', v: 'scale', m: 'measure' };
     if (keys[event.key.toLowerCase()]) { if (keys[event.key.toLowerCase()] === 'measure') act('tool-measure'); else setTool(keys[event.key.toLowerCase()]); }
     if (event.key.toLowerCase() === 'f') act('frame');
@@ -3102,6 +3106,7 @@ function startPresentation(root, sessionId) {
       return;
     }
     // Live camera: approach the master's camera, smoothed, instead of cutting.
+    if (data?.version === 1 && data.sessionId === sessionId && data.type === 'highlight') { if (shown) viewport.highlightInteractives(Math.min(10, Math.max(1, Number(data.seconds) || 3))); return; }
     if (data?.version === 1 && data.sessionId === sessionId && data.type === 'live-camera') {
       if (receivedCameraSequence === null || data.sequence <= sequence || !data.camera) return;
       viewport.setCutaway(data.cutaway); viewport.setCameraGoal(data.camera, Math.min(2, Math.max(.1, Number(data.smoothing) || .6))); receivedCameraSequence = data.cameraSequence; return;

@@ -123,10 +123,10 @@ export function createCinema({ effects, objects, records, reducedMotion }) {
   function fadeLabels(camera) {
     for (const [id, record] of records) {
       if (!record?.actorId) continue;
-      const object = objects.get(id), label = object?.children.find(child => child.isSprite);
-      if (!label) continue;
+      const object = objects.get(id), labels = object?.children.filter(child => child.isSprite) ?? [];
+      if (!labels.length) continue;
       const opacity = Math.min(1, Math.max(0, (camera.position.distanceTo(object.getWorldPosition(scratch)) - 3) / 3));
-      label.material.opacity = opacity; label.visible = opacity > .01;
+      for (const label of labels) { label.material.opacity = opacity; label.visible = opacity > .01; }
     }
   }
   return {

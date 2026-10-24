@@ -47,3 +47,8 @@ Em **Tomadas → Sessão → Combate → Áreas de efeito**: escolha a forma (c�
 - A lista mostra as áreas ativas; × apaga uma, **Apagar todas as áreas** limpa o chão. Cada ação é um passo de desfazer. Esc cancela o desenho.
 
 Contrato: `sessionState.areas = [{ id, shape, origin, yaw, size, width, color, label }]`, até 32 (`src/domain/areas.js`).
+
+## Destacar interativos e selos de condição
+
+- **H** (ou **Tomadas → Combate → Destacar interativos**) contorna por 3 segundos, em dourado, as portas, os objetos marcados como interativos e os documentos inspecionáveis, no editor e no projetor. Para marcar um objeto: **Propriedades → Organização → INTERAÇÃO → Interativo**. O campo `interactive` é opcional e não reconstrói o objeto ao mudar.
+- Um personagem com estado diferente de normal (Propriedades → Aparência → FIGURA → Estado) ganha um selo sobre o nome: FERIDO, MORRENDO, INCONSCIENTE, MORTO ou ENLOUQUECENDO, cada um com sua cor. O selo some junto com o nome quando a câmera chega perto (close).

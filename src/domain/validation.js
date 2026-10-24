@@ -178,9 +178,11 @@ function semanticReferences(value, document, path) {
     }
   }
 }
-const common = ['id', 'name', 'kind', 'groupId', 'surfaceId', 'locked', 'audience', 'tags', 'illumination', 'lightingZone', ...semantics];
+const common = ['id', 'name', 'kind', 'groupId', 'surfaceId', 'locked', 'audience', 'tags', 'illumination', 'lightingZone', 'interactive', ...semantics];
 function entity(value, path, document) {
   const { entities, groups } = document.layout;
+  // Shown when interactive things are highlighted (doors are, always).
+  if (value.interactive !== undefined) bool(value.interactive, `${path}.interactive`);
   const fields = {
     water: ['transform','width','length','depth','vertices','material','water'],
     floor: ['transform', 'width', 'length', 'thickness', 'material', 'vertices', 'holes'],

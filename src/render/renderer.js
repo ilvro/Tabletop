@@ -410,10 +410,10 @@ export function createViewport(container, {
     if (shareMaterials && materialSharing.changed()) zoneProbes.invalidate();
     cinema.fadeLabels(camera); cinema.beforeRender(camera, now / 1000);
     prepareOcclusion();
-    const turning = placeTurnRing(effectTime);
+    const turning = placeTurnRing(effectTime), highlighting = stepHighlight(now);
     try { diagnostics.measure('render', () => effects.render(camera, seconds)); } finally { clearOcclusion(); cinema.afterRender(camera);materialSharing.end();gpuTimer.end();releaseRetired(); }
     sample('render',started);
-    if ((moving || gliding || animatedFigures || turning || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
+    if ((moving || gliding || animatedFigures || turning || highlighting || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
     // A screen changes ten times a second at most: come back for it without drawing in a loop. The clock must keep running, so it is not reset.
     else if (animatedScreens && !document.hidden) { screenTimer ??= setTimeout(() => { screenTimer = null; invalidate(); }, 100); }
     else lastFrameTime = null;
@@ -437,6 +437,29 @@ export function createViewport(container, {
     updateOcclusion(camera, points, Math.floor(width * scale), Math.floor(height * scale));
   }
   const presentationHidden = id => !objects.get(id)?.visible;
+  // Interactive things outlined for a few seconds: doors, objects marked interactive, documents to inspect.
+  const edgeCache = new WeakMap(); let highlight = null;
+  function highlightInteractives(seconds = 3) {
+    clearHighlight();
+    const lines = [], marked = new Set(), material = new THREE.LineBasicMaterial({ color: '#ffd36b', transparent: true, opacity: 0, depthTest: false, depthWrite: false, toneMapped: false });
+    for (const [id, object] of objects) {
+      const record = records.get(id); if (!object.visible || !record || !(record.kind === 'door' || record.interactive || record.inspectable)) continue;
+      object.traverse(mesh => {
+        if (!mesh.isMesh || mesh.userData.decorative || lines.length > 400) return;
+        let edges = edgeCache.get(mesh.geometry); if (!edges) { edges = new THREE.EdgesGeometry(mesh.geometry, 35); edgeCache.set(mesh.geometry, edges); }
+        const line = new THREE.LineSegments(edges, material); line.renderOrder = 30; line.userData.decorative = true; mesh.add(line); lines.push(line); marked.add(id);
+      });
+    }
+    highlight = { lines, objects: marked.size, material, start: performance.now(), seconds }; invalidate();
+    return lines.length;
+  }
+  function clearHighlight() { if (!highlight) return; for (const line of highlight.lines) line.removeFromParent(); highlight.material.dispose(); highlight = null; }
+  function stepHighlight(now) {
+    if (!highlight) return false;
+    const t = (now - highlight.start) / 1000, fade = Math.min(1, t / .25, Math.max(0, (highlight.seconds - t) / .6));
+    if (t >= highlight.seconds) { clearHighlight(); invalidate(); return false; }
+    highlight.material.opacity = fade * (.75 + .25 * Math.sin(t * 6)); return true;
+  }
   function placeTurnRing(time) {
     const turn = sceneDocument?.sessionState?.initiative, tokenId = turn?.order[turn.current]?.tokenId, object = tokenId && objects.get(tokenId), record = records.get(tokenId);
     if (!object?.visible) { if (turnRing.parent) turnRing.removeFromParent(); turnRing.visible = false; return false; }
@@ -690,6 +713,7 @@ export function createViewport(container, {
           const portrait = figure.pivot.children.find(child => child.userData.figure);
           if (portrait) { const shadow = new THREE.Mesh(portrait.geometry, silhouetteMaterial(appearance.color ?? '#78b5a1', texture)); shadow.renderOrder = 20; shadow.userData.decorative = true; shadow.userData.silhouette = true; shadow.visible = false; figure.pivot.add(shadow); silhouettes.set(entity.id, shadow); }
           if (label) label.position.y = figure.pivot.position.y + figure.height + .2;
+          const badge = parent.children.find(child => child.userData.badge); if (badge && label) badge.position.y = label.position.y + .3;
           tagEntity(parent, entity.id);
           assetsDirty=true;diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();invalidate();
           return;
@@ -848,8 +872,8 @@ export function createViewport(container, {
     const openings=new Map(); for(const e of Object.values(next.layout.entities))if(e.wallId){const list=openings.get(e.wallId)??[];list.push(e);openings.set(e.wallId,list);}
     const oldLook=old?.look??old?.defaultLook;
     const sameVisualContext=oldLook&&oldLook.materialAdjustments===look.materialAdjustments&&oldLook.environmentBindings===look.environmentBindings&&oldLook.daylight?.phase===look.daylight?.phase&&oldLook.nightWindows===look.nightWindows;
-    const shapeFields=record=>Object.keys(record).filter(key=>!['transform','name','locked','audience','tags','groupId','levelId','layerId','illumination','lightingZone','screen'].includes(key));
-    const shapeKey=record=>{const {transform,name,locked,audience,tags,groupId,levelId,layerId,illumination,lightingZone,screen,...shape}=record;
+    const shapeFields=record=>Object.keys(record).filter(key=>!['transform','name','locked','audience','tags','groupId','levelId','layerId','illumination','lightingZone','screen','interactive'].includes(key));
+    const shapeKey=record=>{const {transform,name,locked,audience,tags,groupId,levelId,layerId,illumination,lightingZone,screen,interactive,...shape}=record;
       const host=record.wallId&&next.layout.entities[record.wallId];
       return JSON.stringify([shape,look.materialAdjustments?.[record.id],look.environmentBindings?.[record.id],look.daylight?.phase,look.nightWindows,
         record.kind==='wall'?[wallProfiles.get(record.id),(openings.get(record.id)??[]).map(openingShape)]:host?wallShape(host):null,
@@ -1630,6 +1654,8 @@ export function createViewport(container, {
     glideTo(point) { glideTo(new THREE.Vector3(...point)); },
     /** Shape, width, colour and label of the next area drawn with the 'area' tool. */
     setAreaTool(settings) { areaTool = { ...areaTool, ...settings }; },
+    /** Outlines doors, interactive objects and documents for `seconds`; returns how many outlines were drawn. */
+    highlightInteractives,
     /** Focus of the current camera: `{enabled, targetId, distance, aperture}`, any subset. */
     setFocus(next) { cinema.setFocus(next); invalidate(); onCameraChange(getCamera()); },
     setFollow(targetId) { cinema.setFollow(targetId); invalidate(); onCameraChange(getCamera()); },
@@ -1692,7 +1718,7 @@ export function createViewport(container, {
       surfaceMaterials: [...objects].flatMap(([id,object])=>{const list=[]; object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material]) if(mat?.userData.surface) list.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.surface});});return list;}),
       wetMaterials: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.userData.wet)list.push({id,...child.userData.wet});});return list;}),
       wearMaterials: [...objects].flatMap(([id,object])=>{const result=[];object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material])if(mat?.userData.wear)result.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.wear});});return result;}),
-      environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving || zoomVelocity || orbitVelocity), cameraTransition: Boolean(transition), cinema: cinema.info(), areas: areaLayer.info(), exposure: renderer.toneMappingExposure, background: '#' + scene.background.getHexString() }; },
+      environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving || zoomVelocity || orbitVelocity), cameraTransition: Boolean(transition), cinema: cinema.info(), areas: areaLayer.info(), highlight: highlight ? { objects: highlight.objects, lines: highlight.lines.length } : null, badges: [...objects.values()].reduce((sum, object) => sum + object.children.filter(child => child.userData.badge).length, 0), exposure: renderer.toneMappingExposure, background: '#' + scene.background.getHexString() }; },
     destroy() {
       destroyed = true;clearTimeout(probeTimer);clearTimeout(screenTimer);screens.dispose();decalTextures.dispose();gpuTimer.dispose();diagnostics.dispose();lightManager.dispose();zoneProbes.dispose();reflections.dispose();cutawayCasters.dispose();lightingHelpers.dispose();
       ruler.destroy(); trail.dispose(); areaLayer.dispose();

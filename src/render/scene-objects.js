@@ -1,6 +1,7 @@
 import { terrainSnow } from '../domain/snow.js';
 import { terrainTextureMasks } from './surface-materials.js';
 import * as THREE from 'three';
+import { FIGURE_STATES } from '../domain/figures.js';
 import { standardMaterial } from './asset-cache.js';
 import { floorContour } from '../domain/geometry.js';
 import { wallJoinProfile, clipWallProfile } from '../authoring/structures.js';
@@ -300,6 +301,12 @@ export function createToken(entity, actor) {
   const label = createLabel(appearance.name ?? 'Token', color);
   label.position.y = 0.47;
   group.add(label);
+  // A state other than normal shows as a badge over the name, readable from the projector.
+  const state = entity.figure?.state;
+  if (state && state !== 'normal') {
+    const badge = createLabel(FIGURE_STATES.find(([id]) => id === state)?.[1].toUpperCase() ?? state, { hurt: '#e05a4f', dying: '#ff2d2d', unconscious: '#9aa3ad', dead: '#3a3a40', maddened: '#a066ff' }[state] ?? '#ffffff');
+    badge.scale.multiplyScalar(.78); badge.position.y = label.position.y + .3; badge.userData.badge = true; group.add(badge);
+  }
   group.userData.appearance = appearance;
   applyTransform(group, entity.transform);
   return tagEntity(group, entity.id);
