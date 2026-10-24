@@ -53,7 +53,7 @@ import { proposeBuilding, proposeAddRoom, proposeRemoveRoom, proposeRedivide, de
 import { proposeRoomLighting, proposeRoomDetails, proposeRoomCables, roomMood, suggestAtmosphere } from '../authoring/room-ambience.js';
 import { proposeSurroundings, inferSetting, SETTINGS, SURROUNDINGS_TAG } from '../authoring/surroundings.js';
 import { roomEra } from '../authoring/room-insight.js';
-import { createTutor, tutorialCenter } from '../tutorial/tutor.js';
+import { createTutor, tutorialCenter, lessonForTask } from '../tutorial/tutor.js';
 import { assemblyFor, assemblyMembers } from '../domain/assemblies.js';
 import { resampleTerrain, resizeTerrain, protectTerrainFloors } from '../authoring/terrain.js';
 import { proposeAnchoring } from '../authoring/anchoring.js';
@@ -227,7 +227,7 @@ export async function startApplication() {
     for (const scene of savedScenes) add('Cenas', scene.name, () => openScene(scene.id), { hint: 'minha cena' });
     for (const map of savedMaps) add('Cenas', map.name, () => openMap(map.id), { hint: 'mapa' });
     for (const example of EXAMPLE_SCENES) add('Cenas', example.name, () => openExample(example.id), { keywords: example.description, hint: 'exemplo' });
-    for (const lesson of LESSONS) add('Tutoriais', lesson.title, () => { document.getElementById('tutorial-center').hidden = true; tutor.start(lesson.id, 0); }, { keywords: lesson.summary, hint: `${lesson.minutes} min` });
+    for (const lesson of LESSONS) add('Tutoriais', lesson.title, () => act('tutorial-start', { id: lesson.id }), { keywords: [lesson.summary, ...[lesson.ask ?? []].flat()].join(' '), hint: `${lesson.minutes} min` });
     for (const item of WHERE) add('Onde fica', item.label, () => notify(item.hint), { keywords: item.keywords, hint: 'onde fica' });
     return entries;
   }
@@ -294,7 +294,7 @@ export async function startApplication() {
   const ambienceWindow = floatingWindow(document.getElementById('ambience-window'), { trigger: root.querySelector('.rail [data-action="ambience"]'), position: [Math.max(16, window.innerWidth - 420), 72] });
   // Session-only camera settings: none of them is saved with the scene except through a saved shot.
   // Whether passing the turn also glides the camera to whoever has it (a session preference).
-  let initiativeCamera = false, tacticalZoom = false;
+  let initiativeCamera = false, tacticalZoom = false, highlightCount = 0;
   // The next area of effect to draw: shape, colour, width and label (session preferences).
   let areaTool = { shape: 'circle', color: '#ff6a3d', width: 1.5, label: '' };
   let ambience = null, navigationSmoothing = 0, liveCamera = { enabled: false, smoothing: .6 }, liveCameraFrame = 0;
@@ -700,10 +700,50 @@ export async function startApplication() {
       assistant: { inferred: tutorReading.inferred, state: stateOptions.state, mood: ambienceOptions.mood, buildingMode: buildingOptions.mode ?? (tutorReading.inBuilding ? 'extend' : 'new') },
       room: roomOptions, copied: materialClipboard?.name ?? null, surface: activeSurfaceId ?? null, picked: store.document.layout.entities[selection]?.assetRef?.id ?? null, selectedId: selection ?? null,
       documentsOpen: document.getElementById('documents-dialog').open, ambience: { open: document.getElementById('ambience-window').open, duration: ambience?.duration ?? 5 },
-      camera: viewport.getCamera(), following: viewport.cinemaInfo().follow };
+      camera: viewport.getCamera(), following: viewport.cinemaInfo().follow,
+      isolated: isolatedLevel, environments: savedEnvironments.length, projector: hasPresentation(), rehearsed: rehearsedId, published: publishedPresetId, live: liveCamera.enabled,
+      titles: titleSequence, titleText: titleCard.title, letterbox, tactical: tacticalZoom, highlights: highlightCount, roofs: roofsChoice ?? !topView, anyPublished: cameraSequence > 0,
+      placingToken: tool === 'place' && placing?.type === 'token' ? { name: placing.name, color: placing.color } : null,
+      selectedName: store.document.actors?.[store.document.tokens?.[selection]?.actorId]?.name ?? null, vegetationTerrain: vegetationOptions.terrainId || null };
   }
   const sceneEmpty = () => !Object.keys(store.document.layout.entities).length;
-  function renderTutorials() { const panel = document.getElementById('tutorial-center'); if (!panel.hidden) panel.innerHTML = tutorialCenter(tutor, sceneEmpty()); }
+  function renderTutorials() {
+    const panel = document.getElementById('tutorial-center'); if (!panel.hidden) panel.innerHTML = tutorialCenter(tutor, sceneEmpty(), heldScene?.document.name);
+    root.querySelector('.rail [data-action="tutorials"]')?.classList.toggle('has-news', tutor.news().length > 0);
+  }
+  /**
+   * A lesson that builds from nothing, or on a copy of an example, runs on a practice scene: the person's own scene
+   * is kept aside (its draft written first) and comes back with "Voltar" when the lesson ends. An empty scene is used as is.
+   */
+  let heldScene = null, practiceId = null, preparing = false;
+  async function preparePractice(lesson, from) {
+    const needs = lesson.needs; if (!needs || from > 0) return true;
+    if (needs === 'empty' && sceneEmpty()) return true;
+    // An example takes a moment to load: a second click on Começar meanwhile does nothing.
+    if (saving || preparing) return false;
+    let doc;
+    preparing = true;
+    try { doc = needs === 'empty' ? createScene(`Treino · ${lesson.title}`) : await loadExampleScene(needs.example); }
+    catch (error) { notify(error.message, true); return false; }
+    finally { preparing = false; }
+    if (!(heldScene && store.document.id === practiceId)) { await flushDraft(); heldScene = { document: store.document, dirty: store.dirty }; }
+    await stageCut.close();
+    selection = null; clearProposal(); setTool('select'); practiceId = doc.id;
+    store.replace(doc, { saved: false }); viewport.frameScene();
+    const camera = Object.values(doc.cameraPresets ?? {})[0]; if (camera) viewport.setCamera(camera);
+    notify(`Cena de treino aberta. Sua cena “${heldScene.document.name}” está guardada.`);
+    return true;
+  }
+  function returnFromPractice() {
+    if (!heldScene) return;
+    const { document: doc, dirty } = heldScene; heldScene = null; practiceId = null;
+    selection = null; clearProposal(); setTool('select');
+    store.replace(doc, { saved: !dirty }); viewport.frameScene();
+    const camera = Object.values(doc.cameraPresets ?? {})[0]; if (camera) viewport.setCamera(camera);
+    tutor.dismiss(); flushDraft(); notify(`De volta à sua cena “${doc.name}”.`);
+  }
+  /** The closing card of a lesson offers the way back while the person's scene is kept aside. */
+  const afterLesson = () => heldScene ? `<button type="button" class="primary" data-action="tutorial-return">Voltar para “${esc(heldScene.document.name)}”</button>` : '';
   function previewSurroundings() {
     try { const next = proposeSurroundings(store.document, { ...aroundOptions, floorId: smartFloorId }, store.editVersion, assets); next.aroundPreview = true; showAuthorshipProposal(next); }
     catch (error) { notify(error.message, true); }
@@ -848,6 +888,8 @@ export async function startApplication() {
   const draftQueue=createLatestJob(({document:doc,dirty,meaningful})=>performanceDiagnostics.measureAsync('draft',()=>dirty&&meaningful?drafts.write(doc):drafts.clear()),error=>{if(!draftWarningShown){draftWarningShown=true;notify(`A recuperação automática não está disponível: ${error.message}. Use Salvar ou baixe o JSON pela Gestão da Mesa.`,true);}});
   function flushDraft() {
     clearTimeout(draftTimer);if(recovery)return;
+    // A practice scene of a tutorial is not the person's work until saved: the draft keeps their own scene.
+    if(heldScene&&store.document.id===practiceId&&store.document.revision===0)return;
     return draftQueue.push({document:store.document,dirty:store.dirty,meaningful:store.editVersion>0||store.document.revision>0});
   }
   const receivers=new Map();
@@ -985,7 +1027,7 @@ export async function startApplication() {
       let around = null; if (smartFloorId) { const type = insight?.building?.type, era = roomEra(store.document, smartFloorId), id = inferSetting(type?.id, era); around = { id, name: SETTINGS.find(entry => entry.id === id).name, reason: id === 'rural' && era !== 'modern' && !['tavern', 'keep'].includes(type?.id) ? 'porque o prédio é de uma época antiga' : type ? `porque o prédio é ${type.name.toLowerCase()}` : '' }; }
       panel.innerHTML += surroundingsPanel(store.document, aroundOptions, smartFloorId, around);
       // Plain headings and one level of tasks: what is inside a task is visible as soon as it opens.
-      taskList(panel, BUILD_TASKS, { attribute: 'buildSection' });
+      taskList(panel, BUILD_TASKS, { attribute: 'buildSection', help: lessonForTask });
       for (const task of panel.querySelectorAll('[data-build-section]')) task.open = openBuildSections.has(task.dataset.buildSection);
     } else if (tab === 'elements') {
       const kinds = [['build','Estrutura'],['props','Objetos'],['lights','Luzes'],['tokens','Tokens']];
@@ -998,13 +1040,13 @@ export async function startApplication() {
       panel.innerHTML = `${shotsPanel(doc, { publishedId: publishedPresetId, rehearsedId, live: connected, thumbnails: camera => shotThumbnails.image(doc, camera, store.editVersion) })}${cameraPanel()}<section><span class="eyebrow">SEGUNDA TELA</span><p class="microcopy">O projetor é a janela que os jogadores veem. Ensaiar mexe só no seu editor; Transição e Corte publicam a tomada para o projetor.</p>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">CARTELA DE TÍTULO</span><label class="field"><span>Título</span><input type="text" data-field="title-card-title" value="${esc(titleCard.title)}" placeholder="${esc(doc.name)}" maxlength="120" autocomplete="off" /></label><label class="field"><span>Subtítulo</span><input type="text" data-field="title-card-subtitle" value="${esc(titleCard.subtitle)}" maxlength="120" autocomplete="off" /></label>${numberField('title-card-duration', 'Duração · s', titleCard.duration, { min: 2, max: 12, step: 1 })}${button('title-card', 'Mostrar no projetor', 'display', 'wide primary', connected && !isPresentation ? '' : 'disabled')}${checkField('projector-letterbox', 'Barras de cinema · 2,39:1', letterbox)}<p class="microcopy">A cartela aparece sobre a imagem do projetor e some sozinha. Nada disso é salvo na cena.</p></section>`;
       panel.innerHTML += initiativePanel(doc, { camera: initiativeCamera, extra: areasPanel(doc, areaTool, tool === 'area') + `<div class="combat-areas"><span class="eyebrow">INTERATIVOS</span>${button('highlight-interactives', 'Destacar interativos (H)', 'eye', 'wide quiet')}<p class="microcopy">Contorna por 3 segundos portas e objetos marcados como interativos, no editor e no projetor.</p></div>` });
       panel.innerHTML += cluePanel(doc, { onProjector: inspectionControl.onProjector, connected: hasPresentation() && !isPresentation });
-      taskList(panel, SHOTS_TASKS);
+      taskList(panel, SHOTS_TASKS, { help: lessonForTask });
       restoreDisclosures(panel, sceneDisclosures);
       shotThumbnails.request(doc, store.editVersion);
     } else {
       const currentLook = store.document.look ?? store.document.defaultLook;
       panel.innerHTML = `${environmentPanel(store.document, savedEnvironments, selectedEnvironmentId, openAtmosphereSections, { numberField, colorField, checkField })}${atmospherePanel(currentLook, effectsEnabled, { numberField, colorField, checkField }, openAtmosphereSections,lightingQuality,lightingBudget)}`;
-      taskList(panel, SCENE_TASKS);
+      taskList(panel, SCENE_TASKS, { help: lessonForTask });
       restoreDisclosures(panel, sceneDisclosures);
     }
     if (focused) panel.querySelector(`[data-field="${focused}"]`)?.focus({ preventScroll: true });
@@ -1544,6 +1586,8 @@ export async function startApplication() {
     if(store.document.id!==sourceId||store.editVersion!==sourceVersion) {notify('A cena atual mudou durante o carregamento. Suas alterações foram preservadas; abra o exemplo novamente.',true);return;}
     await stageCut.close();
     selection=null;clearProposal();setTool('select');
+    // An example opened from a practice scene is still practice: the person's scene stays kept aside.
+    if(heldScene&&store.document.id===practiceId)practiceId=doc.id;
     store.replace(doc,{saved:false});viewport.frameScene();
     const camera=Object.values(doc.cameraPresets)[0];if(camera)viewport.setCamera(camera);
     closeDialog();notify('Exemplo aberto como cópia editável. Use Salvar para guardar sua cena.');
@@ -2381,8 +2425,15 @@ export async function startApplication() {
         try { showAuthorshipProposal(proposeRoomState(store.document, { ...stateOptions, floorId: smartFloorId }, store.editVersion, assets)); }
         catch (error) { notify(error.message, true); } break;
       }
-      case 'tutorials': { const panel = document.getElementById('tutorial-center'); panel.hidden = !panel.hidden; root.querySelector('.rail [data-action="tutorials"]').setAttribute('aria-expanded', String(!panel.hidden)); renderTutorials(); break; }
-      case 'tutorial-start': document.getElementById('tutorial-center').hidden = true; root.querySelector('.rail [data-action="tutorials"]').setAttribute('aria-expanded', 'false'); tutor.start(metadata.id, Number(metadata.from ?? 0)); break;
+      case 'tutorials': { tutor.dismiss(); const panel = document.getElementById('tutorial-center'); if (!panel.hidden) tutor.seen(); panel.hidden = !panel.hidden; root.querySelector('.rail [data-action="tutorials"]').setAttribute('aria-expanded', String(!panel.hidden)); renderTutorials(); break; }
+      case 'tutorial-start': {
+        document.getElementById('tutorial-center').hidden = true; root.querySelector('.rail [data-action="tutorials"]').setAttribute('aria-expanded', 'false');
+        tutor.seen(); const lesson = LESSONS.find(entry => entry.id === metadata.id), from = Number(metadata.from ?? 0);
+        if (lesson && await preparePractice(lesson, from)) tutor.start(lesson.id, from); break;
+      }
+      case 'tutorial-help': { const lesson = lessonForTask(metadata.task); if (lesson) return act('tutorial-start', { id: lesson.id }); break; }
+      case 'tutorial-return': returnFromPractice(); renderTutorials(); break;
+      case 'tutorial-report': { const link = document.createElement('a'); link.href = URL.createObjectURL(new Blob([JSON.stringify(tutor.report(), null, 2)], { type: 'application/json' })); link.download = 'tabletop-tutoriais.json'; link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 1000); break; }
       case 'around-variation': aroundOptions.seed = (aroundOptions.seed + 1) % 4294967296; renderSidebar();
       // falls through
       case 'around-preview': previewSurroundings(); break;
@@ -2551,7 +2602,7 @@ export async function startApplication() {
       case 'initiative-start': { const ids = Object.keys(store.document.tokens ?? {}); if (ids.length) execute('initiative.update', { initiative: startInitiative(ids.map(tokenId => ({ tokenId, value: 0 }))) }, { label: 'Começar combate' }); break; }
       case 'initiative-next': passTurn(1); break;
       case 'area-draw': if (tool === 'area') setTool('select'); else { viewport.setAreaTool(areaTool); setTool('area'); notify('Arraste no chão a partir do centro ou da origem da área. Esc cancela.'); } renderSidebar(); break;
-      case 'highlight-interactives': { const count = viewport.highlightInteractives(3); if (hasPresentation()) sendPresentation('highlight', { seconds: 3 }); if (!count) notify('Nada interativo à vista: portas aparecem sempre; marque objetos em Propriedades → Organização → Interativo.'); break; }
+      case 'highlight-interactives': { highlightCount++; const count = viewport.highlightInteractives(3); if (hasPresentation()) sendPresentation('highlight', { seconds: 3 }); if (!count) notify('Nada interativo à vista: portas aparecem sempre; marque objetos em Propriedades → Organização → Interativo.'); break; }
       case 'areas-clear': if (store.document.sessionState?.areas) execute('areas.clear', {}, { label: 'Apagar áreas' }); break;
       case 'initiative-prev': passTurn(-1); break;
       case 'initiative-add': { const initiative = store.document.sessionState?.initiative; if (!initiative) break; const turn = initiative.order[initiative.current]?.tokenId, missing = Object.keys(store.document.tokens ?? {}).filter(id => !initiative.order.some(entry => entry.tokenId === id)); const next = startInitiative([...initiative.order, ...missing.map(tokenId => ({ tokenId, value: 0 }))]); execute('initiative.update', { initiative: { ...next, round: initiative.round, current: Math.max(0, next.order.findIndex(entry => entry.tokenId === turn)) } }, { label: 'Incluir no combate' }); break; }
@@ -2742,6 +2793,8 @@ export async function startApplication() {
         notify(error.message, true); assets = await repository.assets().catch(() => assets); viewport.setAssets(assets); renderSidebar();
       }); return;
     }
+    // The "?" sits in the title of a task: it opens the tutorial without folding the task.
+    if (node.dataset.action === 'tutorial-help') event.preventDefault();
     if (node.dataset.action) { Promise.resolve(act(node.dataset.action, node.dataset)).catch((error) => notify(error.message, true)); return; }
     if (node.dataset.treeKind) { treeFilter.kind = treeFilter.kind === node.dataset.treeKind ? 'all' : node.dataset.treeKind; renderSidebar(); return; }
     if (node.dataset.groupCollapse) { const key = node.dataset.groupCollapse; if (collapsedTreeGroups.has(key)) collapsedTreeGroups.delete(key); else collapsedTreeGroups.add(key); renderSceneTreeIfVisible(); return; }
@@ -3073,7 +3126,7 @@ export async function startApplication() {
     if (recovery && recovery.document.id === store.document.id && contentJSON(recovery.document) === contentJSON(store.document)) { await drafts.dismiss(recovery); recovery = null; }
   }
   initialized = true; document.getElementById('scene-name').disabled = false;
-  const tutor = createTutor(root, { state: tutorialState, open: name => { tab = name; renderSidebar(); }, project: point => viewport.project(point) }); tutor.onChange(renderTutorials); window.tabletopTutor = tutor;
+  const tutor = createTutor(root, { state: tutorialState, open: name => { tab = name; renderSidebar(); }, project: point => viewport.project(point), afterLesson }); tutor.onChange(renderTutorials); renderTutorials(); window.tabletopTutor = tutor;
   store.subscribe(updateView); store.subscribe(renderTutorials); updateView({ type: 'saved' }); viewport.frameScene();
   const firstCamera = Object.values(store.document.cameraPresets || {})[0]; if (firstCamera) viewport.setCamera(firstCamera);
   previews.schedule();

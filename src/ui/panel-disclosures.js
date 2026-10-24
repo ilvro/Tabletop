@@ -50,7 +50,7 @@ export function groupDisclosures(panel, groups) {
  * A flat list of tasks under plain headings: one click opens a task, and no
  * task hides inside another. `tasks` are `[index, key, label, description, open]`.
  */
-export function taskList(panel, groups, { attribute = 'panelSection' } = {}) {
+export function taskList(panel, groups, { attribute = 'panelSection', help } = {}) {
   const sections = [...panel.children];
   for (const { title, tasks } of groups) {
     const heading = document.createElement('h3'); heading.className = 'task-heading'; heading.textContent = title; panel.append(heading);
@@ -58,6 +58,9 @@ export function taskList(panel, groups, { attribute = 'panelSection' } = {}) {
       const task = sectionDisclosure(sections[index], key, label, open, description);
       task.classList.add('task');
       if (attribute !== 'panelSection') { delete task.dataset.panelSection; task.dataset[attribute] = key; }
+      // A task with a tutorial shows a "?" in its title; `help(key)` finds the tutorial.
+      const lesson = help?.(key);
+      if (lesson) task.firstElementChild.insertAdjacentHTML('beforeend', `<button type="button" class="task-help" data-action="tutorial-help" data-task="${esc(key)}" title="Tutorial: ${esc(lesson.title)}" aria-label="Como usar ${esc(label)}">?</button>`);
       panel.append(task);
     }
   }

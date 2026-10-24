@@ -846,3 +846,36 @@ dialog.floating-window.library-dialog, .floating-window { background: var(--tt-s
 .area-list { list-style: none; margin: 8px 0; padding: 0; display: grid; gap: 4px; }
 .area-list li { display: grid; grid-template-columns: 10px 1fr 28px; align-items: center; gap: 8px; padding: 3px 6px; border-radius: 7px; background: var(--tt-surface-2); }
 .area-list li i { width: 10px; height: 10px; border-radius: 50%; background: var(--swatch); }
+/* Tutorials: the "?" of a task, help that comes in steps, "quase lá", the closing card, paths and what is new. */
+.task > summary { position: relative; }
+:is(#side-content, #inspector-content) .task > summary:has(.task-help) { padding-right: 56px; }
+.task-help { position: absolute; top: 9px; right: 26px; width: 24px; height: 24px; min-height: 0; padding: 0; border-radius: 50%; border: 1px solid var(--tt-line-strong); background: var(--tt-surface-2); color: var(--tt-text-2); font: 650 var(--eco-fs-12)/1 var(--eco-font-display); }
+.task-help:hover, .task-help:focus-visible { color: var(--tt-accent-ink); background: var(--tt-accent); border-color: var(--tt-accent); }
+.tutor-ring.insist { animation: tutor-insist 1.1s ease-in-out infinite; }
+@keyframes tutor-insist { 50% { border-color: var(--tt-accent-strong); outline: 3px solid color-mix(in srgb, var(--tt-accent) 45%, transparent); outline-offset: 3px; } }
+.tutor-alone { margin-bottom: 6px; font-size: var(--eco-fs-11); font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--tt-accent); }
+.tutor-near { display: grid; gap: 5px; margin-top: 10px; font-size: var(--eco-fs-12); color: var(--tt-text); }
+.tutor-near[hidden], .tutor-help[hidden], .tutor-hint[hidden] { display: none; }
+.tutor-near i { display: block; height: 4px; border-radius: 2px; background: var(--tt-surface-3); overflow: hidden; }
+.tutor-near b { display: block; height: 100%; width: 0; background: var(--tt-accent); transition: width .2s; }
+.tutor-help { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.tutor-help button { min-height: 28px; padding: 3px 10px; font-size: var(--eco-fs-12); }
+.tutor-hint { margin-top: 8px; padding: 8px 10px; border-left: 2px solid var(--tt-accent); background: var(--tt-surface-1); font-size: var(--eco-fs-12); line-height: 1.55; color: var(--tt-text); }
+.tutor-learned { margin: 6px 0 0 18px; display: grid; gap: 4px; font-size: var(--eco-fs-12); color: var(--tt-text); }
+.tutor-learned kbd { margin-right: 4px; }
+.tutor-card footer.tutor-closing { flex-wrap: wrap; justify-content: flex-end; }
+@media (prefers-reduced-motion: reduce) { .tutor-ring.insist { animation: none; outline: 3px solid color-mix(in srgb, var(--tt-accent) 45%, transparent); outline-offset: 3px; } }
+.lesson-new { margin-left: 8px; padding: 1px 7px; border-radius: 9px; background: var(--tt-accent); color: var(--tt-accent-ink); font-size: var(--eco-fs-11); font-weight: 650; vertical-align: 1px; }
+.lesson-held { display: grid; gap: 8px; margin: 4px 0 10px; padding: 10px 12px; border-left: 2px solid var(--tt-accent); background: var(--tt-surface-2); font-size: var(--eco-fs-12); line-height: 1.5; }
+.lesson-held button { justify-self: start; }
+.lesson-paths { display: grid; gap: 8px; margin-top: 10px; }
+.lesson-path { padding: 10px 12px; border: 1px solid var(--tt-line-strong); border-radius: 9px; background: var(--tt-surface-2); }
+.lesson-path h3 { font-size: var(--eco-fs-14); font-weight: 600; }
+.lesson-path h3 small { display: block; margin-top: 3px; font-size: var(--eco-fs-12); font-weight: 400; color: var(--tt-muted); }
+.lesson-path ol { margin: 8px 0 8px 18px; display: grid; gap: 2px; font-size: var(--eco-fs-12); color: var(--tt-text-2); }
+.lesson-path li.done { color: var(--tt-muted); text-decoration: line-through; }
+.lesson-path li.next { color: var(--tt-accent-strong); font-weight: 600; }
+.tutorial-center button.link { min-height: 0; padding: 0; border: 0; background: none; color: var(--tt-accent-strong); text-decoration: underline; font-size: inherit; }
+.rail [data-action="tutorials"].has-news { position: relative; }
+.rail [data-action="tutorials"].has-news::after { content: ''; position: absolute; top: 6px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--tt-accent); box-shadow: 0 0 0 2px var(--tt-surface-1); }
+.tutor-spot[data-order]:not([data-order=""])::after { content: attr(data-order); position: absolute; left: 10px; top: -28px; min-width: 18px; padding: 1px 5px; border-radius: 9px; background: var(--tt-accent); color: var(--tt-accent-ink); font: 700 var(--eco-fs-11)/1.4 var(--eco-font-display); text-align: center; }
