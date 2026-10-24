@@ -129,7 +129,7 @@ export function createViewport(container, {
   onSelect = () => {}, onMaterialPick = () => {}, onIlluminationOrigin = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
   onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
   onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {}, onRockStroke = () => {}, onWaterStroke = () => {}, onMaterialSlots = () => {},
-  onMeasurementChange = () => {}, onLightingDiagnostics = () => {}, onSurfacePlace = () => {}, onCinemaChange = () => {}, onAreaDraw = () => {}, onInspect = () => {}, onInspection = () => {}, navigationEnabled = true,
+  onMeasurementChange = () => {}, onLightingDiagnostics = () => {}, onSurfacePlace = () => {}, onCinemaChange = () => {}, onAreaDraw = () => {}, onTokenDrag = () => {}, onInspect = () => {}, onInspection = () => {}, navigationEnabled = true,
 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-label', navigationEnabled ? 'Cena 3D — WASD desloca, Shift acelera, Page Up/Down altera altura, botão direito orbita, roda aproxima' : 'Cena publicada pelo mestre');
@@ -284,6 +284,8 @@ export function createViewport(container, {
   const ruler = createRuler(container, scene, onMeasurementChange);
   // A token being dragged (editor) or gliding (projector) draws its path, distance and reach on the floor.
   const trail = createMovementTrail(container, scene); let trailStart = null;
+  // Tokens the projector already showed moving (previewToken): their drop keeps the trail of the drag.
+  const livePreviewed = new Set();
   // Areas of effect from the session state, and the settings of the one about to be drawn.
   const areaLayer = createAreaLayer(scene); let areaTool = { shape: 'circle', width: 1.5, color: '#ff6a3d', label: '' };
   const syncAreas = () => areaLayer.sync(sceneDocument?.sessionState?.areas ?? [], values(sceneDocument?.tokens).filter(token => objects.get(token.id)?.visible).map(token => ({ position: token.transform.position, radius: Math.min(...token.footprint) / 2 })));
@@ -476,7 +478,11 @@ export function createViewport(container, {
       moving = true;
     }
     if (transition?.follow) { const point = cinema.pointOf(transition.follow); if (point) transition.to.target = point.toArray(); }
-    moving = cinema.step(camera, controls, seconds, { transition: Boolean(transition) }) || moving;
+    // Following a token or an automatic move turns the camera here, not through the controls: tell it like any other
+    // change, so the live camera takes the projector along while it happens.
+    const directed = cinema.step(camera, controls, seconds, { transition: Boolean(transition) });
+    if (directed) onCameraChange(getCamera());
+    moving = directed || moving;
     const swinging = stepDoors(seconds), gliding = cinema.stepGlides(now) || swinging;
     animatedFigures = false;
     diagnostics.measure('figures', () => { for (const [id, figure] of figures) { if (objects.get(id)?.children.includes(figure.pivot)) animatedFigures = figure.tick(reducedMotion.matches ? 0 : effectTime) && !reducedMotion.matches || animatedFigures; else figures.delete(id); } });
@@ -854,6 +860,8 @@ export function createViewport(container, {
   }
   transform.addEventListener('dragging-changed', (event) => {
     if (event.value) { stopCameraMotion(); gizmoCancelled = false; }
+    // A drag given up leaves the scene as it was: the projector puts the token back too.
+    if (!event.value && trailStart && gizmoCancelled) onTokenDrag(selectedId, null);
     trailStart = event.value && tool === 'move' && records.get(selectedId)?.actorId ? [...records.get(selectedId).transform.position] : null;
     if (!event.value) trail.hide(1200);
     controls.enabled = navigationEnabled && !event.value; invalidate();
@@ -871,7 +879,7 @@ export function createViewport(container, {
         transform.object.scale.z = Math.max(0.01, transform.object.scale.z);
       }
       snapObject(transform.object);
-      if (trailStart) trail.show(trailStart, transform.object.getWorldPosition(new THREE.Vector3()).toArray(), trailOptions(selectedId));
+      if (trailStart) { const at = transform.object.getWorldPosition(new THREE.Vector3()).toArray(); trail.show(trailStart, at, trailOptions(selectedId)); onTokenDrag(selectedId, at); }
       matricesDirty = true; cutawayDirty = true;
     }
     invalidate(true);
@@ -1125,7 +1133,7 @@ export function createViewport(container, {
       const moved=JSON.stringify(before?.transform)!==JSON.stringify(record.transform)||visibilityChanged;
       if(moved){changedBounds.push(new THREE.Box3().setFromObject(object));spatial=true;}
       const glideFrom=presentation&&record.actorId&&moved&&!reparent?object.position.clone():null;
-      if(record.transform&&(!isTrustedSnapshot(next)||before?.transform!==record.transform||reparent)){applyTransform(object,record.transform);if(glideFrom){if(object.parent){const a=object.parent.localToWorld(glideFrom.clone()),b=object.getWorldPosition(new THREE.Vector3());trail.show(a.toArray(),b.toArray(),trailOptions(record.id));trail.hide(1800);}cinema.glide(record.id,object,glideFrom,object.position);}if(object.parent&&object.parent!==content&&object.parent!==lighting){const world=new THREE.Matrix4().compose(object.position,object.quaternion,object.scale);object.parent.updateWorldMatrix(true,false);world.premultiply(object.parent.matrixWorld.clone().invert()).decompose(object.position,object.quaternion,object.scale);}}if(moved){object.updateWorldMatrix(true,true);changedBounds.push(new THREE.Box3().setFromObject(object));}object.name=record.name??next.actors?.[record.actorId]?.name;records.set(record.id,record);if(record.kind!=='wall'||visibilityChanged)object.visible=visibleRecord(record);runtimeStats.reused++;return object;
+      if(record.transform&&(!isTrustedSnapshot(next)||before?.transform!==record.transform||reparent)){applyTransform(object,record.transform);if(glideFrom){if(object.parent){const a=object.parent.localToWorld(glideFrom.clone()),b=object.getWorldPosition(new THREE.Vector3());if(!livePreviewed.delete(record.id)){trail.show(a.toArray(),b.toArray(),trailOptions(record.id));trail.hide(1800);}}cinema.glide(record.id,object,glideFrom,object.position);}if(object.parent&&object.parent!==content&&object.parent!==lighting){const world=new THREE.Matrix4().compose(object.position,object.quaternion,object.scale);object.parent.updateWorldMatrix(true,false);world.premultiply(object.parent.matrixWorld.clone().invert()).decompose(object.position,object.quaternion,object.scale);}}if(moved){object.updateWorldMatrix(true,true);changedBounds.push(new THREE.Box3().setFromObject(object));}object.name=record.name??next.actors?.[record.actorId]?.name;records.set(record.id,record);if(record.kind!=='wall'||visibilityChanged)object.visible=visibleRecord(record);runtimeStats.reused++;return object;
     }if(object)remove(record.id,{retire:true});signatures.set(record.id,key);return null;};
     const entities = values(next.layout.entities);
     ground.position.y = Math.min(-.025, ...entities.filter(e => e.kind === 'terrain').map(e => e.transform.position[1] + Math.min(...e.heights) - .05), ...slabBottoms(entities));
@@ -1899,6 +1907,19 @@ export function createViewport(container, {
       const bytes=await capturePixels(true);if(!bytes||destroyed)return null;const image=thumbnailCanvas(bytes);
       const blob=await new Promise(resolve=>image.toBlob(resolve,'image/jpeg',.78));if(!blob)return null;
       return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error);reader.readAsDataURL(blob);});
+    },
+    /**
+     * The projector shows a token where the master is dragging it, with its trail, before the drop arrives as a new
+     * scene: the token then glides the rest of the way, which by then is nothing. Without a position, a drag given up,
+     * it goes back where the scene has it.
+     */
+    previewToken(id, position) {
+      const object = objects.get(id), record = records.get(id); if (!object || !record?.transform) return;
+      const dropped = !Array.isArray(position), at = dropped ? record.transform.position : position;
+      const point = new THREE.Vector3(...at); if (object.parent) { object.parent.updateWorldMatrix(true, false); object.parent.worldToLocal(point); }
+      object.position.copy(point); object.updateWorldMatrix(false, true);
+      if (dropped) { trail.hide(); livePreviewed.delete(id); } else { trail.show(record.transform.position, at, trailOptions(id)); trail.hide(1800); livePreviewed.add(id); }
+      matricesDirty = true; cutawayDirty = true; invalidate(true);
     },
     /** The piece under the resting pointer, or null when the pointer is off the scene. */
     entityAtPointer() { const hit = hover && pick(hover); return hit?.object.userData.entityId ?? null; },

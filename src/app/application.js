@@ -297,7 +297,7 @@ export async function startApplication() {
   let initiativeCamera = false, tacticalZoom = false, highlightCount = 0;
   // The next area of effect to draw: shape, colour, width and label (session preferences).
   let areaTool = { shape: 'circle', color: '#ff6a3d', width: 1.5, label: '' };
-  let ambience = null, navigationSmoothing = 0, liveCamera = { enabled: false, smoothing: .6 }, liveCameraFrame = 0;
+  let ambience = null, navigationSmoothing = 0, liveCamera = { enabled: false, smoothing: .6 }, liveCameraFrame = 0, tokenDrag = null, tokenDragFrame = 0;
   animateDisclosures(root);
   let polishOptions = { mode: 'align', axis: 'x', alignment: 'center', angle: 5, seed: 1, palette: 'natural', clearance: .8, referenceId: '' };
   let activeLevelId = null, activeLayerId = null, isolatedLevel = false, polygonHoleHost = null, polygonKind='floor', terrainCell = 0;
@@ -510,6 +510,12 @@ export async function startApplication() {
       }
     },
     onCinemaChange: () => { renderInspector(); if (tab === 'shots') renderSidebar(); },
+    // With the live camera on, the projector sees a token move while it is dragged, at most once a frame.
+    onTokenDrag: (tokenId, position) => {
+      if (!liveCamera.enabled || isPresentation || !hasPresentation()) return;
+      tokenDrag = { tokenId, position }; if (tokenDragFrame) return;
+      tokenDragFrame = requestAnimationFrame(() => { tokenDragFrame = 0; sendPresentation('live-token', tokenDrag); });
+    },
     onAreaDraw: area => { if (execute('area.add', { area: { ...area, id: id() } }, { label: 'Área de efeito' })) { setTool('select'); if (tab === 'shots') renderSidebar(); } },
     onCameraChange: (() => {
       const perspectiveBtn = root.querySelector('[data-action="perspective"]');
@@ -3244,6 +3250,7 @@ function startPresentation(root, sessionId) {
     }
     // Live camera: approach the master's camera, smoothed, instead of cutting.
     if (data?.version === 1 && data.sessionId === sessionId && data.type === 'highlight') { if (shown) viewport.highlightInteractives(Math.min(10, Math.max(1, Number(data.seconds) || 3))); return; }
+    if (data?.version === 1 && data.sessionId === sessionId && data.type === 'live-token') { if (shown && data.sequence > sequence) viewport.previewToken(data.tokenId, data.position); return; }
     if (data?.version === 1 && data.sessionId === sessionId && data.type === 'live-camera') {
       if (receivedCameraSequence === null || data.sequence <= sequence || !data.camera) return;
       viewport.setCutaway(data.cutaway); viewport.setCameraGoal(data.camera, Math.min(2, Math.max(.1, Number(data.smoothing) || .6))); receivedCameraSequence = data.cameraSequence; return;

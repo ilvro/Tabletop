@@ -30,6 +30,16 @@ Plano: [docs/PLANO_DESEMPENHO_2026-10-24.md](docs/PLANO_DESEMPENHO_2026-10-24.md
 
 Pedido: analisar o projeto e planejar melhorias de desempenho, para outro agente implementar. Plano em [docs/PLANO_DESEMPENHO_2026-10-24.md](docs/PLANO_DESEMPENHO_2026-10-24.md): baseline dos recursos recentes na GPU; carregamento (tiles procedurais e geometria das receitas em workers com cache IndexedDB, upload parcial do atlas, `setDocument` fatiado, paredes sem O(W²), variante de shader da oclusão); CPU por frame (matrizes, cutaway, alocações); descarte por cômodo com portais; `DoubleSide` padrão; divisão do bundle e do projetor. Medido em Node: tiles de 130–237 ms cada (~4,5 s no templo), receitas de árvores de 170–365 ms. Nada medido na GPU nesta análise.
 
+## Projetor segue o arraste com a câmera ao vivo (24 de outubro) — feito, não commitado
+
+Pedido: com **L** (câmera ao vivo) e **Seguir** ligados, o projetor deve acompanhar o personagem em tempo real, não só quando o movimento termina.
+
+**Causa**: o Seguir move a câmera dentro do loop de desenho, sem passar pelos controles, então a câmera ao vivo nunca era avisada; e o projetor só recebe a cena nova ao soltar o token.
+
+**Feito**: `renderer.js` avisa `onCameraChange` quando o Seguir ou um movimento automático move a câmera; durante o arraste de um token chama `onTokenDrag`, e `previewToken` mostra o token e a trilha no projetor antes da cena chegar (Esc devolve o token). `application.js` manda `live-token` uma vez por quadro, só com a câmera ao vivo ligada; os dois receptores do projetor (`presentation-window.js` e o de `application.js`) tratam a mensagem. Uso em [docs/CINEMATOGRAFIA.md](docs/CINEMATOGRAFIA.md).
+
+**Validação**: `tests/e2e/live-follow.test.js` (a câmera do projetor anda mais de 1 m enquanto a cena ainda não mudou, a trilha aparece, e ao soltar a câmera chega ao token); `live-camera`, `movement-trail`, `cinematics`, `interact` e 405 testes unitários passam.
+
 ## Tecla E e portas que giram (24 de outubro) — feito, não commitado
 
 Pedido: atalho para acender/apagar luzes de objetos e abrir/fechar portas sem ir às Propriedades; porta abrindo suave em vez de pular.

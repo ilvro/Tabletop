@@ -44,6 +44,7 @@ No projetor, um token movido desliza até a nova posição com um passo curto em
 - **Z / C** (segurar): órbita lenta em volta do ponto olhado, com aceleração e frenagem suaves; com Shift, mais rápida. Seguir um personagem continua valendo durante a órbita.
 - **Clique duplo** num ponto da cena: a câmera desliza até olhar para ele, mantendo distância e ângulo.
 - **WASD**, botão direito e Close continuam como antes; movimentos automáticos (órbita lenta, câmera na mão) podem rodar por cima.
+- **Seguir + arrastar:** com a câmera seguindo um personagem, arrastar o token com **G** leva o projetor junto **durante** o arraste: o token anda lá em tempo real, com a trilha e a distância, e a câmera o acompanha. Antes, o projetor só via o token ao soltar e a câmera ficava parada. Cancelar com Esc devolve o token também no projetor. Sem câmera ao vivo, o projetor continua vendo só o resultado, ao soltar.
 
 Ctrl+Z, Ctrl+C e os demais atalhos com Ctrl continuam sendo de edição, mesmo com o foco na cena.
 

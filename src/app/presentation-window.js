@@ -90,6 +90,8 @@ export function startPresentation(root, sessionId) {
     }
     // Live camera: approach the master's camera, smoothed, instead of cutting.
     if (data?.version === 1 && data.sessionId === sessionId && data.type === 'highlight') { if (shown) viewport.highlightInteractives(Math.min(10, Math.max(1, Number(data.seconds) || 3))); return; }
+    // A token being dragged by the master, before the drop arrives as a new scene.
+    if (data?.version === 1 && data.sessionId === sessionId && data.type === 'live-token') { if (shown && data.sequence > sequence) viewport.previewToken(data.tokenId, data.position); return; }
     if (data?.version === 1 && data.sessionId === sessionId && data.type === 'live-camera') {
       if (receivedCameraSequence === null || data.sequence <= sequence || !data.camera) return;
       viewport.setCutaway(data.cutaway); viewport.setCameraGoal(data.camera, Math.min(2, Math.max(.1, Number(data.smoothing) || .6))); receivedCameraSequence = data.cameraSequence; return;
