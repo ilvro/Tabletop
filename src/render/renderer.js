@@ -39,6 +39,7 @@ import { createMaterialSharing } from './material-sharing.js';
 import { createZoneProbes } from './zone-probes.js';
 import { createCinema } from './cinema.js';
 import { createFigure } from './figures.js';
+import { makeOccluder, isOccluder, updateOcclusion, clearOcclusion, silhouetteMaterial } from './occlusion.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
@@ -251,6 +252,8 @@ export function createViewport(container, {
   const cinema = createCinema({ effects, objects, records, reducedMotion });
   // Figures whose state moves on its own (dying, maddened), keyed by token.
   const figures = new Map(); let animatedFigures = false;
+  // Scenery that opens around characters, found again when the scene or its models change; silhouettes by token.
+  let occludersDirty = true; const silhouettes = new Map();
   const cache = createAssetCache();
   const pendingAssets = new Set();
   function trackAsset(promise) {
@@ -343,7 +346,7 @@ export function createViewport(container, {
     const orbitChanged = Boolean(controls.enabled && (orbitMoving || moving || transition) && controls.update(seconds));
     orbitMoving = Boolean(orbitChanged);
     if(pendingTerrain){const next=pendingTerrain;pendingTerrain=null;replaceTerrain(next);}
-    if (assetsDirty) { assetsDirty = false; diagnostics.measure('assetBounds', () => {updateShadowBounds();updateSelection();}); snowDirty = true;invalidate(true); }
+    if (assetsDirty) { assetsDirty = false; occludersDirty = true; diagnostics.measure('assetBounds', () => {updateShadowBounds();updateSelection();}); snowDirty = true;invalidate(true); }
     updateCutaway();
     if (selectionBox.visible) selectionBox.update();
     const effectsPaused = sceneDocument?.look?.effectsPaused ?? sceneDocument?.defaultLook?.effectsPaused;
@@ -394,13 +397,33 @@ export function createViewport(container, {
     // changes what is drawn also changes what the rooms reflect.
     if (shareMaterials && materialSharing.changed()) zoneProbes.invalidate();
     cinema.fadeLabels(camera); cinema.beforeRender(camera, now / 1000);
-    try { diagnostics.measure('render', () => effects.render(camera, seconds)); } finally { cinema.afterRender(camera);materialSharing.end();gpuTimer.end();releaseRetired(); }
+    prepareOcclusion();
+    try { diagnostics.measure('render', () => effects.render(camera, seconds)); } finally { clearOcclusion(); cinema.afterRender(camera);materialSharing.end();gpuTimer.end();releaseRetired(); }
     sample('render',started);
     if ((moving || gliding || animatedFigures || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
     // A screen changes ten times a second at most: come back for it without drawing in a loop. The clock must keep running, so it is not reset.
     else if (animatedScreens && !document.hidden) { screenTimer ??= setTimeout(() => { screenTimer = null; invalidate(); }, 100); }
     else lastFrameTime = null;
   }
+  /**
+   * Characters stay readable: with look.rendering.occlusion, scenery between the camera and each visible token opens
+   * around it for this frame only; with silhouettes, a token behind something shows through it in its colour.
+   */
+  function prepareOcclusion() {
+    const rendering = (sceneDocument?.look ?? sceneDocument?.defaultLook)?.rendering ?? {};
+    const tokens = [...records.values()].filter(record => record?.actorId && objects.get(record.id)?.visible);
+    for (const [id, shadow] of silhouettes) { if (!objects.has(id)) { silhouettes.delete(id); continue; } shadow.visible = Boolean(rendering.silhouettes) && !presentationHidden(id); }
+    if (!rendering.occlusion || !tokens.length) { clearOcclusion(); return; }
+    if (occludersDirty) {
+      occludersDirty = false;
+      const lowest = Math.min(...tokens.map(record => record.transform.position[1]));
+      for (const [id, object] of objects) if (isOccluder(records.get(id), object, lowest)) object.traverse(child => { if (child.isMesh && !child.userData.decorative) for (const material of Array.isArray(child.material) ? child.material : [child.material]) makeOccluder(material); });
+    }
+    // The hole is centred on the middle of the body, so it uncovers the figure from its base to its head.
+    const scale = effects.renderScale(), points = tokens.map(record => { const object = objects.get(record.id); return new THREE.Vector3().setFromMatrixPosition(object.matrixWorld).add(new THREE.Vector3(0, (object.userData.bodyHeight ?? .45) * object.getWorldScale(new THREE.Vector3()).y, 0)); });
+    updateOcclusion(camera, points, Math.floor(width * scale), Math.floor(height * scale));
+  }
+  const presentationHidden = id => !objects.get(id)?.visible;
   function attachOrbit(target) {
     controls?.dispose();
     controls = new OrbitControls(camera, canvas);
@@ -636,7 +659,9 @@ export function createViewport(container, {
         const label = parent.children.find((child) => child.isSprite);
         if (entity.figure) {
           const figure = createFigure(texture, entity.figure, { baseTop: entity.figure.base === 'none' ? 0 : .11 });
-          parent.add(figure.pivot); figures.set(entity.id, figure); parent.userData.focusHeight = figure.focusHeight;
+          parent.add(figure.pivot); figures.set(entity.id, figure); parent.userData.focusHeight = figure.focusHeight; parent.userData.bodyHeight = figure.pivot.position.y + (figure.focusHeight - figure.pivot.position.y) * .6;
+          const portrait = figure.pivot.children.find(child => child.userData.figure);
+          if (portrait) { const shadow = new THREE.Mesh(portrait.geometry, silhouetteMaterial(appearance.color ?? '#78b5a1', texture)); shadow.renderOrder = 20; shadow.userData.decorative = true; shadow.userData.silhouette = true; shadow.visible = false; figure.pivot.add(shadow); silhouettes.set(entity.id, shadow); }
           if (label) label.position.y = figure.pivot.position.y + figure.height + .2;
           tagEntity(parent, entity.id);
           assetsDirty=true;diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();invalidate();
@@ -855,6 +880,7 @@ export function createViewport(container, {
       const actor = next.actors[token.actorId];
       const object = createToken(token, actor);
       if (token.flashlight) cinema.attachFlashlight(token.id, object, token.flashlight);
+      { const base = object.children[0]; if (base?.isMesh) { const shadow = new THREE.Mesh(base.geometry, silhouetteMaterial(actor?.color ?? '#78b5a1')); shadow.position.copy(base.position); shadow.renderOrder = 20; shadow.userData.decorative = true; shadow.userData.silhouette = true; shadow.visible = false; object.add(shadow); silhouettes.set(token.id, shadow); } }
       object.name = actor?.name ?? 'Token';
       content.add(object);
       objects.set(token.id, object);runtimeStats.created++;createdIds.add(token.id);
@@ -901,6 +927,7 @@ export function createViewport(container, {
       if(snowRegions!==null)snowRegions.push(...changedBounds);lightManager.invalidate(changedBounds);renderer.shadowMap.needsUpdate=true;}
     pickBounds = new WeakMap();
     zones.update(next,objects);zones.apply(ground);for(const o of objects.values())zones.apply(o);
+    occludersDirty = true;
     updateSelection();sample('update',started);diagnostics.record('reconciliation',performance.now()-started); invalidate();
   }
 

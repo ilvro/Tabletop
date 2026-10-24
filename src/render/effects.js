@@ -246,6 +246,8 @@ export function createEffectsPipeline(renderer, scene, { offscreen = false, shar
       if(volumePass&&composer){Object.assign(volumePass.uniforms,value.uniforms);volumePass.uniforms.localFog.value=value.uniforms.zoneCount.value>0;volumePass.uniforms.steps.value=q.steps;volumePass.sources=sources;}
     },
     setEnabled(value) { enabled = value; configure(); },
+    /** Pixels per CSS pixel of what the scene is drawn into: the effects target when there is one, else the canvas. */
+    renderScale() { return composer ? effectsRatio() : renderer.getPixelRatio(); },
     /** Focus of this viewport's camera. Distance changes every frame while focus racks: only the uniform moves then. */
     setFocus(next){const was=focus.enabled&&focus.aperture>0;focus={...focus,...next};const now=focus.enabled&&focus.aperture>0;
       if(was!==now)configure();else if(dofPass){dofPass.focusDistance=focus.distance;dofPass.aperture=focus.aperture;}},

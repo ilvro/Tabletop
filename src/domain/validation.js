@@ -5,7 +5,7 @@ import { DECAL_ASSET, validateDecal } from './decals.js';
 import { isTrustedSnapshot } from '../state/immutable.js';
 import { ROOM_TEMPLATE_IDS } from './room-recipes.js';
 import { ROOM_ERA_IDS } from './room-eras.js';
-import { LIGHT_PROFILES, LIGHT_PIN_FIELDS, PROJECTIONS, RENDERING_DEFAULTS } from './dynamic-lighting.js';
+import { LIGHT_PROFILES, LIGHT_PIN_FIELDS, PROJECTIONS, RENDERING_DEFAULTS, RENDERING_OPTIONS } from './dynamic-lighting.js';
 import {assertRockSculpt,isSculptableRock} from './rock-sculpt.js';
 import { SURFACE_MATERIALS, TEXTURE_OPTION_FIELDS, TEXTURE_RANGES, TEXTURE_CHOICES, TEXTURE_INTEGERS, TEXTURE_COLOR_FIELDS } from './materials.js';
 import { WATER_RANGES, isVegetationAsset } from './landscape.js';
@@ -405,7 +405,8 @@ function look(value, path, document, seen) {
     supportReference(light.surfaceId, document, `${lightPath}.surfaceId`);
   });
   if(value.rendering!==undefined) {
-    keys(value.rendering,Object.keys(RENDERING_DEFAULTS),`${path}.rendering`);
+    keys(value.rendering,[...Object.keys(RENDERING_DEFAULTS),...Object.keys(RENDERING_OPTIONS)],`${path}.rendering`);
+    for(const key of Object.keys(RENDERING_OPTIONS)) if(value.rendering[key]!==undefined) bool(value.rendering[key],`${path}.rendering.${key}`);
     for(const [key,defaultValue] of Object.entries(RENDERING_DEFAULTS)) if(value.rendering[key]!==undefined) {
       if(typeof defaultValue==='boolean')bool(value.rendering[key],path);else number(value.rendering[key],path,key==='aoRadius'?.05:0,key==='reflectionIntensity'?3:key==='aoRadius'?5:key==='surfaceReflectionIntensity'?2:1);
     }
