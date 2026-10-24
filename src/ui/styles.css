@@ -804,3 +804,4 @@ dialog.floating-window.library-dialog, .floating-window { background: var(--tt-s
 .initiative-list li.is-turn { border-color: var(--tt-accent); background: var(--tt-accent-wash); }
 .initiative-list li.is-turn span { font-weight: 650; color: var(--tt-accent-strong); }
 .initiative-list input { width: 100%; }
+.movement-label { font-weight: 650; }

@@ -500,7 +500,8 @@ export function validateDocument(document) {
   }
   keys(document.layout, ['grid', 'entities', 'groups', 'areas', ...(document.schemaVersion === 2 ? ['compositions', 'levels', 'layers'] : [])], `${path}.layout`);
   const grid = document.layout.grid;
-  keys(grid, ['type', 'origin', 'cellSize', 'visible', 'snap', 'color', 'opacity'], 'layout.grid');
+  keys(grid, ['type', 'origin', 'cellSize', 'visible', 'snap', 'color', 'opacity', 'diagonal'], 'layout.grid');
+  if (grid.diagonal !== undefined) choice(grid.diagonal, ['euclidean', 'chebyshev', 'alternate'], 'layout.grid.diagonal');
   choice(grid.type, ['square'], 'layout.grid.type'); vector(grid.origin, 2, 'layout.grid.origin'); positive(grid.cellSize, 'layout.grid.cellSize');
   bool(grid.visible, 'layout.grid.visible'); bool(grid.snap, 'layout.grid.snap'); color(grid.color, 'layout.grid.color'); number(grid.opacity, 'layout.grid.opacity', 0, 1);
   // References are validated after every collection has its JSON shape checked.
@@ -557,7 +558,8 @@ export function validateDocument(document) {
   fail(document.audioCue === null, 'Integração de áudio ainda não implementada; audioCue deve ser null.', 'audioCue');
   record(document.actors, 'actors'); record(document.tokens, 'tokens');
   dictionary(document.actors, 'actors', seen, (actor, actorPath) => {
-    keys(actor, ['id', 'name', 'color', 'assetRef'], actorPath); text(actor.name, `${actorPath}.name`);
+    keys(actor, ['id', 'name', 'color', 'assetRef', 'speed'], actorPath); text(actor.name, `${actorPath}.name`);
+    if (actor.speed !== undefined) number(actor.speed, `${actorPath}.speed`, 0, 60);
     color(actor.color, `${actorPath}.color`); assetRef(actor.assetRef, `${actorPath}.assetRef`, true);
   });
   dictionary(document.tokens, 'tokens', seen, (token, tokenPath) => {

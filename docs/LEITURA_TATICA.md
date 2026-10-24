@@ -25,3 +25,15 @@ Limites: até 8 personagens por quadro; o círculo tem 1,2 m de raio em volta do
 - Personagens "só do mestre" ficam na ordem do mestre, mas não aparecem no projetor.
 
 Contrato: `sessionState.initiative = { order: [{ tokenId, value }], current, round }` (`src/domain/initiative.js`). Um token removido sai da ordem e a vez fica com quem a tinha.
+
+## Trilha de movimento
+
+Ao arrastar um token com **Mover (G)**, uma linha tracejada liga o ponto de onde ele saiu até onde está, com a distância em metros e em quadrados. No projetor, quando um token muda de lugar, ele desliza até o destino e a trilha aparece durante o movimento e some logo depois.
+
+- **Deslocamento por turno** (Propriedades → Posição → MOVIMENTO, em metros): a trilha fica **verde** até o deslocamento, **amarela** até o dobro ("correndo") e **vermelha** além ("fora do alcance"). Zero mostra só a distância.
+- **Movimento na diagonal** (Construir → Grid e precisão): **distância real**, **1 quadrado** por diagonal, ou **1 e 2 alternados**. A regra fica na cena (`layout.grid.diagonal`), então editor e projetor contam igual.
+- A altura não conta como caminhada: subir uma escada mede só o deslocamento no plano.
+
+Contratos: `actor.speed` (0–60 m) e `layout.grid.diagonal` (`euclidean`, `chebyshev`, `alternate`), opcionais. Cálculo em `src/domain/movement.js`.
+
+Correção junto desta fase: na janela separada do projetor, os tokens não deslizavam (cada cena chegava como cópia nova e era reconstruída). Agora deslizam também lá.

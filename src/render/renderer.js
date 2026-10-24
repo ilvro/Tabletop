@@ -40,6 +40,7 @@ import { createZoneProbes } from './zone-probes.js';
 import { createCinema } from './cinema.js';
 import { createFigure } from './figures.js';
 import { makeOccluder, isOccluder, updateOcclusion, clearOcclusion, silhouetteMaterial } from './occlusion.js';
+import { createMovementTrail } from './movement-trail.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
@@ -247,6 +248,9 @@ export function createViewport(container, {
   let altHeld = false;
   let rulerSnap = false;
   const ruler = createRuler(container, scene, onMeasurementChange);
+  // A token being dragged (editor) or gliding (projector) draws its path, distance and reach on the floor.
+  const trail = createMovementTrail(container, scene); let trailStart = null;
+  const trailOptions = id => { const record = records.get(id), grid = sceneDocument?.layout.grid; return { cellSize: grid?.cellSize ?? 1, diagonal: grid?.diagonal ?? 'euclidean', speed: sceneDocument?.actors?.[record?.actorId]?.speed ?? null }; };
   const objects = new Map();
   const records = new Map();
   const cinema = createCinema({ effects, objects, records, reducedMotion });
@@ -390,7 +394,7 @@ export function createViewport(container, {
     onLightingDiagnostics(lightManager.info());
     if(snowDirty) diagnostics.measure('snow', rebuildSnow);
     animatedWater=false;for(const object of waterObjects)animatedWater=updateWater(object,effectTime,paused)||animatedWater;
-    ruler.project(camera, width, height);
+    ruler.project(camera, width, height); trail.project(camera, width, height);
     effects.setLighting?.(zones,lightManager.volumeLights(),lightManager.quality);
     renderer.info.reset();
     if (renderer.shadowMap.needsUpdate) diagnostics.count('shadowFrames');
@@ -616,7 +620,12 @@ export function createViewport(container, {
     // A rejected/no-op callback must not leave a runtime transform masquerading as saved state.
     if (version === generation && sceneDocument) setDocument(sceneDocument,{force:true});
   }
-  transform.addEventListener('dragging-changed', (event) => { if (event.value) { stopCameraMotion(); gizmoCancelled = false; } controls.enabled = navigationEnabled && !event.value; invalidate(); });
+  transform.addEventListener('dragging-changed', (event) => {
+    if (event.value) { stopCameraMotion(); gizmoCancelled = false; }
+    trailStart = event.value && tool === 'move' && records.get(selectedId)?.actorId ? [...records.get(selectedId).transform.position] : null;
+    if (!event.value) trail.hide(1200);
+    controls.enabled = navigationEnabled && !event.value; invalidate();
+  });
   transform.addEventListener('objectChange', () => {
     if (transform.object) {
       if (tool === 'scale' && entityRecord(selectedId)?.kind==='assembly') {
@@ -630,6 +639,7 @@ export function createViewport(container, {
         transform.object.scale.z = Math.max(0.01, transform.object.scale.z);
       }
       snapObject(transform.object);
+      if (trailStart) trail.show(trailStart, transform.object.getWorldPosition(new THREE.Vector3()).toArray(), trailOptions(selectedId));
     }
     invalidate(true);
   });
@@ -794,7 +804,9 @@ export function createViewport(container, {
     if(force||!old||!next||old.id!==next.id||old.layout.entities!==next.layout.entities||old.look!==next.look)zoneProbes.invalidate();
     if(!next||force||old?.id!==next.id)releaseRetired();
     if(force||old?.id!==next?.id)snowRegions=null;
-    const reparent = force || !isTrustedSnapshot(next) || !old || old.id !== next?.id || old.layout.groups !== next?.layout.groups || ['entities','tokens'].some(name => { const a=name==='entities'?old.layout.entities:old.tokens??{},b=name==='entities'?next?.layout.entities??{}:next?.tokens??{}; return Object.keys(b).some(id=>a[id]?.groupId!==b[id]?.groupId); }) || Object.keys((next?.look??next?.defaultLook)?.lights??{}).some(id => (old.look??old.defaultLook).lights[id]?.groupId !== (next.look??next.defaultLook).lights[id]?.groupId);
+    // The projector receives every scene as a fresh copy: the same folders are a different object there, so compare their content.
+    const sameGroups = old && next && (old.layout.groups === next.layout.groups || JSON.stringify(old.layout.groups) === JSON.stringify(next.layout.groups));
+    const reparent = force || !isTrustedSnapshot(next) || !old || old.id !== next?.id || !sameGroups || ['entities','tokens'].some(name => { const a=name==='entities'?old.layout.entities:old.tokens??{},b=name==='entities'?next?.layout.entities??{}:next?.tokens??{}; return Object.keys(b).some(id=>a[id]?.groupId!==b[id]?.groupId); }) || Object.keys((next?.look??next?.defaultLook)?.lights??{}).some(id => (old.look??old.defaultLook).lights[id]?.groupId !== (next.look??next.defaultLook).lights[id]?.groupId);
     generation += 1;wetStale = true;
     cancelPointer(); ruler.clear(); transform.detach();
     runtimeStats={created:0,reused:0,removed:0};
@@ -845,7 +857,7 @@ export function createViewport(container, {
       const moved=JSON.stringify(before?.transform)!==JSON.stringify(record.transform)||visibilityChanged;
       if(moved){changedBounds.push(new THREE.Box3().setFromObject(object));spatial=true;}
       const glideFrom=presentation&&record.actorId&&moved&&!reparent?object.position.clone():null;
-      if(record.transform&&(!isTrustedSnapshot(next)||before?.transform!==record.transform||reparent)){applyTransform(object,record.transform);if(glideFrom)cinema.glide(record.id,object,glideFrom,object.position);if(object.parent&&object.parent!==content&&object.parent!==lighting){const world=new THREE.Matrix4().compose(object.position,object.quaternion,object.scale);object.parent.updateWorldMatrix(true,false);world.premultiply(object.parent.matrixWorld.clone().invert()).decompose(object.position,object.quaternion,object.scale);}}if(moved){object.updateWorldMatrix(true,true);changedBounds.push(new THREE.Box3().setFromObject(object));}object.name=record.name??next.actors?.[record.actorId]?.name;records.set(record.id,record);if(record.kind!=='wall'||visibilityChanged)object.visible=visibleRecord(record);runtimeStats.reused++;return object;
+      if(record.transform&&(!isTrustedSnapshot(next)||before?.transform!==record.transform||reparent)){applyTransform(object,record.transform);if(glideFrom){if(object.parent){const a=object.parent.localToWorld(glideFrom.clone()),b=object.getWorldPosition(new THREE.Vector3());trail.show(a.toArray(),b.toArray(),trailOptions(record.id));trail.hide(1800);}cinema.glide(record.id,object,glideFrom,object.position);}if(object.parent&&object.parent!==content&&object.parent!==lighting){const world=new THREE.Matrix4().compose(object.position,object.quaternion,object.scale);object.parent.updateWorldMatrix(true,false);world.premultiply(object.parent.matrixWorld.clone().invert()).decompose(object.position,object.quaternion,object.scale);}}if(moved){object.updateWorldMatrix(true,true);changedBounds.push(new THREE.Box3().setFromObject(object));}object.name=record.name??next.actors?.[record.actorId]?.name;records.set(record.id,record);if(record.kind!=='wall'||visibilityChanged)object.visible=visibleRecord(record);runtimeStats.reused++;return object;
     }if(object)remove(record.id,{retire:true});signatures.set(record.id,key);return null;};
     const entities = values(next.layout.entities);
     ground.position.y = Math.min(-.025, ...entities.filter(e => e.kind === 'terrain').map(e => e.transform.position[1] + Math.min(...e.heights) - .05), ...slabBottoms(entities));
@@ -1666,7 +1678,7 @@ export function createViewport(container, {
       environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving || zoomVelocity || orbitVelocity), cameraTransition: Boolean(transition), cinema: cinema.info(), exposure: renderer.toneMappingExposure, background: '#' + scene.background.getHexString() }; },
     destroy() {
       destroyed = true;clearTimeout(probeTimer);clearTimeout(screenTimer);screens.dispose();decalTextures.dispose();gpuTimer.dispose();diagnostics.dispose();lightManager.dispose();zoneProbes.dispose();reflections.dispose();cutawayCasters.dispose();lightingHelpers.dispose();
-      ruler.destroy();
+      ruler.destroy(); trail.dispose();
       previewGeneration++;
       for (const helper of extraSelections) disposeObject(helper); disposeObject(polygonLine); disposeObject(brushLine);
       generation += 1;
