@@ -1,6 +1,5 @@
 import {sculptRockInstance} from './rock-sculpt.js';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { surfacePreset } from '../domain/materials.js';
 import { defaultDerivedCache } from '../data/derived-cache.js';
 import { GEOMETRY_VERSION, buildRecipeGeometryPayload, deserializeGeometry } from './recipe-geometry.js';
@@ -41,6 +40,7 @@ export function disposeObject(object, { includeSharedTextures = false } = {}) {
 
 export function standardMaterial(properties = {}) {
   const opacity = Number.isFinite(properties.opacity) ? THREE.MathUtils.clamp(properties.opacity, 0, 1) : 1;
+  const transparent = opacity < 1;
   return new THREE.MeshStandardMaterial({
     color: properties.color ?? '#9b947e',
     roughness: properties.roughness ?? 0.82,
@@ -48,9 +48,10 @@ export function standardMaterial(properties = {}) {
     emissive: properties.emissive ?? '#000000',
     emissiveIntensity: properties.emissiveIntensity ?? 0,
     opacity,
-    transparent: opacity < 1,
-    depthWrite: opacity === 1,
-    side: THREE.DoubleSide,
+    transparent,
+    depthWrite: !transparent,
+    forceSinglePass: transparent,
+    side: properties.side ?? THREE.DoubleSide,
   });
 }
 
@@ -60,7 +61,10 @@ export function assembleRecipeGroup(recipe, payload) {
     for (const part of payload.parts) {
       const geometry = deserializeGeometry(part);
       const materialProps = recipe.materials?.[part.slot];
-      const material = standardMaterial(materialProps);
+      const material = standardMaterial({
+        ...materialProps,
+        side: part.doubleSided ? THREE.DoubleSide : THREE.FrontSide,
+      });
       material.flatShading = Boolean(part.flatShading);
       if (part.recipeSurface && surfacePreset(part.recipeSurface.texture)) {
         material.userData.recipePreviewColor = materialProps?.color;
@@ -212,7 +216,8 @@ function modelInstance(original, record) {
 
 export function createAssetCache() {
   const entries = new Map(), sculpted = new Map(), templates = new Map();
-  const modelLoader = new GLTFLoader();
+  let modelLoaderPromise = null;
+  const getModelLoader = () => (modelLoaderPromise ??= import('three/addons/loaders/GLTFLoader.js').then(({ GLTFLoader }) => new GLTFLoader()));
   const textureLoader = new THREE.TextureLoader();
   let destroyed = false;
   const keyOf = (record) => `${record.id}@${record.revision ?? 1}:${record.type}:${record.url}:${record.contentHash??''}`;
@@ -231,6 +236,7 @@ export function createAssetCache() {
         resource = await response.json();
         if (mark) performance.measure('tabletop:fetch', markId);
       } else if (record.type === 'glb' || record.type === 'model') {
+        const modelLoader = await getModelLoader();
         const model = await modelLoader.loadAsync(record.url);
         resource = model.scene;
         let skinned = false;

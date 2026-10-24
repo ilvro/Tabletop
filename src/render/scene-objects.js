@@ -239,7 +239,7 @@ export function createWindow(entity, wall) {
   }
   if (entity.style === 'glass') {
     const glass = standardMaterial({ ...entity.material, roughness: .16, metalness: .08 });
-    glass.transparent = true; glass.opacity = .28; glass.depthWrite = false;
+    glass.transparent = true; glass.opacity = .28; glass.depthWrite = false; glass.forceSinglePass = true;
     const pane = box(group, [entity.width - 2 * trim, entity.height - 2 * trim, .014], [entity.offset, y, 0], glass); pane.castShadow = false; glass.dispose();
   } else if (entity.style === 'bars') {
     const count = Math.max(1, Math.floor(entity.width / .18));

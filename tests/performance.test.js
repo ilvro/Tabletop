@@ -22,6 +22,8 @@ import { DocumentStorage, atomicWrite } from '../server/storage.js';
 import { applyBoundEmission, updateBoundLights } from '../src/render/bound-light.js';
 import { createCutawayShadows } from '../src/render/cutaway-shadows.js';
 import { createPortalCulling } from '../src/render/portal-culling.js';
+import { isOccluder, isOccluderCandidate, makeOccluder } from '../src/render/occlusion.js';
+import { createMaterialSharing } from '../src/render/material-sharing.js';
 import * as THREE from 'three';
 
 test('150 immutable history entries share terrain data and remain reversible and atomic',()=>{
@@ -319,7 +321,7 @@ test('createPortalCulling builds cells and portals, culls unseen rooms and resto
 });
 
 test('buildRecipeGeometryPayload and ensureRecipePayload preserve attributes byte-for-byte across all 359 catalog recipes', async () => {
-  assert.equal(GEOMETRY_VERSION, 1);
+  assert.equal(GEOMETRY_VERSION, 2);
   const { assets } = JSON.parse(await readFile(path.resolve('public/assets/catalog.json'), 'utf8'));
   const recipes = assets.filter(a => a.type === 'recipe');
   assert.ok(recipes.length >= 359, `expected >= 359 recipes, got ${recipes.length}`);
@@ -328,6 +330,7 @@ test('buildRecipeGeometryPayload and ensureRecipePayload preserve attributes byt
     async read(s, k) { return store.get(`${s}:${k}`) ?? null; },
     async write(s, k, v) { store.set(`${s}:${k}`, structuredClone(v)); return true; },
   };
+  let frontMeshes = 0, doubleMeshes = 0;
   for (const record of recipes) {
     const recipe = JSON.parse(await readFile(path.resolve('public' + record.url), 'utf8'));
     const syncGroup = recipeInstance(recipe, null, record.bounds, null);
@@ -338,8 +341,14 @@ test('buildRecipeGeometryPayload and ensureRecipePayload preserve attributes byt
     assert.deepEqual(asyncGroup.scale.toArray(), syncGroup.scale.toArray(), `scale mismatch on ${record.id}`);
     assert.deepEqual(asyncGroup.position.toArray(), syncGroup.position.toArray(), `position mismatch on ${record.id}`);
     for (let i = 0; i < syncGroup.children.length; i++) {
-      const a = asyncGroup.children[i].geometry;
-      const b = syncGroup.children[i].geometry;
+      const aMesh = asyncGroup.children[i];
+      const bMesh = syncGroup.children[i];
+      assert.equal(aMesh.material.side, bMesh.material.side);
+      if (aMesh.material.side === THREE.FrontSide) frontMeshes++;
+      else doubleMeshes++;
+      if (aMesh.material.transparent) assert.equal(aMesh.material.forceSinglePass, true);
+      const a = aMesh.geometry;
+      const b = bMesh.geometry;
       for (const name of Object.keys(b.attributes)) {
         assert.ok(a.attributes[name], `missing attribute ${name} on ${record.id}`);
         assert.equal(a.attributes[name].array.byteLength, b.attributes[name].array.byteLength);
@@ -355,4 +364,39 @@ test('buildRecipeGeometryPayload and ensureRecipePayload preserve attributes byt
     disposeObject(asyncGroup);
     void payload;
   }
+  assert.ok(frontMeshes > 1000, `expected > 1000 FrontSide meshes, got ${frontMeshes}`);
+  assert.ok(doubleMeshes > 100, `expected > 100 DoubleSide meshes, got ${doubleMeshes}`);
+});
+
+test('isOccluderCandidate pre-identifies occluders, isOccluder reuses pickBounds, and transparent glass shares materials', () => {
+  assert.equal(isOccluderCandidate({ kind: 'wall' }), true);
+  assert.equal(isOccluderCandidate({ kind: 'prop', assetRef: { id: 'builtin-church-vault-ribs' } }), true);
+  assert.equal(isOccluderCandidate({ kind: 'prop', transform: { scale: [1, 1, 1] } }, { bounds: [1, 2.2, 1] }), true);
+  assert.equal(isOccluderCandidate({ kind: 'prop', transform: { scale: [1, 1, 1] } }, { bounds: [0.3, 0.25, 0.3] }), false);
+
+  const mat = new THREE.MeshStandardMaterial();
+  makeOccluder(mat);
+  const keyBefore = mat.customProgramCacheKey();
+  const vBefore = mat.version;
+  makeOccluder(mat);
+  assert.equal(mat.customProgramCacheKey(), keyBefore);
+  assert.equal(mat.version, vBefore);
+  mat.dispose();
+
+  const pickBounds = new WeakMap();
+  const propObj = new THREE.Group();
+  const cachedBox = new THREE.Box3(new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 2.5, 1));
+  pickBounds.set(propObj, cachedBox);
+  assert.equal(isOccluder({ kind: 'prop' }, propObj, 0, pickBounds), true);
+
+  // Transparent glass with forceSinglePass=true is now eligible for material sharing
+  const sharing = createMaterialSharing();
+  const root = new THREE.Group();
+  const g = new THREE.BoxGeometry(1, 1, 0.02);
+  const m1 = new THREE.MeshStandardMaterial({ color: '#99bbcc', transparent: true, opacity: 0.28, depthWrite: false, side: THREE.DoubleSide, forceSinglePass: true });
+  const m2 = m1.clone();
+  root.add(new THREE.Mesh(g, m1), new THREE.Mesh(g, m2));
+  assert.equal(sharing.begin(root), 1);
+  sharing.end();
+  g.dispose(); m1.dispose(); m2.dispose();
 });

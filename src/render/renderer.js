@@ -45,7 +45,7 @@ import { createPageRuntime } from './page-textures.js';
 import { CopyShader } from 'three/addons/shaders/CopyShader.js';
 import { FullScreenQuad } from 'three/addons/postprocessing/Pass.js';
 import { OBJECT_HOLD } from '../domain/inspectables.js';
-import { makeOccluder, isOccluder, updateOcclusion, clearOcclusion, silhouetteMaterial } from './occlusion.js';
+import { makeOccluder, isOccluder, isOccluderCandidate, updateOcclusion, clearOcclusion, silhouetteMaterial } from './occlusion.js';
 import { createMovementTrail } from './movement-trail.js';
 import { createAreaLayer } from './effect-areas.js';
 import { areaFromDrag } from '../domain/areas.js';
@@ -574,6 +574,13 @@ export function createViewport(container, {
    * Characters stay readable: with look.rendering.occlusion, scenery between the camera and each visible token opens
    * around it for this frame only; with silhouettes, a token behind something shows through it in its colour.
    */
+  function patchOccluderObject(object) {
+    object.traverse(child => {
+      if (child.isMesh && !child.userData.decorative) {
+        for (const material of Array.isArray(child.material) ? child.material : [child.material]) makeOccluder(material);
+      }
+    });
+  }
   function prepareOcclusion() {
     const rendering = (sceneDocument?.look ?? sceneDocument?.defaultLook)?.rendering ?? {};
     for (const [id, shadow] of silhouettes) { if (!objects.has(id)) { silhouettes.delete(id); continue; } shadow.visible = Boolean(rendering.silhouettes) && !presentationHidden(id); }
@@ -585,7 +592,7 @@ export function createViewport(container, {
       occludersDirty = false;
       let lowest = Infinity;
       for (let i = 0; i < tokens.length; i++) if (tokens[i].transform.position[1] < lowest) lowest = tokens[i].transform.position[1];
-      for (const [id, object] of objects) if (isOccluder(records.get(id), object, lowest)) object.traverse(child => { if (child.isMesh && !child.userData.decorative) for (const material of Array.isArray(child.material) ? child.material : [child.material]) makeOccluder(material); });
+      for (const [id, object] of objects) if (isOccluder(records.get(id), object, lowest, pickBounds)) patchOccluderObject(object);
     }
     // The hole is centred on the middle of the body, so it uncovers the figure from its base to its head.
     const scale = effects.renderScale(), points = tokens.map(record => { const object = objects.get(record.id); const pt = new THREE.Vector3().setFromMatrixPosition(object.matrixWorld); pt.y += (object.userData.bodyHeight ?? .45) * object.getWorldScale(tempVec3).y; return pt; });
@@ -934,6 +941,7 @@ export function createViewport(container, {
       applyEnvironmentMaterials(instance, entity, look);
       applyMaterialOverrides(instance, undefined, look.materialAdjustments?.[entity.id]);
       applyBoundEmission(instance,records.get(entity.id)??entity,sceneDocument.look??sceneDocument.defaultLook);zones.apply(instance);
+      if (isOccluderCandidate(records.get(entity.id) ?? entity, record)) patchOccluderObject(instance);
       tagEntity(parent, entity.id);
       onMaterialSlots(entity.id);
       portalCulling.updateObject(entity.id, records.get(entity.id) ?? entity, parent);
@@ -1388,6 +1396,7 @@ export function createViewport(container, {
     for (const [record, object] of [[wall, createWall(wall, openings, values(sceneDocument.layout.entities).filter(e => e.kind === 'wall'))], [opening, createWindow(opening, wall)]]) {
       disposeObject(objects.get(record.id)); content.add(object); objects.set(record.id, object);
       object.visible = visibleRecord(record); applySurfaceTextures(object,record,surfaces); applyEnvironmentMaterials(object, record, sceneDocument.look ?? sceneDocument.defaultLook); applyMaterialOverrides(object, undefined, (sceneDocument.look ?? sceneDocument.defaultLook).materialAdjustments?.[record.id]);
+      zones.apply(object); if (isOccluderCandidate(record)) patchOccluderObject(object);
     }
     content.updateMatrixWorld(true); matricesDirty = true; rebuildSceneLists(); updateSelection(); invalidate(true);
   }

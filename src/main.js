@@ -1,7 +1,11 @@
 import './ui/styles.css';
-import { startApplication } from './app/application.js';
 
-startApplication().catch((error) => {
+const presentationId = new URLSearchParams(location.search).get('presentation');
+const launch = presentationId
+  ? import('./app/presentation-window.js').then(({ startPresentation }) => startPresentation(document.getElementById('app'), presentationId))
+  : import('./app/application.js').then(({ startApplication }) => startApplication());
+
+launch.catch((error) => {
   console.error(error);
   const panel = document.createElement('div');
   panel.className = 'fatal-error';

@@ -22,6 +22,8 @@ export default defineConfig(({mode})=>({
         manualChunks(id) {
           if (id.includes('GLTFLoader')) return 'model-loader';
           if (id.includes('node_modules/three')) return 'three';
+          if (id.includes('/src/tutorial/')) return 'tutorial';
+          if (id.includes('/src/authoring/building') || id.includes('/src/authoring/room-') || id.includes('/src/authoring/surroundings') || id.includes('/src/authoring/furnishing') || id.includes('/src/authoring/quick-build') || id.includes('/src/authoring/polish') || id.includes('/src/authoring/anchoring') || id.includes('/src/authoring/mountain') || id.includes('/src/authoring/water') || id.includes('/src/authoring/vegetation')) return 'authoring';
         },
       },
     },

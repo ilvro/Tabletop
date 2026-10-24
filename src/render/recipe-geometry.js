@@ -8,7 +8,34 @@ import { createProfileGeometry } from './architectural-primitives.js';
 import { surfacePreset } from '../domain/materials.js';
 import { craftedBox, turnedGeometry, ellipsoidGeometry, weldVertices } from './crafted-geometry.js';
 
-export const GEOMETRY_VERSION = 1;
+export const GEOMETRY_VERSION = 2;
+
+export function isClosedPartShape(part) {
+  if (part.doubleSided) return false;
+  switch (part.shape) {
+    case 'box':
+    case 'ellipsoid':
+    case 'sphere':
+    case 'rock':
+    case 'profile':
+    case 'arch':
+    case 'timber':
+    case 'stave':
+    case 'branch':
+    case 'ring':
+      return true;
+    case 'cylinder':
+      return !part.openEnded;
+    case 'lathe': {
+      const arc = part.arc ?? Math.PI * 2;
+      if (arc < Math.PI * 2 - 1e-4 || !Array.isArray(part.profile) || part.profile.length < 2) return false;
+      const first = part.profile[0], last = part.profile[part.profile.length - 1];
+      return first[0] <= 1e-4 && last[0] <= 1e-4 && last[1] > first[1];
+    }
+    default:
+      return false;
+  }
+}
 
 function serializeGeometry(geometry) {
   const attributes = {};
@@ -101,6 +128,7 @@ export function buildRecipeGeometryPayload(recipe, rockShape = null, metricBound
       const mesh = new THREE.Mesh(geometry);
       const slot = part.material ?? 'base';
       const flatShading = Boolean(geometry.userData.faceted);
+      const doubleSided = !isClosedPartShape(part);
       const hasSurface = Boolean(surfacePreset(part.surface?.texture));
       const recipeSurface = hasSurface ? structuredClone(part.surface) : undefined;
       mesh.position.fromArray(part.position ?? [0, 0, 0]);
@@ -110,7 +138,7 @@ export function buildRecipeGeometryPayload(recipe, rockShape = null, metricBound
         mesh.rotation.y += jitter;
         mesh.rotation.z += jitter * .5;
       }
-      mesh.userData = { materialSlot: slot, flatShading, recipeSurface };
+      mesh.userData = { materialSlot: slot, flatShading, doubleSided, recipeSurface };
       tempGroup.add(mesh);
       rawParts.push(mesh);
     }
@@ -125,12 +153,15 @@ export function buildRecipeGeometryPayload(recipe, rockShape = null, metricBound
           batches.set(key, {
             slot: mesh.userData.materialSlot,
             flatShading: mesh.userData.flatShading,
+            doubleSided: false,
             recipeSurface: mesh.userData.recipeSurface,
             rocks: [],
             snowProxies: [],
             geometries: [],
           });
         }
+        const batch = batches.get(key);
+        if (mesh.userData.doubleSided) batch.doubleSided = true;
         const geometry = mesh.geometry.index ? mesh.geometry.toNonIndexed() : mesh.geometry.clone();
         geometry.applyMatrix4(mesh.matrix);
         if (!geometry.attributes.uv) {
@@ -169,6 +200,7 @@ export function buildRecipeGeometryPayload(recipe, rockShape = null, metricBound
         mesh.userData = {
           materialSlot: batch.slot,
           flatShading: batch.flatShading,
+          doubleSided: batch.doubleSided,
           recipeSurface: batch.recipeSurface,
         };
         tempGroup.add(mesh);
@@ -195,6 +227,7 @@ export function buildRecipeGeometryPayload(recipe, rockShape = null, metricBound
         ...serializeGeometry(mesh.geometry),
         slot: mesh.userData.materialSlot,
         flatShading: mesh.userData.flatShading,
+        doubleSided: Boolean(mesh.userData.doubleSided),
         recipeSurface: mesh.userData.recipeSurface,
         position: mesh.position.toArray(),
         rotation: [mesh.rotation.x, mesh.rotation.y, mesh.rotation.z],

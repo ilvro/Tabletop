@@ -35,11 +35,25 @@ export function makeOccluder(material) {
   material.needsUpdate = true;
 }
 
+export function isOccluderCandidate(record, asset = null) {
+  if (!record || record.actorId || record.decal || record.cable) return false;
+  if (record.kind === 'wall' || record.kind === 'floor' || record.kind === 'door' || record.kind === 'window') return true;
+  if (record.kind !== 'prop') return false;
+  if (/roof|ceiling|vault|truss|gable/.test(record.assetRef?.id ?? '')) return true;
+  const height = asset?.bounds?.[1];
+  const scaleY = record.transform?.scale?.[1] ?? 1;
+  return !Number.isFinite(height) || height * scaleY > 1.4;
+}
+
 /** What may hide a character: walls, roofs and ceilings, floors above head height, and objects taller than a person's chest. */
-export function isOccluder(record, object, lowestToken) {
+export function isOccluder(record, object, lowestToken, pickBounds = null) {
   if (!record || record.actorId || record.decal || record.cable) return false;
   if (record.kind === 'wall' || /roof|ceiling|vault|truss|gable/.test(record.assetRef?.id ?? '')) return true;
-  const box = new THREE.Box3().setFromObject(object);
+  let box = pickBounds?.get(object);
+  if (!box) {
+    box = new THREE.Box3().setFromObject(object);
+    pickBounds?.set(object, box);
+  }
   if (record.kind === 'floor') return box.min.y > lowestToken + 2.1;
   return ['prop', 'door', 'window'].includes(record.kind) && box.max.y - box.min.y > 1.4;
 }
