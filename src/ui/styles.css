@@ -785,26 +785,65 @@ dialog.floating-window.library-dialog, .floating-window { background: var(--tt-s
 .camera-strip .live-camera-toggle.active svg { animation: live-pulse 1.4s ease-in-out infinite; }
 @keyframes live-pulse { 50% { opacity: .45; } }
 @media (prefers-reduced-motion: reduce) { .camera-strip .live-camera-toggle.active svg { animation: none; } }
-/* Turn order: a strip of portraits at the top of the stage and of the projector. */
-.initiative-strip { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; align-items: flex-end; gap: 8px; padding: 8px 12px; border-radius: 12px; background: color-mix(in srgb, var(--tt-surface-1) 78%, transparent); border: 1px solid var(--tt-line); pointer-events: none; }
+:root { --hex: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+/* Turn order, after the sheets: the round in a torn tag, the turn in a tall lit card, the next ones in a carousel. */
+.initiative-strip { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; align-items: flex-end; gap: 18px; padding: 10px 28px 12px; pointer-events: none;
+  background: radial-gradient(farthest-side at 50% 0, color-mix(in srgb, var(--eco-black) 84%, transparent) 0, color-mix(in srgb, var(--eco-black) 60%, transparent) 55%, transparent 100%); }
+/* The thin frame lines of the sheets, fading at both ends. */
+.initiative-strip::before, .initiative-strip::after { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--scene-accent, var(--tt-accent)) 70%, transparent) 20%, color-mix(in srgb, var(--scene-accent, var(--tt-accent)) 70%, transparent) 80%, transparent); }
+.initiative-strip::before { top: 0; } .initiative-strip::after { bottom: 0; opacity: .45; }
 .initiative-strip[hidden] { display: none; }
-.initiative-strip.is-projector { position: fixed; top: 24px; z-index: 30; padding: 10px 16px; }
-.initiative-round { align-self: center; margin-right: 4px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--tt-text-2); }
-.initiative-card { display: grid; justify-items: center; gap: 3px; width: 46px; opacity: .78; }
-.initiative-card img, .initiative-initial { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: top; border: 2px solid var(--token-color); background: var(--tt-surface-2); display: grid; place-items: center; font-weight: 700; color: var(--token-color); }
-.initiative-card small { max-width: 64px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; color: var(--tt-text-2); }
-.initiative-card.is-turn { width: 64px; opacity: 1; }
-.initiative-card.is-turn img, .initiative-card.is-turn .initiative-initial { width: 58px; height: 58px; border-width: 3px; box-shadow: 0 0 14px color-mix(in srgb, var(--token-color) 60%, transparent); }
-.initiative-card.is-turn small { font-size: 12px; font-weight: 650; color: var(--tt-text); }
-.is-projector .initiative-card { width: 60px; } .is-projector .initiative-card img, .is-projector .initiative-initial { width: 52px; height: 52px; }
-.is-projector .initiative-card.is-turn { width: 84px; } .is-projector .initiative-card.is-turn img, .is-projector .initiative-card.is-turn .initiative-initial { width: 76px; height: 76px; }
-.is-projector .initiative-card small { font-size: 13px; } .is-projector .initiative-round { font-size: 13px; }
-.initiative-list { list-style: none; margin: 4px 0 10px; padding: 0; display: grid; gap: 4px; }
-.initiative-list li { display: grid; grid-template-columns: 6px 1fr 62px 28px; align-items: center; gap: 8px; padding: 4px 6px; border-radius: 7px; background: var(--tt-surface-2); border: 1px solid transparent; }
-.initiative-list li i { width: 6px; height: 22px; border-radius: 3px; background: var(--token-color); }
-.initiative-list li.is-turn { border-color: var(--tt-accent); background: var(--tt-accent-wash); }
-.initiative-list li.is-turn span { font-weight: 650; color: var(--tt-accent-strong); }
-.initiative-list input { width: 100%; }
+.initiative-strip.is-projector { position: fixed; top: 22px; z-index: 30; gap: 24px; padding: 14px 40px 16px; }
+.initiative-round { display: grid; justify-items: center; gap: 2px; align-self: center; }
+.initiative-round b { font: 700 var(--eco-fs-34)/1 var(--eco-font-display); color: var(--tt-text); text-shadow: 0 2px 10px var(--eco-black); }
+.initiative-cards { display: flex; align-items: flex-end; gap: 10px; }
+.initiative-card { position: relative; display: grid; justify-items: center; gap: 4px; width: 54px; opacity: .62; filter: saturate(.75); }
+.initiative-face { width: 48px; height: 60px; display: grid; place-items: center; overflow: hidden; border: 1px solid color-mix(in srgb, var(--token-color) 70%, transparent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--token-color) 22%, var(--eco-black)), var(--eco-black)); box-shadow: 0 6px 16px color-mix(in srgb, var(--eco-black) 70%, transparent); }
+.initiative-face img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.initiative-initial { font: 700 var(--eco-fs-26)/1 var(--eco-font-display); color: var(--token-color); text-transform: uppercase; }
+.initiative-card small { max-width: 72px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 700 var(--eco-fs-11)/1.2 var(--eco-font-display); letter-spacing: .04em; text-transform: uppercase; color: var(--tt-text-2); text-shadow: 0 1px 4px var(--eco-black); }
+.initiative-label { font: 650 var(--eco-fs-11)/1 var(--eco-font-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--tt-muted); text-shadow: 0 1px 3px var(--eco-black); }
+.initiative-value { position: absolute; top: 48px; right: -2px; min-width: 22px; height: 24px; display: grid; place-items: center; padding: 0 3px; clip-path: var(--hex); background: var(--token-color);
+  color: var(--eco-black); font: 700 var(--eco-fs-11)/1 var(--eco-font-display); font-style: normal; }
+.initiative-card.is-next { opacity: .82; filter: none; }
+.initiative-card.is-turn { width: 88px; opacity: 1; filter: none; }
+.initiative-card.is-turn .initiative-label { color: var(--token-color); }
+.initiative-card.is-turn .initiative-face { width: 76px; height: 96px; border: 2px solid var(--token-color);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--eco-black) 80%, transparent), 0 0 22px color-mix(in srgb, var(--token-color) 55%, transparent), 0 10px 24px color-mix(in srgb, var(--eco-black) 80%, transparent); }
+.initiative-card.is-turn .initiative-initial { font-size: var(--eco-fs-34); }
+.initiative-card.is-turn small { max-width: 110px; font-size: var(--eco-fs-14); color: var(--tt-text); }
+.initiative-card.is-turn .initiative-value { top: 80px; right: -6px; min-width: 30px; height: 32px; font-size: var(--eco-fs-14); }
+.is-projector .initiative-card { width: 70px; } .is-projector .initiative-face { width: 62px; height: 78px; } .is-projector .initiative-card .initiative-value { top: 64px; }
+.is-projector .initiative-card.is-turn { width: 118px; } .is-projector .initiative-card.is-turn .initiative-face { width: 104px; height: 130px; } .is-projector .initiative-card.is-turn .initiative-value { top: 112px; min-width: 38px; height: 40px; font-size: var(--eco-fs-16); }
+.is-projector .initiative-card small { font-size: var(--eco-fs-13); max-width: 96px; } .is-projector .initiative-card.is-turn small { font-size: var(--eco-fs-20); max-width: 160px; }
+.is-projector .initiative-label { font-size: 11px; } .is-projector .initiative-round b { font-size: 44px; }
+@media (prefers-reduced-motion: no-preference) { .initiative-card { transition: opacity var(--eco-mid) var(--eco-ease), transform var(--eco-mid) var(--eco-ease); } .initiative-card.is-turn { animation: initiative-arrive var(--eco-slow) var(--eco-ease); } }
+@keyframes initiative-arrive { from { opacity: 0; transform: translateY(-8px); } }
+/* The combat panel: torn tag and round badge, rows with the name in the display face and the value in a hexagon. */
+.initiative-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.initiative-round-badge { display: flex; align-items: center; gap: 8px; }
+.initiative-round-badge small { font-size: var(--eco-fs-11); font-weight: 650; letter-spacing: .14em; text-transform: uppercase; color: var(--tt-muted); }
+.initiative-round-badge b { min-width: 30px; height: 32px; display: grid; place-items: center; clip-path: var(--hex); background: var(--tt-accent); color: var(--tt-accent-ink); font: 700 var(--eco-fs-16)/1 var(--eco-font-display); }
+.initiative-panel > .tt-tag { margin-bottom: 8px; }
+.initiative-panel .cta { margin-top: 6px; }
+.initiative-list { list-style: none; margin: 4px 0 12px; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--tt-line); }
+.initiative-list li { display: grid; grid-template-columns: 22px 1fr 46px 28px; align-items: center; gap: 8px; padding: 7px 4px 7px 8px; border-bottom: 1px solid var(--tt-line); box-shadow: inset 3px 0 0 var(--token-color); }
+.initiative-order { font: 600 var(--eco-fs-12)/1 var(--eco-font-mono); color: var(--tt-muted); text-align: right; }
+.initiative-name { display: flex; align-items: center; gap: 8px; min-width: 0; overflow: hidden; font: 700 var(--eco-fs-13)/1.2 var(--eco-font-display); letter-spacing: .03em; text-transform: uppercase; color: var(--tt-text-2); white-space: nowrap; text-overflow: ellipsis; }
+.initiative-name .tt-tag { --tag-bg: var(--token-color); --tag-ink: var(--eco-black); font-style: normal; padding: 2px 8px 3px; font-size: var(--eco-fs-11); }
+.initiative-hex { display: grid; place-items: center; width: 42px; height: 46px; clip-path: var(--hex); background: color-mix(in srgb, var(--token-color) 60%, var(--tt-surface-3)); }
+.initiative-hex input { width: 38px; height: 42px; padding: 0; border: 0; clip-path: var(--hex); background: var(--tt-surface-1); color: var(--tt-text); text-align: center; font: 700 var(--eco-fs-14)/1 var(--eco-font-display); -moz-appearance: textfield; }
+.initiative-hex input::-webkit-inner-spin-button, .initiative-hex input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.initiative-hex input:focus-visible { outline: none; background: var(--tt-surface-3); }
+.initiative-hex:has(input:focus-visible) { background: var(--tt-accent); }
+.initiative-list li.is-turn { background: linear-gradient(90deg, color-mix(in srgb, var(--token-color) 24%, transparent), transparent 85%); box-shadow: inset 4px 0 0 var(--token-color); }
+.initiative-list li.is-turn .initiative-name { color: var(--tt-text); }
+.initiative-list li.is-turn .initiative-order { color: var(--token-color); }
+.initiative-actions { grid-template-columns: 1fr 1.7fr; }
+.initiative-actions button { white-space: nowrap; }
+.initiative-actions kbd { margin-left: 6px; padding: 0 5px; font-size: var(--eco-fs-11); }
+.combat-areas > .tt-tag { margin: 14px 0 8px; }
 
 /* Inspection: an object held up to the lens, over the blurred frame. */
 .inspection-layer { position: absolute; inset: 0; z-index: 6; pointer-events: none; }

@@ -30,6 +30,13 @@ Plano: [docs/PLANO_DESEMPENHO_2026-10-24.md](docs/PLANO_DESEMPENHO_2026-10-24.md
 
 Pedido: analisar o projeto e planejar melhorias de desempenho, para outro agente implementar. Plano em [docs/PLANO_DESEMPENHO_2026-10-24.md](docs/PLANO_DESEMPENHO_2026-10-24.md): baseline dos recursos recentes na GPU; carregamento (tiles procedurais e geometria das receitas em workers com cache IndexedDB, upload parcial do atlas, `setDocument` fatiado, paredes sem O(W²), variante de shader da oclusão); CPU por frame (matrizes, cutaway, alocações); descarte por cômodo com portais; `DoubleSide` padrão; divisão do bundle e do projetor. Medido em Node: tiles de 130–237 ms cada (~4,5 s no templo), receitas de árvores de 170–365 ms. Nada medido na GPU nesta análise.
 
+## E para documentos e iniciativa no visual das fichas (24 de outubro) — feito
+
+- **E** também pega um documento inspecionável para ler (sob o mouse ou selecionado); commit `06ca3ba`.
+- **Iniciativa**: faixa e painel refeitos com a linguagem da *Ficha teste - Ordem II* (etiqueta rasgada, serifada maiúscula, valores em hexágono como os dados, cartão aceso na cor do personagem, "Vez de" e "Próximo" como no carrossel). Seletores dos testes mantidos (`.initiative-card`, `.is-turn`, nome em `small`, `data-initiative-value` e os `aria-label`).
+- `tests/e2e/panel-consistency.test.js` esperava só três grupos em Tomadas; o grupo **Sessão** existe desde a leitura tática. Expectativa atualizada.
+- **Validação**: `initiative`, `effect-areas`, `panel-consistency`, `highlight` (passou na segunda vez; a primeira foi sob carga) e 405 testes unitários.
+
 ## Projetor segue o arraste com a câmera ao vivo (24 de outubro) — feito, não commitado
 
 Pedido: com **L** (câmera ao vivo) e **Seguir** ligados, o projetor deve acompanhar o personagem em tempo real, não só quando o movimento termina.

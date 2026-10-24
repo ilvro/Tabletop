@@ -22,7 +22,7 @@ test('scene and object disclosures retain state; libraries fade in/out and can r
   await action('floor-add'); await page.locator('[data-tab=scene]').click();
   assert.deepEqual(await page.locator('#side-content .task-heading').allTextContents(), ['Atmosfera']);
   await page.locator('[data-tab=shots]').click();
-  assert.deepEqual(await page.locator('#side-content .task-heading').allTextContents(), ['Tomadas', 'Câmera', 'Projetor']);
+  assert.deepEqual(await page.locator('#side-content .task-heading').allTextContents(), ['Tomadas', 'Câmera', 'Projetor', 'Sessão']);
   await page.locator('[data-tab=scene]').click();
   const original = await snapshot(), camera = await page.evaluate(() => window.__tabletop.camera());
   const sun = page.locator('[data-panel-section=sun]'), sky = page.locator('[data-panel-section=sky]');
