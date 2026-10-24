@@ -27,6 +27,8 @@ function fracture(u, v, frequency, seed) {
 
 /** Original seamless procedural tiles: albedo + packed height/roughness/metalness, with no network dependency. */
 export function generateSurfaceTile(settings, size = SIZE) {
+  const mark = globalThis.location?.search?.includes('diagnostics') && globalThis.performance?.mark;
+  if (mark) performance.mark('tabletop:tile:start');
   const preset = surfacePreset(settings.texture), layer = SURFACE_MATERIALS.indexOf(preset), options = textureOptions(settings);
   if (!preset) throw new Error("Material de superfície inválido.");
   const albedo = new Uint8Array(size * size * 4), details = new Uint8Array(albedo.length);
@@ -241,6 +243,7 @@ export function generateSurfaceTile(settings, size = SIZE) {
     for(let c=0;c<3;c++) albedo[index+c]=Math.max(0,Math.min(255,Math.round(rgb[c])));
     albedo[index+3]=Math.round(Math.max(0,Math.min(1,tintable))*255); details[index]=Math.max(0,Math.min(255,height*255)); details[index+1]=Math.max(0,Math.min(255,rough*255)); details[index+2]=Math.max(0,Math.min(255,metal*255)); details[index+3]=255;
   }
+  if (mark) performance.measure('tabletop:tile', 'tabletop:tile:start');
   return { albedo, details, width: size, height: size };
 }
 

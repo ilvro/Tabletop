@@ -1,6 +1,25 @@
 # Tabletop — andamento
 
-Atualizado em 22 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 24 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+
+## Implementação do plano de desempenho (24 de outubro) — em andamento
+
+Plano: [docs/PLANO_DESEMPENHO_2026-10-24.md](docs/PLANO_DESEMPENHO_2026-10-24.md).
+
+- **Fase 0 — Baseline na RX 580 (concluída):**
+  - `diagnostics.measure` adicionado em `renderer.js` para `figures`, `updateCutaway`, `pages.sync`, `descriptors`, `matrixWorld`, `cutawayCasters` e `prepareOcclusion`; decomposição de carga com `performance.mark`/`measure` (`fetch`, `tile`, `recipe`, `setDocument`, `firstFrame`, `shaderWarmup`).
+  - Baseline salva em [docs/benchmarks/frames-2026-10-24.json](docs/benchmarks/frames-2026-10-24.json) (RX 580, 1600×900, 150 quadros por câmera, com e sem `occlusion` + `silhouettes` + céu noturno/aurora + 8 figuras):
+    - **Backrooms** (salão): 808 chamadas, p50 12,3 ms / p95 31,4 ms (CPU 7,5 ms, GPU 8,1 ms); tático+noite+8 figuras: 893 chamadas, p50 14,8 ms / p95 18,4 ms; carga 1,78 s.
+    - **Casa de bairro** (jardim): 602 chamadas, p50 12,1 ms / p95 15,8 ms (CPU 8,8 ms, GPU 6,3 ms); tático+noite+8 figuras: 686 chamadas, p50 17,2 ms / p95 22,4 ms; carga 3,31 s.
+    - **Igreja Antiga** (desfiladeiro / nave): 933 / 549 chamadas, p50 23,9 / 34,2 ms (CPU 19,5 / 29,1 ms, GPU 16,5 / 27,0 ms); tático+noite+8 figuras: p50 47,2 / 41,0 ms; carga fria 5,24 s (`setDocument` 571 ms, 11 tiles 939 ms, 67 receitas 1 250 ms, `shaderWarmup` 721 ms) vs. quente 2,39 s; com oclusão ligada na 1ª vez a carga salta para 19,86 s pela recompilação de shaders (`makeOccluder`).
+    - **Montanha** (subida): 167 chamadas, p50 4,7 ms / p95 9,0 ms (CPU 3,0 ms, GPU 6,8 ms); tático+noite+8 figuras: 252 chamadas, p50 7,8 ms; carga 15,56 s (86 receitas = 3,51 s, 12 tiles = 1,08 s).
+    - **Templo gelado** (ravina / salão / biblioteca / visão geral): 2 494 / 2 147 / 1 310 / 1 282 chamadas, p50 55,1 / 50,7 / 34,3 / 39,4 ms (CPU 43,4 / 39,0 / 23,0 / 28,4 ms, GPU 19,5 / 23,7 / 19,1 / 17,3 ms); tático+noite+8 figuras no salão: p50 52,7 ms / p95 64,5 ms; carga fria 16,90 s (`setDocument` 1 215 ms, 18 tiles 2 024 ms, 112 receitas 2 635 ms, `shaderWarmup` 2 963 ms, `firstFrame` 3 913 ms) vs. quente 7,93 s.
+    - Perfil de CPU (`profile-frames.js`): `updateMatrixWorld` é a maior função isolada de script (8,3% no salão do templo, 8,7% na igreja); no salão do templo, por quadro (p50/p95): `shareMaterials` 2,6/4,3 ms, `matrixWorld` 2,4/4,2 ms, `boundLights`/`descriptors` 2,1/3,3 ms, `cutawayCasters` 0,8/1,5 ms, `updateCutaway` 0,7/1,0 ms.
+- **Em andamento:** Fase 1 (carregamento de cena: 1.1 tiles em worker pool, 1.2 cache persistente IndexedDB, 1.3 upload parcial do atlas, 1.5 `setDocument` fatiado e paredes sem O(W²), 1.6 variante de shader da oclusão, 1.4 geometria das receitas em worker), seguida de Fase 2, Fase 3 e Fase 4.
+
+## Plano de desempenho (24 de outubro) — plano escrito, nada implementado
+
+Pedido: analisar o projeto e planejar melhorias de desempenho, para outro agente implementar. Plano em [docs/PLANO_DESEMPENHO_2026-10-24.md](docs/PLANO_DESEMPENHO_2026-10-24.md): baseline dos recursos recentes na GPU; carregamento (tiles procedurais e geometria das receitas em workers com cache IndexedDB, upload parcial do atlas, `setDocument` fatiado, paredes sem O(W²), variante de shader da oclusão); CPU por frame (matrizes, cutaway, alocações); descarte por cômodo com portais; `DoubleSide` padrão; divisão do bundle e do projetor. Medido em Node: tiles de 130–237 ms cada (~4,5 s no templo), receitas de árvores de 170–365 ms. Nada medido na GPU nesta análise.
 
 ## Plano dos tutoriais (24 de outubro) — plano escrito, nada implementado
 

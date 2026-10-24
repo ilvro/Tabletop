@@ -11,7 +11,8 @@ import { projectPresentation } from '../src/app/presentation.js';
 import { createLatestJob } from '../src/data/latest-job.js';
 import { createScenePreviews } from '../src/app/scene-previews.js';
 import { createTerrain, updateTerrain, syncTerrainPicking } from '../src/render/scene-objects.js';
-import { createAssetCache, disposeObject } from '../src/render/asset-cache.js';
+import { createAssetCache, disposeObject, recipeInstance } from '../src/render/asset-cache.js';
+import { generateSurfaceTile } from '../src/render/surface-pixels.js';
 import { paintTerrain, sculptTerrain } from '../src/authoring/terrain.js';
 import { DocumentStorage, atomicWrite } from '../server/storage.js';
 import { applyBoundEmission } from '../src/render/bound-light.js';
@@ -149,4 +150,16 @@ test('server summaries rebuild after restart, corruption and external edits at 1
   const summaries=await storage.list('scenes');assert.equal(summaries.find(d=>d.id===doc.id).name,doc.name);summaries.find(d=>d.id===doc.id).name='Mutação do consumidor';
   assert.equal((await storage.list('scenes')).find(d=>d.id===doc.id).name,doc.name);
   await unlink(storage.file('scenes',doc.id));assert.equal((await storage.list('scenes')).length,199);
+});
+
+test('diagnostics marks decompose tile and recipe generation',()=>{
+  const prev=globalThis.location;globalThis.location={search:'?diagnostics'};
+  performance.clearMarks();performance.clearMeasures();
+  try{
+    generateSurfaceTile({texture:'wood'},32);
+    const g=recipeInstance({materials:{base:{color:'#fff'}},parts:[{shape:'box',size:[1,1,1],material:'base'}]});
+    disposeObject(g);
+    const names=performance.getEntriesByType('measure').map(e=>e.name);
+    assert.ok(names.includes('tabletop:tile'));assert.ok(names.includes('tabletop:recipe'));
+  }finally{globalThis.location=prev;performance.clearMarks();performance.clearMeasures();}
 });

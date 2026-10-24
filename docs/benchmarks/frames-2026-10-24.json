@@ -1,0 +1,5200 @@
+{
+  "measuredAt": "2026-10-24T12:55:34.159Z",
+  "viewport": [
+    1600,
+    900
+  ],
+  "frames": 150,
+  "scenes": [
+    {
+      "scene": "backrooms",
+      "tactical": false,
+      "renderer": "ANGLE (AMD, AMD Radeon RX 580 2048SP (radeonsi polaris10 ACO), OpenGL 4.6)",
+      "pixelRatio": 1,
+      "loadMs": 1779.2,
+      "loadBreakdown": {
+        "firstFrame": {
+          "count": 1,
+          "totalMs": 571.9,
+          "maxMs": 571.9
+        },
+        "setDocument": {
+          "count": 1,
+          "totalMs": 245,
+          "maxMs": 245
+        },
+        "tile": {
+          "count": 5,
+          "totalMs": 404.3,
+          "maxMs": 132.1
+        },
+        "fetch": {
+          "count": 17,
+          "totalMs": 14771.6,
+          "maxMs": 1291.5
+        },
+        "recipe": {
+          "count": 17,
+          "totalMs": 277.3,
+          "maxMs": 40.3
+        },
+        "shaderWarmup": {
+          "count": 1,
+          "totalMs": 243.1,
+          "maxMs": 243.1
+        }
+      },
+      "geometries": 315,
+      "textures": 34,
+      "cameras": [
+        {
+          "camera": "01 · O salão amarelo",
+          "calls": 808,
+          "triangles": 216299,
+          "frameMs": {
+            "p50": 12.3,
+            "p95": 31.4
+          },
+          "renderCpuMs": {
+            "p50": 7.5,
+            "p95": 11.7
+          },
+          "gpuMs": {
+            "p50": 8.09,
+            "p95": 8.26
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.5,
+              "p95": 1
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 1,
+              "p95": 2.1
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0.1,
+              "p95": 19.1
+            },
+            "gpuFrame": {
+              "p50": 8.088,
+              "p95": 8.262
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 7.5,
+              "p95": 11.7
+            },
+            "longTask": {
+              "p50": 58,
+              "p95": 58
+            }
+          }
+        },
+        {
+          "camera": "02 · Corredor sem fim",
+          "calls": 584,
+          "triangles": 154443,
+          "frameMs": {
+            "p50": 10.2,
+            "p95": 17.6
+          },
+          "renderCpuMs": {
+            "p50": 6.2,
+            "p95": 11.9
+          },
+          "gpuMs": {
+            "p50": 8.18,
+            "p95": 8.52
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 0.9,
+              "p95": 2.1
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "gpuFrame": {
+              "p50": 8.176,
+              "p95": 8.517
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 6.2,
+              "p95": 11.9
+            }
+          }
+        },
+        {
+          "camera": "03 · Reunião sem participantes",
+          "calls": 216,
+          "triangles": 77775,
+          "frameMs": {
+            "p50": 6.6,
+            "p95": 33.1
+          },
+          "renderCpuMs": {
+            "p50": 3,
+            "p95": 30.1
+          },
+          "gpuMs": {
+            "p50": 8.03,
+            "p95": 8.34
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 0.8,
+              "p95": 1.9
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 8.026,
+              "p95": 8.343
+            },
+            "shareMaterials": {
+              "p50": 0.5,
+              "p95": 1.1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 3,
+              "p95": 30.1
+            }
+          }
+        },
+        {
+          "camera": "04 · Arquivo abandonado",
+          "calls": 126,
+          "triangles": 44147,
+          "frameMs": {
+            "p50": 6.5,
+            "p95": 20
+          },
+          "renderCpuMs": {
+            "p50": 2.7,
+            "p95": 15.7
+          },
+          "gpuMs": {
+            "p50": 8.76,
+            "p95": 9.08
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 0.9,
+              "p95": 2
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 8.762,
+              "p95": 9.081
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.2
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 2.7,
+              "p95": 15.7
+            },
+            "longTask": {
+              "p50": 63,
+              "p95": 69
+            }
+          }
+        },
+        {
+          "camera": "05 · Planta · oculte Coberturas",
+          "calls": 858,
+          "triangles": 240843,
+          "frameMs": {
+            "p50": 12.4,
+            "p95": 17.4
+          },
+          "renderCpuMs": {
+            "p50": 8.1,
+            "p95": 11.6
+          },
+          "gpuMs": {
+            "p50": 6.14,
+            "p95": 6.33
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.5,
+              "p95": 0.9
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 1,
+              "p95": 1.9
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 6.138,
+              "p95": 6.326
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 8.1,
+              "p95": 11.6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "scene": "casa-de-bairro",
+      "tactical": false,
+      "renderer": "ANGLE (AMD, AMD Radeon RX 580 2048SP (radeonsi polaris10 ACO), OpenGL 4.6)",
+      "pixelRatio": 1,
+      "loadMs": 3314.9,
+      "loadBreakdown": {
+        "firstFrame": {
+          "count": 1,
+          "totalMs": 1463.3,
+          "maxMs": 1463.3
+        },
+        "setDocument": {
+          "count": 1,
+          "totalMs": 517.1,
+          "maxMs": 517.1
+        },
+        "tile": {
+          "count": 11,
+          "totalMs": 712.9,
+          "maxMs": 94.2
+        },
+        "fetch": {
+          "count": 44,
+          "totalMs": 78180.5,
+          "maxMs": 2499.6
+        },
+        "recipe": {
+          "count": 44,
+          "totalMs": 638.3,
+          "maxMs": 69.6
+        },
+        "shaderWarmup": {
+          "count": 1,
+          "totalMs": 299.6,
+          "maxMs": 299.6
+        }
+      },
+      "geometries": 467,
+      "textures": 40,
+      "cameras": [
+        {
+          "camera": "01 · Chegada pelo jardim",
+          "calls": 602,
+          "triangles": 291737,
+          "frameMs": {
+            "p50": 12.1,
+            "p95": 15.8
+          },
+          "renderCpuMs": {
+            "p50": 8.8,
+            "p95": 12.2
+          },
+          "gpuMs": {
+            "p50": 6.35,
+            "p95": 6.46
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "descriptors": {
+              "p50": 0.2,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 0.5,
+              "p95": 1
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0.1,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 6.352,
+              "p95": 6.459
+            },
+            "shareMaterials": {
+              "p50": 0.4,
+              "p95": 0.8
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 8.8,
+              "p95": 12.2
+            }
+          }
+        },
+        {
+          "camera": "02 · Sala e jantar",
+          "calls": 274,
+          "triangles": 129101,
+          "frameMs": {
+            "p50": 9.4,
+            "p95": 39.1
+          },
+          "renderCpuMs": {
+            "p50": 6.1,
+            "p95": 36.4
+          },
+          "gpuMs": {
+            "p50": 12.03,
+            "p95": 12.77
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "descriptors": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "matrixWorld": {
+              "p50": 0.5,
+              "p95": 1
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 12.029,
+              "p95": 12.774
+            },
+            "shareMaterials": {
+              "p50": 0.4,
+              "p95": 0.8
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 6.1,
+              "p95": 36.4
+            }
+          }
+        },
+        {
+          "camera": "03 · Cozinha",
+          "calls": 243,
+          "triangles": 100767,
+          "frameMs": {
+            "p50": 10.7,
+            "p95": 45.8
+          },
+          "renderCpuMs": {
+            "p50": 6.9,
+            "p95": 42.5
+          },
+          "gpuMs": {
+            "p50": 14.1,
+            "p95": 15.5
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "matrixWorld": {
+              "p50": 0.7,
+              "p95": 1.2
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 14.103,
+              "p95": 15.504
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 6.9,
+              "p95": 42.5
+            },
+            "longTask": {
+              "p50": 52,
+              "p95": 52
+            }
+          }
+        },
+        {
+          "camera": "04 · Quarto e estudo",
+          "calls": 102,
+          "triangles": 46641,
+          "frameMs": {
+            "p50": 6.5,
+            "p95": 54.6
+          },
+          "renderCpuMs": {
+            "p50": 3.5,
+            "p95": 52.4
+          },
+          "gpuMs": {
+            "p50": 11.5,
+            "p95": 13.85
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "descriptors": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "matrixWorld": {
+              "p50": 0.5,
+              "p95": 1.1
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 11.5,
+              "p95": 13.855
+            },
+            "shareMaterials": {
+              "p50": 0.4,
+              "p95": 0.8
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 3.5,
+              "p95": 52.4
+            },
+            "longTask": {
+              "p50": 54,
+              "p95": 59
+            }
+          }
+        },
+        {
+          "camera": "05 · Planta · oculte Coberturas",
+          "calls": 602,
+          "triangles": 291737,
+          "frameMs": {
+            "p50": 12.1,
+            "p95": 17.2
+          },
+          "renderCpuMs": {
+            "p50": 8.9,
+            "p95": 13.4
+          },
+          "gpuMs": {
+            "p50": 7.5,
+            "p95": 7.72
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.2,
+              "p95": 0.5
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "descriptors": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "matrixWorld": {
+              "p50": 0.6,
+              "p95": 1.3
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 7.504,
+              "p95": 7.721
+            },
+            "shareMaterials": {
+              "p50": 0.5,
+              "p95": 0.9
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 8.9,
+              "p95": 13.4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "scene": "igreja-antiga",
+      "tactical": false,
+      "renderer": "ANGLE (AMD, AMD Radeon RX 580 2048SP (radeonsi polaris10 ACO), OpenGL 4.6)",
+      "pixelRatio": 1,
+      "loadMs": 5243.4,
+      "loadBreakdown": {
+        "firstFrame": {
+          "count": 1,
+          "totalMs": 1509.2,
+          "maxMs": 1509.2
+        },
+        "setDocument": {
+          "count": 1,
+          "totalMs": 571.4,
+          "maxMs": 571.4
+        },
+        "tile": {
+          "count": 11,
+          "totalMs": 938.7,
+          "maxMs": 195
+        },
+        "fetch": {
+          "count": 43,
+          "totalMs": 97467.3,
+          "maxMs": 3905.6
+        },
+        "recipe": {
+          "count": 67,
+          "totalMs": 1249.9,
+          "maxMs": 74.3
+        },
+        "shaderWarmup": {
+          "count": 1,
+          "totalMs": 720.6,
+          "maxMs": 720.6
+        }
+      },
+      "warmLoadMs": 2393.3,
+      "warmLoadBreakdown": {
+        "firstFrame": {
+          "count": 1,
+          "totalMs": 423.1,
+          "maxMs": 423.1
+        },
+        "setDocument": {
+          "count": 1,
+          "totalMs": 133.5,
+          "maxMs": 133.5
+        },
+        "fetch": {
+          "count": 43,
+          "totalMs": 36205.5,
+          "maxMs": 1970.9
+        },
+        "recipe": {
+          "count": 67,
+          "totalMs": 1102.7,
+          "maxMs": 57.8
+        },
+        "shaderWarmup": {
+          "count": 1,
+          "totalMs": 218.4,
+          "maxMs": 218.4
+        }
+      },
+      "geometries": 427,
+      "textures": 49,
+      "cameras": [
+        {
+          "camera": "01 · Igreja sobre o desfiladeiro",
+          "calls": 933,
+          "triangles": 1128403,
+          "frameMs": {
+            "p50": 23.9,
+            "p95": 29.8
+          },
+          "renderCpuMs": {
+            "p50": 19.5,
+            "p95": 25
+          },
+          "gpuMs": {
+            "p50": 16.5,
+            "p95": 16.59
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.5,
+              "p95": 0.8
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1,
+              "p95": 2.2
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.7
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.2
+            },
+            "gpuFrame": {
+              "p50": 16.499,
+              "p95": 16.588
+            },
+            "shareMaterials": {
+              "p50": 0.7,
+              "p95": 1.4
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 19.5,
+              "p95": 25
+            }
+          }
+        },
+        {
+          "camera": "02 · Caminho de aproximação",
+          "calls": 922,
+          "triangles": 1065449,
+          "frameMs": {
+            "p50": 23.1,
+            "p95": 28.6
+          },
+          "renderCpuMs": {
+            "p50": 19.2,
+            "p95": 24.4
+          },
+          "gpuMs": {
+            "p50": 15.51,
+            "p95": 15.59
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 0.9,
+              "p95": 1.9
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 15.508,
+              "p95": 15.585
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 19.2,
+              "p95": 24.4
+            }
+          }
+        },
+        {
+          "camera": "03 · Fachada e torre",
+          "calls": 900,
+          "triangles": 929517,
+          "frameMs": {
+            "p50": 26,
+            "p95": 30.3
+          },
+          "renderCpuMs": {
+            "p50": 21.8,
+            "p95": 25.8
+          },
+          "gpuMs": {
+            "p50": 18.69,
+            "p95": 19.64
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 0.9,
+              "p95": 1.9
+            },
+            "cutawayCasters": {
+              "p50": 0.2,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 18.688,
+              "p95": 19.639
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 21.8,
+              "p95": 25.8
+            }
+          }
+        },
+        {
+          "camera": "04 · Nave em direção ao altar",
+          "calls": 549,
+          "triangles": 634561,
+          "frameMs": {
+            "p50": 34.2,
+            "p95": 37.5
+          },
+          "renderCpuMs": {
+            "p50": 29.1,
+            "p95": 32.5
+          },
+          "gpuMs": {
+            "p50": 26.98,
+            "p95": 27.85
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.5,
+              "p95": 0.8
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "boundLights": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "descriptors": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "matrixWorld": {
+              "p50": 1.2,
+              "p95": 2.3
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 26.976,
+              "p95": 27.845
+            },
+            "shareMaterials": {
+              "p50": 0.7,
+              "p95": 1.2
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 29.1,
+              "p95": 32.5
+            }
+          }
+        },
+        {
+          "camera": "05 · Galeria em direção à entrada",
+          "calls": 714,
+          "triangles": 813133,
+          "frameMs": {
+            "p50": 33.9,
+            "p95": 38.6
+          },
+          "renderCpuMs": {
+            "p50": 29.8,
+            "p95": 34.5
+          },
+          "gpuMs": {
+            "p50": 26.48,
+            "p95": 27.15
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1,
+              "p95": 1.8
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 26.479,
+              "p95": 27.149
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 29.8,
+              "p95": 34.5
+            }
+          }
+        },
+        {
+          "camera": "06 · Dama de Ferro e Serafim",
+          "calls": 204,
+          "triangles": 197555,
+          "frameMs": {
+            "p50": 13.1,
+            "p95": 59.2
+          },
+          "renderCpuMs": {
+            "p50": 8.1,
+            "p95": 54.6
+          },
+          "gpuMs": {
+            "p50": 22.7,
+            "p95": 23.69
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.5,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1,
+              "p95": 2
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 22.704,
+              "p95": 23.692
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 8.1,
+              "p95": 54.6
+            },
+            "longTask": {
+              "p50": 56,
+              "p95": 62
+            }
+          }
+        },
+        {
+          "camera": "07 · Sala de correntes",
+          "calls": 325,
+          "triangles": 531815,
+          "frameMs": {
+            "p50": 19.3,
+            "p95": 40.3
+          },
+          "renderCpuMs": {
+            "p50": 12.7,
+            "p95": 36.5
+          },
+          "gpuMs": {
+            "p50": 20.73,
+            "p95": 21.87
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1,
+              "p95": 1.9
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 20.728,
+              "p95": 21.87
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 12.7,
+              "p95": 36.5
+            }
+          }
+        },
+        {
+          "camera": "08 · Sacristia",
+          "calls": 189,
+          "triangles": 276423,
+          "frameMs": {
+            "p50": 13.3,
+            "p95": 49.7
+          },
+          "renderCpuMs": {
+            "p50": 7.3,
+            "p95": 46.3
+          },
+          "gpuMs": {
+            "p50": 18.81,
+            "p95": 20.52
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1,
+              "p95": 2
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 18.809,
+              "p95": 20.516
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 7.3,
+              "p95": 46.3
+            },
+            "longTask": {
+              "p50": 50,
+              "p95": 53
+            }
+          }
+        },
+        {
+          "camera": "09 · Planta da igreja (ocultar Coberturas)",
+          "calls": 906,
+          "triangles": 938939,
+          "frameMs": {
+            "p50": 28.9,
+            "p95": 34.3
+          },
+          "renderCpuMs": {
+            "p50": 24.6,
+            "p95": 29.7
+          },
+          "gpuMs": {
+            "p50": 21.32,
+            "p95": 21.8
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.9
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 0.9,
+              "p95": 1.7
+            },
+            "cutawayCasters": {
+              "p50": 0.2,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 21.319,
+              "p95": 21.804
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 24.6,
+              "p95": 29.7
+            }
+          }
+        },
+        {
+          "camera": "10 · Vale e percurso superior",
+          "calls": 963,
+          "triangles": 1304205,
+          "frameMs": {
+            "p50": 24.1,
+            "p95": 29.5
+          },
+          "renderCpuMs": {
+            "p50": 20.2,
+            "p95": 25.4
+          },
+          "gpuMs": {
+            "p50": 16.56,
+            "p95": 17.25
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 0.9,
+              "p95": 1.9
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 16.556,
+              "p95": 17.248
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 20.2,
+              "p95": 25.4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "scene": "snowy-mountain-pass",
+      "tactical": false,
+      "renderer": "ANGLE (AMD, AMD Radeon RX 580 2048SP (radeonsi polaris10 ACO), OpenGL 4.6)",
+      "pixelRatio": 1,
+      "loadMs": 15556.3,
+      "loadBreakdown": {
+        "firstFrame": {
+          "count": 1,
+          "totalMs": 1214.4,
+          "maxMs": 1214.4
+        },
+        "setDocument": {
+          "count": 1,
+          "totalMs": 696.8,
+          "maxMs": 696.8
+        },
+        "tile": {
+          "count": 12,
+          "totalMs": 1084.7,
+          "maxMs": 217.6
+        },
+        "fetch": {
+          "count": 23,
+          "totalMs": 189257.3,
+          "maxMs": 13502
+        },
+        "recipe": {
+          "count": 86,
+          "totalMs": 3514.6,
+          "maxMs": 426.1
+        },
+        "shaderWarmup": {
+          "count": 1,
+          "totalMs": 38.6,
+          "maxMs": 38.6
+        }
+      },
+      "geometries": 159,
+      "textures": 19,
+      "cameras": [
+        {
+          "camera": "01 · Subida, caverna e ponte",
+          "calls": 167,
+          "triangles": 796860,
+          "frameMs": {
+            "p50": 4.7,
+            "p95": 9
+          },
+          "renderCpuMs": {
+            "p50": 3,
+            "p95": 7.1
+          },
+          "gpuMs": {
+            "p50": 6.77,
+            "p95": 7.34
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "screens": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "descriptors": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "matrixWorld": {
+              "p50": 0.2,
+              "p95": 0.5
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 3,
+              "p95": 7.1
+            },
+            "gpuFrame": {
+              "p50": 6.765,
+              "p95": 7.342
+            },
+            "longTask": {
+              "p50": 65,
+              "p95": 69
+            }
+          }
+        },
+        {
+          "camera": "02 · Entrada lateral da caverna",
+          "calls": 49,
+          "triangles": 329646,
+          "frameMs": {
+            "p50": 2.2,
+            "p95": 4.7
+          },
+          "renderCpuMs": {
+            "p50": 1.3,
+            "p95": 2.6
+          },
+          "gpuMs": {
+            "p50": 6.85,
+            "p95": 7.41
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "screens": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "descriptors": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "matrixWorld": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "lightBudget": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 1.3,
+              "p95": 2.6
+            },
+            "gpuFrame": {
+              "p50": 6.854,
+              "p95": 7.408
+            },
+            "longTask": {
+              "p50": 280,
+              "p95": 280
+            }
+          }
+        },
+        {
+          "camera": "03 · Ponte e continuação da subida",
+          "calls": 61,
+          "triangles": 334342,
+          "frameMs": {
+            "p50": 2.5,
+            "p95": 4.6
+          },
+          "renderCpuMs": {
+            "p50": 1.4,
+            "p95": 2.5
+          },
+          "gpuMs": {
+            "p50": 5.08,
+            "p95": 7.53
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "screens": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "descriptors": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "matrixWorld": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "lightBudget": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0
+            },
+            "shareMaterials": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 1.4,
+              "p95": 2.5
+            },
+            "gpuFrame": {
+              "p50": 5.081,
+              "p95": 7.527
+            },
+            "longTask": {
+              "p50": 144,
+              "p95": 226
+            }
+          }
+        },
+        {
+          "camera": "04 · Visão geral para construir",
+          "calls": 184,
+          "triangles": 938008,
+          "frameMs": {
+            "p50": 3.8,
+            "p95": 41.7
+          },
+          "renderCpuMs": {
+            "p50": 2.6,
+            "p95": 40.8
+          },
+          "gpuMs": {
+            "p50": 5.37,
+            "p95": 6.13
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "screens": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "descriptors": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "matrixWorld": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "lightBudget": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 2.6,
+              "p95": 40.8
+            },
+            "gpuFrame": {
+              "p50": 5.371,
+              "p95": 6.126
+            },
+            "longTask": {
+              "p50": 53,
+              "p95": 136
+            }
+          }
+        },
+        {
+          "camera": "05 · Mapa superior",
+          "calls": 184,
+          "triangles": 938008,
+          "frameMs": {
+            "p50": 5.3,
+            "p95": 8.9
+          },
+          "renderCpuMs": {
+            "p50": 3.5,
+            "p95": 7.2
+          },
+          "gpuMs": {
+            "p50": 5.41,
+            "p95": 6.37
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "screens": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "descriptors": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "matrixWorld": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.1
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0
+            },
+            "shareMaterials": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 3.5,
+              "p95": 7.2
+            },
+            "gpuFrame": {
+              "p50": 5.409,
+              "p95": 6.37
+            },
+            "longTask": {
+              "p50": 57,
+              "p95": 57
+            }
+          }
+        }
+      ]
+    },
+    {
+      "scene": "templo-gelado",
+      "tactical": false,
+      "renderer": "ANGLE (AMD, AMD Radeon RX 580 2048SP (radeonsi polaris10 ACO), OpenGL 4.6)",
+      "pixelRatio": 1,
+      "loadMs": 16904.7,
+      "loadBreakdown": {
+        "setDocument": {
+          "count": 1,
+          "totalMs": 1214.5,
+          "maxMs": 1214.5
+        },
+        "firstFrame": {
+          "count": 1,
+          "totalMs": 3913.4,
+          "maxMs": 3913.4
+        },
+        "tile": {
+          "count": 18,
+          "totalMs": 2023.9,
+          "maxMs": 248.3
+        },
+        "fetch": {
+          "count": 80,
+          "totalMs": 822490.2,
+          "maxMs": 12600.4
+        },
+        "recipe": {
+          "count": 112,
+          "totalMs": 2635,
+          "maxMs": 114.3
+        },
+        "shaderWarmup": {
+          "count": 1,
+          "totalMs": 2962.8,
+          "maxMs": 2962.8
+        }
+      },
+      "warmLoadMs": 7932.5,
+      "warmLoadBreakdown": {
+        "setDocument": {
+          "count": 1,
+          "totalMs": 315.7,
+          "maxMs": 315.7
+        },
+        "firstFrame": {
+          "count": 1,
+          "totalMs": 809.7,
+          "maxMs": 809.7
+        },
+        "fetch": {
+          "count": 80,
+          "totalMs": 435583.6,
+          "maxMs": 6919.5
+        },
+        "recipe": {
+          "count": 112,
+          "totalMs": 2448,
+          "maxMs": 101.8
+        },
+        "shaderWarmup": {
+          "count": 1,
+          "totalMs": 477.8,
+          "maxMs": 477.8
+        }
+      },
+      "geometries": 1173,
+      "textures": 48,
+      "cameras": [
+        {
+          "camera": "Ravina de entrada",
+          "calls": 2494,
+          "triangles": 2340809,
+          "frameMs": {
+            "p50": 55.1,
+            "p95": 86.7
+          },
+          "renderCpuMs": {
+            "p50": 43.4,
+            "p95": 67.6
+          },
+          "gpuMs": {
+            "p50": 19.47,
+            "p95": 24.68
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.8,
+              "p95": 1.3
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "pages.sync": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "boundLights": {
+              "p50": 2.1,
+              "p95": 3.8
+            },
+            "descriptors": {
+              "p50": 2.1,
+              "p95": 3.8
+            },
+            "matrixWorld": {
+              "p50": 2.5,
+              "p95": 4.4
+            },
+            "cutawayCasters": {
+              "p50": 0.8,
+              "p95": 1.7
+            },
+            "zones": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "lightBudget": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 19.472,
+              "p95": 24.685
+            },
+            "shareMaterials": {
+              "p50": 2.7,
+              "p95": 5.6
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 43.4,
+              "p95": 67.6
+            },
+            "longTask": {
+              "p50": 55,
+              "p95": 87
+            }
+          }
+        },
+        {
+          "camera": "Salão · olhos",
+          "calls": 2147,
+          "triangles": 1914493,
+          "frameMs": {
+            "p50": 50.7,
+            "p95": 62.3
+          },
+          "renderCpuMs": {
+            "p50": 39,
+            "p95": 49.3
+          },
+          "gpuMs": {
+            "p50": 23.67,
+            "p95": 23.78
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.7,
+              "p95": 1
+            },
+            "screens": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "pages.sync": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "boundLights": {
+              "p50": 2.1,
+              "p95": 3.3
+            },
+            "descriptors": {
+              "p50": 2.1,
+              "p95": 3.3
+            },
+            "matrixWorld": {
+              "p50": 2.4,
+              "p95": 4.2
+            },
+            "cutawayCasters": {
+              "p50": 0.8,
+              "p95": 1.5
+            },
+            "zones": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "lightBudget": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 23.667,
+              "p95": 23.775
+            },
+            "shareMaterials": {
+              "p50": 2.6,
+              "p95": 4.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 39,
+              "p95": 49.3
+            },
+            "longTask": {
+              "p50": 53,
+              "p95": 66
+            }
+          }
+        },
+        {
+          "camera": "Biblioteca",
+          "calls": 1310,
+          "triangles": 1065433,
+          "frameMs": {
+            "p50": 34.3,
+            "p95": 41.3
+          },
+          "renderCpuMs": {
+            "p50": 23,
+            "p95": 28.4
+          },
+          "gpuMs": {
+            "p50": 19.1,
+            "p95": 19.16
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.7,
+              "p95": 1.2
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "pages.sync": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "boundLights": {
+              "p50": 2.1,
+              "p95": 3.7
+            },
+            "descriptors": {
+              "p50": 2.1,
+              "p95": 3.7
+            },
+            "matrixWorld": {
+              "p50": 2.5,
+              "p95": 4.1
+            },
+            "cutawayCasters": {
+              "p50": 0.8,
+              "p95": 1.4
+            },
+            "zones": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "lightBudget": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 19.103,
+              "p95": 19.156
+            },
+            "shareMaterials": {
+              "p50": 2.6,
+              "p95": 3.5
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 23,
+              "p95": 28.4
+            }
+          }
+        },
+        {
+          "camera": "Visão geral",
+          "calls": 1282,
+          "triangles": 1452809,
+          "frameMs": {
+            "p50": 39.4,
+            "p95": 50
+          },
+          "renderCpuMs": {
+            "p50": 28.4,
+            "p95": 38.3
+          },
+          "gpuMs": {
+            "p50": 17.3,
+            "p95": 17.93
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0
+            },
+            "updateCutaway": {
+              "p50": 0.7,
+              "p95": 1.2
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "pages.sync": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "boundLights": {
+              "p50": 2,
+              "p95": 3.1
+            },
+            "descriptors": {
+              "p50": 2,
+              "p95": 3.1
+            },
+            "matrixWorld": {
+              "p50": 2.4,
+              "p95": 4.1
+            },
+            "cutawayCasters": {
+              "p50": 0.8,
+              "p95": 1.4
+            },
+            "zones": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "lightBudget": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 17.301,
+              "p95": 17.929
+            },
+            "shareMaterials": {
+              "p50": 2.6,
+              "p95": 4.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 28.4,
+              "p95": 38.3
+            },
+            "longTask": {
+              "p50": 52,
+              "p95": 57
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "tacticalScenes": [
+    {
+      "scene": "backrooms",
+      "tactical": true,
+      "renderer": "ANGLE (AMD, AMD Radeon RX 580 2048SP (radeonsi polaris10 ACO), OpenGL 4.6)",
+      "pixelRatio": 1,
+      "loadMs": 3139.8,
+      "loadBreakdown": {
+        "firstFrame": {
+          "count": 1,
+          "totalMs": 738.4,
+          "maxMs": 738.4
+        },
+        "setDocument": {
+          "count": 1,
+          "totalMs": 228.7,
+          "maxMs": 228.7
+        },
+        "tile": {
+          "count": 5,
+          "totalMs": 448.5,
+          "maxMs": 146.9
+        },
+        "fetch": {
+          "count": 17,
+          "totalMs": 26901.7,
+          "maxMs": 2093.1
+        },
+        "recipe": {
+          "count": 17,
+          "totalMs": 309.6,
+          "maxMs": 53.1
+        },
+        "shaderWarmup": {
+          "count": 1,
+          "totalMs": 771.7,
+          "maxMs": 771.7
+        }
+      },
+      "geometries": 357,
+      "textures": 47,
+      "cameras": [
+        {
+          "camera": "01 · O salão amarelo",
+          "calls": 893,
+          "triangles": 225075,
+          "frameMs": {
+            "p50": 14.8,
+            "p95": 18.4
+          },
+          "renderCpuMs": {
+            "p50": 10.6,
+            "p95": 13.2
+          },
+          "gpuMs": {
+            "p50": 8.79,
+            "p95": 8.89
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.5,
+              "p95": 0.8
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 1.1,
+              "p95": 1.7
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 8.788,
+              "p95": 8.894
+            },
+            "shareMaterials": {
+              "p50": 0.7,
+              "p95": 1.2
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 10.6,
+              "p95": 13.2
+            }
+          }
+        },
+        {
+          "camera": "02 · Corredor sem fim",
+          "calls": 630,
+          "triangles": 158835,
+          "frameMs": {
+            "p50": 12.7,
+            "p95": 17.8
+          },
+          "renderCpuMs": {
+            "p50": 8.1,
+            "p95": 12.1
+          },
+          "gpuMs": {
+            "p50": 8.85,
+            "p95": 9.15
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.8
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 1.1,
+              "p95": 2.4
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.7,
+              "p95": 1.5
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 8.1,
+              "p95": 12.1
+            },
+            "gpuFrame": {
+              "p50": 8.846,
+              "p95": 9.152
+            }
+          }
+        },
+        {
+          "camera": "03 · Reunião sem participantes",
+          "calls": 217,
+          "triangles": 78735,
+          "frameMs": {
+            "p50": 8,
+            "p95": 28
+          },
+          "renderCpuMs": {
+            "p50": 4,
+            "p95": 24.5
+          },
+          "gpuMs": {
+            "p50": 8.82,
+            "p95": 9.15
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 0.9,
+              "p95": 2
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.2
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 4,
+              "p95": 24.5
+            },
+            "gpuFrame": {
+              "p50": 8.818,
+              "p95": 9.146
+            }
+          }
+        },
+        {
+          "camera": "04 · Arquivo abandonado",
+          "calls": 127,
+          "triangles": 45107,
+          "frameMs": {
+            "p50": 6.5,
+            "p95": 55.8
+          },
+          "renderCpuMs": {
+            "p50": 2.8,
+            "p95": 50.2
+          },
+          "gpuMs": {
+            "p50": 10.24,
+            "p95": 10.89
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.2,
+              "p95": 0.5
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 0.8,
+              "p95": 2.1
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 1.4
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 2.8,
+              "p95": 50.2
+            },
+            "gpuFrame": {
+              "p50": 10.238,
+              "p95": 10.886
+            },
+            "longTask": {
+              "p50": 61,
+              "p95": 67
+            }
+          }
+        },
+        {
+          "camera": "05 · Planta · oculte Coberturas",
+          "calls": 943,
+          "triangles": 249619,
+          "frameMs": {
+            "p50": 16.6,
+            "p95": 25.7
+          },
+          "renderCpuMs": {
+            "p50": 12.2,
+            "p95": 19.4
+          },
+          "gpuMs": {
+            "p50": 7.24,
+            "p95": 7.44
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.5,
+              "p95": 0.8
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 1,
+              "p95": 1.9
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 7.244,
+              "p95": 7.44
+            },
+            "shareMaterials": {
+              "p50": 0.7,
+              "p95": 1.4
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 12.2,
+              "p95": 19.4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "scene": "casa-de-bairro",
+      "tactical": true,
+      "renderer": "ANGLE (AMD, AMD Radeon RX 580 2048SP (radeonsi polaris10 ACO), OpenGL 4.6)",
+      "pixelRatio": 1,
+      "loadMs": 4632.9,
+      "loadBreakdown": {
+        "firstFrame": {
+          "count": 1,
+          "totalMs": 1414.6,
+          "maxMs": 1414.6
+        },
+        "setDocument": {
+          "count": 1,
+          "totalMs": 600.9,
+          "maxMs": 600.9
+        },
+        "tile": {
+          "count": 11,
+          "totalMs": 758.2,
+          "maxMs": 107.9
+        },
+        "fetch": {
+          "count": 44,
+          "totalMs": 94623.5,
+          "maxMs": 3130.9
+        },
+        "recipe": {
+          "count": 44,
+          "totalMs": 684.7,
+          "maxMs": 69.4
+        },
+        "shaderWarmup": {
+          "count": 1,
+          "totalMs": 845.1,
+          "maxMs": 845.1
+        }
+      },
+      "geometries": 508,
+      "textures": 53,
+      "cameras": [
+        {
+          "camera": "01 · Chegada pelo jardim",
+          "calls": 686,
+          "triangles": 299553,
+          "frameMs": {
+            "p50": 17.2,
+            "p95": 22.4
+          },
+          "renderCpuMs": {
+            "p50": 13.7,
+            "p95": 18
+          },
+          "gpuMs": {
+            "p50": 7.18,
+            "p95": 7.3
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.2,
+              "p95": 0.5
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0.2,
+              "p95": 0.5
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "matrixWorld": {
+              "p50": 0.6,
+              "p95": 1.2
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "gpuFrame": {
+              "p50": 7.181,
+              "p95": 7.3
+            },
+            "shareMaterials": {
+              "p50": 0.5,
+              "p95": 1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 13.7,
+              "p95": 18
+            }
+          }
+        },
+        {
+          "camera": "02 · Sala e jantar",
+          "calls": 325,
+          "triangles": 133983,
+          "frameMs": {
+            "p50": 10.8,
+            "p95": 37.8
+          },
+          "renderCpuMs": {
+            "p50": 7.8,
+            "p95": 35.6
+          },
+          "gpuMs": {
+            "p50": 14.35,
+            "p95": 15.16
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "descriptors": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "matrixWorld": {
+              "p50": 0.5,
+              "p95": 1
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 14.345,
+              "p95": 15.157
+            },
+            "shareMaterials": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 7.8,
+              "p95": 35.6
+            }
+          }
+        },
+        {
+          "camera": "03 · Cozinha",
+          "calls": 267,
+          "triangles": 103197,
+          "frameMs": {
+            "p50": 10.2,
+            "p95": 39.6
+          },
+          "renderCpuMs": {
+            "p50": 7.1,
+            "p95": 37.1
+          },
+          "gpuMs": {
+            "p50": 14.72,
+            "p95": 15.86
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "descriptors": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "matrixWorld": {
+              "p50": 0.5,
+              "p95": 1
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.4,
+              "p95": 0.8
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 7.1,
+              "p95": 37.1
+            },
+            "gpuFrame": {
+              "p50": 14.719,
+              "p95": 15.856
+            }
+          }
+        },
+        {
+          "camera": "04 · Quarto e estudo",
+          "calls": 102,
+          "triangles": 46641,
+          "frameMs": {
+            "p50": 7.5,
+            "p95": 52.8
+          },
+          "renderCpuMs": {
+            "p50": 4.4,
+            "p95": 50.6
+          },
+          "gpuMs": {
+            "p50": 11.67,
+            "p95": 12.62
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "matrixWorld": {
+              "p50": 0.6,
+              "p95": 1
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.6,
+              "p95": 0.9
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 4.4,
+              "p95": 50.6
+            },
+            "gpuFrame": {
+              "p50": 11.672,
+              "p95": 12.625
+            },
+            "longTask": {
+              "p50": 53,
+              "p95": 59
+            }
+          }
+        },
+        {
+          "camera": "05 · Planta · oculte Coberturas",
+          "calls": 686,
+          "triangles": 299553,
+          "frameMs": {
+            "p50": 15.2,
+            "p95": 21.4
+          },
+          "renderCpuMs": {
+            "p50": 12.5,
+            "p95": 17.8
+          },
+          "gpuMs": {
+            "p50": 8.05,
+            "p95": 8.25
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "descriptors": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "matrixWorld": {
+              "p50": 0.6,
+              "p95": 1.2
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 8.048,
+              "p95": 8.245
+            },
+            "shareMaterials": {
+              "p50": 0.4,
+              "p95": 1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 12.5,
+              "p95": 17.8
+            }
+          }
+        }
+      ]
+    },
+    {
+      "scene": "igreja-antiga",
+      "tactical": true,
+      "renderer": "ANGLE (AMD, AMD Radeon RX 580 2048SP (radeonsi polaris10 ACO), OpenGL 4.6)",
+      "pixelRatio": 1,
+      "loadMs": 19854.5,
+      "loadBreakdown": {
+        "firstFrame": {
+          "count": 1,
+          "totalMs": 1807.2,
+          "maxMs": 1807.2
+        },
+        "setDocument": {
+          "count": 1,
+          "totalMs": 654.7,
+          "maxMs": 654.7
+        },
+        "tile": {
+          "count": 11,
+          "totalMs": 1981,
+          "maxMs": 519.7
+        },
+        "fetch": {
+          "count": 43,
+          "totalMs": 249589.3,
+          "maxMs": 13606.3
+        },
+        "recipe": {
+          "count": 67,
+          "totalMs": 3464.9,
+          "maxMs": 196.2
+        },
+        "shaderWarmup": {
+          "count": 1,
+          "totalMs": 5521.6,
+          "maxMs": 5521.6
+        }
+      },
+      "geometries": 468,
+      "textures": 62,
+      "cameras": [
+        {
+          "camera": "01 · Igreja sobre o desfiladeiro",
+          "calls": 1017,
+          "triangles": 1136219,
+          "frameMs": {
+            "p50": 47.2,
+            "p95": 72.7
+          },
+          "renderCpuMs": {
+            "p50": 38.9,
+            "p95": 60.4
+          },
+          "gpuMs": {
+            "p50": 21,
+            "p95": 25.25
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.6,
+              "p95": 1.7
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.5,
+              "p95": 1.2
+            },
+            "descriptors": {
+              "p50": 0.5,
+              "p95": 1.2
+            },
+            "matrixWorld": {
+              "p50": 2.1,
+              "p95": 5.1
+            },
+            "cutawayCasters": {
+              "p50": 0.5,
+              "p95": 1
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 1.3,
+              "p95": 2.5
+            },
+            "prepareOcclusion": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "render": {
+              "p50": 38.9,
+              "p95": 60.4
+            },
+            "longTask": {
+              "p50": 57,
+              "p95": 138
+            },
+            "gpuFrame": {
+              "p50": 21.004,
+              "p95": 25.253
+            }
+          }
+        },
+        {
+          "camera": "02 · Caminho de aproximação",
+          "calls": 1006,
+          "triangles": 1073265,
+          "frameMs": {
+            "p50": 29.5,
+            "p95": 44.5
+          },
+          "renderCpuMs": {
+            "p50": 23.6,
+            "p95": 36.9
+          },
+          "gpuMs": {
+            "p50": 19.3,
+            "p95": 19.37
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.5,
+              "p95": 0.9
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "descriptors": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "matrixWorld": {
+              "p50": 1.6,
+              "p95": 3
+            },
+            "cutawayCasters": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 19.3,
+              "p95": 19.372
+            },
+            "shareMaterials": {
+              "p50": 1.1,
+              "p95": 1.9
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 23.6,
+              "p95": 36.9
+            },
+            "longTask": {
+              "p50": 51,
+              "p95": 51
+            }
+          }
+        },
+        {
+          "camera": "03 · Fachada e torre",
+          "calls": 984,
+          "triangles": 937333,
+          "frameMs": {
+            "p50": 32.4,
+            "p95": 42.3
+          },
+          "renderCpuMs": {
+            "p50": 27.5,
+            "p95": 34.5
+          },
+          "gpuMs": {
+            "p50": 24.21,
+            "p95": 24.51
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.8
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1.3,
+              "p95": 2.7
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.7
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 24.21,
+              "p95": 24.509
+            },
+            "shareMaterials": {
+              "p50": 0.9,
+              "p95": 1.8
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 27.5,
+              "p95": 34.5
+            }
+          }
+        },
+        {
+          "camera": "04 · Nave em direção ao altar",
+          "calls": 549,
+          "triangles": 634561,
+          "frameMs": {
+            "p50": 41,
+            "p95": 44.3
+          },
+          "renderCpuMs": {
+            "p50": 35.7,
+            "p95": 39.9
+          },
+          "gpuMs": {
+            "p50": 33.15,
+            "p95": 34.11
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.5,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1.3,
+              "p95": 2.2
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 33.151,
+              "p95": 34.112
+            },
+            "shareMaterials": {
+              "p50": 0.8,
+              "p95": 1.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.2
+            },
+            "render": {
+              "p50": 35.7,
+              "p95": 39.9
+            }
+          }
+        },
+        {
+          "camera": "05 · Galeria em direção à entrada",
+          "calls": 798,
+          "triangles": 820949,
+          "frameMs": {
+            "p50": 42.4,
+            "p95": 47.8
+          },
+          "renderCpuMs": {
+            "p50": 37.9,
+            "p95": 43.6
+          },
+          "gpuMs": {
+            "p50": 33.64,
+            "p95": 34.28
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1,
+              "p95": 2
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 33.642,
+              "p95": 34.28
+            },
+            "shareMaterials": {
+              "p50": 0.7,
+              "p95": 1.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 37.9,
+              "p95": 43.6
+            },
+            "longTask": {
+              "p50": 52,
+              "p95": 52
+            }
+          }
+        },
+        {
+          "camera": "06 · Dama de Ferro e Serafim",
+          "calls": 204,
+          "triangles": 197555,
+          "frameMs": {
+            "p50": 12.8,
+            "p95": 68.9
+          },
+          "renderCpuMs": {
+            "p50": 8,
+            "p95": 65.1
+          },
+          "gpuMs": {
+            "p50": 26.3,
+            "p95": 27.11
+          },
+          "subsystems": {
+            "longTask": {
+              "p50": 65,
+              "p95": 71
+            },
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1,
+              "p95": 2.1
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0
+            },
+            "shareMaterials": {
+              "p50": 0.7,
+              "p95": 1.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 8,
+              "p95": 65.1
+            },
+            "gpuFrame": {
+              "p50": 26.3,
+              "p95": 27.109
+            }
+          }
+        },
+        {
+          "camera": "07 · Sala de correntes",
+          "calls": 325,
+          "triangles": 531815,
+          "frameMs": {
+            "p50": 24.1,
+            "p95": 41
+          },
+          "renderCpuMs": {
+            "p50": 16.8,
+            "p95": 36.4
+          },
+          "gpuMs": {
+            "p50": 21.3,
+            "p95": 22.14
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1.1,
+              "p95": 2.1
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.7,
+              "p95": 1.3
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 16.8,
+              "p95": 36.4
+            },
+            "gpuFrame": {
+              "p50": 21.299,
+              "p95": 22.14
+            }
+          }
+        },
+        {
+          "camera": "08 · Sacristia",
+          "calls": 189,
+          "triangles": 276423,
+          "frameMs": {
+            "p50": 12.2,
+            "p95": 49.5
+          },
+          "renderCpuMs": {
+            "p50": 7.3,
+            "p95": 45.8
+          },
+          "gpuMs": {
+            "p50": 19.19,
+            "p95": 20.45
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1,
+              "p95": 1.7
+            },
+            "cutawayCasters": {
+              "p50": 0.2,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 19.186,
+              "p95": 20.448
+            },
+            "shareMaterials": {
+              "p50": 0.7,
+              "p95": 1.2
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 7.3,
+              "p95": 45.8
+            },
+            "longTask": {
+              "p50": 52,
+              "p95": 54
+            }
+          }
+        },
+        {
+          "camera": "09 · Planta da igreja (ocultar Coberturas)",
+          "calls": 990,
+          "triangles": 946755,
+          "frameMs": {
+            "p50": 34.4,
+            "p95": 44
+          },
+          "renderCpuMs": {
+            "p50": 29.3,
+            "p95": 38.3
+          },
+          "gpuMs": {
+            "p50": 25.48,
+            "p95": 26.18
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.5,
+              "p95": 0.8
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1.5,
+              "p95": 2.9
+            },
+            "cutawayCasters": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.9,
+              "p95": 1.8
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 29.3,
+              "p95": 38.3
+            },
+            "gpuFrame": {
+              "p50": 25.48,
+              "p95": 26.179
+            }
+          }
+        },
+        {
+          "camera": "10 · Vale e percurso superior",
+          "calls": 1047,
+          "triangles": 1312021,
+          "frameMs": {
+            "p50": 28.7,
+            "p95": 37.9
+          },
+          "renderCpuMs": {
+            "p50": 24.4,
+            "p95": 31.4
+          },
+          "gpuMs": {
+            "p50": 19.54,
+            "p95": 19.8
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.5,
+              "p95": 0.7
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "pages.sync": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "boundLights": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "descriptors": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "matrixWorld": {
+              "p50": 1.1,
+              "p95": 2.1
+            },
+            "cutawayCasters": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "zones": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 19.545,
+              "p95": 19.801
+            },
+            "shareMaterials": {
+              "p50": 0.7,
+              "p95": 1.4
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 24.4,
+              "p95": 31.4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "scene": "snowy-mountain-pass",
+      "tactical": true,
+      "renderer": "ANGLE (AMD, AMD Radeon RX 580 2048SP (radeonsi polaris10 ACO), OpenGL 4.6)",
+      "pixelRatio": 1,
+      "loadMs": 18165,
+      "loadBreakdown": {
+        "firstFrame": {
+          "count": 1,
+          "totalMs": 1335.8,
+          "maxMs": 1335.8
+        },
+        "setDocument": {
+          "count": 1,
+          "totalMs": 733.9,
+          "maxMs": 733.9
+        },
+        "tile": {
+          "count": 12,
+          "totalMs": 1069.9,
+          "maxMs": 204.1
+        },
+        "fetch": {
+          "count": 23,
+          "totalMs": 229714.9,
+          "maxMs": 15961.7
+        },
+        "recipe": {
+          "count": 86,
+          "totalMs": 4131.2,
+          "maxMs": 474.7
+        },
+        "shaderWarmup": {
+          "count": 1,
+          "totalMs": 21.1,
+          "maxMs": 21.1
+        }
+      },
+      "geometries": 201,
+      "textures": 32,
+      "cameras": [
+        {
+          "camera": "01 · Subida, caverna e ponte",
+          "calls": 252,
+          "triangles": 805636,
+          "frameMs": {
+            "p50": 7.8,
+            "p95": 61.8
+          },
+          "renderCpuMs": {
+            "p50": 5.7,
+            "p95": 60.3
+          },
+          "gpuMs": {
+            "p50": 11.32,
+            "p95": 13.03
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "screens": {
+              "p50": 0.1,
+              "p95": 0.1
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "descriptors": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "matrixWorld": {
+              "p50": 0.4,
+              "p95": 0.7
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 5.7,
+              "p95": 60.3
+            },
+            "gpuFrame": {
+              "p50": 11.324,
+              "p95": 13.029
+            },
+            "longTask": {
+              "p50": 81,
+              "p95": 94
+            }
+          }
+        },
+        {
+          "camera": "02 · Entrada lateral da caverna",
+          "calls": 80,
+          "triangles": 333530,
+          "frameMs": {
+            "p50": 4.3,
+            "p95": 7.4
+          },
+          "renderCpuMs": {
+            "p50": 2.8,
+            "p95": 4.9
+          },
+          "gpuMs": {
+            "p50": 11.23,
+            "p95": 12.24
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "screens": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "descriptors": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "matrixWorld": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "lightBudget": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 2.8,
+              "p95": 4.9
+            },
+            "gpuFrame": {
+              "p50": 11.232,
+              "p95": 12.236
+            },
+            "longTask": {
+              "p50": 233,
+              "p95": 257
+            }
+          }
+        },
+        {
+          "camera": "03 · Ponte e continuação da subida",
+          "calls": 134,
+          "triangles": 342130,
+          "frameMs": {
+            "p50": 6.4,
+            "p95": 11.5
+          },
+          "renderCpuMs": {
+            "p50": 4.4,
+            "p95": 7.5
+          },
+          "gpuMs": {
+            "p50": 8.31,
+            "p95": 11.14
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.1,
+              "p95": 0.3
+            },
+            "screens": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "descriptors": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "matrixWorld": {
+              "p50": 0.4,
+              "p95": 0.6
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.1
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "shareMaterials": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 4.4,
+              "p95": 7.5
+            },
+            "gpuFrame": {
+              "p50": 8.306,
+              "p95": 11.144
+            },
+            "longTask": {
+              "p50": 93,
+              "p95": 202
+            }
+          }
+        },
+        {
+          "camera": "04 · Visão geral para construir",
+          "calls": 269,
+          "triangles": 946784,
+          "frameMs": {
+            "p50": 7.4,
+            "p95": 20.5
+          },
+          "renderCpuMs": {
+            "p50": 5.7,
+            "p95": 17.3
+          },
+          "gpuMs": {
+            "p50": 8.58,
+            "p95": 9.29
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "screens": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "descriptors": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "matrixWorld": {
+              "p50": 0.4,
+              "p95": 0.8
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "lightBudget": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0
+            },
+            "shareMaterials": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 5.7,
+              "p95": 17.3
+            },
+            "gpuFrame": {
+              "p50": 8.58,
+              "p95": 9.286
+            },
+            "longTask": {
+              "p50": 69,
+              "p95": 69
+            }
+          }
+        },
+        {
+          "camera": "05 · Mapa superior",
+          "calls": 269,
+          "triangles": 946784,
+          "frameMs": {
+            "p50": 9.7,
+            "p95": 18.7
+          },
+          "renderCpuMs": {
+            "p50": 7.6,
+            "p95": 15.9
+          },
+          "gpuMs": {
+            "p50": 8.57,
+            "p95": 9.15
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "screens": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "pages.sync": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "boundLights": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "descriptors": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "matrixWorld": {
+              "p50": 0.4,
+              "p95": 0.8
+            },
+            "cutawayCasters": {
+              "p50": 0,
+              "p95": 0
+            },
+            "zones": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "lightBudget": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0
+            },
+            "shareMaterials": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 7.6,
+              "p95": 15.9
+            },
+            "gpuFrame": {
+              "p50": 8.574,
+              "p95": 9.15
+            },
+            "longTask": {
+              "p50": 56,
+              "p95": 56
+            }
+          }
+        }
+      ]
+    },
+    {
+      "scene": "templo-gelado",
+      "tactical": true,
+      "renderer": "ANGLE (AMD, AMD Radeon RX 580 2048SP (radeonsi polaris10 ACO), OpenGL 4.6)",
+      "pixelRatio": 1,
+      "loadMs": 16923,
+      "loadBreakdown": {
+        "firstFrame": {
+          "count": 1,
+          "totalMs": 3191.9,
+          "maxMs": 3191.9
+        },
+        "setDocument": {
+          "count": 1,
+          "totalMs": 1435,
+          "maxMs": 1435
+        },
+        "tile": {
+          "count": 18,
+          "totalMs": 2086.5,
+          "maxMs": 301.8
+        },
+        "fetch": {
+          "count": 80,
+          "totalMs": 857796.8,
+          "maxMs": 12909
+        },
+        "recipe": {
+          "count": 112,
+          "totalMs": 2776.1,
+          "maxMs": 147.2
+        },
+        "shaderWarmup": {
+          "count": 1,
+          "totalMs": 2436.8,
+          "maxMs": 2436.8
+        }
+      },
+      "geometries": 1215,
+      "textures": 61,
+      "cameras": [
+        {
+          "camera": "Ravina de entrada",
+          "calls": 2579,
+          "triangles": 2349585,
+          "frameMs": {
+            "p50": 69.1,
+            "p95": 87.1
+          },
+          "renderCpuMs": {
+            "p50": 55.6,
+            "p95": 69.9
+          },
+          "gpuMs": {
+            "p50": 24.49,
+            "p95": 29.99
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.9,
+              "p95": 1.4
+            },
+            "screens": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "pages.sync": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "boundLights": {
+              "p50": 2.2,
+              "p95": 3.8
+            },
+            "descriptors": {
+              "p50": 2.2,
+              "p95": 3.8
+            },
+            "matrixWorld": {
+              "p50": 2.8,
+              "p95": 4.5
+            },
+            "cutawayCasters": {
+              "p50": 0.9,
+              "p95": 1.7
+            },
+            "zones": {
+              "p50": 0.3,
+              "p95": 0.5
+            },
+            "lightBudget": {
+              "p50": 0.3,
+              "p95": 0.6
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 24.487,
+              "p95": 29.988
+            },
+            "shareMaterials": {
+              "p50": 2.9,
+              "p95": 5.5
+            },
+            "prepareOcclusion": {
+              "p50": 0.1,
+              "p95": 0.2
+            },
+            "render": {
+              "p50": 55.6,
+              "p95": 69.9
+            },
+            "longTask": {
+              "p50": 68,
+              "p95": 87
+            }
+          }
+        },
+        {
+          "camera": "Salão · olhos",
+          "calls": 2175,
+          "triangles": 1918375,
+          "frameMs": {
+            "p50": 52.7,
+            "p95": 64.5
+          },
+          "renderCpuMs": {
+            "p50": 41.6,
+            "p95": 52
+          },
+          "gpuMs": {
+            "p50": 29.54,
+            "p95": 29.65
+          },
+          "subsystems": {
+            "longTask": {
+              "p50": 54,
+              "p95": 64
+            },
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.7,
+              "p95": 1.1
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "pages.sync": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "boundLights": {
+              "p50": 2.1,
+              "p95": 3.4
+            },
+            "descriptors": {
+              "p50": 2.1,
+              "p95": 3.4
+            },
+            "matrixWorld": {
+              "p50": 2.6,
+              "p95": 3.9
+            },
+            "cutawayCasters": {
+              "p50": 0.7,
+              "p95": 1.3
+            },
+            "zones": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "lightBudget": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 29.544,
+              "p95": 29.645
+            },
+            "shareMaterials": {
+              "p50": 2.6,
+              "p95": 4.1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 41.6,
+              "p95": 52
+            }
+          }
+        },
+        {
+          "camera": "Biblioteca",
+          "calls": 1311,
+          "triangles": 1066393,
+          "frameMs": {
+            "p50": 32.3,
+            "p95": 38.9
+          },
+          "renderCpuMs": {
+            "p50": 22,
+            "p95": 26.8
+          },
+          "gpuMs": {
+            "p50": 22.83,
+            "p95": 23.09
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.6,
+              "p95": 0.9
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "pages.sync": {
+              "p50": 0.2,
+              "p95": 0.4
+            },
+            "boundLights": {
+              "p50": 2,
+              "p95": 2.5
+            },
+            "descriptors": {
+              "p50": 2,
+              "p95": 2.5
+            },
+            "matrixWorld": {
+              "p50": 2.5,
+              "p95": 3.4
+            },
+            "cutawayCasters": {
+              "p50": 0.7,
+              "p95": 1.1
+            },
+            "zones": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "lightBudget": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0
+            },
+            "gpuFrame": {
+              "p50": 22.835,
+              "p95": 23.085
+            },
+            "shareMaterials": {
+              "p50": 2.5,
+              "p95": 3.5
+            },
+            "prepareOcclusion": {
+              "p50": 0.1,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 22,
+              "p95": 26.8
+            },
+            "longTask": {
+              "p50": 60,
+              "p95": 60
+            }
+          }
+        },
+        {
+          "camera": "Visão geral",
+          "calls": 1367,
+          "triangles": 1461585,
+          "frameMs": {
+            "p50": 39.8,
+            "p95": 47.4
+          },
+          "renderCpuMs": {
+            "p50": 29.3,
+            "p95": 36.7
+          },
+          "gpuMs": {
+            "p50": 24.49,
+            "p95": 25.09
+          },
+          "subsystems": {
+            "figures": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "updateCutaway": {
+              "p50": 0.6,
+              "p95": 1
+            },
+            "screens": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "pages.sync": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "boundLights": {
+              "p50": 2,
+              "p95": 2.6
+            },
+            "descriptors": {
+              "p50": 2,
+              "p95": 2.6
+            },
+            "matrixWorld": {
+              "p50": 2.6,
+              "p95": 3.3
+            },
+            "cutawayCasters": {
+              "p50": 0.7,
+              "p95": 1
+            },
+            "zones": {
+              "p50": 0.3,
+              "p95": 0.4
+            },
+            "lightBudget": {
+              "p50": 0.2,
+              "p95": 0.3
+            },
+            "zoneProbes": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "gpuFrame": {
+              "p50": 24.485,
+              "p95": 25.092
+            },
+            "shareMaterials": {
+              "p50": 2.5,
+              "p95": 3.1
+            },
+            "prepareOcclusion": {
+              "p50": 0,
+              "p95": 0.1
+            },
+            "render": {
+              "p50": 29.3,
+              "p95": 36.7
+            },
+            "longTask": {
+              "p50": 52,
+              "p95": 53
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

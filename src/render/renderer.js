@@ -230,7 +230,7 @@ export function createViewport(container, {
   // What hangs from a ceiling: assistant fixtures, ceiling sockets, known ceiling lights, and loose props placed up high.
   const hangsFromCeiling = record => record?.kind === 'prop' && record.anchor?.socket !== 'wall' && (record.anchor?.socket === 'ceiling' || record.tags?.includes('luminária-assistida') || HANGING.test(record.assetRef?.id ?? '') || !record.surfaceId && !record.anchor && record.transform.position[1] >= 1.9);
   let destroyed = false;
-  let generation = 0;
+  let generation = 0, awaitingFirstFrame = false;
   let renderRequest = null;
   let width = 1, height = 1;
   let camera = new THREE.PerspectiveCamera(DEFAULT_CAMERA.fov, 1, 0.03, 1200);
@@ -317,8 +317,9 @@ export function createViewport(container, {
     warmupRequested=false;clearTimeout(warmupTimer);
     // Compile authored visible content using the scene's lights; omit hidden editing helpers.
     const subset={traverseVisible(){},traverse(visitor){content.traverseVisible(visitor);visitor(ground);}};
+    if(diagnostics.enabled&&globalThis.performance?.mark)performance.mark('tabletop:shaderWarmup:start');
     const pending=diagnostics.measureAsync('shaderWarmup',()=>renderer.compileAsync(subset,camera,scene));warmupPromise=pending;
-    try{await pending;}finally{if(warmupPromise===pending)warmupPromise=null;}
+    try{await pending;}finally{if(diagnostics.enabled&&globalThis.performance?.measure)performance.measure('tabletop:shaderWarmup','tabletop:shaderWarmup:start');if(warmupPromise===pending)warmupPromise=null;}
   }
   function scheduleWarmup(){
     if(!renderer.compileAsync||destroyed)return;
@@ -384,7 +385,7 @@ export function createViewport(container, {
     moving = cinema.step(camera, controls, seconds, { transition: Boolean(transition) }) || moving;
     const gliding = cinema.stepGlides(now);
     animatedFigures = false;
-    for (const [id, figure] of figures) { if (objects.get(id)?.children.includes(figure.pivot)) animatedFigures = figure.tick(reducedMotion.matches ? 0 : effectTime) && !reducedMotion.matches || animatedFigures; else figures.delete(id); }
+    diagnostics.measure('figures', () => { for (const [id, figure] of figures) { if (objects.get(id)?.children.includes(figure.pivot)) animatedFigures = figure.tick(reducedMotion.matches ? 0 : effectTime) && !reducedMotion.matches || animatedFigures; else figures.delete(id); } });
     if (gliding) { renderer.shadowMap.needsUpdate = true; lightManager.invalidate(); }
     controls.dampingFactor = 1 - Math.exp(-THREE.MathUtils.lerp(12, 2.5, navigationSmoothing) * Math.max(seconds, 1 / 240));
     // Ambient animation must not keep consuming sub-threshold orbit damping.
@@ -392,7 +393,7 @@ export function createViewport(container, {
     orbitMoving = Boolean(orbitChanged);
     if(pendingTerrain){const next=pendingTerrain;pendingTerrain=null;replaceTerrain(next);}
     if (assetsDirty) { assetsDirty = false; occludersDirty = true; diagnostics.measure('assetBounds', () => {updateShadowBounds();updateSelection();}); snowDirty = true;invalidate(true); }
-    updateCutaway();
+    diagnostics.measure('updateCutaway', updateCutaway);
     if (selectionBox.visible) selectionBox.update();
     const effectsPaused = sceneDocument?.look?.effectsPaused ?? sceneDocument?.defaultLook?.effectsPaused;
     const paused = Boolean(effectsPaused || reducedMotion.matches || document.hidden);
@@ -400,7 +401,7 @@ export function createViewport(container, {
     animatedLights = updateLightEffects(lightObjects, effectTime, paused);
     animatedAtmosphere = atmosphere.update(camera, effectTime, paused, height * renderer.getPixelRatio());
     animatedScreens = diagnostics.measure('screens', () => screens.update(sceneDocument, objects, effectTime, paused, now));
-    pages.sync(sceneDocument, objects);
+    diagnostics.measure('pages.sync', () => pages.sync(sceneDocument, objects));
     if (pendingInspection && objects.has(pendingInspection.id)) { const { id, remote } = pendingInspection; pendingInspection = null; inspect(id, remote); }
     let inspecting = false;
     if (inspection.id) {
@@ -416,14 +417,17 @@ export function createViewport(container, {
     }
     animatedLocalEffects = false;
     for (const effect of localEffects.values()) animatedLocalEffects = updateLocalEffect(effect,effectTime,localEffectsEnabled,paused) || animatedLocalEffects;
-    const descriptors=lightObjects.filter(o=>!o.userData.source.isDirectionalLight).map(wrapper=>({id:wrapper.userData.lightRecord.id,wrapper,source:wrapper.userData.source,record:wrapper.userData.lightRecord}));
-    descriptors.push(...cinema.flashlightDescriptors());
-    if(sceneDocument)descriptors.push(...diagnostics.measure('boundLights',()=>updateBoundLights(sceneDocument,objects,boundLights,effectTime,paused,visibleRecord,generation,screens.lightFor)));
-    for(const [id,effect]of localEffects){const data=effect.userData.localEffect;if(data.light && !sceneDocument.layout.entities[id]?.illumination)descriptors.push({id:id+':fire',wrapper:effect,source:data.light,record:{type:'point',distance:data.light.distance,priority:10,shadowEnabled:false}});}
-    animatedLights ||= [...boundLights.values()].some(b=>b.wrapper.visible&&b.wrapper.userData.lightRecord.enabled&&!paused&&b.wrapper.userData.lightRecord.flicker?.enabled);
-    content.updateMatrixWorld(true);lighting.updateMatrixWorld(true);camera.updateMatrixWorld();
+    const descriptors=diagnostics.measure('descriptors',()=>{
+      const list=lightObjects.filter(o=>!o.userData.source.isDirectionalLight).map(wrapper=>({id:wrapper.userData.lightRecord.id,wrapper,source:wrapper.userData.source,record:wrapper.userData.lightRecord}));
+      list.push(...cinema.flashlightDescriptors());
+      if(sceneDocument)list.push(...diagnostics.measure('boundLights',()=>updateBoundLights(sceneDocument,objects,boundLights,effectTime,paused,visibleRecord,generation,screens.lightFor)));
+      for(const [id,effect]of localEffects){const data=effect.userData.localEffect;if(data.light && !sceneDocument.layout.entities[id]?.illumination)list.push({id:id+':fire',wrapper:effect,source:data.light,record:{type:'point',distance:data.light.distance,priority:10,shadowEnabled:false}});}
+      animatedLights ||= [...boundLights.values()].some(b=>b.wrapper.visible&&b.wrapper.userData.lightRecord.enabled&&!paused&&b.wrapper.userData.lightRecord.flicker?.enabled);
+      return list;
+    });
+    diagnostics.measure('matrixWorld',()=>{content.updateMatrixWorld(true);lighting.updateMatrixWorld(true);camera.updateMatrixWorld();});
     updateShadowBounds(false);
-    if(cutawayCasters.update(objects,records,Boolean((sceneDocument?.look??sceneDocument?.defaultLook)?.rendering?.cutawayShadows),visibleRecord))invalidate(true);
+    if(diagnostics.measure('cutawayCasters',()=>cutawayCasters.update(objects,records,Boolean((sceneDocument?.look??sceneDocument?.defaultLook)?.rendering?.cutawayShadows),visibleRecord)))invalidate(true);
     diagnostics.measure('zones',()=>zones.update(sceneDocument,objects));
     lightingHelpers.update(records.get(selectedId),objects.get(selectedId),!presentation);
     diagnostics.measure('lightBudget',()=>lightManager.update(descriptors,camera,controls.target));if(lightManager.needsShadowUpdate())renderer.shadowMap.needsUpdate=true;
@@ -456,7 +460,7 @@ export function createViewport(container, {
     // changes what is drawn also changes what the rooms reflect.
     if (shareMaterials && materialSharing.changed()) zoneProbes.invalidate();
     cinema.fadeLabels(camera); cinema.beforeRender(camera, now / 1000);
-    prepareOcclusion();
+    diagnostics.measure('prepareOcclusion', prepareOcclusion);
     const turning = placeTurnRing(effectTime), highlighting = stepHighlight(now);
     try { diagnostics.measure('render', () => effects.render(camera, seconds));
       if (inspection.id) {
@@ -469,6 +473,7 @@ export function createViewport(container, {
         inspection.draw(camera, width, height);
       }
     } finally { clearOcclusion(); cinema.afterRender(camera);materialSharing.end();gpuTimer.end();releaseRetired(); }
+    if(awaitingFirstFrame){awaitingFirstFrame=false;if(diagnostics.enabled&&globalThis.performance?.measure)performance.measure('tabletop:firstFrame','tabletop:sceneLoad:start');}
     sample('render',started);
     if (inspection.id && (inspecting || !frozen) && !document.hidden) invalidate();
     else if ((moving || gliding || animatedFigures || turning || highlighting || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
@@ -915,6 +920,8 @@ export function createViewport(container, {
     if (!force && next === sceneDocument && isTrustedSnapshot(next)) { diagnostics.count('documentUpdatesSkipped'); return; }
     diagnostics.count('documentUpdates');materialSharing.invalidate();
     const old=sceneDocument;
+    if(next&&old?.id!==next.id){awaitingFirstFrame=true;if(diagnostics.enabled&&globalThis.performance?.mark){performance.mark('tabletop:sceneLoad:start');performance.mark('tabletop:setDocument:start');}}
+    else if(diagnostics.enabled&&globalThis.performance?.mark)performance.mark('tabletop:setDocument:start');
     // Tokens, cameras and session state do not change what a room reflects.
     if(force||!old||!next||old.id!==next.id||old.layout.entities!==next.layout.entities||old.look!==next.look)zoneProbes.invalidate();
     if(!next||force||old?.id!==next.id)releaseRetired();
@@ -1067,7 +1074,9 @@ export function createViewport(container, {
     pickBounds = new WeakMap();
     zones.update(next,objects);zones.apply(ground);for(const o of objects.values())zones.apply(o);
     occludersDirty = true; syncAreas();
-    updateSelection();sample('update',started);diagnostics.record('reconciliation',performance.now()-started); invalidate();
+    updateSelection();sample('update',started);diagnostics.record('reconciliation',performance.now()-started);
+    if(diagnostics.enabled&&globalThis.performance?.measure)performance.measure('tabletop:setDocument','tabletop:setDocument:start');
+    invalidate();
   }
 
   function exposureForScene(omitId=null) {

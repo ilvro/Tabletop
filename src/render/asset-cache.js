@@ -59,6 +59,8 @@ export function standardMaterial(properties = {}) {
 
 export function recipeInstance(recipe, rockShape = null, metricBounds = null, vegetationSeed = null) {
   if (!Array.isArray(recipe.parts) || recipe.parts.length > 200) throw new Error('Receita de asset inválida.');
+  const mark = globalThis.location?.search?.includes('diagnostics') && globalThis.performance?.mark;
+  if (mark) performance.mark('tabletop:recipe:start');
   const group = new THREE.Group();
   try {
     for (const part of recipe.parts) {
@@ -128,6 +130,7 @@ export function recipeInstance(recipe, rockShape = null, metricBounds = null, ve
     group.scale.set(fittedBounds[0]/size.x,fittedBounds[1]/size.y,fittedBounds[2]/size.z);
     group.position.set(-center.x*group.scale.x,-bounds.min.y*group.scale.y,-center.z*group.scale.z);
   }
+  if (mark) performance.measure('tabletop:recipe', 'tabletop:recipe:start');
   return group;
 }
 
@@ -170,9 +173,12 @@ export function createAssetCache() {
     entry.promise = (async () => {
       let resource;
       if (record.type === 'recipe') {
+        const mark = globalThis.location?.search?.includes('diagnostics') && globalThis.performance?.mark, markId = `tabletop:fetch:${key}`;
+        if (mark) performance.mark(markId);
         const response = await fetch(record.url, { signal: entry.abort.signal });
         if (!response.ok) throw new Error(`Asset indisponível (HTTP ${response.status}).`);
         resource = await response.json();
+        if (mark) performance.measure('tabletop:fetch', markId);
       } else if (record.type === 'glb' || record.type === 'model') {
         const model = await modelLoader.loadAsync(record.url);
         resource = model.scene;
