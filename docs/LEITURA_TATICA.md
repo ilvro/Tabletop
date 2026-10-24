@@ -51,6 +51,7 @@ Contrato: `sessionState.areas = [{ id, shape, origin, yaw, size, width, color, l
 ## Destacar interativos e selos de condição
 
 - **H** (ou **Tomadas → Combate → Destacar interativos**) contorna por 3 segundos, em dourado, as portas, os objetos marcados como interativos e os documentos inspecionáveis, no editor e no projetor. Para marcar um objeto: **Propriedades → Organização → INTERAÇÃO → Interativo**. O campo `interactive` é opcional e não reconstrói o objeto ao mudar.
+- **E** abre ou fecha a porta e acende ou apaga a luz que está **sob o mouse**: apontar e apertar basta. Sem nada disso sob o mouse, vale a seleção (várias luzes juntas: todas acendem se alguma estiver apagada). Cada E é um passo de desfazer. A porta gira até o novo ângulo em cerca de meio segundo, no editor e no projetor (na hora, com movimento reduzido); o ângulo continua em `sessionState.doors` e a folha gira no objeto existente, sem reconstruir a porta.
 - Um personagem com estado diferente de normal (Propriedades → Aparência → FIGURA → Estado) ganha um selo sobre o nome: FERIDO, MORRENDO, INCONSCIENTE, MORTO ou ENLOUQUECENDO, cada um com sua cor. O selo some junto com o nome quando a câmera chega perto (close).
 
 ## Zoom tático

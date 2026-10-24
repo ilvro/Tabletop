@@ -225,6 +225,8 @@ export function createDoor(entity, wall, angle) {
   group.add(hinge);
   applyTransform(group, wall.transform);
   group.userData.wallId = wall.id;
+  // The renderer swings the leaf to a new angle instead of building the door again.
+  group.userData.door = { hinge, direction, target: hinge.rotation.y };
   frame.dispose();
   leaf.dispose();
   return tagEntity(group, entity.id);

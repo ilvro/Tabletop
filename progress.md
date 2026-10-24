@@ -30,6 +30,14 @@ Plano: [docs/PLANO_DESEMPENHO_2026-10-24.md](docs/PLANO_DESEMPENHO_2026-10-24.md
 
 Pedido: analisar o projeto e planejar melhorias de desempenho, para outro agente implementar. Plano em [docs/PLANO_DESEMPENHO_2026-10-24.md](docs/PLANO_DESEMPENHO_2026-10-24.md): baseline dos recursos recentes na GPU; carregamento (tiles procedurais e geometria das receitas em workers com cache IndexedDB, upload parcial do atlas, `setDocument` fatiado, paredes sem O(W²), variante de shader da oclusão); CPU por frame (matrizes, cutaway, alocações); descarte por cômodo com portais; `DoubleSide` padrão; divisão do bundle e do projetor. Medido em Node: tiles de 130–237 ms cada (~4,5 s no templo), receitas de árvores de 170–365 ms. Nada medido na GPU nesta análise.
 
+## Tecla E e portas que giram (24 de outubro) — feito, não commitado
+
+Pedido: atalho para acender/apagar luzes de objetos e abrir/fechar portas sem ir às Propriedades; porta abrindo suave em vez de pular.
+
+**Feito**: **E** age sobre a porta ou a luz sob o mouse, ou sobre a seleção (`interact` e `toggleDoor` em `application.js`; `entityAtPointer` em `renderer.js`); também no Ctrl+K e na folha de atalhos. A porta gira com suavização exponencial (`stepDoors`, ~0,5 s) em vez de ser reconstruída: o ângulo saiu da assinatura do objeto e `createDoor` guarda a dobradiça em `userData.door`. Uso em [docs/LEITURA_TATICA.md](docs/LEITURA_TATICA.md).
+
+**Validação**: `tests/e2e/interact.test.js` (porta sob o mouse, duas vezes; luz selecionada e desfazer), `light-switch` E2E e 404 testes unitários passam. `editor.test.js` estoura o tempo (180 s), mas falha igual no commit `06a97da`, sem estas mudanças: o problema é anterior e não é das portas. `occlusion`, `effect-areas` e os 405 testes unitários passam no build com as mudanças de desempenho.
+
 ## Tutoriais intuitivos (24 de outubro) — etapas 1 a 3 implementadas
 
 Pedido: ver quais recursos precisam de tutorial, planejar e implementar. Plano e andamento: [docs/PLANO_TUTORIAIS.md](docs/PLANO_TUTORIAIS.md).

@@ -413,6 +413,17 @@ export function createViewport(container, {
       try{await warmShaders();}catch(error){report(error);}
     },100);
   }
+  /** Doors on their way to a new angle: the leaf eases in, about half a second from closed to open. */
+  const swingingDoors = new Set();
+  function stepDoors(seconds) {
+    for (const door of swingingDoors) {
+      const gap = door.target - door.hinge.rotation.y;
+      door.hinge.rotation.y = Math.abs(gap) < .002 ? door.target : door.hinge.rotation.y + gap * (1 - Math.exp(-9 * seconds));
+      door.hinge.updateMatrixWorld(true);
+      if (door.hinge.rotation.y === door.target) { swingingDoors.delete(door); pickBounds = new WeakMap(); }
+    }
+    return swingingDoors.size > 0;
+  }
   function invalidate(shadows = false) {
     if (destroyed) return;
     if (shadows) { pickBounds = new WeakMap(); diagnostics.count('globalShadowInvalidations'); renderer.shadowMap.needsUpdate = true;lightManager.invalidate();for(const o of objects.values())if(o.userData.source?.isDirectionalLight)o.userData.source.shadow.needsUpdate=true; }
@@ -466,7 +477,7 @@ export function createViewport(container, {
     }
     if (transition?.follow) { const point = cinema.pointOf(transition.follow); if (point) transition.to.target = point.toArray(); }
     moving = cinema.step(camera, controls, seconds, { transition: Boolean(transition) }) || moving;
-    const gliding = cinema.stepGlides(now);
+    const swinging = stepDoors(seconds), gliding = cinema.stepGlides(now) || swinging;
     animatedFigures = false;
     diagnostics.measure('figures', () => { for (const [id, figure] of figures) { if (objects.get(id)?.children.includes(figure.pivot)) animatedFigures = figure.tick(reducedMotion.matches ? 0 : effectTime) && !reducedMotion.matches || animatedFigures; else figures.delete(id); } });
     if (gliding) { renderer.shadowMap.needsUpdate = true; lightManager.invalidate(); }
@@ -1105,7 +1116,7 @@ export function createViewport(container, {
       const host=record.wallId&&next.layout.entities[record.wallId];
       return JSON.stringify([shape,look.materialAdjustments?.[record.id],look.environmentBindings?.[record.id],look.daylight?.phase,look.nightWindows,
         record.kind==='wall'?[wallProfiles.get(record.id),(openings.get(record.id)??[]).map(openingShape)]:host?wallShape(host):null,
-        record.kind==='door'?next.sessionState?.doors?.[record.id]:null,record.actorId?next.actors[record.actorId]:null,assetRecord(record.assetRef),record.actorId?assetRecord(next.actors[record.actorId]?.assetRef):null]);
+        null,record.actorId?next.actors[record.actorId]:null,assetRecord(record.assetRef),record.actorId?assetRecord(next.actors[record.actorId]?.assetRef):null]);
     };
     const reusable=record=>{const object=objects.get(record.id), prior=records.get(record.id);
       const identical=isTrustedSnapshot(next)&&prior&&sameVisualContext&&record.kind!=='wall'&&!record.wallId&&(!record.actorId||old?.actors?.[record.actorId]===next.actors?.[record.actorId])&&(prior===record||shapeFields(prior).length===shapeFields(record).length&&shapeFields(record).every(key=>prior[key]===record[key]));
@@ -1152,7 +1163,13 @@ export function createViewport(container, {
         const asset = assetRecord(entity.assetRef);
         if (asset) usedAssets.push(asset);
         installAsset(object, entity, entity.assetRef, generation);
-      } else { if(entity.water?.state!=='water') applySurfaceTextures(object, entity.kind==='water'?{...entity,material:{...entity.material,texture:entity.material.texture&&entity.material.texture!=='none'?entity.material.texture:'ice'}}:entity, surfaces); applyEnvironmentMaterials(object, entity, look); applyMaterialOverrides(object, undefined, look.materialAdjustments?.[entity.id]); }
+      } else { if(entity.water?.state!=='water') applySurfaceTextures(object, entity.kind==='water'?{...entity,material:{...entity.material,texture:entity.material.texture&&entity.material.texture!=='none'?entity.material.texture:'ice'}}:entity, surfaces); applyEnvironmentMaterials(object, entity, look); applyMaterialOverrides(object, undefined, look.materialAdjustments?.[entity.id]); if (isOccluderCandidate(entity)) patchOccluderObject(object); }
+    }
+    // A door swings to its angle instead of jumping to it (at once with reduced motion).
+    for (const entity of entities) if (entity.kind === 'door') {
+      const door = objects.get(entity.id)?.userData.door; if (!door) continue;
+      door.target = door.direction * (next.sessionState?.doors?.[entity.id] ?? entity.initialAngle ?? 0);
+      if (door.hinge.rotation.y !== door.target) { if (reducedMotion.matches) door.hinge.rotation.y = door.target; else swingingDoors.add(door); }
     }
     for (const token of values(next.tokens)) {
       const reference=token.visualOverride?.assetRef??next.actors[token.actorId]?.assetRef;if(reference){const asset=assetRecord(reference);if(asset)usedAssets.push(asset);}
@@ -1805,6 +1822,10 @@ export function createViewport(container, {
   }
   canvas.addEventListener('pointerdown', onPointerDown);
   canvas.addEventListener('pointermove', onPointerMove);
+  // Where the pointer rests over the scene, for keys that act on what is under it (E opens a door, lights a lamp).
+  let hover = null;
+  canvas.addEventListener('pointermove', event => { hover = { clientX: event.clientX, clientY: event.clientY }; });
+  canvas.addEventListener('pointerleave', () => { hover = null; });
   canvas.addEventListener('pointerup', onPointerUp);
   canvas.addEventListener('pointerup', finishContextPointer, { capture: true });
   canvas.addEventListener('pointercancel', cancelGesture);
@@ -1879,6 +1900,8 @@ export function createViewport(container, {
       const blob=await new Promise(resolve=>image.toBlob(resolve,'image/jpeg',.78));if(!blob)return null;
       return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error);reader.readAsDataURL(blob);});
     },
+    /** The piece under the resting pointer, or null when the pointer is off the scene. */
+    entityAtPointer() { const hit = hover && pick(hover); return hit?.object.userData.entityId ?? null; },
     pick(event) {
       const hit = pick(event);
       return hit ? { entityId: hit.object.userData.entityId, point: hit.point.toArray() } : null;
