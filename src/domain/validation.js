@@ -18,6 +18,7 @@ import { validateFlashlight, validateCameraExtras } from './cinematics.js';
 import { validateFigure } from './figures.js';
 import { validateInitiative } from './initiative.js';
 import { validateAreas } from './areas.js';
+import { validateInspectable, INSPECT_LIMITS } from './inspectables.js';
 import { polygonIsSimple, polygonSize, floorContour, validHoles, pointInPolygon } from './geometry.js';
 export class ValidationError extends Error {
   constructor(message, path = '') {
@@ -192,7 +193,7 @@ function entity(value, path, document) {
     window: ['wallId', 'offset', 'width', 'height', 'sill', 'style', 'material'],
     stairs: ['transform', 'width', 'length', 'height', 'steps', 'material', 'fromLevelId', 'toLevelId'],
     ramp: ['transform', 'width', 'length', 'height', 'material', 'fromLevelId', 'toLevelId'],
-    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight', 'localEffect', 'rockShape', 'rockSculpt', 'vegetationSeed', 'cable', 'screen', 'decal'],
+    prop: ['transform', 'assetRef', 'footprint', 'material', 'supportHeight', 'localEffect', 'rockShape', 'rockSculpt', 'vegetationSeed', 'cable', 'screen', 'decal', 'inspectable'],
   };
   choice(value.kind, Object.keys(fields), `${path}.kind`); keys(value, [...common, ...fields[value.kind]], path);
   text(value.name, `${path}.name`); bool(value.locked, `${path}.locked`); choice(value.audience, ['all', 'gm'], `${path}.audience`);
@@ -227,6 +228,10 @@ function entity(value, path, document) {
   if (value.screen !== undefined) {
     fail(value.kind === 'prop' && !value.cable && !value.decal, 'Só modelos com tela aceitam conteúdo de tela.', `${path}.screen`);
     validateScreen(value.screen, `${path}.screen`);
+  }
+  if (value.inspectable !== undefined) {
+    fail(value.kind === 'prop' && !value.cable && !value.decal, 'Só objetos da biblioteca podem ser inspecionados.', `${path}.inspectable`);
+    validateInspectable(value.inspectable, `${path}.inspectable`);
   }
   if (value.decal !== undefined) {
     fail(value.kind === 'prop' && value.assetRef?.id === DECAL_ASSET, 'Só o objeto Decalque aceita ajustes de decalque.', `${path}.decal`);
@@ -594,7 +599,13 @@ export function validateDocument(document) {
     fail(camera.position.some((v, i) => Math.abs(v - camera.target[i]) > 1e-8), 'Posição e alvo da câmera devem ser diferentes.', cameraPath);
     number(camera.fov, `${cameraPath}.fov`, 1, 179); positive(camera.orthographicHeight, `${cameraPath}.orthographicHeight`);
   });
-  keys(document.sessionState, ['doors', 'initiative', 'areas'], 'sessionState'); record(document.sessionState.doors, 'sessionState.doors');
+  keys(document.sessionState, ['doors', 'found', 'initiative', 'areas'], 'sessionState'); record(document.sessionState.doors, 'sessionState.doors');
+  // Clues revealed to the players, in order; absent in scenes saved before documents could be inspected.
+  if (document.sessionState.found !== undefined) {
+    const found = document.sessionState.found;
+    fail(Array.isArray(found) && found.length <= INSPECT_LIMITS.found && new Set(found).size === found.length, 'Pistas reveladas devem ser uma lista sem repetições.', 'sessionState.found');
+    found.forEach((key, i) => reference(key, document.layout.entities, `sessionState.found[${i}]`, false));
+  }
   for (const [doorId, angle] of Object.entries(document.sessionState.doors)) {
     reference(doorId, document.layout.entities, `sessionState.doors.${doorId}`, false, 'door');
     number(angle, `sessionState.doors.${doorId}`, -Math.PI * 2, Math.PI * 2);

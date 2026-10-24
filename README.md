@@ -13,7 +13,7 @@ npm run dev
 
 Abrir http://127.0.0.1:5173 (se a porta estiver ocupada por outro programa, o comando usa a próxima livre e mostra o endereço). Para produção local: `npm run build` e `npm start`, em http://127.0.0.1:3001.
 
-Ver [execução, testes e limitações](docs/VERTICAL_SLICE.md), [construção/Smart Build/polish da Fase 3](docs/PHASE_3.md) e [roadmap](docs/ROADMAP.md). A biblioteca tem 352 assets originais, com categorias, épocas, cenários, tags editáveis e favoritos. Veja [catálogo e classificação](docs/ASSET_LIBRARY.md).
+Ver [execução, testes e limitações](docs/VERTICAL_SLICE.md), [construção/Smart Build/polish da Fase 3](docs/PHASE_3.md) e [roadmap](docs/ROADMAP.md). A biblioteca tem 359 assets originais, com categorias, épocas, cenários, tags editáveis e favoritos. Veja [catálogo e classificação](docs/ASSET_LIBRARY.md).
 
 Câmera: WASD navega, Shift acelera, Page Up/Down altera altura; na perspectiva, Espaço sobe e Ctrl desce. Zoom, pan e órbita podem ser usados enquanto anda. Botão direito seleciona ao soltar sem arrastar. G/R/V movem/giram/escalam objetos. Lente, velocidade e transições ficam em **Cena**: [controles](docs/CAMERA.md). [Andamento e pendências](progress.md).
 
@@ -22,6 +22,8 @@ Dados do servidor local ficam em `data/`, ignorados pelo Git. Jukebox e Ficha co
 **GitHub Pages:** `npm run build:pages` gera `dist-pages/`, com assets e persistência no navegador, sem API Node. `npm run preview:pages` permite conferir. O workflow `.github/workflows/pages.yml` publica o build; escolha **Settings → Pages → Source → GitHub Actions** no repositório. Uso, armazenamento e limites em [GITHUB_PAGES.md](docs/GITHUB_PAGES.md).
 
 Cinematografia ao vivo: janela **Ambientação** com hora do dia em transição e sliders de luz, céu, nuvens, névoa e clima (editor e projetor ao vivo, um desfazer ao soltar); Close com fundo desfocado, câmera que segue o token, órbita/câmera na mão, câmera ao vivo opcional no projetor e lanterna nos personagens: [CINEMATOGRAFIA.md](docs/CINEMATOGRAFIA.md). Integração futura com a Ficha: [análise](docs/INTEGRACAO_FICHA.md).
+
+Pistas e documentos: clique duplo numa carta, foto ou objeto pequeno e ele voa até a câmera sobre o fundo desfocado, para girar, aproximar, virar a folha e ler; **Mostrar aos jogadores** revela e leva ao projetor. Kit de papéis em Assets → "documento": [DOCUMENTOS_INTERATIVOS.md](docs/DOCUMENTOS_INTERATIVOS.md).
 
 Ambientes: **Cena** oferece presets de dia/tarde/noite, neblina, chuva, pântano e calor, com sol/lua, Kelvin/HSV, céu/nuvens, partículas e biblioteca própria. Objetos podem acender por horário: [controles e limites](docs/ENVIRONMENTS.md).
 

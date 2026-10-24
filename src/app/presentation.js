@@ -1,5 +1,6 @@
 import { freezeSnapshot, isTrustedSnapshot } from '../state/immutable.js';
 import { pruneInitiative } from '../domain/initiative.js';
+import { publicInspectable, pageImages } from '../domain/inspectables.js';
 const projectionCache=new WeakMap();
 /** Filter before sending. A clean viewport is separate from the master document. */
 export function projectPresentation(document) {
@@ -55,10 +56,14 @@ export function projectPresentation(document) {
   look.materialAdjustments = Object.fromEntries(Object.entries(look.materialAdjustments).filter(([id]) => entities[id]));
   for (const collection of ['levels', 'layers']) if (copy.layout[collection]) copy.layout[collection] = Object.fromEntries(Object.entries(copy.layout[collection]).filter(([, entry]) => entry.audience !== 'gm' && entry.visible !== false));
   for (const entity of Object.values(entities)) for (const field of ['fromLevelId', 'toLevelId']) if (entity[field] && !copy.layout.levels?.[entity[field]]) entity[field] = null;
+  // A secret document reaches the projector as a blank sheet until the master reveals it.
+  const found = new Set(copy.sessionState?.found ?? []);
+  for (const entity of Object.values(entities)) if (entity.inspectable) entity.inspectable = publicInspectable(entity.inspectable, found.has(entity.id));
   if (copy.documentType === 'scene') {
     copy.sessionState.doors = Object.fromEntries(Object.entries(copy.sessionState.doors).filter(([id]) => entities[id]));
     // A token only the master sees takes no turn on the projector.
     if (copy.sessionState.initiative) { const order = pruneInitiative(copy.sessionState.initiative, key => Boolean(copy.tokens?.[key])); if (order.order.length) copy.sessionState.initiative = order; else delete copy.sessionState.initiative; }
+    if (copy.sessionState.found) copy.sessionState.found = copy.sessionState.found.filter(id => entities[id]);
     copy.cameraPresets = {}; copy.audioCue = null; copy.sourceMap = null; copy.sourceEnvironment = null;
   }
   if(isTrustedSnapshot(document))projectionCache.set(document,freezeSnapshot(copy));
@@ -68,7 +73,7 @@ export function projectPresentation(document) {
 export function presentationAssets(document, assets) {
   const references = new Set();
   const include = (reference) => { if (reference) references.add(`${reference.id}@${reference.revision}`); };
-  for (const entity of Object.values(document.layout.entities)) { include(entity.assetRef); include(entity.screen?.imageRef); include(entity.decal?.imageRef); }
+  for (const entity of Object.values(document.layout.entities)) { include(entity.assetRef); include(entity.screen?.imageRef); include(entity.decal?.imageRef); for (const image of pageImages(entity.inspectable)) include(image); }
   for (const token of Object.values(document.tokens ?? {})) {
     const reference = Object.hasOwn(token.visualOverride ?? {}, 'assetRef') ?
       token.visualOverride.assetRef : document.actors[token.actorId]?.assetRef;

@@ -2,6 +2,10 @@
 
 Atualizado em 22 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
 
+## Plano dos tutoriais (24 de outubro) — plano escrito, nada implementado
+
+Pedido: ver quais recursos precisam de tutorial e planejar tutoriais intuitivos, fáceis e úteis. Plano em [docs/PLANO_TUTORIAIS.md](docs/PLANO_TUTORIAIS.md): só 34 das 129 ações da interface aparecem em alguma lição, e a leitura tática inteira, o projetor, o terreno, a paisagem e os andares não têm lição. Propõe três formatos (dica, lição, projeto), cena de treino automática, retorno "quase lá", ajuda em degraus, passos "agora sozinho", "?" nas tarefas, prévia do resultado e sete etapas.
+
 ## Câmera ao vivo, sliders e leitura tática (23 de outubro) — concluído
 
 Pedido: os sliders voltavam à posição original durante o tutorial de iluminação; câmera cinematográfica ao vivo (não só tomadas gravadas); implementar o PLANO_TATICO_BG3, cada parte num commit.
@@ -1182,3 +1186,20 @@ Entregue:
 Limites: a aurora não ilumina a cena; sem constelações reais; cintilação/aurora/meteoros mantêm o quadro animado (a pausa de efeitos para).
 
 Validação: 384 testes unitários (3 novos em `tests/night-sky.test.js`: campos opcionais/validação, preset Aurora com transição gradual, painel ao vivo); E2E de pixels do céu (sol/lua, nuvens, chuva) aprovado; bancada `review-sky.js` conferida quadro a quadro. O E2E de UI de ambientes estourou o tempo duas vezes com outras sessões rodando Chromium por software em paralelo; uma cópia limpa do HEAD também falhou nas mesmas condições. Repetir com a máquina livre. Custo medido no renderizador por software: estrelas +5% sobre a noite sem estrelas; aurora ≈ 2× o custo do céu.
+
+## Documentos e objetos inspecionáveis — concluído
+
+Pedido de 23 de outubro: implementar [docs/PLANO_DOCUMENTOS_INTERATIVOS.md](docs/PLANO_DOCUMENTOS_INTERATIVOS.md). Uso e contrato final em [docs/DOCUMENTOS_INTERATIVOS.md](docs/DOCUMENTOS_INTERATIVOS.md).
+
+Entregue (as cinco fases do plano):
+- Fase 1 — camada de inspeção (`src/render/inspection.js`): clone com geometria e materiais compartilhados numa cena própria desenhada depois da principal; voo de 0,7 s em arco (smootherstep), luz de estúdio (principal, preenchimento, contraluz, hemisférica e ambiente de sala), vinheta, mancha de sombra atrás do objeto; fundo com a profundidade de campo existente (foco a 12 cm, abertura 1,5) e congelado numa textura quando o objeto assenta; arrastar com inércia, roda com zoom no cursor, deslocar, clique duplo volta, Esc devolve. Clique duplo inspeciona documentos e objetos de até 60 cm (registrado antes do "olhar o ponto"); lupa no cartão e Inspecionar no menu de contexto para qualquer prop.
+- Fase 2 — contrato `inspectable` (`src/domain/inspectables.js`, validação, comandos), páginas desenhadas em canvas com cinco papéis e bordas rasgadas por transparência (`src/render/page-textures.js`), UV do slot `page` projetada sobre a folha com verso espelhado, troca de página, F vira a folha, Ler em tela cheia; kit de 7 papéis (`scripts/library-documents.js`, 359 modelos); seção Inspecionável na Aparência.
+- Fase 3 — projetor: mensagem `inspect` (rotação, zoom, deslocamento, página, leitura) suavizada, Mostrar aos jogadores revela antes de enviar, Soltar no projetor, filtro do conteúdo secreto em `projectPresentation`/`presentationAssets`.
+- Fase 4 — `sessionState.found`, comandos `clue.reveal`/`clue.forget`, seção Pistas reveladas em Tomadas → Sessão (reabrir no projetor, ver, esquecer).
+- Fase 5 — tutorial Luz e câmera → Pistas e documentos (envelope na mesa de investigação da Casa de bairro).
+
+Desvio do plano: o estado da inspeção em curso não vai para `sessionState.inspected`; fica no editor e é reenviado a um projetor que se reconecta.
+
+Validação: 395 testes unitários aprovados (5 novos em `tests/inspectables.test.js`); E2E `inspection` (novo), `cinematics` (clique duplo de câmera continua) e `screens-decals` aprovados; tutorial Pistas e documentos seguido do primeiro ao último passo; bancada visual no navegador (carta envelhecida na mesa: frente, verso, página 2, giro, projetor igual ao editor depois de assentar). Coordenação com a sessão do plano tático (iniciativa) nos mesmos arquivos: `sessionState` aceita `doors`, `found` e `initiative`.
+
+Pendências: sombra projetada real no fundo; arrastar imagens da biblioteca direto para a página.

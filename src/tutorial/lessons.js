@@ -201,6 +201,27 @@ export const LESSONS = [
     ],
   },
   {
+    id: 'clues', folder: 'light', heavy: true, title: 'Pistas e documentos', minutes: 6, summary: 'Na Casa de bairro: ponha uma carta na mesa de investigação, escreva o que ela diz e pegue-a para ler, como uma pista num jogo de terror.',
+    steps: [
+      { say: 'Uma pista que os jogadores leem na mesa: a carta voa até a câmera, o resto da cena desfoca e dá para virar a folha.', why: 'Serve para cartas, fotos, recortes de jornal e diários: tudo o que você mostraria fora da mesa, num PDF ou no chat.', done: ['read'], act: 'continue' },
+      { say: 'Clique em <b>Abrir</b>, no trilho.', target: '.rail [data-action="open"]', done: ['documentsOpen'] },
+      { say: 'Em <b>Cenas de exemplo</b>, abra a <b>Casa de bairro</b>.', target: '[data-open-example="casa-de-bairro"]', done: ['sceneNamed', 'Casa de bairro'] },
+      { stage: 'A carta', ...search('envelope', 'builtin-document-envelope') },
+      pick('builtin-document-envelope', 'Envelope · com carta', 'Os modelos de documentos têm uma folha que mostra a primeira página na mesa.'),
+      drop('builtin-document-envelope', 'Clique no ponto marcado, na mesa de investigação.', [-7.2, 1.04, .35], 'A carta fica deitada no tampo, com o topo da folha para o fundo da sala.'),
+      { say: 'Aperte <b>Esc</b> e, em <b>Aparência</b>, marque <b>Pista inspecionável</b>.', target: '[data-field="inspect-enabled"]', before: ['key', 'Escape'], done: ['selectedHas', 'inspectable.kind', 'document'] },
+      { say: 'Dê o título <b>Carta de Gustav</b>.', why: 'É a cartela que aparece no alto durante a leitura.', target: '[data-field="inspect-title"]', done: ['selectedHas', 'inspectable.title', 'Carta de Gustav'], act: ['fill', '[data-field="inspect-title"]', 'Carta de Gustav'] },
+      { say: 'Em <b>Papel</b>, escolha <b>Papel envelhecido</b>.', why: 'Manchas, bordas rasgadas e tinta sépia, em letra inclinada.', target: '[data-field="inspect-paper"]', done: ['selectedHas', 'inspectable.paper', 'aged'], act: ['click', choose('inspect-paper', 'aged')] },
+      { say: 'No <b>Texto</b> da página 1, escreva: <b>Não procure por mim no porão.</b>', why: 'O texto quebra as linhas sozinho e a letra diminui se a carta for longa.', target: '[data-field="inspect-page-0-front-text"]', done: ['inspectText', 'porão'], act: ['fill', '[data-field="inspect-page-0-front-text"]', 'Não procure por mim no porão.'] },
+      { stage: 'A leitura', say: 'Clique em <b>Inspecionar · prévia</b>.', why: 'Na sessão, basta um clique duplo na carta. A cena não muda: o que voa é uma cópia, e o original volta ao lugar.', target: '[data-action="inspect-open"]', done: ['inspecting'] },
+      { say: 'Arraste para girar, use a roda para aproximar e aperte <b>F</b> para virar a folha.', why: 'Clique duplo volta ao enquadramento. <b>Ler</b> mostra a página nítida, em tela cheia, boa para textos longos no projetor.', done: ['read'], act: 'continue' },
+      { say: 'Aperte <b>Esc</b> para devolver a carta à mesa.', target: '#viewport', done: ['inspecting', false], act: ['key', 'Escape'] },
+      { say: 'Na sessão, com a segunda tela aberta, use <b>Mostrar aos jogadores</b> durante a inspeção.', why: 'Até lá o projetor só recebe uma folha em branco: o conteúdo secreto vai no momento em que você revela. A pista entra em <b>Tomadas → Pistas reveladas</b>, de onde volta ao projetor com um clique.', done: ['read'], act: 'continue' },
+      { say: 'Clique em <b>Salvar</b>.', target: '#save-scene', done: ['saved'] },
+      { say: 'Pronto: a carta está na mesa, guarda o que diz e se deixa ler sem sair do lugar.', why: 'Experimente uma <b>Foto · instantânea</b> com uma imagem importada, ou um <b>Recorte · de jornal</b>: a primeira linha vira manchete.', done: ['read'], act: 'continue' },
+    ],
+  },
+  {
     id: 'industrial-1', folder: 'industrial', title: 'Galpão abandonado · 1 · A casca', minutes: 10, summary: 'Primeira de quatro partes da cena de exemplo do galpão: medidas, paredes de concreto sujo e o piso de pedra molhado.',
     needs: 'empty',
     steps: [

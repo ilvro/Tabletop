@@ -39,6 +39,11 @@ import { createMaterialSharing } from './material-sharing.js';
 import { createZoneProbes } from './zone-probes.js';
 import { createCinema } from './cinema.js';
 import { createFigure } from './figures.js';
+import { createInspection } from './inspection.js';
+import { createPageRuntime } from './page-textures.js';
+import { CopyShader } from 'three/addons/shaders/CopyShader.js';
+import { FullScreenQuad } from 'three/addons/postprocessing/Pass.js';
+import { OBJECT_HOLD } from '../domain/inspectables.js';
 import { makeOccluder, isOccluder, updateOcclusion, clearOcclusion, silhouetteMaterial } from './occlusion.js';
 import { createMovementTrail } from './movement-trail.js';
 import { createAreaLayer } from './effect-areas.js';
@@ -119,7 +124,7 @@ export function createViewport(container, {
   onSelect = () => {}, onMaterialPick = () => {}, onIlluminationOrigin = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
   onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
   onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {}, onRockStroke = () => {}, onWaterStroke = () => {}, onMaterialSlots = () => {},
-  onMeasurementChange = () => {}, onLightingDiagnostics = () => {}, onSurfacePlace = () => {}, onCinemaChange = () => {}, onAreaDraw = () => {}, navigationEnabled = true,
+  onMeasurementChange = () => {}, onLightingDiagnostics = () => {}, onSurfacePlace = () => {}, onCinemaChange = () => {}, onAreaDraw = () => {}, onInspect = () => {}, onInspection = () => {}, navigationEnabled = true,
 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-label', navigationEnabled ? 'Cena 3D — WASD desloca, Shift acelera, Page Up/Down altera altura, botão direito orbita, roda aproxima' : 'Cena publicada pelo mestre');
@@ -264,6 +269,21 @@ export function createViewport(container, {
   const cinema = createCinema({ effects, objects, records, reducedMotion });
   // Figures whose state moves on its own (dying, maddened), keyed by token.
   const figures = new Map(); let animatedFigures = false;
+  // Documents: the first page on the model's `page` slot; the page being read on the one held up to the lens.
+  const pages = createPageRuntime({ loadImage: reference => imageOf(reference).then(texture => texture?.image ?? null), small: softwareRenderer, anisotropy: Math.min(8, renderer.capabilities.getMaxAnisotropy()), onChange: () => invalidate(), onError: error => report(error) });
+  // An object picked up and held in front of the camera, over the blurred frame. The frame behind it is
+  // kept in a texture once the object settles in the hands, so reading costs one object a frame.
+  let pendingInspection = null, frozen = null, frozenKey = '';
+  const frozenQuad = new FullScreenQuad(new THREE.ShaderMaterial({ ...CopyShader, uniforms: THREE.UniformsUtils.clone(CopyShader.uniforms), depthTest: false, depthWrite: false }));
+  const thaw = () => { frozen?.dispose(); frozen = null; };
+  const inspection = createInspection({ renderer, reducedMotion, slow: softwareRenderer,
+    onSide: (id, page, side) => { pages.read(id, { page, side }); invalidate(); onInspection({ type: 'side', entityId: id, page, side }); },
+    onClosed: id => {
+      pages.read(id, null); thaw();
+      const object = objects.get(id); if (object) object.visible = visibleRecord(records.get(id));
+      if (!cinema.info().focus) effects.setFocus({ enabled: false });
+      invalidate(true); onInspection({ type: 'closed', entityId: id });
+    } });
   // Scenery that opens around characters, found again when the scene or its models change; silhouettes by token.
   let occludersDirty = true; const silhouettes = new Map();
   // Whose turn it is: a ring under that token, breathing slowly (fixed with reduced motion).
@@ -321,6 +341,15 @@ export function createViewport(container, {
     const elapsed = Math.max(0, (now - (lastFrameTime ?? now)) / 1000);
     const seconds = Math.min(.05, elapsed);
     lastFrameTime = now;
+    // Reading a document: the frame behind it was kept; draw it and the object only.
+    if (frozen && inspection.settled && frozenKey === viewKey() && objects.get(inspection.id) === inspection.source) {
+      const turning = inspection.step(camera, seconds);
+      pages.sync(sceneDocument, objects);
+      frozenQuad.material.uniforms.tDiffuse.value = frozen.texture; renderer.setRenderTarget(null); frozenQuad.render(renderer);
+      inspection.draw(camera, width, height);
+      if (turning && !document.hidden) invalidate(); else lastFrameTime = null;
+      return;
+    }
     let moving = false;
     if (transition) {
       const progress = Math.min(1, (now - transition.start) / (transition.duration * 1000));
@@ -371,6 +400,20 @@ export function createViewport(container, {
     animatedLights = updateLightEffects(lightObjects, effectTime, paused);
     animatedAtmosphere = atmosphere.update(camera, effectTime, paused, height * renderer.getPixelRatio());
     animatedScreens = diagnostics.measure('screens', () => screens.update(sceneDocument, objects, effectTime, paused, now));
+    pages.sync(sceneDocument, objects);
+    if (pendingInspection && objects.has(pendingInspection.id)) { const { id, remote } = pendingInspection; pendingInspection = null; inspect(id, remote); }
+    let inspecting = false;
+    if (inspection.id) {
+      const source = objects.get(inspection.id);
+      if (!source) inspection.finish();
+      else {
+        inspection.replaceSource(source);
+        if (source.visible) { source.visible = false; renderer.shadowMap.needsUpdate = true; lightManager.invalidate(); }
+        camera.updateMatrixWorld(); inspecting = inspection.step(camera, seconds);
+        // Everything behind the object melts away: the focal plane sits just in front of the lens.
+        if (inspection.id) effects.setFocus({ enabled: true, distance: .12, aperture: 1.5 * inspection.blend });
+      }
+    }
     animatedLocalEffects = false;
     for (const effect of localEffects.values()) animatedLocalEffects = updateLocalEffect(effect,effectTime,localEffectsEnabled,paused) || animatedLocalEffects;
     const descriptors=lightObjects.filter(o=>!o.userData.source.isDirectionalLight).map(wrapper=>({id:wrapper.userData.lightRecord.id,wrapper,source:wrapper.userData.source,record:wrapper.userData.lightRecord}));
@@ -415,9 +458,20 @@ export function createViewport(container, {
     cinema.fadeLabels(camera); cinema.beforeRender(camera, now / 1000);
     prepareOcclusion();
     const turning = placeTurnRing(effectTime), highlighting = stepHighlight(now);
-    try { diagnostics.measure('render', () => effects.render(camera, seconds)); } finally { clearOcclusion(); cinema.afterRender(camera);materialSharing.end();gpuTimer.end();releaseRetired(); }
+    try { diagnostics.measure('render', () => effects.render(camera, seconds));
+      if (inspection.id) {
+        if (frozen && frozenKey !== viewKey()) thaw();
+        // Once, when the object has settled: the finished frame (blur and all) into a target. Without effects there is no blur to keep.
+        if (inspection.settled && !frozen && !inspecting && effects.info().depthOfField) {
+          frozen = new THREE.WebGLRenderTarget(Math.floor(width * renderer.getPixelRatio()), Math.floor(height * renderer.getPixelRatio()), { depthBuffer: false });
+          effects.render(camera, 0, frozen); frozenKey = viewKey();
+        }
+        inspection.draw(camera, width, height);
+      }
+    } finally { clearOcclusion(); cinema.afterRender(camera);materialSharing.end();gpuTimer.end();releaseRetired(); }
     sample('render',started);
-    if ((moving || gliding || animatedFigures || turning || highlighting || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
+    if (inspection.id && (inspecting || !frozen) && !document.hidden) invalidate();
+    else if ((moving || gliding || animatedFigures || turning || highlighting || orbitChanged || animatedLights || animatedAtmosphere || animatedLocalEffects || animatedWater) && !document.hidden) invalidate();
     // A screen changes ten times a second at most: come back for it without drawing in a loop. The clock must keep running, so it is not reset.
     else if (animatedScreens && !document.hidden) { screenTimer ??= setTimeout(() => { screenTimer = null; invalidate(); }, 100); }
     else lastFrameTime = null;
@@ -498,6 +552,33 @@ export function createViewport(container, {
 
   function getCamera() {
     return { projection: camera.isOrthographicCamera ? 'orthographic' : 'perspective', position: camera.position.toArray(), target: controls.target.toArray(), fov: camera.isPerspectiveCamera ? camera.fov : (lastPerspective.fov ?? 42), orthographicHeight: camera.isOrthographicCamera ? orthoHeight / camera.zoom : orthoHeight, ...cinema.extras() };
+  }
+  // What the kept frame depends on: where the camera is, its lens and the size of the canvas.
+  const viewKey = () => `${camera.matrixWorld.elements.join()}|${camera.projectionMatrix.elements.join()}|${width}x${height}`;
+  /** A flat thing (a coin, a photo without a page slot) is held by its broad face; anything else by its front. */
+  function flatAxes(object) {
+    object.updateWorldMatrix(true, true);
+    const inverse = object.matrixWorld.clone().invert(), box = new THREE.Box3();
+    object.traverse(mesh => { if (mesh.isMesh && mesh.geometry && !mesh.userData.decorative) { mesh.geometry.boundingBox ?? mesh.geometry.computeBoundingBox(); box.union(mesh.geometry.boundingBox.clone().applyMatrix4(new THREE.Matrix4().multiplyMatrices(inverse, mesh.matrixWorld))); } });
+    if (box.isEmpty()) return null;
+    const size = box.getSize(new THREE.Vector3()), thin = [0, 1, 2].reduce((best, i) => size.getComponent(i) < size.getComponent(best) ? i : best, 0);
+    if (size.getComponent(thin) > .25 * Math.max(size.x, size.y, size.z) || thin === 2) return null;
+    const normal = new THREE.Vector3().setComponent(thin, 1), up = thin === 1 ? new THREE.Vector3(0, 0, -1) : new THREE.Vector3(0, 1, 0);
+    return { normal, up, right: new THREE.Vector3().crossVectors(up, normal).normalize() };
+  }
+  /** Pick up `id` and hold it in front of the camera. `remote` is the projector's first state for it. */
+  function inspect(id, remote = null) {
+    const object = objects.get(id), record = records.get(id);
+    if (!object || !record) { pendingInspection = { id, remote }; invalidate(); return false; }
+    if (inspection.id === id && inspection.phase !== 'closing') { if (remote) inspection.setRemote(remote); return true; }
+    if (inspection.id) inspection.finish();
+    thaw(); cinema.setGoal(null); transition = null; zoomVelocity = 0; orbitVelocity = 0; velocity = [0, 0, 0]; navigationKeys.clear();
+    const spec = record.inspectable, documentPages = spec?.kind === 'document' ? spec.pages.length : 0;
+    // The page slot is known once the model is bound; until then the sheet is held by its front.
+    pages.sync(sceneDocument, objects);
+    inspection.open({ id, object, hold: spec?.hold ?? OBJECT_HOLD, axes: (documentPages ? pages.axes(id) : null) ?? flatAxes(object), pages: documentPages, title: spec?.title ?? record.name });
+    if (remote) inspection.setRemote(remote);
+    invalidate(true); return true;
   }
   function resize() {
     width = Math.max(1, container.clientWidth);
@@ -829,6 +910,7 @@ export function createViewport(container, {
     invalidate();
   }
   function setDocument(next,{force=false}={}) {
+    thaw();
     const started=performance.now();
     if (!force && next === sceneDocument && isTrustedSnapshot(next)) { diagnostics.count('documentUpdatesSkipped'); return; }
     diagnostics.count('documentUpdates');materialSharing.invalidate();
@@ -1532,6 +1614,16 @@ export function createViewport(container, {
     zoomVelocity = Math.max(-6, Math.min(6, zoomVelocity + notches * 1.6));
     invalidate();
   }, { passive: false });
+  // Double-click on a document, or on anything small enough to hold in the hands: pick it up.
+  // Registered before the look-at below, which leaves alone what this one handled.
+  canvas.addEventListener('dblclick', event => {
+    if (!navigationEnabled || !['select', 'move', 'rotate', 'scale'].includes(tool) || pointer || transform.dragging || inspection.id) return;
+    const id = pick(event)?.object.userData.entityId, record = records.get(id), object = objects.get(id);
+    if (!record || record.kind !== 'prop' || record.decal || record.cable || !object) return;
+    const size = new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3());
+    if (!record.inspectable && Math.max(size.x, size.y, size.z) > .6) return;
+    event.preventDefault(); event.stopImmediatePropagation(); onInspect(id);
+  });
   // Double-click on the scene: the camera glides to look at that point, keeping its distance and angle.
   canvas.addEventListener('dblclick', event => {
     // Something else claimed the double-click (inspecting an object): the camera stays.
@@ -1655,6 +1747,24 @@ export function createViewport(container, {
       invalidate();
     },
     getCamera, setCamera, setTopView, frameSelection, frameScene, framePreview, stopCameraMotion, setLiveLook,
+    /** Pick up an object and hold it in front of this viewport's camera; `remote` is a projector state to start from. */
+    inspect,
+    /** Put the held object back, flying (or at once with `instant`). */
+    closeInspection({ instant = false } = {}) { pendingInspection = null; if (!inspection.id) return; thaw(); if (instant || reducedMotion.matches) inspection.finish(); else inspection.close(); invalidate(); },
+    /** Gestures on the held object. Pixels for drags; the wheel's deltaY and the pointer in client coordinates for zoom. */
+    inspectDrag(dx, dy, seconds) { inspection.drag(dx, dy, seconds); invalidate(); },
+    inspectRelease() { inspection.release(); invalidate(); },
+    inspectZoom(delta, clientX, clientY) { const rect = canvas.getBoundingClientRect(); inspection.zoomAt(delta, [(clientX - rect.left) / rect.width * 2 - 1, 1 - (clientY - rect.top) / rect.height * 2], camera); invalidate(); },
+    inspectPan(dx, dy) { inspection.panBy(dx, dy, height, camera); invalidate(); },
+    inspectReset() { inspection.reset(); invalidate(); },
+    inspectFlip() { inspection.flip(); invalidate(); },
+    inspectPage(page) { inspection.setPage(page); invalidate(); },
+    /** The projector follows: the master's latest target, approached over `smoothing` seconds. */
+    setInspectionRemote(state, smoothing) { inspection.setRemote(state, smoothing); invalidate(); },
+    inspectionState() { return inspection.state() ?? (pendingInspection ? { entityId: pendingInspection.id, phase: 'pending' } : null); },
+    /** One side of a page at reading resolution, for the full-screen reader. */
+    pageCanvas(id, page, side) { const record = records.get(id); return record?.inspectable ? pages.canvas(record, page, side, id) : Promise.resolve(null); },
+    pagesInfo() { return pages.info(); },
     glideTo(point) { glideTo(new THREE.Vector3(...point)); },
     /** Shape, width, colour and label of the next area drawn with the 'area' tool. */
     setAreaTool(settings) { areaTool = { ...areaTool, ...settings }; },
@@ -1715,7 +1825,7 @@ export function createViewport(container, {
     resetPerformance() {diagnostics.reset();},
     /** Diagnostic switch: the frame must look the same either way. */
     setMaterialSharing(value) { shareMaterials = !!value; invalidate(); },
-    getInfo() { return {localEffectLights:[...localEffects].map(([id,effect])=>({id,type:effect.userData.localEffect.config.type,lightIntensity:effect.userData.localEffect.light?.intensity??0})),cableShadows:[...objects].flatMap(([id,object])=>{if(!records.get(id)?.cable)return [];let cast=false;object.traverse(m=>{if(m.isMesh&&m.castShadow)cast=true;});return [{id,castShadow:cast}];}),qualityTier,screens:screens.info(), screenPool:screens.size, decalTextures:decalTextures.size, decals:[...objects].flatMap(([id,object])=>{const record=records.get(id);if(!record?.decal)return [];let mesh=null;object.traverse(child=>{if(child.userData.decal)mesh=child;});const material=mesh?.material;return [{id,hostId:record.anchor?.hostId,kind:record.decal.kind,polygonOffset:Boolean(material?.polygonOffset),polygonOffsetFactor:material?.polygonOffsetFactor,polygonOffsetUnits:material?.polygonOffsetUnits,depthWrite:material?.depthWrite,receiveShadow:Boolean(mesh?.receiveShadow),castShadow:Boolean(mesh?.castShadow),lift:mesh?.position.z,visible:object.visible}];}),performance:{...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported}, materialSharing:materialSharing.info(), zoneProbes:zoneProbes.info(), directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
+    getInfo() { return {inspection:inspection.state(),inspectionBlend:inspection.blend,pages:pages.info(),frozenBackground:Boolean(frozen),depthOfField:effects.info().depthOfField,localEffectLights:[...localEffects].map(([id,effect])=>({id,type:effect.userData.localEffect.config.type,lightIntensity:effect.userData.localEffect.light?.intensity??0})),cableShadows:[...objects].flatMap(([id,object])=>{if(!records.get(id)?.cable)return [];let cast=false;object.traverse(m=>{if(m.isMesh&&m.castShadow)cast=true;});return [{id,castShadow:cast}];}),qualityTier,screens:screens.info(), screenPool:screens.size, decalTextures:decalTextures.size, decals:[...objects].flatMap(([id,object])=>{const record=records.get(id);if(!record?.decal)return [];let mesh=null;object.traverse(child=>{if(child.userData.decal)mesh=child;});const material=mesh?.material;return [{id,hostId:record.anchor?.hostId,kind:record.decal.kind,polygonOffset:Boolean(material?.polygonOffset),polygonOffsetFactor:material?.polygonOffsetFactor,polygonOffsetUnits:material?.polygonOffsetUnits,depthWrite:material?.depthWrite,receiveShadow:Boolean(mesh?.receiveShadow),castShadow:Boolean(mesh?.castShadow),lift:mesh?.position.z,visible:object.visible}];}),performance:{...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported}, materialSharing:materialSharing.info(), zoneProbes:zoneProbes.info(), directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
       assetDiagnostics:[...objects].flatMap(([id,object])=>{const diagnostics=[];object.traverse(child=>{if(child.userData.diagnostic)diagnostics.push({id,message:child.userData.diagnostic});});return diagnostics;}),
       sculptedRocks:[...objects].flatMap(([id,object])=>{let vertices=0,triangles=0;object.traverse(m=>{if(m.geometry?.userData.sculptPrepared){vertices+=m.geometry.attributes.position.count;triangles+=m.geometry.index.count/3;}});return vertices?[{id,vertices,triangles,samples:records.get(id)?.rockSculpt?.stamps.length??0,bounds:new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3()).toArray()}]:[];}),
       rockGeometries: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.geometry?.userData.rock) list.push({id,...child.geometry.userData.rock,triangles:(child.geometry.index?.count??child.geometry.attributes.position.count)/3});for(const rock of child.geometry?.userData.rocks??[])list.push({id,...rock});});return list;}),
@@ -1725,7 +1835,7 @@ export function createViewport(container, {
       wearMaterials: [...objects].flatMap(([id,object])=>{const result=[];object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material])if(mat?.userData.wear)result.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.wear});});return result;}),
       environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving || zoomVelocity || orbitVelocity), cameraTransition: Boolean(transition), cinema: cinema.info(), areas: areaLayer.info(), highlight: highlight ? { objects: highlight.objects, lines: highlight.lines.length } : null, badges: [...objects.values()].reduce((sum, object) => sum + object.children.filter(child => child.userData.badge).length, 0), exposure: renderer.toneMappingExposure, background: '#' + scene.background.getHexString() }; },
     destroy() {
-      destroyed = true;clearTimeout(probeTimer);clearTimeout(screenTimer);screens.dispose();decalTextures.dispose();gpuTimer.dispose();diagnostics.dispose();lightManager.dispose();zoneProbes.dispose();reflections.dispose();cutawayCasters.dispose();lightingHelpers.dispose();
+      destroyed = true;clearTimeout(probeTimer);clearTimeout(screenTimer);screens.dispose();pages.dispose();inspection.dispose();thaw();frozenQuad.material.dispose();frozenQuad.dispose();decalTextures.dispose();gpuTimer.dispose();diagnostics.dispose();lightManager.dispose();zoneProbes.dispose();reflections.dispose();cutawayCasters.dispose();lightingHelpers.dispose();
       ruler.destroy(); trail.dispose(); areaLayer.dispose();
       previewGeneration++;
       for (const helper of extraSelections) disposeObject(helper); disposeObject(polygonLine); disposeObject(brushLine);

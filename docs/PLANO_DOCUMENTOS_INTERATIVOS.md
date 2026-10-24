@@ -1,6 +1,6 @@
 # Documentos e objetos interagíveis — plano de implementação
 
-Data: 23 de outubro de 2026. Plano para implementar; nada está feito ainda.
+Data: 23 de outubro de 2026. **Implementado** em 23 de outubro: uso, contrato final e desvios do plano em [DOCUMENTOS_INTERATIVOS.md](DOCUMENTOS_INTERATIVOS.md).
 
 ## 1. A ideia
 

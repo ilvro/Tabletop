@@ -61,6 +61,11 @@ import { proposePolish } from '../authoring/polish.js';
 import { proposeContourWalls } from '../authoring/structures.js';
 import { constructionPanel, smartBuildPanel, buildingPanel, surroundingsPanel, polishPanel, proposalReport, levelsPanel, terrainPanel, terrainInspector, anchoringPanel } from '../ui/authoring-panels.js';
 import { createViewport } from '../render/renderer.js';
+import { createInspectionControl } from './live/inspection.js';
+import { createInspectionOverlay } from '../ui/inspection-overlay.js';
+import { inspectablePanel } from '../ui/inspectable-panel.js';
+import { cluePanel } from '../ui/clue-panel.js';
+import { inspectableFieldPatch } from '../domain/inspectables.js';
 import { repository, ApiError } from '../data/api.js';
 import { applicationURL, storageScope } from '../data/paths.js';
 import { drafts } from '../data/drafts.js';
@@ -411,7 +416,7 @@ export async function startApplication() {
       menu.innerHTML = `
         <div class="context-menu-header">${selectedIds.size > 1 ? `${selectedIds.size} SELECIONADOS` : `${typeLabel}: ${esc(name)}`}</div>
         <button type="button" class="context-menu-item" data-context="rename">${icon('edit', 14)}<span>Renomear</span></button>
-        <button type="button" class="context-menu-item" data-context="anchor" ${selectedIds.size < 2 ? 'disabled title="Selecione dois ou mais objetos com Shift"' : ''}><span>Ancorar objetos juntos</span></button><button type="button" class="context-menu-item" data-context="mount"><span>Fixar em parede / teto…</span></button><button type="button" class="context-menu-item" data-context="adjust"><span>Alinhar e ajustar…</span></button><button type="button" class="context-menu-item" data-context="duplicate">${icon('copy', 14)}<span>Duplicar</span></button>
+        <button type="button" class="context-menu-item" data-context="anchor" ${selectedIds.size < 2 ? 'disabled title="Selecione dois ou mais objetos com Shift"' : ''}><span>Ancorar objetos juntos</span></button><button type="button" class="context-menu-item" data-context="mount"><span>Fixar em parede / teto…</span></button><button type="button" class="context-menu-item" data-context="adjust"><span>Alinhar e ajustar…</span></button>${found.type === 'entity' && found.record.kind === 'prop' && selectedIds.size < 2 ? `<button type="button" class="context-menu-item" data-context="inspect">${icon('search', 14)}<span>Inspecionar</span></button>` : ''}<button type="button" class="context-menu-item" data-context="duplicate">${icon('copy', 14)}<span>Duplicar</span></button>
         <button type="button" class="context-menu-item danger" data-context="delete">${icon('trash', 14)}<span>Deletar</span></button>
       `;
     }
@@ -429,6 +434,8 @@ export async function startApplication() {
   }
 
   const viewport = createViewport(document.getElementById('viewport'), {
+    onInspect: id => { hideContextMenu(); inspectionControl.open(id); },
+    onInspection: event => { if (event.type === 'closed') inspectionControl.closed(event.entityId); else inspectionControl.render(); },
     onMaterialSlots: objectId => { if (selection === objectId) renderInspector(); },
     onSelect: (value, meta) => { selectObject(value, meta?.additive); hideContextMenu(); },
     onMaterialPick: objectId => sampleMaterial(objectId),
@@ -541,6 +548,9 @@ export async function startApplication() {
       if (!previewWarningShown) { previewWarningShown = true; notify(`Não foi possível gerar a prévia agora: ${error.message}. Sua cena continua disponível.`, true); }
     },
   });
+  // Picking up a document or object: local by default, on the projector only when shown.
+  const inspectionControl = createInspectionControl({ container: document.getElementById('viewport'), viewport, store, execute: (type, payload, options) => execute(type, payload, options), notify,
+    send: (type, fields) => { if (hasPresentation()) sendPresentation(type, fields); }, hasPresentation, onChange: () => { if (tab === 'shots') renderSidebar(); } });
   const shotThumbnails = createShotThumbnails({ assets: () => assets, canRun: () => !isPresentation && tab === 'shots' && !viewport.isBusy?.(), onUpdate: () => { if (tab === 'shots') renderSidebar(); renderShotDock(); } });
   const presets = () => Object.values(store.document.cameraPresets ?? {});
   // The carousel of shots over the stage, while a projector is connected or the editor is presenting.
@@ -672,7 +682,7 @@ export async function startApplication() {
     if (!tutorReading || tutorReading.document !== store.document || tutorReading.floor !== smartFloorId) tutorReading = { document: store.document, floor: smartFloorId, inferred: smartFloorId ? describeRoom(store.document, smartFloorId, assets)?.inferred[0]?.id ?? null : null, inBuilding: Boolean(smartFloorId && describeBuilding(store.document, smartFloorId, assets)) };
     const assetsOpen = document.getElementById('assets-dialog').open;
     return { document: store.document, tab, sections: [...openBuildSections], proposal: Boolean(proposal), assetsOpen, placing: tool === 'place' && placing?.asset ? placing.asset.id : null, placingKind: tool === 'place' ? placing?.type ?? null : null,
-      selected: store.document.layout.entities[selection]?.kind ?? (store.document.tokens?.[selection] ? 'token' : null), tool, topView, canRedo: store.canRedo, presenting: isPresentation, saved: !store.dirty && store.document.revision > 0,
+      selected: store.document.layout.entities[selection]?.kind ?? (store.document.tokens?.[selection] ? 'token' : null), tool, topView, canRedo: store.canRedo, presenting: isPresentation, inspecting: inspectionControl?.id ?? null, saved: !store.dirty && store.document.revision > 0,
       listedAssets: assetsOpen ? [...document.querySelectorAll('#asset-cards [data-asset]')].map(node => node.dataset.asset) : [],
       assistant: { inferred: tutorReading.inferred, state: stateOptions.state, mood: ambienceOptions.mood, buildingMode: buildingOptions.mode ?? (tutorReading.inBuilding ? 'extend' : 'new') },
       room: roomOptions, copied: materialClipboard?.name ?? null, surface: activeSurfaceId ?? null, picked: store.document.layout.entities[selection]?.assetRef?.id ?? null, selectedId: selection ?? null,
@@ -854,7 +864,7 @@ export async function startApplication() {
   channel?.addEventListener('message', event => {
     const data=event.data;if(data?.version!==1||data.sessionId!==sessionId)return;
     const peer=data.receiverId??'legacy';
-    if(data.type==='ready'||data.type==='heartbeat'){const previous=receivers.get(peer);receivers.set(peer,Date.now());if(data.type==='ready'||!previous||Date.now()-previous>20000)sendSnapshot(true);}
+    if(data.type==='ready'||data.type==='heartbeat'){const previous=receivers.get(peer);receivers.set(peer,Date.now());if(data.type==='ready'||!previous||Date.now()-previous>20000){sendSnapshot(true);inspectionControl.resend();}}
     if(data.type==='closed')receivers.delete(peer);
     scheduleViewTag();
   });
@@ -974,6 +984,7 @@ export async function startApplication() {
       const doc = store.document, connected = hasPresentation() || isPresentation;
       panel.innerHTML = `${shotsPanel(doc, { publishedId: publishedPresetId, rehearsedId, live: connected, thumbnails: camera => shotThumbnails.image(doc, camera, store.editVersion) })}${cameraPanel()}<section><span class="eyebrow">SEGUNDA TELA</span><p class="microcopy">O projetor é a janela que os jogadores veem. Ensaiar mexe só no seu editor; Transição e Corte publicam a tomada para o projetor.</p>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">CARTELA DE TÍTULO</span><label class="field"><span>Título</span><input type="text" data-field="title-card-title" value="${esc(titleCard.title)}" placeholder="${esc(doc.name)}" maxlength="120" autocomplete="off" /></label><label class="field"><span>Subtítulo</span><input type="text" data-field="title-card-subtitle" value="${esc(titleCard.subtitle)}" maxlength="120" autocomplete="off" /></label>${numberField('title-card-duration', 'Duração · s', titleCard.duration, { min: 2, max: 12, step: 1 })}${button('title-card', 'Mostrar no projetor', 'display', 'wide primary', connected && !isPresentation ? '' : 'disabled')}${checkField('projector-letterbox', 'Barras de cinema · 2,39:1', letterbox)}<p class="microcopy">A cartela aparece sobre a imagem do projetor e some sozinha. Nada disso é salvo na cena.</p></section>`;
       panel.innerHTML += initiativePanel(doc, { camera: initiativeCamera, extra: areasPanel(doc, areaTool, tool === 'area') + `<div class="combat-areas"><span class="eyebrow">INTERATIVOS</span>${button('highlight-interactives', 'Destacar interativos (H)', 'eye', 'wide quiet')}<p class="microcopy">Contorna por 3 segundos portas e objetos marcados como interativos, no editor e no projetor.</p></div>` });
+      panel.innerHTML += cluePanel(doc, { onProjector: inspectionControl.onProjector, connected: hasPresentation() && !isPresentation });
       taskList(panel, SHOTS_TASKS);
       restoreDisclosures(panel, sceneDisclosures);
       shotThumbnails.request(doc, store.editVersion);
@@ -1105,7 +1116,7 @@ export async function startApplication() {
 
     tree.innerHTML = html;
   }
-  const heroActions = () => `<div class="hero-actions">${button('object-copy', '', 'copy', 'icon-button', 'data-tip="Copiar" data-tip-side="top" data-key="Ctrl+C" aria-label="Copiar"')}${button('frame-selection', '', 'frame', 'icon-button', 'data-tip="Enquadrar" data-tip-side="top" data-key="F" aria-label="Enquadrar"')}${button('object-duplicate', '', 'layers', 'icon-button', 'data-tip="Duplicar" data-tip-side="top" data-key="Ctrl+D" aria-label="Duplicar"')}${button('object-delete', '', 'trash', 'icon-button danger', 'data-tip="Excluir" data-tip-side="top" data-key="Delete" aria-label="Excluir"')}</div>`;
+  const heroActions = (inspectable = false) => `<div class="hero-actions">${inspectable ? button('inspect-open', '', 'search', 'icon-button', 'data-tip="Inspecionar" data-tip-side="top" data-key="Clique duplo" aria-label="Inspecionar"') : ''}${button('object-copy', '', 'copy', 'icon-button', 'data-tip="Copiar" data-tip-side="top" data-key="Ctrl+C" aria-label="Copiar"')}${button('frame-selection', '', 'frame', 'icon-button', 'data-tip="Enquadrar" data-tip-side="top" data-key="F" aria-label="Enquadrar"')}${button('object-duplicate', '', 'layers', 'icon-button', 'data-tip="Duplicar" data-tip-side="top" data-key="Ctrl+D" aria-label="Duplicar"')}${button('object-delete', '', 'trash', 'icon-button danger', 'data-tip="Excluir" data-tip-side="top" data-key="Delete" aria-label="Excluir"')}</div>`;
   // What a director does with a character: a close-up, keeping the camera on it, its flashlight.
   const tokenCameraActions = token => {
     const following = viewport.cinemaInfo().follow === token.id, lit = Boolean(token.flashlight?.enabled);
@@ -1142,7 +1153,7 @@ export async function startApplication() {
   function inspectorHero(found, name, doc) {
     if (found.type === 'token') return actorHero(doc.actors[found.record.actorId], found.record, portraitOf(doc.actors[found.record.actorId]), heroActions() + tokenCameraActions(found.record));
     const { record } = found, meta = [doc.layout.levels?.[record.levelId]?.name, doc.layout.groups?.[record.groupId]?.name].filter(Boolean).join(' · ');
-    return `<div class="object-title inspector-hero"><span class="hero-tags"><span class="tt-tag is-small">${kindLabel(found)}</span>${record.audience === 'gm' ? '<span class="tt-tag is-small is-gm">SÓ MESTRE</span>' : ''}</span><strong class="tt-display">${esc(name)}</strong>${meta ? `<small class="hero-meta">${esc(meta)}</small>` : ''}${heroActions()}</div>`;
+    return `<div class="object-title inspector-hero"><span class="hero-tags"><span class="tt-tag is-small">${kindLabel(found)}</span>${record.audience === 'gm' ? '<span class="tt-tag is-small is-gm">SÓ MESTRE</span>' : ''}</span><strong class="tt-display">${esc(name)}</strong>${meta ? `<small class="hero-meta">${esc(meta)}</small>` : ''}${heroActions(record.kind === 'prop' && !record.decal && !record.cable)}</div>`;
   }
   function selectInspectorTab(id) {
     const panel = document.getElementById('inspector-content'), found = locate();
@@ -1230,7 +1241,7 @@ export async function startApplication() {
     if (record.material && record.kind !== 'terrain' && record.water?.state!=='water' && (!record.decal || record.decal.kind === 'surface')) fields += materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField, transferControls: materialTransferControls(record) });
     if(record.kind==='prop' && isVegetationAsset(record.assetRef.id)) fields+=`<section><span class="eyebrow">VEGETAÇÃO · GEOMETRIA</span>${numberField('vegetationSeed','Variação geométrica',record.vegetationSeed??0,{min:0,max:65535,step:1})}<p class="microcopy">Varia ramificação e folhagem, preservando o tamanho e a base. Escala e rotação continuam independentes.</p></section>`;
     const imageAssets = assets.filter(asset => asset.type === 'image');
-    if (record.kind === 'prop') fields += rockPanel(record,{numberField}) + cablePanel(record) + screenPanel(record, viewport.getMaterialSlots(record.id), imageAssets, { numberField, colorField, checkField, choiceField }) + decalPanel(record, doc.layout.entities[record.anchor?.hostId], imageAssets, { numberField, colorField, checkField, choiceField });
+    if (record.kind === 'prop') fields += rockPanel(record,{numberField}) + cablePanel(record) + screenPanel(record, viewport.getMaterialSlots(record.id), imageAssets, { numberField, colorField, checkField, choiceField }) + inspectablePanel(record, viewport.getMaterialSlots(record.id), imageAssets, { numberField, checkField, choiceField }) + decalPanel(record, doc.layout.entities[record.anchor?.hostId], imageAssets, { numberField, colorField, checkField, choiceField });
     if (record.kind === 'prop' && !record.decal) fields += localEffectPanel(record, { numberField, colorField, checkField });
     if(record.material && !record.decal){fields+=illuminationPanel(record,viewport.getMaterialSlots(record.id),lightPresets,selectedLightPreset,{numberField,colorField,checkField});fields+=zonePanel(record,{numberField,colorField,checkField});}
     if (type === 'entity' && ['prop', 'window'].includes(record.kind) && !record.decal) fields += `<section><span class="eyebrow">INTERAÇÃO</span>${checkField('entity-interactive', 'Interativo · aparece ao destacar (H)', Boolean(record.interactive))}</section>`;
@@ -1311,7 +1322,7 @@ export async function startApplication() {
     if (selection && !locate()) selection = null;
     selectedIds = new Set([...selectedIds].filter(key => locate(key)));
     if (!selection) selection = [...selectedIds].at(-1) ?? null;
-    if (event.type === 'replace') { if (liveCamera.enabled) setLiveCamera(false); viewport.setFollow(null); shotThumbnails.cancel(); rehearsedId = null; dockIndex = 0; skyReturnCamera = null; selectedIds.clear(); selection = null; activeSurfaceId = undefined; smartFloorId = null; activeLevelId = null; activeLayerId = null; isolatedLevel = false; }
+    if (event.type === 'replace') { inspectionControl.reset(); if (liveCamera.enabled) setLiveCamera(false); viewport.setFollow(null); shotThumbnails.cancel(); rehearsedId = null; dockIndex = 0; skyReturnCamera = null; selectedIds.clear(); selection = null; activeSurfaceId = undefined; smartFloorId = null; activeLevelId = null; activeLayerId = null; isolatedLevel = false; }
     if (!doc.layout.levels?.[activeLevelId]) { activeLevelId = null; isolatedLevel = false; }
     if (!doc.layout.layers?.[activeLayerId]) activeLayerId = null;
     const floors = Object.values(doc.layout.entities).filter(e => e.kind === 'floor');
@@ -2041,6 +2052,11 @@ export async function startApplication() {
       catch (error) { notify(error.message, true); renderInspector(); }
       return;
     }
+    if (field.startsWith('inspect-') && type === 'entity') {
+      try { execute('entity.update', { id: record.id, patch: inspectableFieldPatch(record, field.slice(8), value, { imageAssets }), snap: false }, { label: 'Inspecionável' }); }
+      catch (error) { notify(error.message, true); renderInspector(); }
+      return;
+    }
     if (field.startsWith('screen-') && type === 'entity') {
       try { execute('entity.update', { id: record.id, patch: screenFieldPatch(record, field.slice(7), value, viewport.getSlotFrame(record.id, 'screen'), imageAssets), snap: false }); }
       catch (error) { notify(error.message, true); renderInspector(); }
@@ -2423,6 +2439,15 @@ export async function startApplication() {
         notify('Clique na parede onde deseja colocar o centro da janela.'); break;
       }
       case 'decal-place': placing = { type: 'decal' }; clearProposal(); setTool('decal'); notify('Clique numa parede, piso ou objeto para colar o decalque. Esc cancela.'); break;
+      case 'inspect-open': if (selection && locate()?.record.kind === 'prop') inspectionControl.open(selection); break;
+      case 'inspect-page-add': case 'inspect-page-remove': case 'inspect-back-add': case 'inspect-back-remove': {
+        const record = locate()?.record; if (!record?.inspectable) break;
+        execute('entity.update', { id: record.id, patch: inspectableFieldPatch(record, action.slice(8), null, { page: Number(metadata.index) }), snap: false }, { label: 'Páginas do documento' }); break;
+      }
+      case 'clue-show': inspectionControl.show(metadata.id); break;
+      case 'clue-inspect': inspectionControl.open(metadata.id); break;
+      case 'clue-forget': if (metadata.id === inspectionControl.onProjector) inspectionControl.recall(); execute('clue.forget', { id: metadata.id }, { label: 'Esquecer pista' }); break;
+      case 'projector-inspect-close': inspectionControl.recall(); break;
       case 'screen-line-add': case 'screen-line-remove': {
         const record = locate()?.record; if (!record?.screen) break;
         try { execute('entity.update', { id: record.id, patch: { screen: action === 'screen-line-add' ? screenLineAdd(record.screen) : screenLineRemove(record.screen, Number(metadata.index)) }, snap: false }); } catch (error) { notify(error.message, true); }
@@ -2629,7 +2654,8 @@ export async function startApplication() {
       const action = contextBtn.dataset.context;
       const targetId = contextTarget;
       hideContextMenu();
-      if (action === 'anchor') act('assembly-bind');
+      if (action === 'inspect') inspectionControl.open(targetId);
+      else if (action === 'anchor') act('assembly-bind');
       else if (action === 'unbind') act('assembly-unbind', { id: targetId });
       else if (action === 'mount') {
         anchorEditing = true;
@@ -3063,9 +3089,30 @@ function startPresentation(root, sessionId) {
   root.innerHTML = `<div id="presentation-viewport"></div><div class="letterbox" aria-hidden="true"><i></i><i></i></div><div id="presentation-message" class="presentation-message">Aguardando a cena do mestre…</div><div id="title-layer" class="title-layer" aria-live="polite"></div><div id="initiative-layer" class="initiative-strip is-projector" hidden></div><div class="projector-controls"><select id="presentation-quality" aria-label="Qualidade da iluminação"><option value="economy">Econômica</option><option value="balanced" selected>Equilibrada</option><option value="high">Alta</option></select><button id="presentation-effects" class="presentation-fullscreen" title="Névoa e efeitos nesta janela" aria-label="Névoa e efeitos nesta janela" aria-pressed="true">${icon('light')}</button><button id="presentation-fullscreen" class="presentation-fullscreen" title="Tela cheia" aria-label="Tela cheia">${icon('frame')}</button></div>`;
   const viewport = createViewport(document.getElementById('presentation-viewport'), {
     onError: (error) => { document.getElementById('presentation-message').textContent = error.message; },
+    onInspection: event => { if (event.type === 'closed') { if (inspected?.entityId === event.entityId) { inspected = null; inspectionOverlay.hide(); } } else renderInspection(); },
     navigationEnabled: false,
   });
   viewport.setPresentation(true);
+  // The master's inspection, followed: the same object, turned the same way, smoothed.
+  const inspectionOverlay = createInspectionOverlay(document.getElementById('presentation-viewport'), { interactive: false });
+  let inspected = null, lastInspect = 0, readingKey = '';
+  function renderInspection() {
+    const record = inspected && shown?.layout.entities[inspected.entityId];
+    if (!record) return;
+    const state = viewport.inspectionState(), pages = record.inspectable?.kind === 'document' ? record.inspectable.pages.length : 0, side = state?.side ?? 'front';
+    inspectionOverlay.show({ title: record.inspectable?.title || record.name, page: inspected.page ?? 0, pages, side });
+    const key = inspected.reading && pages ? `${record.id}|${inspected.page}|${side}|${JSON.stringify(record.inspectable.pages[inspected.page] ?? null)}` : '';
+    if (key === readingKey) return;
+    readingKey = key;
+    if (!key) inspectionOverlay.read(null);
+    else viewport.pageCanvas(record.id, inspected.page ?? 0, side).then(canvas => { if (readingKey === key && canvas) inspectionOverlay.read(canvas); });
+  }
+  function followInspection(state) {
+    if (!state || typeof state.entityId !== 'string') { inspected = null; readingKey = ''; viewport.closeInspection(); inspectionOverlay.hide(); return; }
+    inspected = state;
+    if (!shown?.layout.entities[state.entityId]) return;
+    viewport.inspect(state.entityId, state); renderInspection();
+  }
   if (new URLSearchParams(location.search).has('diagnostics')) {
     Object.defineProperty(window, '__tabletop', { value: Object.freeze({ camera: () => viewport.getCamera(), stats: () => viewport.getInfo() }), configurable: true });
   }
@@ -3107,6 +3154,10 @@ function startPresentation(root, sessionId) {
       try { viewport.setLiveLook(next); } catch (error) { console.warn(error); }
       return;
     }
+    if (data?.version === 1 && data.sessionId === sessionId && data.type === 'inspect') {
+      if (!Number.isFinite(data.inspectSequence) || data.inspectSequence <= lastInspect) return;
+      lastInspect = data.inspectSequence; followInspection(data.inspect); return;
+    }
     // Live camera: approach the master's camera, smoothed, instead of cutting.
     if (data?.version === 1 && data.sessionId === sessionId && data.type === 'highlight') { if (shown) viewport.highlightInteractives(Math.min(10, Math.max(1, Number(data.seconds) || 3))); return; }
     if (data?.version === 1 && data.sessionId === sessionId && data.type === 'live-camera') {
@@ -3115,7 +3166,7 @@ function startPresentation(root, sessionId) {
     }
     if (data?.version !== 1 || data.sessionId !== sessionId || !['snapshot','camera','view'].includes(data.type) || data.sequence <= sequence) return;
     try {
-      if(data.type==='snapshot'){validateDocument(data.document);viewport.setAssets(data.assets);shown=trustSnapshot(data.document);viewport.setDocument(shown);showInitiative(data);document.title=`${data.document.name} — apresentação`;}
+      if(data.type==='snapshot'){validateDocument(data.document);viewport.setAssets(data.assets);shown=trustSnapshot(data.document);viewport.setDocument(shown);showInitiative(data);document.title=`${data.document.name} — apresentação`;if(inspected)followInspection(inspected);}
       else if(receivedCameraSequence===null){request();return;}
       sequence=data.sequence;viewport.setCutaway(data.cutaway);document.body.classList.toggle('letterboxed',data.letterbox===true);
       if (data.camera && data.cameraSequence !== receivedCameraSequence) {

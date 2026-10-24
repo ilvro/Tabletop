@@ -119,6 +119,7 @@ function removeEntity(document, entityId) {
     delete document.layout.entities[value]; delete look.materialAdjustments[value]; if (look.environmentBindings) delete look.environmentBindings[value];
     if (document.sessionState) delete document.sessionState.doors[value];
   }
+  if (document.sessionState?.found) document.sessionState.found = document.sessionState.found.filter(value => !ids.has(value));
   for (const area of Object.values(document.layout.areas)) {
     if (ids.has(area.surfaceId)) delete document.layout.areas[area.id];
     else area.memberIds = area.memberIds.filter(value => !ids.has(value));
@@ -631,6 +632,18 @@ export function applyCommand(document, command, diagnostics) {
       if (payload.initiative === null) delete next.sessionState.initiative; else next.sessionState.initiative = clone(payload.initiative);
       break;
     }
+    // A clue shown to the players stays in the session's archive until it is forgotten.
+    case 'clue.reveal': {
+      const entity = requireRecord(next.layout.entities, payload.id, 'Objeto');
+      if (!entity.inspectable || !next.sessionState) throw new ValidationError('Só objetos inspecionáveis de uma cena viram pistas.');
+      const found = next.sessionState.found ?? [];
+      if (!found.includes(entity.id)) next.sessionState.found = [...found, entity.id];
+      break;
+    }
+    case 'clue.forget': {
+      if (!next.sessionState?.found?.includes(payload.id)) throw new ValidationError('Esta pista não foi revelada.');
+      next.sessionState.found = next.sessionState.found.filter(value => value !== payload.id); break;
+    }
     case 'proposal.accept': {
       const proposal = payload.proposal;
       if (!proposal || !Number.isInteger(proposal.expectedEditVersion)) throw new ValidationError('Proposta inválida.');
@@ -664,7 +677,7 @@ export function applyCommand(document, command, diagnostics) {
     }
     default: throw new ValidationError(`Comando desconhecido: ${command.type}.`);
   }
-  const placementUnchanged=command.type==='scene.rename'||command.type==='lights.switch'||command.type==='entity.update'&&Object.keys(payload.patch??{}).every(key=>['name','tags','locked','illumination','lightingZone','audience','visible','screen'].includes(key));
+  const placementUnchanged=command.type==='scene.rename'||command.type.startsWith('clue.')||command.type==='lights.switch'||command.type==='entity.update'&&Object.keys(payload.patch??{}).every(key=>['name','tags','locked','illumination','lightingZone','audience','visible','screen','inspectable'].includes(key));
   if(!placementUnchanged)refreshAnchors(next);
   releaseShotTargets(next);
   next=diagnostics?diagnostics.measure('snapshotFinalization',()=>finishDraft(next)):finishDraft(next);

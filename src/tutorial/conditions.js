@@ -71,6 +71,9 @@ export const CONDITIONS = {
   cameras: (state, number) => Object.keys(state.document.cameraPresets ?? {}).length >= number,
   /** A screen is lit on some object, and what it writes. */
   screenLit: state => entities(state).some(entity => entity.screen?.enabled),
+  /** Something is held up to the camera (or, with false, was put back). */
+  inspecting: (state, on = true) => Boolean(state.inspecting) === on,
+  inspectText: (state, text) => entities(state).some(entity => entity.inspectable?.pages.some(page => [page.text, page.back?.text].some(value => value?.includes(text)))),
   screenText: (state, text) => entities(state).some(entity => entity.screen?.lines.some(line => line.text.includes(text))),
   /** At least `number` decals, of a kind if one is named. */
   decals: (state, number, kind) => entities(state).filter(entity => entity.decal && (!kind || entity.decal.kind === kind)).length >= number,
