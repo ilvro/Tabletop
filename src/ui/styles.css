@@ -98,6 +98,7 @@ kbd { color: var(--tt-text-2); font-family: inherit; border: 1px solid var(--tt-
 .environment-swatch { width: 29px; height: 32px; border-radius: 5px; flex-shrink: 0; background: linear-gradient(135deg, var(--tt-surface-3), var(--tt-surface-3)); }
 .environment-swatch.warm { background: linear-gradient(140deg, color-mix(in srgb, var(--tt-accent) 49%, var(--tt-surface-1)), color-mix(in srgb, var(--tt-accent) 29%, var(--tt-surface-1)) 65%, var(--tt-surface-3)); }
 .environment-swatch.moonlight { background: linear-gradient(140deg, var(--tt-surface-3), var(--tt-surface-2) 60%, var(--tt-surface-3)); }
+.environment-swatch.aurora { background: linear-gradient(170deg, var(--tt-surface-3), color-mix(in srgb, var(--tt-accent) 30%, var(--tt-surface-2)) 55%, var(--tt-surface-3)); }
 .preset-row { display: flex; margin-top: 8px; }
 .preset-row button { justify-content: flex-start; border-radius: 4px 0 0 4px; }
 .preset-row button:first-child { flex: 1; }

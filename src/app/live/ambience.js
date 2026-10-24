@@ -1,7 +1,7 @@
 import { ambiencePanel, AMBIENCE_TIMES } from '../../ui/ambience-panel.js';
 import { applyEnvironment, primaryLight, ENVIRONMENTS } from '../../domain/environments.js';
 import { mixLook, smootherstep } from '../../domain/cinematics.js';
-import { colorToHSV, hsvToColor, DAYLIGHT_DEFAULTS, SKY_DEFAULTS, WEATHER_DEFAULTS, FOG_DEFAULTS, VOLUME_DEFAULTS, BLOOM_DEFAULTS } from '../../domain/lighting.js';
+import { colorToHSV, hsvToColor, DAYLIGHT_DEFAULTS, skySettings, WEATHER_DEFAULTS, FOG_DEFAULTS, VOLUME_DEFAULTS, BLOOM_DEFAULTS } from '../../domain/lighting.js';
 import { Euler, Quaternion } from 'three';
 
 const settings = (look, field, defaults) => ({ ...defaults, ...look[field] });
@@ -16,7 +16,7 @@ const WEATHER_START = { rain: { speed: 12, particleSize: .025, count: 900, color
 export function ambiencePatch(look, name, value, { channel = null, hue = null, center = null } = {}) {
   const key = primaryLight(look);
   const paint = color => { const hsv = colorToHSV(color); if (hsv.saturation < .01 && hue != null) hsv.hue = hue; hsv[{ h: 'hue', s: 'saturation', v: 'value' }[channel]] = value; return hsvToColor(hsv); };
-  const sky = patch => ({ look: { sky: { ...settings(look, 'sky', SKY_DEFAULTS), ...patch } } });
+  const sky = patch => ({ look: { sky: { ...skySettings(look.sky), ...patch } } });
   switch (name) {
     case 'exposure': return { look: { daylight: { ...settings(look, 'daylight', DAYLIGHT_DEFAULTS), exposure: value } } };
     case 'fill': return { look: { fill: { ...look.fill, intensity: value } } };
@@ -28,8 +28,11 @@ export function ambiencePatch(look, name, value, { channel = null, hue = null, c
     }
     case 'key': return { key: { color: paint(key?.color ?? '#ffe8c5'), temperature: null } };
     case 'skyEnabled': return sky({ enabled: value });
-    case 'topColor': case 'horizonColor': case 'cloudColor': return sky({ [name]: paint(settings(look, 'sky', SKY_DEFAULTS)[name]) });
+    case 'topColor': case 'horizonColor': case 'cloudColor': return sky({ [name]: paint(skySettings(look.sky)[name]) });
     case 'cloudCoverage': case 'cloudOpacity': case 'cloudSpeed': case 'cloudScale': return sky({ [name]: value, ...(name === 'cloudScale' ? {} : { clouds: true }) });
+    case 'starBrightness': return sky({ starBrightness: value, stars: value > 0 });
+    case 'milkyWay': case 'moonPhase': return sky({ [name]: value });
+    case 'aurora': return sky({ aurora: value > 0, ...(value > 0 ? { auroraIntensity: value } : {}) });
     case 'volumeDensity': return { look: { volumetricFog: { ...settings(look, 'volumetricFog', VOLUME_DEFAULTS), density: value, enabled: value > 0 } } };
     case 'volumeHeight': return { look: { volumetricFog: { ...settings(look, 'volumetricFog', VOLUME_DEFAULTS), height: value } } };
     case 'fogDensity': return { look: { fog: { ...settings(look, 'fog', FOG_DEFAULTS), mode: 'exp2', density: value, enabled: value > 0 } } };

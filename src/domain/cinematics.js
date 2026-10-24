@@ -1,5 +1,5 @@
 import { ValidationError } from './validation.js';
-import { FOG_DEFAULTS, VOLUME_DEFAULTS, BLOOM_DEFAULTS, DAYLIGHT_DEFAULTS, SKY_DEFAULTS, WEATHER_DEFAULTS } from './lighting.js';
+import { FOG_DEFAULTS, VOLUME_DEFAULTS, BLOOM_DEFAULTS, DAYLIGHT_DEFAULTS, WEATHER_DEFAULTS, skySettings } from './lighting.js';
 
 /** A light carried by a character, pointing where the token faces (+Z), tilted down by `pitch` degrees. */
 export const FLASHLIGHT_DEFAULTS = Object.freeze({ enabled: true, color: '#fff0d4', intensity: 60, distance: 16, angle: .38, penumbra: .55, pitch: 10, height: 1.05, shadow: true });
@@ -105,8 +105,10 @@ export function mixLook(from, to, t, keyId = null) {
   look.background = mixColor(from.background, to.background, t);
   look.fill = mixValue(from.fill, to.fill, t);
   look.daylight = { ...mixValue({ ...DAYLIGHT_DEFAULTS, ...from.daylight }, { ...DAYLIGHT_DEFAULTS, ...to.daylight }, t) };
-  const skyFrom = { ...SKY_DEFAULTS, ...from.sky }, skyTo = { ...SKY_DEFAULTS, ...to.sky };
+  const skyFrom = skySettings(from.sky), skyTo = skySettings(to.sky);
   look.sky = skyFrom.enabled === skyTo.enabled ? mixValue(skyFrom, skyTo, t) : t < .5 ? skyFrom : skyTo;
+  // An aurora that starts or ends fades in or out instead of switching at the midpoint.
+  if (skyFrom.enabled === skyTo.enabled && skyFrom.aurora !== skyTo.aurora) look.sky = { ...look.sky, aurora: true, auroraIntensity: lerp(skyFrom.aurora ? skyFrom.auroraIntensity : 0, skyTo.aurora ? skyTo.auroraIntensity : 0, t) };
   look.weather = blendWeather(from.weather, to.weather, t);
   look.fog = blendEffect('fog', from.fog, to.fog, t, FOG_DEFAULTS);
   look.volumetricFog = blendEffect('volumetricFog', from.volumetricFog, to.volumetricFog, t, VOLUME_DEFAULTS);

@@ -4,7 +4,7 @@ Implementado em 4 de outubro de 2026. Abra **Cena → Atmosfera**: **Ambientes e
 
 ## Preparar uma cena
 
-Clique em **Dia**, **Tarde**, **Noite**, **Neblina**, **Chuva**, **Pântano**, **Calor** ou **Estúdio neutro**. Cada preset troca luz principal, preenchimento, exposição, céu, clima, névoa e bloom. Objetos, posições, tokens, luzes locais, ajustes de materiais e câmeras são preservados. Uma luz principal bloqueada exige desbloqueio antes da troca.
+Clique em **Dia**, **Tarde**, **Noite**, **Aurora boreal**, **Neblina**, **Chuva**, **Pântano**, **Calor** ou **Estúdio neutro**. Cada preset troca luz principal, preenchimento, exposição, céu, clima, névoa e bloom. Objetos, posições, tokens, luzes locais, ajustes de materiais e câmeras são preservados. Uma luz principal bloqueada exige desbloqueio antes da troca.
 
 **Prévia** experimenta a atmosfera no editor e apresenta as configurações afetadas, janelas/vínculos e luzes locais preservadas. **Cancelar** restaura a aparência; **Aplicar ambiente** aceita em uma entrada do histórico. A prévia não altera o documento nem transmite o look ao projetor. Uma edição da cena cancela a prévia obsoleta.
 
@@ -16,7 +16,21 @@ Em **Sol / lua e cor da luz**, ajuste intensidade, temperatura Kelvin, cor e mat
 
 **Horário da cena** determina sol/lua, estrelas e vínculos de objetos. Para mudar o conjunto completo de cores/intensidades, use o preset correspondente. Alterar somente o horário preserva seus ajustes artísticos de iluminação.
 
-Em **Céu e nuvens**, ajuste gradiente de céu/horizonte, disco de sol/lua, estrelas noturnas e nuvens: cor, cobertura, opacidade, velocidade, escala e seed. O céu é procedural, com textura aproximada da lua. Não é um mapa HDR de reflexos nem uma simulação astronômica. Desligar o céu revela a cor de fundo. **Enquadrar sol / lua** aponta a câmera de trabalho para o astro, sem publicar no projetor; **Enquadrar mapa** retorna ao mapa. A órbita permite olhar acima do horizonte. O horizonte aparece quando a câmera olha acima do chão; a vista superior continua mostrando o mapa.
+Em **Céu e nuvens**, ajuste gradiente de céu/horizonte, sol/lua, céu noturno, aurora e nuvens. O céu é procedural. Não é um mapa HDR de reflexos nem uma simulação astronômica. Desligar o céu revela a cor de fundo. **Enquadrar sol / lua** aponta a câmera de trabalho para o astro, sem publicar no projetor; **Enquadrar mapa** retorna ao mapa. A órbita permite olhar acima do horizonte. O horizonte aparece quando a câmera olha acima do chão; a vista superior continua mostrando o mapa.
+
+## Céu noturno e aurora
+
+Revisto em 23 de outubro de 2026 (bancada: `node scripts/review-sky.js [pasta]`, que grava noite ampla, zênite, lua cheia e crescente, Via Láctea, duas auroras, tarde e dia pelo módulo real).
+
+- **Estrelas e Via Láctea**: estrelas como pontos do tamanho de um pixel, redondas em qualquer direção, com brilho em lei de potência (muitas fracas, poucas fortes), cor por temperatura (branca, azulada, amarelada, poucas alaranjadas) e um halo leve só nas mais fortes. Cintilação mais forte perto do horizonte, onde também se apagam pela espessura do ar. A Via Láctea é uma faixa com manchas, bojo mais largo e quente, fendas escuras de poeira e uma população densa de estrelas fracas. Controles: quantidade, brilho, cintilação, intensidade e direção da Via Láctea, brilho no horizonte (airglow) e estrelas cadentes. A seed do céu muda o desenho.
+- **Sol e lua**: lua com mares, escurecimento da borda e fase (0 nova, 0,25 crescente, 0,5 cheia, 0,75 minguante); a parte escura recebe só a luz cinérea. A lua cheia apaga as estrelas fracas e a Via Láctea, sobretudo perto dela. O sol ganha um clarão de espalhamento à sua volta.
+- **Aurora**: cortinas dobradas com raios verticais, marchadas em altura (base nítida, topo que se desfaz), cor da base e do topo, intensidade, altura no céu, direção e movimento. Ligar ou desligar numa transição de ambiente faz a aurora surgir ou sumir aos poucos.
+- Estrelas, Via Láctea, meteoros e aurora aparecem no horário **Noite**; na **Tarde**, só fracamente e se o céu pintado for escuro. Um céu claro os esconde, como a luz do dia. As nuvens passam na frente.
+- No painel ao vivo, **Céu noturno** tem estrelas, Via Láctea, aurora e fase da lua; **Aurora** está entre as horas do dia.
+- Os campos novos são opcionais (`SKY_NIGHT_DEFAULTS`): cenas antigas e cenas geradas ficam iguais e leem os padrões.
+- As nuvens usam projeção contínua até o horizonte e suavizam as oitavas finas onde cintilariam, sem as faixas verticais de antes.
+
+Limites: a aurora não ilumina a cena (combine com a cor da luz ambiente); não há constelações reais nem posição astronômica; cintilação, meteoros e aurora em movimento mantêm o quadro animado, como as nuvens (a pausa de efeitos para tudo).
 
 ## Chuva e partículas
 

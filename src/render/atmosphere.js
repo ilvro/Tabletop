@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { environmentBindingActive, NIGHT_WINDOWS_DEFAULTS } from '../domain/lighting.js';
+import { environmentBindingActive, NIGHT_WINDOWS_DEFAULTS, skySettings } from '../domain/lighting.js';
 
 export function applyEnvironmentMaterials(object, entity, look) {
   let binding = look.environmentBindings?.[entity.id];
@@ -35,32 +35,206 @@ export function materialSlots(object) {
 const skyVertex = `varying vec3 vDirection;
   void main() { vDirection = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
 const skyFragment = `varying vec3 vDirection;
-  uniform vec3 topColor, horizonColor, cloudColor, sunDirection, discColor;
-  uniform float time, coverage, opacity, speed, scale, seed, night, discSize, celestial, stars;
+  uniform vec3 topColor, horizonColor, cloudColor, sunDirection, discColor, auroraColor, auroraTopColor;
+  uniform float time, coverage, opacity, speed, scale, seed, night, darkness, discSize, celestial, stars;
+  uniform float starDensity, starBrightness, twinkle, milkyWay, milkyWayAngle, airglow, moonPhase, meteors;
+  uniform float aurora, auroraSpeed, auroraDirection, auroraHeight;
   float hash(vec3 p) { return fract(sin(dot(p, vec3(127.1, 311.7, 74.7)) + seed) * 43758.5453); }
   float noise(vec2 p) {
     vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
     return mix(mix(hash(vec3(i, 0.0)), hash(vec3(i + vec2(1.0, 0.0), 0.0)), f.x),
       mix(hash(vec3(i + vec2(0.0, 1.0), 0.0)), hash(vec3(i + 1.0, 0.0)), f.x), f.y);
   }
+  // Sine-free hashes stay stable for large cell indices; the seed only shifts the lattice.
+  vec3 hash33(vec3 p) { p = fract(p * vec3(.1031, .1030, .0973)); p += dot(p, p.yxz + 33.33); return fract((p.xxy + p.yxx) * p.zyx); }
+  float hash13(vec3 p) { p = fract(p * .1031); p += dot(p, p.zyx + 31.32); return fract((p.x + p.y) * p.z); }
+  float noise3(vec3 p) {
+    vec3 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+    return mix(mix(mix(hash13(i), hash13(i + vec3(1, 0, 0)), f.x), mix(hash13(i + vec3(0, 1, 0)), hash13(i + vec3(1, 1, 0)), f.x), f.y),
+      mix(mix(hash13(i + vec3(0, 0, 1)), hash13(i + vec3(1, 0, 1)), f.x), mix(hash13(i + vec3(0, 1, 1)), hash13(i + 1.0), f.x), f.y), f.z);
+  }
+  float fbm3(vec3 p) { float v = 0.0, a = .5; for (int i = 0; i < 5; i++) { v += a * noise3(p); p = p * 2.03 + 17.1; a *= .5; } return v; }
+  float noise1(float x) { float i = floor(x), f = fract(x); return mix(hash13(vec3(i, seed * .001, 7.0)), hash13(vec3(i + 1.0, seed * .001, 7.0)), f * f * (3.0 - 2.0 * f)); }
+  vec3 seedShift() { return vec3(fract(seed * .1234) * 512.0, fract(seed * .5678) * 512.0, fract(seed * .9123) * 512.0); }
+  // Black-body-ish tint from a random temperature: most stars white, some blue, a few orange.
+  vec3 starTint(float t) {
+    return t < .12 ? mix(vec3(1.0, .62, .38), vec3(1.0, .82, .6), t / .12)
+      : t < .45 ? mix(vec3(1.0, .82, .6), vec3(1.0, .97, .92), (t - .12) / .33)
+      : t < .85 ? mix(vec3(1.0, .97, .92), vec3(.86, .92, 1.0), (t - .45) / .4) : vec3(.72, .82, 1.0);
+  }
+  // Cube-face grid: d on its dominant face, so cells are nearly square everywhere and a 3x3 search finds every star near d.
+  vec3 starField(vec3 d, float cells, float chance, float pixel, float gain, vec3 face, float twinkleAmount) {
+    vec3 a = abs(d); vec2 uv; float axis; vec3 e0, e1, e2;
+    if (a.x >= a.y && a.x >= a.z) { uv = d.yz / a.x; axis = sign(d.x); e0 = vec3(sign(d.x), 0, 0); e1 = vec3(0, 1, 0); e2 = vec3(0, 0, 1); }
+    else if (a.y >= a.z) { uv = d.xz / a.y; axis = 2.0 + sign(d.y); e0 = vec3(0, sign(d.y), 0); e1 = vec3(1, 0, 0); e2 = vec3(0, 0, 1); }
+    else { uv = d.xy / a.z; axis = 4.0 + sign(d.z); e0 = vec3(0, 0, sign(d.z)); e1 = vec3(1, 0, 0); e2 = vec3(0, 1, 0); }
+    vec2 p = uv * cells; vec2 base = floor(p); vec3 sum = vec3(0.0);
+    for (int y = -1; y <= 1; y++) for (int x = -1; x <= 1; x++) {
+      vec2 cell = base + vec2(x, y); vec3 h = hash33(vec3(cell, axis * 37.0) + face);
+      if (h.z > chance) continue;
+      vec2 center = (cell + .25 + .5 * h.xy) / cells; float m = hash13(vec3(cell, axis) + face.zxy);
+      // Counts grow ~3x per magnitude: a power law gives many faint points and a handful of bright ones.
+      float flux = gain * min(.018 * pow(1.0001 - m, -.8), 6.0);
+      float shimmer = 1.0 + twinkleAmount * (sin(time * (3.0 + 5.0 * h.x) + h.y * 40.0) * .6 + sin(time * (7.0 + 9.0 * h.y) + h.x * 31.0) * .4);
+      // Angular distance on the sphere keeps every star round, whatever the face.
+      vec3 star = normalize(e0 + e1 * center.x + e2 * center.y);
+      float r2 = dot(d - star, d - star) / (pixel * pixel);
+      // A pixel-sized core; only the brightest grow a small soft halo.
+      float core = exp(-r2 / (.45 + .2 * min(flux, 3.0))), halo = exp(-sqrt(r2) / 1.4) * .025 * max(flux - .6, 0.0);
+      sum += starTint(fract(h.x * 7.31 + h.y * 3.17)) * flux * max(shimmer, 0.0) * (core + halo);
+    }
+    return sum;
+  }
+  vec3 rotateY(vec3 v, float a) { float c = cos(a), s = sin(a); return vec3(c * v.x + s * v.z, v.y, -s * v.x + c * v.z); }
+  vec3 milkyWayGlow(vec3 d, out float band) {
+    // Galactic pole tilted 62 degrees from the zenith; the angle turns the band around the sky.
+    vec3 pole = rotateY(normalize(vec3(sin(1.08), cos(1.08), 0.0)), milkyWayAngle);
+    vec3 top = normalize(vec3(0.0, 1.0, 0.0) - pole * pole.y), side = cross(pole, top);
+    vec3 core = normalize(top * cos(.75) + side * sin(.75));
+    float latitude = dot(d, pole), longitude = atan(dot(d, side), dot(d, top)) - .75;
+    float bulge = exp(-longitude * longitude / .35);
+    float width = .08 + .08 * bulge;
+    band = exp(-latitude * latitude / (width * width));
+    if (band < .01) return vec3(0.0);
+    vec3 q = d * 6.0 + seedShift() * .01;
+    float clouds = fbm3(q), detail = fbm3(q * 3.1 + 5.0);
+    float mottled = smoothstep(.3, .75, clouds);
+    float glow = band * (.3 + 1.1 * mottled * mottled) * (.5 + .6 * detail) + bulge * exp(-latitude * latitude / .01) * .6 * (.6 + .6 * clouds);
+    // Dust lanes: a dark rift slightly off the plane, broken up by noise.
+    float rift = exp(-pow((latitude - .015) / (.035 + .03 * bulge), 2.0)) * smoothstep(.35, .7, fbm3(q * 1.7 + 11.0)) * smoothstep(-2.4, -.5, longitude + 2.0 * bulge);
+    glow *= 1.0 - .8 * rift;
+    vec3 tint = mix(vec3(.62, .7, 1.0), vec3(1.0, .82, .62), bulge * .8);
+    return tint * glow * .26;
+  }
+  vec3 auroraLight(vec3 d) {
+    if (d.y < .01) return vec3(0.0);
+    vec3 r = rotateY(d, -auroraDirection);
+    float t = time * auroraSpeed, distance = mix(5.0, 1.2, auroraHeight), jitter = hash13(vec3(gl_FragCoord.xy, fract(time)));
+    vec3 sum = vec3(0.0);
+    // March up through the emitting layer; every sample sits on the curtain plane seen along this direction.
+    for (int i = 0; i < 28; i++) {
+      float h = (float(i) + jitter) / 28.0, height = 1.0 + h * 2.2, along = height / r.y;
+      vec2 ground = r.xz * along;
+      float x = ground.x + seed * .013;
+      float fold = distance + 3.2 * (noise1(x * .16 + t * .12) - .5) + 1.1 * sin(x * .35 + t * .3) + .35 * sin(x * 1.1 - t * .7);
+      float sheet = 0.0;
+      for (int k = 0; k < 2; k++) {
+        float offset = float(k) * (.9 + .6 * noise1(x * .15 + 3.0 + t * .05));
+        float dz = -ground.y - fold - offset;
+        sheet += exp(-dz * dz / (.045 + .02 * float(k))) * (1.0 - .45 * float(k));
+      }
+      // Vertical rays: brightness varies along the curtain but not up it.
+      float rays = .25 + .75 * pow(noise1(x * 9.0 + t * 1.6 + 4.0 * noise1(x * .9 - t * .2)), 2.5);
+      float profile = smoothstep(0.0, .06, h) * exp(-h * 2.6);
+      float far = exp(-along * .05);
+      vec3 tint = mix(auroraColor, auroraTopColor, smoothstep(.25, .85, h));
+      sum += tint * sheet * rays * profile * far;
+    }
+    return sum * aurora * .13 * smoothstep(.01, .08, d.y);
+  }
+  vec3 meteorLight(vec3 d, float pixel) {
+    vec3 sum = vec3(0.0);
+    float period = mix(40.0, 3.0, meteors);
+    for (int k = 0; k < 2; k++) {
+      float slot = floor(time / period + float(k) * .5), local = time - (slot - float(k) * .5) * period;
+      vec3 h = hash33(vec3(slot, float(k), 91.0) + seedShift());
+      if (h.z > .75 || local > .9) continue;
+      vec3 start = normalize(vec3(h.x * 2.0 - 1.0, .45 + .5 * h.y, hash13(vec3(slot, 3.0, float(k))) * 2.0 - 1.0));
+      vec3 drift = normalize(cross(start, normalize(vec3(h.y - .5, -.6, h.x - .5))));
+      float run = .35 * local, tail = max(0.0, run - .12);
+      vec3 head = normalize(start + drift * run), back = normalize(start + drift * tail), seg = head - back;
+      float along = clamp(dot(d - back, seg) / max(dot(seg, seg), 1e-6), 0.0, 1.0);
+      float dist = length(d - back - seg * along) / pixel;
+      float life = smoothstep(0.0, .1, local) * (1.0 - smoothstep(.55, .9, local));
+      sum += vec3(.85, .92, 1.0) * exp(-dist * dist / .8) * along * along * life * 3.0;
+    }
+    return sum * smoothstep(0.0, .2, d.y);
+  }
   void main() {
     vec3 d = normalize(vDirection);
-    vec3 color = mix(horizonColor, topColor, pow(max(d.y, 0.0), .45));
+    float pixel = max(length(fwidth(d)) * .7, 1e-5), up = max(d.y, 0.0);
+    vec3 color = mix(horizonColor, topColor, pow(up, .45));
     float alignment = dot(d, normalize(sunDirection));
-    float disc = smoothstep(cos(discSize * 1.15), cos(discSize), alignment) * celestial;
-    float moonTexture = .7 + .3 * noise(d.xz * 400.0);
-    color += discColor * disc * mix(2.0, moonTexture * 1.6, night);
-    color += discColor * pow(max(alignment, 0.0), 180.0) * .12 * celestial;
-    float star = step(.997, hash(floor(d * 210.0))) * stars * night * smoothstep(0.0, .25, d.y);
-    color += vec3(star * .8);
-    vec2 p = d.xz / max(d.y, .08) * scale + vec2(time * speed, time * speed * .3);
-    float cloud = .55 * noise(p) + .3 * noise(p * 2.1) + .15 * noise(p * 4.3);
+    // Sunlight scattered forward brightens the sky around the sun and along the horizon.
+    color += horizonColor * (1.0 - night) * (.18 * pow(max(alignment, 0.0), 6.0) + .1 * pow(max(alignment, 0.0), 40.0)) * celestial;
+    // Faint lights only show against a dark sky: a bright painted sky hides them, as daylight does.
+    float skyLight = dot(color, vec3(.2126, .7152, .0722)), contrast = 1.0 - smoothstep(.08, .3, skyLight);
+    float starsVisible = stars * darkness * contrast;
+    float airmass = 1.0 / max(d.y + .03, .03), extinction = exp(-.12 * (airmass - 1.0)) * smoothstep(-.01, .06, d.y);
+    if (starsVisible > 0.0) {
+      vec3 shift = seedShift();
+      float scintillation = twinkle * mix(.12, .55, 1.0 - smoothstep(0.0, .6, d.y));
+      float band = 0.0; vec3 galaxy = milkyWay > 0.0 ? milkyWayGlow(d, band) * milkyWay : vec3(0.0);
+      vec3 field = starField(d, 34.0, .2 + .75 * starDensity, pixel, 1.0, shift, scintillation);
+      // A denser, fainter population resolves the band into stars.
+      field += starField(d, 110.0, (.1 + .5 * starDensity) * (.25 + .75 * band * step(.001, milkyWay)), pixel, .35, shift + 71.0, scintillation * .6);
+      // A bright moon washes out the faint stars and the Milky Way, most of all around it.
+      float moonlight = night * celestial * (1.0 - abs(moonPhase * 2.0 - 1.0)), wash = moonlight * (.45 + .5 * pow(max(alignment, 0.0), 6.0));
+      color += (field * starBrightness * 1.6 * (1.0 - .6 * wash) + galaxy * (1.0 - .8 * wash)) * starsVisible * extinction;
+      // Airglow: a faint green-to-amber band a few degrees above the horizon.
+      float glowBand = exp(-pow((d.y - .07) / .09, 2.0));
+      color += mix(vec3(.05, .11, .06), vec3(.09, .07, .03), smoothstep(.0, .12, d.y)) * glowBand * airglow * starsVisible;
+      if (meteors > 0.0) color += meteorLight(d, pixel) * starsVisible;
+    }
+    if (aurora > 0.0) color += auroraLight(d) * darkness * mix(.35, 1.0, contrast);
+    // Moon: limb darkening, maria and the phase terminator; the sun keeps a bright disc.
+    float radius = discSize, angle = acos(clamp(alignment, -1.0, 1.0));
+    float disc = (1.0 - smoothstep(radius * .92, radius * 1.04, angle)) * celestial;
+    float lit = 1.0;
+    if (disc > 0.0) {
+      vec3 sun = normalize(sunDirection), east = normalize(cross(abs(sun.y) > .99 ? vec3(1, 0, 0) : vec3(0, 1, 0), sun)), north = cross(sun, east);
+      vec2 uv = vec2(dot(d, east), dot(d, north)) / sin(radius);
+      vec3 n = vec3(uv, sqrt(max(0.0, 1.0 - dot(uv, uv))));
+      float phase = moonPhase * 6.2831853;
+      lit = mix(1.0, smoothstep(-.04, .08, dot(n, vec3(sin(phase), 0.0, -cos(phase)))), night);
+      float maria = smoothstep(.42, .62, fbm3(vec3(uv * 1.6 + 4.0, 3.0))) * .45 + noise3(vec3(uv * 22.0, 9.0)) * .08;
+      float limb = .55 + .45 * pow(n.z, .5);
+      float moonFace = (1.0 - maria) * limb * mix(.04, 1.0, lit);
+      color = mix(color, discColor * mix(2.0, moonFace * 1.05, night), disc);
+    }
+    float halo = night > .5 ? (moonPhase < .5 ? moonPhase : 1.0 - moonPhase) * 2.0 : 1.0;
+    color += discColor * (pow(max(alignment, 0.0), 180.0) * .12 + pow(max(alignment, 0.0), 1200.0) * .25 * night) * celestial * halo * (1.0 - disc * night);
+    // Cloud layer seen in perspective; the finer octaves fade where they would shimmer, near the horizon.
+    vec2 p = d.xz / (up + .1) * scale + vec2(time * speed, time * speed * .3);
+    float footprint = length(fwidth(p));
+    float cloud = .55 * noise(p) + .3 * mix(noise(p * 2.1), .5, smoothstep(.2, .6, footprint * 2.1)) + .15 * mix(noise(p * 4.3), .5, smoothstep(.2, .6, footprint * 4.3));
     float mask = smoothstep(1.0 - coverage - .12, 1.0 - coverage + .12, cloud) * opacity * step(.00001, coverage) * smoothstep(0.0, .12, d.y);
     color = mix(color, cloudColor, mask);
     gl_FragColor = vec4(color, 1.0);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
   }`;
+
+const rad = Math.PI / 180;
+/** The sky's uniforms from the look; one place for configure and tune. */
+function setSkyUniforms(u, look, light, cloudsShown) {
+  const s = skySettings(look.sky), phase = look.daylight?.phase ?? 'day', night = phase === 'night';
+  u.topColor.value.set(s.topColor); u.horizonColor.value.set(s.horizonColor); u.cloudColor.value.set(s.cloudColor);
+  u.sunDirection.value.set(0, 1, 0).applyQuaternion(new THREE.Quaternion(...(light?.rotation ?? [0, 0, 0, 1])));
+  u.discColor.value.set(night ? '#dce8ff' : light?.color ?? '#ffe9ae'); u.coverage.value = s.cloudCoverage;
+  u.opacity.value = cloudsShown && s.clouds ? s.cloudOpacity : 0; u.speed.value = s.cloudSpeed; u.scale.value = s.cloudScale; u.seed.value = s.seed;
+  u.night.value = night ? 1 : 0; u.darkness.value = night ? 1 : phase === 'sunset' ? .18 : 0;
+  u.discSize.value = s.discSize; u.celestial.value = s.celestialEnabled ? 1 : 0; u.stars.value = s.stars ? 1 : 0;
+  u.starDensity.value = s.starDensity; u.starBrightness.value = s.starBrightness; u.twinkle.value = s.twinkle; u.milkyWay.value = s.milkyWay;
+  u.milkyWayAngle.value = s.milkyWayAngle * rad; u.airglow.value = s.airglow; u.moonPhase.value = s.moonPhase; u.meteors.value = s.meteors;
+  u.aurora.value = s.aurora ? s.auroraIntensity : 0; u.auroraColor.value.set(s.auroraColor); u.auroraTopColor.value.set(s.auroraTopColor);
+  u.auroraSpeed.value = s.auroraSpeed; u.auroraDirection.value = s.auroraDirection * rad; u.auroraHeight.value = s.auroraHeight;
+}
+function skyUniforms() {
+  const color = () => ({ value: new THREE.Color() }), scalar = () => ({ value: 0 });
+  const u = { sunDirection: { value: new THREE.Vector3() } };
+  for (const name of ['topColor', 'horizonColor', 'cloudColor', 'discColor', 'auroraColor', 'auroraTopColor']) u[name] = color();
+  for (const name of ['time', 'coverage', 'opacity', 'speed', 'scale', 'seed', 'night', 'darkness', 'discSize', 'celestial', 'stars', 'starDensity', 'starBrightness', 'twinkle', 'milkyWay', 'milkyWayAngle', 'airglow', 'moonPhase', 'meteors', 'aurora', 'auroraSpeed', 'auroraDirection', 'auroraHeight']) u[name] = scalar();
+  return u;
+}
+/** Whether the sky changes by itself: drifting clouds, twinkling stars, a moving aurora or meteors. */
+export function skyAnimates(look, cloudsShown = true) {
+  const s = skySettings(look?.sky), phase = look?.daylight?.phase ?? 'day', dark = phase !== 'day';
+  if (!s.enabled) return false;
+  const clouds = cloudsShown && s.clouds && s.cloudOpacity > 0 && s.cloudCoverage > 0 && s.cloudSpeed > 0;
+  const stars = dark && s.stars && (s.twinkle > 0 || s.meteors > 0);
+  return clouds || stars || dark && s.aurora && s.auroraIntensity > 0 && s.auroraSpeed > 0;
+}
 
 function seededRandom(seed) {
   let state = seed >>> 0;
@@ -193,13 +367,8 @@ export function createAtmosphere(scene) {
     look = next; clear(sky); clear(particles); sky = null; particles = null;
     const s = look.sky;
     if (s?.enabled) {
-      const color = value => ({ value: new THREE.Color(value) });
-      const material = new THREE.ShaderMaterial({ side: THREE.BackSide, depthWrite: false, vertexShader: skyVertex, fragmentShader: skyFragment,
-        uniforms: { topColor: color(s.topColor), horizonColor: color(s.horizonColor), cloudColor: color(s.cloudColor),
-          sunDirection: { value: new THREE.Vector3(0, 1, 0).applyQuaternion(new THREE.Quaternion(...(light?.rotation ?? [0, 0, 0, 1]))) },
-          discColor: color(look.daylight?.phase === 'night' ? '#dce8ff' : light?.color ?? '#ffe9ae'), time: { value: 0 }, coverage: { value: s.cloudCoverage },
-          opacity: { value: localEnabled && s.clouds ? s.cloudOpacity : 0 }, speed: { value: s.cloudSpeed }, scale: { value: s.cloudScale }, seed: { value: s.seed },
-          night: { value: look.daylight?.phase === 'night' ? 1 : 0 }, discSize: { value: s.discSize }, celestial: { value: s.celestialEnabled ? 1 : 0 }, stars: { value: s.stars ? 1 : 0 } } });
+      const material = new THREE.ShaderMaterial({ side: THREE.BackSide, depthWrite: false, vertexShader: skyVertex, fragmentShader: skyFragment, uniforms: skyUniforms() });
+      setSkyUniforms(material.uniforms, look, light, localEnabled);
       sky = new THREE.Mesh(new THREE.SphereGeometry(600, 32, 16), material); sky.frustumCulled = false; sky.renderOrder = -1000; scene.add(sky);
     }
     const w = look.weather;
@@ -220,14 +389,7 @@ export function createAtmosphere(scene) {
     const s = next.sky, w = next.weather, emitter = value => value && value.type !== 'none' && value.count > 0 ? [value.type, value.count, value.seed].join() : null;
     if (Boolean(sky) !== Boolean(s?.enabled) || emitter(look.weather) !== emitter(w)) { configure(next, light); return; }
     look = next;
-    if (sky) {
-      const u = sky.material.uniforms, night = next.daylight?.phase === 'night';
-      u.topColor.value.set(s.topColor); u.horizonColor.value.set(s.horizonColor); u.cloudColor.value.set(s.cloudColor);
-      u.sunDirection.value.set(0, 1, 0).applyQuaternion(new THREE.Quaternion(...(light?.rotation ?? [0, 0, 0, 1])));
-      u.discColor.value.set(night ? '#dce8ff' : light?.color ?? '#ffe9ae'); u.coverage.value = s.cloudCoverage;
-      u.opacity.value = localEnabled && s.clouds ? s.cloudOpacity : 0; u.speed.value = s.cloudSpeed; u.scale.value = s.cloudScale; u.seed.value = s.seed;
-      u.night.value = night ? 1 : 0; u.discSize.value = s.discSize; u.celestial.value = s.celestialEnabled ? 1 : 0; u.stars.value = s.stars ? 1 : 0;
-    }
+    if (sky) setSkyUniforms(sky.material.uniforms, next, light, localEnabled);
     if (particles) {
       const u = particles.material.uniforms;
       u.speed.value = w.speed; u.particleSize.value = w.particleSize; u.regionSize.value.set(...w.size); u.regionCenter.value.set(...w.center);
@@ -239,7 +401,7 @@ export function createAtmosphere(scene) {
     update(camera, seconds, paused, viewportHeight, pixelScale=1) {
       if (sky) { sky.position.copy(camera.position); sky.material.uniforms.time.value = seconds; }
       if (particles) { particles.material.uniforms.time.value = seconds; particles.material.uniforms.viewportHeight.value = viewportHeight; particles.material.uniforms.perspective.value = camera.isPerspectiveCamera ? 1 : 0;particles.material.uniforms.pointClamp.value.set(pixelScale,64*pixelScale); }
-      return !paused && localEnabled && Boolean(sky && look.sky.clouds && look.sky.cloudOpacity > 0 && look.sky.cloudCoverage > 0 && look.sky.cloudSpeed > 0 || particles && look.weather.opacity > 0 && (look.weather.speed > 0 || look.weather.wind.some(v => v !== 0)));
+      return !paused && localEnabled && Boolean(sky && skyAnimates(look) || particles && look.weather.opacity > 0 && (look.weather.speed > 0 || look.weather.wind.some(v => v !== 0)));
     },
     setEnabled(value) { localEnabled = value; if (particles) particles.visible = value; if (sky) sky.material.uniforms.opacity.value = value && look.sky.clouds ? look.sky.cloudOpacity : 0; },
     info() { return { sky: Boolean(sky), phase: look.daylight?.phase ?? 'day', particles: particles?.visible ? look.weather.count : 0, weather: look.weather?.type ?? 'none', clouds: Boolean(sky && localEnabled && look.sky.clouds) }; },

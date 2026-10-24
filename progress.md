@@ -1165,3 +1165,20 @@ Entregue:
 Validação: 381 testes unitários (teste de geometria da chuva atualizado para as fitas e respingos); E2E environments (inclui pixels de chuva e céu), materials-effects (fogo/fumaça locais), wet-effects, effects-sharpness, organic-winter e dynamic-lighting aprovados (12/12; o teste de UI de ambientes estourou o tempo uma vez com outra suíte rodando em paralelo e passou sozinho).
 
 Limites: respingos na altura base da região (não seguem terreno nem telhados); bancos de névoa estáticos.
+
+## Céu mais realista e aurora — concluído
+
+Pedido de 23 de outubro: céu mais realista (estrelas simples demais) e opções de ambientação customizáveis, como aurora boreal. Nova bancada `scripts/review-sky.js` (noite ampla, zênite, lua cheia e crescente, Via Láctea, duas auroras, tarde e dia) usada para comparar antes e depois.
+
+Entregue:
+- Estrelas: antes eram quadradinhos da grade 3D, todos do mesmo brilho e cor. Agora são pontos redondos de ~1 px numa grade por face de cubo com busca 3×3, brilho em lei de potência, cor por temperatura, halo só nas mais fortes, cintilação mais forte no horizonte e extinção pelo ar. Uma segunda população densa e fraca forma a Via Láctea.
+- Via Láctea (faixa com manchas, bojo quente, fendas de poeira), airglow no horizonte, estrelas cadentes, lua com mares, borda escurecida e fase (a lua cheia apaga estrelas fracas), clarão de espalhamento em torno do sol.
+- Aurora: cortinas dobradas com raios verticais marchadas em altura; cor da base/topo, intensidade, altura, direção e movimento. Some ou surge aos poucos nas transições de ambiente.
+- Estrelas/aurora somem sobre céu pintado claro; nuvens sem as faixas verticais perto do horizonte (projeção contínua e oitavas suavizadas).
+- UI: Atmosfera ganhou "Sol e lua" (fase), "Estrelas e Via Láctea" e "Aurora"; painel ao vivo ganhou "Céu noturno" e a hora "Aurora". Novo preset Aurora boreal.
+- Campos novos opcionais em `SKY_NIGHT_DEFAULTS` + `skySettings()`; cenas guardadas e geradas não mudam.
+- Docs: ENVIRONMENTS.md (Céu noturno e aurora), resumos PROGRESSO.
+
+Limites: a aurora não ilumina a cena; sem constelações reais; cintilação/aurora/meteoros mantêm o quadro animado (a pausa de efeitos para).
+
+Validação: 384 testes unitários (3 novos em `tests/night-sky.test.js`: campos opcionais/validação, preset Aurora com transição gradual, painel ao vivo); E2E de pixels do céu (sol/lua, nuvens, chuva) aprovado; bancada `review-sky.js` conferida quadro a quadro. O E2E de UI de ambientes estourou o tempo duas vezes com outras sessões rodando Chromium por software em paralelo; uma cópia limpa do HEAD também falhou nas mesmas condições. Repetir com a máquina livre. Custo medido no renderizador por software: estrelas +5% sobre a noite sem estrelas; aurora ≈ 2× o custo do céu.

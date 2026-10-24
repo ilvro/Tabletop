@@ -1,10 +1,10 @@
 import { escapeHTML as esc, icon } from './icons.js';
-import { colorToHSV, hsvToColor, DAYLIGHT_DEFAULTS, SKY_DEFAULTS, WEATHER_DEFAULTS, FOG_DEFAULTS, VOLUME_DEFAULTS, BLOOM_DEFAULTS } from '../domain/lighting.js';
+import { colorToHSV, hsvToColor, DAYLIGHT_DEFAULTS, skySettings, WEATHER_DEFAULTS, FOG_DEFAULTS, VOLUME_DEFAULTS, BLOOM_DEFAULTS } from '../domain/lighting.js';
 import { primaryLight } from '../domain/environments.js';
 import { Euler, Quaternion } from 'three';
 
 /** Built-in atmospheres offered as times of day in the live panel, in the order a session goes through them. */
-export const AMBIENCE_TIMES = [['day', 'Dia'], ['warm', 'Tarde'], ['moonlight', 'Noite'], ['fog', 'Neblina'], ['rain', 'Chuva'], ['ritual', 'Ritual']];
+export const AMBIENCE_TIMES = [['day', 'Dia'], ['warm', 'Tarde'], ['moonlight', 'Noite'], ['aurora', 'Aurora'], ['fog', 'Neblina'], ['rain', 'Chuva'], ['ritual', 'Ritual']];
 export const AMBIENCE_DURATIONS = [[0, 'Corte'], [2, '2 s'], [5, '5 s'], [10, '10 s'], [20, '20 s']];
 const WEATHER = [['none', 'Nada'], ['rain', 'Chuva'], ['snow', 'Neve'], ['dust', 'Poeira'], ['embers', 'Brasas'], ['smoke', 'Fumaça']];
 
@@ -12,7 +12,7 @@ const sunAngles = light => { const e = new Euler().setFromQuaternion(new Quatern
 
 /** Every slider of the panel: its current value in a look, and its range. HSV rows read the colour named by `color`. */
 export function ambienceValues(look) {
-  const key = primaryLight(look), daylight = { ...DAYLIGHT_DEFAULTS, ...look.daylight }, sky = { ...SKY_DEFAULTS, ...look.sky }, weather = { ...WEATHER_DEFAULTS, ...look.weather };
+  const key = primaryLight(look), daylight = { ...DAYLIGHT_DEFAULTS, ...look.daylight }, sky = skySettings(look.sky), weather = { ...WEATHER_DEFAULTS, ...look.weather };
   const fog = { ...FOG_DEFAULTS, ...look.fog }, volume = { ...VOLUME_DEFAULTS, ...look.volumetricFog }, bloom = { ...BLOOM_DEFAULTS, ...look.bloom }, sun = sunAngles(key);
   return {
     exposure: daylight.exposure, fill: look.fill?.intensity ?? 1, keyIntensity: key ? (key.enabled === false ? 0 : key.intensity) : 0,
@@ -20,6 +20,7 @@ export function ambienceValues(look) {
     volumeDensity: volume.enabled ? volume.density : 0, volumeHeight: volume.height, fogDensity: fog.enabled && fog.mode === 'exp2' ? fog.density : 0,
     weatherCount: weather.type === 'none' ? 0 : weather.count, weatherSpeed: weather.speed, wind: weather.wind[0], bloom: bloom.enabled ? bloom.strength : 0,
     colors: { key: key?.color ?? '#ffe8c5', topColor: sky.topColor, horizonColor: sky.horizonColor, cloudColor: sky.cloudColor, fogColor: volume.enabled || !fog.enabled ? volume.color : fog.color },
+    starBrightness: sky.stars ? sky.starBrightness : 0, milkyWay: sky.milkyWay, aurora: sky.aurora ? sky.auroraIntensity : 0, moonPhase: sky.moonPhase, night: daylight.phase !== 'day',
     skyEnabled: sky.enabled, weatherType: weather.type, hasKey: Boolean(key),
   };
 }
@@ -28,6 +29,7 @@ export const AMBIENCE_RANGES = {
   exposure: [.2, 3, .01], fill: [0, 3, .01], keyIntensity: [0, 6, .01], altitude: [1, 90, 1], azimuth: [-180, 180, 1],
   cloudCoverage: [0, 1, .01], cloudOpacity: [0, 1, .01], cloudSpeed: [0, .2, .001], cloudScale: [.5, 12, .1],
   volumeDensity: [0, .3, .002], volumeHeight: [.2, 30, .1], fogDensity: [0, .08, .001],
+  starBrightness: [0, 3, .01], milkyWay: [0, 1, .01], aurora: [0, 3, .01], moonPhase: [0, 1, .01],
   weatherCount: [0, 3000, 10], weatherSpeed: [0, 30, .1], wind: [-15, 15, .1], bloom: [0, 1, .01],
 };
 
@@ -58,6 +60,7 @@ export function ambiencePanel(look, { environments = [], activeId = null, durati
   return `${section('Hora do dia', times)}
     ${section('Luz', `${slider('exposure', 'Exposição', v.exposure)}${v.hasKey ? `${slider('keyIntensity', 'Sol / lua', v.keyIntensity)}${slider('altitude', 'Altura', v.altitude)}${slider('azimuth', 'Direção', v.azimuth)}${hsvRows('key', 'Cor do sol / lua', v.colors.key, hues.key)}` : '<p class="amb-note">A cena não tem sol nem lua. Escolha uma hora do dia para criar.</p>'}${slider('fill', 'Luz ambiente', v.fill)}`)}
     ${section('Céu', `${hsvRows('topColor', 'Cor do céu', v.colors.topColor, hues.topColor)}${hsvRows('horizonColor', 'Horizonte', v.colors.horizonColor, hues.horizonColor)}`, `<label class="amb-toggle"><input type="checkbox" data-ambience="skyEnabled" ${v.skyEnabled ? 'checked' : ''}/> mostrar</label>`)}
+    ${section('Céu noturno', `${slider('starBrightness', 'Estrelas', v.starBrightness)}${slider('milkyWay', 'Via Láctea', v.milkyWay)}${slider('aurora', 'Aurora', v.aurora)}${slider('moonPhase', 'Fase da lua', v.moonPhase)}${v.night ? '' : '<p class="amb-note">Aparece com Tarde escura ou Noite.</p>'}`)}
     ${section('Nuvens', `${slider('cloudCoverage', 'Cobertura', v.cloudCoverage)}${slider('cloudOpacity', 'Opacidade', v.cloudOpacity)}${slider('cloudSpeed', 'Velocidade', v.cloudSpeed)}${slider('cloudScale', 'Padrão', v.cloudScale)}${hsvRows('cloudColor', 'Cor das nuvens', v.colors.cloudColor, hues.cloudColor)}`)}
     ${section('Névoa', `${slider('volumeDensity', 'Névoa baixa', v.volumeDensity)}${slider('volumeHeight', 'Altura', v.volumeHeight)}${slider('fogDensity', 'Distância', v.fogDensity)}${hsvRows('fogColor', 'Cor da névoa', v.colors.fogColor, hues.fogColor)}`)}
     ${section('Clima', `<div class="amb-chips">${WEATHER.map(([id, label]) => `<button type="button" class="amb-chip ${v.weatherType === id ? 'active' : ''}" data-ambience-weather="${id}">${label}</button>`).join('')}</div>${v.weatherType !== 'none' ? `${slider('weatherCount', 'Intensidade', v.weatherCount)}${slider('weatherSpeed', 'Velocidade', v.weatherSpeed)}${slider('wind', 'Vento', v.wind)}` : ''}`)}

@@ -5,6 +5,12 @@ export const BLOOM_DEFAULTS = Object.freeze({ enabled: false, strength: .25, rad
 export const FLICKER_DEFAULTS = Object.freeze({ enabled: false, pattern: 'candle', amplitude: .2, frequency: 2, seed: 1 });
 export const DAYLIGHT_DEFAULTS = Object.freeze({ phase: 'day', exposure: 1.1 });
 export const SKY_DEFAULTS = Object.freeze({ enabled: false, topColor: '#397bc0', horizonColor: '#bfd5e6', celestialEnabled: true, discSize: .035, stars: true, clouds: true, cloudColor: '#ffffff', cloudCoverage: .35, cloudOpacity: .45, cloudSpeed: .025, cloudScale: 3, seed: 1 });
+/** Night-sky fields added after the first schema. Kept apart so stored documents and generated scenes stay unchanged; readers merge them. */
+export const SKY_NIGHT_DEFAULTS = Object.freeze({ starDensity: .6, starBrightness: 1, twinkle: .35, milkyWay: .6, milkyWayAngle: 30, airglow: .35, moonPhase: .5, meteors: 0,
+  aurora: false, auroraIntensity: 1, auroraColor: '#3dff8f', auroraTopColor: '#a24dff', auroraSpeed: .3, auroraDirection: 0, auroraHeight: .5 });
+export const SKY_NIGHT_FIELDS = Object.keys(SKY_NIGHT_DEFAULTS);
+/** A look's sky with every field filled in. */
+export const skySettings = sky => ({ ...SKY_DEFAULTS, ...SKY_NIGHT_DEFAULTS, ...sky });
 export const WEATHER_DEFAULTS = Object.freeze({ type: 'none', count: 600, center: [0, 0, 0], size: [30, 12, 30], color: '#afc9de', opacity: .45, particleSize: .025, speed: 10, wind: [1, 0], seed: 1 });
 export const NIGHT_WINDOWS_DEFAULTS = Object.freeze({ enabled: true, color: '#ffc86d', intensity: 2 });
 export const BINDING_DEFAULTS = Object.freeze({ enabled: true, phase: 'night', slot: 'base', color: '#ffc86d', intensity: 2 });

@@ -13,7 +13,7 @@ import { ROCK_FORMS, ROCK_RANGES, CLIFF_RANGES, rockDefaults } from './rocks.js'
 import {SNOW_SHAPE_DEFAULTS,SNOW_SHAPE_RANGES} from './snow.js';
 import { WEAR_STYLES, WEAR_RANGES, WEAR_PLACEMENTS } from './wear.js';
 /** Validated JSON is the boundary between editor, disk and future network adapters. */
-import { kelvinToColor } from './lighting.js';
+import { kelvinToColor, SKY_NIGHT_FIELDS } from './lighting.js';
 import { validateFlashlight, validateCameraExtras } from './cinematics.js';
 import { validateFigure } from './figures.js';
 import { validateInitiative } from './initiative.js';
@@ -442,12 +442,17 @@ function look(value, path, document, seen) {
   }
   if (value.sky !== undefined) {
     const s = value.sky, p = `${path}.sky`;
-    keys(s, ['enabled', 'topColor', 'horizonColor', 'celestialEnabled', 'discSize', 'stars', 'clouds', 'cloudColor', 'cloudCoverage', 'cloudOpacity', 'cloudSpeed', 'cloudScale', 'seed'], p);
+    keys(s, ['enabled', 'topColor', 'horizonColor', 'celestialEnabled', 'discSize', 'stars', 'clouds', 'cloudColor', 'cloudCoverage', 'cloudOpacity', 'cloudSpeed', 'cloudScale', 'seed', ...SKY_NIGHT_FIELDS], p);
     for (const key of ['enabled', 'celestialEnabled', 'stars', 'clouds']) bool(s[key], `${p}.${key}`);
     for (const key of ['topColor', 'horizonColor', 'cloudColor']) color(s[key], `${p}.${key}`);
     number(s.discSize, p, .005, .15); number(s.cloudCoverage, p, 0, 1); number(s.cloudOpacity, p, 0, 1);
     number(s.cloudSpeed, p, 0, 1); number(s.cloudScale, p, .1, 20);
     fail(Number.isInteger(s.seed) && s.seed >= 0 && s.seed <= 2147483647, 'Seed inválido.', p);
+    // Night-sky fields are optional: older documents keep the defaults.
+    const ranges = { starDensity: [0, 1], starBrightness: [0, 3], twinkle: [0, 1], milkyWay: [0, 1], milkyWayAngle: [-180, 180], airglow: [0, 1], moonPhase: [0, 1], meteors: [0, 1], auroraIntensity: [0, 3], auroraSpeed: [0, 1], auroraDirection: [-180, 180], auroraHeight: [0, 1] };
+    for (const [key, [min, max]] of Object.entries(ranges)) if (s[key] !== undefined) number(s[key], `${p}.${key}`, min, max);
+    if (s.aurora !== undefined) bool(s.aurora, `${p}.aurora`);
+    for (const key of ['auroraColor', 'auroraTopColor']) if (s[key] !== undefined) color(s[key], `${p}.${key}`);
   }
   if (value.weather !== undefined) {
     const w = value.weather, p = `${path}.weather`;
