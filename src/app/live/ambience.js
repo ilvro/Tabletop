@@ -128,7 +128,9 @@ export function createAmbience({ dialog, content, store, viewport, execute, envi
   }
 
   dialog.addEventListener('pointerdown', event => { if (event.target.matches?.('input[type=range][data-ambience]')) dragging = true; });
-  window.addEventListener('pointerup', () => { if (dragging) { dragging = false; queueMicrotask(render); } });
+  // The browser releases the pointer before the slider reports its change: redrawing on release would put the old
+  // value back under the hand and the change would never show. The change redraws; a release without one does, after.
+  window.addEventListener('pointerup', () => { if (dragging) setTimeout(() => { if (dragging) { dragging = false; render(); } }, 0); });
   dialog.addEventListener('input', event => {
     const input = event.target; if (!input.dataset?.ambience || input.type === 'checkbox') return;
     try {
@@ -142,8 +144,10 @@ export function createAmbience({ dialog, content, store, viewport, execute, envi
   });
   dialog.addEventListener('change', event => {
     const input = event.target; if (!input.dataset?.ambience) return;
+    dragging = false;
     if (transition) finish();
     try { commit(patchFrom(input), 'Ambientação ao vivo'); } catch (error) { notify(error.message, true); }
+    render();
   });
   dialog.addEventListener('click', event => {
     const time = event.target.closest('[data-ambience-time]'), weather = event.target.closest('[data-ambience-weather]'), seconds = event.target.closest('[data-ambience-duration]');
