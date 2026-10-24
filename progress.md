@@ -34,10 +34,10 @@ Pedido: analisar o projeto e planejar melhorias de desempenho, para outro agente
 
 Pedido: plano técnico e detalhado de uma engine de documentos (estilo Photoshop para *handouts*) que use o acervo do *Arquivos Confidenciais* e os documentos do usuário, para outro modelo implementar em etapas. Depois, a pedido do usuário, o Ateliê passou a ser **um projeto separado** com integração por contrato.
 
-- Plano: `../Atelie/docs/plano/` (entrada `00-LEIA-PRIMEIRO.md`, identidade e interface `PLANO-INTERFACE.md`, contrato `CONTRATO-TABLETOP.md`, etapas 1–26 no Ateliê, etapa 27 no Tabletop). Ponteiro aqui: [docs/ATELIE.md](docs/ATELIE.md).
+- Plano: `../Atelie/docs/plano/` (entrada `00-LEIA-PRIMEIRO.md`, identidade e interface `PLANO-INTERFACE.md`, contrato `CONTRATO-TABLETOP.md`, etapas 1–27 e a opcional 29 no Ateliê, etapa 28 no Tabletop). Ponteiro aqui: [docs/ATELIE.md](docs/ATELIE.md).
+- Hospedagem: os dois no GitHub Pages da mesma conta, sem contas de usuário. Mesma origem, então a integração usa um banco de troca no navegador e `BroadcastChannel`; entre origens diferentes, janela com `postMessage`; HTTP só no desenvolvimento local.
 - O Ateliê é completo sem o acervo pago: traz uma **coleção da casa** própria (papéis e texturas gerados por código, ~140 elementos vetoriais, 26 fontes livres, 36 modelos); o *Arquivos Confidenciais* é uma **expansão** opcional.
 - Baseado em medições reais: estrutura de 3 PSDs com `ag-psd` 30.2.0 (texto dentro de objetos inteligentes, mesclagens, ajustes, variações, grupo UV, composição salva em todos), categorias das 2 500 imagens de `Assets/`, e amostras dos documentos de Vaesen. O acervo fica numa pasta privada fora do git.
-- Comunicação entre os apps: HTTP com CORS e `window.postMessage` (origens diferentes, então `BroadcastChannel` não serve), mais checagem de revisão pela API.
 
 Também: "Iluminação e ambientação", passo 48, pedia a força do halo que a Noite já traz; passou a pedir só o limiar (commit `319241b`). A suíte completa dos tutoriais passou (20 de 20) num build isolado.
 
