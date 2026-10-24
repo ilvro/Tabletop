@@ -780,3 +780,7 @@ dialog.floating-window.library-dialog, .floating-window { background: var(--tt-s
 .lesson-folder > summary span::before { content: '▸'; display: inline-block; width: 14px; color: var(--tt-muted); transition: transform .15s; }
 .lesson-folder[open] > summary span::before { transform: rotate(90deg); }
 .lesson-folder > summary small { grid-column: 1 / -1; padding-left: 14px; font-size: var(--eco-fs-12); color: var(--tt-muted); }
+.camera-strip .live-camera-toggle.active { color: #fff; background: color-mix(in srgb, var(--tt-rec) 75%, transparent); border-color: var(--tt-rec); }
+.camera-strip .live-camera-toggle.active svg { animation: live-pulse 1.4s ease-in-out infinite; }
+@keyframes live-pulse { 50% { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { .camera-strip .live-camera-toggle.active svg { animation: none; } }

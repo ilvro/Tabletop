@@ -38,6 +38,15 @@ No projetor, um token movido desliza até a nova posição com um passo curto em
 
 ## Câmera ao vivo
 
+**L** (ou o botão **Ao vivo**, na barra de câmera da cena) liga e desliga. Ligada, a sua câmera de trabalho vira a câmera da transmissão: o projetor a acompanha com atraso suave, e a navegação ganha peso de cinema (suavidade de pelo menos 55%, que volta ao valor anterior ao desligar). Para filmar ao vivo:
+
+- **Roda do mouse:** aproximação e afastamento com inércia, como um dolly; a câmera continua deslizando um pouco depois do último toque.
+- **Z / C** (segurar): órbita lenta em volta do ponto olhado, com aceleração e frenagem suaves; com Shift, mais rápida. Seguir um personagem continua valendo durante a órbita.
+- **Clique duplo** num ponto da cena: a câmera desliza até olhar para ele, mantendo distância e ângulo.
+- **WASD**, botão direito e Close continuam como antes; movimentos automáticos (órbita lenta, câmera na mão) podem rodar por cima.
+
+Ctrl+Z, Ctrl+C e os demais atalhos com Ctrl continuam sendo de edição, mesmo com o foco na cena.
+
 **Tomadas → Câmera ao vivo → Projetor acompanha minha câmera.** Desligada por padrão. Ligada, o projetor segue a câmera de trabalho com atraso suave (0,1–2 s), e os movimentos do mestre viram travellings. Desligar deixa o projetor onde está. A opção desliga sozinha ao trocar de cena. Sem ela, valem as regras de sempre: só tomadas e "Publicar" mudam o projetor.
 
 Foco e seguir que apontam para algo "só mestre" não são enviados ao projetor.

@@ -231,10 +231,14 @@ export function createViewport(container, {
   let controls = null;
   const navigationKeys = new Set();
   const perspectiveHeightCodes = new Set(['Space', 'ControlLeft', 'ControlRight']);
-  const movementCodes = new Set(['KeyW', 'KeyA', 'KeyS', 'KeyD', 'PageUp', 'PageDown', ...perspectiveHeightCodes]);
+  // Z / C orbit around the point the camera looks at, smoothly, while held: a slow arc for a live shot.
+  const orbitCodes = new Set(['KeyZ', 'KeyC']);
+  const movementCodes = new Set(['KeyW', 'KeyA', 'KeyS', 'KeyD', 'PageUp', 'PageDown', ...perspectiveHeightCodes, ...orbitCodes]);
   let velocity = [0, 0, 0], navigationSpeed = 6, fastNavigation = false;
   // 0 = the responsive editor feel, 1 = a heavy dolly that glides in and out of every move.
   let navigationSmoothing = 0;
+  // Wheel zoom and Z/C orbit carry momentum: the camera eases into and out of them like a dolly and a slider.
+  let zoomVelocity = 0, orbitVelocity = 0;
   let transition = null, lastFrameTime = null, orbitMoving = false;
   let pointer = null;
   let contextPointer = null;
@@ -313,6 +317,20 @@ export function createViewport(container, {
       const displacement = new THREE.Vector3(...step.displacement);
       camera.position.add(displacement); controls.target.add(displacement);
       moving = navigationKeys.size > 0 || Math.hypot(...velocity) > 0;
+      if (camera.isPerspectiveCamera) {
+        const wanted = (Number(navigationKeys.has('KeyC')) - Number(navigationKeys.has('KeyZ'))) * THREE.MathUtils.degToRad(fastNavigation ? 70 : 24);
+        orbitVelocity = wanted + (orbitVelocity - wanted) * Math.exp(-THREE.MathUtils.lerp(9, 2.4, navigationSmoothing) * seconds);
+        if (Math.abs(orbitVelocity) < 1e-4 && !wanted) orbitVelocity = 0;
+        if (orbitVelocity) { camera.position.sub(controls.target).applyAxisAngle(new THREE.Vector3(0, 1, 0), orbitVelocity * seconds).add(controls.target); moving = true; }
+      }
+    }
+    if (zoomVelocity && !transition) {
+      const offset = camera.position.clone().sub(controls.target), distance = offset.length();
+      const next = THREE.MathUtils.clamp(distance * Math.exp(-zoomVelocity * seconds), controls.minDistance, controls.maxDistance);
+      camera.position.copy(controls.target).addScaledVector(offset.normalize(), next);
+      zoomVelocity *= Math.exp(-THREE.MathUtils.lerp(9, 3, navigationSmoothing) * seconds);
+      if (Math.abs(zoomVelocity) < 1e-3 || next === controls.minDistance || next === controls.maxDistance) zoomVelocity = 0;
+      moving = true;
     }
     if (transition?.follow) { const point = cinema.pointOf(transition.follow); if (point) transition.to.target = point.toArray(); }
     moving = cinema.step(camera, controls, seconds, { transition: Boolean(transition) }) || moving;
@@ -396,6 +414,8 @@ export function createViewport(container, {
     controls.maxZoom = 16;
     controls.maxPolarAngle = Math.PI - .05;
     controls.mouseButtons = { LEFT: null, MIDDLE: THREE.MOUSE.PAN, RIGHT: THREE.MOUSE.ROTATE };
+    // Perspective zoom is ours, with momentum (see the wheel listener); orthographic keeps the controls' own.
+    controls.enableZoom = camera.isOrthographicCamera;
     controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_ROTATE };
     controls.addEventListener('change', () => { orbitMoving = true; invalidate(); onCameraChange(getCamera()); });
     // Mouse navigation interrupts a shot while preserving held keys and velocity.
@@ -1341,13 +1361,13 @@ export function createViewport(container, {
     const perspectiveHeightKey = camera.isPerspectiveCamera && heightKey;
     const canNavigate = navigationEnabled && document.activeElement === canvas && !document.querySelector('dialog:modal') && controls.enabled && !pointer && !transform.dragging;
     // Ctrl is a height control here: Ctrl+WASD must not reach browser/editor shortcuts.
-    const perspectiveCtrlNavigation = canNavigate && camera.isPerspectiveCamera && (movementCodes.has(event.code) || event.key === 'Shift');
+    const perspectiveCtrlNavigation = canNavigate && camera.isPerspectiveCamera && ((movementCodes.has(event.code) && !orbitCodes.has(event.code)) || event.key === 'Shift');
     if (event.metaKey || event.altKey || (event.ctrlKey && !perspectiveCtrlNavigation)) { resetNavigation(); return; }
     fastNavigation = event.shiftKey;
-    if (canNavigate && movementCodes.has(event.code) && (!heightKey || perspectiveHeightKey)) {
+    if (canNavigate && movementCodes.has(event.code) && (!heightKey || perspectiveHeightKey) && !(orbitCodes.has(event.code) && (event.ctrlKey || !camera.isPerspectiveCamera))) {
       event.preventDefault();
       if (transition) stopCameraMotion();
-      if (cinema.following || cinema.extras().motion) { cinema.interrupt(true); onCinemaChange(); }
+      if (!orbitCodes.has(event.code) && (cinema.following || cinema.extras().motion)) { cinema.interrupt(true); onCinemaChange(); }
       navigationKeys.add(event.code); fastNavigation = event.shiftKey; invalidate();
     }
     if (tool === 'polygon' && !event.target.closest('input,textarea,select') && ['Enter', 'Backspace'].includes(event.key)) {
@@ -1410,6 +1430,24 @@ export function createViewport(container, {
       if (transform.axis !== prevAxis) invalidate();
     }
   }, { passive: true });
+  canvas.addEventListener('wheel', event => {
+    if (!navigationEnabled || !camera.isPerspectiveCamera || !controls.enabled) return;
+    event.preventDefault();
+    transition = null; cinema.setGoal(null);
+    const notches = Math.max(-4, Math.min(4, -event.deltaY / (event.deltaMode === 1 ? 3 : 100)));
+    zoomVelocity = Math.max(-6, Math.min(6, zoomVelocity + notches * 1.6));
+    invalidate();
+  }, { passive: false });
+  // Double-click on the scene: the camera glides to look at that point, keeping its distance and angle.
+  canvas.addEventListener('dblclick', event => {
+    if (!navigationEnabled || !['select', 'move', 'rotate', 'scale'].includes(tool) || pointer || transform.dragging) return;
+    const hit = pick(event), point = hit?.point ?? (rayFromEvent(event), raycaster.ray.intersectPlane(plane, new THREE.Vector3()));
+    if (!point) return;
+    const from = getCamera(), offset = camera.position.clone().sub(controls.target);
+    cinema.setGoal(null); zoomVelocity = 0; orbitVelocity = 0;
+    transition = { from, to: { ...from, target: point.toArray(), position: point.clone().add(offset).toArray() }, start: performance.now(), duration: THREE.MathUtils.lerp(.7, 1.6, navigationSmoothing) };
+    invalidate();
+  });
   canvas.addEventListener('pointerdown', onPointerDown);
   canvas.addEventListener('pointermove', onPointerMove);
   canvas.addEventListener('pointerup', onPointerUp);
@@ -1568,7 +1606,7 @@ export function createViewport(container, {
     setLightingQuality(tier,custom) {lightManager.setQuality(tier,custom);effects.setQuality?.(tier);qualityTier=tier;for(const [id,object] of objects)if(records.get(id)?.cable)cableShadows(object,tier==='high');invalidate(true);},
     setEffectsEnabled(value) { reflections.configure(sceneDocument?.look??sceneDocument?.defaultLook,value);effects.setEnabled(value); atmosphere.setEnabled(value); localEffectsEnabled=value; configureDistanceFog(sceneDocument?.look ?? sceneDocument?.defaultLook); invalidate(); },
     setSuspended(value){suspended=value;if(value&&renderRequest!=null){cancelAnimationFrame(renderRequest);renderRequest=null;}if(!value)invalidate();},
-    isBusy() {return Boolean(pointer||transform.dragging||transition||navigationKeys.size||orbitMoving);},
+    isBusy() {return Boolean(pointer||transform.dragging||transition||navigationKeys.size||orbitMoving||zoomVelocity||orbitVelocity);},
     performance() {return {...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported};},
     resetPerformance() {diagnostics.reset();},
     /** Diagnostic switch: the frame must look the same either way. */
@@ -1581,7 +1619,7 @@ export function createViewport(container, {
       surfaceMaterials: [...objects].flatMap(([id,object])=>{const list=[]; object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material]) if(mat?.userData.surface) list.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.surface});});return list;}),
       wetMaterials: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.userData.wet)list.push({id,...child.userData.wet});});return list;}),
       wearMaterials: [...objects].flatMap(([id,object])=>{const result=[];object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material])if(mat?.userData.wear)result.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.wear});});return result;}),
-      environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving), cameraTransition: Boolean(transition), cinema: cinema.info(), exposure: renderer.toneMappingExposure, background: '#' + scene.background.getHexString() }; },
+      environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving || zoomVelocity || orbitVelocity), cameraTransition: Boolean(transition), cinema: cinema.info(), exposure: renderer.toneMappingExposure, background: '#' + scene.background.getHexString() }; },
     destroy() {
       destroyed = true;clearTimeout(probeTimer);clearTimeout(screenTimer);screens.dispose();decalTextures.dispose();gpuTimer.dispose();diagnostics.dispose();lightManager.dispose();zoneProbes.dispose();reflections.dispose();cutawayCasters.dispose();lightingHelpers.dispose();
       ruler.destroy();

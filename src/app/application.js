@@ -201,7 +201,7 @@ export async function startApplication() {
     add('Ações', 'Régua', () => act('tool-measure'), { keywords: 'medir distancia ferramenta', hint: keyFor('Régua') }); add('Ações', 'Conta-gotas', () => act('material-eyedropper'), { keywords: 'copiar material ferramenta', hint: keyFor('Conta-gotas') });
     action('Esculpir terreno', 'terrain-sculpt', 'pincel relevo'); action('Enquadrar', 'frame', 'foco camera');
     action('Perspectiva', 'perspective', 'camera vista'); action('Vista superior', 'top', 'camera planta'); action('Ver interior', 'cutaway', 'paredes da frente'); action('Telhados', 'roofs', 'forro mostrar ocultar'); action('Tela cheia', 'fullscreen');
-    action('Ambientação ao vivo', 'ambience', 'variaveis da sessao hora do dia horario ceu nuvens nevoa clima chuva sliders transicao'); action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda'); action('Configurações', 'settings', 'aparencia tema cor paleta destaque preferencias');
+    action('Câmera ao vivo', 'live-camera', 'projetor acompanha camera travelling cinematografica'); action('Ambientação ao vivo', 'ambience', 'variaveis da sessao hora do dia horario ceu nuvens nevoa clima chuva sliders transicao'); action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda'); action('Configurações', 'settings', 'aparencia tema cor paleta destaque preferencias');
     for (const [name, label, keywords] of [['build', 'Construir', 'ferramentas sala prédio'], ['elements', 'Elementos', 'lista objetos cena'], ['scene', 'Ambiente', 'luz atmosfera clima'], ['shots', 'Tomadas', 'câmeras enquadramentos projetor']]) add('Ações', `Ir para ${label}`, () => goToTab(name), { keywords });
     for (const preset of ENVIRONMENTS) add('Ações', `Ambiente · ${preset.name}`, () => execute('environment.apply', { presetId: preset.id }), { keywords: `${preset.description} horario atmosfera`, hint: 'aplicar ambiente' });
     for (const [tabName, groups] of Object.entries(TASKS_BY_TAB)) for (const { title, tasks } of groups) for (const [, key, label, description] of tasks) add('Tarefas', label, () => openTask(tabName, key), { keywords: `${description} ${title}`, hint: `${TAB_TITLES[tabName].toLowerCase()} · ${title}` });
@@ -866,6 +866,20 @@ export async function startApplication() {
     if (next.follow && !seen(next.follow.targetId)) delete next.follow;
     return next;
   }
+  /**
+   * Live camera on: the projector follows the working camera, smoothed, and the working camera itself moves like a
+   * dolly (at least 55% smoothing), so every move the master makes is a shot. Off: the smoothing goes back to what it was.
+   */
+  let smoothingBeforeLive = null;
+  function setLiveCamera(on) {
+    if (on === liveCamera.enabled) return;
+    liveCamera.enabled = on;
+    if (on) { smoothingBeforeLive = navigationSmoothing; navigationSmoothing = Math.max(navigationSmoothing, .55); sendLiveCamera(); notify(hasPresentation() ? 'Câmera ao vivo: o projetor acompanha seus movimentos. Z/C orbitam, a roda aproxima, clique duplo olha para um ponto. L desliga.' : 'Câmera ao vivo ligada. Abra a segunda tela para ver.'); }
+    else { if (smoothingBeforeLive !== null) navigationSmoothing = smoothingBeforeLive; smoothingBeforeLive = null; notify('Câmera ao vivo desligada: o projetor fica onde está.'); }
+    viewport.setNavigationSmoothing(navigationSmoothing);
+    const node = root.querySelector('[data-action="live-camera"]'); node?.classList.toggle('active', on); node?.setAttribute('aria-pressed', String(on));
+    if (tab === 'shots') renderSidebar();
+  }
   /** Explicitly switched on: the projector approaches the working camera, smoothed, at most once a frame. */
   function sendLiveCamera() {
     if (liveCameraFrame) return;
@@ -1271,7 +1285,7 @@ export async function startApplication() {
     if (selection && !locate()) selection = null;
     selectedIds = new Set([...selectedIds].filter(key => locate(key)));
     if (!selection) selection = [...selectedIds].at(-1) ?? null;
-    if (event.type === 'replace') { liveCamera.enabled = false; viewport.setFollow(null); shotThumbnails.cancel(); rehearsedId = null; dockIndex = 0; skyReturnCamera = null; selectedIds.clear(); selection = null; activeSurfaceId = undefined; smartFloorId = null; activeLevelId = null; activeLayerId = null; isolatedLevel = false; }
+    if (event.type === 'replace') { if (liveCamera.enabled) setLiveCamera(false); viewport.setFollow(null); shotThumbnails.cancel(); rehearsedId = null; dockIndex = 0; skyReturnCamera = null; selectedIds.clear(); selection = null; activeSurfaceId = undefined; smartFloorId = null; activeLevelId = null; activeLayerId = null; isolatedLevel = false; }
     if (!doc.layout.levels?.[activeLevelId]) { activeLevelId = null; isolatedLevel = false; }
     if (!doc.layout.layers?.[activeLayerId]) activeLayerId = null;
     const floors = Object.values(doc.layout.entities).filter(e => e.kind === 'floor');
@@ -1821,12 +1835,7 @@ export async function startApplication() {
     if (field === 'camera-follow') { viewport.setFollow(value || null); renderSidebar(); renderInspector(); return; }
     if (field === 'camera-motion') { viewport.setCameraMotion({ ...MOTION_DEFAULTS, ...viewport.getCamera().motion, type: value }); renderSidebar(); return; }
     if (field === 'camera-motion-speed') { viewport.setCameraMotion({ ...viewport.getCamera().motion, speed: Math.max(0, Math.min(4, value)) }); return; }
-    if (field === 'camera-live') {
-      liveCamera.enabled = Boolean(value);
-      if (liveCamera.enabled) { sendLiveCamera(); notify(hasPresentation() ? 'Câmera ao vivo: o projetor acompanha sua câmera.' : 'Câmera ao vivo ligada. Abra a segunda tela para ver.'); }
-      else notify('Câmera ao vivo desligada: o projetor fica onde está.');
-      renderSidebar(); return;
-    }
+    if (field === 'camera-live') { setLiveCamera(Boolean(value)); return; }
     if (field === 'camera-live-smoothing') { liveCamera.smoothing = Math.max(.1, Math.min(2, value)); sendLiveCamera(); return; }
     if (field === 'title-card-title') { titleCard.title = String(value).slice(0, 120); return; }
     if (field === 'title-card-subtitle') { titleCard.subtitle = String(value).slice(0, 120); return; }
@@ -2469,6 +2478,7 @@ export async function startApplication() {
       case 'shortcuts': toggleShortcuts(); break;
       case 'settings': toggleSettings(); break;
       case 'ambience': toggleAmbience(); break;
+      case 'live-camera': setLiveCamera(!liveCamera.enabled); break;
       case 'ambience-close': toggleAmbience(false); break;
       case 'token-closeup': closeUp(selection); break;
       case 'token-follow': { const following = viewport.cinemaInfo().follow === selection; viewport.setFollow(following ? null : selection); notify(following ? 'A câmera parou de seguir o personagem.' : 'A câmera segue o personagem. WASD solta a câmera.'); renderInspector(); if (tab === 'shots') renderSidebar(); break; }
@@ -2880,6 +2890,7 @@ export async function startApplication() {
     if (tool === 'terrain' && ['[',']'].includes(event.key)) { event.preventDefault(); terrainBrush.radius = Math.max(.1, Math.min(100, Number((terrainBrush.radius * (event.key === '[' ? .8 : 1.25)).toFixed(2)))); viewport.setTerrainBrush(terrainBrush); renderToolContext(); renderInspector(); return; }
     if (event.altKey || event.repeat) return;
     if (event.key.toLowerCase() === 'i') { event.preventDefault(); act('material-eyedropper'); return; }
+    if (event.key.toLowerCase() === 'l' && !isPresentation) { event.preventDefault(); act('live-camera'); return; }
     const keys = { q: 'select', g: 'move', r: 'rotate', v: 'scale', m: 'measure' };
     if (keys[event.key.toLowerCase()]) { if (keys[event.key.toLowerCase()] === 'measure') act('tool-measure'); else setTool(keys[event.key.toLowerCase()]); }
     if (event.key.toLowerCase() === 'f') act('frame');
