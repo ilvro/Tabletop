@@ -1,0 +1,104 @@
+{
+  "name": "Envelope · com carta",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "paper": {
+      "color": "#d8c69f",
+      "roughness": 0.92
+    },
+    "wax": {
+      "color": "#7c1d1a",
+      "roughness": 0.45
+    },
+    "page": {
+      "color": "#ebe7dc",
+      "roughness": 0.9
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.229,
+        0.003,
+        0.114
+      ],
+      "position": [
+        -0.013864591717720032,
+        0.0015000000130385165,
+        0.0899231868982315
+      ],
+      "material": "paper",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.16,
+        0.0014,
+        0.06
+      ],
+      "position": [
+        -0.013864591717720032,
+        0.0032000000130385166,
+        0.059923186898231506
+      ],
+      "material": "paper",
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.012,
+      "radiusBottom": 0.013,
+      "height": 0.003,
+      "position": [
+        -0.013864591717720032,
+        0.004500000013038516,
+        0.09492318689823151
+      ],
+      "material": "wax",
+      "segments": 12
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.2,
+        0.001,
+        0.255
+      ],
+      "position": [
+        0.016135408282279967,
+        0.006800000013038516,
+        -0.0100768131017685
+      ],
+      "material": "page",
+      "rotation": [
+        0,
+        0.1,
+        0
+      ],
+      "bevel": 0
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.2567291855812073,
+    0.007300000172108412,
+    0.29384636878967285
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "curvas de contorno refinadas"
+    ],
+    "seed": 39065
+  }
+}

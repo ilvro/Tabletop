@@ -12088,6 +12088,264 @@
       "previewUrl": "/assets/previews/cave-painting-descent.svg",
       "geometryEdition": 2,
       "contentHash": "94704a44d89dfa6a3060435f9a4d61a799d4407ef50cb0cda65bb3aacbf1fd99"
+    },
+    {
+      "id": "builtin-document-sheet",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Folha · A4",
+      "category": "Documentos / Papéis",
+      "era": "Atemporal",
+      "contexts": [
+        "Escritório",
+        "Casa",
+        "Delegacia",
+        "Arquivo"
+      ],
+      "tags": [
+        "documento",
+        "pista",
+        "papel",
+        "carta",
+        "folha"
+      ],
+      "description": "Uma folha A4 solta. Ative Inspecionável para escrever a carta ou colocar uma imagem: a primeira página aparece na folha.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.21,
+        0.3
+      ],
+      "bounds": [
+        0.21,
+        0.001,
+        0.297
+      ],
+      "url": "/assets/models/document-sheet.json",
+      "previewUrl": "/assets/previews/document-sheet.svg",
+      "geometryEdition": 2,
+      "contentHash": "db3c5594fbe82a011ae21042e897dae87e3b48805af45de5ae8893dbd9a66d6d"
+    },
+    {
+      "id": "builtin-document-crumpled",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Folha · amassada",
+      "category": "Documentos / Papéis",
+      "era": "Atemporal",
+      "contexts": [
+        "Escritório",
+        "Casa",
+        "Delegacia",
+        "Arquivo"
+      ],
+      "tags": [
+        "documento",
+        "pista",
+        "papel",
+        "amassado",
+        "bilhete"
+      ],
+      "description": "Folha que foi amassada e desamassada: vincos em quatro faixas. Lê-se inteira na inspeção.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.22,
+        0.31
+      ],
+      "bounds": [
+        0.211,
+        0.018,
+        0.303
+      ],
+      "url": "/assets/models/document-crumpled.json",
+      "previewUrl": "/assets/previews/document-crumpled.svg",
+      "geometryEdition": 2,
+      "contentHash": "2674cb96eb0a60b5e6d83f3467d9fb7e1bb366f2c62d4e03d5eb44a4a3e05234"
+    },
+    {
+      "id": "builtin-document-envelope",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Envelope · com carta",
+      "category": "Documentos / Papéis",
+      "era": "Atemporal",
+      "contexts": [
+        "Escritório",
+        "Casa",
+        "Delegacia",
+        "Arquivo"
+      ],
+      "tags": [
+        "documento",
+        "pista",
+        "papel",
+        "envelope",
+        "carta",
+        "correio"
+      ],
+      "description": "Envelope com lacre e a carta aberta por cima. A carta é a página do documento.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.26,
+        0.3
+      ],
+      "bounds": [
+        0.257,
+        0.007,
+        0.294
+      ],
+      "url": "/assets/models/document-envelope.json",
+      "previewUrl": "/assets/previews/document-envelope.svg",
+      "geometryEdition": 2,
+      "contentHash": "01db65495a48203c60bf86fa57e24a450fd7387bc4e9f4e86ea773c94199a9a0"
+    },
+    {
+      "id": "builtin-document-photo",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Foto · instantânea",
+      "category": "Documentos / Papéis",
+      "era": "Atemporal",
+      "contexts": [
+        "Escritório",
+        "Casa",
+        "Delegacia",
+        "Arquivo"
+      ],
+      "tags": [
+        "documento",
+        "pista",
+        "papel",
+        "foto",
+        "fotografia",
+        "polaroide"
+      ],
+      "description": "Foto instantânea de moldura branca. Use o papel Foto e uma imagem importada; o texto vira legenda escrita à mão.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.09,
+        0.11
+      ],
+      "bounds": [
+        0.088,
+        0.002,
+        0.107
+      ],
+      "url": "/assets/models/document-photo.json",
+      "previewUrl": "/assets/previews/document-photo.svg",
+      "geometryEdition": 2,
+      "contentHash": "6e2a89fafacbdff5ee155f6574a521c3940e9d6a263417ffcca87a251a697b96"
+    },
+    {
+      "id": "builtin-document-clipping",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Recorte · de jornal",
+      "category": "Documentos / Papéis",
+      "era": "Atemporal",
+      "contexts": [
+        "Escritório",
+        "Casa",
+        "Delegacia",
+        "Arquivo"
+      ],
+      "tags": [
+        "documento",
+        "pista",
+        "papel",
+        "jornal",
+        "notícia",
+        "recorte"
+      ],
+      "description": "Recorte de jornal de bordas rasgadas. No papel Jornal, a primeira linha do texto é a manchete e o resto corre em duas colunas.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.15,
+        0.2
+      ],
+      "bounds": [
+        0.15,
+        0.001,
+        0.2
+      ],
+      "url": "/assets/models/document-clipping.json",
+      "previewUrl": "/assets/previews/document-clipping.svg",
+      "geometryEdition": 2,
+      "contentHash": "e979d47e78220b0d4ff4f104fa525862ad9a40a1ba54ac1f3a5f52ee5e8e74c3"
+    },
+    {
+      "id": "builtin-document-notebook",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Caderno · aberto",
+      "category": "Documentos / Papéis",
+      "era": "Atemporal",
+      "contexts": [
+        "Escritório",
+        "Casa",
+        "Delegacia",
+        "Arquivo"
+      ],
+      "tags": [
+        "documento",
+        "pista",
+        "papel",
+        "caderno",
+        "diário",
+        "anotações"
+      ],
+      "description": "Caderno de capa de couro aberto: a página da direita mostra o documento. Combina com o papel Caderno pautado.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.31,
+        0.22
+      ],
+      "bounds": [
+        0.306,
+        0.012,
+        0.214
+      ],
+      "url": "/assets/models/document-notebook.json",
+      "previewUrl": "/assets/previews/document-notebook.svg",
+      "geometryEdition": 2,
+      "contentHash": "906774bf0810ebad0b88ab5b37e110b3fd6119711810742b089da8d7151b04c6"
+    },
+    {
+      "id": "builtin-document-folder",
+      "revision": 1,
+      "type": "recipe",
+      "name": "Pasta · de arquivo",
+      "category": "Documentos / Papéis",
+      "era": "Atemporal",
+      "contexts": [
+        "Escritório",
+        "Casa",
+        "Delegacia",
+        "Arquivo"
+      ],
+      "tags": [
+        "documento",
+        "pista",
+        "papel",
+        "pasta",
+        "arquivo",
+        "dossiê",
+        "relatório"
+      ],
+      "description": "Pasta de papelão aberta com um relatório sobre a aba direita. O relatório é a página do documento.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
+      "footprint": [
+        0.48,
+        0.34
+      ],
+      "bounds": [
+        0.477,
+        0.003,
+        0.331
+      ],
+      "url": "/assets/models/document-folder.json",
+      "previewUrl": "/assets/previews/document-folder.svg",
+      "geometryEdition": 2,
+      "contentHash": "e9b78294dfa93282cfc39cbfcacc140b77c60169377bab9fde7ea9182bbcd7fc"
     }
   ]
 }

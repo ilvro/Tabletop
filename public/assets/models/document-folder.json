@@ -1,0 +1,92 @@
+{
+  "name": "Pasta · de arquivo",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "page": {
+      "color": "#ebe7dc",
+      "roughness": 0.9
+    },
+    "manila": {
+      "color": "#caa66c",
+      "roughness": 0.92
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.235,
+        0.002,
+        0.31
+      ],
+      "position": [
+        0.12100000202655792,
+        0.0010000000474974504,
+        0.010499998927116394
+      ],
+      "material": "manila",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.08,
+        0.002,
+        0.022
+      ],
+      "position": [
+        0.17100000202655793,
+        0.0010000000474974504,
+        -0.1545000010728836
+      ],
+      "material": "manila",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.235,
+        0.002,
+        0.31
+      ],
+      "position": [
+        -0.12099999797344207,
+        0.0010000000474974504,
+        0.010499998927116394
+      ],
+      "material": "manila",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.001,
+        0.297
+      ],
+      "position": [
+        0.12100000202655792,
+        0.0025000000474974505,
+        0.010499998927116394
+      ],
+      "material": "page",
+      "bevel": 0
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.47699999809265137,
+    0.003000000026077033,
+    0.3310000002384186
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "fonte detalhada preservada"
+    ],
+    "seed": 17271
+  }
+}

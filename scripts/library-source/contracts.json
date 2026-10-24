@@ -18,13 +18,13 @@
       "supportHeight": 0.82,
       "url": "/assets/models/desk.json",
       "previewUrl": "/assets/previews/desk.svg",
-      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "era": "Contemporânea",
       "contexts": [
         "Escritório",
         "Delegacia"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "description": "Mesa de escritório com gaveta, saia e pernas torneadas; tampo como apoio para pistas e documentos.",
       "parts": [
         {
           "shape": "box",
@@ -172,13 +172,13 @@
       ],
       "url": "/assets/models/chair.json",
       "previewUrl": "/assets/previews/chair.svg",
-      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "era": "Colonial / século XIX",
       "contexts": [
         "Casa",
         "Escritório"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "description": "Cadeira de madeira com assento e encosto estofados e travessas torneadas.",
       "parts": [
         {
           "shape": "box",
@@ -307,14 +307,14 @@
       ],
       "url": "/assets/models/cabinet.json",
       "previewUrl": "/assets/previews/cabinet.svg",
-      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "era": "Décadas de 1970–1990",
       "contexts": [
         "Arquivo",
         "Delegacia",
         "Escritório"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "description": "Arquivo de aço com quatro gavetas, puxadores e porta-etiquetas.",
       "parts": [
         {
           "shape": "box",
@@ -478,13 +478,13 @@
       ],
       "url": "/assets/models/crate.json",
       "previewUrl": "/assets/previews/crate.svg",
-      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "era": "Atemporal",
       "contexts": [
         "Depósito",
         "Fazenda"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "description": "Caixa de tábuas com cantoneiras e pregos para depósitos, docas e fazendas.",
       "parts": [
         {
           "shape": "box",
@@ -590,13 +590,13 @@
       ],
       "url": "/assets/models/lamp.json",
       "previewUrl": "/assets/previews/lamp.svg",
-      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "era": "Contemporânea",
       "contexts": [
         "Casa",
         "Escritório"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "description": "Luminária de pé com cúpula de tecido e haste de latão; adicione uma luz da cena para iluminar.",
       "parts": [
         {
           "shape": "cylinder",
@@ -685,13 +685,13 @@
       ],
       "url": "/assets/models/rug.json",
       "previewUrl": "/assets/previews/rug.svg",
-      "provenance": "Kit original Tabletop; distribuído com a aplicação.",
+      "provenance": "Modelo original Tabletop; distribuído com a aplicação. Não é um asset oficial de Ordem Paranormal.",
       "era": "Atemporal",
       "contexts": [
         "Casa",
         "Hotel"
       ],
-      "description": "Modelo original do kit inicial Tabletop, disponível localmente.",
+      "description": "Tapete retangular com bordadura tripla e motivos geométricos.",
       "parts": [
         {
           "shape": "box",
@@ -4960,6 +4960,90 @@
         4.036,
         1.766,
         0.09
+      ]
+    },
+    {
+      "id": "builtin-document-sheet",
+      "footprint": [
+        0.21,
+        0.3
+      ],
+      "bounds": [
+        0.21,
+        0.001,
+        0.297
+      ]
+    },
+    {
+      "id": "builtin-document-crumpled",
+      "footprint": [
+        0.22,
+        0.31
+      ],
+      "bounds": [
+        0.211,
+        0.018,
+        0.303
+      ]
+    },
+    {
+      "id": "builtin-document-envelope",
+      "footprint": [
+        0.26,
+        0.3
+      ],
+      "bounds": [
+        0.257,
+        0.007,
+        0.294
+      ]
+    },
+    {
+      "id": "builtin-document-photo",
+      "footprint": [
+        0.09,
+        0.11
+      ],
+      "bounds": [
+        0.088,
+        0.002,
+        0.107
+      ]
+    },
+    {
+      "id": "builtin-document-clipping",
+      "footprint": [
+        0.15,
+        0.2
+      ],
+      "bounds": [
+        0.15,
+        0.001,
+        0.2
+      ]
+    },
+    {
+      "id": "builtin-document-notebook",
+      "footprint": [
+        0.31,
+        0.22
+      ],
+      "bounds": [
+        0.306,
+        0.012,
+        0.214
+      ]
+    },
+    {
+      "id": "builtin-document-folder",
+      "footprint": [
+        0.48,
+        0.34
+      ],
+      "bounds": [
+        0.477,
+        0.003,
+        0.331
       ]
     }
   ]

@@ -4584,6 +4584,85 @@
       "parts": 54,
       "triangles": 9808,
       "batches": 4
+    },
+    {
+      "id": "builtin-document-sheet",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "fonte detalhada preservada"
+      ],
+      "parts": 1,
+      "triangles": 12,
+      "batches": 1
+    },
+    {
+      "id": "builtin-document-crumpled",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "fonte detalhada preservada"
+      ],
+      "parts": 4,
+      "triangles": 48,
+      "batches": 1
+    },
+    {
+      "id": "builtin-document-envelope",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "curvas de contorno refinadas"
+      ],
+      "parts": 4,
+      "triangles": 84,
+      "batches": 3
+    },
+    {
+      "id": "builtin-document-photo",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "fonte detalhada preservada"
+      ],
+      "parts": 2,
+      "triangles": 24,
+      "batches": 2
+    },
+    {
+      "id": "builtin-document-clipping",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "fonte detalhada preservada"
+      ],
+      "parts": 1,
+      "triangles": 12,
+      "batches": 1
+    },
+    {
+      "id": "builtin-document-notebook",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "arestas chanfradas",
+        "curvas de contorno refinadas",
+        "couro granulado"
+      ],
+      "parts": 6,
+      "triangles": 156,
+      "batches": 3
+    },
+    {
+      "id": "builtin-document-folder",
+      "family": "interior",
+      "reconstruction": "components",
+      "methods": [
+        "fonte detalhada preservada"
+      ],
+      "parts": 4,
+      "triangles": 48,
+      "batches": 2
     }
   ]
 }

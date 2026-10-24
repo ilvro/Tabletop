@@ -7,9 +7,9 @@ import {craftedBox,turnedGeometry,ellipsoidGeometry,weldVertices} from '../src/r
 import {recipeInstance,disposeObject} from '../src/render/asset-cache.js';
 
 const read=async path=>JSON.parse(await readFile(path,'utf8'));
-test('all 352 rebuilt models keep the placement contract and have complete bounded geometry',async()=>{
+test('all 359 rebuilt models keep the placement contract and have complete bounded geometry',async()=>{
   const {assets}=await read('public/assets/catalog.json'),contracts=(await read('scripts/library-source/contracts.json')).assets,audit=(await read('public/assets/construction-audit.json')).assets;
-  assert.equal(assets.length,352);assert.deepEqual(assets.map(a=>a.id),contracts.map(a=>a.id));assert.equal(audit.length,352);
+  assert.equal(assets.length,359);assert.deepEqual(assets.map(a=>a.id),contracts.map(a=>a.id));assert.equal(audit.length,359);
   for(const [index,asset] of assets.entries()) {
     const original=contracts[index],recipe=await read('public'+asset.url),object=recipeInstance(recipe);
     try {

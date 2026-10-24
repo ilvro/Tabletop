@@ -1,0 +1,43 @@
+{
+  "name": "Folha · A4",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "page": {
+      "color": "#ebe7dc",
+      "roughness": 0.9
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.0012,
+        0.297
+      ],
+      "position": [
+        0,
+        0.0006000000284984709,
+        0
+      ],
+      "material": "page",
+      "bevel": 0
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.20999999344348907,
+    0.0012000000569969416,
+    0.296999990940094
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "fonte detalhada preservada"
+    ],
+    "seed": 45366
+  }
+}

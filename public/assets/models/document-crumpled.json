@@ -1,0 +1,108 @@
+{
+  "name": "Folha · amassada",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "page": {
+      "color": "#ebe7dc",
+      "roughness": 0.9
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.0012,
+        0.07722
+      ],
+      "position": [
+        -3.630518913269251e-7,
+        0.007128681120462716,
+        -0.11135930907726288
+      ],
+      "material": "page",
+      "rotation": [
+        0.11,
+        -0.018000000000000002,
+        -0.02
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.206,
+        0.0012,
+        0.07722
+      ],
+      "position": [
+        0.001999636948108673,
+        0.011128681120462716,
+        -0.03710930907726287
+      ],
+      "material": "page",
+      "rotation": [
+        -0.11,
+        -0.006,
+        0
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.21,
+        0.0012,
+        0.07722
+      ],
+      "position": [
+        -3.630518913269251e-7,
+        0.007128681120462716,
+        0.03714069092273711
+      ],
+      "material": "page",
+      "rotation": [
+        0.11,
+        0.006,
+        0.02
+      ],
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.206,
+        0.0012,
+        0.07722
+      ],
+      "position": [
+        0.001999636948108673,
+        0.011128681120462716,
+        0.1113906909227371
+      ],
+      "material": "page",
+      "rotation": [
+        -0.11,
+        0.018000000000000002,
+        -0.02
+      ],
+      "bevel": 0
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.2113385945558548,
+    0.018213655849741005,
+    0.3028867840766907
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "fonte detalhada preservada"
+    ],
+    "seed": 54315
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "name": "Foto · instantânea",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "white": {
+      "color": "#eeece5",
+      "roughness": 0.6
+    },
+    "page": {
+      "color": "#ebe7dc",
+      "roughness": 0.9
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.088,
+        0.0016,
+        0.107
+      ],
+      "position": [
+        0,
+        0.0007999999845400455,
+        0
+      ],
+      "material": "white",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.079,
+        0.0018,
+        0.079
+      ],
+      "position": [
+        0,
+        0.0008999999845400455,
+        -0.0095
+      ],
+      "material": "page",
+      "bevel": 0
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.08799999952316284,
+    0.0017999999690800903,
+    0.10700000077486038
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "fonte detalhada preservada"
+    ],
+    "seed": 37385
+  }
+}

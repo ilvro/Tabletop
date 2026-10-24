@@ -19,6 +19,7 @@ import {addFutureLibrary} from './library-future.js';
 import {addIndustrialLibrary} from './library-industrial.js';
 import {addFrozenTempleLibrary} from './library-frozen-temple.js';
 import {addNordicDepthsLibrary} from './library-nordic-depths.js';
+import {addDocumentsLibrary} from './library-documents.js';
 import {rasterThumbnail} from './recipe-thumbnail.js';
 import {reconstructAsset} from './library-construction.js';
 import {createHash} from 'node:crypto';
@@ -135,6 +136,7 @@ for (const id of addFutureLibrary({add,future})) { alpineIds.add(id); detailIds.
 for (const id of addIndustrialLibrary({add,modern})) { alpineIds.add(id); detailIds.add(id); }
 for (const id of addFrozenTempleLibrary({add,ancient,timeless})) { alpineIds.add(id); detailIds.add(id); }
 for (const id of addNordicDepthsLibrary({add,ancient})) { alpineIds.add(id); detailIds.add(id); }
+for (const id of addDocumentsLibrary({add,timeless})) { alpineIds.add(id); detailIds.add(id); }
 
 function preview(object) {
   object.updateMatrixWorld(true);

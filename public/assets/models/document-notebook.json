@@ -1,0 +1,161 @@
+{
+  "name": "Caderno · aberto",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "paper": {
+      "color": "#d8c69f",
+      "roughness": 0.92
+    },
+    "page": {
+      "color": "#ebe7dc",
+      "roughness": 0.9
+    },
+    "leather": {
+      "color": "#4a2f22",
+      "roughness": 0.8
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.152,
+        0.003,
+        0.214
+      ],
+      "position": [
+        -0.077,
+        0.0025000000474974513,
+        0
+      ],
+      "material": "leather",
+      "bevel": 0.0009,
+      "surface": {
+        "texture": "leather",
+        "textureSize": 0.6,
+        "relief": 0.008,
+        "leatherPattern": "pebbled",
+        "leatherGrain": 0.6,
+        "leatherCreases": 0.3,
+        "textureColor": "#4a2f22",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.152,
+        0.003,
+        0.214
+      ],
+      "position": [
+        0.077,
+        0.0025000000474974513,
+        0
+      ],
+      "material": "leather",
+      "bevel": 0.0009,
+      "surface": {
+        "texture": "leather",
+        "textureSize": 0.6,
+        "relief": 0.008,
+        "leatherPattern": "pebbled",
+        "leatherGrain": 0.6,
+        "leatherCreases": 0.3,
+        "textureColor": "#4a2f22",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "cylinder",
+      "radiusTop": 0.006,
+      "radiusBottom": 0.006,
+      "height": 0.214,
+      "position": [
+        0,
+        0.006000000047497451,
+        0
+      ],
+      "rotation": [
+        1.5707963267948966,
+        0,
+        0
+      ],
+      "material": "leather",
+      "segments": 8,
+      "surface": {
+        "texture": "leather",
+        "textureSize": 0.6,
+        "relief": 0.008,
+        "leatherPattern": "pebbled",
+        "leatherGrain": 0.6,
+        "leatherCreases": 0.3,
+        "textureColor": "#4a2f22",
+        "textureColorMode": "replace"
+      }
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.145,
+        0.008,
+        0.205
+      ],
+      "position": [
+        -0.075,
+        0.00800000004749745,
+        0
+      ],
+      "material": "paper",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.145,
+        0.0072,
+        0.205
+      ],
+      "position": [
+        0.075,
+        0.007600000047497451,
+        0
+      ],
+      "material": "paper",
+      "bevel": 0
+    },
+    {
+      "shape": "box",
+      "size": [
+        0.145,
+        0.0008,
+        0.205
+      ],
+      "position": [
+        0.075,
+        0.011600000047497451,
+        0
+      ],
+      "material": "page",
+      "bevel": 0
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.3059999942779541,
+    0.012000000108964765,
+    0.21400000154972076
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "arestas chanfradas",
+      "curvas de contorno refinadas",
+      "couro granulado"
+    ],
+    "seed": 10916
+  }
+}

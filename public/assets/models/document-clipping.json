@@ -1,0 +1,43 @@
+{
+  "name": "Recorte · de jornal",
+  "unit": "meter",
+  "pivot": "base-center",
+  "materials": {
+    "page": {
+      "color": "#ebe7dc",
+      "roughness": 0.9
+    }
+  },
+  "parts": [
+    {
+      "shape": "box",
+      "size": [
+        0.15,
+        0.0008,
+        0.2
+      ],
+      "position": [
+        0,
+        0.0003999999898951499,
+        0
+      ],
+      "material": "page",
+      "bevel": 0
+    }
+  ],
+  "mergeParts": true,
+  "fitBounds": [
+    0.15000000596046448,
+    0.0007999999797903003,
+    0.20000000298023224
+  ],
+  "design": {
+    "edition": 2,
+    "family": "interior",
+    "reconstruction": "components",
+    "methods": [
+      "fonte detalhada preservada"
+    ],
+    "seed": 34187
+  }
+}
