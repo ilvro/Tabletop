@@ -21,6 +21,7 @@ import { paintTerrain, sculptTerrain } from '../src/authoring/terrain.js';
 import { DocumentStorage, atomicWrite } from '../server/storage.js';
 import { applyBoundEmission, updateBoundLights } from '../src/render/bound-light.js';
 import { createCutawayShadows } from '../src/render/cutaway-shadows.js';
+import { createPortalCulling } from '../src/render/portal-culling.js';
 import * as THREE from 'three';
 
 test('150 immutable history entries share terrain data and remain reversible and atomic',()=>{
@@ -270,4 +271,49 @@ test('createCutawayShadows and updateBoundLights skip world matrix recomputation
   assert.equal(hostMatrixUpdates, 1);
   updateBoundLights(doc, propObjects, bindings, 0.1, false, () => true, 1, () => null, false);
   assert.equal(hostMatrixUpdates, 1);
+});
+
+test('createPortalCulling builds cells and portals, culls unseen rooms and restores visibility on pause and end', async () => {
+  const doc = JSON.parse(await readFile(path.resolve('public/scenes/templo-gelado.json'), 'utf8'));
+  const objects = new Map();
+  for (const [id, record] of Object.entries(doc.layout.entities)) {
+    const group = new THREE.Group();
+    if (record.transform?.position) group.position.fromArray(record.transform.position);
+    if (record.transform?.rotation) group.quaternion.fromArray(record.transform.rotation);
+    if (record.transform?.scale) group.scale.fromArray(record.transform.scale);
+    group.updateMatrixWorld(true);
+    objects.set(id, group);
+  }
+  const culling = createPortalCulling();
+  culling.setDocument(doc, objects);
+  const initialInfo = culling.info();
+  assert.equal(initialInfo.cells, 24);
+  assert.ok(initialInfo.portals >= 50);
+
+  const preset = Object.values(doc.cameraPresets).find(c => c.name === 'Salão · olhos');
+  const cam = new THREE.PerspectiveCamera(preset.fov, 16 / 9, 0.08, 420);
+  cam.position.fromArray(preset.position);
+  cam.lookAt(...preset.target);
+  cam.updateMatrixWorld(true);
+  cam.updateProjectionMatrix();
+
+  // Disabled when cutaway or roofsHidden is active
+  assert.equal(culling.begin(cam, { cutaway: true }), 0);
+  assert.equal(culling.begin(cam, { cutaway: false, roofsHidden: true }), 0);
+
+  // Active in perspective indoor view with cutaway=false
+  const culled = culling.begin(cam, { cutaway: false, roofsHidden: false });
+  assert.ok(culled > 500, `expected > 500 culled entities in Salão · olhos, got ${culled}`);
+  assert.equal(culling.info().activeCell, 'Piso — Salão do templo');
+  assert.equal(culling.info().visibleCells, 4);
+
+  // Pause restores visibility during shadow pass, resume re-applies culling, end restores all
+  let hiddenCount = [...objects.values()].filter(o => !o.visible).length;
+  assert.equal(hiddenCount, culled);
+  culling.pause();
+  assert.equal([...objects.values()].filter(o => !o.visible).length, 0);
+  culling.resume();
+  assert.equal([...objects.values()].filter(o => !o.visible).length, culled);
+  culling.end();
+  assert.equal([...objects.values()].filter(o => !o.visible).length, 0);
 });

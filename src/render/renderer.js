@@ -4,6 +4,7 @@ import { wallJoinProfile } from '../authoring/structures.js';
 import { createLightManager } from './light-manager.js';
 import { createLightingZones } from './lighting-zones.js';
 import { createCutawayShadows } from './cutaway-shadows.js';
+import { createPortalCulling } from './portal-culling.js';
 import { createLightingHelpers } from './lighting-helpers.js';
 import { focusDirectionalShadow } from './directional-shadows.js';
 import { createReflectionEnvironment } from './reflections.js';
@@ -199,6 +200,14 @@ export function createViewport(container, {
   const content = new THREE.Group();
   content.matrixWorldAutoUpdate = false;
   const materialSharing = createMaterialSharing(); let shareMaterials = true;
+  const portalCulling = createPortalCulling(); let portalCullingEnabled = true;
+  const origShadowRender = renderer.shadowMap.render;
+  renderer.shadowMap.render = function(lights, targetScene, targetCamera) {
+    if (!this.enabled || (!this.autoUpdate && !this.needsUpdate)) return;
+    portalCulling.pause();
+    try { return origShadowRender.call(this, lights, targetScene, targetCamera); }
+    finally { portalCulling.resume(); }
+  };
   const zoneProbes = createZoneProbes(renderer, scene, zones, { slow: softwareRenderer }); let probesUrgent = false, probeTimer = null;
   const lighting = new THREE.Group();
   lighting.matrixWorldAutoUpdate = false;
@@ -541,6 +550,7 @@ export function createViewport(container, {
     cinema.fadeLabels(camera); cinema.beforeRender(camera, now / 1000);
     diagnostics.measure('prepareOcclusion', prepareOcclusion);
     const turning = placeTurnRing(effectTime), highlighting = stepHighlight(now);
+    diagnostics.measure('portalCulling', () => portalCulling.begin(camera, { enabled: portalCullingEnabled, cutaway, roofsHidden }));
     try { diagnostics.measure('render', () => effects.render(camera, seconds));
       if (inspection.id) {
         if (frozen && frozenKey !== viewKey()) thaw();
@@ -551,7 +561,7 @@ export function createViewport(container, {
         }
         inspection.draw(camera, width, height);
       }
-    } finally { clearOcclusion(); cinema.afterRender(camera);materialSharing.end();gpuTimer.end();releaseRetired(); }
+    } finally { portalCulling.end(); clearOcclusion(); cinema.afterRender(camera);materialSharing.end();gpuTimer.end();releaseRetired(); }
     if(awaitingFirstFrame){awaitingFirstFrame=false;if(diagnostics.enabled&&globalThis.performance?.measure)performance.measure('tabletop:firstFrame','tabletop:sceneLoad:start');}
     sample('render',started);
     if (inspection.id && (inspecting || !frozen) && !document.hidden) invalidate();
@@ -926,6 +936,7 @@ export function createViewport(container, {
       applyBoundEmission(instance,records.get(entity.id)??entity,sceneDocument.look??sceneDocument.defaultLook);zones.apply(instance);
       tagEntity(parent, entity.id);
       onMaterialSlots(entity.id);
+      portalCulling.updateObject(entity.id, records.get(entity.id) ?? entity, parent);
       if(snowRegions!==null){parent.updateWorldMatrix(true,true);snowRegions.push(new THREE.Box3().setFromObject(parent));}
       assetsDirty = true; diagnostics.count('assetsInstalled');materialSharing.invalidate();zoneProbes.invalidate();
       if (!installQueue.length) invalidate();
@@ -1056,7 +1067,7 @@ export function createViewport(container, {
     if(reparent) for(const [id,o]of [...objects])if(records.get(id)?.kind==='assembly') {o.removeFromParent();objects.delete(id);records.delete(id);}
     if(!next||force||old?.id!==next.id){for(const id of [...objects.keys()])remove(id);clearGroup(lighting);hemisphere=null;}
     sceneDocument=next;
-    if(!next){lightObjects=[];waterObjects=[];rebuildSceneLists();warmupRequested=false;clearTimeout(warmupTimer);}
+    if(!next){lightObjects=[];waterObjects=[];rebuildSceneLists();portalCulling.setDocument(null,objects);warmupRequested=false;clearTimeout(warmupTimer);}
     if(JSON.stringify(old?.layout?.grid)!==JSON.stringify(next?.layout?.grid)||force||!gridObject)createGrid(next?.layout?.grid);
     if(!next){matricesDirty=true;thumbnailEffects?.dispose();thumbnailEffects=undefined;thumbnailTarget?.dispose();thumbnailTarget=undefined;cache.prune([]);scene.fog=null;effects.configure({});atmosphere.configure({},null);reflections.configure({});zones.update(null,objects);lightManager.dispose();boundLights.clear();cutawayCasters.dispose();sample('update',started);invalidate(true);return;}
     const look=next.look??next.defaultLook;
@@ -1185,6 +1196,7 @@ export function createViewport(container, {
     content.updateMatrixWorld(true);lighting.updateMatrixWorld(true);matricesDirty=true;
     const fullSceneLoad=Boolean(force||old?.id!==next.id);
     spatial ||= fullSceneLoad||runtimeStats.created>0;
+    if(spatial||runtimeStats.removed)portalCulling.setDocument(next,objects);
     if(spatial){updateShadowBounds();snowDirty=true;for(const o of objects.values())if(o.userData.source?.isDirectionalLight)o.userData.source.shadow.needsUpdate=true;
       if(fullSceneLoad)lightManager.invalidate(null);
       else{if(runtimeStats.created)for(const id of createdIds)changedBounds.push(new THREE.Box3().setFromObject(objects.get(id)));if(snowRegions!==null)snowRegions.push(...changedBounds);lightManager.invalidate(changedBounds);}
@@ -1974,7 +1986,8 @@ export function createViewport(container, {
     resetPerformance() {diagnostics.reset();},
     /** Diagnostic switch: the frame must look the same either way. */
     setMaterialSharing(value) { shareMaterials = !!value; invalidate(); },
-    getInfo() { return {inspection:inspection.state(),inspectionBlend:inspection.blend,pages:pages.info(),frozenBackground:Boolean(frozen),depthOfField:effects.info().depthOfField,localEffectLights:[...localEffects].map(([id,effect])=>({id,type:effect.userData.localEffect.config.type,lightIntensity:effect.userData.localEffect.light?.intensity??0})),cableShadows:[...objects].flatMap(([id,object])=>{if(!records.get(id)?.cable)return [];let cast=false;object.traverse(m=>{if(m.isMesh&&m.castShadow)cast=true;});return [{id,castShadow:cast}];}),qualityTier,screens:screens.info(), screenPool:screens.size, decalTextures:decalTextures.size, decals:[...objects].flatMap(([id,object])=>{const record=records.get(id);if(!record?.decal)return [];let mesh=null;object.traverse(child=>{if(child.userData.decal)mesh=child;});const material=mesh?.material;return [{id,hostId:record.anchor?.hostId,kind:record.decal.kind,polygonOffset:Boolean(material?.polygonOffset),polygonOffsetFactor:material?.polygonOffsetFactor,polygonOffsetUnits:material?.polygonOffsetUnits,depthWrite:material?.depthWrite,receiveShadow:Boolean(mesh?.receiveShadow),castShadow:Boolean(mesh?.castShadow),lift:mesh?.position.z,visible:object.visible}];}),performance:{...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported}, materialSharing:materialSharing.info(), zoneProbes:zoneProbes.info(), directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
+    setPortalCulling(value) { portalCullingEnabled = !!value; invalidate(); },
+    getInfo() { return {inspection:inspection.state(),inspectionBlend:inspection.blend,pages:pages.info(),frozenBackground:Boolean(frozen),depthOfField:effects.info().depthOfField,localEffectLights:[...localEffects].map(([id,effect])=>({id,type:effect.userData.localEffect.config.type,lightIntensity:effect.userData.localEffect.light?.intensity??0})),cableShadows:[...objects].flatMap(([id,object])=>{if(!records.get(id)?.cable)return [];let cast=false;object.traverse(m=>{if(m.isMesh&&m.castShadow)cast=true;});return [{id,castShadow:cast}];}),qualityTier,screens:screens.info(), screenPool:screens.size, decalTextures:decalTextures.size, decals:[...objects].flatMap(([id,object])=>{const record=records.get(id);if(!record?.decal)return [];let mesh=null;object.traverse(child=>{if(child.userData.decal)mesh=child;});const material=mesh?.material;return [{id,hostId:record.anchor?.hostId,kind:record.decal.kind,polygonOffset:Boolean(material?.polygonOffset),polygonOffsetFactor:material?.polygonOffsetFactor,polygonOffsetUnits:material?.polygonOffsetUnits,depthWrite:material?.depthWrite,receiveShadow:Boolean(mesh?.receiveShadow),castShadow:Boolean(mesh?.castShadow),lift:mesh?.position.z,visible:object.visible}];}),performance:{...diagnostics.snapshot(),gpuTimingSupported:gpuTimer.supported}, materialSharing:materialSharing.info(), portalCulling:portalCulling.info(), zoneProbes:zoneProbes.info(), directionalShadows:[...objects.values()].filter(o=>o.userData.source?.isDirectionalLight).map(o=>({id:o.userData.lightRecord.id,...o.userData.source.userData.shadowFocus})),timingMs:metrics(),programs:renderer.info.programs?.length??0,cutawayShadows:cutawayCasters.info(),lighting:lightManager.info(),zones:zones.uniforms.zoneCount.value,reconciliation:{...runtimeStats},resourceIds:[...objects].map(([id,o])=>({id,uuid:o.uuid})),measurement: ruler.snapshot(), atmosphere: atmosphere.info(), animatedAtmosphere, animatedLocalEffects, localEffects: [...localEffects].map(([id,effect])=>({ id, type: effect.userData.localEffect.config.type, count: effect.userData.localEffect.particles.visible ? effect.userData.localEffect.config.count : 0 })),
       assetDiagnostics:[...objects].flatMap(([id,object])=>{const diagnostics=[];object.traverse(child=>{if(child.userData.diagnostic)diagnostics.push({id,message:child.userData.diagnostic});});return diagnostics;}),
       sculptedRocks:[...objects].flatMap(([id,object])=>{let vertices=0,triangles=0;object.traverse(m=>{if(m.geometry?.userData.sculptPrepared){vertices+=m.geometry.attributes.position.count;triangles+=m.geometry.index.count/3;}});return vertices?[{id,vertices,triangles,samples:records.get(id)?.rockSculpt?.stamps.length??0,bounds:new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3()).toArray()}]:[];}),
       rockGeometries: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.geometry?.userData.rock) list.push({id,...child.geometry.userData.rock,triangles:(child.geometry.index?.count??child.geometry.attributes.position.count)/3});for(const rock of child.geometry?.userData.rocks??[])list.push({id,...rock});});return list;}),
