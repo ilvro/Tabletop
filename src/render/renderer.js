@@ -41,6 +41,8 @@ import { createCinema } from './cinema.js';
 import { createFigure } from './figures.js';
 import { makeOccluder, isOccluder, updateOcclusion, clearOcclusion, silhouetteMaterial } from './occlusion.js';
 import { createMovementTrail } from './movement-trail.js';
+import { createAreaLayer } from './effect-areas.js';
+import { areaFromDrag } from '../domain/areas.js';
 
 const values = (collection) => Array.isArray(collection) ? collection : Object.values(collection ?? {});
 const DEFAULT_CAMERA = { projection: 'perspective', position: [12, 13, 15], target: [0, 0, 0], fov: 42, orthographicHeight: 18 };
@@ -117,7 +119,7 @@ export function createViewport(container, {
   onSelect = () => {}, onMaterialPick = () => {}, onIlluminationOrigin = () => {}, onTransform = () => {}, onPlace = () => {}, onRoomDraw = () => {},
   onCameraChange = () => {}, onError = () => {}, onContextMenu: onContextMenuCb = () => {}, onPolygonDraw = () => {},
   onWindowPlace = () => {}, onOpeningMove = () => {}, onTerrainStroke = () => {}, onRockStroke = () => {}, onWaterStroke = () => {}, onMaterialSlots = () => {},
-  onMeasurementChange = () => {}, onLightingDiagnostics = () => {}, onSurfacePlace = () => {}, onCinemaChange = () => {}, navigationEnabled = true,
+  onMeasurementChange = () => {}, onLightingDiagnostics = () => {}, onSurfacePlace = () => {}, onCinemaChange = () => {}, onAreaDraw = () => {}, navigationEnabled = true,
 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-label', navigationEnabled ? 'Cena 3D — WASD desloca, Shift acelera, Page Up/Down altera altura, botão direito orbita, roda aproxima' : 'Cena publicada pelo mestre');
@@ -250,6 +252,9 @@ export function createViewport(container, {
   const ruler = createRuler(container, scene, onMeasurementChange);
   // A token being dragged (editor) or gliding (projector) draws its path, distance and reach on the floor.
   const trail = createMovementTrail(container, scene); let trailStart = null;
+  // Areas of effect from the session state, and the settings of the one about to be drawn.
+  const areaLayer = createAreaLayer(scene); let areaTool = { shape: 'circle', width: 1.5, color: '#ff6a3d', label: '' };
+  const syncAreas = () => areaLayer.sync(sceneDocument?.sessionState?.areas ?? [], values(sceneDocument?.tokens).filter(token => objects.get(token.id)?.visible).map(token => ({ position: token.transform.position, radius: Math.min(...token.footprint) / 2 })));
   const trailOptions = id => { const record = records.get(id), grid = sceneDocument?.layout.grid; return { cellSize: grid?.cellSize ?? 1, diagonal: grid?.diagonal ?? 'euclidean', speed: sceneDocument?.actors?.[record?.actorId]?.speed ?? null }; };
   const objects = new Map();
   const records = new Map();
@@ -951,7 +956,7 @@ export function createViewport(container, {
       if(snowRegions!==null)snowRegions.push(...changedBounds);lightManager.invalidate(changedBounds);renderer.shadowMap.needsUpdate=true;}
     pickBounds = new WeakMap();
     zones.update(next,objects);zones.apply(ground);for(const o of objects.values())zones.apply(o);
-    occludersDirty = true;
+    occludersDirty = true; syncAreas();
     updateSelection();sample('update',started);diagnostics.record('reconciliation',performance.now()-started); invalidate();
   }
 
@@ -1136,6 +1141,10 @@ export function createViewport(container, {
       if (!before || before.complete) ruler.begin(point, sceneDocument.layout.grid.cellSize);
       else ruler.update(point);
       controls.enabled = false; canvas.setPointerCapture(event.pointerId); invalidate();
+    } else if (tool === 'area') {
+      const start = supportPoint(event)?.position;
+      if (!start) { pointer = null; report('Clique no chão para começar a área.'); return; }
+      pointer.area = { start }; controls.enabled = false; canvas.setPointerCapture(event.pointerId);
     } else if (tool === 'terrain') {
       const hit=surfaceBrushHit(event),record=records.get(hit?.object.userData.entityId);
       if(!record||isLocked(sceneDocument,record)||(record.kind!=='terrain'&&!isSculptableRock(record))) {pointer=null;report('Aponte para um terreno ou uma rocha/paredão desbloqueado.');return;}
@@ -1195,6 +1204,7 @@ export function createViewport(container, {
   }
   function processPointerMove(event) {
     altHeld = event.altKey;
+    if (pointer?.area) { const end = supportPoint(event)?.position; if (end) { areaLayer.setDraft(areaFromDrag(pointer.area.start, end, { ...areaTool, id: 'draft' })); invalidate(); } }
     if (tool === 'measure' && ruler.pending() && !presentation && (!pointer || pointer.id === event.pointerId)) {
       const point = measurementPoint(event);
       if (point) { ruler.update(point); invalidate(); }
@@ -1274,6 +1284,11 @@ export function createViewport(container, {
     if(pendingTerrain){replaceTerrain(pendingTerrain);pendingTerrain=null;}
     const gesture = pointer;
     pointer = null;
+    if (gesture.area) {
+      const end = supportPoint(event)?.position; areaLayer.setDraft(null); controls.enabled = navigationEnabled; invalidate();
+      if (end && Math.hypot(end[0] - gesture.area.start[0], end[2] - gesture.area.start[2]) > .2) { try { onAreaDraw(areaFromDrag(gesture.area.start, end, areaTool)); } catch (error) { report(error); } }
+      return;
+    }
     controls.enabled = navigationEnabled;
     hint.style.display = 'none';
     if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
@@ -1397,7 +1412,7 @@ export function createViewport(container, {
   }
   function cancelGesture() {
     const rockGesture=!!pointer?.rock;
-    contextPointer = null;
+    contextPointer = null; areaLayer.setDraft(null);
     if (transform.dragging) { gizmoCancelled = true; transform.reset(); transform.pointerUp(null); }
     if (pointer?.roomStart || pointer?.terrainBrush?.mode==='water') clearGroup(preview);
     cancelPointer();
@@ -1591,7 +1606,7 @@ export function createViewport(container, {
       }
     },
     setSelection(id, ids = id ? [id] : []) { if(id===selectedId&&ids.length===selectedIds.length&&ids.every((key,i)=>key===selectedIds[i])){diagnostics.count('selectionUpdatesSkipped');return;}selectedId = id; selectedIds = ids; updateSelection(); },
-    setTool(mode) { cancelGesture(); ruler.clear(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['place', 'room', 'polygon', 'window', 'terrain', 'material-sample', 'measure', 'illumination-origin', 'decal', 'cable'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
+    setTool(mode) { cancelGesture(); ruler.clear(); brushLine.visible = false; if (mode !== tool || mode === 'polygon') { polygonPoints = []; polygonLine.visible = false; } tool = mode; canvas.style.cursor = ['area', 'place', 'room', 'polygon', 'window', 'terrain', 'material-sample', 'measure', 'illumination-origin', 'decal', 'cable'].includes(mode) ? 'crosshair' : 'default'; updateSelection(); },
     setRulerSnap(value) { rulerSnap = Boolean(value); },
     clearMeasurement() { if (pointer?.ruler) cancelPointer(); ruler.clear(); invalidate(); },
     setTerrainBrush(options) { terrainBrush = { ...terrainBrush, ...options }; },
@@ -1613,6 +1628,8 @@ export function createViewport(container, {
     },
     getCamera, setCamera, setTopView, frameSelection, frameScene, framePreview, stopCameraMotion, setLiveLook,
     glideTo(point) { glideTo(new THREE.Vector3(...point)); },
+    /** Shape, width, colour and label of the next area drawn with the 'area' tool. */
+    setAreaTool(settings) { areaTool = { ...areaTool, ...settings }; },
     /** Focus of the current camera: `{enabled, targetId, distance, aperture}`, any subset. */
     setFocus(next) { cinema.setFocus(next); invalidate(); onCameraChange(getCamera()); },
     setFollow(targetId) { cinema.setFollow(targetId); invalidate(); onCameraChange(getCamera()); },
@@ -1675,10 +1692,10 @@ export function createViewport(container, {
       surfaceMaterials: [...objects].flatMap(([id,object])=>{const list=[]; object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material]) if(mat?.userData.surface) list.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.surface});});return list;}),
       wetMaterials: [...objects].flatMap(([id,object])=>{const list=[];object.traverse(child=>{if(child.userData.wet)list.push({id,...child.userData.wet});});return list;}),
       wearMaterials: [...objects].flatMap(([id,object])=>{const result=[];object.traverse(child=>{for(const mat of Array.isArray(child.material)?child.material:[child.material])if(mat?.userData.wear)result.push({id,slot:mat.name||child.userData.materialSlot||'base',...mat.userData.wear});});return result;}),
-      environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving || zoomVelocity || orbitVelocity), cameraTransition: Boolean(transition), cinema: cinema.info(), exposure: renderer.toneMappingExposure, background: '#' + scene.background.getHexString() }; },
+      environmentMaterials: [...objects].flatMap(([id, object]) => { const result = []; object.traverse(child => { if (!child.isMesh) return; for (const mat of Array.isArray(child.material) ? child.material : [child.material]) if (mat?.emissiveIntensity > 0 && mat.emissive?.getHex() !== 0) result.push({ id, slot: mat.name || child.userData.materialSlot || 'base', color: '#' + mat.emissive.getHexString(), intensity: mat.emissiveIntensity }); }); return result; }), effects: effects.info(), animatedLights, effectTime, lights: [...objects.values()].filter(o => o.userData.source).map(o => ({ id: o.userData.entityId, type: o.userData.lightRecord.type, intensity: o.userData.source.intensity })), fog: scene.fog?.isFogExp2 ? 'exp2' : scene.fog?.isFog ? 'linear' : null, objects: objects.size, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures, cameraMoving: Boolean(transition || navigationKeys.size || Math.hypot(...velocity) || orbitMoving || zoomVelocity || orbitVelocity), cameraTransition: Boolean(transition), cinema: cinema.info(), areas: areaLayer.info(), exposure: renderer.toneMappingExposure, background: '#' + scene.background.getHexString() }; },
     destroy() {
       destroyed = true;clearTimeout(probeTimer);clearTimeout(screenTimer);screens.dispose();decalTextures.dispose();gpuTimer.dispose();diagnostics.dispose();lightManager.dispose();zoneProbes.dispose();reflections.dispose();cutawayCasters.dispose();lightingHelpers.dispose();
-      ruler.destroy(); trail.dispose();
+      ruler.destroy(); trail.dispose(); areaLayer.dispose();
       previewGeneration++;
       for (const helper of extraSelections) disposeObject(helper); disposeObject(polygonLine); disposeObject(brushLine);
       generation += 1;

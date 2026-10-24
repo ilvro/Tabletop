@@ -37,3 +37,13 @@ Ao arrastar um token com **Mover (G)**, uma linha tracejada liga o ponto de onde
 Contratos: `actor.speed` (0–60 m) e `layout.grid.diagonal` (`euclidean`, `chebyshev`, `alternate`), opcionais. Cálculo em `src/domain/movement.js`.
 
 Correção junto desta fase: na janela separada do projetor, os tokens não deslizavam (cada cena chegava como cópia nova e era reconstruída). Agora deslizam também lá.
+
+## Áreas de efeito
+
+Em **Tomadas → Sessão → Combate → Áreas de efeito**: escolha a forma (círculo, cone, linha ou quadrado), a cor e um rótulo, clique em **Desenhar área no chão** e arraste. Círculo e quadrado crescem do centro até onde você soltar; cone e linha saem da origem na direção do arraste. O cone abre tanto quanto é comprido; a linha tem largura ajustável.
+
+- A área aparece no chão, translúcida e com borda viva, no editor e no projetor.
+- Quem ela toca (contando a base do token) ganha um anel na cor da área.
+- A lista mostra as áreas ativas; × apaga uma, **Apagar todas as áreas** limpa o chão. Cada ação é um passo de desfazer. Esc cancela o desenho.
+
+Contrato: `sessionState.areas = [{ id, shape, origin, yaw, size, width, color, label }]`, até 32 (`src/domain/areas.js`).

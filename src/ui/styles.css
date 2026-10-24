@@ -805,3 +805,10 @@ dialog.floating-window.library-dialog, .floating-window { background: var(--tt-s
 .initiative-list li.is-turn span { font-weight: 650; color: var(--tt-accent-strong); }
 .initiative-list input { width: 100%; }
 .movement-label { font-weight: 650; }
+.combat-areas { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--tt-line); }
+.area-colors { display: flex; gap: 6px; margin: 6px 0 10px; }
+.area-colors button { width: 26px; height: 26px; min-height: 0; padding: 0; border-radius: 50%; background: var(--swatch); border: 2px solid transparent; }
+.area-colors button.active { border-color: var(--tt-text); box-shadow: 0 0 0 2px var(--tt-bg) inset; }
+.area-list { list-style: none; margin: 8px 0; padding: 0; display: grid; gap: 4px; }
+.area-list li { display: grid; grid-template-columns: 10px 1fr 28px; align-items: center; gap: 8px; padding: 3px 6px; border-radius: 7px; background: var(--tt-surface-2); }
+.area-list li i { width: 10px; height: 10px; border-radius: 50%; background: var(--swatch); }

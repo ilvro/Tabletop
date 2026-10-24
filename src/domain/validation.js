@@ -17,6 +17,7 @@ import { kelvinToColor } from './lighting.js';
 import { validateFlashlight, validateCameraExtras } from './cinematics.js';
 import { validateFigure } from './figures.js';
 import { validateInitiative } from './initiative.js';
+import { validateAreas } from './areas.js';
 import { polygonIsSimple, polygonSize, floorContour, validHoles, pointInPolygon } from './geometry.js';
 export class ValidationError extends Error {
   constructor(message, path = '') {
@@ -586,13 +587,15 @@ export function validateDocument(document) {
     fail(camera.position.some((v, i) => Math.abs(v - camera.target[i]) > 1e-8), 'Posição e alvo da câmera devem ser diferentes.', cameraPath);
     number(camera.fov, `${cameraPath}.fov`, 1, 179); positive(camera.orthographicHeight, `${cameraPath}.orthographicHeight`);
   });
-  keys(document.sessionState, ['doors', 'initiative'], 'sessionState'); record(document.sessionState.doors, 'sessionState.doors');
+  keys(document.sessionState, ['doors', 'initiative', 'areas'], 'sessionState'); record(document.sessionState.doors, 'sessionState.doors');
   for (const [doorId, angle] of Object.entries(document.sessionState.doors)) {
     reference(doorId, document.layout.entities, `sessionState.doors.${doorId}`, false, 'door');
     number(angle, `sessionState.doors.${doorId}`, -Math.PI * 2, Math.PI * 2);
   }
   // Turn order of a combat in progress; absent outside combat.
   if (document.sessionState.initiative !== undefined && document.sessionState.initiative !== null) validateInitiative(document.sessionState.initiative, document);
+  // Areas of effect drawn during the session; absent when there are none.
+  if (document.sessionState.areas !== undefined) validateAreas(document.sessionState.areas);
   return document;
 }
 

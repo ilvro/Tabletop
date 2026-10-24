@@ -616,6 +616,16 @@ export function applyCommand(document, command, diagnostics) {
       next.sessionState.doors[door.id] = payload.angle; break;
     }
     // The turn order is session state: set whole, or cleared with null when the combat ends.
+    // Areas of effect: added one at a time, removed by id or all at once; session state, one undo step each.
+    case 'area.add': {
+      if (!next.sessionState) throw new ValidationError('Áreas pertencem a cenas.');
+      next.sessionState.areas = [...(next.sessionState.areas ?? []), clone(payload.area)]; break;
+    }
+    case 'area.remove': {
+      const areas = (next.sessionState?.areas ?? []).filter(area => area.id !== payload.id);
+      if (areas.length) next.sessionState.areas = areas; else delete next.sessionState.areas; break;
+    }
+    case 'areas.clear': if (next.sessionState) delete next.sessionState.areas; break;
     case 'initiative.update': {
       if (!next.sessionState) throw new ValidationError('Iniciativa pertence a cenas.');
       if (payload.initiative === null) delete next.sessionState.initiative; else next.sessionState.initiative = clone(payload.initiative);

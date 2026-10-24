@@ -88,7 +88,7 @@ import { FLASHLIGHT_DEFAULTS, MOTION_DEFAULTS, closeUpSpots } from '../domain/ci
 import { cinemaPanel } from '../ui/cinema-panel.js';
 import { flashlightPanel } from '../ui/flashlight-panel.js';
 import { figurePanel } from '../ui/figure-panel.js';
-import { initiativePanel, initiativeStrip } from '../ui/initiative-panel.js';
+import { initiativePanel, initiativeStrip, areasPanel } from '../ui/initiative-panel.js';
 import { startInitiative, stepInitiative, setInitiativeValue } from '../domain/initiative.js';
 import { DIAGONAL_RULES } from '../domain/movement.js';
 import { FIGURE_DEFAULTS } from '../domain/figures.js';
@@ -290,6 +290,8 @@ export async function startApplication() {
   // Session-only camera settings: none of them is saved with the scene except through a saved shot.
   // Whether passing the turn also glides the camera to whoever has it (a session preference).
   let initiativeCamera = false;
+  // The next area of effect to draw: shape, colour, width and label (session preferences).
+  let areaTool = { shape: 'circle', color: '#ff6a3d', width: 1.5, label: '' };
   let ambience = null, navigationSmoothing = 0, liveCamera = { enabled: false, smoothing: .6 }, liveCameraFrame = 0;
   animateDisclosures(root);
   let polishOptions = { mode: 'align', axis: 'x', alignment: 'center', angle: 5, seed: 1, palette: 'natural', clearance: .8, referenceId: '' };
@@ -501,6 +503,7 @@ export async function startApplication() {
       }
     },
     onCinemaChange: () => { renderInspector(); if (tab === 'shots') renderSidebar(); },
+    onAreaDraw: area => { if (execute('area.add', { area: { ...area, id: id() } }, { label: 'Área de efeito' })) { setTool('select'); if (tab === 'shots') renderSidebar(); } },
     onCameraChange: preset => {
       hideContextMenu(); scheduleViewTag(); scheduleSelectionBar();
       if (liveCamera.enabled && !isPresentation) sendLiveCamera();
@@ -969,7 +972,7 @@ export async function startApplication() {
     } else if (tab === 'shots') {
       const doc = store.document, connected = hasPresentation() || isPresentation;
       panel.innerHTML = `${shotsPanel(doc, { publishedId: publishedPresetId, rehearsedId, live: connected, thumbnails: camera => shotThumbnails.image(doc, camera, store.editVersion) })}${cameraPanel()}<section><span class="eyebrow">SEGUNDA TELA</span><p class="microcopy">O projetor é a janela que os jogadores veem. Ensaiar mexe só no seu editor; Transição e Corte publicam a tomada para o projetor.</p>${button('presentation-window', 'Abrir segunda tela', 'display', 'wide accent-outline')}${button('publish-camera', 'Publicar câmera atual', 'camera', 'wide quiet')}</section><section><span class="eyebrow">CARTELA DE TÍTULO</span><label class="field"><span>Título</span><input type="text" data-field="title-card-title" value="${esc(titleCard.title)}" placeholder="${esc(doc.name)}" maxlength="120" autocomplete="off" /></label><label class="field"><span>Subtítulo</span><input type="text" data-field="title-card-subtitle" value="${esc(titleCard.subtitle)}" maxlength="120" autocomplete="off" /></label>${numberField('title-card-duration', 'Duração · s', titleCard.duration, { min: 2, max: 12, step: 1 })}${button('title-card', 'Mostrar no projetor', 'display', 'wide primary', connected && !isPresentation ? '' : 'disabled')}${checkField('projector-letterbox', 'Barras de cinema · 2,39:1', letterbox)}<p class="microcopy">A cartela aparece sobre a imagem do projetor e some sozinha. Nada disso é salvo na cena.</p></section>`;
-      panel.innerHTML += initiativePanel(doc, { camera: initiativeCamera });
+      panel.innerHTML += initiativePanel(doc, { camera: initiativeCamera, extra: areasPanel(doc, areaTool, tool === 'area') });
       taskList(panel, SHOTS_TASKS);
       restoreDisclosures(panel, sceneDisclosures);
       shotThumbnails.request(doc, store.editVersion);
@@ -1859,6 +1862,7 @@ export async function startApplication() {
     if (field === 'camera-motion-speed') { viewport.setCameraMotion({ ...viewport.getCamera().motion, speed: Math.max(0, Math.min(4, value)) }); return; }
     if (field === 'camera-live') { setLiveCamera(Boolean(value)); return; }
     if (field === 'initiative-camera') { initiativeCamera = Boolean(value); return; }
+    if (field.startsWith('area-')) { const key = field.slice(5); areaTool = { ...areaTool, [key]: key === 'width' ? Math.max(.5, Math.min(10, Number(value) || 1.5)) : value }; viewport.setAreaTool(areaTool); if (key === 'shape') renderSidebar(); return; }
     if (field === 'camera-live-smoothing') { liveCamera.smoothing = Math.max(.1, Math.min(2, value)); sendLiveCamera(); return; }
     if (field === 'title-card-title') { titleCard.title = String(value).slice(0, 120); return; }
     if (field === 'title-card-subtitle') { titleCard.subtitle = String(value).slice(0, 120); return; }
@@ -2504,6 +2508,8 @@ export async function startApplication() {
       case 'ambience': toggleAmbience(); break;
       case 'initiative-start': { const ids = Object.keys(store.document.tokens ?? {}); if (ids.length) execute('initiative.update', { initiative: startInitiative(ids.map(tokenId => ({ tokenId, value: 0 }))) }, { label: 'Começar combate' }); break; }
       case 'initiative-next': passTurn(1); break;
+      case 'area-draw': if (tool === 'area') setTool('select'); else { viewport.setAreaTool(areaTool); setTool('area'); notify('Arraste no chão a partir do centro ou da origem da área. Esc cancela.'); } renderSidebar(); break;
+      case 'areas-clear': if (store.document.sessionState?.areas) execute('areas.clear', {}, { label: 'Apagar áreas' }); break;
       case 'initiative-prev': passTurn(-1); break;
       case 'initiative-add': { const initiative = store.document.sessionState?.initiative; if (!initiative) break; const turn = initiative.order[initiative.current]?.tokenId, missing = Object.keys(store.document.tokens ?? {}).filter(id => !initiative.order.some(entry => entry.tokenId === id)); const next = startInitiative([...initiative.order, ...missing.map(tokenId => ({ tokenId, value: 0 }))]); execute('initiative.update', { initiative: { ...next, round: initiative.round, current: Math.max(0, next.order.findIndex(entry => entry.tokenId === turn)) } }, { label: 'Incluir no combate' }); break; }
       case 'initiative-end': if (store.document.sessionState?.initiative) execute('initiative.update', { initiative: null }, { label: 'Encerrar combate' }); break;
@@ -2708,6 +2714,8 @@ export async function startApplication() {
       }
       return;
     }
+    if (node.dataset.areaColor) { areaTool = { ...areaTool, color: node.dataset.areaColor }; viewport.setAreaTool(areaTool); renderSidebar(); return; }
+    if (node.dataset.areaRemove) { execute('area.remove', { id: node.dataset.areaRemove }, { label: 'Apagar área' }); return; }
     if (node.dataset.initiativeRemove) { const initiative = store.document.sessionState?.initiative; if (initiative) { const turn = initiative.order[initiative.current]?.tokenId, order = initiative.order.filter(entry => entry.tokenId !== node.dataset.initiativeRemove); execute('initiative.update', { initiative: order.length ? { ...initiative, order, current: Math.max(0, Math.min(order.length - 1, order.findIndex(entry => entry.tokenId === turn) >= 0 ? order.findIndex(entry => entry.tokenId === turn) : initiative.current)) } : null }, { label: 'Tirar do combate' }); } return; }
     if (node.dataset.dialogTab) { dialogTab = node.dataset.dialogTab; renderDialogContent(); observeGalleryCards(); return; }
     if (node.dataset.select) { selectObject(node.dataset.select, event.shiftKey); return; }
