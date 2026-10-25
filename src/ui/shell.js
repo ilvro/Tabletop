@@ -104,6 +104,7 @@ export function shellMarkup({ storage, homeURL }) {
     <dialog id="command-palette" class="command-palette" aria-label="Buscar"><input id="palette-input" type="text" role="combobox" aria-expanded="false" aria-controls="palette-list" aria-autocomplete="list" placeholder="Buscar ações, controles, elementos, assets, cenas…" autocomplete="off" spellcheck="false" /><ul id="palette-list" role="listbox" aria-label="Resultados"></ul></dialog>
     <dialog id="shortcuts-sheet" class="shortcuts-sheet" aria-label="Atalhos de teclado"></dialog>
     <dialog id="settings-dialog" class="shortcuts-sheet settings-sheet" aria-label="Configurações"></dialog>
+    <dialog id="atelie-dialog" class="shortcuts-sheet atelie-picker-sheet" aria-label="Documentos do Ateliê"></dialog>
     <dialog id="asset-metadata-dialog" aria-label="Classificar asset"></dialog>
     <dialog id="recovery-dialog"><span class="eyebrow">RECUPERAÇÃO LOCAL</span><h2>Há trabalho não salvo</h2><p id="recovery-description"></p><div class="dialog-actions">${button('discard-draft', 'Descartar rascunho', '', 'quiet')}${button('restore-draft', 'Restaurar trabalho', 'undo', 'primary')}</div></dialog>
     <div id="context-menu" class="context-menu" hidden></div>

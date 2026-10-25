@@ -62,4 +62,17 @@ sessionState.found = [entityId, …]  // opcional; comandos clue.reveal e clue.f
 - A fonte manuscrita depende das fontes do sistema (Segoe Print, Bradley Hand, Comic Neue ou a cursiva padrão).
 - Com o fundo congelado, fogo, chuva e telas param de animar enquanto se lê.
 
-Testes: `tests/inspectables.test.js` (contrato, quebra de linha, filtro do projetor, pistas) e `tests/e2e/inspection.test.js` (clique duplo, documento intacto, Esc no lugar exato, página/verso, leitura, segredo no projetor, mostrar, giro e página ao vivo, fechar nas duas telas). Tutorial: **Luz e câmera → Pistas e documentos**.
+## Documentos do Ateliê
+
+O Tabletop integra-se ao **Ateliê de Documentos** conforme o [Contrato v1](CONTRATO-TABLETOP.md). O Tabletop lida estritamente com **imagens assadas** em PNG (nunca desenha nem processa o formato interno de camadas do Ateliê).
+
+- **Formato**: cada lado de página inspecionável suporta metadados `design: { app: 'atelie', id, revision, source }`, `imageRef` (PNG em luz normal) e opcionalmente `uvImageRef` (PNG sob luz ultravioleta).
+- **Papel do Ateliê**: tipo `'design'` ("Documento do ateliê"): `drawPageSide` renderiza a imagem cobrindo toda a folha (`cover`), sem grãos procedurais, manchas de café ou bordas dobradas do Tabletop, preservando a arte original do documento.
+- **Luz UV na inspeção**: se o lado à frente possui `uvImageRef`, a barra da inspeção exibe o botão **Luz UV** e o atalho **U** alterna entre a imagem normal e a UV. Ao ligar, uma vinheta violeta (`radial-gradient`) envolve a cena e o projetor reflete o estado `uv: true` caso a pista esteja revelada. Trocar de página ou lado desliga a luz UV automaticamente.
+- **Ações no painel**:
+  - **Do ateliê…**: no caminho A (navegador compartilhado) ou C (servidor local), abre o popover de seleção `#atelie-dialog` com prévias; no caminho B (janela), abre a janela popup do Ateliê e aguarda a entrega via `postMessage`.
+  - **Editar no Ateliê** e **Novo no Ateliê**: abrem o documento correspondente com passagem segura de origem e `nonce`.
+  - **Atualizar a partir do Ateliê** e **Atualizar na cena (N objetos)**: detectam revisões novas publicadas em tempo real via `BroadcastChannel('mesa:handout')` ou consulta de catálogo, permitindo sincronizar todos os objetos da cena com um único clique.
+- **Paleta de comandos**: **Pôr documento do Ateliê na mesa** traz um documento pronto do Ateliê diretamente para o centro da mesa como folha A4 ou recorte de jornal.
+
+Testes: `tests/inspectables.test.js` (contrato, quebra de linha, filtro do projetor, pistas), `tests/atelie-link.test.js` (rotas e segurança do contrato), `tests/e2e/inspection.test.js` (clique duplo, documento intacto, Esc no lugar exato, página/verso, leitura, segredo no projetor, mostrar, giro e página ao vivo, fechar nas duas telas), `tests/e2e/atelie-exchange.test.js` (caminho A), `tests/e2e/atelie-window.test.js` (caminho B) e `tests/e2e/atelie-http.test.js` (caminho C). Tutoriais: **Luz e câmera → Pistas e documentos** e **Luz e câmera → Uma carta do Ateliê**.

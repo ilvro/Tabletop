@@ -9,11 +9,13 @@ export function createInspectionOverlay(container, { interactive = true, onDrag 
   const layer = document.createElement('div');
   layer.className = `inspection-layer${interactive ? ' is-interactive' : ''}`; layer.hidden = true; layer.dataset.testid = 'inspection';
   layer.innerHTML = `${interactive ? '<div class="inspection-capture" tabindex="-1" aria-label="Objeto inspecionado: arraste para girar, roda aproxima, clique duplo volta ao enquadramento"></div>' : ''}
+    <div class="inspection-uv-vignette" hidden></div>
     <header class="inspection-card"><span class="tt-tag is-small">PISTA</span><h2 class="tt-display"></h2><small class="inspection-page"></small></header>
     ${interactive ? `<nav class="inspection-controls" aria-label="Inspeção">
       <button type="button" data-inspect="previous" aria-label="Página anterior" data-tip="Página anterior" data-key="←">${icon('chevron')}</button>
       <button type="button" data-inspect="flip" data-key="F">Virar</button>
       <button type="button" data-inspect="read">Ler</button>
+      <button type="button" data-inspect="uv" data-key="U" hidden>Luz UV</button>
       <button type="button" data-inspect="next" aria-label="Próxima página" data-tip="Próxima página" data-key="→">${icon('chevron')}</button>
       <span class="inspection-divider"></span>
       <button type="button" data-inspect="show" class="accent-outline" aria-pressed="false">${icon('display')}<span>Mostrar aos jogadores</span></button>
@@ -48,10 +50,19 @@ export function createInspectionOverlay(container, { interactive = true, onDrag 
     /** `{ title, page, pages, side, showing, released }`; pages is 0 for an object. */
     show(state) {
       layer.hidden = false;
+      layer.classList.toggle('is-uv', Boolean(state.uv));
+      const vignette = layer.querySelector('.inspection-uv-vignette');
+      if (vignette) vignette.hidden = !state.uv;
       layer.querySelector('h2').textContent = state.title || 'Objeto';
       layer.querySelector('.inspection-card .tt-tag').textContent = state.pages ? 'DOCUMENTO' : 'OBJETO';
       layer.querySelector('.inspection-page').textContent = state.pages ? `Página ${state.page + 1} de ${state.pages} · ${state.side === 'back' ? 'verso' : 'frente'}` : '';
       for (const [name, disabled] of [['previous', !state.pages || state.page <= 0], ['next', !state.pages || state.page >= state.pages - 1], ['read', !state.pages]]) for (const node of layer.querySelectorAll(`[data-inspect="${name}"]`)) if (!node.classList.contains('inspection-reader-close')) node.disabled = disabled;
+      const uvBtn = layer.querySelector('[data-inspect="uv"]');
+      if (uvBtn) {
+        uvBtn.hidden = !state.hasUv;
+        uvBtn.setAttribute('aria-pressed', String(Boolean(state.uv)));
+        uvBtn.classList.toggle('active', Boolean(state.uv));
+      }
       const show = layer.querySelector('[data-inspect="show"]');
       if (show) { show.setAttribute('aria-pressed', String(Boolean(state.showing))); show.classList.toggle('active', Boolean(state.showing)); show.querySelector('span').textContent = state.showing ? 'No projetor' : 'Mostrar aos jogadores'; show.disabled = Boolean(state.offline); show.title = state.offline ? 'Abra a segunda tela em Tomadas para mostrar aos jogadores.' : ''; }
       const release = layer.querySelector('[data-inspect="release"]'); if (release) release.hidden = !state.showing;
@@ -64,7 +75,15 @@ export function createInspectionOverlay(container, { interactive = true, onDrag 
       const image = new Image(); image.alt = 'Página em leitura'; image.src = canvas.toDataURL('image/png');
       sheet.replaceChildren(image); reader.hidden = false;
     },
-    hide() { layer.hidden = true; reader.hidden = true; reader.querySelector('.inspection-sheet').replaceChildren(); drag = null; },
+    hide() {
+      layer.hidden = true;
+      layer.classList.remove('is-uv');
+      const vignette = layer.querySelector('.inspection-uv-vignette');
+      if (vignette) vignette.hidden = true;
+      reader.hidden = true;
+      reader.querySelector('.inspection-sheet').replaceChildren();
+      drag = null;
+    },
     destroy() { layer.remove(); },
   };
 }

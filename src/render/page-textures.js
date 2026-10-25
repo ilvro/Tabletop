@@ -128,6 +128,10 @@ function tearEdges(ctx, W, H, rand) {
 export function drawPageSide(canvas, side, paper, image = null) {
   const ctx = canvas.getContext('2d'), W = canvas.width, H = canvas.height, rand = random(hash(sideKey(side, paper)));
   ctx.clearRect(0, 0, W, H);
+  if (paper === 'design') {
+    if (image) drawImage(ctx, image, 0, 0, W, H, true, paper);
+    return false;
+  }
   drawPaper(ctx, W, H, paper, rand);
   const margin = paper === 'photo' ? 0 : Math.min(W, H) * .085;
   let box = { x: margin + (paper === 'notebook' ? W * .07 : 0), y: margin, w: W - margin * 2 - (paper === 'notebook' ? W * .07 : 0), h: H - margin * 2 };
@@ -224,7 +228,7 @@ export function createPageRuntime({ loadImage = async () => null, small = false,
     Object.assign(material, { map: saved.map, roughness: saved.roughness, metalness: saved.metalness, alphaTest: saved.alphaTest }); material.color.copy(saved.color); material.needsUpdate = true;
   }
   /** What one model shows: page `page`, side `side`, at `resolution`. */
-  function show(id, object, record, page, side, resolution) {
+  function show(id, object, record, page, side, resolution, uv = false) {
     let binding = bound.get(id);
     if (!binding || binding.object !== object || binding.children !== object.children.length) {
       if (binding) unbind(id);
@@ -237,7 +241,10 @@ export function createPageRuntime({ loadImage = async () => null, small = false,
       binding = { object, axes, items, aspect: axes.width / (axes.height || 1), entry: null, signature: null, children: object.children.length };
       bound.set(id, binding);
     }
-    const inspectable = record.inspectable, content = pageSide(inspectable, page, side), signature = `${sideKey(content, inspectable.paper)}|${resolution}`;
+    const inspectable = record.inspectable;
+    let content = pageSide(inspectable, page, side);
+    if (uv && content.uvImageRef) content = { ...content, imageRef: content.uvImageRef };
+    const signature = `${sideKey(content, inspectable.paper)}|${resolution}`;
     if (binding.signature !== signature) {
       const entry = acquire(content, inspectable.paper, binding.aspect, resolution);
       release(binding.entry); binding.entry = entry; binding.signature = signature;
@@ -266,19 +273,21 @@ export function createPageRuntime({ loadImage = async () => null, small = false,
       const record = documents[i], object = objects.get(record.id);
       if (!object) continue;
       const view = reading.get(record.id), pages = record.inspectable.pages.length;
-      show(record.id, object, record, view ? Math.min(view.page, pages - 1) : 0, view?.side ?? 'front', view ? (small ? RESOLUTION.scene : RESOLUTION.reading) : small ? RESOLUTION.small : RESOLUTION.scene);
+      show(record.id, object, record, view ? Math.min(view.page, pages - 1) : 0, view?.side ?? 'front', view ? (small ? RESOLUTION.scene : RESOLUTION.reading) : small ? RESOLUTION.small : RESOLUTION.scene, Boolean(view?.uv));
     }
   }
 
   return {
     sync,
     /** The page and side being read on `id`, or null to go back to the first page. */
-    read(id, view) { if (view) reading.set(id, { page: view.page, side: view.side }); else reading.delete(id); },
+    read(id, view) { if (view) reading.set(id, { page: view.page, side: view.side, uv: Boolean(view.uv) }); else reading.delete(id); },
     /** The page axes of a model's `page` slot (null without one), for holding the sheet square to the camera. */
     axes(id) { return bound.get(id)?.axes ?? null; },
     /** A side drawn at reading resolution, for the full-screen reader. Resolves once its image has loaded. */
-    async canvas(record, page, side, id) {
-      const inspectable = record.inspectable, content = pageSide(inspectable, page, side);
+    async canvas(record, page, side, id, options = {}) {
+      const inspectable = record.inspectable;
+      let content = pageSide(inspectable, page, side);
+      if (options.uv && content.uvImageRef) content = { ...content, imageRef: content.uvImageRef };
       const aspect = bound.get(id)?.aspect ?? A4, canvas = Object.assign(document.createElement('canvas'), pageSize(aspect, small ? RESOLUTION.scene : RESOLUTION.reading));
       drawPageSide(canvas, content, inspectable.paper, await image(content.imageRef));
       return canvas;

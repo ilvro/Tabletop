@@ -38,5 +38,5 @@ const serverRepository = {
 
 // Dedicated static builds also work on custom domains. Normal builds on github.io
 // use the same browser storage, while the existing local server remains unchanged.
-const browserMode = import.meta.env?.VITE_TABLETOP_STORAGE === 'browser' || /(^|\.)github\.io$/i.test(globalThis.location?.hostname ?? '');
+export const browserMode = import.meta.env?.VITE_TABLETOP_STORAGE === 'browser' || /(^|\.)github\.io$/i.test(globalThis.location?.hostname ?? '');
 export const repository = browserMode ? createBrowserRepository() : serverRepository;

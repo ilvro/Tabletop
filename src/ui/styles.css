@@ -573,6 +573,15 @@ kbd { margin: 0; padding: 2px 6px; background: var(--tt-surface-2); color: var(-
 .hud-end { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .hud-help { width: 32px; height: 32px; min-height: 32px; padding: 0; pointer-events: auto; color: var(--tt-text-2); background: color-mix(in srgb, var(--tt-surface-1) 90%, transparent); border: 1px solid var(--tt-line); border-radius: var(--eco-radius-m); }
 .settings-sheet { width: min(560px, calc(100vw - 32px)); }
+.atelie-picker-sheet { width: min(640px, calc(100vw - 32px)); }
+.atelie-picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-top: 14px; }
+.atelie-card { display: flex; flex-direction: column; background: var(--tt-surface-2); border: 1px solid var(--tt-line); border-radius: var(--eco-radius-m); padding: 8px; cursor: pointer; text-align: left; transition: border-color .15s ease; color: inherit; }
+.atelie-card:hover { border-color: var(--tt-line-strong); }
+.atelie-card-thumb { width: 100%; aspect-ratio: 1 / 1.414; object-fit: cover; background: var(--tt-surface-3, #000); border-radius: var(--eco-radius-s); display: block; }
+.atelie-card-name { font-weight: 600; font-size: var(--eco-fs-13); margin-top: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.atelie-card-meta { font-size: var(--eco-fs-11); color: var(--tt-muted); margin-top: 2px; }
+.atelie-bound-card { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; padding: 10px; background: var(--tt-surface-2); border: 1px solid var(--tt-line); border-radius: var(--eco-radius-m); }
+.atelie-picker-loading { padding: 24px 0; color: var(--tt-muted); font-size: var(--eco-fs-13); text-align: center; }
 .settings-section { margin: 0 0 18px; padding: 0; border: 0; }
 .settings-section .task-heading { margin-top: 0; }
 .settings-hint { margin: 6px 0 0; color: var(--tt-muted); font-size: var(--eco-fs-12); line-height: 1.45; }
@@ -740,6 +749,7 @@ kbd { margin: 0; padding: 2px 6px; background: var(--tt-surface-2); color: var(-
 .shot-dock:not([hidden]) ~ .gesture-hint { bottom: 238px; }
 .shot-dock .dock-frames { max-width: 520px; margin: 0 auto; }
 .notice { pointer-events: none; }
+.notice button { pointer-events: auto; }
 .selection-bar { pointer-events: none; }
 .selection-bar button { pointer-events: auto; }
 dialog.floating-window.library-dialog, .floating-window { background: var(--tt-surface-1); }
@@ -848,6 +858,8 @@ dialog.floating-window.library-dialog, .floating-window { background: var(--tt-s
 /* Inspection: an object held up to the lens, over the blurred frame. */
 .inspection-layer { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
 .inspection-layer[hidden] { display: none; }
+.inspection-uv-vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at center, transparent 20%, rgba(138, 43, 226, 0.35) 90%); z-index: 1; }
+.inspection-uv-vignette[hidden] { display: none; }
 .inspection-capture { position: absolute; inset: 0; pointer-events: auto; cursor: grab; outline: none; touch-action: none; }
 .inspection-capture:active { cursor: grabbing; }
 .inspection-card { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); display: grid; justify-items: center; gap: 6px; text-align: center; max-width: min(80%, 720px); text-shadow: 0 2px 18px var(--eco-black); animation: inspection-in var(--eco-slow) var(--eco-ease) both; }

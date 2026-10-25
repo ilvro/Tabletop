@@ -18,6 +18,42 @@ for (const lesson of LESSONS) test(`tutorial "${lesson.title}" can be followed f
     await page.goto(`http://127.0.0.1:${server.address().port}/?diagnostics`);await page.waitForFunction(()=>!!window.__tabletop);
     // A lesson that continues another runs on the scene the earlier ones leave: they are followed first, in order.
     const chain=[lesson];while(chain[0].continues)chain.unshift(LESSONS.find(entry=>entry.id===chain[0].continues));
+    if (chain.some(entry => entry.requires === 'atelie')) {
+      await page.evaluate(async () => {
+        const pngBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGM4AQAAygDJmcpdfgAAAABJRU5ErkJggg==';
+        const pngBytes = Uint8Array.from(atob(pngBase64), c => c.charCodeAt(0));
+        const blob = new Blob([pngBytes], { type: 'image/png' });
+        await new Promise((resolve, reject) => {
+          const req = indexedDB.open('mesa-handouts-v1', 1);
+          req.onupgradeneeded = () => {
+            const db = req.result;
+            if (!db.objectStoreNames.contains('handouts')) db.createObjectStore('handouts', { keyPath: 'id' });
+            if (!db.objectStoreNames.contains('bakes')) db.createObjectStore('bakes', { keyPath: ['id', 'light'] });
+          };
+          req.onsuccess = () => {
+            const db = req.result;
+            const tx = db.transaction(['handouts', 'bakes'], 'readwrite');
+            const id = 'f81d4fae-7dec-11d0-a765-00a0c91e6bf6';
+            tx.objectStore('handouts').put({
+              id,
+              name: 'Carta envelhecida',
+              category: 'Cartas',
+              tags: ['carta', 'antiga'],
+              revision: 1,
+              updatedAt: new Date().toISOString(),
+              hasUv: true,
+              source: window.location.origin + '/',
+              preview: blob,
+            });
+            tx.objectStore('bakes').put({ id, light: 'normal', revision: 1, blob, width: 2048, height: 2048 });
+            tx.objectStore('bakes').put({ id, light: 'uv', revision: 1, blob, width: 2048, height: 2048 });
+            tx.oncomplete = () => { db.close(); resolve(); };
+            tx.onerror = () => { db.close(); reject(tx.error); };
+          };
+          req.onerror = () => reject(req.error);
+        });
+      });
+    }
     // The inspector shows one tab at a time: a gesture on a field of another tab first opens that tab, as a person would.
     const showPane=selector=>page.locator(selector).first().evaluate(node=>{const pane=node.closest('[data-inspector-tab]');if(pane?.hidden)document.querySelector(`[data-inspector-tab-button="${pane.dataset.inspectorTab}"]`)?.click();for(let p=node.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS'&&!p.open)p.open=true;},undefined,{timeout:30000}).catch(()=>{});
     const key=([,name])=>page.keyboard.press(name);let skipped=[];

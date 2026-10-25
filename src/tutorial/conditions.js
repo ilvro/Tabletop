@@ -88,6 +88,8 @@ export const CONDITIONS = {
   effectType: (state, type) => entities(state).some(entity => entity.localEffect?.enabled && entity.localEffect.type === type),
   presenting: (state, on = true) => state.presenting === on,
   saved: state => state.saved,
+  atelieAvailable: state => Boolean(state.atelie?.available),
+  designUsed: state => entities(state).some(entity => entity.inspectable?.pages.some(page => page.design || page.back?.design)),
 
   /** The Sala task is set to this measure or option, before the room exists. */
   roomOption: (state, key, value) => state.room?.[key] === value,

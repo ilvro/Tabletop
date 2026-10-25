@@ -45,6 +45,16 @@ Arquitetura/vegetação alpina, distribuição, água/gelo e neve com espessura 
 
 Escultura manual dos paredões/rochas com pincel também funciona no build estático: traços locais persistem em IndexedDB e são conservados ao reabrir e publicar conteúdo no projetor. Uso e limites: [ROCK_SCULPT.md](ROCK_SCULPT.md).
 
+## Documentos do Ateliê
+
+Quando o Tabletop e o Ateliê de Documentos estão hospedados na mesma conta do GitHub Pages (`https://<conta>.github.io/Tabletop/` e `https://<conta>.github.io/Atelie/`), ambos compartilham a **mesma origem** (`https://<conta>.github.io`).
+
+Nessa configuração, a integração funciona 100% no navegador (Caminho A do contrato), sem necessidade de servidor backend:
+- **Banco de troca `mesa-handouts-v1`**: um banco IndexedDB compartilhado no navegador armazena os resumos e os bakes em PNG (normal e luz UV). O Tabletop apenas lê esse banco.
+- **Sincronização em tempo real**: ao arquivar ou editar um documento no Ateliê, um aviso via `BroadcastChannel('mesa:handout')` notifica abas abertas do Tabletop instantaneamente.
+- **Atualização na cena**: se objetos na mesa utilizam um documento alterado, um banner permite atualizar todos os objetos para a nova revisão com um clique.
+- **Configuração**: nos Ajustes do Tabletop (seção *Ateliê de documentos*), o caminho em uso exibe "No mesmo site · pelo navegador". Em domínios distintos, o Tabletop usa automaticamente o Caminho B (janela e `postMessage`), preservando total funcionalidade estática.
+
 ## Exemplos incluídos
 
 Abrir → Cenas contém exemplos distribuídos junto ao site. JSON e prévia ficam em `public/scenes/`, com URLs relativas ao diretório publicado. Carregar cria uma cópia editável sem chamar API; Salvar guarda a cópia no IndexedDB. A subida da montanha, a ruína alta, a caverna lateral e as lanternas arredondadas usam assets locais. [EXAMPLE_SCENES.md](EXAMPLE_SCENES.md).

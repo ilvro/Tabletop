@@ -1,5 +1,5 @@
 import { createInspectionOverlay } from '../../ui/inspection-overlay.js';
-import { isRevealed } from '../../domain/inspectables.js';
+import { isRevealed, pageSide } from '../../domain/inspectables.js';
 
 /**
  * The master's side of an inspection: the overlay over the editor's viewport, the keys, and
@@ -27,12 +27,16 @@ export function createInspectionControl({ container, viewport, store, execute, n
     const record = entity(current.id), state = viewport.inspectionState();
     if (!record) { close(true); return; }
     document.body.classList.add('inspecting');
-    overlay.show({ title: titleOf(record), page: state?.page ?? 0, pages: pagesOf(record), side: state?.side ?? 'front', showing: current.showing, offline: !hasPresentation() });
+    const side = state?.side ?? 'front', page = state?.page ?? 0;
+    const content = record.inspectable ? pageSide(record.inspectable, page, side) : null;
+    const hasUv = Boolean(content?.uvImageRef);
+    if (!hasUv && current.uv) { current.uv = false; viewport.inspectUv(false); }
+    overlay.show({ title: titleOf(record), page, pages: pagesOf(record), side, showing: current.showing, offline: !hasPresentation(), hasUv, uv: current.uv });
   }
   /** The projector's view of the inspection: the master's targets, or nothing. */
   function message() {
     const state = viewport.inspectionState();
-    return state?.entityId ? { entityId: state.entityId, rotation: state.rotation, zoom: state.zoom, pan: state.pan, page: state.page ?? 0, reading: overlay.reading } : null;
+    return state?.entityId ? { entityId: state.entityId, rotation: state.rotation, zoom: state.zoom, pan: state.pan, page: state.page ?? 0, reading: overlay.reading, uv: Boolean(current?.uv) } : null;
   }
   function post(inspect) { projector = inspect; lastSent = JSON.stringify(inspect); send('inspect', { inspect, inspectSequence: ++sequence }); onChange(); }
   /** While the master turns the object (and while it keeps spinning after a flick), the projector follows, once a frame. */
@@ -55,7 +59,7 @@ export function createInspectionControl({ container, viewport, store, execute, n
     if (!record || record.kind !== 'prop') return false;
     if (current && current.id !== id) close(true);
     viewport.inspect(id);
-    current = { id, showing: projector?.entityId === id, released: false };
+    current = { id, showing: projector?.entityId === id, released: false, uv: false };
     render(); onChange(); return true;
   }
   function close(instant = false) {
@@ -75,15 +79,33 @@ export function createInspectionControl({ container, viewport, store, execute, n
     // After the snapshot that carries the revealed content, which is queued for the end of this task.
     queueMicrotask(() => {
       if (current?.id === id) { current.showing = true; current.released = false; post(message()); render(); }
-      else post({ entityId: id, rotation: [0, 0, 0, 1], zoom: 1, pan: [0, 0], page: 0, reading: false });
+      else post({ entityId: id, rotation: [0, 0, 0, 1], zoom: 1, pan: [0, 0], page: 0, reading: false, uv: false });
     });
     notify(record.inspectable?.secretUntilRevealed ? 'Pista revelada e mostrada no projetor.' : 'Inspeção no projetor.');
   }
   async function perform(action) {
     if (!current) return;
     const state = viewport.inspectionState();
-    if (action === 'previous' || action === 'next') { viewport.inspectPage((state?.page ?? 0) + (action === 'next' ? 1 : -1)); if (overlay.reading) await read(true); stream(); setTimeout(render); }
-    else if (action === 'flip') { viewport.inspectFlip(); stream(); }
+    if (action === 'previous' || action === 'next') {
+      current.uv = false; viewport.inspectUv(false);
+      viewport.inspectPage((state?.page ?? 0) + (action === 'next' ? 1 : -1));
+      if (overlay.reading) await read(true); stream(); setTimeout(render);
+    }
+    else if (action === 'flip') {
+      current.uv = false; viewport.inspectUv(false);
+      viewport.inspectFlip();
+      if (overlay.reading) await read(true); stream(); setTimeout(render);
+    }
+    else if (action === 'uv') {
+      const record = entity(current.id);
+      const content = record?.inspectable ? pageSide(record.inspectable, state?.page ?? 0, state?.side ?? 'front') : null;
+      if (content?.uvImageRef) {
+        current.uv = !current.uv;
+        viewport.inspectUv(current.uv);
+        if (overlay.reading) await read(true);
+        stream(); render();
+      }
+    }
     else if (action === 'read') await read(!overlay.reading);
     else if (action === 'show') { if (current.showing && !current.released) { current.showing = false; post(null); render(); } else show(); }
     else if (action === 'release') { current.released = true; const id = current.id; current.showing = false; close(); notify(`A inspeção de “${titleOf(entity(id))}” continua no projetor. Recolha em Tomadas → Pistas reveladas.`); }
@@ -91,17 +113,18 @@ export function createInspectionControl({ container, viewport, store, execute, n
   }
   async function read(open) {
     if (!open) { overlay.read(null); stream(); return; }
-    const state = viewport.inspectionState(), canvas = await viewport.pageCanvas(current.id, state?.page ?? 0, state?.side ?? 'front');
+    const state = viewport.inspectionState(), canvas = await viewport.pageCanvas(current.id, state?.page ?? 0, state?.side ?? 'front', { uv: current.uv });
     if (current && canvas) overlay.read(canvas);
     stream();
   }
   /** Keys while holding something: arrows turn pages, F turns the sheet over, Esc puts it back. Everything else waits. */
   function onKey(event) {
     if (!current || !overlay.open || event.ctrlKey || event.metaKey || event.altKey) return;
-    const key = event.key.length === 1 ? event.key.toLowerCase() : event.key, handled = { Escape: 'escape', ArrowLeft: 'previous', ArrowRight: 'next', f: 'flip', Enter: 'read' }[key];
+    const key = event.key.length === 1 ? event.key.toLowerCase() : event.key, handled = { Escape: 'escape', ArrowLeft: 'previous', ArrowRight: 'next', f: 'flip', Enter: 'read', u: 'uv' }[key];
+    if (!handled) return;
     event.preventDefault(); event.stopImmediatePropagation();
     if (handled === 'escape') { if (overlay.reading) read(false); else close(); }
-    else if (handled) perform(handled).catch(error => notify(error.message, true));
+    else perform(handled).catch(error => notify(error.message, true));
   }
   window.addEventListener('keydown', onKey, { capture: true });
   return {

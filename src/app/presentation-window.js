@@ -30,12 +30,15 @@ export function startPresentation(root, sessionId) {
     const record = inspected && shown?.layout.entities[inspected.entityId];
     if (!record) return;
     const state = viewport.inspectionState(), pages = record.inspectable?.kind === 'document' ? record.inspectable.pages.length : 0, side = state?.side ?? 'front';
-    inspectionOverlay.show({ title: record.inspectable?.title || record.name, page: inspected.page ?? 0, pages, side });
-    const key = inspected.reading && pages ? `${record.id}|${inspected.page}|${side}|${JSON.stringify(record.inspectable.pages[inspected.page] ?? null)}` : '';
+    const isSecretUnrevealed = record.inspectable?.secretUntilRevealed && !record.inspectable.title;
+    const uv = !isSecretUnrevealed && Boolean(inspected.uv);
+    viewport.inspectUv(uv);
+    inspectionOverlay.show({ title: record.inspectable?.title || record.name, page: inspected.page ?? 0, pages, side, uv });
+    const key = inspected.reading && pages ? `${record.id}|${inspected.page}|${side}|${uv}|${JSON.stringify(record.inspectable.pages[inspected.page] ?? null)}` : '';
     if (key === readingKey) return;
     readingKey = key;
     if (!key) inspectionOverlay.read(null);
-    else viewport.pageCanvas(record.id, inspected.page ?? 0, side).then(canvas => { if (readingKey === key && canvas) inspectionOverlay.read(canvas); });
+    else viewport.pageCanvas(record.id, inspected.page ?? 0, side, { uv }).then(canvas => { if (readingKey === key && canvas) inspectionOverlay.read(canvas); });
   }
   function followInspection(state) {
     if (!state || typeof state.entityId !== 'string') { inspected = null; readingKey = ''; viewport.closeInspection(); inspectionOverlay.hide(); return; }

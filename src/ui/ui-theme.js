@@ -1,5 +1,5 @@
 // Interface colour preference: a per-browser setting, never part of a scene document.
-import { icon } from './icons.js';
+import { icon, escapeHTML as esc } from './icons.js';
 
 const HEX = /^#[0-9a-f]{6}$/i;
 const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
@@ -63,7 +63,7 @@ export function applyUiTheme(theme, target = document.documentElement) {
   return tokens.accent;
 }
 
-export function uiThemeMarkup(theme, { saved = true } = {}) {
+export function uiThemeMarkup(theme, { saved = true, atelie = null } = {}) {
   const swatch = (id, label, color) => `<button type="button" class="theme-swatch" data-ui-palette="${id}" aria-pressed="${theme.palette === id}" style="--swatch:${paletteTokens(color).accent}"><i aria-hidden="true"></i><span>${label}</span></button>`;
   return `<div class="dialog-header"><div><span class="tt-eyebrow">CONFIGURAÇÕES</span><h2>Aparência</h2></div><button type="button" data-settings-close class="icon-button" aria-label="Fechar configurações">${icon('close', 18)}</button></div>
     <section class="settings-section" aria-labelledby="settings-palette"><h3 id="settings-palette" class="task-heading">Cor do tema</h3>
@@ -76,5 +76,16 @@ export function uiThemeMarkup(theme, { saved = true } = {}) {
     <section class="settings-section"><h3 class="task-heading">Destaques da cena</h3>
       <label class="settings-check"><input type="checkbox" id="ui-theme-follow" ${theme.followScene ? 'checked' : ''} /><span><strong>Seguir a luz principal da cena</strong><small>Claquete, cantoneiras do visor, tomadas e cartazes ganham a cor da luz de cada cena. Desligado, tudo usa a cor do tema.</small></span></label>
     </section>
+    ${atelie ? `<section class="settings-section" aria-labelledby="settings-atelie"><h3 id="settings-atelie" class="task-heading">Ateliê de documentos</h3>
+      <p class="settings-hint">Editor de documentos para cartas, recortes, fotos e pistas de investigação.</p>
+      <label class="field"><span class="field-label">Endereço</span><input type="url" id="atelie-url-input" value="${esc(atelie.url)}" placeholder="${esc(atelie.defaultUrl)}" autocomplete="off" /></label>
+      <div class="field-grid" style="align-items: center; margin-top: 6px;">
+        <span class="tt-tag is-small">${esc(atelie.routeLabel)}</span>
+        <span style="font: var(--eco-fs-12)/1.2 var(--eco-font-ui); color: ${atelie.available ? 'var(--tt-accent)' : 'var(--tt-muted)'}; display: inline-flex; align-items: center; gap: 4px;">
+          <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:currentColor;"></span>
+          ${atelie.available ? 'Disponível' : 'Indisponível'}
+        </span>
+      </div>
+    </section>` : ''}
     <div class="dialog-actions"><button type="button" data-ui-theme-reset class="quiet">Restaurar padrão</button>${saved ? '' : '<span class="settings-hint">Não foi possível guardar neste navegador; a cor vale até fechar a aba.</span>'}</div>`;
 }

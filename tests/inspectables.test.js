@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { createScene, createEntity, duplicateDocument } from '../src/domain/documents.js';
 import { createSceneStore } from '../src/state/scene-store.js';
 import { validateDocument } from '../src/domain/validation.js';
-import { inspectableDefaults, validateInspectable, wrapText, layoutPageText, inspectableFieldPatch, publicInspectable, pageSide, INSPECT_LIMITS } from '../src/domain/inspectables.js';
+import { inspectableDefaults, validateInspectable, wrapText, layoutPageText, inspectableFieldPatch, publicInspectable, pageSide, pageImages, sideKey, INSPECT_LIMITS } from '../src/domain/inspectables.js';
 import { projectPresentation, presentationAssets } from '../src/app/presentation.js';
 
 const catalog = JSON.parse(await readFile(new URL('../public/assets/catalog.json', import.meta.url))).assets;
@@ -55,7 +55,7 @@ test('inspector fields edit pages, backs, paper and hold; removing the switch re
   assert.throws(() => inspectableFieldPatch(record, 'page-remove', null, { page: 0 }), /ao menos uma página/);
   assert.throws(() => inspectableFieldPatch({ name: 'x' }, 'title', 'y'), /Ative/);
   assert.deepEqual(pageSide(letter(), 0, 'back'), letter().pages[0].back);
-  assert.deepEqual(pageSide(letter({ pages: [{ imageRef: null, text: 'a', back: null }] }), 0, 'back'), { imageRef: null, text: null });
+  assert.deepEqual(pageSide(letter({ pages: [{ imageRef: null, text: 'a', back: null }] }), 0, 'back'), { imageRef: null, text: null, design: null, uvImageRef: null });
 });
 
 test('only props are inspectable; clues are revealed once, forgotten, and leave with their object', () => {
@@ -91,7 +91,7 @@ test('secret content reaches the projector only once revealed; non-secret conten
   let shown = projectPresentation(store.document);
   validateDocument(shown);
   assert.equal(shown.layout.entities[secret.id].inspectable.title, '');
-  assert.deepEqual(shown.layout.entities[secret.id].inspectable.pages, [{ imageRef: null, text: null, back: null }]);
+  assert.deepEqual(shown.layout.entities[secret.id].inspectable.pages, [{ imageRef: null, text: null, design: null, uvImageRef: null, back: null }]);
   assert.doesNotMatch(JSON.stringify(shown), /porão|espelho|foto-porao/);
   assert.equal(shown.layout.entities[note.id], undefined);
   assert.equal(shown.layout.entities[open.id].inspectable.pages[0].text, 'Desaparecimento');
@@ -104,4 +104,68 @@ test('secret content reaches the projector only once revealed; non-secret conten
   assert.deepEqual(presentationAssets(shown, images).map(asset => asset.id).sort(), ['foto-porao', 'manchete']);
   assert.equal(publicInspectable(letter(), false).pages.length, 1);
   assert.equal(publicInspectable(inspectableDefaults({ kind: 'object', pages: [] }), false).pages.length, 0);
+});
+
+test('Ateliê design, uvImageRef, pageImages, sideKey, and secret presentation isolation', () => {
+  const validDesign = {
+    app: 'atelie',
+    id: 'f81d4fae-7dec-11d0-a765-00a0c91e6bf6',
+    revision: 2,
+    source: 'https://conta.github.io/Atelie/',
+  };
+  const validUv = { id: 'foto-porao-uv', revision: 1 };
+
+  // Valid design and uvImageRef on a page side
+  const pageWithDesign = {
+    imageRef: { id: 'foto-porao', revision: 1 },
+    text: null,
+    design: validDesign,
+    uvImageRef: validUv,
+    back: null,
+  };
+  const doc = letter({ paper: 'design', pages: [pageWithDesign] });
+  validateInspectable(doc);
+
+  // Rejections of invalid design
+  for (const badDesign of [
+    { ...validDesign, app: 'other' },
+    { ...validDesign, id: 'not-a-uuid' },
+    { ...validDesign, revision: -1 },
+    { ...validDesign, source: 'javascript:alert(1)' },
+    { ...validDesign, source: 'ftp://example.com' },
+    { ...validDesign, extra: 1 },
+  ]) {
+    assert.throws(() => validateInspectable(letter({ pages: [{ ...pageWithDesign, design: badDesign }] })));
+  }
+
+  // Rejections of invalid uvImageRef
+  assert.throws(() => validateInspectable(letter({ pages: [{ ...pageWithDesign, uvImageRef: { id: '', revision: 1 } }] })));
+  assert.throws(() => validateInspectable(letter({ pages: [{ ...pageWithDesign, uvImageRef: { id: 'x', revision: 0 } }] })));
+
+  // pageImages includes normal and uv refs from both front and back
+  const twoSided = {
+    ...pageWithDesign,
+    back: { imageRef: { id: 'verso-img', revision: 1 }, text: null, design: null, uvImageRef: { id: 'verso-uv', revision: 2 } },
+  };
+  const allImages = pageImages(letter({ pages: [twoSided] }));
+  assert.deepEqual(allImages, [
+    { id: 'foto-porao', revision: 1 },
+    { id: 'foto-porao-uv', revision: 1 },
+    { id: 'verso-img', revision: 1 },
+    { id: 'verso-uv', revision: 2 },
+  ]);
+
+  // sideKey distinguishes design and uvImageRef
+  const key1 = sideKey(pageWithDesign, 'design');
+  const key2 = sideKey({ ...pageWithDesign, uvImageRef: null }, 'design');
+  const key3 = sideKey({ ...pageWithDesign, design: { ...validDesign, revision: 3 } }, 'design');
+  assert.notEqual(key1, key2);
+  assert.notEqual(key1, key3);
+
+  // publicInspectable hides design and uvImageRef for unrevealed secret clues
+  const secretDoc = letter({ secretUntilRevealed: true, pages: [pageWithDesign] });
+  const pub = publicInspectable(secretDoc, false);
+  assert.equal(pub.pages[0].design, null);
+  assert.equal(pub.pages[0].uvImageRef, null);
+  assert.equal(pub.pages[0].imageRef, null);
 });

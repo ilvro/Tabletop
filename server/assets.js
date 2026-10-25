@@ -287,7 +287,7 @@ export class AssetStorage {
     const dir = path.join(this.directory, id);
     const fileName = `source.${format.extension}`;
     const record = { id, revision: 1, metadataRevision: 0, favorite: false, type: format.type, name: name.trim(), category: category.trim(), era: 'Não definida', contexts: [], tags: [], footprint: [1, 1], url: `/api/tabletop/assets/${id}/file`, fileName, mimeType: format.type === 'model' ? 'model/gltf-binary' : mime, hash: createHash('sha256').update(bytes).digest('hex'), byteLength: bytes.length };
-    await mkdir(dir);
+    await mkdir(dir, { recursive: true });
     try {
       await atomicWrite(path.join(dir, fileName), bytes);
       await atomicWrite(path.join(dir, 'record.json'), JSON.stringify(record, null, 2));

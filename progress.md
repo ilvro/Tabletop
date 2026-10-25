@@ -1,6 +1,43 @@
 # Tabletop — andamento
 
-Atualizado em 24 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+Atualizado em 25 de outubro de 2026. Histórico geral: [PROGRESSO.md](PROGRESSO.md) e [relatório detalhado](docs/PROGRESSO.md).
+
+## Etapa 28 — Integração no Tabletop (25 de outubro) — concluída
+
+Implementada a integração completa com o **Ateliê de Documentos** conforme o [Contrato v1](docs/plano/CONTRATO-TABLETOP.md) e a [Etapa 28](docs/plano/etapa-28-integracao-tabletop.md). O Tabletop lida estritamente com imagens assadas em PNG (luz normal e UV), sem renderizar camadas internas do Ateliê.
+
+- **Módulo de integração (`src/data/atelie.js`)**:
+  - `defaultAtelieUrl()`: irmão `../Atelie/` no GitHub Pages; `http://127.0.0.1:3011/` no servidor local.
+  - `setAtelieUrl()`: aceita apenas `https:`, ou `http:` para localhost/127.0.0.1; sanitiza URL com barra final.
+  - `chooseRoute()`: seleção estrita dos 3 caminhos do contrato (A: `exchange`, B: `window`, C: `http`).
+  - `filterAtelieMessage()`: filtro criptográfico e de origem para mensagens de janela (`event.origin`, `data.app === 'atelie'`, `data.contract === 1`, e validação de `nonce` ativo).
+  - `createAtelieLink()`: ciclo de vida completo (`route`, `available()`, `list()`, `delivery(id)`, `pick()`, `edit(id)`, `create(preset)`, `onSaved(listener)`).
+- **Domínio e inspeção (`src/domain/inspectables.js`)**:
+  - `design: { app: 'atelie', id, revision, source }` e `uvImageRef: { id, revision } | null`.
+  - Validação estrita de UUID, revisão e URLs seguras; inclusão em `pageImages` e `sideKey`.
+  - Tipo de papel `'design'` ("Documento do ateliê"): `drawPageSide` renderiza a imagem limpa cobrindo a página (`cover`), sem grão, manchas nem dobras procedurais.
+  - Isolamento de apresentação: segredo no projetor preserva folha em branco até revelação.
+- **Luz ultravioleta (UV) na inspeção e no projetor**:
+  - Botão **Luz UV** na barra de inspeção e atalho **U** quando o lado tem `uvImageRef`.
+  - Vinheta violeta translúcida (`.inspection-uv-vignette`) sobre a cena.
+  - Sincronização ao vivo de `uv: boolean` na mensagem `inspect` para o projetor quando a pista está revelada.
+  - Troca de página ou lado desliga a luz UV automaticamente.
+- **Interface e ações**:
+  - Painel do inspecionável: botões "Do ateliê…", "Editar no Ateliê", "Desvincular", "Atualizar a partir do Ateliê" e "Novo no Ateliê".
+  - Popover modal `#atelie-dialog` com grade de prévias e metadados nos caminhos A e C.
+  - Paleta de comandos: ação **Pôr documento do Ateliê na mesa** insere automaticamente folha A4 ou recorte de jornal no ponto de apoio sob o centro da visão.
+  - Ajustes: seção **Ateliê de documentos** com campo de endereço, status de disponibilidade e caminho em uso em texto.
+  - Atualizações em tempo real: aviso `#notice` com botão **Atualizar na cena (N objetos)** quando `onSaved` recebe revisão mais recente via `BroadcastChannel('mesa:handout')` ou `postMessage`.
+- **Tutorial**:
+  - Lição **Uma carta do Ateliê** (`src/tutorial/lessons.js`) com condições `atelieAvailable` e `designUsed` (`src/tutorial/conditions.js`).
+- **Validação e testes**:
+  - `tests/atelie-link.test.js`: 5 testes unitários de rotas, URLs, filtros de mensagem e ciclo de vida (Node).
+  - `tests/inspectables.test.js`: testes de metadados `design`, `uvImageRef`, segredo no projetor e papel.
+  - `tests/e2e/atelie-exchange.test.js` (**Caminho A**): banco `mesa-handouts-v1`, seleção, bakes normal e UV, inspeção e projetor com UV, aviso e atualização via `BroadcastChannel`.
+  - `tests/e2e/atelie-window.test.js` (**Caminho B**): popup `window.open` com `?pick=1&from&nonce`, segurança contra nonce errado, app incorreto, contrato diferente e origem forjada, e entrega por `postMessage`.
+  - `tests/e2e/atelie-http.test.js` (**Caminho C**): servidor HTTP falso com rotas `/api/atelie/health`, `/handouts`, `/preview` e `/bake?light=normal|uv`, cabeçalho `X-Atelie-Revision` e atualização de revisão.
+  - Regressão: `npm test` do Tabletop com **todos os 411 testes passando**, `tests/e2e/inspection.test.js` e `tests/e2e/interact.test.js` passando. Documentações atualizadas em `docs/DOCUMENTOS_INTERATIVOS.md` e `docs/GITHUB_PAGES.md`.
+
 
 ## Implementação do plano de desempenho (24 de outubro) — em andamento
 

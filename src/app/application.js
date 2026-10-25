@@ -65,7 +65,8 @@ import { createInspectionControl } from './live/inspection.js';
 import { createInspectionOverlay } from '../ui/inspection-overlay.js';
 import { inspectablePanel } from '../ui/inspectable-panel.js';
 import { cluePanel } from '../ui/clue-panel.js';
-import { inspectableFieldPatch } from '../domain/inspectables.js';
+import { inspectableFieldPatch, inspectableDefaults } from '../domain/inspectables.js';
+import { createAtelieLink, atelieUrl, setAtelieUrl, defaultAtelieUrl } from '../data/atelie.js';
 import { repository, ApiError } from '../data/api.js';
 import { applicationURL, storageScope } from '../data/paths.js';
 import { drafts } from '../data/drafts.js';
@@ -134,6 +135,11 @@ export async function startApplication() {
   let measurement = null, rulerSnap = false;
   let barQuietUntil = 0, lastTabbed = null, barFrame = 0, pointerHeld = false, barSignature = '', letterbox = false, titleSequence = 0, titleCard = { title: '', subtitle: '', duration: 4 }, viewTagFrame = 0, publishedPresetId = null, rehearsedId = null, dockIndex = 0, dockHidden = false, lastConnected = false, workingCamera = null, publishedCamera = null, recovery = null, draftTimer, noticeTimer;
   let draftWarningShown = false;
+  const atelieLink = createAtelieLink();
+  let atelieStatus = { available: false, routeLabel: 'Por janela' };
+  let atelieSummaries = [];
+  let pendingPickerTarget = null, pendingNewAtelieSide = null;
+  const latestDeliveries = new Map();
   const performanceDiagnostics=createPerformanceDiagnostics();
   let openTicket = 0;
   let initialized = false;
@@ -210,6 +216,7 @@ export async function startApplication() {
     action('Esculpir terreno', 'terrain-sculpt', 'pincel relevo'); action('Enquadrar', 'frame', 'foco camera');
     action('Perspectiva', 'perspective', 'camera vista'); action('Vista superior', 'top', 'camera planta'); action('Ver interior', 'cutaway', 'paredes da frente'); action('Telhados', 'roofs', 'forro mostrar ocultar'); action('Tela cheia', 'fullscreen');
     action('Destacar interativos', 'highlight-interactives', 'portas objetos pistas contorno'); add('Ações', 'Interagir: porta, luz ou documento', () => interact(), { keywords: 'interagir porta abrir fechar luz lampada acender apagar ligar desligar documento carta pista ler pegar', hint: 'E' }); action('Próximo turno', 'initiative-next', 'iniciativa combate vez rodada'); action('Câmera ao vivo', 'live-camera', 'projetor acompanha camera travelling cinematografica'); action('Ambientação ao vivo', 'ambience', 'variaveis da sessao hora do dia horario ceu nuvens nevoa clima chuva sliders transicao'); action('Tutoriais', 'tutorials', 'aprender ajuda'); action('Atalhos de teclado', 'shortcuts', 'teclas ajuda'); action('Configurações', 'settings', 'aparencia tema cor paleta destaque preferencias');
+    add('Ações', 'Pôr documento do Ateliê na mesa', () => pickAtelieDocument(null), { keywords: 'atelie documento carta pista folha papel mesa', hint: 'Ateliê' });
     for (const [name, label, keywords] of [['build', 'Construir', 'ferramentas sala prédio'], ['elements', 'Elementos', 'lista objetos cena'], ['scene', 'Ambiente', 'luz atmosfera clima'], ['shots', 'Tomadas', 'câmeras enquadramentos projetor']]) add('Ações', `Ir para ${label}`, () => goToTab(name), { keywords });
     for (const preset of ENVIRONMENTS) add('Ações', `Ambiente · ${preset.name}`, () => execute('environment.apply', { presetId: preset.id }), { keywords: `${preset.description} horario atmosfera`, hint: 'aplicar ambiente' });
     for (const [tabName, groups] of Object.entries(TASKS_BY_TAB)) for (const { title, tasks } of groups) for (const [, key, label, description] of tasks) add('Tarefas', label, () => openTask(tabName, key), { keywords: `${description} ${title}`, hint: `${TAB_TITLES[tabName].toLowerCase()} · ${title}` });
@@ -248,12 +255,20 @@ export async function startApplication() {
   function renderSettings() {
     const sheet = document.getElementById('settings-dialog'); if (!sheet.open) return;
     const focused = document.activeElement?.closest?.('#settings-dialog') ? (document.activeElement.dataset.uiPalette ?? document.activeElement.id) : null;
-    sheet.innerHTML = uiThemeMarkup(uiTheme, { saved: uiThemeSaved });
+    sheet.innerHTML = uiThemeMarkup(uiTheme, {
+      saved: uiThemeSaved,
+      atelie: {
+        url: atelieUrl(),
+        defaultUrl: defaultAtelieUrl(),
+        routeLabel: atelieStatus.routeLabel,
+        available: atelieStatus.available,
+      },
+    });
     if (focused) sheet.querySelector(`[data-ui-palette="${focused}"], #${CSS.escape(focused)}`)?.focus();
   }
   function toggleSettings(open) {
     const sheet = document.getElementById('settings-dialog'), next = open ?? !sheet.open;
-    if (next && !sheet.open) { sheet.show(); renderSettings(); sheet.querySelector('[aria-pressed="true"], input')?.focus(); }
+    if (next && !sheet.open) { refreshAtelieStatus(); sheet.show(); renderSettings(); sheet.querySelector('[aria-pressed="true"], input')?.focus(); }
     else if (!next && sheet.open) { sheet.close(); root.querySelector('.rail [data-action="settings"]')?.focus(); }
     root.querySelector('.rail [data-action="settings"]')?.setAttribute('aria-expanded', String(sheet.open));
   }
@@ -270,6 +285,16 @@ export async function startApplication() {
     sheet.addEventListener('change', event => {
       if (event.target.id === 'ui-theme-custom') setUiTheme({ ...uiTheme, palette: 'custom', custom: event.target.value });
       else if (event.target.id === 'ui-theme-follow') setUiTheme({ ...uiTheme, followScene: event.target.checked });
+      else if (event.target.id === 'atelie-url-input') {
+        try {
+          setAtelieUrl(event.target.value.trim());
+          refreshAtelieStatus();
+          notify('Endereço do Ateliê salvo.');
+        } catch (err) {
+          notify(err.message, true);
+          renderSettings();
+        }
+      }
     });
     // Another tab changed the preference.
     window.addEventListener('storage', event => { if (event.key === uiThemeKey) setUiTheme(readUiTheme(uiThemeKey), { persist: false }); });
@@ -619,6 +644,251 @@ export async function startApplication() {
     return image ? `<img class="scene-thumbnail" src="${esc(image)}" alt="Prévia de ${esc(doc.name)}" width="480" height="270" loading="lazy" />`
       : '<span class="scene-thumbnail scene-thumbnail-pending" aria-label="Gerando prévia">Gerando prévia…</span>';
   }
+
+  async function refreshAtelieStatus(options = {}) {
+    if (options?.invalidateCache) {
+      atelieLink.invalidateCache?.();
+    }
+    try {
+      const available = await atelieLink.available();
+      const route = atelieLink.route;
+      const routeLabel = route.list === 'exchange'
+        ? 'No mesmo site · pelo navegador'
+        : route.list === 'http'
+          ? 'Pelo servidor local'
+          : 'Por janela';
+      atelieStatus = { available, routeLabel };
+      if (available && (route.list === 'exchange' || route.list === 'http')) {
+        try {
+          atelieSummaries = await atelieLink.list();
+        } catch {
+          atelieSummaries = [];
+        }
+      } else {
+        atelieSummaries = [];
+      }
+    } catch {
+      atelieStatus = { available: false, routeLabel: 'Por janela' };
+      atelieSummaries = [];
+    }
+    renderSettings();
+    renderInspector();
+  }
+
+  function showAtelieUpdateNotice(id, revision, delivery) {
+    if (delivery) latestDeliveries.set(id, delivery);
+    const matching = Object.values(store.document.layout?.entities ?? {}).filter(entity =>
+      entity.inspectable?.pages?.some(page =>
+        (page.design?.id === id && page.design.revision < revision) ||
+        (page.back?.design?.id === id && page.back.design.revision < revision)
+      )
+    );
+    if (!matching.length) return;
+    const count = matching.length;
+    const label = `Atualizar na cena (${count} ${count === 1 ? 'objeto' : 'objetos'})`;
+    const notice = document.getElementById('notice');
+    if (!notice) return;
+    notice.innerHTML = `<span>Documento do Ateliê atualizado (rev. ${revision}).</span> <button type="button" class="primary is-small" data-action="atelie-batch-update" data-id="${esc(id)}" data-revision="${esc(revision)}">${esc(label)}</button>`;
+    notice.hidden = false;
+    notice.classList.remove('error');
+    clearTimeout(noticeTimer);
+    noticeTimer = setTimeout(() => { notice.hidden = true; }, 15000);
+  }
+
+  atelieLink.onSaved(async ({ id, revision, source, delivery }) => {
+    if (delivery) latestDeliveries.set(id, delivery);
+    if (pendingNewAtelieSide) {
+      const target = pendingNewAtelieSide;
+      pendingNewAtelieSide = null;
+      let del = delivery;
+      if (!del?.bakes) {
+        del = await atelieLink.delivery(id);
+      }
+      if (del?.bakes) {
+        await applyDeliveryToSide(target.recordId, target.pageIndex, target.which, del);
+      }
+    }
+    try {
+      atelieSummaries = await atelieLink.list();
+      renderInspector();
+    } catch {}
+    showAtelieUpdateNotice(id, revision, delivery);
+  });
+
+  async function importDeliveryAssets(delivery) {
+    const normalFile = new File([delivery.bakes.normal], `Documento · ${delivery.name}.png`, { type: 'image/png' });
+    const normalAsset = await repository.importAsset(normalFile);
+    let uvAsset = null;
+    if (delivery.bakes?.uv) {
+      const uvFile = new File([delivery.bakes.uv], `Documento · ${delivery.name} (UV).png`, { type: 'image/png' });
+      uvAsset = await repository.importAsset(uvFile);
+    }
+    assets = await repository.assets();
+    viewport.setAssets(assets);
+    return {
+      imageRef: { id: normalAsset.id, revision: normalAsset.revision ?? 1 },
+      uvImageRef: uvAsset ? { id: uvAsset.id, revision: uvAsset.revision ?? 1 } : null,
+      design: { app: 'atelie', id: delivery.id, revision: delivery.revision, source: delivery.source },
+      text: null,
+    };
+  }
+
+  async function applyDeliveryToSide(recordId, pageIndex, which, delivery) {
+    const record = store.document.layout?.entities?.[recordId];
+    if (!record) return;
+    const sideData = await importDeliveryAssets(delivery);
+    let inspectable = record.inspectable;
+    if (!inspectable) {
+      inspectable = inspectableDefaults({
+        title: delivery.name,
+        paper: 'design',
+        pages: [{ ...sideData, back: null }],
+      });
+    } else {
+      inspectable = clone(inspectable);
+      if (!inspectable.pages || !inspectable.pages.length) {
+        inspectable.pages = [{ ...sideData, back: null }];
+        inspectable.paper = 'design';
+      } else {
+        const page = inspectable.pages[pageIndex] ?? { ...sideData, back: null };
+        if (which === 'back') {
+          page.back = { ...(page.back ?? {}), ...sideData };
+        } else {
+          Object.assign(page, sideData);
+          if (pageIndex === 0) {
+            inspectable.paper = 'design';
+          }
+        }
+        inspectable.pages[pageIndex] = page;
+      }
+    }
+    execute('entity.update', { id: recordId, patch: { inspectable }, snap: false }, { label: 'Documento do Ateliê' });
+    renderInspector();
+    notify(`Documento “${delivery.name}” vinculado ao objeto.`);
+  }
+
+  async function placeAtelieDocumentInScene(delivery) {
+    const isNewspaper = delivery.category === 'newspaper' ||
+      delivery.tags?.some?.(t => t.toLowerCase() === 'jornal' || t.toLowerCase() === 'newspaper') ||
+      delivery.name?.toLowerCase().includes('jornal');
+    const assetId = isNewspaper ? 'builtin-document-clipping' : 'builtin-document-sheet';
+    const asset = assets.find(a => a.id === assetId) ?? assets.find(a => a.id === 'builtin-document-sheet') ?? { id: assetId, revision: 1, name: delivery.name };
+
+    const point = viewport.centerSupportPoint();
+    const position = point?.position ?? [0, 0, 0];
+    const surfaceId = point?.surfaceId ?? null;
+
+    const sideData = await importDeliveryAssets(delivery);
+    const inspectable = inspectableDefaults({
+      title: delivery.name,
+      paper: 'design',
+      pages: [{ ...sideData, back: null }],
+    });
+    const entity = createEntity('prop', {
+      name: delivery.name,
+      assetRef: { id: asset.id, revision: asset.revision ?? 1 },
+      position,
+      surfaceId,
+      inspectable,
+      ...constructionSemantics(),
+    });
+
+    if (execute('entity.add', { entity, snap: false })) {
+      setTool('move');
+      selectObject(entity.id, false, { revealInspector: true });
+      notify(`Documento “${delivery.name}” colocado na mesa.`);
+    }
+  }
+
+  async function pickAtelieDocument(target) {
+    if (atelieLink.route.list === 'window') {
+      const delivery = await atelieLink.pick();
+      if (delivery) {
+        if (target) {
+          await applyDeliveryToSide(target.recordId, target.pageIndex, target.which, delivery);
+        } else {
+          await placeAtelieDocumentInScene(delivery);
+        }
+      }
+    } else {
+      openAteliePicker(target);
+    }
+  }
+
+  function openAteliePicker(target) {
+    pendingPickerTarget = target;
+    const dialog = document.getElementById('atelie-dialog');
+    if (!dialog) return;
+    renderAteliePickerDialog();
+    dialog.showModal?.() ?? dialog.show();
+  }
+
+  async function renderAteliePickerDialog() {
+    const dialog = document.getElementById('atelie-dialog');
+    if (!dialog) return;
+    dialog.innerHTML = `<div class="dialog-header">
+      <h2 class="task-heading">Documentos do Ateliê</h2>
+      <button type="button" class="icon-button" data-action="atelie-dialog-close" aria-label="Fechar">${icon('cross')}</button>
+    </div>
+    <p class="microcopy">Escolha um documento pronto do Ateliê para trazer para a mesa.</p>
+    <div class="atelie-picker-loading">Carregando documentos…</div>`;
+
+    try {
+      const summaries = await atelieLink.list();
+      atelieSummaries = summaries;
+      if (!summaries.length) {
+        dialog.innerHTML = `<div class="dialog-header">
+          <h2 class="task-heading">Documentos do Ateliê</h2>
+          <button type="button" class="icon-button" data-action="atelie-dialog-close" aria-label="Fechar">${icon('cross')}</button>
+        </div>
+        <p class="microcopy">Nenhum documento encontrado no Ateliê neste navegador.</p>
+        <div class="button-row" style="margin-top: 16px;">
+          <button type="button" class="primary" data-action="atelie-new">Criar novo no Ateliê</button>
+        </div>`;
+        return;
+      }
+
+      const cards = summaries.map((doc) => {
+        let thumbSrc = '';
+        if (doc.preview instanceof Blob) {
+          thumbSrc = URL.createObjectURL(doc.preview);
+        } else if (typeof doc.preview === 'string') {
+          try {
+            thumbSrc = new URL(doc.preview.replace(/^\//, ''), atelieUrl()).href;
+          } catch {
+            thumbSrc = doc.preview;
+          }
+        }
+        return `<button type="button" class="atelie-card" data-action="atelie-pick-item" data-id="${esc(doc.id)}">
+          ${thumbSrc ? `<img class="atelie-card-thumb" src="${esc(thumbSrc)}" alt="${esc(doc.name)}" />` : `<div class="atelie-card-thumb"></div>`}
+          <strong class="atelie-card-name">${esc(doc.name)}</strong>
+          <span class="atelie-card-meta">rev. ${esc(doc.revision)}${doc.category ? ` · ${esc(doc.category)}` : ''}</span>
+        </button>`;
+      });
+
+      dialog.innerHTML = `<div class="dialog-header">
+        <h2 class="task-heading">Documentos do Ateliê</h2>
+        <button type="button" class="icon-button" data-action="atelie-dialog-close" aria-label="Fechar">${icon('cross')}</button>
+      </div>
+      <p class="microcopy">Escolha um documento do Ateliê para usar:</p>
+      <div class="atelie-picker-grid">
+        ${cards.join('')}
+      </div>`;
+    } catch (error) {
+      dialog.innerHTML = `<div class="dialog-header">
+        <h2 class="task-heading">Documentos do Ateliê</h2>
+        <button type="button" class="icon-button" data-action="atelie-dialog-close" aria-label="Fechar">${icon('cross')}</button>
+      </div>
+      <p class="microcopy error">Erro ao listar documentos: ${esc(error.message)}</p>`;
+    }
+  }
+
+  const atelieDialogEl = document.getElementById('atelie-dialog');
+  if (atelieDialogEl) {
+    atelieDialogEl.addEventListener('click', (event) => {
+      if (event.target === atelieDialogEl) atelieDialogEl.close();
+    });
+  }
   function materialTarget(record) {
     return { id: record.id, ...(record.kind === 'terrain' && terrainMaterialTarget === 'layer' && record.paintLayers?.some(layer => layer.id === terrainBrush.layerId) ? { layerId: terrainBrush.layerId } : {}) };
   }
@@ -710,7 +980,8 @@ export async function startApplication() {
       isolated: isolatedLevel, environments: savedEnvironments.length, projector: hasPresentation(), rehearsed: rehearsedId, published: publishedPresetId, live: liveCamera.enabled,
       titles: titleSequence, titleText: titleCard.title, letterbox, tactical: tacticalZoom, highlights: highlightCount, roofs: roofsChoice ?? !topView, anyPublished: cameraSequence > 0,
       placingToken: tool === 'place' && placing?.type === 'token' ? { name: placing.name, color: placing.color } : null,
-      selectedName: store.document.actors?.[store.document.tokens?.[selection]?.actorId]?.name ?? null, vegetationTerrain: vegetationOptions.terrainId || null };
+      selectedName: store.document.actors?.[store.document.tokens?.[selection]?.actorId]?.name ?? null, vegetationTerrain: vegetationOptions.terrainId || null,
+      atelie: { available: atelieStatus.available, route: atelieLink?.route } };
   }
   const sceneEmpty = () => !Object.keys(store.document.layout.entities).length;
   function renderTutorials() {
@@ -1302,7 +1573,7 @@ export async function startApplication() {
     if (record.material && record.kind !== 'terrain' && record.water?.state!=='water' && (!record.decal || record.decal.kind === 'surface')) fields += materialPanel(record, viewport.getMaterialSlots(record.id), { numberField, colorField, transferControls: materialTransferControls(record) });
     if(record.kind==='prop' && isVegetationAsset(record.assetRef.id)) fields+=`<section><span class="eyebrow">VEGETAÇÃO · GEOMETRIA</span>${numberField('vegetationSeed','Variação geométrica',record.vegetationSeed??0,{min:0,max:65535,step:1})}<p class="microcopy">Varia ramificação e folhagem, preservando o tamanho e a base. Escala e rotação continuam independentes.</p></section>`;
     const imageAssets = assets.filter(asset => asset.type === 'image');
-    if (record.kind === 'prop') fields += rockPanel(record,{numberField}) + cablePanel(record) + screenPanel(record, viewport.getMaterialSlots(record.id), imageAssets, { numberField, colorField, checkField, choiceField }) + inspectablePanel(record, viewport.getMaterialSlots(record.id), imageAssets, { numberField, checkField, choiceField }) + decalPanel(record, doc.layout.entities[record.anchor?.hostId], imageAssets, { numberField, colorField, checkField, choiceField });
+    if (record.kind === 'prop') fields += rockPanel(record,{numberField}) + cablePanel(record) + screenPanel(record, viewport.getMaterialSlots(record.id), imageAssets, { numberField, colorField, checkField, choiceField }) + inspectablePanel(record, viewport.getMaterialSlots(record.id), imageAssets, { numberField, checkField, choiceField }, { atelieSummaries }) + decalPanel(record, doc.layout.entities[record.anchor?.hostId], imageAssets, { numberField, colorField, checkField, choiceField });
     if (record.kind === 'prop' && !record.decal) fields += localEffectPanel(record, { numberField, colorField, checkField });
     if(record.material && !record.decal){fields+=illuminationPanel(record,viewport.getMaterialSlots(record.id),lightPresets,selectedLightPreset,{numberField,colorField,checkField});fields+=zonePanel(record,{numberField,colorField,checkField});}
     if (type === 'entity' && ['prop', 'window'].includes(record.kind) && !record.decal) fields += `<section><span class="eyebrow">INTERAÇÃO</span>${checkField('entity-interactive', 'Interativo · aparece ao destacar (H)', Boolean(record.interactive))}</section>`;
@@ -2514,6 +2785,118 @@ export async function startApplication() {
         const record = locate()?.record; if (!record?.inspectable) break;
         execute('entity.update', { id: record.id, patch: inspectableFieldPatch(record, action.slice(8), null, { page: Number(metadata.index) }), snap: false }, { label: 'Páginas do documento' }); break;
       }
+      case 'atelie-pick': {
+        const pageIndex = Number(metadata.page ?? 0);
+        const which = metadata.side ?? 'front';
+        const record = locate()?.record;
+        if (!record) break;
+        await pickAtelieDocument({ recordId: record.id, pageIndex, which });
+        break;
+      }
+      case 'atelie-edit': {
+        const id = metadata.id;
+        if (id) atelieLink.edit(id);
+        break;
+      }
+      case 'atelie-unlink': {
+        const pageIndex = Number(metadata.page ?? 0);
+        const which = metadata.side ?? 'front';
+        const record = locate()?.record;
+        if (!record?.inspectable) break;
+        const inspectable = clone(record.inspectable);
+        const page = inspectable.pages?.[pageIndex];
+        if (page) {
+          if (which === 'back' && page.back) {
+            page.back.design = null;
+          } else {
+            page.design = null;
+          }
+          execute('entity.update', { id: record.id, patch: { inspectable }, snap: false }, { label: 'Desvincular do Ateliê' });
+          renderInspector();
+        }
+        break;
+      }
+      case 'atelie-update': {
+        const id = metadata.id;
+        const pageIndex = Number(metadata.page ?? 0);
+        const which = metadata.side ?? 'front';
+        const record = locate()?.record;
+        if (!record || !id) break;
+        const delivery = await atelieLink.delivery(id);
+        if (delivery?.bakes) {
+          await applyDeliveryToSide(record.id, pageIndex, which, delivery);
+        } else {
+          notify('Não foi possível obter a revisão atualizada do Ateliê.', true);
+        }
+        break;
+      }
+      case 'atelie-new': {
+        const record = locate()?.record;
+        if (record) {
+          pendingNewAtelieSide = { recordId: record.id, pageIndex: 0, which: 'front' };
+        }
+        atelieLink.create('a4');
+        break;
+      }
+      case 'atelie-dialog-close': {
+        const dialog = document.getElementById('atelie-dialog');
+        if (dialog?.open) dialog.close();
+        break;
+      }
+      case 'atelie-pick-item': {
+        const id = metadata.id;
+        const target = pendingPickerTarget;
+        pendingPickerTarget = null;
+        const dialog = document.getElementById('atelie-dialog');
+        if (dialog?.open) dialog.close();
+        const delivery = await atelieLink.delivery(id);
+        if (!delivery) {
+          notify('Não foi possível obter o documento do Ateliê.', true);
+          break;
+        }
+        if (target) {
+          const { recordId, pageIndex, which } = target;
+          await applyDeliveryToSide(recordId, pageIndex, which, delivery);
+        } else {
+          await placeAtelieDocumentInScene(delivery);
+        }
+        break;
+      }
+      case 'atelie-batch-update': {
+        const id = metadata.id;
+        let del = latestDeliveries.get(id);
+        if (!del?.bakes) {
+          del = await atelieLink.delivery(id);
+        }
+        if (!del?.bakes) {
+          notify('Não foi possível obter o documento do Ateliê.', true);
+          break;
+        }
+        const sideData = await importDeliveryAssets(del);
+        const matching = Object.values(store.document.layout?.entities ?? {}).filter(entity =>
+          entity.inspectable?.pages?.some(page =>
+            (page.design?.id === id && page.design.revision < del.revision) ||
+            (page.back?.design?.id === id && page.back?.design.revision < del.revision)
+          )
+        );
+        for (const entity of matching) {
+          const pages = clone(entity.inspectable.pages);
+          for (const page of pages) {
+            if (page.design?.id === id) {
+              Object.assign(page, sideData);
+            }
+            if (page.back?.design?.id === id) {
+              Object.assign(page.back, sideData);
+            }
+          }
+          execute('entity.update', { id: entity.id, patch: { inspectable: { ...entity.inspectable, pages } }, snap: false }, { label: 'Atualizar documento' });
+        }
+        const notice = document.getElementById('notice');
+        if (notice) notice.hidden = true;
+        notify(`Atualizado documento em ${matching.length} objeto(s).`);
+        renderInspector();
+        break;
+      }
       case 'clue-show': inspectionControl.show(metadata.id); break;
       case 'clue-inspect': inspectionControl.open(metadata.id); break;
       case 'clue-forget': if (metadata.id === inspectionControl.onProjector) inspectionControl.recall(); execute('clue.forget', { id: metadata.id }, { label: 'Esquecer pista' }); break;
@@ -3153,6 +3536,7 @@ export async function startApplication() {
     if (recovery && recovery.document.id === store.document.id && contentJSON(recovery.document) === contentJSON(store.document)) { await drafts.dismiss(recovery); recovery = null; }
   }
   initialized = true; document.getElementById('scene-name').disabled = false;
+  refreshAtelieStatus();
   const tutor = createTutor(root, { state: tutorialState, open: name => { tab = name; renderSidebar(); }, project: point => viewport.project(point), afterLesson }); tutor.onChange(renderTutorials); renderTutorials(); window.tabletopTutor = tutor;
   store.subscribe(updateView); store.subscribe(renderTutorials); updateView({ type: 'saved' }); viewport.frameScene();
   const firstCamera = Object.values(store.document.cameraPresets || {})[0]; if (firstCamera) viewport.setCamera(firstCamera);
@@ -3169,7 +3553,7 @@ export async function startApplication() {
   }
   // Read-only diagnostics for browser verification; no backdoor mutations.
   if (import.meta.env.DEV || new URLSearchParams(location.search).has('diagnostics')) {
-    Object.defineProperty(window, '__tabletop', { value: Object.freeze({ snapshot: () => clone(store.document), ready:()=>viewport.ready(), project: (position) => viewport.project(position), camera: () => viewport.getCamera(), stats: () => viewport.getInfo(), performance:()=>({app:performanceDiagnostics.snapshot(),viewport:viewport.performance(),store:store.performance(),previews:previews.info()}), resetPerformance:()=>{performanceDiagnostics.reset();viewport.resetPerformance();store.resetPerformance();}, editVersion: () => store.editVersion, copy: () => copySelection(), paste: () => pasteClipboard() }), configurable: true });
+    Object.defineProperty(window, '__tabletop', { value: Object.freeze({ snapshot: () => clone(store.document), ready:()=>viewport.ready(), project: (position) => viewport.project(position), select: id => selectObject(id), refreshAtelie: opts => refreshAtelieStatus(opts), camera: () => viewport.getCamera(), stats: () => viewport.getInfo(), performance:()=>({app:performanceDiagnostics.snapshot(),viewport:viewport.performance(),store:store.performance(),previews:previews.info()}), resetPerformance:()=>{performanceDiagnostics.reset();viewport.resetPerformance();store.resetPerformance();}, editVersion: () => store.editVersion, copy: () => copySelection(), paste: () => pasteClipboard() }), configurable: true });
   }
 }
 
@@ -3193,12 +3577,15 @@ function startPresentation(root, sessionId) {
     const record = inspected && shown?.layout.entities[inspected.entityId];
     if (!record) return;
     const state = viewport.inspectionState(), pages = record.inspectable?.kind === 'document' ? record.inspectable.pages.length : 0, side = state?.side ?? 'front';
-    inspectionOverlay.show({ title: record.inspectable?.title || record.name, page: inspected.page ?? 0, pages, side });
-    const key = inspected.reading && pages ? `${record.id}|${inspected.page}|${side}|${JSON.stringify(record.inspectable.pages[inspected.page] ?? null)}` : '';
+    const isSecretUnrevealed = record.inspectable?.secretUntilRevealed && !record.inspectable.title;
+    const uv = !isSecretUnrevealed && Boolean(inspected.uv);
+    viewport.inspectUv(uv);
+    inspectionOverlay.show({ title: record.inspectable?.title || record.name, page: inspected.page ?? 0, pages, side, uv });
+    const key = inspected.reading && pages ? `${record.id}|${inspected.page}|${side}|${uv}|${JSON.stringify(record.inspectable.pages[inspected.page] ?? null)}` : '';
     if (key === readingKey) return;
     readingKey = key;
     if (!key) inspectionOverlay.read(null);
-    else viewport.pageCanvas(record.id, inspected.page ?? 0, side).then(canvas => { if (readingKey === key && canvas) inspectionOverlay.read(canvas); });
+    else viewport.pageCanvas(record.id, inspected.page ?? 0, side, { uv }).then(canvas => { if (readingKey === key && canvas) inspectionOverlay.read(canvas); });
   }
   function followInspection(state) {
     if (!state || typeof state.entityId !== 'string') { inspected = null; readingKey = ''; viewport.closeInspection(); inspectionOverlay.hide(); return; }

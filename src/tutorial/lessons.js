@@ -202,7 +202,7 @@ export const LESSONS = [
     ],
   },
   {
-    id: 'clues', folder: 'light', kind: 'lesson', task: 'clues', heavy: true, title: 'Pistas e documentos', minutes: 6, summary: 'Na Casa de bairro: ponha uma carta na mesa de investigação, escreva o que ela diz e pegue-a para ler, como uma pista num jogo de terror.',
+    id: 'clues', folder: 'light', kind: 'lesson', task: 'clues', heavy: true, next: 'atelie-letter', title: 'Pistas e documentos', minutes: 6, summary: 'Na Casa de bairro: ponha uma carta na mesa de investigação, escreva o que ela diz e pegue-a para ler, como uma pista num jogo de terror.',
     steps: [
       { say: 'Uma pista que os jogadores leem na mesa: a carta voa até a câmera, o resto da cena desfoca e dá para virar a folha.', why: 'Serve para cartas, fotos, recortes de jornal e diários: tudo o que você mostraria fora da mesa, num PDF ou no chat.', done: ['read'], act: 'continue' },
       { say: 'Clique em <b>Abrir</b>, no trilho.', target: '.rail [data-action="open"]', done: ['documentsOpen'] },
@@ -220,6 +220,24 @@ export const LESSONS = [
       { say: 'Na sessão, com a segunda tela aberta, use <b>Mostrar aos jogadores</b> durante a inspeção.', why: 'Até lá o projetor só recebe uma folha em branco: o conteúdo secreto vai no momento em que você revela. A pista entra em <b>Tomadas → Pistas reveladas</b>, de onde volta ao projetor com um clique.', done: ['read'], act: 'continue' },
       { say: 'Clique em <b>Salvar</b>.', target: '#save-scene', done: ['saved'] },
       { say: 'Pronto: a carta está na mesa, guarda o que diz e se deixa ler sem sair do lugar.', why: 'Experimente uma <b>Foto · instantânea</b> com uma imagem importada, ou um <b>Recorte · de jornal</b>: a primeira linha vira manchete.', done: ['read'], act: 'continue' },
+    ],
+  },
+  {
+    id: 'atelie-letter', folder: 'light', kind: 'lesson', task: 'clues', heavy: true, title: 'Uma carta do Ateliê', minutes: 6,
+    requires: 'atelie',
+    ask: 'como usar atelie de documentos cartas pistas inspecionaveis luz uv',
+    summary: 'Na Casa de bairro: traga uma carta desenhada no Ateliê para a mesa de investigação e leia com textura assada e luz UV.',
+    needs: { example: 'casa-de-bairro' },
+    steps: [
+      { say: 'O Ateliê cria cartas, jornais e fotos que viram páginas no Tabletop.', why: 'Os dois apps conversam pelo navegador ou por janela: o Tabletop recebe o documento pronto como imagem assada.', done: ['read'], act: 'continue' },
+      { say: 'Em <b>Configurações</b>, confira o <b>Ateliê de documentos</b>.', why: 'Mostra o endereço configurado, o caminho em uso e se o Ateliê está disponível.', target: '[data-action="settings"]', done: ['atelieAvailable'], act: ['click', '[data-action="settings"]'] },
+      { stage: 'A carta', ...search('envelope', 'builtin-document-envelope') },
+      pick('builtin-document-envelope', 'Envelope · com carta', 'O envelope traz uma folha para exibir o documento na mesa.'),
+      drop('builtin-document-envelope', 'Clique no ponto marcado, na mesa de investigação.', [-7.2, 1.04, .35], 'A carta fica deitada no tampo da mesa.'),
+      { say: 'Aperte <b>Esc</b> e marque <b>Pista inspecionável</b>.', target: '[data-field="inspect-enabled"]', before: ['key', 'Escape'], done: ['selectedHas', 'inspectable.kind', 'document'] },
+      { say: 'Clique em <b>Do ateliê…</b> e escolha <b>Carta envelhecida</b>.', why: 'A imagem assada vira a página do documento, com papel Documento do ateliê.', target: '[data-action="atelie-pick"]', done: ['designUsed'], act: [['click', '[data-action="atelie-pick"]'], ['click', '[data-atelie-choose="Carta envelhecida"]']] },
+      { stage: 'A inspeção', say: 'Aperte <b>E</b> para pegar a carta e inspecionar.', why: 'A carta voa até a câmera com o fundo desfocado, pronta para ler.', target: '#viewport', done: ['inspecting'], act: ['key', 'e'] },
+      { say: 'Clique em <b>Ler</b> para ver a página nítida e feche com <b>Esc</b>.', why: 'Se o documento tiver camadas UV, o botão Luz UV e a tecla U acendem a luz negra.', done: ['read'], act: 'continue' },
     ],
   },
   {

@@ -1973,11 +1973,25 @@ export function createViewport(container, {
     inspectReset() { inspection.reset(); invalidate(); },
     inspectFlip() { inspection.flip(); invalidate(); },
     inspectPage(page) { inspection.setPage(page); invalidate(); },
+    inspectUv(uv) {
+      if (inspection.id) {
+        const state = inspection.state();
+        if (state) {
+          pages.read(inspection.id, { page: state.page, side: state.side, uv: Boolean(uv) });
+          pages.sync(sceneDocument, objects);
+          invalidate();
+        }
+      }
+    },
+    centerSupportPoint() {
+      const rect = canvas.getBoundingClientRect();
+      return supportPoint({ clientX: rect.left + rect.width / 2, clientY: rect.top + rect.height / 2 }) ?? supportPoint({ clientX: rect.left + rect.width / 2, clientY: rect.top + rect.height / 2 }, workplaneHeight);
+    },
     /** The projector follows: the master's latest target, approached over `smoothing` seconds. */
     setInspectionRemote(state, smoothing) { inspection.setRemote(state, smoothing); invalidate(); },
     inspectionState() { return inspection.state() ?? (pendingInspection ? { entityId: pendingInspection.id, phase: 'pending' } : null); },
     /** One side of a page at reading resolution, for the full-screen reader. */
-    pageCanvas(id, page, side) { const record = records.get(id); return record?.inspectable ? pages.canvas(record, page, side, id) : Promise.resolve(null); },
+    pageCanvas(id, page, side, options = {}) { const record = records.get(id); return record?.inspectable ? pages.canvas(record, page, side, id, options) : Promise.resolve(null); },
     pagesInfo() { return pages.info(); },
     glideTo(point) { glideTo(new THREE.Vector3(...point)); },
     /** Shape, width, colour and label of the next area drawn with the 'area' tool. */

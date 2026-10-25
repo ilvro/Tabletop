@@ -7,25 +7,40 @@ import { ValidationError } from './validation.js';
  * the table, and the inspection shows whichever page and side is being read.
  */
 export const INSPECT_KINDS = [['document', 'Documento · páginas para ler'], ['object', 'Objeto · girar e olhar de perto']];
-export const PAPERS = [['plain', 'Papel comum'], ['aged', 'Papel envelhecido'], ['photo', 'Foto'], ['newspaper', 'Jornal'], ['notebook', 'Caderno pautado']];
+export const PAPERS = [['plain', 'Papel comum'], ['aged', 'Papel envelhecido'], ['photo', 'Foto'], ['newspaper', 'Jornal'], ['notebook', 'Caderno pautado'], ['design', 'Documento do ateliê']];
 export const INSPECT_LIMITS = { pages: 12, text: 3000, title: 80, distance: [.2, 2], pitch: [-60, 60], found: 500 };
 export const PAGE_SLOT = 'page';
 export const HOLD_DEFAULTS = Object.freeze({ distance: .45, pitch: 0 });
 /** Props without the contract can still be picked up: they are held a little tilted, to show their top. */
 export const OBJECT_HOLD = Object.freeze({ distance: .45, pitch: 18 });
-export const blankSide = () => ({ imageRef: null, text: null });
+export const blankSide = () => ({ imageRef: null, text: null, design: null, uvImageRef: null });
 export const blankPage = () => ({ ...blankSide(), back: null });
 export const inspectableDefaults = (patch = {}) => ({ kind: 'document', title: '', pages: [{ ...blankPage(), text: '' }], paper: 'plain', hold: { ...HOLD_DEFAULTS }, secretUntilRevealed: true, ...patch });
 
 const plain = value => value && typeof value === 'object' && !Array.isArray(value);
 const reference = value => plain(value) && Object.keys(value).sort().join() === 'id,revision' && typeof value.id === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,119}$/.test(value.id) && Number.isInteger(value.revision) && value.revision >= 1;
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+function validSourceUrl(url) {
+  if (typeof url !== 'string') return false;
+  try {
+    const parsed = new URL(url);
+    return ['http:', 'https:'].includes(parsed.protocol);
+  } catch {
+    return false;
+  }
+}
+
+const isDesign = value => plain(value) && Object.keys(value).sort().join() === 'app,id,revision,source' && value.app === 'atelie' && UUID.test(value.id) && Number.isInteger(value.revision) && value.revision >= 0 && validSourceUrl(value.source);
 
 function validateSide(side, path) {
   const fail = message => { throw new ValidationError(`${message} (${path})`); };
   if (!plain(side)) fail('Lado de página inválido.');
-  for (const key of Object.keys(side)) if (!['imageRef', 'text', 'back'].includes(key)) fail(`Campo de página desconhecido: ${key}.`);
+  for (const key of Object.keys(side)) if (!['imageRef', 'text', 'back', 'design', 'uvImageRef'].includes(key)) fail(`Campo de página desconhecido: ${key}.`);
   if (!('imageRef' in side) || !('text' in side)) fail('A página precisa de imageRef e text (use null quando vazio).');
   if (side.imageRef !== null && !reference(side.imageRef)) fail('Imagem da página inválida.');
+  if (side.uvImageRef !== undefined && side.uvImageRef !== null && !reference(side.uvImageRef)) fail('Imagem UV da página inválida.');
+  if (side.design !== undefined && side.design !== null && !isDesign(side.design)) fail('Design do Ateliê inválido.');
   if (side.text !== null && (typeof side.text !== 'string' || side.text.length > INSPECT_LIMITS.text)) fail(`O texto de uma página aceita até ${INSPECT_LIMITS.text} caracteres.`);
 }
 
@@ -67,9 +82,9 @@ export const pageSide = (inspectable, page, side = 'front') => {
   return side === 'back' ? entry.back ?? blankSide() : entry;
 };
 export const sideHasContent = side => Boolean(side?.imageRef || side?.text?.trim());
-export const pageImages = inspectable => (inspectable?.pages ?? []).flatMap(page => [page.imageRef, page.back?.imageRef]).filter(Boolean);
+export const pageImages = inspectable => (inspectable?.pages ?? []).flatMap(page => [page.imageRef, page.uvImageRef, page.back?.imageRef, page.back?.uvImageRef]).filter(Boolean);
 /** Identity of what a side draws: the same key draws the same canvas. */
-export const sideKey = (side, paper) => JSON.stringify([paper, side?.imageRef ?? null, side?.text ?? null]);
+export const sideKey = (side, paper) => JSON.stringify([paper, side?.imageRef ?? null, side?.text ?? null, side?.design ?? null, side?.uvImageRef ?? null]);
 
 /**
  * Breaks text into the lines of a page. `measure(text)` gives the width of a string in the
