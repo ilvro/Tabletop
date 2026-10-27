@@ -122,6 +122,21 @@ function tearEdges(ctx, W, H, rand) {
 }
 
 /**
+ * Whether an image has see-through areas (a cut sheet, a PNG with alpha from anywhere). Checked on a small
+ * copy so the cost stays flat; shrinking averages alpha, so even thin cut edges leave a trace.
+ */
+export function hasTransparency(canvas, { size = 96, threshold = 250 } = {}) {
+  try {
+    const w = Math.max(1, Math.min(size, canvas.width)), h = Math.max(1, Math.min(size, canvas.height));
+    const probe = Object.assign(document.createElement('canvas'), { width: w, height: h }), ctx = probe.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(canvas, 0, 0, w, h);
+    const data = ctx.getImageData(0, 0, w, h).data;
+    for (let i = 3; i < data.length; i += 4) if (data[i] < threshold) return true;
+  } catch { /* no pixels to read: treat the image as opaque */ }
+  return false;
+}
+
+/**
  * Draws one side of a page on `canvas` (already sized). `image` is the loaded imageRef, or null
  * while it loads or when the side has none. Returns whether the canvas has transparent edges.
  */
@@ -130,7 +145,8 @@ export function drawPageSide(canvas, side, paper, image = null) {
   ctx.clearRect(0, 0, W, H);
   if (paper === 'design') {
     if (image) drawImage(ctx, image, 0, 0, W, H, true, paper);
-    return false;
+    // Whatever the document came from, transparent areas stay transparent instead of showing the paper behind
+    return image ? hasTransparency(canvas) : false;
   }
   drawPaper(ctx, W, H, paper, rand);
   const margin = paper === 'photo' ? 0 : Math.min(W, H) * .085;
