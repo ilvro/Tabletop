@@ -5,7 +5,8 @@ if (!Number.isInteger(frontendPort) || frontendPort < 1 || frontendPort > 65535)
 
 export default defineConfig(({mode})=>({
   base: './',
-  define: { 'import.meta.env.VITE_TABLETOP_STORAGE': JSON.stringify(mode==='pages'?'browser':'server') },
+  // `npm run dev:mesa` (sob o mesa-dev, sem servidor de API) pede o armazenamento no navegador pela variável; o `pages` sempre usa.
+  define: { 'import.meta.env.VITE_TABLETOP_STORAGE': JSON.stringify(mode==='pages'||process.env.VITE_TABLETOP_STORAGE==='browser'?'browser':'server') },
   server: {
     host: '127.0.0.1',
     port: frontendPort,

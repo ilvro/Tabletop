@@ -6,6 +6,7 @@
   "engines": { "node": ">=22.12.0" },
   "scripts": {
     "dev": "node scripts/dev.js",
+    "dev:mesa": "VITE_TABLETOP_STORAGE=browser TABLETOP_UI_PORT=5177 vite --host 127.0.0.1 --base /Tabletop/",
     "build": "vite build",
     "build:pages": "vite build --mode pages",
     "preview:pages": "vite preview --outDir dist-pages --host 127.0.0.1",

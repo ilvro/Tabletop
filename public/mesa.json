@@ -1,0 +1,10 @@
+{
+  "app": "tabletop",
+  "nome": "Tabletop",
+  "contrato": 1,
+  "icone": "./favicon.svg",
+  "rotas": {},
+  "oferece": [],
+  "emite": [],
+  "atende": []
+}

@@ -1310,3 +1310,8 @@ Desvio do plano: o estado da inspeção em curso não vai para `sessionState.ins
 Validação: 395 testes unitários aprovados (5 novos em `tests/inspectables.test.js`); E2E `inspection` (novo), `cinematics` (clique duplo de câmera continua) e `screens-decals` aprovados; tutorial Pistas e documentos seguido do primeiro ao último passo; bancada visual no navegador (carta envelhecida na mesa: frente, verso, página 2, giro, projetor igual ao editor depois de assentar). Coordenação com a sessão do plano tático (iniciativa) nos mesmos arquivos: `sessionState` aceita `doors`, `found` e `initiative`.
 
 Pendências: sombra projetada real no fundo; arrastar imagens da biblioteca direto para a página.
+
+## Plataforma da mesa (Atlas, fase 9)
+
+- `public/mesa.json`: o manifesto do Tabletop (só a identidade; ele ainda não fala o barramento da mesa, então não oferece, emite nem atende nada). O contrato com o Ateliê não mudou.
+- `npm run dev:mesa`: o Vite sob `/Tabletop/` com o armazenamento no navegador (porta 5177), para o `mesa-dev` do Atlas. O `define` de `VITE_TABLETOP_STORAGE` no `vite.config.js` passou a respeitar a variável de ambiente (antes só o modo `pages` escolhia o navegador).
